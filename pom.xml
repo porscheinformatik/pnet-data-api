@@ -1,0 +1,196 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>at.porscheinformatik.pnet</groupId>
+    <artifactId>pnet-data-api</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>Partner.Net Data API</name>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>5.0.1.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.16</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+            </plugin>
+
+            <plugin>
+                <groupId>cz.habarta.typescript-generator</groupId>
+                <artifactId>typescript-generator-maven-plugin</artifactId>
+                <version>1.29.366</version>
+                <executions>
+                    <execution>
+                        <id>generate-dts</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <classes>
+                                <class>pnet.data.AboutDTO</class>
+                            </classes>
+                            <!-- <excludeClasses> -->
+                            <!-- <class>java.time.LocalDate</class> -->
+                            <!-- <class>java.time.LocalDateTime</class> -->
+                            <!-- </excludeClasses> -->
+                            <namespace>pnet.data</namespace>
+                            <jsonLibrary>jackson2</jsonLibrary>
+                            <outputKind>global</outputKind>
+                            <outputFile>target/pnet-data-api.d.ts</outputFile>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>3.1.5</version>
+                <configuration>
+                    <apiSources>
+                        <apiSource>
+                            <springmvc>true</springmvc>
+                            <locations>
+                                <location>pnet.data</location>
+                            </locations>
+                            <schemes>
+                                <scheme>https</scheme>
+                            </schemes>
+                            <host>auto-partner.net</host>
+                            <basePath>/api</basePath>
+                            <info>
+                                <title>Partner.Net Data API</title>
+                                <version>v1</version>
+                                <description>
+                                    REST-inteface for accessing data of the Partner.Net.
+                                </description>
+                                <termsOfService>https://github.com/porscheinformatik/pnet-data-api</termsOfService>
+                                <contact>
+                                    <email>partnernet@porscheinformatik.at</email>
+                                    <url>https://github.com/porscheinformatik/pnet-data-api</url>
+                                </contact>
+                                <license>
+                                    <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+                                    <name>Apache 2.0</name>
+                                </license>
+                            </info>
+                            <outputPath>${basedir}/target/PNet Data API.html</outputPath>
+                            <templatePath>${basedir}/src/template/strepdown.html.hbs</templatePath>
+                            <swaggerDirectory>${basedir}/target</swaggerDirectory>
+                            <swaggerFileName>pnet-data-api-swagger</swaggerFileName>
+                            <swaggerApiReader>com.github.kongchen.swagger.docgen.reader.SpringMvcApiReader</swaggerApiReader>
+                            <securityDefinitions>
+                                <securityDefinition>
+                                    <name>JWT</name>
+                                    <type>apiKey</type>
+                                </securityDefinition>
+                            </securityDefinitions>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
+                    build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>com.github.kongchen</groupId>
+                                        <artifactId>swagger-maven-plugin</artifactId>
+                                        <versionRange>[3.1.5,)</versionRange>
+                                        <goals>
+                                            <goal>generate</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>cz.habarta.typescript-generator</groupId>
+                                        <artifactId>typescript-generator-maven-plugin</artifactId>
+                                        <versionRange>[1.29.366,)</versionRange>
+                                        <goals>
+                                            <goal>generate</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
