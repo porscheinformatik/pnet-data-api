@@ -1,5 +1,6 @@
 package pnet.data.api.companytype;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class CompanyTypeDataDTO implements MultiTenancy
     private Map<Locale, String> labels;
     private int level;
     private boolean contractSpecific;
+    private LocalDateTime lastUpdate;
 
     public CompanyTypeDataDTO()
     {
@@ -102,6 +104,19 @@ public class CompanyTypeDataDTO implements MultiTenancy
     public void setContractSpecific(boolean contractSpecific)
     {
         this.contractSpecific = contractSpecific;
+    }
+
+    /**
+     * @return The date/time of the last update to this item.
+     */
+    public LocalDateTime getLastUpdate()
+    {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate)
+    {
+        this.lastUpdate = lastUpdate;
     }
 
     @Override

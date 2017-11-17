@@ -1,5 +1,6 @@
 package pnet.data.api.brand;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class BrandDataDTO implements MultiTenancy
     private Map<Locale, String> labels;
     private int ordinal;
     private String path;
+    private LocalDateTime lastUpdate;
 
     public BrandDataDTO()
     {
@@ -100,6 +102,19 @@ public class BrandDataDTO implements MultiTenancy
     public void setPath(String path)
     {
         this.path = path;
+    }
+
+    /**
+     * @return The date/time of the last update to this item.
+     */
+    public LocalDateTime getLastUpdate()
+    {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate)
+    {
+        this.lastUpdate = lastUpdate;
     }
 
     @Override

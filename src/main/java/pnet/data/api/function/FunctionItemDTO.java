@@ -1,5 +1,6 @@
 package pnet.data.api.function;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -22,9 +23,11 @@ public class FunctionItemDTO implements BrandLinkBasedMultiTenancy
     private final String label;
     private final String description;
     private final Collection<BrandLinkDTO> brands;
+    private final LocalDateTime lastUpdate;
 
     public FunctionItemDTO(@JsonProperty("matchcode") FunctionMatchcode matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description, @JsonProperty("brands") Collection<BrandLinkDTO> brands)
+        @JsonProperty("description") String description, @JsonProperty("brands") Collection<BrandLinkDTO> brands,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -32,6 +35,7 @@ public class FunctionItemDTO implements BrandLinkBasedMultiTenancy
         this.label = Objects.requireNonNull(label, "Label is null");
         this.description = description;
         this.brands = Collections.unmodifiableCollection(Objects.requireNonNull(brands, "Brands are null"));
+        this.lastUpdate = lastUpdate;
     }
 
     /**
@@ -65,6 +69,14 @@ public class FunctionItemDTO implements BrandLinkBasedMultiTenancy
     public Collection<BrandLinkDTO> getBrands()
     {
         return brands;
+    }
+
+    /**
+     * @return The date/time of the last update to this item.
+     */
+    public LocalDateTime getLastUpdate()
+    {
+        return lastUpdate;
     }
 
 }

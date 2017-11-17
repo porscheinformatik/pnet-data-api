@@ -1,5 +1,6 @@
 package pnet.data.api.contracttypes;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class ContractTypeDataDTO implements MultiTenancy
     private Map<Locale, String> labels;
     private Collection<ContractTypeBrandLinkDTO> brands;
     private String type;
+    private LocalDateTime lastUpdate;
 
     public ContractTypeDataDTO()
     {
@@ -90,6 +92,26 @@ public class ContractTypeDataDTO implements MultiTenancy
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    /**
+     * @return The date/time of the last update to this item.
+     */
+    public LocalDateTime getLastUpdate()
+    {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate)
+    {
+        this.lastUpdate = lastUpdate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("ContractTypeDataDTO [matchcode=%s, labels=%s, brands=%s, type=%s]", matchcode, labels,
+            brands, type);
     }
 
 }

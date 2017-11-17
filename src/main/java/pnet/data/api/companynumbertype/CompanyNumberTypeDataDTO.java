@@ -1,4 +1,4 @@
-package pnet.data.api.numbertype;
+package pnet.data.api.companynumbertype;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -7,37 +7,37 @@ import java.util.Map;
 import pnet.data.api.util.Utils;
 
 /**
- * Holds a number type.
+ * Holds a company number type. A company has one or more company number.
  *
  * @author ham
  */
-public class NumberTypeDataDTO
+public class CompanyNumberTypeDataDTO
 {
 
-    private NumberTypeMatchcode matchcode;
+    private CompanyNumberTypeMatchcode matchcode;
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
-    public NumberTypeDataDTO()
+    public CompanyNumberTypeDataDTO()
     {
         super();
     }
 
     /**
-     * @return The unique, alpha-numeric key of the item. The key is the same on all environments.
+     * @return The unique, alpha-numeric key of the company number type. The key is the same in all environments.
      */
-    public NumberTypeMatchcode getMatchcode()
+    public CompanyNumberTypeMatchcode getMatchcode()
     {
         return matchcode;
     }
 
-    public void setMatchcode(NumberTypeMatchcode matchcode)
+    public void setMatchcode(CompanyNumberTypeMatchcode matchcode)
     {
         this.matchcode = matchcode;
     }
 
     /**
-     * @return A map of strings by locale holding the label of the item in multiple languages.
+     * @return A map of strings by locale, holding the label of the company number type in multiple languages.
      */
     public Map<Locale, String> getLabels()
     {
@@ -74,7 +74,8 @@ public class NumberTypeDataDTO
     @Override
     public String toString()
     {
-        return String.format("NumberTypeDataDTO [matchcode=%s, labels=%s]", matchcode, labels);
+        return String.format("CompanyNumberTypeDataDTO [matchcode=%s, labels=%s, lastUpdate=%s]", matchcode, labels,
+            lastUpdate);
     }
 
 }

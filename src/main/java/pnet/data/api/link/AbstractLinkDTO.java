@@ -16,7 +16,8 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
     private final Tenant tenant;
     private final MatchcodeT matchcode;
 
-    public AbstractLinkDTO(@JsonProperty("tenant") Tenant tenant, @JsonProperty("matchcode") MatchcodeT matchcode)
+    public AbstractLinkDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("matchcode") MatchcodeT matchcode)
     {
         super();
 
@@ -33,7 +34,7 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
     }
 
     /**
-     * @return The matchcode.
+     * @return The unique, alpha-numeric key. The key is the same on all environments.
      */
     public MatchcodeT getMatchcode()
     {
@@ -45,10 +46,10 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
     {
         final int prime = 31;
         int result = 1;
-
+        
         result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-
+        
         return result;
     }
 
@@ -59,19 +60,18 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
         {
             return true;
         }
-
+        
         if (obj == null)
         {
             return false;
         }
-
+        
         if (getClass() != obj.getClass())
         {
             return false;
         }
-
         AbstractLinkDTO<?> other = (AbstractLinkDTO<?>) obj;
-
+        
         if (matchcode == null)
         {
             if (other.matchcode != null)
@@ -83,7 +83,7 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
         {
             return false;
         }
-
+        
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -95,7 +95,7 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
         {
             return false;
         }
-
+        
         return true;
     }
 

@@ -1,5 +1,6 @@
 package pnet.data.api.activity;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class ActivityDataDTO implements BrandLinkBasedMultiTenancy
     private Collection<ContractTypeLinkDTO> contractTypes;
     private Collection<NumberTypeLinkDTO> numberTypes;
     private Collection<InfoareaLinkDTO> infoareas;
+    private LocalDateTime lastUpdate;
 
     public ActivityDataDTO()
     {
@@ -156,6 +158,19 @@ public class ActivityDataDTO implements BrandLinkBasedMultiTenancy
     public void setInfoareas(Collection<InfoareaLinkDTO> infoareas)
     {
         this.infoareas = infoareas;
+    }
+
+    /**
+     * @return The date/time of the last update to this item.
+     */
+    public LocalDateTime getLastUpdate()
+    {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate)
+    {
+        this.lastUpdate = lastUpdate;
     }
 
 }
