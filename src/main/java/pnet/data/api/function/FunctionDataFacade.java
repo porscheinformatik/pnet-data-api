@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pnet.data.api.util.ByFuzzySearch;
+import pnet.data.api.util.ByMatchcode;
+
 /**
  * API for Functions.
  *
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/functions")
 public interface FunctionDataFacade
+    extends ByMatchcode<FunctionMatchcode, FunctionDataDTO>, ByFuzzySearch<FunctionItemDTO>
 {
 
     /**
@@ -33,6 +37,7 @@ public interface FunctionDataFacade
      * @param perPage the number of items per page
      * @return a collection of results
      */
+    @Override
     @RequestMapping(value = "/search")
     Collection<FunctionItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
@@ -44,6 +49,7 @@ public interface FunctionDataFacade
      * @param matchcode the famous matchcode
      * @return the function, or null if not found
      */
+    @Override
     @RequestMapping(value = "/{mc}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     FunctionDataDTO getByMatchcode(@PathVariable("mc") FunctionMatchcode matchcode);
 
@@ -54,6 +60,7 @@ public interface FunctionDataFacade
      * @param matchcodes the matchcodes
      * @return a collection of all found functions
      */
+    @Override
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     Collection<FunctionDataDTO> getAllByMatchcodes(
         @RequestParam(value = "mc") Collection<FunctionMatchcode> matchcodes);

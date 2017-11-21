@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.tenant.MultiTenancy;
 import pnet.data.api.tenant.Tenant;
-import pnet.data.api.util.Utils;
+import pnet.data.api.tenant.WithTenants;
+import pnet.data.api.util.WithLabels;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds a company type. A company is linked to one or more company types. Functions and activities need company types
@@ -15,7 +17,7 @@ import pnet.data.api.util.Utils;
  *
  * @author ham
  */
-public class CompanyTypeDataDTO implements MultiTenancy
+public class CompanyTypeDataDTO implements WithMatchcode<CompanyTypeMatchcode>, WithTenants, WithLabels, WithLastUpdate
 {
 
     private CompanyTypeMatchcode matchcode;
@@ -30,9 +32,7 @@ public class CompanyTypeDataDTO implements MultiTenancy
         super();
     }
 
-    /**
-     * @return The unique, alpha-numeric key of the company type. The key is the same in all environments.
-     */
+    @Override
     public CompanyTypeMatchcode getMatchcode()
     {
         return matchcode;
@@ -43,9 +43,6 @@ public class CompanyTypeDataDTO implements MultiTenancy
         this.matchcode = matchcode;
     }
 
-    /**
-     * @return A list of all tenants that support this company type.
-     */
     @Override
     public Collection<Tenant> getTenants()
     {
@@ -57,21 +54,10 @@ public class CompanyTypeDataDTO implements MultiTenancy
         this.tenants = tenants;
     }
 
-    /**
-     * @return A map of strings by locale, holding the label of the company type in multiple languages.
-     */
+    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
-    }
-
-    /**
-     * @param language the language, may be null
-     * @return The label in the specified language, null if not found.
-     */
-    public String getLabel(Locale language)
-    {
-        return Utils.getText(language, labels);
     }
 
     public void setLabels(Map<Locale, String> labels)
@@ -106,9 +92,7 @@ public class CompanyTypeDataDTO implements MultiTenancy
         this.contractSpecific = contractSpecific;
     }
 
-    /**
-     * @return The date/time of the last update to this item.
-     */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

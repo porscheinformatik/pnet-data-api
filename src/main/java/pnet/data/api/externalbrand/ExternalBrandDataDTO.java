@@ -2,12 +2,15 @@ package pnet.data.api.externalbrand;
 
 import java.time.LocalDateTime;
 
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
+
 /**
  * Holds an external brand.
  *
  * @author ham
  */
-public class ExternalBrandDataDTO
+public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate
 {
 
     private String id;
@@ -30,9 +33,7 @@ public class ExternalBrandDataDTO
         this.id = id;
     }
 
-    /**
-     * @return The unique, alpha-numeric key of the company type. The key is the same in all environments.
-     */
+    @Override
     public ExternalBrandMatchcode getMatchcode()
     {
         return matchcode;
@@ -53,9 +54,7 @@ public class ExternalBrandDataDTO
         this.label = label;
     }
 
-    /**
-     * @return The date/time of the last update to this item.
-     */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

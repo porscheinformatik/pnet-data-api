@@ -4,30 +4,34 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.companytype.CompanyTypeMatchcode;
+import pnet.data.api.util.WithLabels;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds a contract state used for contract types
  *
  * @author ham
  */
-public class ContractStateDataDTO
+public class ContractStateDataDTO implements WithMatchcode<ContractStateMatchcode>, WithLabels, WithLastUpdate
 {
 
-    private CompanyTypeMatchcode matchcode;
+    private ContractStateMatchcode matchcode;
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
-    public CompanyTypeMatchcode getMatchcode()
+    @Override
+    public ContractStateMatchcode getMatchcode()
     {
         return matchcode;
     }
 
-    public void setMatchcode(CompanyTypeMatchcode matchcode)
+    public void setMatchcode(ContractStateMatchcode matchcode)
     {
         this.matchcode = matchcode;
     }
 
+    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
@@ -38,6 +42,7 @@ public class ContractStateDataDTO
         this.labels = labels;
     }
 
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

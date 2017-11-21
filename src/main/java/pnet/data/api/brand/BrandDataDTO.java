@@ -5,17 +5,18 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.tenant.MultiTenancy;
 import pnet.data.api.tenant.Tenant;
-import pnet.data.api.util.Traceable;
-import pnet.data.api.util.Utils;
+import pnet.data.api.tenant.WithTenants;
+import pnet.data.api.util.WithLabels;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds a brand as specified in the Partner.Net.
  *
  * @author ham
  */
-public class BrandDataDTO implements MultiTenancy, Traceable
+public class BrandDataDTO implements WithMatchcode<BrandMatchcode>, WithTenants, WithLabels, WithLastUpdate
 {
 
     private BrandMatchcode matchcode;
@@ -30,9 +31,7 @@ public class BrandDataDTO implements MultiTenancy, Traceable
         super();
     }
 
-    /**
-     * @return The unique, alpha-numeric key of the brand: V, A, L, ... . This key is the same in all environments.
-     */
+    @Override
     public BrandMatchcode getMatchcode()
     {
         return matchcode;
@@ -43,9 +42,6 @@ public class BrandDataDTO implements MultiTenancy, Traceable
         this.matchcode = matchcode;
     }
 
-    /**
-     * @return A list of all tenants that support this brand.
-     */
     @Override
     public Collection<Tenant> getTenants()
     {
@@ -57,21 +53,10 @@ public class BrandDataDTO implements MultiTenancy, Traceable
         this.tenants = tenants;
     }
 
-    /**
-     * @return A map of strings by locale, holding the label of the brand in multiple languages.
-     */
+    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
-    }
-
-    /**
-     * @param language the language, may be null
-     * @return The label in the specified language, null if not found.
-     */
-    public String getLabel(Locale language)
-    {
-        return Utils.getText(language, labels);
     }
 
     public void setLabels(Map<Locale, String> labels)
@@ -105,9 +90,6 @@ public class BrandDataDTO implements MultiTenancy, Traceable
         this.path = path;
     }
 
-    /**
-     * @return The date/time of the last update to this item.
-     */
     @Override
     public LocalDateTime getLastUpdate()
     {

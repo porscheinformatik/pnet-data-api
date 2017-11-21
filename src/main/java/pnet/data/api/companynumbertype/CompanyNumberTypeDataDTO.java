@@ -4,14 +4,16 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.util.Utils;
+import pnet.data.api.util.WithLabels;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
 
 /**
- * Holds a company number type. A company has one or more company number.
+ * Holds a company number type. The company number type is the type of a company number used to number companies.
  *
  * @author ham
  */
-public class CompanyNumberTypeDataDTO
+public class CompanyNumberTypeDataDTO implements WithMatchcode<CompanyNumberTypeMatchcode>, WithLabels, WithLastUpdate
 {
 
     private CompanyNumberTypeMatchcode matchcode;
@@ -23,9 +25,7 @@ public class CompanyNumberTypeDataDTO
         super();
     }
 
-    /**
-     * @return The unique, alpha-numeric key of the company number type. The key is the same in all environments.
-     */
+    @Override
     public CompanyNumberTypeMatchcode getMatchcode()
     {
         return matchcode;
@@ -36,31 +36,13 @@ public class CompanyNumberTypeDataDTO
         this.matchcode = matchcode;
     }
 
-    /**
-     * @return A map of strings by locale, holding the label of the company number type in multiple languages.
-     */
+    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
     }
 
-    /**
-     * @param language the language, may be null
-     * @return The label in the specified language, null if not found.
-     */
-    public String getLabel(Locale language)
-    {
-        return Utils.getText(language, labels);
-    }
-
-    public void setLabels(Map<Locale, String> labels)
-    {
-        this.labels = labels;
-    }
-
-    /**
-     * @return The date/time of the last update to this item.
-     */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

@@ -3,19 +3,16 @@ package pnet.data.api.brand;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import pnet.data.api.tenant.MultiTenancy;
 import pnet.data.api.tenant.Tenant;
+import pnet.data.api.tenant.WithTenants;
 
 /**
- * A {@link PrerequisiteDTOContainer} that implements {@link MultiTenancy} based on the {@link PrerequisiteType#Brand}
- * flags.
+ * Provides tenants based on brands.
  *
  * @author ham
  */
-public interface BrandLinkBasedMultiTenancy extends MultiTenancy
+public interface WithTenantsAndBrandLinks extends WithTenants, WithBrandLinks
 {
-
-    Collection<? extends BrandLink> getBrands();
 
     @Override
     default Collection<Tenant> getTenants()

@@ -1,4 +1,4 @@
-package pnet.data.api.numbertype;
+package pnet.data.api.companygrouptype;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -9,29 +9,29 @@ import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
 /**
- * Holds a number type.
+ * Holds a company group type. The company group type is used for company groups.
  *
  * @author ham
  */
-public class NumberTypeDataDTO implements WithMatchcode<NumberTypeMatchcode>, WithLabels, WithLastUpdate
+public class CompanyGroupTypeDataDTO implements WithMatchcode<CompanyGroupTypeMatchcode>, WithLabels, WithLastUpdate
 {
 
-    private NumberTypeMatchcode matchcode;
+    private CompanyGroupTypeMatchcode matchcode;
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
-    public NumberTypeDataDTO()
+    public CompanyGroupTypeDataDTO()
     {
         super();
     }
 
     @Override
-    public NumberTypeMatchcode getMatchcode()
+    public CompanyGroupTypeMatchcode getMatchcode()
     {
         return matchcode;
     }
 
-    public void setMatchcode(NumberTypeMatchcode matchcode)
+    public void setMatchcode(CompanyGroupTypeMatchcode matchcode)
     {
         this.matchcode = matchcode;
     }
@@ -61,7 +61,7 @@ public class NumberTypeDataDTO implements WithMatchcode<NumberTypeMatchcode>, Wi
     @Override
     public String toString()
     {
-        return String.format("NumberTypeDataDTO [matchcode=%s, labels=%s]", matchcode, labels);
+        return String.format("CompanyTypeDataDTO [matchcode=%s, labels=%s]", matchcode, labels);
     }
 
 }

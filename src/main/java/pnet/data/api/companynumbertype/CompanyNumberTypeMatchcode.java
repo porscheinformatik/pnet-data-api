@@ -1,9 +1,9 @@
 package pnet.data.api.companynumbertype;
 
-import pnet.data.api.Matchcode;
+import pnet.data.api.util.Matchcode;
 
 /**
- * A {@link Matchcode} used for company types.
+ * A {@link Matchcode} used for company number types.
  *
  * @author ham
  */

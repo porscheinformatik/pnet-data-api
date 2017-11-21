@@ -5,16 +5,20 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.companytype.CompanyTypeLinkBasedMultiTenancy;
-import pnet.data.api.util.Traceable;
-import pnet.data.api.util.Utils;
+import pnet.data.api.brand.WithBrandLinks;
+import pnet.data.api.companytype.WithTenantsAndCompanyTypeLinks;
+import pnet.data.api.util.WithDescriptions;
+import pnet.data.api.util.WithLabels;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds an activity.
  *
  * @author ham
  */
-public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Traceable
+public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLabels, WithDescriptions, WithBrandLinks,
+    WithTenantsAndCompanyTypeLinks, WithLastUpdate
 {
 
     private ActivityMatchcode matchcode;
@@ -31,9 +35,7 @@ public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Tracea
         super();
     }
 
-    /**
-     * @return The unique, alpha-numeric key of the item. The key is the same on all environments.
-     */
+    @Override
     public ActivityMatchcode getMatchcode()
     {
         return matchcode;
@@ -44,21 +46,10 @@ public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Tracea
         this.matchcode = matchcode;
     }
 
-    /**
-     * @return A map of strings by locale holding the label of the item in multiple languages.
-     */
+    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
-    }
-
-    /**
-     * @param language the language, may be null
-     * @return The label in the specified language, null if not found.
-     */
-    public String getLabel(Locale language)
-    {
-        return Utils.getText(language, labels);
     }
 
     public void setLabels(Map<Locale, String> labels)
@@ -66,21 +57,10 @@ public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Tracea
         this.labels = labels;
     }
 
-    /**
-     * @return A map of strings by locale holding the description of the item in multiple languages.
-     */
+    @Override
     public Map<Locale, String> getDescriptions()
     {
         return descriptions;
-    }
-
-    /**
-     * @param language the language, may be null
-     * @return The description in the specified language, null if not found.
-     */
-    public String getDescriptions(Locale language)
-    {
-        return Utils.getText(language, descriptions);
     }
 
     public void setDescriptions(Map<Locale, String> descriptions)
@@ -88,9 +68,7 @@ public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Tracea
         this.descriptions = descriptions;
     }
 
-    /**
-     * @return This activity is only available, if the company has one of these brands.
-     */
+    @Override
     public Collection<ActivityBrandLinkDTO> getBrands()
     {
         return brands;
@@ -101,9 +79,6 @@ public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Tracea
         this.brands = brands;
     }
 
-    /**
-     * @return This activity is only available, if the company has one of these types.
-     */
     @Override
     public Collection<ActivityCompanyTypeLinkDTO> getCompanyTypes()
     {
@@ -142,9 +117,6 @@ public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Tracea
         this.infoareas = infoareas;
     }
 
-    /**
-     * @return The date/time of the last update to this item.
-     */
     @Override
     public LocalDateTime getLastUpdate()
     {

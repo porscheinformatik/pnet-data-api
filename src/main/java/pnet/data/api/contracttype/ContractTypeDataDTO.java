@@ -5,8 +5,10 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
-import pnet.data.api.util.Utils;
+import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.util.WithLabels;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds a contract type. A company is linked to one or more contract types. Functions and activities need contract
@@ -14,7 +16,8 @@ import pnet.data.api.util.Utils;
  *
  * @author ham
  */
-public class ContractTypeDataDTO implements BrandLinkBasedMultiTenancy
+public class ContractTypeDataDTO
+    implements WithMatchcode<ContractTypeMatchcode>, WithTenantsAndBrandLinks, WithLabels, WithLastUpdate
 {
 
     private ContractTypeMatchcode matchcode;
@@ -28,9 +31,7 @@ public class ContractTypeDataDTO implements BrandLinkBasedMultiTenancy
         super();
     }
 
-    /**
-     * @return The unique, alpha-numeric key of the contract type. The key is the same in all environments.
-     */
+    @Override
     public ContractTypeMatchcode getMatchcode()
     {
         return matchcode;
@@ -41,21 +42,10 @@ public class ContractTypeDataDTO implements BrandLinkBasedMultiTenancy
         this.matchcode = matchcode;
     }
 
-    /**
-     * @return A map of strings by locale, holding the label of the contract type in multiple languages.
-     */
+    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
-    }
-
-    /**
-     * @param language the language, may be null
-     * @return The label in the specified language, null if not found.
-     */
-    public String getLabel(Locale language)
-    {
-        return Utils.getText(language, labels);
     }
 
     public void setLabels(Map<Locale, String> labels)
@@ -84,9 +74,7 @@ public class ContractTypeDataDTO implements BrandLinkBasedMultiTenancy
         this.type = type;
     }
 
-    /**
-     * @return The date/time of the last update to this item.
-     */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

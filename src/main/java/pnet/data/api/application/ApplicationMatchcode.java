@@ -1,6 +1,6 @@
 package pnet.data.api.application;
 
-import pnet.data.api.Matchcode;
+import pnet.data.api.util.Matchcode;
 
 /**
  * A {@link Matchcode} used for brands.

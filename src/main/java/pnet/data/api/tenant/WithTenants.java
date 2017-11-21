@@ -7,11 +7,11 @@ import java.util.Collection;
  *
  * @author ham
  */
-public interface MultiTenancy
+public interface WithTenants
 {
 
     /**
-     * @return A collection of all tenants.
+     * @return A list of all tenants that support this item.
      */
     Collection<Tenant> getTenants();
 

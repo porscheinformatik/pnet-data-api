@@ -7,7 +7,9 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
+import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds an infoarea. This object contains only minimal information and is used as result of search operations and
@@ -15,7 +17,7 @@ import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
  *
  * @author ham
  */
-public class InfoareaItemDTO implements BrandLinkBasedMultiTenancy
+public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
 {
 
     private final InfoareaMatchcode matchcode;
@@ -38,9 +40,7 @@ public class InfoareaItemDTO implements BrandLinkBasedMultiTenancy
         this.lastUpdate = lastUpdate;
     }
 
-    /**
-     * @return The unique, alpha-numeric key of the item. This matchcode is the same on all environments.
-     */
+    @Override
     public InfoareaMatchcode getMatchcode()
     {
         return matchcode;
@@ -62,21 +62,23 @@ public class InfoareaItemDTO implements BrandLinkBasedMultiTenancy
         return description;
     }
 
-    /**
-     * @return The brands for this item. These brands are used for calculating the tenants, too.
-     */
     @Override
     public Collection<InfoareaBrandLinkDTO> getBrands()
     {
         return brands;
     }
 
-    /**
-     * @return The date/time of the last update to this item.
-     */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("InfoareaItemDTO [matchcode=%s, label=%s, description=%s, brands=%s, lastUpdate=%s]",
+            matchcode, label, description, brands, lastUpdate);
     }
 
 }

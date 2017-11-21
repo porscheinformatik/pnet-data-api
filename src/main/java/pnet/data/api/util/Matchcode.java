@@ -1,4 +1,4 @@
-package pnet.data.api;
+package pnet.data.api.util;
 
 /**
  * A matchcode is an alpha-numberic key.

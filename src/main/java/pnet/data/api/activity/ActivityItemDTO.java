@@ -7,7 +7,9 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
+import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds a activity. This object contains only minimal information and is used as result of search operations and
@@ -15,7 +17,8 @@ import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
  *
  * @author ham
  */
-public class ActivityItemDTO implements BrandLinkBasedMultiTenancy
+// FIXME the tenants should be bases on company types!
+public class ActivityItemDTO implements WithMatchcode<ActivityMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
 {
 
     private final ActivityMatchcode matchcode;
@@ -38,9 +41,7 @@ public class ActivityItemDTO implements BrandLinkBasedMultiTenancy
         this.lastUpdate = lastUpdate;
     }
 
-    /**
-     * @return The unique, alpha-numeric key of the item. This matchcode is the same on all environments.
-     */
+    @Override
     public ActivityMatchcode getMatchcode()
     {
         return matchcode;
@@ -62,18 +63,13 @@ public class ActivityItemDTO implements BrandLinkBasedMultiTenancy
         return description;
     }
 
-    /**
-     * @return The brands for this item. These brands are used for calculating the tenants, too.
-     */
     @Override
     public Collection<ActivityBrandLinkDTO> getBrands()
     {
         return brands;
     }
 
-    /**
-     * @return The date/time of the last update to this item.
-     */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

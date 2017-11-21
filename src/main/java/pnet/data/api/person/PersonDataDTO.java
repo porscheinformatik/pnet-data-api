@@ -4,14 +4,14 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 import pnet.data.api.tenant.Tenant;
-import pnet.data.api.util.Traceable;
+import pnet.data.api.util.WithLastUpdate;
 
 /**
  * Holds one person.
  *
  * @author ham
  */
-public class PersonDataDTO implements Traceable
+public class PersonDataDTO implements WithLastUpdate
 {
 
     private Integer personId;
