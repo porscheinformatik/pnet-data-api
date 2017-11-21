@@ -1,4 +1,4 @@
-package pnet.data.api.activity;
+package pnet.data.api.infoarea;
 
 import java.util.Collection;
 
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * API for Activities.
+ * API for infoareas.
  *
  * @author ham
  */
 @RestController
-@RequestMapping("/api/v1/activities")
-public interface ActivityDataFacade
+@RequestMapping("/api/v1/infoareas")
+public interface InfoareaDataFacade
 {
 
     /**
@@ -25,7 +25,7 @@ public interface ActivityDataFacade
     int MAX_ITEMS = 16;
 
     /**
-     * Searches for the activitys with the specified query.
+     * Searches for the infoareas with the specified query.
      *
      * @param language the language
      * @param query the query
@@ -34,27 +34,27 @@ public interface ActivityDataFacade
      * @return a collection of results
      */
     @RequestMapping(value = "/search")
-    Collection<ActivityItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
+    Collection<InfoareaItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "" + MAX_ITEMS) int perPage);
 
     /**
-     * Returns the activity with the specified matchcode.
+     * Returns the infoarea with the specified matchcode.
      *
      * @param matchcode the famous matchcode
-     * @return the activity, or null if not found
+     * @return the infoarea, or null if not found
      */
     @RequestMapping(value = "/{mc}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ActivityDataDTO getByMatchcode(@PathVariable("mc") ActivityMatchcode matchcode);
+    InfoareaDataDTO getByMatchcode(@PathVariable("mc") InfoareaMatchcode matchcode);
 
     /**
-     * Returns multiple activitys with the specified matchcodes. The method is limited to {@value #MAX_ITEMS} items per
+     * Returns multiple infoareas with the specified matchcodes. The method is limited to {@value #MAX_ITEMS} items per
      * request.
      *
      * @param matchcodes the matchcodes
-     * @return a collection of all found activitys
+     * @return a collection of all found infoareas
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<ActivityDataDTO> getAllByMatchcodes(
-        @RequestParam(value = "mc") Collection<ActivityMatchcode> matchcodes);
+    Collection<InfoareaDataDTO> getAllByMatchcodes(
+        @RequestParam(value = "mc") Collection<InfoareaMatchcode> matchcodes);
 }

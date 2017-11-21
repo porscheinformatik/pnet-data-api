@@ -1,44 +1,37 @@
-package pnet.data.api.link;
+package pnet.data.api.infoarea;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import pnet.data.api.Matchcode;
+import pnet.data.api.companytype.CompanyTypeLink;
+import pnet.data.api.companytype.CompanyTypeMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * A link to an object using a matchcode for a specified tenant.
+ * Holds a link to a company type.
  *
  * @author ham
  */
-public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
+public class InfoareaCompanyTypeLinkDTO implements CompanyTypeLink
 {
 
     private final Tenant tenant;
-    private final MatchcodeT matchcode;
+    private final CompanyTypeMatchcode companyTypeMatchcode;
 
-    public AbstractLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("matchcode") MatchcodeT matchcode)
+    public InfoareaCompanyTypeLinkDTO(Tenant tenant, CompanyTypeMatchcode companyTypeMatchcode)
     {
         super();
-
         this.tenant = tenant;
-        this.matchcode = matchcode;
+        this.companyTypeMatchcode = companyTypeMatchcode;
     }
 
-    /**
-     * @return The tenant.
-     */
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    /**
-     * @return The unique, alpha-numeric key. The key is the same on all environments.
-     */
-    public MatchcodeT getMatchcode()
+    @Override
+    public CompanyTypeMatchcode getCompanyTypeMatchcode()
     {
-        return matchcode;
+        return companyTypeMatchcode;
     }
 
     @Override
@@ -46,10 +39,8 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
     {
         final int prime = 31;
         int result = 1;
-        
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
+        result = prime * result + ((companyTypeMatchcode == null) ? 0 : companyTypeMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-        
         return result;
     }
 
@@ -60,30 +51,26 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
         {
             return true;
         }
-        
         if (obj == null)
         {
             return false;
         }
-        
         if (getClass() != obj.getClass())
         {
             return false;
         }
-        AbstractLinkDTO<?> other = (AbstractLinkDTO<?>) obj;
-        
-        if (matchcode == null)
+        InfoareaCompanyTypeLinkDTO other = (InfoareaCompanyTypeLinkDTO) obj;
+        if (companyTypeMatchcode == null)
         {
-            if (other.matchcode != null)
+            if (other.companyTypeMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!matchcode.equals(other.matchcode))
+        else if (!companyTypeMatchcode.equals(other.companyTypeMatchcode))
         {
             return false;
         }
-        
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -95,14 +82,13 @@ public abstract class AbstractLinkDTO<MatchcodeT extends Matchcode>
         {
             return false;
         }
-        
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%2$s(%1$s)", tenant, matchcode);
+        return String.format("%s(%s)", companyTypeMatchcode, tenant);
     }
 
 }

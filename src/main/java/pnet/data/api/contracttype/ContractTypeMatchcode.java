@@ -1,4 +1,4 @@
-package pnet.data.api.contracttypes;
+package pnet.data.api.contracttype;
 
 import pnet.data.api.Matchcode;
 

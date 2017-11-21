@@ -1,13 +1,11 @@
-package pnet.data.api.contracttypes;
+package pnet.data.api.contracttype;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import pnet.data.api.tenant.MultiTenancy;
-import pnet.data.api.tenant.Tenant;
+import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
 import pnet.data.api.util.Utils;
 
 /**
@@ -16,7 +14,7 @@ import pnet.data.api.util.Utils;
  *
  * @author ham
  */
-public class ContractTypeDataDTO implements MultiTenancy
+public class ContractTypeDataDTO implements BrandLinkBasedMultiTenancy
 {
 
     private ContractTypeMatchcode matchcode;
@@ -44,15 +42,6 @@ public class ContractTypeDataDTO implements MultiTenancy
     }
 
     /**
-     * @return A list of all tenants that support this contract type.
-     */
-    @Override
-    public Collection<Tenant> getTenants()
-    {
-        return brands.stream().map(brand -> brand.getTenant()).collect(Collectors.toSet());
-    }
-
-    /**
      * @return A map of strings by locale, holding the label of the contract type in multiple languages.
      */
     public Map<Locale, String> getLabels()
@@ -74,6 +63,7 @@ public class ContractTypeDataDTO implements MultiTenancy
         this.labels = labels;
     }
 
+    @Override
     public Collection<ContractTypeBrandLinkDTO> getBrands()
     {
         return brands;

@@ -1,4 +1,4 @@
-package pnet.data.api.function;
+package pnet.data.api.infoarea;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -10,23 +10,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
 
 /**
- * Holds a function. This object contains only minimal information and is used as result of search operations and
+ * Holds an infoarea. This object contains only minimal information and is used as result of search operations and
  * reference items.
  *
  * @author ham
  */
-public class FunctionItemDTO implements BrandLinkBasedMultiTenancy
+public class InfoareaItemDTO implements BrandLinkBasedMultiTenancy
 {
 
-    private final FunctionMatchcode matchcode;
+    private final InfoareaMatchcode matchcode;
     private final String label;
     private final String description;
-    private final Collection<FunctionBrandLinkDTO> brands;
+    private final Collection<InfoareaBrandLinkDTO> brands;
     private final LocalDateTime lastUpdate;
 
-    public FunctionItemDTO(@JsonProperty("matchcode") FunctionMatchcode matchcode, @JsonProperty("label") String label,
+    public InfoareaItemDTO(@JsonProperty("matchcode") InfoareaMatchcode matchcode, @JsonProperty("label") String label,
         @JsonProperty("description") String description,
-        @JsonProperty("brands") Collection<FunctionBrandLinkDTO> brands,
+        @JsonProperty("brands") Collection<InfoareaBrandLinkDTO> brands,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -41,7 +41,7 @@ public class FunctionItemDTO implements BrandLinkBasedMultiTenancy
     /**
      * @return The unique, alpha-numeric key of the item. This matchcode is the same on all environments.
      */
-    public FunctionMatchcode getMatchcode()
+    public InfoareaMatchcode getMatchcode()
     {
         return matchcode;
     }
@@ -66,7 +66,7 @@ public class FunctionItemDTO implements BrandLinkBasedMultiTenancy
      * @return The brands for this item. These brands are used for calculating the tenants, too.
      */
     @Override
-    public Collection<FunctionBrandLinkDTO> getBrands()
+    public Collection<InfoareaBrandLinkDTO> getBrands()
     {
         return brands;
     }

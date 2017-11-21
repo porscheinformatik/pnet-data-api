@@ -1,4 +1,4 @@
-package pnet.data.api.activity;
+package pnet.data.api.infoarea;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -10,23 +10,22 @@ import pnet.data.api.util.Traceable;
 import pnet.data.api.util.Utils;
 
 /**
- * Holds an activity.
+ * Holds an infoarea.
  *
  * @author ham
  */
-public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Traceable
+public class InfoareaDataDTO implements CompanyTypeLinkBasedMultiTenancy, Traceable
 {
 
-    private ActivityMatchcode matchcode;
+    private InfoareaMatchcode matchcode;
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
-    private Collection<ActivityBrandLinkDTO> brands;
-    private Collection<ActivityCompanyTypeLinkDTO> companyTypes;
-    private Collection<ActivityContractTypeLinkDTO> contractTypes;
-    private Collection<ActivityInfoareaLinkDTO> infoareas;
+    private Collection<InfoareaBrandLinkDTO> brands;
+    private Collection<InfoareaCompanyTypeLinkDTO> companyTypes;
+    private Collection<InfoareaContractTypeLinkDTO> contractTypes;
     private LocalDateTime lastUpdate;
 
-    public ActivityDataDTO()
+    public InfoareaDataDTO()
     {
         super();
     }
@@ -34,12 +33,12 @@ public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Tracea
     /**
      * @return The unique, alpha-numeric key of the item. The key is the same on all environments.
      */
-    public ActivityMatchcode getMatchcode()
+    public InfoareaMatchcode getMatchcode()
     {
         return matchcode;
     }
 
-    public void setMatchcode(ActivityMatchcode matchcode)
+    public void setMatchcode(InfoareaMatchcode matchcode)
     {
         this.matchcode = matchcode;
     }
@@ -89,57 +88,44 @@ public class ActivityDataDTO implements CompanyTypeLinkBasedMultiTenancy, Tracea
     }
 
     /**
-     * @return This activity is only available, if the company has one of these brands.
+     * @return This infoarea is only available, if the company has one of these brands.
      */
-    public Collection<ActivityBrandLinkDTO> getBrands()
+    public Collection<InfoareaBrandLinkDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<ActivityBrandLinkDTO> brands)
+    public void setBrands(Collection<InfoareaBrandLinkDTO> brands)
     {
         this.brands = brands;
     }
 
     /**
-     * @return This activity is only available, if the company has one of these types.
+     * @return This infoarea is only available, if the company has one of these types.
      */
     @Override
-    public Collection<ActivityCompanyTypeLinkDTO> getCompanyTypes()
+    public Collection<InfoareaCompanyTypeLinkDTO> getCompanyTypes()
     {
         return companyTypes;
     }
 
-    public void setCompanyTypes(Collection<ActivityCompanyTypeLinkDTO> companyTypes)
+    public void setCompanyTypes(Collection<InfoareaCompanyTypeLinkDTO> companyTypes)
     {
         this.companyTypes = companyTypes;
     }
 
     /**
-     * @return This activity is only available, if the company has one of these contracts. This collection is only
+     * @return This infoarea is only available, if the company has one of these contracts. This collection is only
      *         relevant, if the company type of the company says so.
      */
-    public Collection<ActivityContractTypeLinkDTO> getContractTypes()
+    public Collection<InfoareaContractTypeLinkDTO> getContractTypes()
     {
         return contractTypes;
     }
 
-    public void setContractTypes(Collection<ActivityContractTypeLinkDTO> contractTypes)
+    public void setContractTypes(Collection<InfoareaContractTypeLinkDTO> contractTypes)
     {
         this.contractTypes = contractTypes;
-    }
-
-    /**
-     * @return The inforareas, that are linked to this activity.
-     */
-    public Collection<ActivityInfoareaLinkDTO> getInfoareas()
-    {
-        return infoareas;
-    }
-
-    public void setInfoareas(Collection<ActivityInfoareaLinkDTO> infoareas)
-    {
-        this.infoareas = infoareas;
     }
 
     /**

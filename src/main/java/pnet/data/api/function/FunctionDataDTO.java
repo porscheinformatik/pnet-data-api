@@ -5,13 +5,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.activity.ActivityLinkDTO;
-import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
-import pnet.data.api.brand.TimedBrandLinkDTO;
-import pnet.data.api.companytype.CompanyTypeLinkDTO;
-import pnet.data.api.contracttypes.ContractTypeLinkDTO;
-import pnet.data.api.infoarea.InfoareaLinkDTO;
-import pnet.data.api.numbertype.NumberTypeLinkDTO;
+import pnet.data.api.companytype.CompanyTypeLinkBasedMultiTenancy;
+import pnet.data.api.util.Traceable;
 import pnet.data.api.util.Utils;
 
 /**
@@ -19,18 +14,18 @@ import pnet.data.api.util.Utils;
  *
  * @author ham
  */
-public class FunctionDataDTO implements BrandLinkBasedMultiTenancy
+public class FunctionDataDTO implements CompanyTypeLinkBasedMultiTenancy, Traceable
 {
 
     private FunctionMatchcode matchcode;
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
-    private Collection<TimedBrandLinkDTO> brands;
-    private Collection<CompanyTypeLinkDTO> companyTypes;
-    private Collection<ContractTypeLinkDTO> contractTypes;
-    private Collection<NumberTypeLinkDTO> numberTypes;
-    private Collection<ActivityLinkDTO> activities;
-    private Collection<InfoareaLinkDTO> infoareas;
+    private Collection<FunctionBrandLinkDTO> brands;
+    private Collection<FunctionCompanyTypeLinkDTO> companyTypes;
+    private Collection<FunctionContractTypeLinkDTO> contractTypes;
+    private Collection<FunctionNumberTypeLinkDTO> numberTypes;
+    private Collection<FunctionActivityLinkDTO> activities;
+    private Collection<FunctionInfoareaLinkDTO> infoareas;
     private LocalDateTime lastUpdate;
 
     public FunctionDataDTO()
@@ -98,13 +93,12 @@ public class FunctionDataDTO implements BrandLinkBasedMultiTenancy
     /**
      * @return This function is only available, if the company has one of these brands.
      */
-    @Override
-    public Collection<TimedBrandLinkDTO> getBrands()
+    public Collection<FunctionBrandLinkDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<TimedBrandLinkDTO> brands)
+    public void setBrands(Collection<FunctionBrandLinkDTO> brands)
     {
         this.brands = brands;
     }
@@ -112,12 +106,13 @@ public class FunctionDataDTO implements BrandLinkBasedMultiTenancy
     /**
      * @return This function is only available, if the company has one of these types.
      */
-    public Collection<CompanyTypeLinkDTO> getCompanyTypes()
+    @Override
+    public Collection<FunctionCompanyTypeLinkDTO> getCompanyTypes()
     {
         return companyTypes;
     }
 
-    public void setCompanyTypes(Collection<CompanyTypeLinkDTO> companyTypes)
+    public void setCompanyTypes(Collection<FunctionCompanyTypeLinkDTO> companyTypes)
     {
         this.companyTypes = companyTypes;
     }
@@ -126,12 +121,12 @@ public class FunctionDataDTO implements BrandLinkBasedMultiTenancy
      * @return This function is only available, if the company has one of these contracts. This collection is only
      *         relevant, if the company type of the company says so.
      */
-    public Collection<ContractTypeLinkDTO> getContractTypes()
+    public Collection<FunctionContractTypeLinkDTO> getContractTypes()
     {
         return contractTypes;
     }
 
-    public void setContractTypes(Collection<ContractTypeLinkDTO> contractTypes)
+    public void setContractTypes(Collection<FunctionContractTypeLinkDTO> contractTypes)
     {
         this.contractTypes = contractTypes;
     }
@@ -139,12 +134,12 @@ public class FunctionDataDTO implements BrandLinkBasedMultiTenancy
     /**
      * @return The number types necessary for this function.
      */
-    public Collection<NumberTypeLinkDTO> getNumberTypes()
+    public Collection<FunctionNumberTypeLinkDTO> getNumberTypes()
     {
         return numberTypes;
     }
 
-    public void setNumberTypes(Collection<NumberTypeLinkDTO> numberTypes)
+    public void setNumberTypes(Collection<FunctionNumberTypeLinkDTO> numberTypes)
     {
         this.numberTypes = numberTypes;
     }
@@ -152,12 +147,12 @@ public class FunctionDataDTO implements BrandLinkBasedMultiTenancy
     /**
      * @return The activities, that are linked to this function.
      */
-    public Collection<ActivityLinkDTO> getActivities()
+    public Collection<FunctionActivityLinkDTO> getActivities()
     {
         return activities;
     }
 
-    public void setActivities(Collection<ActivityLinkDTO> activities)
+    public void setActivities(Collection<FunctionActivityLinkDTO> activities)
     {
         this.activities = activities;
     }
@@ -165,12 +160,12 @@ public class FunctionDataDTO implements BrandLinkBasedMultiTenancy
     /**
      * @return The inforareas, that are linked to this function.
      */
-    public Collection<InfoareaLinkDTO> getInfoareas()
+    public Collection<FunctionInfoareaLinkDTO> getInfoareas()
     {
         return infoareas;
     }
 
-    public void setInfoareas(Collection<InfoareaLinkDTO> infoareas)
+    public void setInfoareas(Collection<FunctionInfoareaLinkDTO> infoareas)
     {
         this.infoareas = infoareas;
     }
@@ -178,6 +173,7 @@ public class FunctionDataDTO implements BrandLinkBasedMultiTenancy
     /**
      * @return The date/time of the last update to this item.
      */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

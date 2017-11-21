@@ -15,7 +15,7 @@ import pnet.data.api.tenant.Tenant;
 public interface BrandLinkBasedMultiTenancy extends MultiTenancy
 {
 
-    Collection<? extends BrandLinkDTO> getBrands();
+    Collection<? extends BrandLink> getBrands();
 
     @Override
     default Collection<Tenant> getTenants()

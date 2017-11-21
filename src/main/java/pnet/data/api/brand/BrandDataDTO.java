@@ -7,6 +7,7 @@ import java.util.Map;
 
 import pnet.data.api.tenant.MultiTenancy;
 import pnet.data.api.tenant.Tenant;
+import pnet.data.api.util.Traceable;
 import pnet.data.api.util.Utils;
 
 /**
@@ -14,7 +15,7 @@ import pnet.data.api.util.Utils;
  *
  * @author ham
  */
-public class BrandDataDTO implements MultiTenancy
+public class BrandDataDTO implements MultiTenancy, Traceable
 {
 
     private BrandMatchcode matchcode;
@@ -107,6 +108,7 @@ public class BrandDataDTO implements MultiTenancy
     /**
      * @return The date/time of the last update to this item.
      */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

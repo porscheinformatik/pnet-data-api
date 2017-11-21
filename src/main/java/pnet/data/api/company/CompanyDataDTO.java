@@ -4,12 +4,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 import pnet.data.api.companytype.CompanyTypeMatchcode;
-import pnet.data.api.externalbrand.ExternalBrandMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
  * Holds companydata.
- * 
+ *
  * @author ham
  */
 public class CompanyDataDTO
@@ -20,10 +19,11 @@ public class CompanyDataDTO
     private String name;
     private String nameAffix;
     private String marketingName;
+    private Collection<CompanyBrandLinkDTO> brands;
     private String uidNumber;
     private String sapNumber;
     private String companyNumber;
-    private Collection<CompanyNumberDataDTO> additionalNumbers;
+    private Collection<CompanyNumberLinkDTO> additionalNumbers;
     private String street;
     private String city;
     private String zip;
@@ -34,7 +34,6 @@ public class CompanyDataDTO
     private String bic;
     private Collection<CompanyTypeMatchcode> types;
     private String phoneNumber;
-    private String mobileNumber;
     private String speedDial;
     private String faxNumber;
     private String email;
@@ -48,8 +47,7 @@ public class CompanyDataDTO
     private String juristiction;
     private double longitude;
     private double latitude;
-    private Collection<CompanyAdvisorDataDTO> advisors;
-    private Collection<ExternalBrandMatchcode> extenalBrands;
+    private Collection<CompanyExternalBrandLinkDTO> extenalBrands;
     private LocalDateTime lastUpdate;
 
     public Integer getCompanyId()
@@ -102,6 +100,16 @@ public class CompanyDataDTO
         this.marketingName = marketingName;
     }
 
+    public Collection<CompanyBrandLinkDTO> getBrands()
+    {
+        return brands;
+    }
+
+    public void setBrands(Collection<CompanyBrandLinkDTO> brands)
+    {
+        this.brands = brands;
+    }
+
     public String getUidNumber()
     {
         return uidNumber;
@@ -132,12 +140,12 @@ public class CompanyDataDTO
         this.companyNumber = companyNumber;
     }
 
-    public Collection<CompanyNumberDataDTO> getAdditionalNumbers()
+    public Collection<CompanyNumberLinkDTO> getAdditionalNumbers()
     {
         return additionalNumbers;
     }
 
-    public void setAdditionalNumbers(Collection<CompanyNumberDataDTO> additionalNumbers)
+    public void setAdditionalNumbers(Collection<CompanyNumberLinkDTO> additionalNumbers)
     {
         this.additionalNumbers = additionalNumbers;
     }
@@ -240,16 +248,6 @@ public class CompanyDataDTO
     public void setPhoneNumber(String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
-    }
-
-    public String getMobileNumber()
-    {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber)
-    {
-        this.mobileNumber = mobileNumber;
     }
 
     public String getSpeedDial()
@@ -382,22 +380,12 @@ public class CompanyDataDTO
         this.latitude = latitude;
     }
 
-    public Collection<CompanyAdvisorDataDTO> getAdvisors()
-    {
-        return advisors;
-    }
-
-    public void setAdvisors(Collection<CompanyAdvisorDataDTO> advisors)
-    {
-        this.advisors = advisors;
-    }
-
-    public Collection<ExternalBrandMatchcode> getExtenalBrands()
+    public Collection<CompanyExternalBrandLinkDTO> getExtenalBrands()
     {
         return extenalBrands;
     }
 
-    public void setExtenalBrands(Collection<ExternalBrandMatchcode> extenalBrands)
+    public void setExtenalBrands(Collection<CompanyExternalBrandLinkDTO> extenalBrands)
     {
         this.extenalBrands = extenalBrands;
     }
@@ -418,14 +406,14 @@ public class CompanyDataDTO
         return String.format(
             "CompanyDataDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
                 + "uidNumber=%s, sapNumber=%s, companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, zip=%s, "
-                + "countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, "
+                + "countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, "
                 + "speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, legalForm=%s, dvrNumber=%s, fbNumber=%s, "
-                + "certificateType=%s, certificateNumber=%s, juristiction=%s, longitude=%s, latitude=%s, advisors=%s, "
+                + "certificateType=%s, certificateNumber=%s, juristiction=%s, longitude=%s, latitude=%s, "
                 + "extenalBrands=%s, lastUpdate=%s]",
             companyId, administrativeTenant, name, nameAffix, marketingName, uidNumber, sapNumber, companyNumber,
             additionalNumbers, street, city, zip, countryCode, country, region, iban, bic, types, phoneNumber,
-            mobileNumber, speedDial, faxNumber, email, homepage, postal, legalForm, dvrNumber, fbNumber,
-            certificateType, certificateNumber, juristiction, longitude, latitude, advisors, extenalBrands, lastUpdate);
+            speedDial, faxNumber, email, homepage, postal, legalForm, dvrNumber, fbNumber, certificateType,
+            certificateNumber, juristiction, longitude, latitude, extenalBrands, lastUpdate);
     }
 
 }

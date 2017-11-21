@@ -1,15 +1,17 @@
 package pnet.data.api.person;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import pnet.data.api.tenant.Tenant;
+import pnet.data.api.util.Traceable;
 
 /**
  * Holds one person.
  *
  * @author ham
  */
-public class PersonDataDTO
+public class PersonDataDTO implements Traceable
 {
 
     private Integer personId;
@@ -27,6 +29,13 @@ public class PersonDataDTO
     private String faxNumber;
     private String email;
     private Integer contactCompanyId;
+    private String costCenter;
+    private String personnelNumber;
+    private String supervisorPersonnelNumber;
+    private String controllingArea;
+    private String personnelDepartment;
+    private String jobDescription;
+    private Collection<PersonCompanyLinkDTO> companies;
     private LocalDateTime lastUpdate;
 
     public Integer getPersonId()
@@ -179,9 +188,80 @@ public class PersonDataDTO
         this.contactCompanyId = contactCompanyId;
     }
 
+    public String getCostCenter()
+    {
+        return costCenter;
+    }
+
+    public void setCostCenter(String costCenter)
+    {
+        this.costCenter = costCenter;
+    }
+
+    public String getPersonnelNumber()
+    {
+        return personnelNumber;
+    }
+
+    public void setPersonnelNumber(String personnelNumber)
+    {
+        this.personnelNumber = personnelNumber;
+    }
+
+    public String getSupervisorPersonnelNumber()
+    {
+        return supervisorPersonnelNumber;
+    }
+
+    public void setSupervisorPersonnelNumber(String supervisorPersonnelNumber)
+    {
+        this.supervisorPersonnelNumber = supervisorPersonnelNumber;
+    }
+
+    public String getControllingArea()
+    {
+        return controllingArea;
+    }
+
+    public void setControllingArea(String controllingArea)
+    {
+        this.controllingArea = controllingArea;
+    }
+
+    public String getPersonnelDepartment()
+    {
+        return personnelDepartment;
+    }
+
+    public void setPersonnelDepartment(String personnelDepartment)
+    {
+        this.personnelDepartment = personnelDepartment;
+    }
+
+    public String getJobDescription()
+    {
+        return jobDescription;
+    }
+
+    public void setJobDescription(String jobDescription)
+    {
+        this.jobDescription = jobDescription;
+    }
+
+    public Collection<PersonCompanyLinkDTO> getCompanies()
+    {
+        return companies;
+    }
+
+    public void setCompanies(Collection<PersonCompanyLinkDTO> companies)
+    {
+        this.companies = companies;
+    }
+
     /**
      * @return The date/time of the last update to this item.
      */
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

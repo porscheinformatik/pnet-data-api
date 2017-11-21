@@ -8,7 +8,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.brand.BrandLinkBasedMultiTenancy;
-import pnet.data.api.brand.BrandLinkDTO;
 
 /**
  * Holds a activity. This object contains only minimal information and is used as result of search operations and
@@ -22,11 +21,12 @@ public class ActivityItemDTO implements BrandLinkBasedMultiTenancy
     private final ActivityMatchcode matchcode;
     private final String label;
     private final String description;
-    private final Collection<BrandLinkDTO> brands;
+    private final Collection<ActivityBrandLinkDTO> brands;
     private final LocalDateTime lastUpdate;
 
     public ActivityItemDTO(@JsonProperty("matchcode") ActivityMatchcode matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description, @JsonProperty("brands") Collection<BrandLinkDTO> brands,
+        @JsonProperty("description") String description,
+        @JsonProperty("brands") Collection<ActivityBrandLinkDTO> brands,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -66,7 +66,7 @@ public class ActivityItemDTO implements BrandLinkBasedMultiTenancy
      * @return The brands for this item. These brands are used for calculating the tenants, too.
      */
     @Override
-    public Collection<BrandLinkDTO> getBrands()
+    public Collection<ActivityBrandLinkDTO> getBrands()
     {
         return brands;
     }
