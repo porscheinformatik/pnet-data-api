@@ -3,9 +3,11 @@ package pnet.data.api.person;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Holds one employment of a person.
- * 
+ *
  * @author ham
  */
 public class PersonCompanyLinkDTO
@@ -17,10 +19,13 @@ public class PersonCompanyLinkDTO
     private final Collection<PersonBrandLinkDTO> brands;
     private final Collection<PersonNumberTypeLinkDTO> numbers;
 
-    public PersonCompanyLinkDTO(Integer companyId, LocalDateTime validFrom, LocalDateTime validTo,
-        Collection<PersonBrandLinkDTO> brands, Collection<PersonNumberTypeLinkDTO> numbers)
+    public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("brands") Collection<PersonBrandLinkDTO> brands,
+        @JsonProperty("numbers") Collection<PersonNumberTypeLinkDTO> numbers)
     {
         super();
+
         this.companyId = companyId;
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -51,6 +56,65 @@ public class PersonCompanyLinkDTO
     public Collection<PersonNumberTypeLinkDTO> getNumbers()
     {
         return numbers;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+
+        result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
+        result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
+
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+
+        if (obj == null)
+        {
+            return false;
+        }
+
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+
+        PersonCompanyLinkDTO other = (PersonCompanyLinkDTO) obj;
+
+        if (companyId == null)
+        {
+            if (other.companyId != null)
+            {
+                return false;
+            }
+        }
+        else if (!companyId.equals(other.companyId))
+        {
+            return false;
+        }
+
+        if (validFrom == null)
+        {
+            if (other.validFrom != null)
+            {
+                return false;
+            }
+        }
+        else if (!validFrom.equals(other.validFrom))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     @Override

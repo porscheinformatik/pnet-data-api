@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.companytype.WithTenantsAndCompanyTypeLinks;
 import pnet.data.api.util.WithDescriptions;
@@ -21,7 +23,8 @@ public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLa
     WithTenantsAndCompanyTypeLinks, WithLastUpdate
 {
 
-    private ActivityMatchcode matchcode;
+    private final ActivityMatchcode matchcode;
+
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
     private Collection<ActivityBrandLinkDTO> brands;
@@ -30,20 +33,17 @@ public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLa
     private Collection<ActivityInfoareaLinkDTO> infoareas;
     private LocalDateTime lastUpdate;
 
-    public ActivityDataDTO()
+    public ActivityDataDTO(@JsonProperty("matchcode") ActivityMatchcode matchcode)
     {
         super();
+
+        this.matchcode = matchcode;
     }
 
     @Override
     public ActivityMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public void setMatchcode(ActivityMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     @Override
@@ -126,6 +126,14 @@ public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLa
     public void setLastUpdate(LocalDateTime lastUpdate)
     {
         this.lastUpdate = lastUpdate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format(
+            "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, brands=%s, companyTypes=%s, contractTypes=%s, infoareas=%s, lastUpdate=%s]",
+            matchcode, labels, descriptions, brands, companyTypes, contractTypes, infoareas, lastUpdate);
     }
 
 }

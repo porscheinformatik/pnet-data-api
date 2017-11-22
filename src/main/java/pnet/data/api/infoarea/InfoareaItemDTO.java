@@ -17,6 +17,7 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
+// FIXME tenants should not be based on brands
 public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
 {
 

@@ -1,5 +1,7 @@
 package pnet.data.api.function;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.contracttype.ContractTypeMatchcode;
 import pnet.data.api.tenant.Tenant;
 
@@ -14,9 +16,11 @@ public class FunctionContractTypeLinkDTO
     private final Tenant tenant;
     private final ContractTypeMatchcode contractTypeMatchcode;
 
-    public FunctionContractTypeLinkDTO(Tenant tenant, ContractTypeMatchcode contractTypeMatchcode)
+    public FunctionContractTypeLinkDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode)
     {
         super();
+
         this.tenant = tenant;
         this.contractTypeMatchcode = contractTypeMatchcode;
     }
@@ -36,8 +40,10 @@ public class FunctionContractTypeLinkDTO
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((contractTypeMatchcode == null) ? 0 : contractTypeMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+
         return result;
     }
 
@@ -48,15 +54,19 @@ public class FunctionContractTypeLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         FunctionContractTypeLinkDTO other = (FunctionContractTypeLinkDTO) obj;
+
         if (contractTypeMatchcode == null)
         {
             if (other.contractTypeMatchcode != null)
@@ -68,6 +78,7 @@ public class FunctionContractTypeLinkDTO
         {
             return false;
         }
+
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -79,6 +90,7 @@ public class FunctionContractTypeLinkDTO
         {
             return false;
         }
+
         return true;
     }
 

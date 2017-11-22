@@ -75,4 +75,11 @@ public class ActivityItemDTO implements WithMatchcode<ActivityMatchcode>, WithTe
         return lastUpdate;
     }
 
+    @Override
+    public String toString()
+    {
+        return String.format("ActivityItemDTO [matchcode=%s, label=%s, description=%s, brands=%s, lastUpdate=%s]",
+            matchcode, label, description, brands, lastUpdate);
+    }
+
 }

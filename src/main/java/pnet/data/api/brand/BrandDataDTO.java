@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.tenant.Tenant;
 import pnet.data.api.tenant.WithTenants;
 import pnet.data.api.util.WithLabels;
@@ -19,27 +21,25 @@ import pnet.data.api.util.WithMatchcode;
 public class BrandDataDTO implements WithMatchcode<BrandMatchcode>, WithTenants, WithLabels, WithLastUpdate
 {
 
-    private BrandMatchcode matchcode;
+    private final BrandMatchcode matchcode;
+
     private Collection<Tenant> tenants;
     private Map<Locale, String> labels;
     private int ordinal;
     private String path;
     private LocalDateTime lastUpdate;
 
-    public BrandDataDTO()
+    public BrandDataDTO(@JsonProperty("matchcode") BrandMatchcode matchcode)
     {
         super();
+
+        this.matchcode = matchcode;
     }
 
     @Override
     public BrandMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public void setMatchcode(BrandMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     @Override

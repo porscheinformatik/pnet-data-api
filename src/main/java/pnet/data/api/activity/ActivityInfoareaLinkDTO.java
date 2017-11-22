@@ -1,5 +1,7 @@
 package pnet.data.api.activity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.infoarea.InfoareaMatchcode;
 import pnet.data.api.tenant.Tenant;
 
@@ -14,9 +16,11 @@ public class ActivityInfoareaLinkDTO
     private final Tenant tenant;
     private final InfoareaMatchcode infoareaMatchcode;
 
-    public ActivityInfoareaLinkDTO(Tenant tenant, InfoareaMatchcode infoareaMatchcode)
+    public ActivityInfoareaLinkDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("infoareaMatchcode") InfoareaMatchcode infoareaMatchcode)
     {
         super();
+
         this.tenant = tenant;
         this.infoareaMatchcode = infoareaMatchcode;
     }
@@ -36,8 +40,10 @@ public class ActivityInfoareaLinkDTO
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((infoareaMatchcode == null) ? 0 : infoareaMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+
         return result;
     }
 
@@ -48,15 +54,19 @@ public class ActivityInfoareaLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         ActivityInfoareaLinkDTO other = (ActivityInfoareaLinkDTO) obj;
+
         if (infoareaMatchcode == null)
         {
             if (other.infoareaMatchcode != null)
@@ -68,6 +78,7 @@ public class ActivityInfoareaLinkDTO
         {
             return false;
         }
+
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -79,6 +90,7 @@ public class ActivityInfoareaLinkDTO
         {
             return false;
         }
+
         return true;
     }
 

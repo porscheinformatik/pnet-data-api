@@ -13,14 +13,23 @@ import pnet.data.api.util.WithMatchcode;
 public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate
 {
 
+    private final ExternalBrandMatchcode matchcode;
+
     private String id;
-    private ExternalBrandMatchcode matchcode;
     private String label;
     private LocalDateTime lastUpdate;
 
-    public ExternalBrandDataDTO()
+    public ExternalBrandDataDTO(ExternalBrandMatchcode matchcode)
     {
         super();
+
+        this.matchcode = matchcode;
+    }
+
+    @Override
+    public ExternalBrandMatchcode getMatchcode()
+    {
+        return matchcode;
     }
 
     public String getId()
@@ -31,17 +40,6 @@ public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcod
     public void setId(String id)
     {
         this.id = id;
-    }
-
-    @Override
-    public ExternalBrandMatchcode getMatchcode()
-    {
-        return matchcode;
-    }
-
-    public void setMatchcode(ExternalBrandMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     public String getLabel()

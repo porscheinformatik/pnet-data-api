@@ -1,5 +1,7 @@
 package pnet.data.api.activity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.companytype.CompanyTypeLink;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
 import pnet.data.api.tenant.Tenant;
@@ -15,9 +17,11 @@ public class ActivityCompanyTypeLinkDTO implements CompanyTypeLink
     private final Tenant tenant;
     private final CompanyTypeMatchcode companyTypeMatchcode;
 
-    public ActivityCompanyTypeLinkDTO(Tenant tenant, CompanyTypeMatchcode companyTypeMatchcode)
+    public ActivityCompanyTypeLinkDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("companyTypeMatchcode") CompanyTypeMatchcode companyTypeMatchcode)
     {
         super();
+        
         this.tenant = tenant;
         this.companyTypeMatchcode = companyTypeMatchcode;
     }
@@ -39,8 +43,10 @@ public class ActivityCompanyTypeLinkDTO implements CompanyTypeLink
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((companyTypeMatchcode == null) ? 0 : companyTypeMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+
         return result;
     }
 
@@ -51,15 +57,19 @@ public class ActivityCompanyTypeLinkDTO implements CompanyTypeLink
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         ActivityCompanyTypeLinkDTO other = (ActivityCompanyTypeLinkDTO) obj;
+
         if (companyTypeMatchcode == null)
         {
             if (other.companyTypeMatchcode != null)
@@ -71,6 +81,7 @@ public class ActivityCompanyTypeLinkDTO implements CompanyTypeLink
         {
             return false;
         }
+
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -82,6 +93,7 @@ public class ActivityCompanyTypeLinkDTO implements CompanyTypeLink
         {
             return false;
         }
+
         return true;
     }
 

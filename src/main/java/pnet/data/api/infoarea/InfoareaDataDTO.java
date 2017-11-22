@@ -21,7 +21,8 @@ public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLa
     WithTenantsAndCompanyTypeLinks, WithLastUpdate
 {
 
-    private InfoareaMatchcode matchcode;
+    private final InfoareaMatchcode matchcode;
+
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
     private Collection<InfoareaBrandLinkDTO> brands;
@@ -29,20 +30,17 @@ public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLa
     private Collection<InfoareaContractTypeLinkDTO> contractTypes;
     private LocalDateTime lastUpdate;
 
-    public InfoareaDataDTO()
+    public InfoareaDataDTO(InfoareaMatchcode matchcode)
     {
         super();
+
+        this.matchcode = matchcode;
     }
 
     @Override
     public InfoareaMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public void setMatchcode(InfoareaMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     @Override

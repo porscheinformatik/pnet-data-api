@@ -17,7 +17,7 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-//FIXME the tenants should be bases on company types!
+//FIXME the tenants should be based on company types!
 public class FunctionItemDTO implements WithMatchcode<FunctionMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
 {
 
@@ -73,6 +73,13 @@ public class FunctionItemDTO implements WithMatchcode<FunctionMatchcode>, WithTe
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format("FunctionItemDTO [matchcode=%s, label=%s, description=%s, brands=%s, lastUpdate=%s]",
+            matchcode, label, description, brands, lastUpdate);
     }
 
 }

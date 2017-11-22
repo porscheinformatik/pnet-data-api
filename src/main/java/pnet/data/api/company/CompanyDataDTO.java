@@ -3,6 +3,8 @@ package pnet.data.api.company;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.companytype.CompanyTypeMatchcode;
 import pnet.data.api.tenant.Tenant;
 
@@ -14,7 +16,8 @@ import pnet.data.api.tenant.Tenant;
 public class CompanyDataDTO
 {
 
-    private Integer companyId;
+    private final Integer companyId;
+
     private Tenant administrativeTenant;
     private String name;
     private String nameAffix;
@@ -50,14 +53,16 @@ public class CompanyDataDTO
     private Collection<CompanyExternalBrandLinkDTO> extenalBrands;
     private LocalDateTime lastUpdate;
 
+    public CompanyDataDTO(@JsonProperty("companyId") Integer companyId)
+    {
+        super();
+
+        this.companyId = companyId;
+    }
+
     public Integer getCompanyId()
     {
         return companyId;
-    }
-
-    public void setCompanyId(Integer companyId)
-    {
-        this.companyId = companyId;
     }
 
     public Tenant getAdministrativeTenant()

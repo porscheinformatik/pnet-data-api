@@ -1,5 +1,7 @@
 package pnet.data.api.function;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.activity.ActivityMatchcode;
 import pnet.data.api.tenant.Tenant;
 
@@ -14,9 +16,11 @@ public class FunctionActivityLinkDTO
     private final Tenant tenant;
     private final ActivityMatchcode activityMatchcode;
 
-    public FunctionActivityLinkDTO(Tenant tenant, ActivityMatchcode activityMatchcode)
+    public FunctionActivityLinkDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("activityMatchcode") ActivityMatchcode activityMatchcode)
     {
         super();
+
         this.tenant = tenant;
         this.activityMatchcode = activityMatchcode;
     }
@@ -36,8 +40,10 @@ public class FunctionActivityLinkDTO
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((activityMatchcode == null) ? 0 : activityMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+
         return result;
     }
 
@@ -48,15 +54,19 @@ public class FunctionActivityLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         FunctionActivityLinkDTO other = (FunctionActivityLinkDTO) obj;
+
         if (activityMatchcode == null)
         {
             if (other.activityMatchcode != null)
@@ -68,6 +78,7 @@ public class FunctionActivityLinkDTO
         {
             return false;
         }
+
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -79,6 +90,7 @@ public class FunctionActivityLinkDTO
         {
             return false;
         }
+
         return true;
     }
 

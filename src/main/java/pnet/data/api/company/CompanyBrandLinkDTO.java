@@ -66,9 +66,11 @@ public class CompanyBrandLinkDTO
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
+
         return result;
     }
 
@@ -79,15 +81,19 @@ public class CompanyBrandLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         CompanyBrandLinkDTO other = (CompanyBrandLinkDTO) obj;
+
         if (brandMatchcode == null)
         {
             if (other.brandMatchcode != null)
@@ -99,6 +105,7 @@ public class CompanyBrandLinkDTO
         {
             return false;
         }
+
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -110,6 +117,7 @@ public class CompanyBrandLinkDTO
         {
             return false;
         }
+
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -121,6 +129,7 @@ public class CompanyBrandLinkDTO
         {
             return false;
         }
+
         return true;
     }
 

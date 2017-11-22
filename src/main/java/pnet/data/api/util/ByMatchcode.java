@@ -24,8 +24,8 @@ public interface ByMatchcode<MatchcodeT extends Matchcode, ResultT extends WithM
      * @param matchcode the matchcode
      * @return the item, or null if not found
      */
-    @RequestMapping(value = "/{mc}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultT getByMatchcode(@PathVariable("mc") MatchcodeT matchcode);
+    @RequestMapping(value = "/{matchcode}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResultT getByMatchcode(@PathVariable("matchcode") MatchcodeT matchcode);
 
     /**
      * Returns multiple items with the specified matchcodes. The method is limited to a maximum number of items per
@@ -36,7 +36,6 @@ public interface ByMatchcode<MatchcodeT extends Matchcode, ResultT extends WithM
      * @return a collection of all found items
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<ResultT> getAllByMatchcodes(
-        @RequestParam(value = "mc", required = false) Collection<MatchcodeT> matchcodes);
+    Collection<ResultT> getAll(@RequestParam(value = "matchcode", required = false) Collection<MatchcodeT> matchcodes);
 
 }

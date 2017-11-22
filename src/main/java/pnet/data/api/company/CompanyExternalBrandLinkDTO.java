@@ -2,11 +2,13 @@ package pnet.data.api.company;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.externalbrand.ExternalBrandMatchcode;
 
 /**
  * An external brand of a company.
- * 
+ *
  * @author ham
  */
 public class CompanyExternalBrandLinkDTO
@@ -19,10 +21,14 @@ public class CompanyExternalBrandLinkDTO
     private final boolean service;
     private final boolean local;
 
-    public CompanyExternalBrandLinkDTO(ExternalBrandMatchcode externalBrandMatchcode, LocalDateTime validFrom,
-        LocalDateTime validTo, boolean sales, boolean service, boolean local)
+    public CompanyExternalBrandLinkDTO(
+        @JsonProperty("externalBrandMatchcode") ExternalBrandMatchcode externalBrandMatchcode,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("sales") boolean sales, @JsonProperty("service") boolean service,
+        @JsonProperty("local") boolean local)
     {
         super();
+
         this.externalBrandMatchcode = externalBrandMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -66,8 +72,10 @@ public class CompanyExternalBrandLinkDTO
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((externalBrandMatchcode == null) ? 0 : externalBrandMatchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
+
         return result;
     }
 
@@ -78,15 +86,19 @@ public class CompanyExternalBrandLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         CompanyExternalBrandLinkDTO other = (CompanyExternalBrandLinkDTO) obj;
+
         if (externalBrandMatchcode == null)
         {
             if (other.externalBrandMatchcode != null)
@@ -98,6 +110,7 @@ public class CompanyExternalBrandLinkDTO
         {
             return false;
         }
+
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -109,6 +122,7 @@ public class CompanyExternalBrandLinkDTO
         {
             return false;
         }
+
         return true;
     }
 

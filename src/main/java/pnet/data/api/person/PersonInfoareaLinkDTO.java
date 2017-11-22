@@ -1,5 +1,7 @@
 package pnet.data.api.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.activity.ActivityMatchcode;
 
 /**
@@ -13,9 +15,11 @@ public class PersonInfoareaLinkDTO
     private final ActivityMatchcode activityMatchcode;
     private final boolean dueToFunction;
 
-    public PersonInfoareaLinkDTO(ActivityMatchcode activityMatchcode, boolean dueToFunction)
+    public PersonInfoareaLinkDTO(@JsonProperty("activityMatchcode") ActivityMatchcode activityMatchcode,
+        @JsonProperty("dueToFunction") boolean dueToFunction)
     {
         super();
+
         this.activityMatchcode = activityMatchcode;
         this.dueToFunction = dueToFunction;
     }
@@ -35,7 +39,9 @@ public class PersonInfoareaLinkDTO
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((activityMatchcode == null) ? 0 : activityMatchcode.hashCode());
+
         return result;
     }
 
@@ -46,15 +52,19 @@ public class PersonInfoareaLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         PersonInfoareaLinkDTO other = (PersonInfoareaLinkDTO) obj;
+
         if (activityMatchcode == null)
         {
             if (other.activityMatchcode != null)
@@ -66,6 +76,7 @@ public class PersonInfoareaLinkDTO
         {
             return false;
         }
+
         return true;
     }
 

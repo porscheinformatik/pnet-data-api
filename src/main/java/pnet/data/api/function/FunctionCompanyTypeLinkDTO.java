@@ -1,5 +1,7 @@
 package pnet.data.api.function;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.companytype.CompanyTypeLink;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
 import pnet.data.api.tenant.Tenant;
@@ -15,18 +17,22 @@ public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
     private final Tenant tenant;
     private final CompanyTypeMatchcode companyTypeMatchcode;
 
-    public FunctionCompanyTypeLinkDTO(Tenant tenant, CompanyTypeMatchcode companyTypeMatchcode)
+    public FunctionCompanyTypeLinkDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("companyTypeMatchcode") CompanyTypeMatchcode companyTypeMatchcode)
     {
         super();
+
         this.tenant = tenant;
         this.companyTypeMatchcode = companyTypeMatchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
+    @Override
     public CompanyTypeMatchcode getCompanyTypeMatchcode()
     {
         return companyTypeMatchcode;
@@ -37,8 +43,10 @@ public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((companyTypeMatchcode == null) ? 0 : companyTypeMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+
         return result;
     }
 
@@ -49,15 +57,19 @@ public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         FunctionCompanyTypeLinkDTO other = (FunctionCompanyTypeLinkDTO) obj;
+
         if (companyTypeMatchcode == null)
         {
             if (other.companyTypeMatchcode != null)
@@ -69,6 +81,7 @@ public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
         {
             return false;
         }
+
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -80,6 +93,7 @@ public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
         {
             return false;
         }
+
         return true;
     }
 

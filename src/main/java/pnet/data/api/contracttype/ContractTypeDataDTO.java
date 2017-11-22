@@ -20,26 +20,24 @@ public class ContractTypeDataDTO
     implements WithMatchcode<ContractTypeMatchcode>, WithTenantsAndBrandLinks, WithLabels, WithLastUpdate
 {
 
-    private ContractTypeMatchcode matchcode;
+    private final ContractTypeMatchcode matchcode;
+
     private Map<Locale, String> labels;
     private Collection<ContractTypeBrandLinkDTO> brands;
     private String type;
     private LocalDateTime lastUpdate;
 
-    public ContractTypeDataDTO()
+    public ContractTypeDataDTO(ContractTypeMatchcode matchcode)
     {
         super();
+
+        this.matchcode = matchcode;
     }
 
     @Override
     public ContractTypeMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public void setMatchcode(ContractTypeMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     @Override

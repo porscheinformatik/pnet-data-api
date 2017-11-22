@@ -41,8 +41,10 @@ public class InfoareaBrandLinkDTO implements BrandLink
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+
         return result;
     }
 
@@ -53,15 +55,19 @@ public class InfoareaBrandLinkDTO implements BrandLink
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         InfoareaBrandLinkDTO other = (InfoareaBrandLinkDTO) obj;
+
         if (brandMatchcode == null)
         {
             if (other.brandMatchcode != null)
@@ -73,6 +79,7 @@ public class InfoareaBrandLinkDTO implements BrandLink
         {
             return false;
         }
+
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -84,13 +91,14 @@ public class InfoareaBrandLinkDTO implements BrandLink
         {
             return false;
         }
+
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [validFrom=%s, validTo=%s]", brandMatchcode, tenant);
+        return String.format("%s(%s)", brandMatchcode, tenant);
     }
 
 }

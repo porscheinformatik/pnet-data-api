@@ -20,27 +20,25 @@ import pnet.data.api.util.WithMatchcode;
 public class CompanyTypeDataDTO implements WithMatchcode<CompanyTypeMatchcode>, WithTenants, WithLabels, WithLastUpdate
 {
 
-    private CompanyTypeMatchcode matchcode;
+    private final CompanyTypeMatchcode matchcode;
+
     private Collection<Tenant> tenants;
     private Map<Locale, String> labels;
     private int level;
     private boolean contractSpecific;
     private LocalDateTime lastUpdate;
 
-    public CompanyTypeDataDTO()
+    public CompanyTypeDataDTO(CompanyTypeMatchcode matchcode)
     {
         super();
+
+        this.matchcode = matchcode;
     }
 
     @Override
     public CompanyTypeMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public void setMatchcode(CompanyTypeMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     @Override

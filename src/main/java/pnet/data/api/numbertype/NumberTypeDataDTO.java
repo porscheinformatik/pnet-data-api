@@ -16,24 +16,22 @@ import pnet.data.api.util.WithMatchcode;
 public class NumberTypeDataDTO implements WithMatchcode<NumberTypeMatchcode>, WithLabels, WithLastUpdate
 {
 
-    private NumberTypeMatchcode matchcode;
+    private final NumberTypeMatchcode matchcode;
+
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
-    public NumberTypeDataDTO()
+    public NumberTypeDataDTO(NumberTypeMatchcode matchcode)
     {
         super();
+
+        this.matchcode = matchcode;
     }
 
     @Override
     public NumberTypeMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public void setMatchcode(NumberTypeMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     @Override

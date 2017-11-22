@@ -3,28 +3,39 @@ package pnet.data.api.advisortype;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import pnet.data.api.util.WithDescriptions;
+import pnet.data.api.util.WithLabels;
+import pnet.data.api.util.WithMatchcode;
+
 /**
  * Holds an advisor type.
  *
  * @author ham
  */
-public class AdvisorTypeDataDTO
+public class AdvisorTypeDataDTO implements WithMatchcode<AdvisorTypeMatchcode>, WithLabels, WithDescriptions
 {
 
-    private AdvisorTypeMatchcode matchcode;
+    private final AdvisorTypeMatchcode matchcode;
+
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
 
+    public AdvisorTypeDataDTO(@JsonProperty("matchcode") AdvisorTypeMatchcode matchcode)
+    {
+        super();
+
+        this.matchcode = matchcode;
+    }
+
+    @Override
     public AdvisorTypeMatchcode getMatchcode()
     {
         return matchcode;
     }
 
-    public void setMatchcode(AdvisorTypeMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
-    }
-
+    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
@@ -35,6 +46,7 @@ public class AdvisorTypeDataDTO
         this.labels = labels;
     }
 
+    @Override
     public Map<Locale, String> getDescriptions()
     {
         return descriptions;

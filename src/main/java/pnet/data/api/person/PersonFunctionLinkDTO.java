@@ -2,6 +2,8 @@ package pnet.data.api.person;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.function.FunctionMatchcode;
 
 /**
@@ -17,10 +19,12 @@ public class PersonFunctionLinkDTO
     private final LocalDateTime validTo;
     private final boolean mainFunction;
 
-    public PersonFunctionLinkDTO(FunctionMatchcode functionMatchcode, LocalDateTime validFrom, LocalDateTime validTo,
-        boolean mainFunction)
+    public PersonFunctionLinkDTO(@JsonProperty("functionMatchcode") FunctionMatchcode functionMatchcode,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("mainFunction") boolean mainFunction)
     {
         super();
+
         this.functionMatchcode = functionMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -52,8 +56,10 @@ public class PersonFunctionLinkDTO
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((functionMatchcode == null) ? 0 : functionMatchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
+
         return result;
     }
 
@@ -64,15 +70,19 @@ public class PersonFunctionLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         PersonFunctionLinkDTO other = (PersonFunctionLinkDTO) obj;
+
         if (functionMatchcode == null)
         {
             if (other.functionMatchcode != null)
@@ -84,6 +94,7 @@ public class PersonFunctionLinkDTO
         {
             return false;
         }
+
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -95,6 +106,7 @@ public class PersonFunctionLinkDTO
         {
             return false;
         }
+
         return true;
     }
 

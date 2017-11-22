@@ -22,6 +22,7 @@ public class CompanyContractStateLinkDTO
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
     {
         super();
+
         this.contractStateMatchcode = contractStateMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -47,8 +48,10 @@ public class CompanyContractStateLinkDTO
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((contractStateMatchcode == null) ? 0 : contractStateMatchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
+
         return result;
     }
 
@@ -59,15 +62,19 @@ public class CompanyContractStateLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         CompanyContractStateLinkDTO other = (CompanyContractStateLinkDTO) obj;
+
         if (contractStateMatchcode == null)
         {
             if (other.contractStateMatchcode != null)
@@ -79,6 +86,7 @@ public class CompanyContractStateLinkDTO
         {
             return false;
         }
+
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -90,6 +98,7 @@ public class CompanyContractStateLinkDTO
         {
             return false;
         }
+
         return true;
     }
 

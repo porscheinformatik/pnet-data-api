@@ -3,6 +3,8 @@ package pnet.data.api.company;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.contracttype.ContractTypeMatchcode;
 
 /**
@@ -19,10 +21,13 @@ public class CompanyContractTypeLinkDTO
     private final boolean kvps;
     private final Collection<CompanyContractStateLinkDTO> states;
 
-    public CompanyContractTypeLinkDTO(ContractTypeMatchcode contractTypeMatchcode, LocalDateTime validFrom,
-        LocalDateTime validTo, boolean kvps, Collection<CompanyContractStateLinkDTO> states)
+    public CompanyContractTypeLinkDTO(
+        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("kvps") boolean kvps, @JsonProperty("states") Collection<CompanyContractStateLinkDTO> states)
     {
         super();
+
         this.contractTypeMatchcode = contractTypeMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;

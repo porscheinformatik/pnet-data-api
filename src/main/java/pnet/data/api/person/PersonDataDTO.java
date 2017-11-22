@@ -3,6 +3,8 @@ package pnet.data.api.person;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.tenant.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 
@@ -14,7 +16,8 @@ import pnet.data.api.util.WithLastUpdate;
 public class PersonDataDTO implements WithLastUpdate
 {
 
-    private Integer personId;
+    private final Integer personId;
+
     private Tenant administrativeTenant;
     private FormOfAddress formOfAddress;
     private String academicTitle;
@@ -38,14 +41,16 @@ public class PersonDataDTO implements WithLastUpdate
     private Collection<PersonCompanyLinkDTO> companies;
     private LocalDateTime lastUpdate;
 
+    public PersonDataDTO(@JsonProperty("personId") Integer personId)
+    {
+        super();
+
+        this.personId = personId;
+    }
+
     public Integer getPersonId()
     {
         return personId;
-    }
-
-    public void setPersonId(Integer personId)
-    {
-        this.personId = personId;
     }
 
     public Tenant getAdministrativeTenant()
@@ -270,6 +275,21 @@ public class PersonDataDTO implements WithLastUpdate
     public void setLastUpdate(LocalDateTime lastUpdate)
     {
         this.lastUpdate = lastUpdate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format(
+            "PersonDataDTO [personId=%s, administrativeTenant=%s, formOfAddress=%s, academicTitle=%s, firstName=%s, "
+                + "lastName=%s, userName=%s, nameAffix=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
+                + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
+                + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
+                + "companies=%s, lastUpdate=%s]",
+            personId, administrativeTenant, formOfAddress, academicTitle, firstName, lastName, userName, nameAffix,
+            guid, preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter,
+            personnelNumber, supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, companies,
+            lastUpdate);
     }
 
 }

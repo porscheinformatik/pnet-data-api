@@ -9,26 +9,29 @@ import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
 /**
- * Holds a contract state used for contract types
+ * Holds a contract state used for contract types.
  *
  * @author ham
  */
 public class ContractStateDataDTO implements WithMatchcode<ContractStateMatchcode>, WithLabels, WithLastUpdate
 {
 
-    private ContractStateMatchcode matchcode;
+    private final ContractStateMatchcode matchcode;
+
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
+
+    public ContractStateDataDTO(ContractStateMatchcode matchcode)
+    {
+        super();
+
+        this.matchcode = matchcode;
+    }
 
     @Override
     public ContractStateMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public void setMatchcode(ContractStateMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     @Override

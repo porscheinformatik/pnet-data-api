@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -16,24 +18,22 @@ import pnet.data.api.util.WithMatchcode;
 public class CompanyNumberTypeDataDTO implements WithMatchcode<CompanyNumberTypeMatchcode>, WithLabels, WithLastUpdate
 {
 
-    private CompanyNumberTypeMatchcode matchcode;
+    private final CompanyNumberTypeMatchcode matchcode;
+
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
-    public CompanyNumberTypeDataDTO()
+    public CompanyNumberTypeDataDTO(@JsonProperty("matchcode") CompanyNumberTypeMatchcode matchcode)
     {
         super();
+
+        this.matchcode = matchcode;
     }
 
     @Override
     public CompanyNumberTypeMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public void setMatchcode(CompanyNumberTypeMatchcode matchcode)
-    {
-        this.matchcode = matchcode;
     }
 
     @Override

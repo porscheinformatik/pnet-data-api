@@ -1,27 +1,31 @@
-package pnet.data.api.function;
+package pnet.data.api.advisordivision;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collection;
 
+import pnet.data.api.advisortype.AdvisorTypeMatchcode;
 import pnet.data.api.brand.BrandLink;
 import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to a brand.
+ * A brand for an advisor division.
  *
  * @author ham
  */
-public class FunctionBrandLinkDTO implements BrandLink
+public class AdvisorDivisionBrandLinkDTO implements BrandLink
 {
 
     private final Tenant tenant;
     private final BrandMatchcode brandMatchcode;
+    private final Collection<AdvisorTypeMatchcode> types;
 
-    public FunctionBrandLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode)
+    public AdvisorDivisionBrandLinkDTO(Tenant tenant, BrandMatchcode brandMatchcode,
+        Collection<AdvisorTypeMatchcode> types)
     {
+        super();
         this.tenant = tenant;
         this.brandMatchcode = brandMatchcode;
+        this.types = types;
     }
 
     @Override
@@ -34,6 +38,11 @@ public class FunctionBrandLinkDTO implements BrandLink
     public BrandMatchcode getBrandMatchcode()
     {
         return brandMatchcode;
+    }
+
+    public Collection<AdvisorTypeMatchcode> getTypes()
+    {
+        return types;
     }
 
     @Override
@@ -66,7 +75,7 @@ public class FunctionBrandLinkDTO implements BrandLink
             return false;
         }
 
-        FunctionBrandLinkDTO other = (FunctionBrandLinkDTO) obj;
+        AdvisorDivisionBrandLinkDTO other = (AdvisorDivisionBrandLinkDTO) obj;
 
         if (brandMatchcode == null)
         {
@@ -98,7 +107,8 @@ public class FunctionBrandLinkDTO implements BrandLink
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", brandMatchcode, tenant);
+        return String.format("AdvisorDivisionBrandLinkDTO [tenant=%s, brandMatchcode=%s, types=%s]", tenant,
+            brandMatchcode, types);
     }
 
 }
