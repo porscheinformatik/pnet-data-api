@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,8 @@ package pnet.data.api.contractstate;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -35,7 +37,7 @@ public class ContractStateDataDTO implements WithMatchcode<ContractStateMatchcod
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
-    public ContractStateDataDTO(ContractStateMatchcode matchcode)
+    public ContractStateDataDTO(@JsonProperty("matchcode") ContractStateMatchcode matchcode)
     {
         super();
 

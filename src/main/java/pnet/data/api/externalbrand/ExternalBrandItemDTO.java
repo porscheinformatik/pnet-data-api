@@ -26,20 +26,20 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate
+public class ExternalBrandItemDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate
 {
 
     private final ExternalBrandMatchcode matchcode;
+    private final String label;
+    private final LocalDateTime lastUpdate;
 
-    private String id;
-    private String label;
-    private LocalDateTime lastUpdate;
-
-    public ExternalBrandDataDTO(@JsonProperty("matchcode") ExternalBrandMatchcode matchcode)
+    public ExternalBrandItemDTO(@JsonProperty("matchcode") ExternalBrandMatchcode matchcode,
+        @JsonProperty("label") String label, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
-
         this.matchcode = matchcode;
+        this.label = label;
+        this.lastUpdate = lastUpdate;
     }
 
     @Override
@@ -48,24 +48,9 @@ public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcod
         return matchcode;
     }
 
-    public String getId()
-    {
-        return id;
-    }
-
-    public void setId(String id)
-    {
-        this.id = id;
-    }
-
     public String getLabel()
     {
         return label;
-    }
-
-    public void setLabel(String label)
-    {
-        this.label = label;
     }
 
     @Override
@@ -74,16 +59,11 @@ public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcod
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
-        this.lastUpdate = lastUpdate;
-    }
-
     @Override
     public String toString()
     {
-        return String.format("ExternalBrandDataDTO [id=%s, matchcode=%s, label=%s, lastUpdate=%s]", id, matchcode,
-            label, lastUpdate);
+        return String.format("ExternalBrandItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label,
+            lastUpdate);
     }
 
 }

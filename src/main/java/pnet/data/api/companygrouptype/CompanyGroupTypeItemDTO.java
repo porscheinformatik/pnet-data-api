@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.externalbrand;
+package pnet.data.api.companygrouptype;
 
 import java.time.LocalDateTime;
 
@@ -22,50 +22,35 @@ import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
 /**
- * Holds an external brand.
+ * Holds a company group type. The company group type is used for company groups.
  *
  * @author ham
  */
-public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate
+public class CompanyGroupTypeItemDTO implements WithMatchcode<CompanyGroupTypeMatchcode>, WithLastUpdate
 {
 
-    private final ExternalBrandMatchcode matchcode;
+    private final CompanyGroupTypeMatchcode matchcode;
+    private final String label;
+    private final LocalDateTime lastUpdate;
 
-    private String id;
-    private String label;
-    private LocalDateTime lastUpdate;
-
-    public ExternalBrandDataDTO(@JsonProperty("matchcode") ExternalBrandMatchcode matchcode)
+    public CompanyGroupTypeItemDTO(@JsonProperty("matchcode") CompanyGroupTypeMatchcode matchcode,
+        @JsonProperty("label") String label, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
-
         this.matchcode = matchcode;
+        this.label = label;
+        this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public ExternalBrandMatchcode getMatchcode()
+    public CompanyGroupTypeMatchcode getMatchcode()
     {
         return matchcode;
-    }
-
-    public String getId()
-    {
-        return id;
-    }
-
-    public void setId(String id)
-    {
-        this.id = id;
     }
 
     public String getLabel()
     {
         return label;
-    }
-
-    public void setLabel(String label)
-    {
-        this.label = label;
     }
 
     @Override
@@ -74,16 +59,11 @@ public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcod
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
-        this.lastUpdate = lastUpdate;
-    }
-
     @Override
     public String toString()
     {
-        return String.format("ExternalBrandDataDTO [id=%s, matchcode=%s, label=%s, lastUpdate=%s]", id, matchcode,
-            label, lastUpdate);
+        return String.format("CompanyGroupTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label,
+            lastUpdate);
     }
 
 }

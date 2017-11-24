@@ -12,60 +12,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.externalbrand;
+package pnet.data.api.brand;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.tenant.Tenant;
+import pnet.data.api.tenant.WithTenants;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
 /**
- * Holds an external brand.
+ * Holds a brand as specified in the Partner.Net.
  *
  * @author ham
  */
-public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate
+public class BrandItemDTO implements WithMatchcode<BrandMatchcode>, WithTenants, WithLastUpdate
 {
 
-    private final ExternalBrandMatchcode matchcode;
+    private final BrandMatchcode matchcode;
+    private final Collection<Tenant> tenants;
+    private final String label;
+    private final LocalDateTime lastUpdate;
 
-    private String id;
-    private String label;
-    private LocalDateTime lastUpdate;
-
-    public ExternalBrandDataDTO(@JsonProperty("matchcode") ExternalBrandMatchcode matchcode)
+    public BrandItemDTO(@JsonProperty("matchcode") BrandMatchcode matchcode,
+        @JsonProperty("tenants") Collection<Tenant> tenants, @JsonProperty("label") String label,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
-
         this.matchcode = matchcode;
+        this.tenants = tenants;
+        this.label = label;
+        this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public ExternalBrandMatchcode getMatchcode()
+    public BrandMatchcode getMatchcode()
     {
         return matchcode;
     }
 
-    public String getId()
+    @Override
+    public Collection<Tenant> getTenants()
     {
-        return id;
-    }
-
-    public void setId(String id)
-    {
-        this.id = id;
+        return tenants;
     }
 
     public String getLabel()
     {
         return label;
-    }
-
-    public void setLabel(String label)
-    {
-        this.label = label;
     }
 
     @Override
@@ -74,15 +71,10 @@ public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcod
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
-        this.lastUpdate = lastUpdate;
-    }
-
     @Override
     public String toString()
     {
-        return String.format("ExternalBrandDataDTO [id=%s, matchcode=%s, label=%s, lastUpdate=%s]", id, matchcode,
+        return String.format("BrandItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s]", matchcode, tenants,
             label, lastUpdate);
     }
 

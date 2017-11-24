@@ -12,60 +12,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.externalbrand;
+package pnet.data.api.advisortype;
 
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
 /**
- * Holds an external brand.
+ * Holds an advisor type.
  *
  * @author ham
  */
-public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate
+public class AdvisorTypeItemDTO implements WithMatchcode<AdvisorTypeMatchcode>, WithLastUpdate
 {
 
-    private final ExternalBrandMatchcode matchcode;
-
-    private String id;
-    private String label;
+    private final AdvisorTypeMatchcode matchcode;
+    private final String label;
+    private final String description;
     private LocalDateTime lastUpdate;
 
-    public ExternalBrandDataDTO(@JsonProperty("matchcode") ExternalBrandMatchcode matchcode)
+    public AdvisorTypeItemDTO(AdvisorTypeMatchcode matchcode, String label, String description,
+        LocalDateTime lastUpdate)
     {
         super();
-
         this.matchcode = matchcode;
-    }
-
-    @Override
-    public ExternalBrandMatchcode getMatchcode()
-    {
-        return matchcode;
-    }
-
-    public String getId()
-    {
-        return id;
-    }
-
-    public void setId(String id)
-    {
-        this.id = id;
-    }
-
-    public String getLabel()
-    {
-        return label;
-    }
-
-    public void setLabel(String label)
-    {
         this.label = label;
+        this.description = description;
+        this.lastUpdate = lastUpdate;
     }
 
     @Override
@@ -80,10 +54,26 @@ public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcod
     }
 
     @Override
+    public AdvisorTypeMatchcode getMatchcode()
+    {
+        return matchcode;
+    }
+
+    public String getLabel()
+    {
+        return label;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    @Override
     public String toString()
     {
-        return String.format("ExternalBrandDataDTO [id=%s, matchcode=%s, label=%s, lastUpdate=%s]", id, matchcode,
-            label, lastUpdate);
+        return String.format("AdvisorTypeItemDTO [matchcode=%s, label=%s, description=%s, lastUpdate=%s]", matchcode,
+            label, description, lastUpdate);
     }
 
 }

@@ -30,7 +30,7 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class AdvisorDivisonDataDTO implements WithMatchcode<AdvisorDivisionMatchcode>, WithLabels, WithDescriptions,
+public class AdvisorDivisionDataDTO implements WithMatchcode<AdvisorDivisionMatchcode>, WithLabels, WithDescriptions,
     WithTenantsAndBrandLinks, WithLastUpdate
 {
 
@@ -41,7 +41,7 @@ public class AdvisorDivisonDataDTO implements WithMatchcode<AdvisorDivisionMatch
     private Collection<AdvisorDivisionBrandLinkDTO> brands;
     private LocalDateTime lastUpdate;
 
-    public AdvisorDivisonDataDTO(AdvisorDivisionMatchcode matchcode)
+    public AdvisorDivisionDataDTO(AdvisorDivisionMatchcode matchcode)
     {
         super();
 

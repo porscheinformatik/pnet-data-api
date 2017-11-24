@@ -35,11 +35,12 @@ import pnet.data.api.advisortype.AdvisorTypeMatchcode;
 public interface AdvisorLinkFacade
 {
 
+    // FIXME better interface
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     Collection<AdvisorLinkDTO> getAll(@RequestParam(value = "companyId", required = false) Integer companyId,
         @RequestParam(value = "personId", required = false) Integer personId,
-        @RequestParam(value = "advisorTypeMatchcode", required = false) AdvisorTypeMatchcode advisorTypeMatchcode,
-        @RequestParam(value = "advisorDivisionMatchcode",
+        @RequestParam(value = "advisorType", required = false) AdvisorTypeMatchcode advisorTypeMatchcode,
+        @RequestParam(value = "advisorDivision",
             required = false) AdvisorDivisionMatchcode advisorDivisionMatchcode);
 
 }

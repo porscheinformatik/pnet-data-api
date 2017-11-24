@@ -16,13 +16,10 @@ package pnet.data.api.contracttype;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Locale;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.brand.WithTenantsAndBrandLinks;
-import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
@@ -32,22 +29,27 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ContractTypeDataDTO
-    implements WithMatchcode<ContractTypeMatchcode>, WithTenantsAndBrandLinks, WithLabels, WithLastUpdate
+public class ContractTypeItemDTO
+    implements WithMatchcode<ContractTypeMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
 {
 
     private final ContractTypeMatchcode matchcode;
+    private final String label;
+    private final Collection<ContractTypeBrandItemDTO> brands;
+    private final String type;
+    private final LocalDateTime lastUpdate;
 
-    private Map<Locale, String> labels;
-    private Collection<ContractTypeBrandLinkDTO> brands;
-    private String type;
-    private LocalDateTime lastUpdate;
-
-    public ContractTypeDataDTO(@JsonProperty("matchcode") ContractTypeMatchcode matchcode)
+    public ContractTypeItemDTO(@JsonProperty("matchcode") ContractTypeMatchcode matchcode,
+        @JsonProperty("label") String label, @JsonProperty("brands") Collection<ContractTypeBrandItemDTO> brands,
+        @JsonProperty("type") String type, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
         this.matchcode = matchcode;
+        this.label = label;
+        this.brands = brands;
+        this.type = type;
+        this.lastUpdate = lastUpdate;
     }
 
     @Override
@@ -56,36 +58,20 @@ public class ContractTypeDataDTO
         return matchcode;
     }
 
-    @Override
-    public Map<Locale, String> getLabels()
+    public String getLabel()
     {
-        return labels;
-    }
-
-    public void setLabels(Map<Locale, String> labels)
-    {
-        this.labels = labels;
+        return label;
     }
 
     @Override
-    public Collection<ContractTypeBrandLinkDTO> getBrands()
+    public Collection<ContractTypeBrandItemDTO> getBrands()
     {
         return brands;
-    }
-
-    public void setBrands(Collection<ContractTypeBrandLinkDTO> brands)
-    {
-        this.brands = brands;
     }
 
     public String getType()
     {
         return type;
-    }
-
-    public void setType(String type)
-    {
-        this.type = type;
     }
 
     @Override
@@ -94,16 +80,11 @@ public class ContractTypeDataDTO
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
-        this.lastUpdate = lastUpdate;
-    }
-
     @Override
     public String toString()
     {
-        return String.format("ContractTypeDataDTO [matchcode=%s, labels=%s, brands=%s, type=%s]", matchcode, labels,
-            brands, type);
+        return String.format("ContractTypeItemDTO [matchcode=%s, label=%s, brands=%s, type=%s, lastUpdate=%s]",
+            matchcode, label, brands, type, lastUpdate);
     }
 
 }
