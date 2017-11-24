@@ -1,18 +1,18 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.function;
+package pnet.data.api.infoarea;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,13 +25,13 @@ import pnet.data.api.tenant.Tenant;
  *
  * @author ham
  */
-public class FunctionBrandLinkDTO implements BrandLink
+public class InfoareaBrandDataDTO implements BrandLink
 {
 
     private final Tenant tenant;
     private final BrandMatchcode brandMatchcode;
 
-    public FunctionBrandLinkDTO(@JsonProperty("tenant") Tenant tenant,
+    public InfoareaBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
         @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode)
     {
         this.tenant = tenant;
@@ -80,7 +80,7 @@ public class FunctionBrandLinkDTO implements BrandLink
             return false;
         }
 
-        FunctionBrandLinkDTO other = (FunctionBrandLinkDTO) obj;
+        InfoareaBrandDataDTO other = (InfoareaBrandDataDTO) obj;
 
         if (brandMatchcode == null)
         {

@@ -1,43 +1,45 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.infoarea;
+package pnet.data.api.advisordivision;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collection;
 
-import pnet.data.api.companytype.CompanyTypeLink;
-import pnet.data.api.companytype.CompanyTypeMatchcode;
+import pnet.data.api.advisortype.AdvisorTypeMatchcode;
+import pnet.data.api.brand.BrandLink;
+import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to a company type.
+ * A brand for an advisor division.
  *
  * @author ham
  */
-public class InfoareaCompanyTypeLinkDTO implements CompanyTypeLink
+public class AdvisorDivisionBrandDataDTO implements BrandLink
 {
 
     private final Tenant tenant;
-    private final CompanyTypeMatchcode companyTypeMatchcode;
+    private final BrandMatchcode brandMatchcode;
+    private final Collection<AdvisorTypeMatchcode> types;
 
-    public InfoareaCompanyTypeLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("companyTypeMatchcode") CompanyTypeMatchcode companyTypeMatchcode)
+    public AdvisorDivisionBrandDataDTO(Tenant tenant, BrandMatchcode brandMatchcode,
+        Collection<AdvisorTypeMatchcode> types)
     {
         super();
-
         this.tenant = tenant;
-        this.companyTypeMatchcode = companyTypeMatchcode;
+        this.brandMatchcode = brandMatchcode;
+        this.types = types;
     }
 
     @Override
@@ -47,9 +49,14 @@ public class InfoareaCompanyTypeLinkDTO implements CompanyTypeLink
     }
 
     @Override
-    public CompanyTypeMatchcode getCompanyTypeMatchcode()
+    public BrandMatchcode getBrandMatchcode()
     {
-        return companyTypeMatchcode;
+        return brandMatchcode;
+    }
+
+    public Collection<AdvisorTypeMatchcode> getTypes()
+    {
+        return types;
     }
 
     @Override
@@ -58,7 +65,7 @@ public class InfoareaCompanyTypeLinkDTO implements CompanyTypeLink
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((companyTypeMatchcode == null) ? 0 : companyTypeMatchcode.hashCode());
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -82,16 +89,16 @@ public class InfoareaCompanyTypeLinkDTO implements CompanyTypeLink
             return false;
         }
 
-        InfoareaCompanyTypeLinkDTO other = (InfoareaCompanyTypeLinkDTO) obj;
+        AdvisorDivisionBrandDataDTO other = (AdvisorDivisionBrandDataDTO) obj;
 
-        if (companyTypeMatchcode == null)
+        if (brandMatchcode == null)
         {
-            if (other.companyTypeMatchcode != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!companyTypeMatchcode.equals(other.companyTypeMatchcode))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
         {
             return false;
         }
@@ -114,7 +121,8 @@ public class InfoareaCompanyTypeLinkDTO implements CompanyTypeLink
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", companyTypeMatchcode, tenant);
+        return String.format("AdvisorDivisionBrandDataDTO [tenant=%s, brandMatchcode=%s, types=%s]", tenant,
+            brandMatchcode, types);
     }
 
 }

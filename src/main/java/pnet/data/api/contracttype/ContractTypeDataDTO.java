@@ -39,7 +39,7 @@ public class ContractTypeDataDTO
     private final ContractTypeMatchcode matchcode;
 
     private Map<Locale, String> labels;
-    private Collection<ContractTypeBrandLinkDTO> brands;
+    private Collection<ContractTypeBrandDataDTO> brands;
     private String type;
     private LocalDateTime lastUpdate;
 
@@ -68,12 +68,12 @@ public class ContractTypeDataDTO
     }
 
     @Override
-    public Collection<ContractTypeBrandLinkDTO> getBrands()
+    public Collection<ContractTypeBrandDataDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<ContractTypeBrandLinkDTO> brands)
+    public void setBrands(Collection<ContractTypeBrandDataDTO> brands)
     {
         this.brands = brands;
     }

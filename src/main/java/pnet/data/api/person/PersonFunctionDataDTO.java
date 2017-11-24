@@ -1,59 +1,53 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.company;
+package pnet.data.api.person;
 
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.externalbrand.ExternalBrandMatchcode;
+import pnet.data.api.function.FunctionMatchcode;
 
 /**
- * An external brand of a company.
+ * Holds the function of a person for one company and brand.
  *
  * @author ham
  */
-public class CompanyExternalBrandLinkDTO
+public class PersonFunctionDataDTO
 {
 
-    private final ExternalBrandMatchcode externalBrandMatchcode;
+    private final FunctionMatchcode functionMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
-    private final boolean sales;
-    private final boolean service;
-    private final boolean local;
+    private final boolean mainFunction;
 
-    public CompanyExternalBrandLinkDTO(
-        @JsonProperty("externalBrandMatchcode") ExternalBrandMatchcode externalBrandMatchcode,
+    public PersonFunctionDataDTO(@JsonProperty("functionMatchcode") FunctionMatchcode functionMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("sales") boolean sales, @JsonProperty("service") boolean service,
-        @JsonProperty("local") boolean local)
+        @JsonProperty("mainFunction") boolean mainFunction)
     {
         super();
 
-        this.externalBrandMatchcode = externalBrandMatchcode;
+        this.functionMatchcode = functionMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.sales = sales;
-        this.service = service;
-        this.local = local;
+        this.mainFunction = mainFunction;
     }
 
-    public ExternalBrandMatchcode getExternalBrandMatchcode()
+    public FunctionMatchcode getFunctionMatchcode()
     {
-        return externalBrandMatchcode;
+        return functionMatchcode;
     }
 
     public LocalDateTime getValidFrom()
@@ -66,19 +60,9 @@ public class CompanyExternalBrandLinkDTO
         return validTo;
     }
 
-    public boolean isSales()
+    public boolean isMainFunction()
     {
-        return sales;
-    }
-
-    public boolean isService()
-    {
-        return service;
-    }
-
-    public boolean isLocal()
-    {
-        return local;
+        return mainFunction;
     }
 
     @Override
@@ -87,7 +71,7 @@ public class CompanyExternalBrandLinkDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((externalBrandMatchcode == null) ? 0 : externalBrandMatchcode.hashCode());
+        result = prime * result + ((functionMatchcode == null) ? 0 : functionMatchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
         return result;
@@ -111,16 +95,16 @@ public class CompanyExternalBrandLinkDTO
             return false;
         }
 
-        CompanyExternalBrandLinkDTO other = (CompanyExternalBrandLinkDTO) obj;
+        PersonFunctionDataDTO other = (PersonFunctionDataDTO) obj;
 
-        if (externalBrandMatchcode == null)
+        if (functionMatchcode == null)
         {
-            if (other.externalBrandMatchcode != null)
+            if (other.functionMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!externalBrandMatchcode.equals(other.externalBrandMatchcode))
+        else if (!functionMatchcode.equals(other.functionMatchcode))
         {
             return false;
         }
@@ -143,8 +127,8 @@ public class CompanyExternalBrandLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s [validFrom=%s, validTo=%s, sales=%s, service=%s, local=%s]", externalBrandMatchcode,
-            validFrom, validTo, sales, service, local);
+        return String.format("%s [validFrom=%s, validTo=%s, mainFunction=%s]", functionMatchcode, validFrom, validTo,
+            mainFunction);
     }
 
 }

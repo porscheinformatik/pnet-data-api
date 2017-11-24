@@ -1,45 +1,48 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.advisordivision;
+package pnet.data.api.contracttype;
 
 import java.util.Collection;
 
-import pnet.data.api.advisortype.AdvisorTypeMatchcode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.brand.BrandLink;
 import pnet.data.api.brand.BrandMatchcode;
+import pnet.data.api.contractstate.ContractStateMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * A brand for an advisor division.
+ * A link to a brand for a specified tenant.
  *
  * @author ham
  */
-public class AdvisorDivisionBrandLinkDTO implements BrandLink
+public class ContractTypeBrandDataDTO implements BrandLink
 {
 
     private final Tenant tenant;
     private final BrandMatchcode brandMatchcode;
-    private final Collection<AdvisorTypeMatchcode> types;
+    private final Collection<ContractStateMatchcode> states;
 
-    public AdvisorDivisionBrandLinkDTO(Tenant tenant, BrandMatchcode brandMatchcode,
-        Collection<AdvisorTypeMatchcode> types)
+    public ContractTypeBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode,
+        @JsonProperty("states") Collection<ContractStateMatchcode> states)
     {
         super();
         this.tenant = tenant;
         this.brandMatchcode = brandMatchcode;
-        this.types = types;
+        this.states = states;
     }
 
     @Override
@@ -54,9 +57,9 @@ public class AdvisorDivisionBrandLinkDTO implements BrandLink
         return brandMatchcode;
     }
 
-    public Collection<AdvisorTypeMatchcode> getTypes()
+    public Collection<ContractStateMatchcode> getStates()
     {
-        return types;
+        return states;
     }
 
     @Override
@@ -89,7 +92,7 @@ public class AdvisorDivisionBrandLinkDTO implements BrandLink
             return false;
         }
 
-        AdvisorDivisionBrandLinkDTO other = (AdvisorDivisionBrandLinkDTO) obj;
+        ContractTypeBrandDataDTO other = (ContractTypeBrandDataDTO) obj;
 
         if (brandMatchcode == null)
         {
@@ -121,8 +124,7 @@ public class AdvisorDivisionBrandLinkDTO implements BrandLink
     @Override
     public String toString()
     {
-        return String.format("AdvisorDivisionBrandLinkDTO [tenant=%s, brandMatchcode=%s, types=%s]", tenant,
-            brandMatchcode, types);
+        return String.format("%s(%s) [states=%s]", brandMatchcode, tenant, states);
     }
 
 }

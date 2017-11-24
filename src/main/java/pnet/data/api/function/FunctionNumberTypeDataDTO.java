@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,27 +16,27 @@ package pnet.data.api.function;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.contracttype.ContractTypeMatchcode;
+import pnet.data.api.numbertype.NumberTypeMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to a contract type.
+ * Holds a link to a number type.
  *
  * @author ham
  */
-public class FunctionContractTypeLinkDTO
+public class FunctionNumberTypeDataDTO
 {
 
     private final Tenant tenant;
-    private final ContractTypeMatchcode contractTypeMatchcode;
+    private final NumberTypeMatchcode numberTypeMatchcode;
 
-    public FunctionContractTypeLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode)
+    public FunctionNumberTypeDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("numberTypeMatchcode") NumberTypeMatchcode numberTypeMatchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.contractTypeMatchcode = contractTypeMatchcode;
+        this.numberTypeMatchcode = numberTypeMatchcode;
     }
 
     public Tenant getTenant()
@@ -44,9 +44,9 @@ public class FunctionContractTypeLinkDTO
         return tenant;
     }
 
-    public ContractTypeMatchcode getContractTypeMatchcode()
+    public NumberTypeMatchcode getNumberTypeMatchcode()
     {
-        return contractTypeMatchcode;
+        return numberTypeMatchcode;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class FunctionContractTypeLinkDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((contractTypeMatchcode == null) ? 0 : contractTypeMatchcode.hashCode());
+        result = prime * result + ((numberTypeMatchcode == null) ? 0 : numberTypeMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -79,16 +79,16 @@ public class FunctionContractTypeLinkDTO
             return false;
         }
 
-        FunctionContractTypeLinkDTO other = (FunctionContractTypeLinkDTO) obj;
+        FunctionNumberTypeDataDTO other = (FunctionNumberTypeDataDTO) obj;
 
-        if (contractTypeMatchcode == null)
+        if (numberTypeMatchcode == null)
         {
-            if (other.contractTypeMatchcode != null)
+            if (other.numberTypeMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!contractTypeMatchcode.equals(other.contractTypeMatchcode))
+        else if (!numberTypeMatchcode.equals(other.numberTypeMatchcode))
         {
             return false;
         }
@@ -111,7 +111,7 @@ public class FunctionContractTypeLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", contractTypeMatchcode, tenant);
+        return String.format("%s(%s)", numberTypeMatchcode, tenant);
     }
 
 }

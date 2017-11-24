@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,40 +16,37 @@ package pnet.data.api.function;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.companytype.CompanyTypeLink;
-import pnet.data.api.companytype.CompanyTypeMatchcode;
+import pnet.data.api.infoarea.InfoareaMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to a company type.
+ * Holds a link to an infoarea
  *
  * @author ham
  */
-public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
+public class FunctionInfoareaDataDTO
 {
 
     private final Tenant tenant;
-    private final CompanyTypeMatchcode companyTypeMatchcode;
+    private final InfoareaMatchcode infoareaMatchcode;
 
-    public FunctionCompanyTypeLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("companyTypeMatchcode") CompanyTypeMatchcode companyTypeMatchcode)
+    public FunctionInfoareaDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("infoareaMatchcode") InfoareaMatchcode infoareaMatchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.companyTypeMatchcode = companyTypeMatchcode;
+        this.infoareaMatchcode = infoareaMatchcode;
     }
 
-    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    @Override
-    public CompanyTypeMatchcode getCompanyTypeMatchcode()
+    public InfoareaMatchcode getInfoareaMatchcode()
     {
-        return companyTypeMatchcode;
+        return infoareaMatchcode;
     }
 
     @Override
@@ -58,7 +55,7 @@ public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((companyTypeMatchcode == null) ? 0 : companyTypeMatchcode.hashCode());
+        result = prime * result + ((infoareaMatchcode == null) ? 0 : infoareaMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -82,16 +79,16 @@ public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
             return false;
         }
 
-        FunctionCompanyTypeLinkDTO other = (FunctionCompanyTypeLinkDTO) obj;
+        FunctionInfoareaDataDTO other = (FunctionInfoareaDataDTO) obj;
 
-        if (companyTypeMatchcode == null)
+        if (infoareaMatchcode == null)
         {
-            if (other.companyTypeMatchcode != null)
+            if (other.infoareaMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!companyTypeMatchcode.equals(other.companyTypeMatchcode))
+        else if (!infoareaMatchcode.equals(other.infoareaMatchcode))
         {
             return false;
         }
@@ -114,7 +111,7 @@ public class FunctionCompanyTypeLinkDTO implements CompanyTypeLink
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", companyTypeMatchcode, tenant);
+        return String.format("%s(%s)", infoareaMatchcode, tenant);
     }
 
 }

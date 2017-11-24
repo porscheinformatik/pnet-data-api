@@ -1,52 +1,52 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.company;
+package pnet.data.api.function;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.companynumbertype.CompanyNumberTypeMatchcode;
+import pnet.data.api.activity.ActivityMatchcode;
+import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds an additional company number.
+ * Holds a link to an activity
  *
  * @author ham
  */
-public class CompanyNumberLinkDTO
+public class FunctionActivityDataDTO
 {
 
-    private final CompanyNumberTypeMatchcode companyNumberTypeMatchcode;
-    private final String number;
+    private final Tenant tenant;
+    private final ActivityMatchcode activityMatchcode;
 
-    public CompanyNumberLinkDTO(
-        @JsonProperty("companyNumberTypeMatchcode") CompanyNumberTypeMatchcode companyNumberTypeMatchcode,
-        @JsonProperty("number") String number)
+    public FunctionActivityDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("activityMatchcode") ActivityMatchcode activityMatchcode)
     {
         super();
 
-        this.companyNumberTypeMatchcode = companyNumberTypeMatchcode;
-        this.number = number;
+        this.tenant = tenant;
+        this.activityMatchcode = activityMatchcode;
     }
 
-    public CompanyNumberTypeMatchcode getCompanyNumberTypeMatchcode()
+    public Tenant getTenant()
     {
-        return companyNumberTypeMatchcode;
+        return tenant;
     }
 
-    public String getNumber()
+    public ActivityMatchcode getActivityMatchcode()
     {
-        return number;
+        return activityMatchcode;
     }
 
     @Override
@@ -55,7 +55,8 @@ public class CompanyNumberLinkDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((companyNumberTypeMatchcode == null) ? 0 : companyNumberTypeMatchcode.hashCode());
+        result = prime * result + ((activityMatchcode == null) ? 0 : activityMatchcode.hashCode());
+        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
     }
@@ -78,16 +79,28 @@ public class CompanyNumberLinkDTO
             return false;
         }
 
-        CompanyNumberLinkDTO other = (CompanyNumberLinkDTO) obj;
+        FunctionActivityDataDTO other = (FunctionActivityDataDTO) obj;
 
-        if (companyNumberTypeMatchcode == null)
+        if (activityMatchcode == null)
         {
-            if (other.companyNumberTypeMatchcode != null)
+            if (other.activityMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!companyNumberTypeMatchcode.equals(other.companyNumberTypeMatchcode))
+        else if (!activityMatchcode.equals(other.activityMatchcode))
+        {
+            return false;
+        }
+
+        if (tenant == null)
+        {
+            if (other.tenant != null)
+            {
+                return false;
+            }
+        }
+        else if (!tenant.equals(other.tenant))
         {
             return false;
         }
@@ -98,7 +111,7 @@ public class CompanyNumberLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s [number=%s]", super.toString(), number);
+        return String.format("%s(%s)", activityMatchcode, tenant);
     }
 
 }

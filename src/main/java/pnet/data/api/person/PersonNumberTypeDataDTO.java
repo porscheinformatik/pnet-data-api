@@ -1,63 +1,53 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.company;
+package pnet.data.api.person;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.tenant.Tenant;
+import pnet.data.api.numbertype.NumberTypeMatchcode;
 
 /**
- * Holds the brand of a company with all contracts for the brand.
+ * Holds the number of a person for a company.
  *
  * @author ham
  */
-public class CompanyBrandLinkDTO
+public class PersonNumberTypeDataDTO
 {
 
-    private final Tenant tenant;
-    private final BrandMatchcode brandMatchcode;
+    private final NumberTypeMatchcode numberTypeMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
-    private final Collection<CompanyContractTypeLinkDTO> contracts;
+    private final String number;
 
-    public CompanyBrandLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode,
+    public PersonNumberTypeDataDTO(@JsonProperty("numberTypeMatchcode") NumberTypeMatchcode numberTypeMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("contracts") Collection<CompanyContractTypeLinkDTO> contracts)
+        @JsonProperty("number") String number)
     {
-        this.tenant = tenant;
-        this.brandMatchcode = brandMatchcode;
+        super();
+
+        this.numberTypeMatchcode = numberTypeMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.contracts = Collections.unmodifiableCollection(Objects.requireNonNull(contracts, "Contrats are null"));
+        this.number = number;
     }
 
-    public Tenant getTenant()
+    public NumberTypeMatchcode getNumberTypeMatchcode()
     {
-        return tenant;
-    }
-
-    public BrandMatchcode getBrandMatchcode()
-    {
-        return brandMatchcode;
+        return numberTypeMatchcode;
     }
 
     public LocalDateTime getValidFrom()
@@ -70,9 +60,9 @@ public class CompanyBrandLinkDTO
         return validTo;
     }
 
-    public Collection<CompanyContractTypeLinkDTO> getContracts()
+    public String getNumber()
     {
-        return contracts;
+        return number;
     }
 
     @Override
@@ -81,8 +71,7 @@ public class CompanyBrandLinkDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+        result = prime * result + ((numberTypeMatchcode == null) ? 0 : numberTypeMatchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
         return result;
@@ -106,28 +95,16 @@ public class CompanyBrandLinkDTO
             return false;
         }
 
-        CompanyBrandLinkDTO other = (CompanyBrandLinkDTO) obj;
+        PersonNumberTypeDataDTO other = (PersonNumberTypeDataDTO) obj;
 
-        if (brandMatchcode == null)
+        if (numberTypeMatchcode == null)
         {
-            if (other.brandMatchcode != null)
+            if (other.numberTypeMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!brandMatchcode.equals(other.brandMatchcode))
-        {
-            return false;
-        }
-
-        if (tenant == null)
-        {
-            if (other.tenant != null)
-            {
-                return false;
-            }
-        }
-        else if (!tenant.equals(other.tenant))
+        else if (!numberTypeMatchcode.equals(other.numberTypeMatchcode))
         {
             return false;
         }
@@ -150,8 +127,8 @@ public class CompanyBrandLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [validFrom=%s, validTo=%s, contracts=%s]", brandMatchcode, tenant, validFrom,
-            validTo, contracts);
+        return String.format("%s [number=%s, validFrom=%s, validTo=%s]", numberTypeMatchcode, number, validFrom,
+            validTo);
     }
 
 }

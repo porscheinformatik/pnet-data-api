@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,37 +16,40 @@ package pnet.data.api.activity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.infoarea.InfoareaMatchcode;
+import pnet.data.api.brand.BrandLink;
+import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to an infoarea
+ * Holds a link to a brand.
  *
  * @author ham
  */
-public class ActivityInfoareaLinkDTO
+public class ActivityBrandDataDTO implements BrandLink
 {
 
     private final Tenant tenant;
-    private final InfoareaMatchcode infoareaMatchcode;
+    private final BrandMatchcode brandMatchcode;
 
-    public ActivityInfoareaLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("infoareaMatchcode") InfoareaMatchcode infoareaMatchcode)
+    public ActivityBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.infoareaMatchcode = infoareaMatchcode;
+        this.brandMatchcode = brandMatchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public InfoareaMatchcode getInfoareaMatchcode()
+    @Override
+    public BrandMatchcode getBrandMatchcode()
     {
-        return infoareaMatchcode;
+        return brandMatchcode;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class ActivityInfoareaLinkDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((infoareaMatchcode == null) ? 0 : infoareaMatchcode.hashCode());
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -79,16 +82,16 @@ public class ActivityInfoareaLinkDTO
             return false;
         }
 
-        ActivityInfoareaLinkDTO other = (ActivityInfoareaLinkDTO) obj;
+        ActivityBrandDataDTO other = (ActivityBrandDataDTO) obj;
 
-        if (infoareaMatchcode == null)
+        if (brandMatchcode == null)
         {
-            if (other.infoareaMatchcode != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!infoareaMatchcode.equals(other.infoareaMatchcode))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
         {
             return false;
         }
@@ -111,7 +114,7 @@ public class ActivityInfoareaLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", infoareaMatchcode, tenant);
+        return String.format("%s(%s)", brandMatchcode, tenant);
     }
 
 }

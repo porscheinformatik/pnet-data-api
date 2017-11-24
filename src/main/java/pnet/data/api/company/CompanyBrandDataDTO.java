@@ -1,53 +1,63 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.person;
+package pnet.data.api.company;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.function.FunctionMatchcode;
+import pnet.data.api.brand.BrandMatchcode;
+import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds the function of a person for one company and brand.
+ * Holds the brand of a company with all contracts for the brand.
  *
  * @author ham
  */
-public class PersonFunctionLinkDTO
+public class CompanyBrandDataDTO
 {
 
-    private final FunctionMatchcode functionMatchcode;
+    private final Tenant tenant;
+    private final BrandMatchcode brandMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
-    private final boolean mainFunction;
+    private final Collection<CompanyContractTypeDataDTO> contracts;
 
-    public PersonFunctionLinkDTO(@JsonProperty("functionMatchcode") FunctionMatchcode functionMatchcode,
+    public CompanyBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("mainFunction") boolean mainFunction)
+        @JsonProperty("contracts") Collection<CompanyContractTypeDataDTO> contracts)
     {
-        super();
-
-        this.functionMatchcode = functionMatchcode;
+        this.tenant = tenant;
+        this.brandMatchcode = brandMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.mainFunction = mainFunction;
+        this.contracts = Collections.unmodifiableCollection(Objects.requireNonNull(contracts, "Contrats are null"));
     }
 
-    public FunctionMatchcode getFunctionMatchcode()
+    public Tenant getTenant()
     {
-        return functionMatchcode;
+        return tenant;
+    }
+
+    public BrandMatchcode getBrandMatchcode()
+    {
+        return brandMatchcode;
     }
 
     public LocalDateTime getValidFrom()
@@ -60,9 +70,9 @@ public class PersonFunctionLinkDTO
         return validTo;
     }
 
-    public boolean isMainFunction()
+    public Collection<CompanyContractTypeDataDTO> getContracts()
     {
-        return mainFunction;
+        return contracts;
     }
 
     @Override
@@ -71,7 +81,8 @@ public class PersonFunctionLinkDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((functionMatchcode == null) ? 0 : functionMatchcode.hashCode());
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
         return result;
@@ -95,16 +106,28 @@ public class PersonFunctionLinkDTO
             return false;
         }
 
-        PersonFunctionLinkDTO other = (PersonFunctionLinkDTO) obj;
+        CompanyBrandDataDTO other = (CompanyBrandDataDTO) obj;
 
-        if (functionMatchcode == null)
+        if (brandMatchcode == null)
         {
-            if (other.functionMatchcode != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!functionMatchcode.equals(other.functionMatchcode))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
+        {
+            return false;
+        }
+
+        if (tenant == null)
+        {
+            if (other.tenant != null)
+            {
+                return false;
+            }
+        }
+        else if (!tenant.equals(other.tenant))
         {
             return false;
         }
@@ -127,8 +150,8 @@ public class PersonFunctionLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s [validFrom=%s, validTo=%s, mainFunction=%s]", functionMatchcode, validFrom, validTo,
-            mainFunction);
+        return String.format("%s(%s) [validFrom=%s, validTo=%s, contracts=%s]", brandMatchcode, tenant, validFrom,
+            validTo, contracts);
     }
 
 }

@@ -41,9 +41,9 @@ public interface FunctionDataFacade extends ByMatchcode<FunctionMatchcode, Funct
 {
 
     /**
-     * Returns multiple {@link FunctionDataDTO}s each matching all specified filters. The method is limited to a
-     * maximum number of items per request. If no values are specified, it tries to return all items but may fail due to
-     * the maximum number of items.
+     * Returns multiple {@link FunctionDataDTO}s each matching all specified filters. The method is limited to a maximum
+     * number of items per request. If no values are specified, it tries to return all items but may fail due to the
+     * maximum number of items.
      *
      * @param matchcodes the matchcodes for filtering, optional
      * @param brandMatchcodes the matchcodes of brands for filtering, optional
@@ -58,12 +58,10 @@ public interface FunctionDataFacade extends ByMatchcode<FunctionMatchcode, Funct
     Collection<FunctionDataDTO> getAll(
         @RequestParam(value = "matchcode", required = false) Collection<FunctionMatchcode> matchcodes,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "companyType",
-            required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
+        @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
         @RequestParam(value = "contractType",
             required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
-        @RequestParam(value = "numberType",
-            required = false) Collection<NumberTypeMatchcode> numberTypeMatchcodes,
+        @RequestParam(value = "numberType", required = false) Collection<NumberTypeMatchcode> numberTypeMatchcodes,
         @RequestParam(value = "activity", required = false) Collection<ActivityMatchcode> activityMatchcodes,
         @RequestParam(value = "infoarea", required = false) Collection<InfoareaMatchcode> infoareaMatchcodes);
 
@@ -90,12 +88,10 @@ public interface FunctionDataFacade extends ByMatchcode<FunctionMatchcode, Funct
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "companyType",
-            required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
+        @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
         @RequestParam(value = "contractType",
             required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
-        @RequestParam(value = "numberType",
-            required = false) Collection<NumberTypeMatchcode> numberTypeMatchcodes,
+        @RequestParam(value = "numberType", required = false) Collection<NumberTypeMatchcode> numberTypeMatchcodes,
         @RequestParam(value = "activity", required = false) Collection<ActivityMatchcode> activityMatchcodes,
         @RequestParam(value = "infoarea", required = false) Collection<InfoareaMatchcode> infoareaMatchcodes);
     // CHECKSTYLE:ON

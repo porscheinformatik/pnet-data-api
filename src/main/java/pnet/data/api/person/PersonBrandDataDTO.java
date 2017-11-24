@@ -12,54 +12,83 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.contracttype;
+package pnet.data.api.person;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.BrandLink;
 import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.contractstate.ContractStateMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * A link to a brand for a specified tenant.
+ * Holds the brand of a company with all contracts for the brand.
  *
  * @author ham
  */
-public class ContractTypeBrandLinkDTO implements BrandLink
+public class PersonBrandDataDTO
 {
 
     private final Tenant tenant;
     private final BrandMatchcode brandMatchcode;
-    private final Collection<ContractStateMatchcode> states;
+    private final LocalDateTime validFrom;
+    private final LocalDateTime validTo;
+    private final Collection<PersonFunctionDataDTO> functions;
+    private final Collection<PersonActivityDataDTO> activities;
+    private final Collection<PersonInfoareaDataDTO> infoareas;
 
-    public ContractTypeBrandLinkDTO(@JsonProperty("tenant") Tenant tenant,
+    public PersonBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
         @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode,
-        @JsonProperty("states") Collection<ContractStateMatchcode> states)
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("functions") Collection<PersonFunctionDataDTO> functions,
+        @JsonProperty("activities") Collection<PersonActivityDataDTO> activities,
+        @JsonProperty("infoareas") Collection<PersonInfoareaDataDTO> infoareas)
     {
-        super();
         this.tenant = tenant;
         this.brandMatchcode = brandMatchcode;
-        this.states = states;
+        this.validFrom = validFrom;
+        this.validTo = validTo;
+        this.functions = Collections.unmodifiableCollection(Objects.requireNonNull(functions, "Functions are null"));
+        this.activities = Collections.unmodifiableCollection(Objects.requireNonNull(activities, "Activities are null"));
+        this.infoareas = Collections.unmodifiableCollection(Objects.requireNonNull(infoareas, "Infoareas are null"));
     }
 
-    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    @Override
     public BrandMatchcode getBrandMatchcode()
     {
         return brandMatchcode;
     }
 
-    public Collection<ContractStateMatchcode> getStates()
+    public LocalDateTime getValidFrom()
     {
-        return states;
+        return validFrom;
+    }
+
+    public LocalDateTime getValidTo()
+    {
+        return validTo;
+    }
+
+    public Collection<PersonFunctionDataDTO> getFunctions()
+    {
+        return functions;
+    }
+
+    public Collection<PersonActivityDataDTO> getActivities()
+    {
+        return activities;
+    }
+
+    public Collection<PersonInfoareaDataDTO> getInfoareas()
+    {
+        return infoareas;
     }
 
     @Override
@@ -70,6 +99,7 @@ public class ContractTypeBrandLinkDTO implements BrandLink
 
         result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+        result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
         return result;
     }
@@ -92,7 +122,7 @@ public class ContractTypeBrandLinkDTO implements BrandLink
             return false;
         }
 
-        ContractTypeBrandLinkDTO other = (ContractTypeBrandLinkDTO) obj;
+        PersonBrandDataDTO other = (PersonBrandDataDTO) obj;
 
         if (brandMatchcode == null)
         {
@@ -118,13 +148,26 @@ public class ContractTypeBrandLinkDTO implements BrandLink
             return false;
         }
 
+        if (validFrom == null)
+        {
+            if (other.validFrom != null)
+            {
+                return false;
+            }
+        }
+        else if (!validFrom.equals(other.validFrom))
+        {
+            return false;
+        }
+
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [states=%s]", brandMatchcode, tenant, states);
+        return String.format("%s(%s) [validFrom=%s, validTo=%s, functions=%s, activities=%s]", brandMatchcode, tenant,
+            validFrom, validTo, functions, activities);
     }
 
 }

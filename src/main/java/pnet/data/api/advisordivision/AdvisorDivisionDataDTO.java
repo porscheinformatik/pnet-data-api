@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ public class AdvisorDivisionDataDTO implements WithMatchcode<AdvisorDivisionMatc
 
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
-    private Collection<AdvisorDivisionBrandLinkDTO> brands;
+    private Collection<AdvisorDivisionBrandDataDTO> brands;
     private LocalDateTime lastUpdate;
 
     public AdvisorDivisionDataDTO(AdvisorDivisionMatchcode matchcode)
@@ -77,12 +77,12 @@ public class AdvisorDivisionDataDTO implements WithMatchcode<AdvisorDivisionMatc
     }
 
     @Override
-    public Collection<AdvisorDivisionBrandLinkDTO> getBrands()
+    public Collection<AdvisorDivisionBrandDataDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<AdvisorDivisionBrandLinkDTO> brands)
+    public void setBrands(Collection<AdvisorDivisionBrandDataDTO> brands)
     {
         this.brands = brands;
     }

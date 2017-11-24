@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,37 +16,38 @@ package pnet.data.api.function;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.numbertype.NumberTypeMatchcode;
+import pnet.data.api.brand.BrandLink;
+import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to a number type.
+ * Holds a link to a brand.
  *
  * @author ham
  */
-public class FunctionNumberTypeLinkDTO
+public class FunctionBrandDataDTO implements BrandLink
 {
 
     private final Tenant tenant;
-    private final NumberTypeMatchcode numberTypeMatchcode;
+    private final BrandMatchcode brandMatchcode;
 
-    public FunctionNumberTypeLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("numberTypeMatchcode") NumberTypeMatchcode numberTypeMatchcode)
+    public FunctionBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode)
     {
-        super();
-
         this.tenant = tenant;
-        this.numberTypeMatchcode = numberTypeMatchcode;
+        this.brandMatchcode = brandMatchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public NumberTypeMatchcode getNumberTypeMatchcode()
+    @Override
+    public BrandMatchcode getBrandMatchcode()
     {
-        return numberTypeMatchcode;
+        return brandMatchcode;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class FunctionNumberTypeLinkDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((numberTypeMatchcode == null) ? 0 : numberTypeMatchcode.hashCode());
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -79,16 +80,16 @@ public class FunctionNumberTypeLinkDTO
             return false;
         }
 
-        FunctionNumberTypeLinkDTO other = (FunctionNumberTypeLinkDTO) obj;
+        FunctionBrandDataDTO other = (FunctionBrandDataDTO) obj;
 
-        if (numberTypeMatchcode == null)
+        if (brandMatchcode == null)
         {
-            if (other.numberTypeMatchcode != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!numberTypeMatchcode.equals(other.numberTypeMatchcode))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
         {
             return false;
         }
@@ -111,7 +112,7 @@ public class FunctionNumberTypeLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", numberTypeMatchcode, tenant);
+        return String.format("%s(%s)", brandMatchcode, tenant);
     }
 
 }

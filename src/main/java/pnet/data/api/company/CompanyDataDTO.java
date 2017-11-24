@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,11 +36,11 @@ public class CompanyDataDTO
     private String name;
     private String nameAffix;
     private String marketingName;
-    private Collection<CompanyBrandLinkDTO> brands;
+    private Collection<CompanyBrandDataDTO> brands;
     private String uidNumber;
     private String sapNumber;
     private String companyNumber;
-    private Collection<CompanyNumberLinkDTO> additionalNumbers;
+    private Collection<CompanyNumberDataDTO> additionalNumbers;
     private String street;
     private String city;
     private String zip;
@@ -64,7 +64,7 @@ public class CompanyDataDTO
     private String juristiction;
     private double longitude;
     private double latitude;
-    private Collection<CompanyExternalBrandLinkDTO> extenalBrands;
+    private Collection<CompanyExternalBrandDataDTO> extenalBrands;
     private LocalDateTime lastUpdate;
 
     public CompanyDataDTO(@JsonProperty("companyId") Integer companyId)
@@ -119,12 +119,12 @@ public class CompanyDataDTO
         this.marketingName = marketingName;
     }
 
-    public Collection<CompanyBrandLinkDTO> getBrands()
+    public Collection<CompanyBrandDataDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<CompanyBrandLinkDTO> brands)
+    public void setBrands(Collection<CompanyBrandDataDTO> brands)
     {
         this.brands = brands;
     }
@@ -159,12 +159,12 @@ public class CompanyDataDTO
         this.companyNumber = companyNumber;
     }
 
-    public Collection<CompanyNumberLinkDTO> getAdditionalNumbers()
+    public Collection<CompanyNumberDataDTO> getAdditionalNumbers()
     {
         return additionalNumbers;
     }
 
-    public void setAdditionalNumbers(Collection<CompanyNumberLinkDTO> additionalNumbers)
+    public void setAdditionalNumbers(Collection<CompanyNumberDataDTO> additionalNumbers)
     {
         this.additionalNumbers = additionalNumbers;
     }
@@ -399,12 +399,12 @@ public class CompanyDataDTO
         this.latitude = latitude;
     }
 
-    public Collection<CompanyExternalBrandLinkDTO> getExtenalBrands()
+    public Collection<CompanyExternalBrandDataDTO> getExtenalBrands()
     {
         return extenalBrands;
     }
 
-    public void setExtenalBrands(Collection<CompanyExternalBrandLinkDTO> extenalBrands)
+    public void setExtenalBrands(Collection<CompanyExternalBrandDataDTO> extenalBrands)
     {
         this.extenalBrands = extenalBrands;
     }

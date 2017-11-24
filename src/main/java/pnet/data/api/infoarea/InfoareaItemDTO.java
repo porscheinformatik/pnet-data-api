@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,12 +38,12 @@ public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTe
     private final InfoareaMatchcode matchcode;
     private final String label;
     private final String description;
-    private final Collection<InfoareaBrandLinkDTO> brands;
+    private final Collection<InfoareaBrandDataDTO> brands;
     private final LocalDateTime lastUpdate;
 
     public InfoareaItemDTO(@JsonProperty("matchcode") InfoareaMatchcode matchcode, @JsonProperty("label") String label,
         @JsonProperty("description") String description,
-        @JsonProperty("brands") Collection<InfoareaBrandLinkDTO> brands,
+        @JsonProperty("brands") Collection<InfoareaBrandDataDTO> brands,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -78,7 +78,7 @@ public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTe
     }
 
     @Override
-    public Collection<InfoareaBrandLinkDTO> getBrands()
+    public Collection<InfoareaBrandDataDTO> getBrands()
     {
         return brands;
     }

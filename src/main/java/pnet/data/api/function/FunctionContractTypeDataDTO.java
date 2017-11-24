@@ -1,55 +1,52 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.activity;
+package pnet.data.api.function;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.BrandLink;
-import pnet.data.api.brand.BrandMatchcode;
+import pnet.data.api.contracttype.ContractTypeMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to a brand.
+ * Holds a link to a contract type.
  *
  * @author ham
  */
-public class ActivityBrandLinkDTO implements BrandLink
+public class FunctionContractTypeDataDTO
 {
 
     private final Tenant tenant;
-    private final BrandMatchcode brandMatchcode;
+    private final ContractTypeMatchcode contractTypeMatchcode;
 
-    public ActivityBrandLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode)
+    public FunctionContractTypeDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.brandMatchcode = brandMatchcode;
+        this.contractTypeMatchcode = contractTypeMatchcode;
     }
 
-    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    @Override
-    public BrandMatchcode getBrandMatchcode()
+    public ContractTypeMatchcode getContractTypeMatchcode()
     {
-        return brandMatchcode;
+        return contractTypeMatchcode;
     }
 
     @Override
@@ -58,7 +55,7 @@ public class ActivityBrandLinkDTO implements BrandLink
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + ((contractTypeMatchcode == null) ? 0 : contractTypeMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -82,16 +79,16 @@ public class ActivityBrandLinkDTO implements BrandLink
             return false;
         }
 
-        ActivityBrandLinkDTO other = (ActivityBrandLinkDTO) obj;
+        FunctionContractTypeDataDTO other = (FunctionContractTypeDataDTO) obj;
 
-        if (brandMatchcode == null)
+        if (contractTypeMatchcode == null)
         {
-            if (other.brandMatchcode != null)
+            if (other.contractTypeMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!brandMatchcode.equals(other.brandMatchcode))
+        else if (!contractTypeMatchcode.equals(other.contractTypeMatchcode))
         {
             return false;
         }
@@ -114,7 +111,7 @@ public class ActivityBrandLinkDTO implements BrandLink
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", brandMatchcode, tenant);
+        return String.format("%s(%s)", contractTypeMatchcode, tenant);
     }
 
 }

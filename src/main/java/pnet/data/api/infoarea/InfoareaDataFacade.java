@@ -52,8 +52,7 @@ public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, Infoa
     Collection<InfoareaDataDTO> getAll(
         @RequestParam(value = "matchcode", required = false) Collection<InfoareaMatchcode> matchcodes,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "companyType",
-            required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
+        @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
         @RequestParam(value = "contractType",
             required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes);
 
@@ -76,8 +75,7 @@ public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, Infoa
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "companyType",
-            required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
+        @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
         @RequestParam(value = "contractType",
             required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes);
 

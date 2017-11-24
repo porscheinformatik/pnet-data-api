@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -52,7 +52,7 @@ public class PersonDataDTO implements WithLastUpdate
     private String controllingArea;
     private String personnelDepartment;
     private String jobDescription;
-    private Collection<PersonCompanyLinkDTO> companies;
+    private Collection<PersonCompanyDataDTO> companies;
     private LocalDateTime lastUpdate;
 
     public PersonDataDTO(@JsonProperty("personId") Integer personId)
@@ -267,12 +267,12 @@ public class PersonDataDTO implements WithLastUpdate
         this.jobDescription = jobDescription;
     }
 
-    public Collection<PersonCompanyLinkDTO> getCompanies()
+    public Collection<PersonCompanyDataDTO> getCompanies()
     {
         return companies;
     }
 
-    public void setCompanies(Collection<PersonCompanyLinkDTO> companies)
+    public void setCompanies(Collection<PersonCompanyDataDTO> companies)
     {
         this.companies = companies;
     }

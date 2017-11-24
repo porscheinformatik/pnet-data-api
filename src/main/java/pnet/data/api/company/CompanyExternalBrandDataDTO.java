@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,43 +15,45 @@
 package pnet.data.api.company;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.contracttype.ContractTypeMatchcode;
+import pnet.data.api.externalbrand.ExternalBrandMatchcode;
 
 /**
- * Holds the contracts of a company.
+ * An external brand of a company.
  *
  * @author ham
  */
-public class CompanyContractTypeLinkDTO
+public class CompanyExternalBrandDataDTO
 {
 
-    private final ContractTypeMatchcode contractTypeMatchcode;
+    private final ExternalBrandMatchcode externalBrandMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
-    private final boolean kvps;
-    private final Collection<CompanyContractStateLinkDTO> states;
+    private final boolean sales;
+    private final boolean service;
+    private final boolean local;
 
-    public CompanyContractTypeLinkDTO(
-        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode,
+    public CompanyExternalBrandDataDTO(
+        @JsonProperty("externalBrandMatchcode") ExternalBrandMatchcode externalBrandMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("kvps") boolean kvps, @JsonProperty("states") Collection<CompanyContractStateLinkDTO> states)
+        @JsonProperty("sales") boolean sales, @JsonProperty("service") boolean service,
+        @JsonProperty("local") boolean local)
     {
         super();
 
-        this.contractTypeMatchcode = contractTypeMatchcode;
+        this.externalBrandMatchcode = externalBrandMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.kvps = kvps;
-        this.states = states;
+        this.sales = sales;
+        this.service = service;
+        this.local = local;
     }
 
-    public ContractTypeMatchcode getContractTypeMatchcode()
+    public ExternalBrandMatchcode getExternalBrandMatchcode()
     {
-        return contractTypeMatchcode;
+        return externalBrandMatchcode;
     }
 
     public LocalDateTime getValidFrom()
@@ -64,14 +66,19 @@ public class CompanyContractTypeLinkDTO
         return validTo;
     }
 
-    public boolean isKvps()
+    public boolean isSales()
     {
-        return kvps;
+        return sales;
     }
 
-    public Collection<CompanyContractStateLinkDTO> getStates()
+    public boolean isService()
     {
-        return states;
+        return service;
+    }
+
+    public boolean isLocal()
+    {
+        return local;
     }
 
     @Override
@@ -79,8 +86,10 @@ public class CompanyContractTypeLinkDTO
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((contractTypeMatchcode == null) ? 0 : contractTypeMatchcode.hashCode());
+
+        result = prime * result + ((externalBrandMatchcode == null) ? 0 : externalBrandMatchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
+
         return result;
     }
 
@@ -91,26 +100,31 @@ public class CompanyContractTypeLinkDTO
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
-        CompanyContractTypeLinkDTO other = (CompanyContractTypeLinkDTO) obj;
-        if (contractTypeMatchcode == null)
+
+        CompanyExternalBrandDataDTO other = (CompanyExternalBrandDataDTO) obj;
+
+        if (externalBrandMatchcode == null)
         {
-            if (other.contractTypeMatchcode != null)
+            if (other.externalBrandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!contractTypeMatchcode.equals(other.contractTypeMatchcode))
+        else if (!externalBrandMatchcode.equals(other.externalBrandMatchcode))
         {
             return false;
         }
+
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -122,14 +136,15 @@ public class CompanyContractTypeLinkDTO
         {
             return false;
         }
+
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s [validFrom=%s, validTo=%s, kvps=%s, states=%s]", contractTypeMatchcode, validFrom,
-            validTo, kvps, states);
+        return String.format("%s [validFrom=%s, validTo=%s, sales=%s, service=%s, local=%s]", externalBrandMatchcode,
+            validFrom, validTo, sales, service, local);
     }
 
 }

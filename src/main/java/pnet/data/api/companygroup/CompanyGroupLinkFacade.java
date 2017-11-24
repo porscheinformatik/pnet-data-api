@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import pnet.data.api.advisor.AdvisorLinkDTO;
+import pnet.data.api.advisor.AdvisorDataDTO;
 import pnet.data.api.companygrouptype.CompanyGroupTypeMatchcode;
 
 /**
@@ -37,7 +37,7 @@ public interface CompanyGroupLinkFacade
 
     // FIXME better interface
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<AdvisorLinkDTO> getAll(
+    Collection<AdvisorDataDTO> getAll(
         @RequestParam(value = "leadingCompanyId", required = false) Integer leadingCompanyId,
         @RequestParam(value = "type", required = false) CompanyGroupTypeMatchcode type);
 

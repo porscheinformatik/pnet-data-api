@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,9 +39,9 @@ public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLa
 
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
-    private Collection<InfoareaBrandLinkDTO> brands;
-    private Collection<InfoareaCompanyTypeLinkDTO> companyTypes;
-    private Collection<InfoareaContractTypeLinkDTO> contractTypes;
+    private Collection<InfoareaBrandDataDTO> brands;
+    private Collection<InfoareaCompanyTypeDataDTO> companyTypes;
+    private Collection<InfoareaContractTypeDataDTO> contractTypes;
     private LocalDateTime lastUpdate;
 
     public InfoareaDataDTO(InfoareaMatchcode matchcode)
@@ -80,23 +80,23 @@ public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLa
     }
 
     @Override
-    public Collection<InfoareaBrandLinkDTO> getBrands()
+    public Collection<InfoareaBrandDataDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<InfoareaBrandLinkDTO> brands)
+    public void setBrands(Collection<InfoareaBrandDataDTO> brands)
     {
         this.brands = brands;
     }
 
     @Override
-    public Collection<InfoareaCompanyTypeLinkDTO> getCompanyTypes()
+    public Collection<InfoareaCompanyTypeDataDTO> getCompanyTypes()
     {
         return companyTypes;
     }
 
-    public void setCompanyTypes(Collection<InfoareaCompanyTypeLinkDTO> companyTypes)
+    public void setCompanyTypes(Collection<InfoareaCompanyTypeDataDTO> companyTypes)
     {
         this.companyTypes = companyTypes;
     }
@@ -105,12 +105,12 @@ public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLa
      * @return This infoarea is only available, if the company has one of these contracts. This collection is only
      *         relevant, if the company type of the company says so.
      */
-    public Collection<InfoareaContractTypeLinkDTO> getContractTypes()
+    public Collection<InfoareaContractTypeDataDTO> getContractTypes()
     {
         return contractTypes;
     }
 
-    public void setContractTypes(Collection<InfoareaContractTypeLinkDTO> contractTypes)
+    public void setContractTypes(Collection<InfoareaContractTypeDataDTO> contractTypes)
     {
         this.contractTypes = contractTypes;
     }

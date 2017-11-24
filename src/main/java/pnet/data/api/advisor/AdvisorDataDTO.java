@@ -1,11 +1,11 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,7 +26,7 @@ import pnet.data.api.tenant.Tenant;
  *
  * @author ham
  */
-public class AdvisorLinkDTO
+public class AdvisorDataDTO
 {
 
     private final Tenant tenant;
@@ -37,7 +37,7 @@ public class AdvisorLinkDTO
     private final Integer personId;
     private final LocalDateTime lastUpdate;
 
-    public AdvisorLinkDTO(Tenant tenant, BrandMatchcode brand, AdvisorTypeMatchcode advisorTypeMatchcode,
+    public AdvisorDataDTO(Tenant tenant, BrandMatchcode brand, AdvisorTypeMatchcode advisorTypeMatchcode,
         AdvisorDivisionMatchcode advisorDivisionMatchcode, Integer companyId, Integer personId,
         LocalDateTime lastUpdate)
     {
@@ -116,7 +116,7 @@ public class AdvisorLinkDTO
         {
             return false;
         }
-        AdvisorLinkDTO other = (AdvisorLinkDTO) obj;
+        AdvisorDataDTO other = (AdvisorDataDTO) obj;
         if (advisorDivisionMatchcode == null)
         {
             if (other.advisorDivisionMatchcode != null)
@@ -191,7 +191,7 @@ public class AdvisorLinkDTO
     public String toString()
     {
         return String.format(
-            "AdvisorLinkDTO [tenant=%s, brand=%s, advisorTypeMatchcode=%s, advisorDivisionMatchcode=%s, companyId=%s, personId=%s, lastUpdate=%s]",
+            "AdvisorDataDTO [tenant=%s, brand=%s, advisorTypeMatchcode=%s, advisorDivisionMatchcode=%s, companyId=%s, personId=%s, lastUpdate=%s]",
             tenant, brand, advisorTypeMatchcode, advisorDivisionMatchcode, companyId, personId, lastUpdate);
     }
 

@@ -1,47 +1,52 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.infoarea;
+package pnet.data.api.company;
+
+import java.time.LocalDateTime;
+import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.contracttype.ContractTypeMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to a contract type.
+ * Holds the contracts of a company.
  *
  * @author ham
  */
-public class InfoareaContractTypeLinkDTO
+public class CompanyContractTypeDataDTO
 {
 
-    private final Tenant tenant;
     private final ContractTypeMatchcode contractTypeMatchcode;
+    private final LocalDateTime validFrom;
+    private final LocalDateTime validTo;
+    private final boolean kvps;
+    private final Collection<CompanyContractStateDataDTO> states;
 
-    public InfoareaContractTypeLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode)
+    public CompanyContractTypeDataDTO(
+        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("kvps") boolean kvps, @JsonProperty("states") Collection<CompanyContractStateDataDTO> states)
     {
         super();
 
-        this.tenant = tenant;
         this.contractTypeMatchcode = contractTypeMatchcode;
-    }
-
-    public Tenant getTenant()
-    {
-        return tenant;
+        this.validFrom = validFrom;
+        this.validTo = validTo;
+        this.kvps = kvps;
+        this.states = states;
     }
 
     public ContractTypeMatchcode getContractTypeMatchcode()
@@ -49,15 +54,33 @@ public class InfoareaContractTypeLinkDTO
         return contractTypeMatchcode;
     }
 
+    public LocalDateTime getValidFrom()
+    {
+        return validFrom;
+    }
+
+    public LocalDateTime getValidTo()
+    {
+        return validTo;
+    }
+
+    public boolean isKvps()
+    {
+        return kvps;
+    }
+
+    public Collection<CompanyContractStateDataDTO> getStates()
+    {
+        return states;
+    }
+
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = 1;
-
         result = prime * result + ((contractTypeMatchcode == null) ? 0 : contractTypeMatchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-
+        result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
         return result;
     }
 
@@ -68,19 +91,15 @@ public class InfoareaContractTypeLinkDTO
         {
             return true;
         }
-
         if (obj == null)
         {
             return false;
         }
-
         if (getClass() != obj.getClass())
         {
             return false;
         }
-
-        InfoareaContractTypeLinkDTO other = (InfoareaContractTypeLinkDTO) obj;
-
+        CompanyContractTypeDataDTO other = (CompanyContractTypeDataDTO) obj;
         if (contractTypeMatchcode == null)
         {
             if (other.contractTypeMatchcode != null)
@@ -92,26 +111,25 @@ public class InfoareaContractTypeLinkDTO
         {
             return false;
         }
-
-        if (tenant == null)
+        if (validFrom == null)
         {
-            if (other.tenant != null)
+            if (other.validFrom != null)
             {
                 return false;
             }
         }
-        else if (!tenant.equals(other.tenant))
+        else if (!validFrom.equals(other.validFrom))
         {
             return false;
         }
-
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", contractTypeMatchcode, tenant);
+        return String.format("%s [validFrom=%s, validTo=%s, kvps=%s, states=%s]", contractTypeMatchcode, validFrom,
+            validTo, kvps, states);
     }
 
 }

@@ -1,52 +1,55 @@
 /* Copyright 2017 Porsche Informatik GmbH
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.function;
+package pnet.data.api.activity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.activity.ActivityMatchcode;
+import pnet.data.api.companytype.CompanyTypeLink;
+import pnet.data.api.companytype.CompanyTypeMatchcode;
 import pnet.data.api.tenant.Tenant;
 
 /**
- * Holds a link to an activity
+ * Holds a link to a company type.
  *
  * @author ham
  */
-public class FunctionActivityLinkDTO
+public class ActivityCompanyTypeDataDTO implements CompanyTypeLink
 {
 
     private final Tenant tenant;
-    private final ActivityMatchcode activityMatchcode;
+    private final CompanyTypeMatchcode companyTypeMatchcode;
 
-    public FunctionActivityLinkDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("activityMatchcode") ActivityMatchcode activityMatchcode)
+    public ActivityCompanyTypeDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("companyTypeMatchcode") CompanyTypeMatchcode companyTypeMatchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.activityMatchcode = activityMatchcode;
+        this.companyTypeMatchcode = companyTypeMatchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public ActivityMatchcode getActivityMatchcode()
+    @Override
+    public CompanyTypeMatchcode getCompanyTypeMatchcode()
     {
-        return activityMatchcode;
+        return companyTypeMatchcode;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class FunctionActivityLinkDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((activityMatchcode == null) ? 0 : activityMatchcode.hashCode());
+        result = prime * result + ((companyTypeMatchcode == null) ? 0 : companyTypeMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -79,16 +82,16 @@ public class FunctionActivityLinkDTO
             return false;
         }
 
-        FunctionActivityLinkDTO other = (FunctionActivityLinkDTO) obj;
+        ActivityCompanyTypeDataDTO other = (ActivityCompanyTypeDataDTO) obj;
 
-        if (activityMatchcode == null)
+        if (companyTypeMatchcode == null)
         {
-            if (other.activityMatchcode != null)
+            if (other.companyTypeMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!activityMatchcode.equals(other.activityMatchcode))
+        else if (!companyTypeMatchcode.equals(other.companyTypeMatchcode))
         {
             return false;
         }
@@ -111,7 +114,7 @@ public class FunctionActivityLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", activityMatchcode, tenant);
+        return String.format("%s(%s)", companyTypeMatchcode, tenant);
     }
 
 }
