@@ -35,11 +35,23 @@ import pnet.data.api.advisortype.AdvisorTypeMatchcode;
 public interface AdvisorLinkFacade
 {
 
-    // FIXME better interface
+    /**
+     * Returns multiple {@link AdvisorDataDTO}s each matching all specified filters. The method is limited to a maximum
+     * number of items per request. If no values are specified, it tries to return all items but may fail due to the
+     * maximum number of items.
+     *
+     * @param companyIds the ids of the companyies, optional
+     * @param personIds the ids of the persons, optional
+     * @param advisorTypeMatchcodes the advisor types, optional
+     * @param advisorDivisionMatchcodes the advisor divisions, optional
+     * @return a collection of all found items
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<AdvisorDataDTO> getAll(@RequestParam(value = "companyId", required = false) Integer companyId,
-        @RequestParam(value = "personId", required = false) Integer personId,
-        @RequestParam(value = "advisorType", required = false) AdvisorTypeMatchcode advisorTypeMatchcode,
-        @RequestParam(value = "advisorDivision", required = false) AdvisorDivisionMatchcode advisorDivisionMatchcode);
+    Collection<AdvisorDataDTO> getAll(
+        @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
+        @RequestParam(value = "personId", required = false) Collection<Integer> personIds,
+        @RequestParam(value = "advisorType", required = false) Collection<AdvisorTypeMatchcode> advisorTypeMatchcodes,
+        @RequestParam(value = "advisorDivision",
+            required = false) Collection<AdvisorDivisionMatchcode> advisorDivisionMatchcodes);
 
 }

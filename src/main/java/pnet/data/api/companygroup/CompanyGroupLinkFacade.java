@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import pnet.data.api.advisor.AdvisorDataDTO;
 import pnet.data.api.companygrouptype.CompanyGroupTypeMatchcode;
 
 /**
@@ -35,10 +34,20 @@ import pnet.data.api.companygrouptype.CompanyGroupTypeMatchcode;
 public interface CompanyGroupLinkFacade
 {
 
-    // FIXME better interface
+    /**
+     * Returns multiple {@link CompanyGroupDataDTO}s each matching all specified filters. The method is limited to a
+     * maximum number of items per request. If no values are specified, it tries to return all items but may fail due to
+     * the maximum number of items.
+     *
+     * @param leadingCompanyIds the id of the leading company, optional
+     * @param types the type, optional
+     * @param companyIds the id of a participating company (the leading company is participating, too), optional
+     * @return a collection of all found items
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<AdvisorDataDTO> getAll(
-        @RequestParam(value = "leadingCompanyId", required = false) Integer leadingCompanyId,
-        @RequestParam(value = "type", required = false) CompanyGroupTypeMatchcode type);
+    Collection<CompanyGroupDataDTO> getAll(
+        @RequestParam(value = "leadingCompanyId", required = false) Collection<Integer> leadingCompanyIds,
+        @RequestParam(value = "type", required = false) Collection<CompanyGroupTypeMatchcode> types,
+        @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds);
 
 }
