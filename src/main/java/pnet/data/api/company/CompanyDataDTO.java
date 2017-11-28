@@ -68,6 +68,7 @@ public class CompanyDataDTO implements Serializable
     private String jurisdiction;
     private GeoPoint location;
     private Collection<CompanyExternalBrandDataDTO> extenalBrands;
+    private Integer headquaterCompanyId;
     private LocalDateTime lastUpdate;
 
     public CompanyDataDTO(@JsonProperty("companyId") Integer companyId)
@@ -402,6 +403,16 @@ public class CompanyDataDTO implements Serializable
         this.extenalBrands = extenalBrands;
     }
 
+    public Integer getHeadquaterCompanyId()
+    {
+        return headquaterCompanyId;
+    }
+
+    public void setHeadquaterCompanyId(Integer headquaterCompanyId)
+    {
+        this.headquaterCompanyId = headquaterCompanyId;
+    }
+
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
@@ -421,11 +432,11 @@ public class CompanyDataDTO implements Serializable
                 + "countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, "
                 + "speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, legalForm=%s, dvrNumber=%s, fbNumber=%s, "
                 + "certificateType=%s, certificateNumber=%s, jurisdiction=%s, location=%s, "
-                + "extenalBrands=%s, lastUpdate=%s]",
+                + "extenalBrands=%s, headquaterCompanyId=%s, lastUpdate=%s]",
             companyId, administrativeTenant, name, nameAffix, marketingName, uidNumber, sapNumber, companyNumber,
             additionalNumbers, street, city, zip, countryCode, country, region, iban, bic, types, phoneNumber,
             speedDial, faxNumber, email, homepage, postal, legalForm, dvrNumber, fbNumber, certificateType,
-            certificateNumber, jurisdiction, location, extenalBrands, lastUpdate);
+            certificateNumber, jurisdiction, location, extenalBrands, headquaterCompanyId, lastUpdate);
     }
 
 }

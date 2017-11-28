@@ -101,6 +101,7 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
      * @param contractTypeMatchcodes one or more contract type matchcodes for filtering, optional
      * @param distances one or more GEO distances for filtering, optional
      * @param externalBrandMatchcodes one or more external brand matchcodes for filtering, optional
+     * @param headquaterCompanyIds headquaters for filtering, optional
      * @param updatedAfter updated after the specified date and time, optional
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
@@ -118,6 +119,7 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
         @RequestParam(value = "distance", required = false) Collection<GeoDistance> distances,
         @RequestParam(value = "externalBrands",
             required = false) Collection<ExternalBrandMatchcode> externalBrandMatchcodes,
+        @RequestParam(value = "headquater", required = false) Collection<Integer> headquaterCompanyIds,
         @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage);
