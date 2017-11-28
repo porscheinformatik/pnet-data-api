@@ -24,19 +24,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
 import pnet.data.api.brand.BrandMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenant;
+import pnet.data.api.util.WithValidPeriod;
 
 /**
  * Holds the brand of a company with all contracts for the brand.
  *
  * @author ham
  */
-public class PersonBrandDataDTO implements Serializable
+public class PersonBrandDataDTO implements WithTenant, WithMatchcode<BrandMatchcode>, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 4304701417184336190L;
-    
+
     private final Tenant tenant;
-    private final BrandMatchcode brandMatchcode;
+    private final BrandMatchcode matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final Collection<PersonFunctionDataDTO> functions;
@@ -44,14 +47,14 @@ public class PersonBrandDataDTO implements Serializable
     private final Collection<PersonInfoareaDataDTO> infoareas;
 
     public PersonBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("matchcode") BrandMatchcode matchcode, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("functions") Collection<PersonFunctionDataDTO> functions,
         @JsonProperty("activities") Collection<PersonActivityDataDTO> activities,
         @JsonProperty("infoareas") Collection<PersonInfoareaDataDTO> infoareas)
     {
         this.tenant = tenant;
-        this.brandMatchcode = brandMatchcode;
+        this.matchcode = matchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.functions = Collections.unmodifiableCollection(Objects.requireNonNull(functions, "Functions are null"));
@@ -59,21 +62,25 @@ public class PersonBrandDataDTO implements Serializable
         this.infoareas = Collections.unmodifiableCollection(Objects.requireNonNull(infoareas, "Infoareas are null"));
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public BrandMatchcode getBrandMatchcode()
+    @Override
+    public BrandMatchcode getMatchcode()
     {
-        return brandMatchcode;
+        return matchcode;
     }
 
+    @Override
     public LocalDateTime getValidFrom()
     {
         return validFrom;
     }
 
+    @Override
     public LocalDateTime getValidTo()
     {
         return validTo;
@@ -100,7 +107,7 @@ public class PersonBrandDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
@@ -127,14 +134,14 @@ public class PersonBrandDataDTO implements Serializable
 
         PersonBrandDataDTO other = (PersonBrandDataDTO) obj;
 
-        if (brandMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.brandMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!brandMatchcode.equals(other.brandMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -169,7 +176,7 @@ public class PersonBrandDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [validFrom=%s, validTo=%s, functions=%s, activities=%s]", brandMatchcode, tenant,
+        return String.format("%s(%s) [validFrom=%s, validTo=%s, functions=%s, activities=%s]", matchcode, tenant,
             validFrom, validTo, functions, activities);
     }
 

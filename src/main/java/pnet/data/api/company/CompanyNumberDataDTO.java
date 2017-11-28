@@ -19,33 +19,34 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.companynumbertype.CompanyNumberTypeMatchcode;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds an additional company number.
  *
  * @author ham
  */
-public class CompanyNumberDataDTO implements Serializable
+public class CompanyNumberDataDTO implements WithMatchcode<CompanyNumberTypeMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = 2495670532285085314L;
-    
-    private final CompanyNumberTypeMatchcode companyNumberTypeMatchcode;
+
+    private final CompanyNumberTypeMatchcode matchcode;
     private final String number;
 
-    public CompanyNumberDataDTO(
-        @JsonProperty("companyNumberTypeMatchcode") CompanyNumberTypeMatchcode companyNumberTypeMatchcode,
+    public CompanyNumberDataDTO(@JsonProperty("matchcode") CompanyNumberTypeMatchcode matchcode,
         @JsonProperty("number") String number)
     {
         super();
 
-        this.companyNumberTypeMatchcode = companyNumberTypeMatchcode;
+        this.matchcode = matchcode;
         this.number = number;
     }
 
-    public CompanyNumberTypeMatchcode getCompanyNumberTypeMatchcode()
+    @Override
+    public CompanyNumberTypeMatchcode getMatchcode()
     {
-        return companyNumberTypeMatchcode;
+        return matchcode;
     }
 
     public String getNumber()
@@ -59,7 +60,7 @@ public class CompanyNumberDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((companyNumberTypeMatchcode == null) ? 0 : companyNumberTypeMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
 
         return result;
     }
@@ -84,14 +85,14 @@ public class CompanyNumberDataDTO implements Serializable
 
         CompanyNumberDataDTO other = (CompanyNumberDataDTO) obj;
 
-        if (companyNumberTypeMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.companyNumberTypeMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!companyNumberTypeMatchcode.equals(other.companyNumberTypeMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }

@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -41,7 +43,7 @@ public class ApplicationDataDTO
     private Map<Locale, String> descriptions;
     private LocalDateTime lastUpdate;
 
-    public ApplicationDataDTO(ApplicationMatchcode matchcode)
+    public ApplicationDataDTO(@JsonProperty("matchcode") ApplicationMatchcode matchcode)
     {
         super();
 

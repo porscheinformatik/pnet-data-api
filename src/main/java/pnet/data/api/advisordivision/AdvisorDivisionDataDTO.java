@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.Tenant;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
@@ -46,7 +48,7 @@ public class AdvisorDivisionDataDTO implements WithMatchcode<AdvisorDivisionMatc
     private Collection<AdvisorDivisionBrandDataDTO> brands;
     private LocalDateTime lastUpdate;
 
-    public AdvisorDivisionDataDTO(AdvisorDivisionMatchcode matchcode)
+    public AdvisorDivisionDataDTO(@JsonProperty("matchcode") AdvisorDivisionMatchcode matchcode)
     {
         super();
 

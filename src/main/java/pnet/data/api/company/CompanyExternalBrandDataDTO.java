@@ -20,33 +20,34 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.externalbrand.ExternalBrandMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithValidPeriod;
 
 /**
  * An external brand of a company.
  *
  * @author ham
  */
-public class CompanyExternalBrandDataDTO implements Serializable
+public class CompanyExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -1049613870676274132L;
-    
-    private final ExternalBrandMatchcode externalBrandMatchcode;
+
+    private final ExternalBrandMatchcode matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final boolean sales;
     private final boolean service;
     private final boolean local;
 
-    public CompanyExternalBrandDataDTO(
-        @JsonProperty("externalBrandMatchcode") ExternalBrandMatchcode externalBrandMatchcode,
+    public CompanyExternalBrandDataDTO(@JsonProperty("matchcode") ExternalBrandMatchcode matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("sales") boolean sales, @JsonProperty("service") boolean service,
         @JsonProperty("local") boolean local)
     {
         super();
 
-        this.externalBrandMatchcode = externalBrandMatchcode;
+        this.matchcode = matchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.sales = sales;
@@ -54,16 +55,19 @@ public class CompanyExternalBrandDataDTO implements Serializable
         this.local = local;
     }
 
-    public ExternalBrandMatchcode getExternalBrandMatchcode()
+    @Override
+    public ExternalBrandMatchcode getMatchcode()
     {
-        return externalBrandMatchcode;
+        return matchcode;
     }
 
+    @Override
     public LocalDateTime getValidFrom()
     {
         return validFrom;
     }
 
+    @Override
     public LocalDateTime getValidTo()
     {
         return validTo;
@@ -90,7 +94,7 @@ public class CompanyExternalBrandDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((externalBrandMatchcode == null) ? 0 : externalBrandMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
         return result;
@@ -116,14 +120,14 @@ public class CompanyExternalBrandDataDTO implements Serializable
 
         CompanyExternalBrandDataDTO other = (CompanyExternalBrandDataDTO) obj;
 
-        if (externalBrandMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.externalBrandMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!externalBrandMatchcode.equals(other.externalBrandMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -146,8 +150,8 @@ public class CompanyExternalBrandDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s [validFrom=%s, validTo=%s, sales=%s, service=%s, local=%s]", externalBrandMatchcode,
-            validFrom, validTo, sales, service, local);
+        return String.format("%s [validFrom=%s, validTo=%s, sales=%s, service=%s, local=%s]", matchcode, validFrom,
+            validTo, sales, service, local);
     }
 
 }

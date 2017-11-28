@@ -19,32 +19,34 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.activity.ActivityMatchcode;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds the activity of a person for one company and brand.
  *
  * @author ham
  */
-public class PersonActivityDataDTO implements Serializable
+public class PersonActivityDataDTO implements WithMatchcode<ActivityMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = 4247336068734009775L;
-    
-    private final ActivityMatchcode activityMatchcode;
+
+    private final ActivityMatchcode matchcode;
     private final boolean dueToFunction;
 
-    public PersonActivityDataDTO(@JsonProperty("activityMatchcode") ActivityMatchcode activityMatchcode,
+    public PersonActivityDataDTO(@JsonProperty("matchcode") ActivityMatchcode matchcode,
         @JsonProperty("dueToFunction") boolean dueToFunction)
     {
         super();
 
-        this.activityMatchcode = activityMatchcode;
+        this.matchcode = matchcode;
         this.dueToFunction = dueToFunction;
     }
 
-    public ActivityMatchcode getActivityMatchcode()
+    @Override
+    public ActivityMatchcode getMatchcode()
     {
-        return activityMatchcode;
+        return matchcode;
     }
 
     public boolean isDueToFunction()
@@ -58,7 +60,7 @@ public class PersonActivityDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((activityMatchcode == null) ? 0 : activityMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
 
         return result;
     }
@@ -83,14 +85,14 @@ public class PersonActivityDataDTO implements Serializable
 
         PersonActivityDataDTO other = (PersonActivityDataDTO) obj;
 
-        if (activityMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.activityMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!activityMatchcode.equals(other.activityMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -101,7 +103,7 @@ public class PersonActivityDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s [dueToFunction=%s]", activityMatchcode, dueToFunction);
+        return String.format("%s [dueToFunction=%s]", matchcode, dueToFunction);
     }
 
 }

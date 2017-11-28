@@ -36,7 +36,7 @@ public class CompanyTypeItemDTO
 {
 
     private static final long serialVersionUID = 1943888464506455363L;
-    
+
     private final CompanyTypeMatchcode matchcode;
     private final Collection<Tenant> tenants;
     private final String label;

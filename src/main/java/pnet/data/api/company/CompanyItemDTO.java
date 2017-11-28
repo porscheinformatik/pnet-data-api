@@ -33,7 +33,7 @@ public class CompanyItemDTO implements Serializable
 {
 
     private static final long serialVersionUID = 4397773907429688509L;
-    
+
     private final Integer companyId;
     private final Tenant administrativeTenant;
     private final String name;

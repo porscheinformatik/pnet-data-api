@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -46,7 +48,7 @@ public class CompanyTypeDataDTO
     private boolean contractSpecific;
     private LocalDateTime lastUpdate;
 
-    public CompanyTypeDataDTO(CompanyTypeMatchcode matchcode)
+    public CompanyTypeDataDTO(@JsonProperty("matchcode") CompanyTypeMatchcode matchcode)
     {
         super();
 

@@ -20,37 +20,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
 import pnet.data.api.infoarea.InfoareaMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds a link to an infoarea
  *
  * @author ham
  */
-public class ActivityInfoareaDataDTO implements Serializable
+public class ActivityInfoareaDataDTO implements WithTenant, WithMatchcode<InfoareaMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = 6963771570193704483L;
 
     private final Tenant tenant;
-    private final InfoareaMatchcode infoareaMatchcode;
+    private final InfoareaMatchcode matchcode;
 
     public ActivityInfoareaDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("infoareaMatchcode") InfoareaMatchcode infoareaMatchcode)
+        @JsonProperty("matchcode") InfoareaMatchcode matchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.infoareaMatchcode = infoareaMatchcode;
+        this.matchcode = matchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public InfoareaMatchcode getInfoareaMatchcode()
+    @Override
+    public InfoareaMatchcode getMatchcode()
     {
-        return infoareaMatchcode;
+        return matchcode;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class ActivityInfoareaDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((infoareaMatchcode == null) ? 0 : infoareaMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -85,14 +89,14 @@ public class ActivityInfoareaDataDTO implements Serializable
 
         ActivityInfoareaDataDTO other = (ActivityInfoareaDataDTO) obj;
 
-        if (infoareaMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.infoareaMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!infoareaMatchcode.equals(other.infoareaMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -115,7 +119,7 @@ public class ActivityInfoareaDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", infoareaMatchcode, tenant);
+        return String.format("%s(%s)", matchcode, tenant);
     }
 
 }

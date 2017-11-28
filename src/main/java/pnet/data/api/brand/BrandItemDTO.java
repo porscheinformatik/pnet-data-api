@@ -34,7 +34,7 @@ public class BrandItemDTO implements WithMatchcode<BrandMatchcode>, WithTenants,
 {
 
     private static final long serialVersionUID = 4547030944469871555L;
-    
+
     private final BrandMatchcode matchcode;
     private final Collection<Tenant> tenants;
     private final String label;

@@ -20,41 +20,46 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.contractstate.ContractStateMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithValidPeriod;
 
 /**
  * A contract state
  *
  * @author ham
  */
-public class CompanyContractStateDataDTO implements Serializable
+public class CompanyContractStateDataDTO implements WithMatchcode<ContractStateMatchcode>, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 8013176883992921779L;
-    
-    private final ContractStateMatchcode contractStateMatchcode;
+
+    private final ContractStateMatchcode matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
 
-    public CompanyContractStateDataDTO(@JsonProperty("matchcode") ContractStateMatchcode contractStateMatchcode,
+    public CompanyContractStateDataDTO(@JsonProperty("matchcode") ContractStateMatchcode matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
     {
         super();
 
-        this.contractStateMatchcode = contractStateMatchcode;
+        this.matchcode = matchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
     }
 
+    @Override
     public ContractStateMatchcode getMatchcode()
     {
-        return contractStateMatchcode;
+        return matchcode;
     }
 
+    @Override
     public LocalDateTime getValidFrom()
     {
         return validFrom;
     }
 
+    @Override
     public LocalDateTime getValidTo()
     {
         return validTo;
@@ -66,7 +71,7 @@ public class CompanyContractStateDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((contractStateMatchcode == null) ? 0 : contractStateMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
         return result;
@@ -92,14 +97,14 @@ public class CompanyContractStateDataDTO implements Serializable
 
         CompanyContractStateDataDTO other = (CompanyContractStateDataDTO) obj;
 
-        if (contractStateMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.contractStateMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!contractStateMatchcode.equals(other.contractStateMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -122,7 +127,7 @@ public class CompanyContractStateDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s [validFrom=%s, validTo=%s]", contractStateMatchcode, validFrom, validTo);
+        return String.format("%s [validFrom=%s, validTo=%s]", matchcode, validFrom, validTo);
     }
 
 }

@@ -20,16 +20,18 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.util.WithValidPeriod;
+
 /**
  * Holds one employment of a person.
  *
  * @author ham
  */
-public class PersonCompanyDataDTO implements Serializable
+public class PersonCompanyDataDTO implements WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 7199829304360405636L;
-    
+
     private final Integer companyId;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
@@ -55,11 +57,13 @@ public class PersonCompanyDataDTO implements Serializable
         return companyId;
     }
 
+    @Override
     public LocalDateTime getValidFrom()
     {
         return validFrom;
     }
 
+    @Override
     public LocalDateTime getValidTo()
     {
         return validTo;

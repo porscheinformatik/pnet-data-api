@@ -20,44 +20,49 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.numbertype.NumberTypeMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithValidPeriod;
 
 /**
  * Holds the number of a person for a company.
  *
  * @author ham
  */
-public class PersonNumberTypeDataDTO implements Serializable
+public class PersonNumberTypeDataDTO implements WithMatchcode<NumberTypeMatchcode>, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -3446430282367218468L;
-    
-    private final NumberTypeMatchcode numberTypeMatchcode;
+
+    private final NumberTypeMatchcode matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final String number;
 
-    public PersonNumberTypeDataDTO(@JsonProperty("numberTypeMatchcode") NumberTypeMatchcode numberTypeMatchcode,
+    public PersonNumberTypeDataDTO(@JsonProperty("matchcode") NumberTypeMatchcode matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("number") String number)
     {
         super();
 
-        this.numberTypeMatchcode = numberTypeMatchcode;
+        this.matchcode = matchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.number = number;
     }
 
-    public NumberTypeMatchcode getNumberTypeMatchcode()
+    @Override
+    public NumberTypeMatchcode getMatchcode()
     {
-        return numberTypeMatchcode;
+        return matchcode;
     }
 
+    @Override
     public LocalDateTime getValidFrom()
     {
         return validFrom;
     }
 
+    @Override
     public LocalDateTime getValidTo()
     {
         return validTo;
@@ -74,7 +79,7 @@ public class PersonNumberTypeDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((numberTypeMatchcode == null) ? 0 : numberTypeMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
         return result;
@@ -100,14 +105,14 @@ public class PersonNumberTypeDataDTO implements Serializable
 
         PersonNumberTypeDataDTO other = (PersonNumberTypeDataDTO) obj;
 
-        if (numberTypeMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.numberTypeMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!numberTypeMatchcode.equals(other.numberTypeMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -130,8 +135,7 @@ public class PersonNumberTypeDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s [number=%s, validFrom=%s, validTo=%s]", numberTypeMatchcode, number, validFrom,
-            validTo);
+        return String.format("%s [number=%s, validFrom=%s, validTo=%s]", matchcode, number, validFrom, validTo);
     }
 
 }

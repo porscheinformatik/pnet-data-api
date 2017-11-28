@@ -7,7 +7,7 @@ import pnet.data.api.application.ApplicationMatchcode;
 
 /**
  * Holds a constent of a user and an application
- * 
+ *
  * @author ham
  */
 public class ConsentDataDTO implements Serializable

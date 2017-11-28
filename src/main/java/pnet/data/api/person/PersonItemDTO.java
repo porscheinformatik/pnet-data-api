@@ -31,7 +31,7 @@ public class PersonItemDTO implements WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -481025382258675738L;
-    
+
     private final Integer personId;
     private final Tenant administrativeTenant;
     private final FormOfAddress formOfAddress;

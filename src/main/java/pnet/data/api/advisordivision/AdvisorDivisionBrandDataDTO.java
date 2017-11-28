@@ -17,41 +17,49 @@ package pnet.data.api.advisordivision;
 import java.io.Serializable;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.Tenant;
 import pnet.data.api.advisortype.AdvisorTypeMatchcode;
 import pnet.data.api.brand.BrandMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenant;
 
 /**
  * A brand for an advisor division.
  *
  * @author ham
  */
-public class AdvisorDivisionBrandDataDTO implements Serializable
+public class AdvisorDivisionBrandDataDTO implements WithTenant, WithMatchcode<BrandMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = -2420615097654809299L;
 
     private final Tenant tenant;
-    private final BrandMatchcode brandMatchcode;
+    private final BrandMatchcode matchcode;
     private final Collection<AdvisorTypeMatchcode> types;
 
-    public AdvisorDivisionBrandDataDTO(Tenant tenant, BrandMatchcode brandMatchcode,
-        Collection<AdvisorTypeMatchcode> types)
+    public AdvisorDivisionBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("matchcode") BrandMatchcode matchcode,
+        @JsonProperty("types") Collection<AdvisorTypeMatchcode> types)
     {
         super();
+
         this.tenant = tenant;
-        this.brandMatchcode = brandMatchcode;
+        this.matchcode = matchcode;
         this.types = types;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public BrandMatchcode getBrandMatchcode()
+    @Override
+    public BrandMatchcode getMatchcode()
     {
-        return brandMatchcode;
+        return matchcode;
     }
 
     public Collection<AdvisorTypeMatchcode> getTypes()
@@ -65,7 +73,7 @@ public class AdvisorDivisionBrandDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -91,14 +99,14 @@ public class AdvisorDivisionBrandDataDTO implements Serializable
 
         AdvisorDivisionBrandDataDTO other = (AdvisorDivisionBrandDataDTO) obj;
 
-        if (brandMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.brandMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!brandMatchcode.equals(other.brandMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -121,8 +129,7 @@ public class AdvisorDivisionBrandDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("AdvisorDivisionBrandDataDTO [tenant=%s, brandMatchcode=%s, types=%s]", tenant,
-            brandMatchcode, types);
+        return String.format("%s(%s) [types=%s]", matchcode, tenant, types);
     }
 
 }

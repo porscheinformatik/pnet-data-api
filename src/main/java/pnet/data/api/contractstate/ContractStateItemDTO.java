@@ -31,7 +31,7 @@ public class ContractStateItemDTO implements WithMatchcode<ContractStateMatchcod
 {
 
     private static final long serialVersionUID = 3798249954761818352L;
-    
+
     private final ContractStateMatchcode matchcode;
     private final String label;
     private final LocalDateTime lastUpdate;

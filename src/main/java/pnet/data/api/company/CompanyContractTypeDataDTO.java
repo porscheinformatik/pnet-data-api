@@ -21,47 +21,51 @@ import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.contracttype.ContractTypeMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithValidPeriod;
 
 /**
  * Holds the contracts of a company.
  *
  * @author ham
  */
-public class CompanyContractTypeDataDTO implements Serializable
+public class CompanyContractTypeDataDTO implements WithMatchcode<ContractTypeMatchcode>, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 5617472922439542723L;
-    
-    private final ContractTypeMatchcode contractTypeMatchcode;
+
+    private final ContractTypeMatchcode matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final boolean kvps;
     private final Collection<CompanyContractStateDataDTO> states;
 
-    public CompanyContractTypeDataDTO(
-        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode,
+    public CompanyContractTypeDataDTO(@JsonProperty("matchcode") ContractTypeMatchcode matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("kvps") boolean kvps, @JsonProperty("states") Collection<CompanyContractStateDataDTO> states)
     {
         super();
 
-        this.contractTypeMatchcode = contractTypeMatchcode;
+        this.matchcode = matchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.kvps = kvps;
         this.states = states;
     }
 
-    public ContractTypeMatchcode getContractTypeMatchcode()
+    @Override
+    public ContractTypeMatchcode getMatchcode()
     {
-        return contractTypeMatchcode;
+        return matchcode;
     }
 
+    @Override
     public LocalDateTime getValidFrom()
     {
         return validFrom;
     }
 
+    @Override
     public LocalDateTime getValidTo()
     {
         return validTo;
@@ -82,8 +86,10 @@ public class CompanyContractTypeDataDTO implements Serializable
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((contractTypeMatchcode == null) ? 0 : contractTypeMatchcode.hashCode());
+
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
+
         return result;
     }
 
@@ -94,26 +100,31 @@ public class CompanyContractTypeDataDTO implements Serializable
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         CompanyContractTypeDataDTO other = (CompanyContractTypeDataDTO) obj;
-        if (contractTypeMatchcode == null)
+
+        if (matchcode == null)
         {
-            if (other.contractTypeMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!contractTypeMatchcode.equals(other.contractTypeMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
+
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -125,14 +136,15 @@ public class CompanyContractTypeDataDTO implements Serializable
         {
             return false;
         }
+
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s [validFrom=%s, validTo=%s, kvps=%s, states=%s]", contractTypeMatchcode, validFrom,
-            validTo, kvps, states);
+        return String.format("%s [validFrom=%s, validTo=%s, kvps=%s, states=%s]", matchcode, validFrom, validTo, kvps,
+            states);
     }
 
 }

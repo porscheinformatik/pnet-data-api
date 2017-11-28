@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -38,7 +40,7 @@ public class NumberTypeDataDTO implements WithMatchcode<NumberTypeMatchcode>, Wi
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
-    public NumberTypeDataDTO(NumberTypeMatchcode matchcode)
+    public NumberTypeDataDTO(@JsonProperty("matchcode") NumberTypeMatchcode matchcode)
     {
         super();
 

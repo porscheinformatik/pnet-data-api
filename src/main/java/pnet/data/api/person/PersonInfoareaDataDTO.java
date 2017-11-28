@@ -18,33 +18,35 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.activity.ActivityMatchcode;
+import pnet.data.api.infoarea.InfoareaMatchcode;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds the activity of a person for one company and brand.
  *
  * @author ham
  */
-public class PersonInfoareaDataDTO implements Serializable
+public class PersonInfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = 4424593704112124121L;
-    
-    private final ActivityMatchcode activityMatchcode;
+
+    private final InfoareaMatchcode matchcode;
     private final boolean dueToFunction;
 
-    public PersonInfoareaDataDTO(@JsonProperty("activityMatchcode") ActivityMatchcode activityMatchcode,
+    public PersonInfoareaDataDTO(@JsonProperty("matchcode") InfoareaMatchcode matchcode,
         @JsonProperty("dueToFunction") boolean dueToFunction)
     {
         super();
 
-        this.activityMatchcode = activityMatchcode;
+        this.matchcode = matchcode;
         this.dueToFunction = dueToFunction;
     }
 
-    public ActivityMatchcode getActivityMatchcode()
+    @Override
+    public InfoareaMatchcode getMatchcode()
     {
-        return activityMatchcode;
+        return matchcode;
     }
 
     public boolean isDueToFunction()
@@ -58,7 +60,7 @@ public class PersonInfoareaDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((activityMatchcode == null) ? 0 : activityMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
 
         return result;
     }
@@ -83,14 +85,14 @@ public class PersonInfoareaDataDTO implements Serializable
 
         PersonInfoareaDataDTO other = (PersonInfoareaDataDTO) obj;
 
-        if (activityMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.activityMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!activityMatchcode.equals(other.activityMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -101,7 +103,7 @@ public class PersonInfoareaDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s [dueToFunction=%s]", activityMatchcode, dueToFunction);
+        return String.format("%s [dueToFunction=%s]", matchcode, dueToFunction);
     }
 
 }

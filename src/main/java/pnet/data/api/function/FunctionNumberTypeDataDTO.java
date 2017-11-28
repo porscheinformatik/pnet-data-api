@@ -20,37 +20,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
 import pnet.data.api.numbertype.NumberTypeMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds a number type.
  *
  * @author ham
  */
-public class FunctionNumberTypeDataDTO implements Serializable
+public class FunctionNumberTypeDataDTO implements WithTenant, WithMatchcode<NumberTypeMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = -5782141662030293391L;
-    
+
     private final Tenant tenant;
-    private final NumberTypeMatchcode numberTypeMatchcode;
+    private final NumberTypeMatchcode matchcode;
 
     public FunctionNumberTypeDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("numberTypeMatchcode") NumberTypeMatchcode numberTypeMatchcode)
+        @JsonProperty("matchcode") NumberTypeMatchcode matchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.numberTypeMatchcode = numberTypeMatchcode;
+        this.matchcode = matchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public NumberTypeMatchcode getNumberTypeMatchcode()
+    @Override
+    public NumberTypeMatchcode getMatchcode()
     {
-        return numberTypeMatchcode;
+        return matchcode;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class FunctionNumberTypeDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((numberTypeMatchcode == null) ? 0 : numberTypeMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -85,14 +89,14 @@ public class FunctionNumberTypeDataDTO implements Serializable
 
         FunctionNumberTypeDataDTO other = (FunctionNumberTypeDataDTO) obj;
 
-        if (numberTypeMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.numberTypeMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!numberTypeMatchcode.equals(other.numberTypeMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -115,7 +119,7 @@ public class FunctionNumberTypeDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", numberTypeMatchcode, tenant);
+        return String.format("%s(%s)", matchcode, tenant);
     }
 
 }

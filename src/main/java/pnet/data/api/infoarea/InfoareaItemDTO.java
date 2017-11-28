@@ -37,7 +37,7 @@ public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTe
 {
 
     private static final long serialVersionUID = -8490112900451405007L;
-    
+
     private final InfoareaMatchcode matchcode;
     private final String label;
     private final String description;

@@ -17,6 +17,8 @@ package pnet.data.api.advisortype;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
@@ -29,14 +31,15 @@ public class AdvisorTypeItemDTO implements WithMatchcode<AdvisorTypeMatchcode>, 
 {
 
     private static final long serialVersionUID = -5385814018859561810L;
-    
+
     private final AdvisorTypeMatchcode matchcode;
     private final String label;
     private final String description;
     private LocalDateTime lastUpdate;
 
-    public AdvisorTypeItemDTO(AdvisorTypeMatchcode matchcode, String label, String description,
-        LocalDateTime lastUpdate)
+    public AdvisorTypeItemDTO(@JsonProperty("matchcode") AdvisorTypeMatchcode matchcode,
+        @JsonProperty("label") String label, @JsonProperty("description") String description,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
         this.matchcode = matchcode;

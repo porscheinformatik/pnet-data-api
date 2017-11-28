@@ -20,37 +20,39 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.function.FunctionMatchcode;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds the function of a person for one company and brand.
  *
  * @author ham
  */
-public class PersonFunctionDataDTO implements Serializable
+public class PersonFunctionDataDTO implements WithMatchcode<FunctionMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
-    
-    private final FunctionMatchcode functionMatchcode;
+
+    private final FunctionMatchcode matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final boolean mainFunction;
 
-    public PersonFunctionDataDTO(@JsonProperty("functionMatchcode") FunctionMatchcode functionMatchcode,
+    public PersonFunctionDataDTO(@JsonProperty("matchcode") FunctionMatchcode matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("mainFunction") boolean mainFunction)
     {
         super();
 
-        this.functionMatchcode = functionMatchcode;
+        this.matchcode = matchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.mainFunction = mainFunction;
     }
 
-    public FunctionMatchcode getFunctionMatchcode()
+    @Override
+    public FunctionMatchcode getMatchcode()
     {
-        return functionMatchcode;
+        return matchcode;
     }
 
     public LocalDateTime getValidFrom()
@@ -74,7 +76,7 @@ public class PersonFunctionDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((functionMatchcode == null) ? 0 : functionMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
 
         return result;
@@ -100,14 +102,14 @@ public class PersonFunctionDataDTO implements Serializable
 
         PersonFunctionDataDTO other = (PersonFunctionDataDTO) obj;
 
-        if (functionMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.functionMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!functionMatchcode.equals(other.functionMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -130,7 +132,7 @@ public class PersonFunctionDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s [validFrom=%s, validTo=%s, mainFunction=%s]", functionMatchcode, validFrom, validTo,
+        return String.format("%s [validFrom=%s, validTo=%s, mainFunction=%s]", matchcode, validFrom, validTo,
             mainFunction);
     }
 

@@ -20,37 +20,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds a company type.
  *
  * @author ham
  */
-public class FunctionCompanyTypeDataDTO implements Serializable
+public class FunctionCompanyTypeDataDTO implements WithTenant, WithMatchcode<CompanyTypeMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = 1470802345889552683L;
-    
+
     private final Tenant tenant;
-    private final CompanyTypeMatchcode companyTypeMatchcode;
+    private final CompanyTypeMatchcode matchcode;
 
     public FunctionCompanyTypeDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("companyTypeMatchcode") CompanyTypeMatchcode companyTypeMatchcode)
+        @JsonProperty("matchcode") CompanyTypeMatchcode matchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.companyTypeMatchcode = companyTypeMatchcode;
+        this.matchcode = matchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public CompanyTypeMatchcode getCompanyTypeMatchcode()
+    @Override
+    public CompanyTypeMatchcode getMatchcode()
     {
-        return companyTypeMatchcode;
+        return matchcode;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class FunctionCompanyTypeDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((companyTypeMatchcode == null) ? 0 : companyTypeMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -85,14 +89,14 @@ public class FunctionCompanyTypeDataDTO implements Serializable
 
         FunctionCompanyTypeDataDTO other = (FunctionCompanyTypeDataDTO) obj;
 
-        if (companyTypeMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.companyTypeMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!companyTypeMatchcode.equals(other.companyTypeMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -115,7 +119,7 @@ public class FunctionCompanyTypeDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", companyTypeMatchcode, tenant);
+        return String.format("%s(%s)", matchcode, tenant);
     }
 
 }

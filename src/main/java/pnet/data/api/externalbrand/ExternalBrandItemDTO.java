@@ -31,7 +31,7 @@ public class ExternalBrandItemDTO implements WithMatchcode<ExternalBrandMatchcod
 {
 
     private static final long serialVersionUID = -804085034175215251L;
-    
+
     private final ExternalBrandMatchcode matchcode;
     private final String label;
     private final LocalDateTime lastUpdate;

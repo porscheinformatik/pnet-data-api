@@ -31,19 +31,19 @@ public class CompanyGroupDataDTO implements Serializable
 {
 
     private static final long serialVersionUID = -260656363547122718L;
-    
+
     private final Integer leadingCompanyId;
-    private final CompanyGroupTypeMatchcode type;
+    private final CompanyGroupTypeMatchcode typeMatchcode;
     private final Collection<Integer> companyIds;
 
     public CompanyGroupDataDTO(@JsonProperty("leadingCompanyId") Integer leadingCompanyId,
-        @JsonProperty("type") CompanyGroupTypeMatchcode type,
+        @JsonProperty("typeMathcode") CompanyGroupTypeMatchcode typeMatchcode,
         @JsonProperty("companyIds") Collection<Integer> companyIds)
     {
         super();
 
         this.leadingCompanyId = leadingCompanyId;
-        this.type = type;
+        this.typeMatchcode = typeMatchcode;
         this.companyIds = Collections.unmodifiableCollection(companyIds);
     }
 
@@ -52,9 +52,9 @@ public class CompanyGroupDataDTO implements Serializable
         return leadingCompanyId;
     }
 
-    public CompanyGroupTypeMatchcode getType()
+    public CompanyGroupTypeMatchcode getTypeMathcode()
     {
-        return type;
+        return typeMatchcode;
     }
 
     public Collection<Integer> getCompanyIds()
@@ -69,7 +69,7 @@ public class CompanyGroupDataDTO implements Serializable
         int result = 1;
 
         result = prime * result + ((leadingCompanyId == null) ? 0 : leadingCompanyId.hashCode());
-        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((typeMatchcode == null) ? 0 : typeMatchcode.hashCode());
 
         return result;
     }
@@ -106,14 +106,14 @@ public class CompanyGroupDataDTO implements Serializable
             return false;
         }
 
-        if (type == null)
+        if (typeMatchcode == null)
         {
-            if (other.type != null)
+            if (other.typeMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!type.equals(other.type))
+        else if (!typeMatchcode.equals(other.typeMatchcode))
         {
             return false;
         }
@@ -124,8 +124,8 @@ public class CompanyGroupDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("CompanyGroupDataDTO [leadingCompanyId=%s, type=%s, companyIds=%s]", leadingCompanyId,
-            type, companyIds);
+        return String.format("CompanyGroupDataDTO [leadingCompanyId=%s, typeMatchcode=%s, companyIds=%s]",
+            leadingCompanyId, typeMatchcode, companyIds);
     }
 
 }

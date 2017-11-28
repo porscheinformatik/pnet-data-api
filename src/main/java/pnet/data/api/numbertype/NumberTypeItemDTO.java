@@ -17,7 +17,7 @@ public class NumberTypeItemDTO implements WithMatchcode<NumberTypeMatchcode>, Wi
 {
 
     private static final long serialVersionUID = -902938475261504086L;
-    
+
     private final NumberTypeMatchcode matchcode;
     private final String label;
     private final LocalDateTime lastUpdate;

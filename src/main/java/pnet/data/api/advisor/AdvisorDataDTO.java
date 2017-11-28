@@ -17,36 +17,42 @@ package pnet.data.api.advisor;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.Tenant;
 import pnet.data.api.advisordivision.AdvisorDivisionMatchcode;
 import pnet.data.api.advisortype.AdvisorTypeMatchcode;
 import pnet.data.api.brand.BrandMatchcode;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds all advisors
  *
  * @author ham
  */
-public class AdvisorDataDTO implements Serializable
+public class AdvisorDataDTO implements WithTenant, Serializable
 {
 
     private static final long serialVersionUID = -5535179500060765387L;
 
     private final Tenant tenant;
-    private final BrandMatchcode brand;
+    private final BrandMatchcode brandMatchcode;
     private final AdvisorTypeMatchcode advisorTypeMatchcode;
     private final AdvisorDivisionMatchcode advisorDivisionMatchcode;
     private final Integer companyId;
     private final Integer personId;
     private final LocalDateTime lastUpdate;
 
-    public AdvisorDataDTO(Tenant tenant, BrandMatchcode brand, AdvisorTypeMatchcode advisorTypeMatchcode,
-        AdvisorDivisionMatchcode advisorDivisionMatchcode, Integer companyId, Integer personId,
-        LocalDateTime lastUpdate)
+    public AdvisorDataDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode,
+        @JsonProperty("advisorTypeMatchcode") AdvisorTypeMatchcode advisorTypeMatchcode,
+        @JsonProperty("advisorDivisionMatchcode") AdvisorDivisionMatchcode advisorDivisionMatchcode,
+        @JsonProperty("companyId") Integer companyId, @JsonProperty("personId") Integer personId,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
         this.tenant = tenant;
-        this.brand = brand;
+        this.brandMatchcode = brandMatchcode;
         this.advisorTypeMatchcode = advisorTypeMatchcode;
         this.advisorDivisionMatchcode = advisorDivisionMatchcode;
         this.companyId = companyId;
@@ -54,14 +60,15 @@ public class AdvisorDataDTO implements Serializable
         this.lastUpdate = lastUpdate;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public BrandMatchcode getBrand()
+    public BrandMatchcode getBrandMatchcode()
     {
-        return brand;
+        return brandMatchcode;
     }
 
     public AdvisorTypeMatchcode getAdvisorTypeMatchcode()
@@ -94,12 +101,14 @@ public class AdvisorDataDTO implements Serializable
     {
         final int prime = 31;
         int result = 1;
+
         result = prime * result + ((advisorDivisionMatchcode == null) ? 0 : advisorDivisionMatchcode.hashCode());
         result = prime * result + ((advisorTypeMatchcode == null) ? 0 : advisorTypeMatchcode.hashCode());
-        result = prime * result + ((brand == null) ? 0 : brand.hashCode());
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
         result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
         result = prime * result + ((personId == null) ? 0 : personId.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+
         return result;
     }
 
@@ -111,15 +120,19 @@ public class AdvisorDataDTO implements Serializable
         {
             return true;
         }
+
         if (obj == null)
         {
             return false;
         }
+
         if (getClass() != obj.getClass())
         {
             return false;
         }
+
         AdvisorDataDTO other = (AdvisorDataDTO) obj;
+
         if (advisorDivisionMatchcode == null)
         {
             if (other.advisorDivisionMatchcode != null)
@@ -131,6 +144,7 @@ public class AdvisorDataDTO implements Serializable
         {
             return false;
         }
+
         if (advisorTypeMatchcode == null)
         {
             if (other.advisorTypeMatchcode != null)
@@ -142,17 +156,19 @@ public class AdvisorDataDTO implements Serializable
         {
             return false;
         }
-        if (brand == null)
+
+        if (brandMatchcode == null)
         {
-            if (other.brand != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!brand.equals(other.brand))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
         {
             return false;
         }
+
         if (companyId == null)
         {
             if (other.companyId != null)
@@ -164,6 +180,7 @@ public class AdvisorDataDTO implements Serializable
         {
             return false;
         }
+
         if (personId == null)
         {
             if (other.personId != null)
@@ -175,6 +192,7 @@ public class AdvisorDataDTO implements Serializable
         {
             return false;
         }
+
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -186,6 +204,7 @@ public class AdvisorDataDTO implements Serializable
         {
             return false;
         }
+
         return true;
     }
     // CHECKSTYLE:ON
@@ -194,8 +213,8 @@ public class AdvisorDataDTO implements Serializable
     public String toString()
     {
         return String.format(
-            "AdvisorDataDTO [tenant=%s, brand=%s, advisorTypeMatchcode=%s, advisorDivisionMatchcode=%s, companyId=%s, personId=%s, lastUpdate=%s]",
-            tenant, brand, advisorTypeMatchcode, advisorDivisionMatchcode, companyId, personId, lastUpdate);
+            "AdvisorDataDTO [tenant=%s, brandMatchcode=%s, advisorTypeMatchcode=%s, advisorDivisionMatchcode=%s, companyId=%s, personId=%s, lastUpdate=%s]",
+            tenant, brandMatchcode, advisorTypeMatchcode, advisorDivisionMatchcode, companyId, personId, lastUpdate);
     }
 
 }

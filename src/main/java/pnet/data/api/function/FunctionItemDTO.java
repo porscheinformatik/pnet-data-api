@@ -37,7 +37,7 @@ public class FunctionItemDTO implements WithMatchcode<FunctionMatchcode>, WithTe
 {
 
     private static final long serialVersionUID = 8278014048912826651L;
-    
+
     private final FunctionMatchcode matchcode;
     private final String label;
     private final String description;

@@ -20,37 +20,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
 import pnet.data.api.activity.ActivityMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds a link to an activity
  *
  * @author ham
  */
-public class FunctionActivityDataDTO implements Serializable
+public class FunctionActivityDataDTO implements WithTenant, WithMatchcode<ActivityMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = -5441503535879450447L;
-    
+
     private final Tenant tenant;
-    private final ActivityMatchcode activityMatchcode;
+    private final ActivityMatchcode matchcode;
 
     public FunctionActivityDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("activityMatchcode") ActivityMatchcode activityMatchcode)
+        @JsonProperty("matchcode") ActivityMatchcode matchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.activityMatchcode = activityMatchcode;
+        this.matchcode = matchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public ActivityMatchcode getActivityMatchcode()
+    @Override
+    public ActivityMatchcode getMatchcode()
     {
-        return activityMatchcode;
+        return matchcode;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class FunctionActivityDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((activityMatchcode == null) ? 0 : activityMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -85,14 +89,14 @@ public class FunctionActivityDataDTO implements Serializable
 
         FunctionActivityDataDTO other = (FunctionActivityDataDTO) obj;
 
-        if (activityMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.activityMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!activityMatchcode.equals(other.activityMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -115,7 +119,7 @@ public class FunctionActivityDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", activityMatchcode, tenant);
+        return String.format("%s(%s)", matchcode, tenant);
     }
 
 }

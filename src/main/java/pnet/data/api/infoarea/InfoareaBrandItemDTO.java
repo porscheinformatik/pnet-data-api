@@ -20,35 +20,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
 import pnet.data.api.brand.BrandMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds a brand.
  *
  * @author ham
  */
-public class InfoareaBrandItemDTO implements Serializable
+public class InfoareaBrandItemDTO implements WithTenant, WithMatchcode<BrandMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = -4490228584110559240L;
-    
+
     private final Tenant tenant;
-    private final BrandMatchcode brandMatchcode;
+    private final BrandMatchcode matchcode;
 
     public InfoareaBrandItemDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode)
+        @JsonProperty("matchcode") BrandMatchcode matchcode)
     {
         this.tenant = tenant;
-        this.brandMatchcode = brandMatchcode;
+        this.matchcode = matchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public BrandMatchcode getBrandMatchcode()
+    @Override
+    public BrandMatchcode getMatchcode()
     {
-        return brandMatchcode;
+        return matchcode;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class InfoareaBrandItemDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -83,14 +87,14 @@ public class InfoareaBrandItemDTO implements Serializable
 
         InfoareaBrandItemDTO other = (InfoareaBrandItemDTO) obj;
 
-        if (brandMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.brandMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!brandMatchcode.equals(other.brandMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -113,7 +117,7 @@ public class InfoareaBrandItemDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", brandMatchcode, tenant);
+        return String.format("%s(%s)", matchcode, tenant);
     }
 
 }

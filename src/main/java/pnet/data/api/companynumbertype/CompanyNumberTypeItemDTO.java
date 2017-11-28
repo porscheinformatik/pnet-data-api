@@ -31,7 +31,7 @@ public class CompanyNumberTypeItemDTO implements WithMatchcode<CompanyNumberType
 {
 
     private static final long serialVersionUID = -7642143458911375547L;
-    
+
     private final CompanyNumberTypeMatchcode matchcode;
     private final String label;
     private final LocalDateTime lastUpdate;

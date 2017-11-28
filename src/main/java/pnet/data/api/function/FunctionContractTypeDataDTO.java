@@ -20,37 +20,41 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
 import pnet.data.api.contracttype.ContractTypeMatchcode;
+import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds a contract type.
  *
  * @author ham
  */
-public class FunctionContractTypeDataDTO implements Serializable
+public class FunctionContractTypeDataDTO implements WithTenant, WithMatchcode<ContractTypeMatchcode>, Serializable
 {
 
     private static final long serialVersionUID = 1733363928376807281L;
-    
+
     private final Tenant tenant;
-    private final ContractTypeMatchcode contractTypeMatchcode;
+    private final ContractTypeMatchcode matchcode;
 
     public FunctionContractTypeDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode contractTypeMatchcode)
+        @JsonProperty("contractTypeMatchcode") ContractTypeMatchcode matchcode)
     {
         super();
 
         this.tenant = tenant;
-        this.contractTypeMatchcode = contractTypeMatchcode;
+        this.matchcode = matchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public ContractTypeMatchcode getContractTypeMatchcode()
+    @Override
+    public ContractTypeMatchcode getMatchcode()
     {
-        return contractTypeMatchcode;
+        return matchcode;
     }
 
     @Override
@@ -59,7 +63,7 @@ public class FunctionContractTypeDataDTO implements Serializable
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((contractTypeMatchcode == null) ? 0 : contractTypeMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -85,14 +89,14 @@ public class FunctionContractTypeDataDTO implements Serializable
 
         FunctionContractTypeDataDTO other = (FunctionContractTypeDataDTO) obj;
 
-        if (contractTypeMatchcode == null)
+        if (matchcode == null)
         {
-            if (other.contractTypeMatchcode != null)
+            if (other.matchcode != null)
             {
                 return false;
             }
         }
-        else if (!contractTypeMatchcode.equals(other.contractTypeMatchcode))
+        else if (!matchcode.equals(other.matchcode))
         {
             return false;
         }
@@ -115,7 +119,7 @@ public class FunctionContractTypeDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", contractTypeMatchcode, tenant);
+        return String.format("%s(%s)", matchcode, tenant);
     }
 
 }

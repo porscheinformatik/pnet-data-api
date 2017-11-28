@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.Tenant;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
@@ -46,7 +48,7 @@ public class InfoareaDataDTO
     private Collection<InfoareaBrandDataDTO> brands;
     private LocalDateTime lastUpdate;
 
-    public InfoareaDataDTO(InfoareaMatchcode matchcode)
+    public InfoareaDataDTO(@JsonProperty("matchcode") InfoareaMatchcode matchcode)
     {
         super();
 
