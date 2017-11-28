@@ -61,6 +61,7 @@ public interface ActivityDataFacade extends ByMatchcode<ActivityMatchcode, Activ
      * @param query the query
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
+     * @param tenants the tenants for filtering, optional
      * @param brandMatchcodes the matchcodes of brands for filtering, optional
      * @param companyTypeMatchcodes the matchcodes for company types for filtering, optional
      * @param contractTypeMatchcodes the matchcodes of contract types for filtering, optional
@@ -72,6 +73,7 @@ public interface ActivityDataFacade extends ByMatchcode<ActivityMatchcode, Activ
     ResultPage<ActivityItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
+        @RequestParam(value = "tenant", required = false) Collection<BrandMatchcode> tenants,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
         @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
         @RequestParam(value = "contractType",
@@ -86,6 +88,7 @@ public interface ActivityDataFacade extends ByMatchcode<ActivityMatchcode, Activ
      *
      * @param language the language
      * @param matchcodes the matchcodes for filtering, optional
+     * @param tenants the tenants for filtering, optional
      * @param brandMatchcodes the matchcodes of brands for filtering, optional
      * @param companyTypeMatchcodes the matchcodes for company types for filtering, optional
      * @param contractTypeMatchcodes the matchcodes of contract types for filtering, optional
@@ -99,6 +102,7 @@ public interface ActivityDataFacade extends ByMatchcode<ActivityMatchcode, Activ
     @RequestMapping(value = "/find")
     ResultPage<ActivityItemDTO> findAll(@RequestParam(value = "l") String language,
         @RequestParam(value = "matchcode", required = false) Collection<ActivityMatchcode> matchcodes,
+        @RequestParam(value = "tenant", required = false) Collection<BrandMatchcode> tenants,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
         @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
         @RequestParam(value = "contractType",

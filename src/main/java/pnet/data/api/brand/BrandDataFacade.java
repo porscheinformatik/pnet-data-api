@@ -58,14 +58,14 @@ public interface BrandDataFacade extends ByMatchcode<BrandMatchcode, BrandDataDT
      * @param query the query
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
-     * @param tenant the tenants for filtering, optional
+     * @param tenants the tenants for filtering, optional
      * @return a page of the results, never null
      */
     @RequestMapping(value = "/search")
     ResultPage<BrandItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
-        @RequestParam(value = "tenant", required = false) Collection<Tenant> tenant);
+        @RequestParam(value = "tenant", required = false) Collection<Tenant> tenants);
 
     /**
      * Searches for {@link BrandItemDTO} with the specified query. If one or more filters are set each filter will be
@@ -74,7 +74,7 @@ public interface BrandDataFacade extends ByMatchcode<BrandMatchcode, BrandDataDT
      *
      * @param language the language
      * @param matchcodes the matchcodes for filtering, optional
-     * @param tenant the tenants for filtering, optional
+     * @param tenants the tenants for filtering, optional
      * @param updatedAfter updated after the specified date and time, optional
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
@@ -83,7 +83,7 @@ public interface BrandDataFacade extends ByMatchcode<BrandMatchcode, BrandDataDT
     @RequestMapping(value = "/find")
     ResultPage<BrandItemDTO> findAll(@RequestParam(value = "l") String language,
         @RequestParam(value = "matchcode", required = false) Collection<BrandMatchcode> matchcodes,
-        @RequestParam(value = "tenant", required = false) Collection<Tenant> tenant,
+        @RequestParam(value = "tenant", required = false) Collection<Tenant> tenants,
         @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage);

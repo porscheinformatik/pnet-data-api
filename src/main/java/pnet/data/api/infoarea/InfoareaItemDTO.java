@@ -21,9 +21,10 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds an infoarea. This object contains only minimal information and is used as result of search operations and
@@ -31,19 +32,19 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-// FIXME tenants should not be based on brands
-public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
+public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTenants, WithLastUpdate
 {
 
     private final InfoareaMatchcode matchcode;
     private final String label;
     private final String description;
-    private final Collection<InfoareaBrandDataDTO> brands;
+    private final Collection<Tenant> tenants;
+    private final Collection<InfoareaBrandItemDTO> brands;
     private final LocalDateTime lastUpdate;
 
     public InfoareaItemDTO(@JsonProperty("matchcode") InfoareaMatchcode matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description,
-        @JsonProperty("brands") Collection<InfoareaBrandDataDTO> brands,
+        @JsonProperty("description") String description, @JsonProperty("tenants") Collection<Tenant> tenants,
+        @JsonProperty("brands") Collection<InfoareaBrandItemDTO> brands,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -51,6 +52,7 @@ public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTe
         this.matchcode = Objects.requireNonNull(matchcode, "Matchcode is null");
         this.label = Objects.requireNonNull(label, "Label is null");
         this.description = description;
+        this.tenants = Collections.unmodifiableCollection(Objects.requireNonNull(tenants, "Tenants is null"));
         this.brands = Collections.unmodifiableCollection(Objects.requireNonNull(brands, "Brands are null"));
         this.lastUpdate = lastUpdate;
     }
@@ -77,8 +79,12 @@ public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTe
         return description;
     }
 
-    @Override
-    public Collection<InfoareaBrandDataDTO> getBrands()
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
+    public Collection<InfoareaBrandItemDTO> getBrands()
     {
         return brands;
     }
@@ -92,8 +98,9 @@ public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTe
     @Override
     public String toString()
     {
-        return String.format("InfoareaItemDTO [matchcode=%s, label=%s, description=%s, brands=%s, lastUpdate=%s]",
-            matchcode, label, description, brands, lastUpdate);
+        return String.format(
+            "InfoareaItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s]", matchcode,
+            label, description, tenants, brands, lastUpdate);
     }
 
 }

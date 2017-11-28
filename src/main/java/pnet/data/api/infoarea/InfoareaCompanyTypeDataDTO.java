@@ -17,7 +17,6 @@ package pnet.data.api.infoarea;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
-import pnet.data.api.companytype.CompanyTypeLink;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
 
 /**
@@ -25,7 +24,7 @@ import pnet.data.api.companytype.CompanyTypeMatchcode;
  *
  * @author ham
  */
-public class InfoareaCompanyTypeDataDTO implements CompanyTypeLink
+public class InfoareaCompanyTypeDataDTO
 {
 
     private final Tenant tenant;
@@ -40,13 +39,11 @@ public class InfoareaCompanyTypeDataDTO implements CompanyTypeLink
         this.companyTypeMatchcode = companyTypeMatchcode;
     }
 
-    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    @Override
     public CompanyTypeMatchcode getCompanyTypeMatchcode()
     {
         return companyTypeMatchcode;

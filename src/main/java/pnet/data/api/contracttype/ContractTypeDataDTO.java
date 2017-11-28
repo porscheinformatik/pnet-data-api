@@ -21,10 +21,11 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds a contract type. A company is linked to one or more contract types. Functions and activities need contract
@@ -33,12 +34,13 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 public class ContractTypeDataDTO
-    implements WithMatchcode<ContractTypeMatchcode>, WithTenantsAndBrandLinks, WithLabels, WithLastUpdate
+    implements WithMatchcode<ContractTypeMatchcode>, WithTenants, WithLabels, WithLastUpdate
 {
 
     private final ContractTypeMatchcode matchcode;
 
     private Map<Locale, String> labels;
+    private Collection<Tenant> tenants;
     private Collection<ContractTypeBrandDataDTO> brands;
     private String type;
     private LocalDateTime lastUpdate;
@@ -67,7 +69,16 @@ public class ContractTypeDataDTO
         this.labels = labels;
     }
 
-    @Override
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
+    public void setTenants(Collection<Tenant> tenants)
+    {
+        this.tenants = tenants;
+    }
+
     public Collection<ContractTypeBrandDataDTO> getBrands()
     {
         return brands;
@@ -102,8 +113,8 @@ public class ContractTypeDataDTO
     @Override
     public String toString()
     {
-        return String.format("ContractTypeDataDTO [matchcode=%s, labels=%s, brands=%s, type=%s]", matchcode, labels,
-            brands, type);
+        return String.format("ContractTypeDataDTO [matchcode=%s, labels=%s, tenants=%s, brands=%s, type=%s]", matchcode,
+            labels, tenants, brands, type);
     }
 
 }

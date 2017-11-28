@@ -21,26 +21,28 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.brand.WithBrandLinks;
-import pnet.data.api.companytype.WithTenantsAndCompanyTypeLinks;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds a Function.
  *
  * @author ham
  */
-public class FunctionDataDTO implements WithMatchcode<FunctionMatchcode>, WithLabels, WithDescriptions, WithBrandLinks,
-    WithTenantsAndCompanyTypeLinks, WithLastUpdate
+public class FunctionDataDTO implements WithMatchcode<FunctionMatchcode>, WithLabels, WithDescriptions, WithTenants,
+    WithBrandLinks, WithLastUpdate
 {
 
     private final FunctionMatchcode matchcode;
 
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
+    private Collection<Tenant> tenants;
     private Collection<FunctionBrandDataDTO> brands;
     private Collection<FunctionCompanyTypeDataDTO> companyTypes;
     private Collection<FunctionContractTypeDataDTO> contractTypes;
@@ -90,12 +92,22 @@ public class FunctionDataDTO implements WithMatchcode<FunctionMatchcode>, WithLa
         return brands;
     }
 
+    @Override
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
+    public void setTenants(Collection<Tenant> tenants)
+    {
+        this.tenants = tenants;
+    }
+
     public void setBrands(Collection<FunctionBrandDataDTO> brands)
     {
         this.brands = brands;
     }
 
-    @Override
     public Collection<FunctionCompanyTypeDataDTO> getCompanyTypes()
     {
         return companyTypes;
@@ -174,8 +186,8 @@ public class FunctionDataDTO implements WithMatchcode<FunctionMatchcode>, WithLa
     public String toString()
     {
         return String.format(
-            "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, brands=%s, companyTypes=%s, contractTypes=%s, numberTypes=%s, activities=%s, infoareas=%s, lastUpdate=%s]",
-            matchcode, labels, descriptions, brands, companyTypes, contractTypes, numberTypes, activities, infoareas,
+            "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, contractTypes=%s, numberTypes=%s, activities=%s, infoareas=%s, lastUpdate=%s]",
+            matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, numberTypes, activities, infoareas,
             lastUpdate);
     }
 

@@ -19,9 +19,10 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds a contract type. A company is linked to one or more contract types. Functions and activities need contract
@@ -29,24 +30,26 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ContractTypeItemDTO
-    implements WithMatchcode<ContractTypeMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
+public class ContractTypeItemDTO implements WithMatchcode<ContractTypeMatchcode>, WithTenants, WithLastUpdate
 {
 
     private final ContractTypeMatchcode matchcode;
     private final String label;
+    private final Collection<Tenant> tenants;
     private final Collection<ContractTypeBrandItemDTO> brands;
     private final String type;
     private final LocalDateTime lastUpdate;
 
     public ContractTypeItemDTO(@JsonProperty("matchcode") ContractTypeMatchcode matchcode,
-        @JsonProperty("label") String label, @JsonProperty("brands") Collection<ContractTypeBrandItemDTO> brands,
-        @JsonProperty("type") String type, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("label") String label, @JsonProperty("tenants") Collection<Tenant> tenants,
+        @JsonProperty("brands") Collection<ContractTypeBrandItemDTO> brands, @JsonProperty("type") String type,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
         this.matchcode = matchcode;
         this.label = label;
+        this.tenants = tenants;
         this.brands = brands;
         this.type = type;
         this.lastUpdate = lastUpdate;
@@ -64,6 +67,11 @@ public class ContractTypeItemDTO
     }
 
     @Override
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
     public Collection<ContractTypeBrandItemDTO> getBrands()
     {
         return brands;
@@ -83,8 +91,9 @@ public class ContractTypeItemDTO
     @Override
     public String toString()
     {
-        return String.format("ContractTypeItemDTO [matchcode=%s, label=%s, brands=%s, type=%s, lastUpdate=%s]",
-            matchcode, label, brands, type, lastUpdate);
+        return String.format(
+            "ContractTypeItemDTO [matchcode=%s, label=%s, tenants=%s, brands=%s, type=%s, lastUpdate=%s]", matchcode,
+            label, tenants, brands, type, lastUpdate);
     }
 
 }

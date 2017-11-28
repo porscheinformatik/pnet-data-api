@@ -21,9 +21,10 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds a activity. This object contains only minimal information and is used as result of search operations and
@@ -31,19 +32,19 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-// FIXME the tenants should be bases on company types!
-public class ActivityItemDTO implements WithMatchcode<ActivityMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
+public class ActivityItemDTO implements WithMatchcode<ActivityMatchcode>, WithTenants, WithLastUpdate
 {
 
     private final ActivityMatchcode matchcode;
     private final String label;
     private final String description;
-    private final Collection<ActivityBrandDataDTO> brands;
+    private final Collection<Tenant> tenants;
+    private final Collection<ActivityBrandItemDTO> brands;
     private final LocalDateTime lastUpdate;
 
     public ActivityItemDTO(@JsonProperty("matchcode") ActivityMatchcode matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description,
-        @JsonProperty("brands") Collection<ActivityBrandDataDTO> brands,
+        @JsonProperty("description") String description, @JsonProperty("tenants") Collection<Tenant> tenants,
+        @JsonProperty("brands") Collection<ActivityBrandItemDTO> brands,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -51,7 +52,8 @@ public class ActivityItemDTO implements WithMatchcode<ActivityMatchcode>, WithTe
         this.matchcode = Objects.requireNonNull(matchcode, "Matchcode is null");
         this.label = Objects.requireNonNull(label, "Label is null");
         this.description = description;
-        this.brands = Collections.unmodifiableCollection(Objects.requireNonNull(brands, "Brands are null"));
+        this.tenants = Collections.unmodifiableCollection(Objects.requireNonNull(tenants, "Tenants is null"));
+        this.brands = Collections.unmodifiableCollection(Objects.requireNonNull(brands, "Brands is null"));
         this.lastUpdate = lastUpdate;
     }
 
@@ -78,7 +80,12 @@ public class ActivityItemDTO implements WithMatchcode<ActivityMatchcode>, WithTe
     }
 
     @Override
-    public Collection<ActivityBrandDataDTO> getBrands()
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
+    public Collection<ActivityBrandItemDTO> getBrands()
     {
         return brands;
     }
@@ -92,8 +99,9 @@ public class ActivityItemDTO implements WithMatchcode<ActivityMatchcode>, WithTe
     @Override
     public String toString()
     {
-        return String.format("ActivityItemDTO [matchcode=%s, label=%s, description=%s, brands=%s, lastUpdate=%s]",
-            matchcode, label, description, brands, lastUpdate);
+        return String.format(
+            "ActivityItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s]", matchcode,
+            label, description, tenants, brands, lastUpdate);
     }
 
 }

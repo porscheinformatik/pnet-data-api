@@ -19,29 +19,29 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.brand.WithBrandLinks;
-import pnet.data.api.companytype.WithTenantsAndCompanyTypeLinks;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds an infoarea.
  *
  * @author ham
  */
-public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLabels, WithDescriptions, WithBrandLinks,
-    WithTenantsAndCompanyTypeLinks, WithLastUpdate
+public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLabels, WithDescriptions, WithTenants,
+    WithBrandLinks, WithLastUpdate
 {
 
     private final InfoareaMatchcode matchcode;
 
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
+    private Collection<Tenant> tenants;
     private Collection<InfoareaBrandDataDTO> brands;
-    private Collection<InfoareaCompanyTypeDataDTO> companyTypes;
-    private Collection<InfoareaContractTypeDataDTO> contractTypes;
     private LocalDateTime lastUpdate;
 
     public InfoareaDataDTO(InfoareaMatchcode matchcode)
@@ -80,6 +80,17 @@ public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLa
     }
 
     @Override
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
+    public void setTenants(Collection<Tenant> tenants)
+    {
+        this.tenants = tenants;
+    }
+
+    @Override
     public Collection<InfoareaBrandDataDTO> getBrands()
     {
         return brands;
@@ -88,31 +99,6 @@ public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLa
     public void setBrands(Collection<InfoareaBrandDataDTO> brands)
     {
         this.brands = brands;
-    }
-
-    @Override
-    public Collection<InfoareaCompanyTypeDataDTO> getCompanyTypes()
-    {
-        return companyTypes;
-    }
-
-    public void setCompanyTypes(Collection<InfoareaCompanyTypeDataDTO> companyTypes)
-    {
-        this.companyTypes = companyTypes;
-    }
-
-    /**
-     * @return This infoarea is only available, if the company has one of these contracts. This collection is only
-     *         relevant, if the company type of the company says so.
-     */
-    public Collection<InfoareaContractTypeDataDTO> getContractTypes()
-    {
-        return contractTypes;
-    }
-
-    public void setContractTypes(Collection<InfoareaContractTypeDataDTO> contractTypes)
-    {
-        this.contractTypes = contractTypes;
     }
 
     @Override
@@ -130,8 +116,8 @@ public class InfoareaDataDTO implements WithMatchcode<InfoareaMatchcode>, WithLa
     public String toString()
     {
         return String.format(
-            "InfoareaDataDTO [matchcode=%s, labels=%s, descriptions=%s, brands=%s, companyTypes=%s, contractTypes=%s, lastUpdate=%s]",
-            matchcode, labels, descriptions, brands, companyTypes, contractTypes, lastUpdate);
+            "InfoareaDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, lastUpdate=%s]",
+            matchcode, labels, descriptions, tenants, brands, lastUpdate);
     }
 
 }

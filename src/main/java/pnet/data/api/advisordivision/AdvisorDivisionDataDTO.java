@@ -19,25 +19,27 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds an advisor type.
  *
  * @author ham
  */
-public class AdvisorDivisionDataDTO implements WithMatchcode<AdvisorDivisionMatchcode>, WithLabels, WithDescriptions,
-    WithTenantsAndBrandLinks, WithLastUpdate
+public class AdvisorDivisionDataDTO
+    implements WithMatchcode<AdvisorDivisionMatchcode>, WithLabels, WithDescriptions, WithTenants, WithLastUpdate
 {
 
     private final AdvisorDivisionMatchcode matchcode;
 
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
+    private Collection<Tenant> tenants;
     private Collection<AdvisorDivisionBrandDataDTO> brands;
     private LocalDateTime lastUpdate;
 
@@ -77,6 +79,16 @@ public class AdvisorDivisionDataDTO implements WithMatchcode<AdvisorDivisionMatc
     }
 
     @Override
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
+    public void setTenants(Collection<Tenant> tenants)
+    {
+        this.tenants = tenants;
+    }
+
     public Collection<AdvisorDivisionBrandDataDTO> getBrands()
     {
         return brands;
@@ -102,8 +114,8 @@ public class AdvisorDivisionDataDTO implements WithMatchcode<AdvisorDivisionMatc
     public String toString()
     {
         return String.format(
-            "AdvisorDivisonDataDTO [matchcode=%s, labels=%s, descriptions=%s, brands=%s, lastUpdate=%s]", matchcode,
-            labels, descriptions, brands, lastUpdate);
+            "AdvisorDivisonDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, lastUpdate=%s]",
+            matchcode, labels, descriptions, tenants, brands, lastUpdate);
     }
 
 }

@@ -21,26 +21,28 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.brand.WithBrandLinks;
-import pnet.data.api.companytype.WithTenantsAndCompanyTypeLinks;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds an activity.
  *
  * @author ham
  */
-public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLabels, WithDescriptions, WithBrandLinks,
-    WithTenantsAndCompanyTypeLinks, WithLastUpdate
+public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLabels, WithDescriptions, WithTenants,
+    WithBrandLinks, WithLastUpdate
 {
 
     private final ActivityMatchcode matchcode;
 
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
+    private Collection<Tenant> tenants;
     private Collection<ActivityBrandDataDTO> brands;
     private Collection<ActivityCompanyTypeDataDTO> companyTypes;
     private Collection<ActivityContractTypeDataDTO> contractTypes;
@@ -83,6 +85,17 @@ public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLa
     }
 
     @Override
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
+    public void setTenants(Collection<Tenant> tenants)
+    {
+        this.tenants = tenants;
+    }
+
+    @Override
     public Collection<ActivityBrandDataDTO> getBrands()
     {
         return brands;
@@ -93,7 +106,6 @@ public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLa
         this.brands = brands;
     }
 
-    @Override
     public Collection<ActivityCompanyTypeDataDTO> getCompanyTypes()
     {
         return companyTypes;
@@ -146,8 +158,9 @@ public class ActivityDataDTO implements WithMatchcode<ActivityMatchcode>, WithLa
     public String toString()
     {
         return String.format(
-            "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, brands=%s, companyTypes=%s, contractTypes=%s, infoareas=%s, lastUpdate=%s]",
-            matchcode, labels, descriptions, brands, companyTypes, contractTypes, infoareas, lastUpdate);
+            "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
+                + "contractTypes=%s, infoareas=%s, lastUpdate=%s]",
+            matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, infoareas, lastUpdate);
     }
 
 }

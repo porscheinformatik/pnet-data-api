@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pnet.data.api.ResultPage;
 import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.companytype.CompanyTypeMatchcode;
-import pnet.data.api.contracttype.ContractTypeMatchcode;
 import pnet.data.api.util.ByMatchcode;
 
 /**
@@ -60,19 +58,18 @@ public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, Infoa
      * @param query the query
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
+     * @param tenants the tenants for filtering, optional
      * @param brandMatchcodes the matchcodes of brands for filtering, optional
-     * @param companyTypeMatchcodes the matchcodes for company types for filtering, optional
-     * @param contractTypeMatchcodes the matchcodes of contract types for filtering, optional
      * @return a page of the results, never null
      */
+    // CHECKSTYLE:OFF
     @RequestMapping(value = "/search")
     ResultPage<InfoareaItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
-        @RequestParam(value = "contractType",
-            required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes);
+        @RequestParam(value = "tenant", required = false) Collection<BrandMatchcode> tenants,
+        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes);
+    // CHECKSTYLE:ON
 
     /**
      * Searches for {@link InfoareaItemDTO} with the specified query. If one or more filters are set each filter will be
@@ -81,9 +78,8 @@ public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, Infoa
      *
      * @param language the language
      * @param matchcodes the matchcodes for filtering, optional
+     * @param tenants the tenants for filtering, optional
      * @param brandMatchcodes the matchcodes of brands for filtering, optional
-     * @param companyTypeMatchcodes the matchcodes for company types for filtering, optional
-     * @param contractTypeMatchcodes the matchcodes of contract types for filtering, optional
      * @param updatedAfter updated after the specified date and time, optional
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
@@ -93,13 +89,11 @@ public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, Infoa
     @RequestMapping(value = "/find")
     ResultPage<InfoareaItemDTO> findAll(@RequestParam(value = "l") String language,
         @RequestParam(value = "matchcode", required = false) Collection<InfoareaMatchcode> matchcodes,
+        @RequestParam(value = "tenant", required = false) Collection<BrandMatchcode> tenants,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
-        @RequestParam(value = "contractType",
-            required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
         @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage);
     // CHECKSTYLE:ON
-    
+
 }

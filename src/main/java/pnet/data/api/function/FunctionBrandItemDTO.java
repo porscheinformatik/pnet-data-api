@@ -17,36 +17,37 @@ package pnet.data.api.function;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
-import pnet.data.api.companytype.CompanyTypeMatchcode;
+import pnet.data.api.brand.BrandLink;
+import pnet.data.api.brand.BrandMatchcode;
 
 /**
- * Holds a link to a company type.
+ * Holds a link to a brand.
  *
  * @author ham
  */
-public class FunctionCompanyTypeDataDTO
+public class FunctionBrandItemDTO implements BrandLink
 {
 
     private final Tenant tenant;
-    private final CompanyTypeMatchcode companyTypeMatchcode;
+    private final BrandMatchcode brandMatchcode;
 
-    public FunctionCompanyTypeDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("companyTypeMatchcode") CompanyTypeMatchcode companyTypeMatchcode)
+    public FunctionBrandItemDTO(@JsonProperty("tenant") Tenant tenant,
+        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode)
     {
-        super();
-
         this.tenant = tenant;
-        this.companyTypeMatchcode = companyTypeMatchcode;
+        this.brandMatchcode = brandMatchcode;
     }
 
+    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    public CompanyTypeMatchcode getCompanyTypeMatchcode()
+    @Override
+    public BrandMatchcode getBrandMatchcode()
     {
-        return companyTypeMatchcode;
+        return brandMatchcode;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class FunctionCompanyTypeDataDTO
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((companyTypeMatchcode == null) ? 0 : companyTypeMatchcode.hashCode());
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
@@ -79,16 +80,16 @@ public class FunctionCompanyTypeDataDTO
             return false;
         }
 
-        FunctionCompanyTypeDataDTO other = (FunctionCompanyTypeDataDTO) obj;
+        FunctionBrandItemDTO other = (FunctionBrandItemDTO) obj;
 
-        if (companyTypeMatchcode == null)
+        if (brandMatchcode == null)
         {
-            if (other.companyTypeMatchcode != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!companyTypeMatchcode.equals(other.companyTypeMatchcode))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
         {
             return false;
         }
@@ -111,7 +112,7 @@ public class FunctionCompanyTypeDataDTO
     @Override
     public String toString()
     {
-        return String.format("%s(%s)", companyTypeMatchcode, tenant);
+        return String.format("%s(%s)", brandMatchcode, tenant);
     }
 
 }

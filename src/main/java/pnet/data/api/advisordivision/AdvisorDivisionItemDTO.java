@@ -19,27 +19,29 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.WithTenantsAndBrandLinks;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds an advisor type.
  *
  * @author ham
  */
-public class AdvisorDivisionItemDTO
-    implements WithMatchcode<AdvisorDivisionMatchcode>, WithTenantsAndBrandLinks, WithLastUpdate
+public class AdvisorDivisionItemDTO implements WithMatchcode<AdvisorDivisionMatchcode>, WithTenants, WithLastUpdate
 {
 
     private final AdvisorDivisionMatchcode matchcode;
     private final String label;
     private final String description;
+    private final Collection<Tenant> tenants;
     private final Collection<AdvisorDivisionBrandItemDTO> brands;
     private final LocalDateTime lastUpdate;
 
     public AdvisorDivisionItemDTO(@JsonProperty("matchcode") AdvisorDivisionMatchcode matchcode,
         @JsonProperty("label") String label, @JsonProperty("description") String description,
+        @JsonProperty("tenants") Collection<Tenant> tenants,
         @JsonProperty("brands") Collection<AdvisorDivisionBrandItemDTO> brands,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
@@ -47,6 +49,7 @@ public class AdvisorDivisionItemDTO
         this.matchcode = matchcode;
         this.label = label;
         this.description = description;
+        this.tenants = tenants;
         this.brands = brands;
         this.lastUpdate = lastUpdate;
     }
@@ -68,6 +71,11 @@ public class AdvisorDivisionItemDTO
     }
 
     @Override
+    public Collection<Tenant> getTenants()
+    {
+        return tenants;
+    }
+
     public Collection<AdvisorDivisionBrandItemDTO> getBrands()
     {
         return brands;
@@ -82,8 +90,9 @@ public class AdvisorDivisionItemDTO
     @Override
     public String toString()
     {
-        return String.format("AdvisorDivisonItemDTO [matchcode=%s, label=%s, description=%s, brands=%s, lastUpdate=%s]",
-            matchcode, label, description, brands, lastUpdate);
+        return String.format(
+            "AdvisorDivisonItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s]",
+            matchcode, label, description, tenants, brands, lastUpdate);
     }
 
 }
