@@ -36,15 +36,15 @@ public interface AdvisorLinkFacade
 {
 
     /**
-     * Returns multiple {@link AdvisorDataDTO}s each matching all specified filters. The method is limited to a maximum
-     * number of items per request. If no values are specified, it tries to return all items but may fail due to the
-     * maximum number of items.
+     * Returns multiple {@link AdvisorDataDTO}s each matching all specified filters. If one or more filters are set each
+     * filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to call
+     * this method without any filter and the maximum number of filter items is limited.
      *
-     * @param companyIds the ids of the companyies, optional
+     * @param companyIds the ids of the companies, optional
      * @param personIds the ids of the persons, optional
      * @param advisorTypeMatchcodes the advisor types, optional
      * @param advisorDivisionMatchcodes the advisor divisions, optional
-     * @return a collection of all found items
+     * @return a collection of all found items, never null
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     Collection<AdvisorDataDTO> getAll(

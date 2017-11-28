@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.tenant.Tenant;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 
 /**

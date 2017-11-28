@@ -14,7 +14,7 @@
  */
 package pnet.data.api.brand;
 
-import pnet.data.api.tenant.Tenant;
+import pnet.data.api.Tenant;
 
 /**
  * A link to a brand.

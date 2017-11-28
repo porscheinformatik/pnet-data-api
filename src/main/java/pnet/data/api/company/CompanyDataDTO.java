@@ -19,8 +19,9 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.GeoPoint;
+import pnet.data.api.Tenant;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * Holds companydata.
@@ -61,9 +62,8 @@ public class CompanyDataDTO
     private String fbNumber;
     private String certificateType;
     private String certificateNumber;
-    private String juristiction;
-    private double longitude;
-    private double latitude;
+    private String jurisdiction;
+    private GeoPoint location;
     private Collection<CompanyExternalBrandDataDTO> extenalBrands;
     private LocalDateTime lastUpdate;
 
@@ -369,34 +369,24 @@ public class CompanyDataDTO
         this.certificateNumber = certificateNumber;
     }
 
-    public String getJuristiction()
+    public String getJurisdiction()
     {
-        return juristiction;
+        return jurisdiction;
     }
 
-    public void setJuristiction(String juristiction)
+    public void setJurisdiction(String jurisdiction)
     {
-        this.juristiction = juristiction;
+        this.jurisdiction = jurisdiction;
     }
 
-    public double getLongitude()
+    public GeoPoint getLocation()
     {
-        return longitude;
+        return location;
     }
 
-    public void setLongitude(double longitude)
+    public void setLocation(GeoPoint location)
     {
-        this.longitude = longitude;
-    }
-
-    public double getLatitude()
-    {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude)
-    {
-        this.latitude = latitude;
+        this.location = location;
     }
 
     public Collection<CompanyExternalBrandDataDTO> getExtenalBrands()
@@ -427,12 +417,12 @@ public class CompanyDataDTO
                 + "uidNumber=%s, sapNumber=%s, companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, zip=%s, "
                 + "countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, "
                 + "speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, legalForm=%s, dvrNumber=%s, fbNumber=%s, "
-                + "certificateType=%s, certificateNumber=%s, juristiction=%s, longitude=%s, latitude=%s, "
+                + "certificateType=%s, certificateNumber=%s, jurisdiction=%s, location=%s, "
                 + "extenalBrands=%s, lastUpdate=%s]",
             companyId, administrativeTenant, name, nameAffix, marketingName, uidNumber, sapNumber, companyNumber,
             additionalNumbers, street, city, zip, countryCode, country, region, iban, bic, types, phoneNumber,
             speedDial, faxNumber, email, homepage, postal, legalForm, dvrNumber, fbNumber, certificateType,
-            certificateNumber, juristiction, longitude, latitude, extenalBrands, lastUpdate);
+            certificateNumber, jurisdiction, location, extenalBrands, lastUpdate);
     }
 
 }

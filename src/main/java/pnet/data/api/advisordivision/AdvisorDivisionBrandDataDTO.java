@@ -16,10 +16,10 @@ package pnet.data.api.advisordivision;
 
 import java.util.Collection;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.advisortype.AdvisorTypeMatchcode;
 import pnet.data.api.brand.BrandLink;
 import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * A brand for an advisor division.

@@ -12,16 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.companynumbertype;
-
-import pnet.data.api.Matchcode;
+package pnet.data.api;
 
 /**
- * A {@link Matchcode} used for company number types.
+ * The tenant defines one client (importer) linked to most data items. Usually the tenant is the country-code.
  *
  * @author ham
  */
-public interface CompanyNumberTypeMatchcode extends Matchcode
+public interface Tenant extends Matchcode
 {
 
     // intentionally left blank

@@ -12,32 +12,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.tenant;
+package pnet.data.api;
 
-import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Used for DTOs that support multiple tenants.
+ * A point on the globe.
  *
  * @author ham
  */
-public interface WithTenants
+public class GeoPoint
 {
 
-    /**
-     * @return A list of all tenants that support this item.
-     */
-    Collection<Tenant> getTenants();
+    private final double lat;
+    private final double lon;
 
-    /**
-     * Returns true if the DTOs contains the specified tenant, false otherwise.
-     *
-     * @param tenant the tenant
-     * @return true if present
-     */
-    default boolean containsTenant(Tenant tenant)
+    public GeoPoint(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon)
     {
-        return getTenants().contains(tenant);
+        super();
+        this.lat = lat;
+        this.lon = lon;
+    }
+
+    public double getLat()
+    {
+        return lat;
+    }
+
+    public double getLon()
+    {
+        return lon;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format(String.format("(%.6f, %.6f)", lat, lon));
     }
 
 }

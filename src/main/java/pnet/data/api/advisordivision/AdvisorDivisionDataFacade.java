@@ -14,6 +14,7 @@
  */
 package pnet.data.api.advisordivision;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.springframework.http.MediaType;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import pnet.data.api.advisortype.AdvisorTypeMatchcode;
+import pnet.data.api.ResultPage;
 import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.ByMatchcode;
 
@@ -37,21 +38,16 @@ public interface AdvisorDivisionDataFacade extends ByMatchcode<AdvisorDivisionMa
 {
 
     /**
-     * Returns multiple {@link AdvisorDivisionDataDTO}s each matching all specified filters. The method is limited to a
-     * maximum number of items per request. If no values are specified, it tries to return all items but may fail due to
-     * the maximum number of items.
+     * Returns multiple {@link AdvisorDivisionDataDTO}s each matching all specified filters. If one or more filters are
+     * set each filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to
+     * call this method without any filter and the maximum number of filter items is limited.
      *
      * @param matchcodes the matchcodes for filtering, optional
-     * @param brandMatchcodes the matchcodes of brands for filtering, optional
-     * @param advisorTypeMatchcodes the matchcodes for advisor types for filtering, optional
-     * @return a collection of all found items
+     * @return a collection of all found items, never null
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     Collection<AdvisorDivisionDataDTO> getAll(
-        @RequestParam(value = "matchcode", required = false) Collection<AdvisorDivisionMatchcode> matchcodes,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "contractState",
-            required = false) Collection<AdvisorTypeMatchcode> advisorTypeMatchcodes);
+        @RequestParam(value = "matchcode", required = false) Collection<AdvisorDivisionMatchcode> matchcodes);
 
     /**
      * Searches for {@link AdvisorDivisionDataDTO} with the specified query. If one or more filters are set each filter
@@ -63,12 +59,33 @@ public interface AdvisorDivisionDataFacade extends ByMatchcode<AdvisorDivisionMa
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
      * @param brandMatchcodes the matchcodes of brands for filtering, optional
-     * @return a collection of results
+     * @return a page of the results, never null
      */
     @RequestMapping(value = "/search")
-    Collection<AdvisorDivisionItemDTO> search(@RequestParam(value = "l") String language,
+    ResultPage<AdvisorDivisionItemDTO> search(@RequestParam(value = "l") String language,
         @RequestParam("q") String query, @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes);
+
+    /**
+     * Searches for {@link AdvisorDivisionDataDTO} with the specified query. If one or more filters are set each filter
+     * will be applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down
+     * item with only a few properties.
+     *
+     * @param language the language
+     * @param page the number of the page, 1-based
+     * @param perPage the number of items per page
+     * @param matchcodes the matchcodes for filtering, optional
+     * @param brandMatchcodes the matchcodes of brands for filtering, optional
+     * @param updatedAfter updated after the specified date and time, optional
+     * @return a page of the results, never null
+     */
+    @RequestMapping(value = "/find")
+    ResultPage<AdvisorDivisionItemDTO> finaAll(@RequestParam(value = "l") String language,
+        @RequestParam(value = "p", defaultValue = "1") int page,
+        @RequestParam(value = "pp", defaultValue = "10") int perPage,
+        @RequestParam(value = "matchcode", required = false) Collection<AdvisorDivisionMatchcode> matchcodes,
+        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
+        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter);
 
 }

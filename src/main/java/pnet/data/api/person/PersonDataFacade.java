@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.springframework.http.MediaType;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pnet.data.api.ResultPage;
 import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.ById;
 
@@ -36,16 +38,16 @@ public interface PersonDataFacade extends ById<PersonDataDTO>
 {
 
     /**
-     * Returns multiple {@link PersonDataDTO}s each matching all specified filters. The method is limited to a maximum
-     * number of items per request. If no values are specified, it tries to return all items but may fail due to the
-     * maximum number of items.
+     * Returns multiple {@link PersonDataDTO}s each matching all specified filters. If one or more filters are set each
+     * filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to call
+     * this method without any filter and the maximum number of filter items is limited.
      *
      * @param ids the ids for filtering, optional
      * @param guids one or more guids for filtering, optional
      * @param preferredUserIds one or more preferredUserIds for filtering, optional
      * @param emails one or more emails for filtering, optional
      * @param personnelNumbers one or more personnelNumbers for filtering, optional
-     * @return a collection of all found items
+     * @return a collection of all found items, never null
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     Collection<PersonDataDTO> getAll(@RequestParam(value = "id", required = false) Collection<Integer> ids,
@@ -67,11 +69,11 @@ public interface PersonDataFacade extends ById<PersonDataDTO>
      * @param brandMatchcodes one or more brand matchcodes for filtering, optional
      * @param functionMatchcodes one or more function matchcodes for filtering, optional
      * @param activityMatchcodes one or more activity matchcodes for filtering, optional
-     * @return a collection of results
+     * @return a page of the results, never null
      */
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/search")
-    Collection<PersonItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
+    ResultPage<PersonItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
         @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
@@ -85,6 +87,7 @@ public interface PersonDataFacade extends ById<PersonDataDTO>
      * applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down person
      * with only a few properties.
      *
+     * @param language the language
      * @param guids one or more guids for filtering, optional
      * @param preferredUserIds one or more preferredUserIds for filtering, optional
      * @param emails one or more emails for filtering, optional
@@ -97,11 +100,15 @@ public interface PersonDataFacade extends ById<PersonDataDTO>
      * @param brandMatchcodes one or more brand matchcodes for filtering, optional
      * @param functionMatchcodes one or more function matchcodes for filtering, optional
      * @param activityMatchcodes one or more activity matchcodes for filtering, optional
-     * @return a collection of results
+     * @param updatedAfter updated after the specified date and time, optional
+     * @param page the number of the page, 1-based
+     * @param perPage the number of items per page
+     * @return a page of the results, never null
      */
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/find")
-    Collection<PersonItemDTO> findAll(@RequestParam(value = "guid", required = false) Collection<String> guids,
+    Collection<PersonItemDTO> findAll(@RequestParam(value = "l") String language,
+        @RequestParam(value = "guid", required = false) Collection<String> guids,
         @RequestParam(value = "preferredUserId", required = false) Collection<String> preferredUserIds,
         @RequestParam(value = "email", required = false) Collection<String> emails,
         @RequestParam(value = "costCenter", required = false) Collection<String> costCenters,
@@ -113,7 +120,10 @@ public interface PersonDataFacade extends ById<PersonDataDTO>
         @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
         @RequestParam(value = "function", required = false) Collection<BrandMatchcode> functionMatchcodes,
-        @RequestParam(value = "activity", required = false) Collection<BrandMatchcode> activityMatchcodes);
+        @RequestParam(value = "activity", required = false) Collection<BrandMatchcode> activityMatchcodes,
+        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
+        @RequestParam(value = "p", defaultValue = "1") int page,
+        @RequestParam(value = "pp", defaultValue = "10") int perPage);
     // CHECKSTYLE:ON
 
 }

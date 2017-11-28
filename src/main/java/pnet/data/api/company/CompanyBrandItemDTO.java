@@ -16,8 +16,8 @@ package pnet.data.api.company;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * Holds the brand of a company with all contracts for the brand.

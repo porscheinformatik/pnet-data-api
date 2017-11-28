@@ -14,7 +14,7 @@
  */
 package pnet.data.api.companytype;
 
-import pnet.data.api.tenant.Tenant;
+import pnet.data.api.Tenant;
 
 /**
  * A link to a company type.

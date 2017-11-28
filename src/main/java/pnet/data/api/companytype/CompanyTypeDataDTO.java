@@ -19,11 +19,11 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-import pnet.data.api.tenant.Tenant;
-import pnet.data.api.tenant.WithTenants;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds a company type. A company is linked to one or more company types. Functions and activities need company types

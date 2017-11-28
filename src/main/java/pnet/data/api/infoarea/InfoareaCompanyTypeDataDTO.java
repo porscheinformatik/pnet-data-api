@@ -16,9 +16,9 @@ package pnet.data.api.infoarea;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.companytype.CompanyTypeLink;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * Holds a link to a company type.

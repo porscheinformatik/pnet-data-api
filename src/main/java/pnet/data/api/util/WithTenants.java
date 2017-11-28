@@ -14,14 +14,32 @@
  */
 package pnet.data.api.util;
 
+import java.util.Collection;
+
+import pnet.data.api.Tenant;
+
 /**
- * A matchcode is an alpha-numberic key.
+ * Used for DTOs that support multiple tenants.
  *
  * @author ham
  */
-public interface Matchcode extends CharSequence
+public interface WithTenants
 {
 
-    // intentionally left blank
+    /**
+     * @return A list of all tenants that support this item.
+     */
+    Collection<Tenant> getTenants();
+
+    /**
+     * Returns true if the DTOs contains the specified tenant, false otherwise.
+     *
+     * @param tenant the tenant
+     * @return true if present
+     */
+    default boolean containsTenant(Tenant tenant)
+    {
+        return getTenants().contains(tenant);
+    }
 
 }

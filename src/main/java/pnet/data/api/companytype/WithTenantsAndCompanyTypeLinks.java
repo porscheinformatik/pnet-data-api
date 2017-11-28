@@ -17,8 +17,8 @@ package pnet.data.api.companytype;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import pnet.data.api.tenant.Tenant;
-import pnet.data.api.tenant.WithTenants;
+import pnet.data.api.Tenant;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Extracts tenant information from company types.

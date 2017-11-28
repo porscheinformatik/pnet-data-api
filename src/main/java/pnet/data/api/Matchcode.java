@@ -12,16 +12,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.tenant;
-
-import pnet.data.api.util.Matchcode;
+package pnet.data.api;
 
 /**
- * The tenant defines one client (importer) linked to most data items. Usually the tenant is the country-code.
+ * A matchcode is an alpha-numberic key.
  *
  * @author ham
  */
-public interface Tenant extends Matchcode
+public interface Matchcode extends CharSequence
 {
 
     // intentionally left blank

@@ -16,9 +16,9 @@ package pnet.data.api.contracttype;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.brand.BrandLink;
 import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * A link to a brand for a specified tenant.

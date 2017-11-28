@@ -14,7 +14,7 @@
  */
 package pnet.data.api.numbertype;
 
-import pnet.data.api.util.Matchcode;
+import pnet.data.api.Matchcode;
 
 /**
  * A {@link Matchcode} used for number types.

@@ -14,6 +14,7 @@
  */
 package pnet.data.api.externalbrand;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.springframework.http.MediaType;
@@ -36,13 +37,13 @@ public interface ExternalBrandDataFacade extends ByMatchcode<ExternalBrandMatchc
 {
 
     /**
-     * Returns multiple {@link ExternalBrandDataDTO}s each matching all specified filters. The method is limited to a
-     * maximum number of items per request. If no values are specified, it tries to return all items but may fail due to
-     * the maximum number of items.
+     * Returns multiple {@link ExternalBrandDataDTO}s each matching all specified filters. If one or more filters are
+     * set each filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to
+     * call this method without any filter and the maximum number of filter items is limited.
      *
      * @param matchcodes the matchcodes for filtering, optional
      * @param ids the ids for filtering, optional
-     * @return a collection of all found items
+     * @return a collection of all found items, never null
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     Collection<NumberTypeDataDTO> getAll(
@@ -56,10 +57,31 @@ public interface ExternalBrandDataFacade extends ByMatchcode<ExternalBrandMatchc
      * @param query the query
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
-     * @return a collection of results
+     * @return a page of the results, never null
      */
     @RequestMapping(value = "/search")
     Collection<ExternalBrandItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
+        @RequestParam(value = "p", defaultValue = "1") int page,
+        @RequestParam(value = "pp", defaultValue = "10") int perPage);
+
+    /**
+     * Searches for {@link ExternalBrandItemDTO} with the specified query. If one or more filters are set each filter
+     * will be applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down
+     * item with only a few properties.
+     *
+     * @param language the language
+     * @param matchcodes the matchcodes for filtering, optional
+     * @param ids the ids for filtering, optional
+     * @param updatedAfter updated after the specified date and time, optional
+     * @param page the number of the page, 1-based
+     * @param perPage the number of items per page
+     * @return a page of the results, never null
+     */
+    @RequestMapping(value = "/find")
+    Collection<ExternalBrandItemDTO> findAll(@RequestParam(value = "l") String language,
+        @RequestParam(value = "matchcode", required = false) Collection<ExternalBrandMatchcode> matchcodes,
+        @RequestParam(value = "id", required = false) Collection<String> ids,
+        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage);
 

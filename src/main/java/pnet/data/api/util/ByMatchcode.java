@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pnet.data.api.Matchcode;
+
 /**
  * Used by facades that returns items by {@link Matchcode}.
  *

@@ -16,10 +16,10 @@ package pnet.data.api.advisor;
 
 import java.time.LocalDateTime;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.advisordivision.AdvisorDivisionMatchcode;
 import pnet.data.api.advisortype.AdvisorTypeMatchcode;
 import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * Holds all advisors

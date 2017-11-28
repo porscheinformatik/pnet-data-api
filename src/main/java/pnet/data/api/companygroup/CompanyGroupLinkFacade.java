@@ -35,14 +35,14 @@ public interface CompanyGroupLinkFacade
 {
 
     /**
-     * Returns multiple {@link CompanyGroupDataDTO}s each matching all specified filters. The method is limited to a
-     * maximum number of items per request. If no values are specified, it tries to return all items but may fail due to
-     * the maximum number of items.
+     * Returns multiple {@link CompanyGroupDataDTO}s each matching all specified filters. If one or more filters are set
+     * each filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to
+     * call this method without any filter and the maximum number of filter items is limited.
      *
      * @param leadingCompanyIds the id of the leading company, optional
      * @param types the type, optional
      * @param companyIds the id of a participating company (the leading company is participating, too), optional
-     * @return a collection of all found items
+     * @return a collection of all found items, never null
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     Collection<CompanyGroupDataDTO> getAll(

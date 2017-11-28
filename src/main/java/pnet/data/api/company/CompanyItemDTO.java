@@ -19,8 +19,9 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.GeoPoint;
+import pnet.data.api.Tenant;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * Holds companydata.
@@ -44,6 +45,7 @@ public class CompanyItemDTO
     private final String country;
     private final String region;
     private final Collection<CompanyTypeMatchcode> types;
+    private final GeoPoint location;
     private final LocalDateTime lastUpdate;
 
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId,
@@ -54,7 +56,7 @@ public class CompanyItemDTO
         @JsonProperty("city") String city, @JsonProperty("zip") String zip,
         @JsonProperty("countryCode") String countryCode, @JsonProperty("country") String country,
         @JsonProperty("region") String region, @JsonProperty("types") Collection<CompanyTypeMatchcode> types,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
         this.companyId = companyId;
@@ -71,6 +73,7 @@ public class CompanyItemDTO
         this.country = country;
         this.region = region;
         this.types = types;
+        this.location = location;
         this.lastUpdate = lastUpdate;
     }
 
@@ -144,6 +147,11 @@ public class CompanyItemDTO
         return types;
     }
 
+    public GeoPoint getLocation()
+    {
+        return location;
+    }
+
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
@@ -155,9 +163,9 @@ public class CompanyItemDTO
         return String.format(
             "CompanyItemDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
                 + "brands=%s, companyNumber=%s, street=%s, city=%s, zip=%s, countryCode=%s, country=%s, region=%s, "
-                + "types=%s, lastUpdate=%s]",
+                + "types=%s, location=%s, lastUpdate=%s]",
             companyId, administrativeTenant, name, nameAffix, marketingName, brands, companyNumber, street, city, zip,
-            countryCode, country, region, types, lastUpdate);
+            countryCode, country, region, types, location, lastUpdate);
     }
 
 }

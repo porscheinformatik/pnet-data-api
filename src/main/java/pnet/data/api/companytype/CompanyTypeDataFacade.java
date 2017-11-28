@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companytype;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.springframework.http.MediaType;
@@ -22,7 +23,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import pnet.data.api.tenant.Tenant;
+import pnet.data.api.ResultPage;
+import pnet.data.api.Tenant;
 import pnet.data.api.util.ByMatchcode;
 
 /**
@@ -36,18 +38,16 @@ public interface CompanyTypeDataFacade extends ByMatchcode<CompanyTypeMatchcode,
 {
 
     /**
-     * Returns multiple {@link CompanyTypeDataDTO}s each matching all specified filters. The method is limited to a
-     * maximum number of items per request. If no values are specified, it tries to return all items but may fail due to
-     * the maximum number of items.
+     * Returns multiple {@link CompanyTypeDataDTO}s each matching all specified filters. If one or more filters are set
+     * each filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to
+     * call this method without any filter and the maximum number of filter items is limited.
      *
      * @param matchcodes the matchcodes for filtering, optional
-     * @param tenant the tenants for filtering, optional
-     * @return a collection of all found items
+     * @return a collection of all found items, never null
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     Collection<CompanyTypeDataDTO> getAll(
-        @RequestParam(value = "matchcode", required = false) Collection<CompanyTypeMatchcode> matchcodes,
-        @RequestParam(value = "tenant", required = false) Collection<Tenant> tenant);
+        @RequestParam(value = "matchcode", required = false) Collection<CompanyTypeMatchcode> matchcodes);
 
     /**
      * Searches for {@link CompanyTypeItemDTO} with the specified query. If one or more filters are set each filter will
@@ -59,12 +59,33 @@ public interface CompanyTypeDataFacade extends ByMatchcode<CompanyTypeMatchcode,
      * @param page the number of the page, 1-based
      * @param perPage the number of items per page
      * @param tenant the tenants for filtering, optional
-     * @return a collection of results
+     * @return a page of the results, never null
      */
     @RequestMapping(value = "/search")
-    Collection<CompanyTypeItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
+    ResultPage<CompanyTypeItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
         @RequestParam(value = "tenant", required = false) Collection<Tenant> tenant);
+
+    /**
+     * Searches for {@link CompanyTypeItemDTO} with the specified query. If one or more filters are set each filter will
+     * be applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down item
+     * with only a few properties.
+     *
+     * @param language the language
+     * @param matchcodes the matchcodes for filtering, optional
+     * @param tenant the tenants for filtering, optional
+     * @param updatedAfter updated after the specified date and time, optional
+     * @param page the number of the page, 1-based
+     * @param perPage the number of items per page
+     * @return a page of the results, never null
+     */
+    @RequestMapping(value = "/find")
+    ResultPage<CompanyTypeItemDTO> findAll(@RequestParam(value = "l") String language,
+        @RequestParam(value = "matchcode", required = false) Collection<CompanyTypeMatchcode> matchcodes,
+        @RequestParam(value = "tenant", required = false) Collection<Tenant> tenant,
+        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
+        @RequestParam(value = "p", defaultValue = "1") int page,
+        @RequestParam(value = "pp", defaultValue = "10") int perPage);
 
 }

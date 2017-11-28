@@ -16,8 +16,8 @@ package pnet.data.api.activity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.infoarea.InfoareaMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * Holds a link to an infoarea

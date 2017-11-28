@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import org.springframework.http.MediaType;
@@ -22,8 +23,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pnet.data.api.GeoDistance;
+import pnet.data.api.ResultPage;
 import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
+import pnet.data.api.contracttype.ContractTypeMatchcode;
 import pnet.data.api.externalbrand.ExternalBrandMatchcode;
 import pnet.data.api.util.ById;
 
@@ -38,24 +42,19 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
 {
 
     /**
-     * Returns multiple {@link CompanyDataDTO}s each matching all specified filters. The method is limited to a maximum
-     * number of items per request. If no values are specified, it tries to return all items but may fail due to the
-     * maximum number of items.
+     * Returns multiple {@link CompanyDataDTO}s each matching all specified filters. If one or more filters are set each
+     * filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to call
+     * this method without any filter and the maximum number of filter items is limited.
      *
      * @param ids the ids for filtering, optional
-     * @param uidNumbers one or more uidNumbers for filtering, optional
-     * @param sapNumbers one or more sapNumbers for filtering, optional
-     * @param companyNumbers one or more companyNumbers for filtering, optional
-     * @param zips one or more zips for filtering, optional
-     * @param countryCodes one or more countryCodes for filtering, optional
-     * @param ibans one or more ibans for filtering, optional
-     * @param bics one or more bics for filtering, optional
-     * @param types one or more types for filtering, optional
-     * @param email one or more email for filtering, optional
-     * @param dvrNumber one or more dvrNumber for filtering, optional
-     * @param fbNumber one or more fbNumber for filtering, optional
-     * @param externalBrandMatchcodes one or more externalBrandMatchcodes for filtering, optional
-     * @return a collection of all found items
+     * @param uidNumbers one or more UID numbers for filtering, optional
+     * @param sapNumbers one or more SAP numbers for filtering, optional
+     * @param companyNumbers one or more company numbers for filtering, optional
+     * @param ibans one or more IBANs for filtering, optional
+     * @param email one or more emails for filtering, optional
+     * @param dvrNumber one or more DVR numbers for filtering, optional
+     * @param fbNumber one or more FB numbers for filtering, optional
+     * @return a collection of all found items, never null
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     // CHECKSTYLE:OFF
@@ -63,16 +62,10 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
         @RequestParam(value = "uidNumber", required = false) Collection<String> uidNumbers,
         @RequestParam(value = "sapNumber", required = false) Collection<String> sapNumbers,
         @RequestParam(value = "companyNumber", required = false) Collection<String> companyNumbers,
-        @RequestParam(value = "zip", required = false) Collection<String> zips,
-        @RequestParam(value = "countryCode", required = false) Collection<String> countryCodes,
         @RequestParam(value = "iban", required = false) Collection<String> ibans,
-        @RequestParam(value = "bics", required = false) Collection<String> bics,
-        @RequestParam(value = "types", required = false) Collection<CompanyTypeMatchcode> types,
         @RequestParam(value = "email", required = false) Collection<String> email,
         @RequestParam(value = "dvrNumber", required = false) Collection<String> dvrNumber,
-        @RequestParam(value = "fbNumber", required = false) Collection<String> fbNumber,
-        @RequestParam(value = "externalBrands",
-            required = false) Collection<ExternalBrandMatchcode> externalBrandMatchcodes);
+        @RequestParam(value = "fbNumber", required = false) Collection<String> fbNumber);
     // CHECKSTYLE:ON
 
     /**
@@ -86,55 +79,48 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
      * @param perPage the number of items per page
      * @param companyIds one or more company ids for filtering, optional
      * @param brandMatchcodes one or more brand matchcodes for filtering, optional
-     * @param functionMatchcodes one or more function matchcodes for filtering, optional
-     * @param activityMatchcodes one or more activity matchcodes for filtering, optional
-     * @return a collection of results
+     * @return a page of the results, never null
      */
-    // CHECKSTYLE:OFF
     @RequestMapping(value = "/search")
-    Collection<CompanyItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
+    ResultPage<CompanyItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
         @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "function", required = false) Collection<BrandMatchcode> functionMatchcodes,
-        @RequestParam(value = "activity", required = false) Collection<BrandMatchcode> activityMatchcodes);
-    // CHECKSTYLE:ON
+        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes);
 
     /**
      * Searches for {@link CompanyItemDTO} using the specified terms. If one or more filters are set each filter will be
      * applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down company
      * with only a few properties.
      *
-     * @param guids one or more guids for filtering, optional
-     * @param preferredUserIds one or more preferredUserIds for filtering, optional
-     * @param emails one or more emails for filtering, optional
-     * @param costCenters one or more costCenters for filtering, optional
-     * @param companynelNumbers one or more companynelNumbers for filtering, optional
-     * @param supervisorCompanynelNumbesr one or more supervisorCompanynelNumbesr for filtering, optional
-     * @param controllingAreas one or more controllingAreas for filtering, optional
-     * @param companynelDepartments one or more companynelDepartments for filtering, optional
-     * @param companyIds one or more company ids for filtering, optional
+     * @param language the language
      * @param brandMatchcodes one or more brand matchcodes for filtering, optional
-     * @param functionMatchcodes one or more function matchcodes for filtering, optional
-     * @param activityMatchcodes one or more activity matchcodes for filtering, optional
-     * @return a collection of results
+     * @param zips one or more ZIPs for filtering, optional
+     * @param countryCodes one or more country codes for filtering, optional
+     * @param typeMatchcodes one or more type matchcodes for filtering, optional
+     * @param contractTypeMatchcodes one or more contract type matchcodes for filtering, optional
+     * @param distances one or more GEO distances for filtering, optional
+     * @param externalBrandMatchcodes one or more external brand matchcodes for filtering, optional
+     * @param updatedAfter updated after the specified date and time, optional
+     * @param page the number of the page, 1-based
+     * @param perPage the number of items per page
+     * @return a page of the results, never null
      */
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/find")
-    Collection<CompanyItemDTO> findAll(@RequestParam(value = "guid", required = false) Collection<String> guids,
-        @RequestParam(value = "preferredUserId", required = false) Collection<String> preferredUserIds,
-        @RequestParam(value = "email", required = false) Collection<String> emails,
-        @RequestParam(value = "costCenter", required = false) Collection<String> costCenters,
-        @RequestParam(value = "companynelNumber", required = false) Collection<String> companynelNumbers,
-        @RequestParam(value = "supervisorCompanynelNumber",
-            required = false) Collection<String> supervisorCompanynelNumbesr,
-        @RequestParam(value = "controllingArea", required = false) Collection<String> controllingAreas,
-        @RequestParam(value = "companynelDepartment", required = false) Collection<String> companynelDepartments,
-        @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
+    ResultPage<CompanyItemDTO> findAll(@RequestParam(value = "l") String language,
         @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "function", required = false) Collection<BrandMatchcode> functionMatchcodes,
-        @RequestParam(value = "activity", required = false) Collection<BrandMatchcode> activityMatchcodes);
+        @RequestParam(value = "zip", required = false) Collection<String> zips,
+        @RequestParam(value = "countryCode", required = false) Collection<String> countryCodes,
+        @RequestParam(value = "type", required = false) Collection<CompanyTypeMatchcode> typeMatchcodes,
+        @RequestParam(value = "contractType",
+            required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
+        @RequestParam(value = "distance", required = false) Collection<GeoDistance> distances,
+        @RequestParam(value = "externalBrands",
+            required = false) Collection<ExternalBrandMatchcode> externalBrandMatchcodes,
+        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
+        @RequestParam(value = "p", defaultValue = "1") int page,
+        @RequestParam(value = "pp", defaultValue = "10") int perPage);
     // CHECKSTYLE:ON
 
 }

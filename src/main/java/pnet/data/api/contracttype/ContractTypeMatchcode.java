@@ -14,7 +14,7 @@
  */
 package pnet.data.api.contracttype;
 
-import pnet.data.api.util.Matchcode;
+import pnet.data.api.Matchcode;
 
 /**
  * A {@link Matchcode} used for contract types.

@@ -16,8 +16,8 @@ package pnet.data.api.function;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.Tenant;
 import pnet.data.api.contracttype.ContractTypeMatchcode;
-import pnet.data.api.tenant.Tenant;
 
 /**
  * Holds a link to a contract type.

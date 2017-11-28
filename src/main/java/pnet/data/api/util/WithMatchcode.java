@@ -14,6 +14,8 @@
  */
 package pnet.data.api.util;
 
+import pnet.data.api.Matchcode;
+
 /**
  * A item, that uses a {@link Matchcode} as universal identifier.
  *
