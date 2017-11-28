@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companygroup;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -26,9 +27,11 @@ import pnet.data.api.companygrouptype.CompanyGroupTypeMatchcode;
  *
  * @author ham
  */
-public class CompanyGroupDataDTO
+public class CompanyGroupDataDTO implements Serializable
 {
 
+    private static final long serialVersionUID = -260656363547122718L;
+    
     private final Integer leadingCompanyId;
     private final CompanyGroupTypeMatchcode type;
     private final Collection<Integer> companyIds;

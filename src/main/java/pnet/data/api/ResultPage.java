@@ -14,6 +14,7 @@
  */
 package pnet.data.api;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -25,8 +26,10 @@ import java.util.Objects;
  * @author ham
  * @param <T> the type of item
  */
-public class ResultPage<T> implements Iterable<T>
+public class ResultPage<T> implements Iterable<T>, Serializable
 {
+
+    private static final long serialVersionUID = 254532979510480226L;
 
     private final List<T> items;
     private final int itemsPerPage;

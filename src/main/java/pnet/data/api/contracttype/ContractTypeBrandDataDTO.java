@@ -14,6 +14,7 @@
  */
 package pnet.data.api.contracttype;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,9 +28,11 @@ import pnet.data.api.contractstate.ContractStateMatchcode;
  *
  * @author ham
  */
-public class ContractTypeBrandDataDTO
+public class ContractTypeBrandDataDTO implements Serializable
 {
 
+    private static final long serialVersionUID = -4749964162640876397L;
+    
     private final Tenant tenant;
     private final BrandMatchcode brandMatchcode;
     private final Collection<ContractStateMatchcode> states;

@@ -14,6 +14,7 @@
  */
 package pnet.data.api.numbertype;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
@@ -27,8 +28,10 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class NumberTypeDataDTO implements WithMatchcode<NumberTypeMatchcode>, WithLabels, WithLastUpdate
+public class NumberTypeDataDTO implements WithMatchcode<NumberTypeMatchcode>, WithLabels, WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = 8121115362492515187L;
 
     private final NumberTypeMatchcode matchcode;
 

@@ -14,12 +14,14 @@
  */
 package pnet.data.api;
 
+import java.io.Serializable;
+
 /**
  * A matchcode is an alpha-numberic key.
  *
  * @author ham
  */
-public interface Matchcode extends CharSequence
+public interface Matchcode extends CharSequence, Serializable
 {
 
     // intentionally left blank

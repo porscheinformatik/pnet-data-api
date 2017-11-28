@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,9 +26,11 @@ import pnet.data.api.function.FunctionMatchcode;
  *
  * @author ham
  */
-public class PersonFunctionDataDTO
+public class PersonFunctionDataDTO implements Serializable
 {
 
+    private static final long serialVersionUID = -5572016715722241376L;
+    
     private final FunctionMatchcode functionMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;

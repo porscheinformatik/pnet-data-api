@@ -14,6 +14,8 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.activity.ActivityMatchcode;
@@ -23,9 +25,11 @@ import pnet.data.api.activity.ActivityMatchcode;
  *
  * @author ham
  */
-public class PersonActivityDataDTO
+public class PersonActivityDataDTO implements Serializable
 {
 
+    private static final long serialVersionUID = 4247336068734009775L;
+    
     private final ActivityMatchcode activityMatchcode;
     private final boolean dueToFunction;
 

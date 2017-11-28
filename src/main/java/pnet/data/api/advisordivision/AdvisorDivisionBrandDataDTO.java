@@ -14,6 +14,7 @@
  */
 package pnet.data.api.advisordivision;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import pnet.data.api.Tenant;
@@ -25,8 +26,10 @@ import pnet.data.api.brand.BrandMatchcode;
  *
  * @author ham
  */
-public class AdvisorDivisionBrandDataDTO
+public class AdvisorDivisionBrandDataDTO implements Serializable
 {
+
+    private static final long serialVersionUID = -2420615097654809299L;
 
     private final Tenant tenant;
     private final BrandMatchcode brandMatchcode;

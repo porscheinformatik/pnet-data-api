@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -24,9 +25,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author ham
  */
-public class PersonCompanyDataDTO
+public class PersonCompanyDataDTO implements Serializable
 {
 
+    private static final long serialVersionUID = 7199829304360405636L;
+    
     private final Integer companyId;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;

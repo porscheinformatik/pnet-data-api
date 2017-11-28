@@ -14,6 +14,8 @@
  */
 package pnet.data.api;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -21,8 +23,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author ham
  */
-public class GeoPoint
+public class GeoPoint implements Serializable
 {
+
+    private static final long serialVersionUID = 6055660640364446760L;
 
     private final double lat;
     private final double lon;

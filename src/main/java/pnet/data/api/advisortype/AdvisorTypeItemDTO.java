@@ -14,6 +14,7 @@
  */
 package pnet.data.api.advisortype;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import pnet.data.api.util.WithLastUpdate;
@@ -24,9 +25,11 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class AdvisorTypeItemDTO implements WithMatchcode<AdvisorTypeMatchcode>, WithLastUpdate
+public class AdvisorTypeItemDTO implements WithMatchcode<AdvisorTypeMatchcode>, WithLastUpdate, Serializable
 {
 
+    private static final long serialVersionUID = -5385814018859561810L;
+    
     private final AdvisorTypeMatchcode matchcode;
     private final String label;
     private final String description;

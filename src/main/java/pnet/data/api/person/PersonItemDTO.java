@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,9 +27,11 @@ import pnet.data.api.util.WithLastUpdate;
  *
  * @author ham
  */
-public class PersonItemDTO implements WithLastUpdate
+public class PersonItemDTO implements WithLastUpdate, Serializable
 {
 
+    private static final long serialVersionUID = -481025382258675738L;
+    
     private final Integer personId;
     private final Tenant administrativeTenant;
     private final FormOfAddress formOfAddress;

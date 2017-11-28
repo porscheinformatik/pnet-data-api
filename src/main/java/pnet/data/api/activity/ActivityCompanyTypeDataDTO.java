@@ -14,6 +14,8 @@
  */
 package pnet.data.api.activity;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
@@ -24,8 +26,10 @@ import pnet.data.api.companytype.CompanyTypeMatchcode;
  *
  * @author ham
  */
-public class ActivityCompanyTypeDataDTO
+public class ActivityCompanyTypeDataDTO implements Serializable
 {
+
+    private static final long serialVersionUID = -2028835160784471478L;
 
     private final Tenant tenant;
     private final CompanyTypeMatchcode companyTypeMatchcode;

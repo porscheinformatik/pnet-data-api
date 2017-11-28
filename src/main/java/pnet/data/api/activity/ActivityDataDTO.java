@@ -14,6 +14,7 @@
  */
 package pnet.data.api.activity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
@@ -34,8 +35,10 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 public class ActivityDataDTO
-    implements WithMatchcode<ActivityMatchcode>, WithLabels, WithDescriptions, WithTenants, WithLastUpdate
+    implements WithMatchcode<ActivityMatchcode>, WithLabels, WithDescriptions, WithTenants, WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = 5133673955487263429L;
 
     private final ActivityMatchcode matchcode;
 

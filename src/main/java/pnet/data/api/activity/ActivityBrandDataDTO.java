@@ -14,6 +14,8 @@
  */
 package pnet.data.api.activity;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
@@ -24,8 +26,10 @@ import pnet.data.api.brand.BrandMatchcode;
  *
  * @author ham
  */
-public class ActivityBrandDataDTO
+public class ActivityBrandDataDTO implements Serializable
 {
+
+    private static final long serialVersionUID = 6759967646557769422L;
 
     private final Tenant tenant;
     private final BrandMatchcode brandMatchcode;

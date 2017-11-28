@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,9 +26,11 @@ import pnet.data.api.contractstate.ContractStateMatchcode;
  *
  * @author ham
  */
-public class CompanyContractStateDataDTO
+public class CompanyContractStateDataDTO implements Serializable
 {
 
+    private static final long serialVersionUID = 8013176883992921779L;
+    
     private final ContractStateMatchcode contractStateMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;

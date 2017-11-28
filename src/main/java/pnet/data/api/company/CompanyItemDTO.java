@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -28,9 +29,11 @@ import pnet.data.api.companytype.CompanyTypeMatchcode;
  *
  * @author ham
  */
-public class CompanyItemDTO
+public class CompanyItemDTO implements Serializable
 {
 
+    private static final long serialVersionUID = 4397773907429688509L;
+    
     private final Integer companyId;
     private final Tenant administrativeTenant;
     private final String name;

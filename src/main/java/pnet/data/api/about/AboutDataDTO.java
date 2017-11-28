@@ -14,6 +14,8 @@
  */
 package pnet.data.api.about;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -21,8 +23,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author ham
  */
-public class AboutDataDTO
+public class AboutDataDTO implements Serializable
 {
+
+    private static final long serialVersionUID = -6140129628280468919L;
 
     private final String partnerNetVersion;
     private final String dataApiVersion;

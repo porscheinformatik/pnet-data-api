@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companytype;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
@@ -31,8 +32,11 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class CompanyTypeDataDTO implements WithMatchcode<CompanyTypeMatchcode>, WithTenants, WithLabels, WithLastUpdate
+public class CompanyTypeDataDTO
+    implements WithMatchcode<CompanyTypeMatchcode>, WithTenants, WithLabels, WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = -5837538753457547027L;
 
     private final CompanyTypeMatchcode matchcode;
 

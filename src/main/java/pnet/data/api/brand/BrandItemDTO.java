@@ -14,6 +14,7 @@
  */
 package pnet.data.api.brand;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -29,9 +30,11 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class BrandItemDTO implements WithMatchcode<BrandMatchcode>, WithTenants, WithLastUpdate
+public class BrandItemDTO implements WithMatchcode<BrandMatchcode>, WithTenants, WithLastUpdate, Serializable
 {
 
+    private static final long serialVersionUID = 4547030944469871555L;
+    
     private final BrandMatchcode matchcode;
     private final Collection<Tenant> tenants;
     private final String label;

@@ -14,6 +14,7 @@
  */
 package pnet.data.api.function;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,9 +33,11 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class FunctionItemDTO implements WithMatchcode<FunctionMatchcode>, WithTenants, WithLastUpdate
+public class FunctionItemDTO implements WithMatchcode<FunctionMatchcode>, WithTenants, WithLastUpdate, Serializable
 {
 
+    private static final long serialVersionUID = 8278014048912826651L;
+    
     private final FunctionMatchcode matchcode;
     private final String label;
     private final String description;

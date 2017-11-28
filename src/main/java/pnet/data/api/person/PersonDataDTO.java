@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -27,8 +28,10 @@ import pnet.data.api.util.WithLastUpdate;
  *
  * @author ham
  */
-public class PersonDataDTO implements WithLastUpdate
+public class PersonDataDTO implements WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = -2096202204327773391L;
 
     private final Integer personId;
 

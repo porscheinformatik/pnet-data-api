@@ -14,6 +14,7 @@
  */
 package pnet.data.api.externalbrand;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,8 +27,10 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate
+public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = -5466024519780832525L;
 
     private final ExternalBrandMatchcode matchcode;
 

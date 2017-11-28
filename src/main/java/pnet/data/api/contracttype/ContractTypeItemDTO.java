@@ -14,6 +14,7 @@
  */
 package pnet.data.api.contracttype;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -30,9 +31,12 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class ContractTypeItemDTO implements WithMatchcode<ContractTypeMatchcode>, WithTenants, WithLastUpdate
+public class ContractTypeItemDTO
+    implements WithMatchcode<ContractTypeMatchcode>, WithTenants, WithLastUpdate, Serializable
 {
 
+    private static final long serialVersionUID = -6345795957251172952L;
+    
     private final ContractTypeMatchcode matchcode;
     private final String label;
     private final Collection<Tenant> tenants;

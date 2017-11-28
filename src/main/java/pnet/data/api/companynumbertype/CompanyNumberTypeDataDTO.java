@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companynumbertype;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
@@ -29,8 +30,11 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class CompanyNumberTypeDataDTO implements WithMatchcode<CompanyNumberTypeMatchcode>, WithLabels, WithLastUpdate
+public class CompanyNumberTypeDataDTO
+    implements WithMatchcode<CompanyNumberTypeMatchcode>, WithLabels, WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = 8523314179106137587L;
 
     private final CompanyNumberTypeMatchcode matchcode;
 
@@ -45,15 +49,20 @@ public class CompanyNumberTypeDataDTO implements WithMatchcode<CompanyNumberType
     }
 
     @Override
-    public CompanyNumberTypeMatchcode getMatchcode()
-    {
-        return matchcode;
-    }
-
-    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
+    }
+
+    public void setLabels(Map<Locale, String> labels)
+    {
+        this.labels = labels;
+    }
+
+    @Override
+    public CompanyNumberTypeMatchcode getMatchcode()
+    {
+        return matchcode;
     }
 
     @Override

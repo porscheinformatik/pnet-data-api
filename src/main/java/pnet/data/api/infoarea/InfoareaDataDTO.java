@@ -14,6 +14,7 @@
  */
 package pnet.data.api.infoarea;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
@@ -32,8 +33,10 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 public class InfoareaDataDTO
-    implements WithMatchcode<InfoareaMatchcode>, WithLabels, WithDescriptions, WithTenants, WithLastUpdate
+    implements WithMatchcode<InfoareaMatchcode>, WithLabels, WithDescriptions, WithTenants, WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = 7843486900383375454L;
 
     private final InfoareaMatchcode matchcode;
 

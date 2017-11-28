@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -26,9 +27,11 @@ import pnet.data.api.contracttype.ContractTypeMatchcode;
  *
  * @author ham
  */
-public class CompanyContractTypeDataDTO
+public class CompanyContractTypeDataDTO implements Serializable
 {
 
+    private static final long serialVersionUID = 5617472922439542723L;
+    
     private final ContractTypeMatchcode contractTypeMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;

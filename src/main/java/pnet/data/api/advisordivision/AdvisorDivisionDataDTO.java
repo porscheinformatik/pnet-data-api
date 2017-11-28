@@ -14,6 +14,7 @@
  */
 package pnet.data.api.advisordivision;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
@@ -31,9 +32,11 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class AdvisorDivisionDataDTO
-    implements WithMatchcode<AdvisorDivisionMatchcode>, WithLabels, WithDescriptions, WithTenants, WithLastUpdate
+public class AdvisorDivisionDataDTO implements WithMatchcode<AdvisorDivisionMatchcode>, WithLabels, WithDescriptions,
+    WithTenants, WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = 3617188908732765945L;
 
     private final AdvisorDivisionMatchcode matchcode;
 

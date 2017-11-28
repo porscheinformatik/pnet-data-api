@@ -14,6 +14,7 @@
  */
 package pnet.data.api.contractstate;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
@@ -29,8 +30,11 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ContractStateDataDTO implements WithMatchcode<ContractStateMatchcode>, WithLabels, WithLastUpdate
+public class ContractStateDataDTO
+    implements WithMatchcode<ContractStateMatchcode>, WithLabels, WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = -2459240786345993039L;
 
     private final ContractStateMatchcode matchcode;
 

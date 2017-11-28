@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,9 +30,11 @@ import pnet.data.api.brand.BrandMatchcode;
  *
  * @author ham
  */
-public class CompanyBrandDataDTO
+public class CompanyBrandDataDTO implements Serializable
 {
 
+    private static final long serialVersionUID = 7506202638418892087L;
+    
     private final Tenant tenant;
     private final BrandMatchcode brandMatchcode;
     private final LocalDateTime validFrom;

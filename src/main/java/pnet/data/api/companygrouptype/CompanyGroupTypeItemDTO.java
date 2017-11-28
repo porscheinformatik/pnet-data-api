@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companygrouptype;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,9 +27,11 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class CompanyGroupTypeItemDTO implements WithMatchcode<CompanyGroupTypeMatchcode>, WithLastUpdate
+public class CompanyGroupTypeItemDTO implements WithMatchcode<CompanyGroupTypeMatchcode>, WithLastUpdate, Serializable
 {
 
+    private static final long serialVersionUID = -3404509259945335365L;
+    
     private final CompanyGroupTypeMatchcode matchcode;
     private final String label;
     private final LocalDateTime lastUpdate;
