@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import pnet.data.api.contractstate.ContractStateMatchcode;
 
 /**
- * A link to a contract state
+ * A contract state
  *
  * @author ham
  */

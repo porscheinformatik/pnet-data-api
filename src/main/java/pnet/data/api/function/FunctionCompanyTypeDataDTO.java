@@ -22,7 +22,7 @@ import pnet.data.api.Tenant;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
 
 /**
- * Holds a link to a company type.
+ * Holds a company type.
  *
  * @author ham
  */

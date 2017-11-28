@@ -22,7 +22,7 @@ import pnet.data.api.Tenant;
 import pnet.data.api.contracttype.ContractTypeMatchcode;
 
 /**
- * Holds a link to a contract type.
+ * Holds a contract type.
  *
  * @author ham
  */

@@ -22,7 +22,7 @@ import pnet.data.api.Tenant;
 import pnet.data.api.brand.BrandMatchcode;
 
 /**
- * Holds a link to a brand.
+ * Holds a brand.
  *
  * @author ham
  */

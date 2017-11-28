@@ -24,7 +24,7 @@ import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.contractstate.ContractStateMatchcode;
 
 /**
- * A link to a brand for a specified tenant.
+ * A brand for a specified tenant.
  *
  * @author ham
  */

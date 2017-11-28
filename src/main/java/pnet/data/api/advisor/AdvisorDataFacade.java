@@ -32,7 +32,7 @@ import pnet.data.api.advisortype.AdvisorTypeMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/advisors")
-public interface AdvisorLinkFacade
+public interface AdvisorDataFacade
 {
 
     /**

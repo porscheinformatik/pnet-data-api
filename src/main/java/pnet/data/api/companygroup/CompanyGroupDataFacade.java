@@ -31,7 +31,7 @@ import pnet.data.api.companygrouptype.CompanyGroupTypeMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/companygroups")
-public interface CompanyGroupLinkFacade
+public interface CompanyGroupDataFacade
 {
 
     /**

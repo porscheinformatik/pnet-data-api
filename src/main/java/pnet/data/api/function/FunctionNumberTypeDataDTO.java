@@ -22,7 +22,7 @@ import pnet.data.api.Tenant;
 import pnet.data.api.numbertype.NumberTypeMatchcode;
 
 /**
- * Holds a link to a number type.
+ * Holds a number type.
  *
  * @author ham
  */
