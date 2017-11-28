@@ -19,7 +19,6 @@ import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
-import pnet.data.api.brand.BrandLink;
 import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.contractstate.ContractStateMatchcode;
 
@@ -28,7 +27,7 @@ import pnet.data.api.contractstate.ContractStateMatchcode;
  *
  * @author ham
  */
-public class ContractTypeBrandDataDTO implements BrandLink
+public class ContractTypeBrandDataDTO
 {
 
     private final Tenant tenant;
@@ -45,13 +44,11 @@ public class ContractTypeBrandDataDTO implements BrandLink
         this.states = states;
     }
 
-    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    @Override
     public BrandMatchcode getBrandMatchcode()
     {
         return brandMatchcode;

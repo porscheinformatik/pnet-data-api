@@ -22,7 +22,6 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
-import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -34,8 +33,8 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class FunctionDataDTO implements WithMatchcode<FunctionMatchcode>, WithLabels, WithDescriptions, WithTenants,
-    WithBrandLinks, WithLastUpdate
+public class FunctionDataDTO
+    implements WithMatchcode<FunctionMatchcode>, WithLabels, WithDescriptions, WithTenants, WithLastUpdate
 {
 
     private final FunctionMatchcode matchcode;
@@ -86,7 +85,6 @@ public class FunctionDataDTO implements WithMatchcode<FunctionMatchcode>, WithLa
         this.descriptions = descriptions;
     }
 
-    @Override
     public Collection<FunctionBrandDataDTO> getBrands()
     {
         return brands;
@@ -187,8 +185,8 @@ public class FunctionDataDTO implements WithMatchcode<FunctionMatchcode>, WithLa
     {
         return String.format(
             "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, contractTypes=%s, numberTypes=%s, activities=%s, infoareas=%s, lastUpdate=%s]",
-            matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, numberTypes, activities, infoareas,
-            lastUpdate);
+            matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, numberTypes, activities,
+            infoareas, lastUpdate);
     }
 
 }

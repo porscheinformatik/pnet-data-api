@@ -17,7 +17,6 @@ package pnet.data.api.activity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.Tenant;
-import pnet.data.api.brand.BrandLink;
 import pnet.data.api.brand.BrandMatchcode;
 
 /**
@@ -25,7 +24,7 @@ import pnet.data.api.brand.BrandMatchcode;
  *
  * @author ham
  */
-public class ActivityBrandItemDTO implements BrandLink
+public class ActivityBrandItemDTO
 {
 
     private final Tenant tenant;
@@ -40,13 +39,11 @@ public class ActivityBrandItemDTO implements BrandLink
         this.brandMatchcode = brandMatchcode;
     }
 
-    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    @Override
     public BrandMatchcode getBrandMatchcode()
     {
         return brandMatchcode;

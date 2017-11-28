@@ -18,7 +18,6 @@ import java.util.Collection;
 
 import pnet.data.api.Tenant;
 import pnet.data.api.advisortype.AdvisorTypeMatchcode;
-import pnet.data.api.brand.BrandLink;
 import pnet.data.api.brand.BrandMatchcode;
 
 /**
@@ -26,7 +25,7 @@ import pnet.data.api.brand.BrandMatchcode;
  *
  * @author ham
  */
-public class AdvisorDivisionBrandDataDTO implements BrandLink
+public class AdvisorDivisionBrandDataDTO
 {
 
     private final Tenant tenant;
@@ -42,13 +41,11 @@ public class AdvisorDivisionBrandDataDTO implements BrandLink
         this.types = types;
     }
 
-    @Override
     public Tenant getTenant()
     {
         return tenant;
     }
 
-    @Override
     public BrandMatchcode getBrandMatchcode()
     {
         return brandMatchcode;
