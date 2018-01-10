@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/v1/about")
-public class AboutFacade
+public interface AboutFacade
 {
 
     /**
@@ -35,9 +35,6 @@ public class AboutFacade
      * @return some information
      */
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public AboutDataDTO about()
-    {
-        return null;
-    }
+    AboutDataDTO about();
 
 }
