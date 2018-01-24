@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pnet.data.api.ResultCollection;
 import pnet.data.api.companygrouptype.CompanyGroupTypeMatchcode;
 
 /**
@@ -35,17 +36,18 @@ public interface CompanyGroupDataFacade
 {
 
     /**
-     * Returns multiple {@link CompanyGroupDataDTO}s each matching all specified filters. If one or more filters are set
-     * each filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to
-     * call this method without any filter and the maximum number of filter items is limited.
+     * Returns multiple {@link CompanyGroupDataDTO}s each matching all specified restrictions. If one or more
+     * restrictions are set each restriction will be applied (AND) and one of the values of each restriction must match
+     * (OR). It is not possible to call this method without any restriction. The number of results is limited. The
+     * {@link ResultCollection} may contain a call for more results.
      *
      * @param leadingCompanyIds the id of the leading company, optional
      * @param types the type, optional
      * @param companyIds the id of a participating company (the leading company is participating, too), optional
      * @return a collection of all found items, never null
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<CompanyGroupDataDTO> getAll(
+    @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResultCollection<CompanyGroupDataDTO> getAll(
         @RequestParam(value = "leadingCompanyId", required = false) Collection<Integer> leadingCompanyIds,
         @RequestParam(value = "type", required = false) Collection<CompanyGroupTypeMatchcode> types,
         @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds);

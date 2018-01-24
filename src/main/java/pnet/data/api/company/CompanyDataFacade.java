@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import pnet.data.api.GeoDistance;
+import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
 import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.companytype.CompanyTypeMatchcode;
@@ -42,9 +43,10 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
 {
 
     /**
-     * Returns multiple {@link CompanyDataDTO}s each matching all specified filters. If one or more filters are set each
-     * filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to call
-     * this method without any filter and the maximum number of filter items is limited.
+     * Returns multiple {@link CompanyDataDTO}s each matching all specified restrictions. If one or more restrictions
+     * are set each restriction will be applied (AND) and one of the values of each restriction must match (OR). It is
+     * not possible to call this method without any restriction. The number of results is limited. The
+     * {@link ResultCollection} may contain a call for more results.
      *
      * @param ids the ids for filtering, optional
      * @param uidNumbers one or more UID numbers for filtering, optional
@@ -56,9 +58,9 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
      * @param fbNumber one or more FB numbers for filtering, optional
      * @return a collection of all found items, never null
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     // CHECKSTYLE:OFF
-    Collection<CompanyDataDTO> getAll(@RequestParam(value = "id", required = false) Collection<Integer> ids,
+    ResultCollection<CompanyDataDTO> getAll(@RequestParam(value = "id", required = false) Collection<Integer> ids,
         @RequestParam(value = "uidNumber", required = false) Collection<String> uidNumbers,
         @RequestParam(value = "sapNumber", required = false) Collection<String> sapNumbers,
         @RequestParam(value = "companyNumber", required = false) Collection<String> companyNumbers,
@@ -86,14 +88,14 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
         @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes);
+        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes);
 
     /**
-     * Searches for {@link CompanyItemDTO} using the specified terms. If one or more filters are set each filter will be
-     * applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down company
-     * with only a few properties.
+     * Finds multiple {@link CompanyItemDTO}s each matching all specified restrictions. If one or more restrictions are
+     * set each restriction will be applied (AND) and one of the values of each restriction must match (OR).
      *
      * @param language the language
+     * @param ids one or more ids for filtering, optional
      * @param brandMatchcodes one or more brand matchcodes for filtering, optional
      * @param zips one or more ZIPs for filtering, optional
      * @param countryCodes one or more country codes for filtering, optional
@@ -109,8 +111,9 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
      */
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/find")
-    ResultPage<CompanyItemDTO> findAll(@RequestParam(value = "l") String language,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
+    ResultPage<CompanyItemDTO> find(@RequestParam(value = "l") String language,
+        @RequestParam(value = "id", required = false) Collection<Integer> ids,
+        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
         @RequestParam(value = "zip", required = false) Collection<String> zips,
         @RequestParam(value = "countryCode", required = false) Collection<String> countryCodes,
         @RequestParam(value = "type", required = false) Collection<CompanyTypeMatchcode> typeMatchcodes,
@@ -120,7 +123,7 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
         @RequestParam(value = "externalBrands",
             required = false) Collection<ExternalBrandMatchcode> externalBrandMatchcodes,
         @RequestParam(value = "headquater", required = false) Collection<Integer> headquaterCompanyIds,
-        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
+        @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage);
     // CHECKSTYLE:ON

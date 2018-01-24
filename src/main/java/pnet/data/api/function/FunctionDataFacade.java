@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
 import pnet.data.api.activity.ActivityMatchcode;
 import pnet.data.api.brand.BrandMatchcode;
@@ -43,16 +44,17 @@ public interface FunctionDataFacade extends ByMatchcode<FunctionMatchcode, Funct
 {
 
     /**
-     * Returns multiple {@link FunctionDataDTO}s each matching all specified filters. If one or more filters are set
-     * each filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to
-     * call this method without any filter and the maximum number of filter items is limited.
+     * Returns multiple {@link FunctionDataDTO}s each matching all specified restrictions. If one or more restrictions
+     * are set each restriction will be applied (AND) and one of the values of each restriction must match (OR). It is
+     * not possible to call this method without any restriction. The number of results is limited. The
+     * {@link ResultCollection} may contain a call for more results.
      *
      * @param matchcodes the matchcodes for filtering, optional
      * @return a collection of all found items, never null
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<FunctionDataDTO> getAll(
-        @RequestParam(value = "matchcode", required = false) Collection<FunctionMatchcode> matchcodes);
+    @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResultCollection<FunctionDataDTO> getAll(
+        @RequestParam(value = "mc", required = false) Collection<FunctionMatchcode> matchcodes);
 
     /**
      * Searches for {@link FunctionItemDTO} with the specified query. If one or more filters are set each filter will be
@@ -77,8 +79,8 @@ public interface FunctionDataFacade extends ByMatchcode<FunctionMatchcode, Funct
     ResultPage<FunctionItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
-        @RequestParam(value = "tenant", required = false) Collection<BrandMatchcode> tenants,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
+        @RequestParam(value = "t", required = false) Collection<BrandMatchcode> tenants,
+        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
         @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
         @RequestParam(value = "contractType",
             required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
@@ -88,9 +90,8 @@ public interface FunctionDataFacade extends ByMatchcode<FunctionMatchcode, Funct
     // CHECKSTYLE:ON
 
     /**
-     * Searches for {@link FunctionItemDTO} with the specified query. If one or more filters are set each filter will be
-     * applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down item with
-     * only a few properties.
+     * Finds multiple {@link FunctionItemDTO}s each matching all specified restrictions. If one or more restrictions are
+     * set each restriction will be applied (AND) and one of the values of each restriction must match (OR).
      *
      * @param language the language
      * @param matchcodes the matchcodes for filtering, optional
@@ -108,17 +109,17 @@ public interface FunctionDataFacade extends ByMatchcode<FunctionMatchcode, Funct
      */
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/find")
-    ResultPage<FunctionItemDTO> findAll(@RequestParam(value = "l") String language,
-        @RequestParam(value = "matchcode", required = false) Collection<FunctionMatchcode> matchcodes,
-        @RequestParam(value = "tenant", required = false) Collection<BrandMatchcode> tenants,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
+    ResultPage<FunctionItemDTO> find(@RequestParam(value = "l") String language,
+        @RequestParam(value = "mc", required = false) Collection<FunctionMatchcode> matchcodes,
+        @RequestParam(value = "t", required = false) Collection<BrandMatchcode> tenants,
+        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
         @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
         @RequestParam(value = "contractType",
             required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
         @RequestParam(value = "numberType", required = false) Collection<NumberTypeMatchcode> numberTypeMatchcodes,
         @RequestParam(value = "activity", required = false) Collection<ActivityMatchcode> activityMatchcodes,
         @RequestParam(value = "infoarea", required = false) Collection<InfoareaMatchcode> infoareaMatchcodes,
-        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
+        @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage);
     // CHECKSTYLE:ON

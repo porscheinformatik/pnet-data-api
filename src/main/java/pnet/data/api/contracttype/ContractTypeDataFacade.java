@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
 import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.contractstate.ContractStateMatchcode;
@@ -39,16 +40,17 @@ public interface ContractTypeDataFacade extends ByMatchcode<ContractTypeMatchcod
 {
 
     /**
-     * Returns multiple {@link ContractTypeDataDTO}s each matching all specified filters. If one or more filters are set
-     * each filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to
-     * call this method without any filter and the maximum number of filter items is limited.
+     * Returns multiple {@link ContractTypeDataDTO}s each matching all specified restrictions. If one or more
+     * restrictions are set each restriction will be applied (AND) and one of the values of each restriction must match
+     * (OR). It is not possible to call this method without any restriction. The number of results is limited. The
+     * {@link ResultCollection} may contain a call for more results.
      *
      * @param matchcodes the matchcodes for filtering, optional
      * @return a collection of all found items, never null
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<ContractTypeDataDTO> getAll(
-        @RequestParam(value = "matchcode", required = false) Collection<ContractTypeMatchcode> matchcodes);
+    @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResultCollection<ContractTypeDataDTO> getAll(
+        @RequestParam(value = "mc", required = false) Collection<ContractTypeMatchcode> matchcodes);
 
     /**
      * Searches for {@link ContractTypeDataDTO} with the specified query. If one or more filters are set each filter
@@ -66,12 +68,11 @@ public interface ContractTypeDataFacade extends ByMatchcode<ContractTypeMatchcod
     ResultPage<ContractTypeItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes);
+        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes);
 
     /**
-     * Searches for {@link ContractTypeDataDTO} with the specified query. If one or more filters are set each filter
-     * will be applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down
-     * item with only a few properties.
+     * Finds multiple {@link ContractTypeDataDTO}s each matching all specified restrictions. If one or more restrictions
+     * are set each restriction will be applied (AND) and one of the values of each restriction must match (OR).
      *
      * @param language the language
      * @param matchcodes the matchcodes for filtering, optional
@@ -82,13 +83,13 @@ public interface ContractTypeDataFacade extends ByMatchcode<ContractTypeMatchcod
      * @param perPage the number of items per page
      * @return a page of the results, never null
      */
-    @RequestMapping(value = "/search")
-    ResultPage<ContractTypeItemDTO> search(@RequestParam(value = "l") String language,
-        @RequestParam(value = "matchcode", required = false) Collection<ContractTypeMatchcode> matchcodes,
-        @RequestParam(value = "brand", required = false) Collection<BrandMatchcode> brandMatchcodes,
+    @RequestMapping(value = "/find")
+    ResultPage<ContractTypeItemDTO> find(@RequestParam(value = "l") String language,
+        @RequestParam(value = "mc", required = false) Collection<ContractTypeMatchcode> matchcodes,
+        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
         @RequestParam(value = "contractState",
             required = false) Collection<ContractStateMatchcode> contractStateMatchcodes,
-        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
+        @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage);
 

@@ -15,10 +15,8 @@
 package pnet.data.api;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Holding results of a search or find operation with paging information.
@@ -26,80 +24,59 @@ import java.util.Objects;
  * @author ham
  * @param <T> the type of item
  */
-public class ResultPage<T> implements Iterable<T>, Serializable
+public interface ResultPage<T> extends Iterable<T>, Serializable
 {
-
-    private static final long serialVersionUID = 254532979510480226L;
-
-    private final List<T> items;
-    private final int itemsPerPage;
-    private final int numberOfItems;
-    private final int pageNumber;
-    private final int numberOfPages;
-
-    public ResultPage(List<T> items, int itemsPerPage, int numberOfItems, int pageNumber, int numberOfPages)
-    {
-        super();
-
-        this.items = Collections.unmodifiableList(Objects.requireNonNull(items, "Items is null"));
-        this.itemsPerPage = itemsPerPage;
-        this.numberOfItems = numberOfItems;
-        this.pageNumber = pageNumber;
-        this.numberOfPages = numberOfPages;
-    }
 
     /**
      * @return the list of items, never null.
      */
-    public List<T> getItems()
-    {
-        return items;
-    }
+    List<T> getItems();
 
     /**
      * @return the number of items on this page.
      */
-    public int size()
+    default int size()
     {
-        return items.size();
+        return getItems().size();
     }
 
     @Override
-    public Iterator<T> iterator()
+    default Iterator<T> iterator()
     {
-        return items.iterator();
+        return getItems().iterator();
     }
 
     /**
      * @return the number of items per page, which must not be the same a the number of items in this page.
      */
-    public int getItemsPerPage()
-    {
-        return itemsPerPage;
-    }
+    int getItemsPerPage();
 
     /**
      * @return the total number of items.
      */
-    public int getNumberOfItems()
-    {
-        return numberOfItems;
-    }
+    int getNumberOfItems();
 
     /**
      * @return the number of this page, 1-based.
      */
-    public int getPageNumber()
-    {
-        return pageNumber;
-    }
+    int getPageNumber();
 
     /**
      * @return the total number of pages.
      */
-    public int getNumberOfPages()
+    int getNumberOfPages();
+
+    /**
+     * @return true if there is another page
+     */
+    default boolean hasNextPage()
     {
-        return numberOfPages;
+        return getPageNumber() <= getNumberOfPages();
     }
+
+    /**
+     * @return the next page. Executes a call if there is another page. Null otherwise.
+     */
+    ResultPage<T> getNextPage();
 
 }

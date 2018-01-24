@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
 import pnet.data.api.util.ByMatchcode;
 
@@ -37,16 +38,17 @@ public interface NumberTypeDataFacade extends ByMatchcode<NumberTypeMatchcode, N
 {
 
     /**
-     * Returns multiple {@link NumberTypeDataDTO}s each matching all specified filters. If one or more filters are set
-     * each filter will be applied (AND) and one of the values of each filter must match (OR). It is not possible to
-     * call this method without any filter and the maximum number of filter items is limited.
+     * Returns multiple {@link NumberTypeDataDTO}s each matching all specified restrictions. If one or more restrictions
+     * are set each restriction will be applied (AND) and one of the values of each restriction must match (OR). It is
+     * not possible to call this method without any restriction. The number of results is limited. The
+     * {@link ResultCollection} may contain a call for more results.
      *
      * @param matchcodes the matchcodes for filtering, optional
      * @return a collection of all found items, never null
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    Collection<NumberTypeDataDTO> getAll(
-        @RequestParam(value = "matchcode", required = false) Collection<NumberTypeMatchcode> matchcodes);
+    @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResultCollection<NumberTypeDataDTO> getAll(
+        @RequestParam(value = "mc", required = false) Collection<NumberTypeMatchcode> matchcodes);
 
     /**
      * Searches for {@link NumberTypeItemDTO} with the specified query.
@@ -63,9 +65,8 @@ public interface NumberTypeDataFacade extends ByMatchcode<NumberTypeMatchcode, N
         @RequestParam(value = "pp", defaultValue = "10") int perPage);
 
     /**
-     * Searches for {@link NumberTypeItemDTO} with the specified query. If one or more filters are set each filter will
-     * be applied (AND) and one of the values of each filter must match (OR). The method returns a stripped down item
-     * with only a few properties.
+     * Finds multiple {@link NumberTypeItemDTO}s each matching all specified restrictions. If one or more restrictions
+     * are set each restriction will be applied (AND) and one of the values of each restriction must match (OR).
      *
      * @param language the language
      * @param matchcodes the matchcodes for filtering, optional
@@ -75,9 +76,9 @@ public interface NumberTypeDataFacade extends ByMatchcode<NumberTypeMatchcode, N
      * @return a page of the results, never null
      */
     @RequestMapping(value = "/find")
-    ResultPage<NumberTypeItemDTO> findAll(@RequestParam(value = "l") String language,
-        @RequestParam(value = "matchcode", required = false) Collection<NumberTypeMatchcode> matchcodes,
-        @RequestParam(value = "updatedAfter", required = false) LocalDateTime updatedAfter,
+    ResultPage<NumberTypeItemDTO> find(@RequestParam(value = "l") String language,
+        @RequestParam(value = "mc", required = false) Collection<NumberTypeMatchcode> matchcodes,
+        @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "1") int page,
         @RequestParam(value = "pp", defaultValue = "10") int perPage);
 
