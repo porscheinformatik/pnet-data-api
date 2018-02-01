@@ -21,9 +21,86 @@ import java.io.Serializable;
  *
  * @author ham
  */
-public interface Matchcode extends CharSequence, Serializable
+public abstract class Matchcode implements CharSequence, Serializable
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = 2878108101706073855L;
+
+    private final String matchcode;
+
+    protected Matchcode(String matchcode)
+    {
+        super();
+
+        this.matchcode = matchcode;
+    }
+
+    public String getMatchcode()
+    {
+        return matchcode;
+    }
+
+    @Override
+    public int length()
+    {
+        return matchcode.length();
+    }
+
+    @Override
+    public char charAt(int index)
+    {
+        return matchcode.charAt(index);
+    }
+
+    @Override
+    public CharSequence subSequence(int start, int end)
+    {
+        return matchcode.subSequence(start, end);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (!(obj instanceof Matchcode))
+        {
+            return false;
+        }
+        Matchcode other = (Matchcode) obj;
+        if (matchcode == null)
+        {
+            if (other.matchcode != null)
+            {
+                return false;
+            }
+        }
+        else if (!matchcode.equals(other.matchcode))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        return matchcode;
+    }
 
 }

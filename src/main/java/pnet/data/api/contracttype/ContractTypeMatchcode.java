@@ -14,16 +14,47 @@
  */
 package pnet.data.api.contracttype;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
- * A {@link Matchcode} used for contract types.
+ * A {@link Matchcode} used for contrat types.
  *
  * @author ham
  */
-public interface ContractTypeMatchcode extends Matchcode
+public final class ContractTypeMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = -1226738449894058374L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static ContractTypeMatchcode of(String matchcode)
+    {
+        return new ContractTypeMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<ContractTypeMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null
+            : matchcodes.stream().map(ContractTypeMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected ContractTypeMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

@@ -14,16 +14,46 @@
  */
 package pnet.data.api.infoarea;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
- * A {@link Matchcode} used for infoareas.
+ * A {@link Matchcode} used for number types.
  *
  * @author ham
  */
-public interface InfoareaMatchcode extends Matchcode
+public final class InfoareaMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = -3100104573093304816L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static InfoareaMatchcode of(String matchcode)
+    {
+        return new InfoareaMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<InfoareaMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null : matchcodes.stream().map(InfoareaMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected InfoareaMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

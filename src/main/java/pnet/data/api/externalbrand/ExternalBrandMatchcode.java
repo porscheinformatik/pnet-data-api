@@ -14,6 +14,9 @@
  */
 package pnet.data.api.externalbrand;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
@@ -21,9 +24,37 @@ import pnet.data.api.Matchcode;
  *
  * @author ham
  */
-public interface ExternalBrandMatchcode extends Matchcode
+public final class ExternalBrandMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = 2151065960316769446L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static ExternalBrandMatchcode of(String matchcode)
+    {
+        return new ExternalBrandMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<ExternalBrandMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null
+            : matchcodes.stream().map(ExternalBrandMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected ExternalBrandMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

@@ -14,16 +14,46 @@
  */
 package pnet.data.api.function;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
- * A {@link Matchcode} used for functions.
+ * A {@link Matchcode} used for activities.
  *
  * @author ham
  */
-public interface FunctionMatchcode extends Matchcode
+public final class FunctionMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = 4330501106213840887L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static FunctionMatchcode of(String matchcode)
+    {
+        return new FunctionMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<FunctionMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null : matchcodes.stream().map(FunctionMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected FunctionMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

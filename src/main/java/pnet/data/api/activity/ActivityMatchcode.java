@@ -14,6 +14,9 @@
  */
 package pnet.data.api.activity;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
@@ -21,9 +24,36 @@ import pnet.data.api.Matchcode;
  *
  * @author ham
  */
-public interface ActivityMatchcode extends Matchcode
+public final class ActivityMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = -3100104573093304816L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static ActivityMatchcode of(String matchcode)
+    {
+        return new ActivityMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<ActivityMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null : matchcodes.stream().map(ActivityMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected ActivityMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

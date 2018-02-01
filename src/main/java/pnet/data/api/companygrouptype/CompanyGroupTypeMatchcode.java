@@ -14,6 +14,9 @@
  */
 package pnet.data.api.companygrouptype;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
@@ -21,9 +24,37 @@ import pnet.data.api.Matchcode;
  *
  * @author ham
  */
-public interface CompanyGroupTypeMatchcode extends Matchcode
+public final class CompanyGroupTypeMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = 1711741828462355359L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static CompanyGroupTypeMatchcode of(String matchcode)
+    {
+        return new CompanyGroupTypeMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<CompanyGroupTypeMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null
+            : matchcodes.stream().map(CompanyGroupTypeMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected CompanyGroupTypeMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

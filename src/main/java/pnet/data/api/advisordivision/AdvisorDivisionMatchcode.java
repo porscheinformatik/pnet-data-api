@@ -14,16 +14,47 @@
  */
 package pnet.data.api.advisordivision;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
- * A {@link Matchcode} used for advisor types.
+ * A {@link Matchcode} used for advisor divisions.
  *
  * @author ham
  */
-public interface AdvisorDivisionMatchcode extends Matchcode
+public final class AdvisorDivisionMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = 5711035295694113524L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static AdvisorDivisionMatchcode of(String matchcode)
+    {
+        return new AdvisorDivisionMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<AdvisorDivisionMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null
+            : matchcodes.stream().map(AdvisorDivisionMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected AdvisorDivisionMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

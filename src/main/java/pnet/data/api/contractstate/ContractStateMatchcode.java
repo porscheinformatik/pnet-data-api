@@ -14,6 +14,9 @@
  */
 package pnet.data.api.contractstate;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
@@ -21,9 +24,37 @@ import pnet.data.api.Matchcode;
  *
  * @author ham
  */
-public interface ContractStateMatchcode extends Matchcode
+public final class ContractStateMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = -8498985940778877689L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static ContractStateMatchcode of(String matchcode)
+    {
+        return new ContractStateMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<ContractStateMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null
+            : matchcodes.stream().map(ContractStateMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected ContractStateMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

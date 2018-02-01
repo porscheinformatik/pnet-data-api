@@ -14,6 +14,9 @@
  */
 package pnet.data.api.advisortype;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 import pnet.data.api.Matchcode;
 
 /**
@@ -21,9 +24,37 @@ import pnet.data.api.Matchcode;
  *
  * @author ham
  */
-public interface AdvisorTypeMatchcode extends Matchcode
+public final class AdvisorTypeMatchcode extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = 8294667591017559079L;
+
+    /**
+     * Creates a matchcode from the specified string
+     *
+     * @param matchcode the matchcode
+     * @return the matchcode object
+     */
+    public static AdvisorTypeMatchcode of(String matchcode)
+    {
+        return new AdvisorTypeMatchcode(matchcode);
+    }
+
+    /**
+     * Creates a collection of matchcodes
+     *
+     * @param matchcodes the matchcodes, may be null
+     * @return a collection, may be null
+     */
+    public static Collection<AdvisorTypeMatchcode> ofAll(Collection<String> matchcodes)
+    {
+        return matchcodes == null ? null
+            : matchcodes.stream().map(AdvisorTypeMatchcode::of).collect(Collectors.toList());
+    }
+
+    protected AdvisorTypeMatchcode(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }

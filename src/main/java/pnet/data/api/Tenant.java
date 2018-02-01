@@ -14,14 +14,38 @@
  */
 package pnet.data.api;
 
+import java.util.Collection;
+import java.util.stream.Collectors;
+
 /**
  * The tenant defines one client (importer) linked to most data items. Usually the tenant is the country-code.
  *
  * @author ham
  */
-public interface Tenant extends Matchcode
+public final class Tenant extends Matchcode
 {
 
-    // intentionally left blank
+    private static final long serialVersionUID = 3759396236758210979L;
+
+    /**
+     * Creates a tenant from the specified string
+     *
+     * @param tenant the tenant
+     * @return the tenant object
+     */
+    public static Tenant of(String tenant)
+    {
+        return new Tenant(tenant);
+    }
+
+    public static Collection<Tenant> ofAll(Collection<String> tenants)
+    {
+        return tenants == null ? null : tenants.stream().map(Tenant::of).collect(Collectors.toList());
+    }
+
+    protected Tenant(String matchcode)
+    {
+        super(matchcode);
+    }
 
 }
