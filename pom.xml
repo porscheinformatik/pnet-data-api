@@ -8,9 +8,19 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <name>Partner.Net Data API</name>
-    
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>pnet-data-api-java</module>
+        <module>pnet-data-api-java-client</module>
+    </modules>
+
     <licenses>
-        <license></license>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
     </licenses>
 
     <properties>
@@ -18,108 +28,83 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>5.0.1.RELEASE</version>
-            <scope>provided</scope>
-        </dependency>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>at.porscheinformatik.pnet</groupId>
+                <artifactId>pnet-data-api-java</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.9.2</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
+            <dependency>
+                <groupId>at.porscheinformatik.pnet</groupId>
+                <artifactId>pnet-data-api-java-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>5.0.1.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>4.5.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.25</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <showDeprecation>true</showDeprecation>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <!-- <executions>
-                    <execution>
-                        <id>generate-service-docs</id>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <doclet>com.tenxerconsulting.swagger.doclet.ServiceDoclet</doclet>
-                            <docletArtifact>
-                                <groupId>com.tenxerconsulting</groupId>
-                                <artifactId>swagger-doclet</artifactId>
-                                <version>1.1.4-SNAPSHOT</version>
-                            </docletArtifact>
-                            <reportOutputDirectory>${project.build.outputDirectory}</reportOutputDirectory>
-                            <useStandardDocletOptions>false</useStandardDocletOptions>
-                            <additionalparam>
-                                -apiVersion 1
-                                -docBasePath https://auto-partner.net
-                                -apiBasePath
-                                https://auto-partner.net
-                            </additionalparam>
-                        </configuration>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                    </execution>
-                </executions> -->
-            </plugin>
-
-            <plugin>
-                <groupId>cz.habarta.typescript-generator</groupId>
-                <artifactId>typescript-generator-maven-plugin</artifactId>
-                <version>1.29.366</version>
-                <executions>
-                    <execution>
-                        <id>generate-dts</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <classes>
-                                <class>pnet.data.api.about.AboutDataDTO</class>
-                                <class>pnet.data.api.function.FunctionDataDTO</class>
-                            </classes>
-                            <!-- <excludeClasses> -->
-                            <!-- <class>java.time.LocalDate</class> -->
-                            <!-- <class>java.time.LocalDateTime</class> -->
-                            <!-- </excludeClasses> -->
-                            <namespace>pnet.data</namespace>
-                            <jsonLibrary>jackson2</jsonLibrary>
-                            <outputKind>global</outputKind>
-                            <outputFile>target/pnet-data-api.d.ts</outputFile>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.1</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <showDeprecation>true</showDeprecation>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.2.1</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.9.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>cz.habarta.typescript-generator</groupId>
+                    <artifactId>typescript-generator-maven-plugin</artifactId>
+                    <version>1.29.366</version>
+                </plugin>
+
                 <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
                     build itself. -->
                 <plugin>
