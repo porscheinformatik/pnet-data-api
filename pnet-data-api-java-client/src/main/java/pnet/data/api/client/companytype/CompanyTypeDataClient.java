@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.GenericType;
-import at.porscheinformatik.happyrest.GenericType.Of;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -31,11 +30,6 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
     //        new GenericType<DefaultPnetDataClientResultPage<CompanyTypeDataDTO>>()
     //        {
     //        };
-
-    private static final Of<DefaultPnetDataClientResultPage<CompanyTypeDataDTO>> RESPONSE_TYPE =
-        new GenericType.Of<DefaultPnetDataClientResultPage<CompanyTypeDataDTO>>()
-        {
-        };
 
     public CompanyTypeDataClient(PnetDataApiContext context)
     {
@@ -62,8 +56,8 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
             .parameters("mc", matchcodes)
             .parameter("p", pageIndex)
             .parameter("pp", itemsPerPage)
-            .get("/api/v1/companytypes/details", RESPONSE_TYPE);
-        //                GenericType.of(DefaultPnetDataClientResultPage.class, CompanyTypeDataDTO.class));
+            .get("/api/v1/companytypes/details",
+                new GenericType.Of<DefaultPnetDataClientResultPage<CompanyTypeDataDTO>>() {});
 
         resultPage.setNextPageSupplier(() -> getAll(matchcodes, pageIndex + 1, itemsPerPage));
 
