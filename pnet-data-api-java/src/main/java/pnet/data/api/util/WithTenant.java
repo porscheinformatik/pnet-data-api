@@ -1,7 +1,5 @@
 package pnet.data.api.util;
 
-import pnet.data.api.Tenant;
-
 /**
  * Holds a tenant.
  *
@@ -10,6 +8,6 @@ import pnet.data.api.Tenant;
 public interface WithTenant
 {
 
-    Tenant getTenant();
+    String getTenant();
 
 }

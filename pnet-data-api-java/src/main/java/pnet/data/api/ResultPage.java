@@ -27,6 +27,44 @@ import java.util.List;
 public interface ResultPage<T> extends Iterable<T>, Serializable
 {
 
+    static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int numberOfItems, int pageIndex, int numberOfPages)
+    {
+        return new ResultPage<T>()
+        {
+            private static final long serialVersionUID = -999167833058168881L;
+
+            @Override
+            public List<T> getItems()
+            {
+                return items;
+            }
+
+            @Override
+            public int getItemsPerPage()
+            {
+                return itemsPerPage;
+            }
+
+            @Override
+            public int getNumberOfItems()
+            {
+                return numberOfItems;
+            }
+
+            @Override
+            public int getPageIndex()
+            {
+                return pageIndex;
+            }
+
+            @Override
+            public int getNumberOfPages()
+            {
+                return numberOfPages;
+            }
+        };
+    }
+
     /**
      * @return the list of items, never null.
      */
@@ -67,9 +105,9 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     int getNumberOfItems();
 
     /**
-     * @return the number of this page, 0-based.
+     * @return the index of this page, 0-based.
      */
-    int getPageNumber();
+    int getPageIndex();
 
     /**
      * @return the total number of pages.
@@ -81,12 +119,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
      */
     default boolean hasNextPage()
     {
-        return getPageNumber() <= getNumberOfPages();
+        return getPageIndex() < getNumberOfPages();
     }
-
-    /**
-     * @return the next page. Executes a call if there is another page. Null otherwise.
-     */
-    ResultPage<T> getNextPage();
 
 }

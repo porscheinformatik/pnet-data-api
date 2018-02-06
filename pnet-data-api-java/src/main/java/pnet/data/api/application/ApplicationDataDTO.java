@@ -31,19 +31,18 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ApplicationDataDTO
-    implements WithMatchcode<ApplicationMatchcode>, WithLabels, WithDescriptions, WithLastUpdate, Serializable
+public class ApplicationDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -8043695004224267387L;
 
-    private final ApplicationMatchcode matchcode;
+    private final String matchcode;
 
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
     private LocalDateTime lastUpdate;
 
-    public ApplicationDataDTO(@JsonProperty("matchcode") ApplicationMatchcode matchcode)
+    public ApplicationDataDTO(@JsonProperty("matchcode") String matchcode)
     {
         super();
 
@@ -51,7 +50,7 @@ public class ApplicationDataDTO
     }
 
     @Override
-    public ApplicationMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

@@ -1,7 +1,7 @@
-package pnet.data.api.client;
+package pnet.data.api.client.context;
 
 import at.porscheinformatik.happyrest.RestCall;
-import pnet.data.api.Tenant;
+import pnet.data.api.client.PnetDataClientLoginException;
 
 /**
  * Context for accessing the Partner.Net Data API
@@ -32,12 +32,12 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     }
 
     @Override
-    public PnetDataApiContext withTenant(Tenant tenant)
+    public PnetDataApiContext withTenant(String tenant)
     {
         PnetDataApiTokenKey key = getKey();
 
         return new DefaultPnetDataApiContext(repository,
-            new PnetDataApiTokenKey(key.getUrl(), tenant.getMatchcode(), key.getUsername(), key.getPassword()));
+            new PnetDataApiTokenKey(key.getUrl(), tenant, key.getUsername(), key.getPassword()));
     }
 
     @Override
@@ -50,7 +50,7 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     }
 
     @Override
-    public RestCall createRestCall() throws PnetDataApiLoginException
+    public RestCall createRestCall() throws PnetDataClientLoginException
     {
         return repository.createRestCall(getKey());
     }

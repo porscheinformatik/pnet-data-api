@@ -1,4 +1,4 @@
-package pnet.data.api.client;
+package pnet.data.api.client.context;
 
 /**
  * Default implementation of the {@link PnetDataApiContext}.

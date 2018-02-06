@@ -15,7 +15,7 @@
 package pnet.data.api.application;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/applications")
-public interface ApplicationDataFacade extends ByMatchcode<ApplicationMatchcode, ApplicationDataDTO>
+public interface ApplicationDataFacade extends ByMatchcode<ApplicationDataDTO>
 {
 
     /**
@@ -49,8 +49,7 @@ public interface ApplicationDataFacade extends ByMatchcode<ApplicationMatchcode,
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<ApplicationDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<ApplicationMatchcode> matchcodes)
+    ResultCollection<ApplicationDataDTO> getAll(@RequestParam(value = "mc", required = false) List<String> matchcodes)
         throws PnetDataApiException;
 
     /**
@@ -82,7 +81,7 @@ public interface ApplicationDataFacade extends ByMatchcode<ApplicationMatchcode,
      */
     @RequestMapping(value = "/find")
     ResultPage<ApplicationItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<ApplicationMatchcode> matchcodes,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

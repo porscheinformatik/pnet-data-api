@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.externalbrand.ExternalBrandMatchcode;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
@@ -28,19 +27,19 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-public class CompanyExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithValidPeriod, Serializable
+public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -1049613870676274132L;
 
-    private final ExternalBrandMatchcode matchcode;
+    private final String matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final boolean sales;
     private final boolean service;
     private final boolean local;
 
-    public CompanyExternalBrandDataDTO(@JsonProperty("matchcode") ExternalBrandMatchcode matchcode,
+    public CompanyExternalBrandDataDTO(@JsonProperty("matchcode") String matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("sales") boolean sales, @JsonProperty("service") boolean service,
         @JsonProperty("local") boolean local)
@@ -56,7 +55,7 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode<ExternalBrandM
     }
 
     @Override
-    public ExternalBrandMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

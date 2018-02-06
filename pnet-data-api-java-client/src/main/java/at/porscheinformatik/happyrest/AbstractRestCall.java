@@ -2,6 +2,7 @@ package at.porscheinformatik.happyrest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -70,21 +71,45 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public RestCall header(String name, String value)
+    public RestCall header(String name, String... value)
     {
-        return attribute(RestAttribute.header(name, value));
+        return attribute(
+            Arrays.stream(value).map($ -> RestAttribute.header(name, $)).toArray(size -> new RestAttribute[size]));
     }
 
     @Override
-    public RestCall variable(String name, Object value)
+    public RestCall headers(String name, Collection<String> values)
     {
-        return attribute(RestAttribute.variable(name, value));
+        return attribute(
+            values.stream().map($ -> RestAttribute.header(name, $)).toArray(size -> new RestAttribute[size]));
     }
 
     @Override
-    public RestCall parameter(String name, Object value)
+    public RestCall variable(String name, Object... value)
     {
-        return attribute(RestAttribute.parameter(name, value));
+        return attribute(
+            Arrays.stream(value).map($ -> RestAttribute.variable(name, $)).toArray(size -> new RestAttribute[size]));
+    }
+
+    @Override
+    public RestCall variables(String name, Collection<?> values)
+    {
+        return attribute(
+            values.stream().map($ -> RestAttribute.variable(name, $)).toArray(size -> new RestAttribute[size]));
+    }
+
+    @Override
+    public RestCall parameter(String name, Object... value)
+    {
+        return attribute(
+            Arrays.stream(value).map($ -> RestAttribute.parameter(name, $)).toArray(size -> new RestAttribute[size]));
+    }
+
+    @Override
+    public RestCall parameters(String name, Collection<?> values)
+    {
+        return attribute(
+            values.stream().map($ -> RestAttribute.parameter(name, $)).toArray(size -> new RestAttribute[size]));
     }
 
     protected RestCall attribute(RestAttribute... attributesToAdd)

@@ -15,7 +15,7 @@
 package pnet.data.api.company;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +27,6 @@ import pnet.data.api.GeoDistance;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
-import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.companytype.CompanyTypeMatchcode;
-import pnet.data.api.contracttype.ContractTypeMatchcode;
-import pnet.data.api.externalbrand.ExternalBrandMatchcode;
 import pnet.data.api.util.ById;
 
 /**
@@ -62,14 +58,14 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     // CHECKSTYLE:OFF
-    ResultCollection<CompanyDataDTO> getAll(@RequestParam(value = "id", required = false) Collection<Integer> ids,
-        @RequestParam(value = "uidNumber", required = false) Collection<String> uidNumbers,
-        @RequestParam(value = "sapNumber", required = false) Collection<String> sapNumbers,
-        @RequestParam(value = "companyNumber", required = false) Collection<String> companyNumbers,
-        @RequestParam(value = "iban", required = false) Collection<String> ibans,
-        @RequestParam(value = "email", required = false) Collection<String> email,
-        @RequestParam(value = "dvrNumber", required = false) Collection<String> dvrNumber,
-        @RequestParam(value = "fbNumber", required = false) Collection<String> fbNumber) throws PnetDataApiException;
+    ResultCollection<CompanyDataDTO> getAll(@RequestParam(value = "id", required = false) List<Integer> ids,
+        @RequestParam(value = "uidNumber", required = false) List<String> uidNumbers,
+        @RequestParam(value = "sapNumber", required = false) List<String> sapNumbers,
+        @RequestParam(value = "companyNumber", required = false) List<String> companyNumbers,
+        @RequestParam(value = "iban", required = false) List<String> ibans,
+        @RequestParam(value = "email", required = false) List<String> email,
+        @RequestParam(value = "dvrNumber", required = false) List<String> dvrNumber,
+        @RequestParam(value = "fbNumber", required = false) List<String> fbNumber) throws PnetDataApiException;
     // CHECKSTYLE:ON
 
     /**
@@ -90,9 +86,8 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
     ResultPage<CompanyItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage,
-        @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes)
-        throws PnetDataApiException;
+        @RequestParam(value = "companyId", required = false) List<Integer> companyIds,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes) throws PnetDataApiException;
 
     /**
      * Finds multiple {@link CompanyItemDTO}s each matching all specified restrictions. If one or more restrictions are
@@ -117,17 +112,15 @@ public interface CompanyDataFacade extends ById<CompanyDataDTO>
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/find")
     ResultPage<CompanyItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "id", required = false) Collection<Integer> ids,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "zip", required = false) Collection<String> zips,
-        @RequestParam(value = "countryCode", required = false) Collection<String> countryCodes,
-        @RequestParam(value = "type", required = false) Collection<CompanyTypeMatchcode> typeMatchcodes,
-        @RequestParam(value = "contractType",
-            required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
-        @RequestParam(value = "distance", required = false) Collection<GeoDistance> distances,
-        @RequestParam(value = "externalBrands",
-            required = false) Collection<ExternalBrandMatchcode> externalBrandMatchcodes,
-        @RequestParam(value = "headquater", required = false) Collection<Integer> headquaterCompanyIds,
+        @RequestParam(value = "id", required = false) List<Integer> ids,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes,
+        @RequestParam(value = "zip", required = false) List<String> zips,
+        @RequestParam(value = "countryCode", required = false) List<String> countryCodes,
+        @RequestParam(value = "type", required = false) List<String> typeMatchcodes,
+        @RequestParam(value = "contractType", required = false) List<String> contractTypeMatchcodes,
+        @RequestParam(value = "distance", required = false) List<GeoDistance> distances,
+        @RequestParam(value = "externalBrands", required = false) List<String> externalBrandMatchcodes,
+        @RequestParam(value = "headquater", required = false) List<Integer> headquaterCompanyIds,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

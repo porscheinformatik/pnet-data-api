@@ -21,8 +21,6 @@ import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.GeoPoint;
-import pnet.data.api.Tenant;
-import pnet.data.api.companytype.CompanyTypeMatchcode;
 
 /**
  * Holds companydata.
@@ -35,7 +33,7 @@ public class CompanyItemDTO implements Serializable
     private static final long serialVersionUID = 4397773907429688509L;
 
     private final Integer companyId;
-    private final Tenant administrativeTenant;
+    private final String administrativeTenant;
     private final String name;
     private final String nameAffix;
     private final String marketingName;
@@ -47,18 +45,18 @@ public class CompanyItemDTO implements Serializable
     private final String countryCode;
     private final String country;
     private final String region;
-    private final Collection<CompanyTypeMatchcode> types;
+    private final Collection<String> types;
     private final GeoPoint location;
     private final LocalDateTime lastUpdate;
 
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId,
-        @JsonProperty("administrativeTenant") Tenant administrativeTenant, @JsonProperty("name") String name,
+        @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("name") String name,
         @JsonProperty("nameAffix") String nameAffix, @JsonProperty("marketingName") String marketingName,
         @JsonProperty("brands") Collection<CompanyBrandItemDTO> brands,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("street") String street,
         @JsonProperty("city") String city, @JsonProperty("zip") String zip,
         @JsonProperty("countryCode") String countryCode, @JsonProperty("country") String country,
-        @JsonProperty("region") String region, @JsonProperty("types") Collection<CompanyTypeMatchcode> types,
+        @JsonProperty("region") String region, @JsonProperty("types") Collection<String> types,
         @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -85,7 +83,7 @@ public class CompanyItemDTO implements Serializable
         return companyId;
     }
 
-    public Tenant getAdministrativeTenant()
+    public String getAdministrativeTenant()
     {
         return administrativeTenant;
     }
@@ -145,7 +143,7 @@ public class CompanyItemDTO implements Serializable
         return region;
     }
 
-    public Collection<CompanyTypeMatchcode> getTypes()
+    public Collection<String> getTypes()
     {
         return types;
     }

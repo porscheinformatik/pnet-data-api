@@ -15,7 +15,7 @@
 package pnet.data.api.person;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
-import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.ById;
 
 /**
@@ -54,11 +53,11 @@ public interface PersonDataFacade extends ById<PersonDataDTO>
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<PersonDataDTO> getAll(@RequestParam(value = "id", required = false) Collection<Integer> ids,
-        @RequestParam(value = "guid", required = false) Collection<String> guids,
-        @RequestParam(value = "preferredUserId", required = false) Collection<String> preferredUserIds,
-        @RequestParam(value = "email", required = false) Collection<String> emails,
-        @RequestParam(value = "personnelNumber", required = false) Collection<String> personnelNumbers)
+    ResultCollection<PersonDataDTO> getAll(@RequestParam(value = "id", required = false) List<Integer> ids,
+        @RequestParam(value = "guid", required = false) List<String> guids,
+        @RequestParam(value = "preferredUserId", required = false) List<String> preferredUserIds,
+        @RequestParam(value = "email", required = false) List<String> emails,
+        @RequestParam(value = "personnelNumber", required = false) List<String> personnelNumbers)
         throws PnetDataApiException;
 
     /**
@@ -82,10 +81,10 @@ public interface PersonDataFacade extends ById<PersonDataDTO>
     ResultPage<PersonItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage,
-        @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "function", required = false) Collection<BrandMatchcode> functionMatchcodes,
-        @RequestParam(value = "activity", required = false) Collection<BrandMatchcode> activityMatchcodes)
+        @RequestParam(value = "companyId", required = false) List<Integer> companyIds,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes,
+        @RequestParam(value = "function", required = false) List<String> functionMatchcodes,
+        @RequestParam(value = "activity", required = false) List<String> activityMatchcodes)
         throws PnetDataApiException;
     // CHECKSTYLE:ON
 
@@ -115,21 +114,20 @@ public interface PersonDataFacade extends ById<PersonDataDTO>
      */
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/find")
-    Collection<PersonItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "id", required = false) Collection<Integer> ids,
-        @RequestParam(value = "guid", required = false) Collection<String> guids,
-        @RequestParam(value = "preferredUserId", required = false) Collection<String> preferredUserIds,
-        @RequestParam(value = "email", required = false) Collection<String> emails,
-        @RequestParam(value = "costCenter", required = false) Collection<String> costCenters,
-        @RequestParam(value = "personnelNumber", required = false) Collection<String> personnelNumbers,
-        @RequestParam(value = "supervisorPersonnelNumber",
-            required = false) Collection<String> supervisorPersonnelNumbesr,
-        @RequestParam(value = "controllingArea", required = false) Collection<String> controllingAreas,
-        @RequestParam(value = "personnelDepartment", required = false) Collection<String> personnelDepartments,
-        @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "function", required = false) Collection<BrandMatchcode> functionMatchcodes,
-        @RequestParam(value = "activity", required = false) Collection<BrandMatchcode> activityMatchcodes,
+    List<PersonItemDTO> find(@RequestParam(value = "l") String language,
+        @RequestParam(value = "id", required = false) List<Integer> ids,
+        @RequestParam(value = "guid", required = false) List<String> guids,
+        @RequestParam(value = "preferredUserId", required = false) List<String> preferredUserIds,
+        @RequestParam(value = "email", required = false) List<String> emails,
+        @RequestParam(value = "costCenter", required = false) List<String> costCenters,
+        @RequestParam(value = "personnelNumber", required = false) List<String> personnelNumbers,
+        @RequestParam(value = "supervisorPersonnelNumber", required = false) List<String> supervisorPersonnelNumbesr,
+        @RequestParam(value = "controllingArea", required = false) List<String> controllingAreas,
+        @RequestParam(value = "personnelDepartment", required = false) List<String> personnelDepartments,
+        @RequestParam(value = "companyId", required = false) List<Integer> companyIds,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes,
+        @RequestParam(value = "function", required = false) List<String> functionMatchcodes,
+        @RequestParam(value = "activity", required = false) List<String> activityMatchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

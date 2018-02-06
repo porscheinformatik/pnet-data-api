@@ -22,7 +22,6 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -33,21 +32,20 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class BrandDataDTO
-    implements WithMatchcode<BrandMatchcode>, WithTenants, WithLabels, WithLastUpdate, Serializable
+public class BrandDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5392033900534170882L;
 
-    private final BrandMatchcode matchcode;
+    private final String matchcode;
 
-    private Collection<Tenant> tenants;
+    private Collection<String> tenants;
     private Map<Locale, String> labels;
     private int ordinal;
     private String path;
     private LocalDateTime lastUpdate;
 
-    public BrandDataDTO(@JsonProperty("matchcode") BrandMatchcode matchcode)
+    public BrandDataDTO(@JsonProperty("matchcode") String matchcode)
     {
         super();
 
@@ -55,18 +53,18 @@ public class BrandDataDTO
     }
 
     @Override
-    public BrandMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }
 
     @Override
-    public Collection<Tenant> getTenants()
+    public Collection<String> getTenants()
     {
         return tenants;
     }
 
-    public void setTenants(Collection<Tenant> tenants)
+    public void setTenants(Collection<String> tenants)
     {
         this.tenants = tenants;
     }

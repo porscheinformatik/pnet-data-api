@@ -27,18 +27,18 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcode>, WithLastUpdate, Serializable
+public class ExternalBrandDataDTO implements WithMatchcode, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5466024519780832525L;
 
-    private final ExternalBrandMatchcode matchcode;
+    private final String matchcode;
 
     private String id;
     private String label;
     private LocalDateTime lastUpdate;
 
-    public ExternalBrandDataDTO(@JsonProperty("matchcode") ExternalBrandMatchcode matchcode)
+    public ExternalBrandDataDTO(@JsonProperty("matchcode") String matchcode)
     {
         super();
 
@@ -46,7 +46,7 @@ public class ExternalBrandDataDTO implements WithMatchcode<ExternalBrandMatchcod
     }
 
     @Override
-    public ExternalBrandMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

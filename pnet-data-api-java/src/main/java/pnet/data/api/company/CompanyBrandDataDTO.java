@@ -22,8 +22,6 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
-import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 import pnet.data.api.util.WithValidPeriod;
@@ -33,20 +31,19 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-public class CompanyBrandDataDTO implements WithTenant, WithMatchcode<BrandMatchcode>, WithValidPeriod, Serializable
+public class CompanyBrandDataDTO implements WithTenant, WithMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 7506202638418892087L;
 
-    private final Tenant tenant;
-    private final BrandMatchcode matchcode;
+    private final String tenant;
+    private final String matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final Collection<CompanyContractTypeDataDTO> contracts;
 
-    public CompanyBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("matchcode") BrandMatchcode matchcode, @JsonProperty("validFrom") LocalDateTime validFrom,
-        @JsonProperty("validTo") LocalDateTime validTo,
+    public CompanyBrandDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("contracts") Collection<CompanyContractTypeDataDTO> contracts)
     {
         this.tenant = tenant;
@@ -57,13 +54,13 @@ public class CompanyBrandDataDTO implements WithTenant, WithMatchcode<BrandMatch
     }
 
     @Override
-    public Tenant getTenant()
+    public String getTenant()
     {
         return tenant;
     }
 
     @Override
-    public BrandMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

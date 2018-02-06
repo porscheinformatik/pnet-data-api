@@ -14,7 +14,7 @@
  */
 package pnet.data.api.advisor;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
-import pnet.data.api.advisordivision.AdvisorDivisionMatchcode;
-import pnet.data.api.advisortype.AdvisorTypeMatchcode;
 
 /**
  * Provides access to advisors.
@@ -52,11 +50,10 @@ public interface AdvisorDataFacade
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResultCollection<AdvisorDataDTO> getAll(
-        @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds,
-        @RequestParam(value = "personId", required = false) Collection<Integer> personIds,
-        @RequestParam(value = "advisorType", required = false) Collection<AdvisorTypeMatchcode> advisorTypeMatchcodes,
-        @RequestParam(value = "advisorDivision",
-            required = false) Collection<AdvisorDivisionMatchcode> advisorDivisionMatchcodes)
+        @RequestParam(value = "companyId", required = false) List<Integer> companyIds,
+        @RequestParam(value = "personId", required = false) List<Integer> personIds,
+        @RequestParam(value = "advisorType", required = false) List<String> advisorTypeMatchcodes,
+        @RequestParam(value = "advisorDivision", required = false) List<String> advisorDivisionMatchcodes)
         throws PnetDataApiException;
 
 }

@@ -14,7 +14,7 @@
  */
 package pnet.data.api.companygroup;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
-import pnet.data.api.companygrouptype.CompanyGroupTypeMatchcode;
 
 /**
  * API for company groups.
@@ -50,9 +49,8 @@ public interface CompanyGroupDataFacade
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResultCollection<CompanyGroupDataDTO> getAll(
-        @RequestParam(value = "leadingCompanyId", required = false) Collection<Integer> leadingCompanyIds,
-        @RequestParam(value = "type", required = false) Collection<CompanyGroupTypeMatchcode> types,
-        @RequestParam(value = "companyId", required = false) Collection<Integer> companyIds)
-        throws PnetDataApiException;
+        @RequestParam(value = "leadingCompanyId", required = false) List<Integer> leadingCompanyIds,
+        @RequestParam(value = "type", required = false) List<String> types,
+        @RequestParam(value = "companyId", required = false) List<Integer> companyIds) throws PnetDataApiException;
 
 }

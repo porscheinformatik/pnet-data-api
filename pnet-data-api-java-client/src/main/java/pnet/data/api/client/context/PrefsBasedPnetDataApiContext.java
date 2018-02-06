@@ -1,10 +1,12 @@
-package pnet.data.api.client;
+package pnet.data.api.client.context;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pnet.data.api.client.PnetDataClientPrefs;
+
 /**
- * Implementation of the {@link PnetDataApiContext} that is based on the {@link PnetDataApiPrefs}.
+ * Implementation of the {@link PnetDataApiContext} that is based on the {@link PnetDataClientPrefs}.
  *
  * @author ham
  */
@@ -12,10 +14,10 @@ import org.springframework.stereotype.Service;
 public class PrefsBasedPnetDataApiContext extends AbstractPnetDataApiContext
 {
 
-    private final PnetDataApiPrefs prefs;
+    private final PnetDataClientPrefs prefs;
 
     @Autowired
-    public PrefsBasedPnetDataApiContext(PnetDataApiTokenRepository repository, PnetDataApiPrefs prefs)
+    public PrefsBasedPnetDataApiContext(PnetDataApiTokenRepository repository, PnetDataClientPrefs prefs)
     {
         super(repository);
 
@@ -25,7 +27,7 @@ public class PrefsBasedPnetDataApiContext extends AbstractPnetDataApiContext
     @Override
     protected PnetDataApiTokenKey getKey()
     {
-        return new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiTenant().getMatchcode(),
+        return new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiTenant(),
             prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword());
     }
 

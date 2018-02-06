@@ -3,8 +3,6 @@ package pnet.data.api.consent;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import pnet.data.api.application.ApplicationMatchcode;
-
 /**
  * Holds a constent of a user and an application
  *
@@ -16,12 +14,11 @@ public class ConsentDataDTO implements Serializable
     private static final long serialVersionUID = 1281444716362891435L;
 
     private final Integer personId;
-    private final ApplicationMatchcode applicationMatchcode;
+    private final String applicationMatchcode;
     private final boolean consent;
     private final LocalDateTime lastUpdate;
 
-    public ConsentDataDTO(Integer personId, ApplicationMatchcode applicationMatchcode, boolean consent,
-        LocalDateTime lastUpdate)
+    public ConsentDataDTO(Integer personId, String applicationMatchcode, boolean consent, LocalDateTime lastUpdate)
     {
         super();
         this.personId = personId;
@@ -35,7 +32,7 @@ public class ConsentDataDTO implements Serializable
         return personId;
     }
 
-    public ApplicationMatchcode getApplicationMatchcode()
+    public String getApplicationMatchcode()
     {
         return applicationMatchcode;
     }

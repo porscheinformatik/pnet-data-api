@@ -22,7 +22,6 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -33,20 +32,20 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTenants, WithLastUpdate, Serializable
+public class InfoareaItemDTO implements WithMatchcode, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -8490112900451405007L;
 
-    private final InfoareaMatchcode matchcode;
+    private final String matchcode;
     private final String label;
     private final String description;
-    private final Collection<Tenant> tenants;
+    private final Collection<String> tenants;
     private final Collection<InfoareaBrandItemDTO> brands;
     private final LocalDateTime lastUpdate;
 
-    public InfoareaItemDTO(@JsonProperty("matchcode") InfoareaMatchcode matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description, @JsonProperty("tenants") Collection<Tenant> tenants,
+    public InfoareaItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
+        @JsonProperty("description") String description, @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<InfoareaBrandItemDTO> brands,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
@@ -61,7 +60,7 @@ public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTe
     }
 
     @Override
-    public InfoareaMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }
@@ -83,7 +82,7 @@ public class InfoareaItemDTO implements WithMatchcode<InfoareaMatchcode>, WithTe
     }
 
     @Override
-    public Collection<Tenant> getTenants()
+    public Collection<String> getTenants()
     {
         return tenants;
     }

@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.contractstate.ContractStateMatchcode;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
@@ -28,16 +27,16 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-public class CompanyContractStateDataDTO implements WithMatchcode<ContractStateMatchcode>, WithValidPeriod, Serializable
+public class CompanyContractStateDataDTO implements WithMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 8013176883992921779L;
 
-    private final ContractStateMatchcode matchcode;
+    private final String matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
 
-    public CompanyContractStateDataDTO(@JsonProperty("matchcode") ContractStateMatchcode matchcode,
+    public CompanyContractStateDataDTO(@JsonProperty("matchcode") String matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
     {
         super();
@@ -48,7 +47,7 @@ public class CompanyContractStateDataDTO implements WithMatchcode<ContractStateM
     }
 
     @Override
-    public ContractStateMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

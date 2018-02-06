@@ -19,9 +19,6 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
-import pnet.data.api.advisortype.AdvisorTypeMatchcode;
-import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 
@@ -30,18 +27,17 @@ import pnet.data.api.util.WithTenant;
  *
  * @author ham
  */
-public class AdvisorDivisionBrandDataDTO implements WithTenant, WithMatchcode<BrandMatchcode>, Serializable
+public class AdvisorDivisionBrandDataDTO implements WithTenant, WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = -2420615097654809299L;
 
-    private final Tenant tenant;
-    private final BrandMatchcode matchcode;
-    private final Collection<AdvisorTypeMatchcode> types;
+    private final String tenant;
+    private final String matchcode;
+    private final Collection<String> types;
 
-    public AdvisorDivisionBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("matchcode") BrandMatchcode matchcode,
-        @JsonProperty("types") Collection<AdvisorTypeMatchcode> types)
+    public AdvisorDivisionBrandDataDTO(@JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode, @JsonProperty("types") Collection<String> types)
     {
         super();
 
@@ -51,18 +47,18 @@ public class AdvisorDivisionBrandDataDTO implements WithTenant, WithMatchcode<Br
     }
 
     @Override
-    public Tenant getTenant()
+    public String getTenant()
     {
         return tenant;
     }
 
     @Override
-    public BrandMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }
 
-    public Collection<AdvisorTypeMatchcode> getTypes()
+    public Collection<String> getTypes()
     {
         return types;
     }

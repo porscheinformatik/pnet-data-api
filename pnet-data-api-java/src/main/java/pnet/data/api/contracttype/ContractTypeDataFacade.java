@@ -15,7 +15,7 @@
 package pnet.data.api.contracttype;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
-import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.contractstate.ContractStateMatchcode;
 import pnet.data.api.util.ByMatchcode;
 
 /**
@@ -37,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/contracttypes")
-public interface ContractTypeDataFacade extends ByMatchcode<ContractTypeMatchcode, ContractTypeDataDTO>
+public interface ContractTypeDataFacade extends ByMatchcode<ContractTypeDataDTO>
 {
 
     /**
@@ -51,8 +49,7 @@ public interface ContractTypeDataFacade extends ByMatchcode<ContractTypeMatchcod
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<ContractTypeDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<ContractTypeMatchcode> matchcodes)
+    ResultCollection<ContractTypeDataDTO> getAll(@RequestParam(value = "mc", required = false) List<String> matchcodes)
         throws PnetDataApiException;
 
     /**
@@ -72,8 +69,7 @@ public interface ContractTypeDataFacade extends ByMatchcode<ContractTypeMatchcod
     ResultPage<ContractTypeItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes)
-        throws PnetDataApiException;
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes) throws PnetDataApiException;
 
     /**
      * Finds multiple {@link ContractTypeDataDTO}s each matching all specified restrictions. If one or more restrictions
@@ -91,10 +87,9 @@ public interface ContractTypeDataFacade extends ByMatchcode<ContractTypeMatchcod
      */
     @RequestMapping(value = "/find")
     ResultPage<ContractTypeItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<ContractTypeMatchcode> matchcodes,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "contractState",
-            required = false) Collection<ContractStateMatchcode> contractStateMatchcodes,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes,
+        @RequestParam(value = "contractState", required = false) List<String> contractStateMatchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

@@ -20,7 +20,6 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -31,21 +30,20 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class ContractTypeItemDTO
-    implements WithMatchcode<ContractTypeMatchcode>, WithTenants, WithLastUpdate, Serializable
+public class ContractTypeItemDTO implements WithMatchcode, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -6345795957251172952L;
 
-    private final ContractTypeMatchcode matchcode;
+    private final String matchcode;
     private final String label;
-    private final Collection<Tenant> tenants;
+    private final Collection<String> tenants;
     private final Collection<ContractTypeBrandItemDTO> brands;
     private final String type;
     private final LocalDateTime lastUpdate;
 
-    public ContractTypeItemDTO(@JsonProperty("matchcode") ContractTypeMatchcode matchcode,
-        @JsonProperty("label") String label, @JsonProperty("tenants") Collection<Tenant> tenants,
+    public ContractTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
+        @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<ContractTypeBrandItemDTO> brands, @JsonProperty("type") String type,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
@@ -60,7 +58,7 @@ public class ContractTypeItemDTO
     }
 
     @Override
-    public ContractTypeMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }
@@ -71,7 +69,7 @@ public class ContractTypeItemDTO
     }
 
     @Override
-    public Collection<Tenant> getTenants()
+    public Collection<String> getTenants()
     {
         return tenants;
     }

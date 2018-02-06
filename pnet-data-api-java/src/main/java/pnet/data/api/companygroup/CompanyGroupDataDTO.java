@@ -20,8 +20,6 @@ import java.util.Collections;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.companygrouptype.CompanyGroupTypeMatchcode;
-
 /**
  * Holds a group of companies.
  *
@@ -33,12 +31,11 @@ public class CompanyGroupDataDTO implements Serializable
     private static final long serialVersionUID = -260656363547122718L;
 
     private final Integer leadingCompanyId;
-    private final CompanyGroupTypeMatchcode typeMatchcode;
+    private final String typeMatchcode;
     private final Collection<Integer> companyIds;
 
     public CompanyGroupDataDTO(@JsonProperty("leadingCompanyId") Integer leadingCompanyId,
-        @JsonProperty("typeMathcode") CompanyGroupTypeMatchcode typeMatchcode,
-        @JsonProperty("companyIds") Collection<Integer> companyIds)
+        @JsonProperty("typeMathcode") String typeMatchcode, @JsonProperty("companyIds") Collection<Integer> companyIds)
     {
         super();
 
@@ -52,7 +49,7 @@ public class CompanyGroupDataDTO implements Serializable
         return leadingCompanyId;
     }
 
-    public CompanyGroupTypeMatchcode getTypeMathcode()
+    public String getTypeMathcode()
     {
         return typeMatchcode;
     }

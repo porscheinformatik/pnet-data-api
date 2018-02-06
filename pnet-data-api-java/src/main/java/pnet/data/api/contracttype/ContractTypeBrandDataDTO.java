@@ -19,9 +19,6 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
-import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.contractstate.ContractStateMatchcode;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 
@@ -30,18 +27,17 @@ import pnet.data.api.util.WithTenant;
  *
  * @author ham
  */
-public class ContractTypeBrandDataDTO implements WithTenant, WithMatchcode<BrandMatchcode>, Serializable
+public class ContractTypeBrandDataDTO implements WithTenant, WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = -4749964162640876397L;
 
-    private final Tenant tenant;
-    private final BrandMatchcode matchcode;
-    private final Collection<ContractStateMatchcode> states;
+    private final String tenant;
+    private final String matchcode;
+    private final Collection<String> states;
 
-    public ContractTypeBrandDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("matchcode") BrandMatchcode matchcode,
-        @JsonProperty("states") Collection<ContractStateMatchcode> states)
+    public ContractTypeBrandDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("states") Collection<String> states)
     {
         super();
         this.tenant = tenant;
@@ -50,18 +46,18 @@ public class ContractTypeBrandDataDTO implements WithTenant, WithMatchcode<Brand
     }
 
     @Override
-    public Tenant getTenant()
+    public String getTenant()
     {
         return tenant;
     }
 
     @Override
-    public BrandMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }
 
-    public Collection<ContractStateMatchcode> getStates()
+    public Collection<String> getStates()
     {
         return states;
     }

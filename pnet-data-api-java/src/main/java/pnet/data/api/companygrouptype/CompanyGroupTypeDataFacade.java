@@ -15,7 +15,7 @@
 package pnet.data.api.companygrouptype;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/companygrouptypes")
-public interface CompanyGroupTypeDataFacade extends ByMatchcode<CompanyGroupTypeMatchcode, CompanyGroupTypeDataDTO>
+public interface CompanyGroupTypeDataFacade extends ByMatchcode<CompanyGroupTypeDataDTO>
 {
 
     /**
@@ -50,8 +50,7 @@ public interface CompanyGroupTypeDataFacade extends ByMatchcode<CompanyGroupType
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResultCollection<CompanyGroupTypeDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<CompanyGroupTypeMatchcode> matchcodes)
-        throws PnetDataApiException;
+        @RequestParam(value = "mc", required = false) List<String> matchcodes) throws PnetDataApiException;
 
     /**
      * Searches for {@link CompanyGroupTypeItemDTO} with the specified query.
@@ -83,7 +82,7 @@ public interface CompanyGroupTypeDataFacade extends ByMatchcode<CompanyGroupType
      */
     @RequestMapping(value = "/find")
     ResultPage<CompanyGroupTypeItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<CompanyGroupTypeMatchcode> matchcodes,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

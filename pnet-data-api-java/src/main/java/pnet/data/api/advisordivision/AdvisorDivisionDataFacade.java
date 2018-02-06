@@ -15,7 +15,7 @@
 package pnet.data.api.advisordivision;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
-import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.ByMatchcode;
 
 /**
@@ -36,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/advisortypes")
-public interface AdvisorDivisionDataFacade extends ByMatchcode<AdvisorDivisionMatchcode, AdvisorDivisionDataDTO>
+public interface AdvisorDivisionDataFacade extends ByMatchcode<AdvisorDivisionDataDTO>
 {
 
     /**
@@ -51,8 +50,7 @@ public interface AdvisorDivisionDataFacade extends ByMatchcode<AdvisorDivisionMa
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResultCollection<AdvisorDivisionDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<AdvisorDivisionMatchcode> matchcodes)
-        throws PnetDataApiException;
+        @RequestParam(value = "mc", required = false) List<String> matchcodes) throws PnetDataApiException;
 
     /**
      * Searches for {@link AdvisorDivisionDataDTO} with the specified query. If one or more filters are set each filter
@@ -71,8 +69,7 @@ public interface AdvisorDivisionDataFacade extends ByMatchcode<AdvisorDivisionMa
     ResultPage<AdvisorDivisionItemDTO> search(@RequestParam(value = "l") String language,
         @RequestParam("q") String query, @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes)
-        throws PnetDataApiException;
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes) throws PnetDataApiException;
 
     /**
      * Finds multiple {@link AdvisorDivisionDataDTO}s each matching all specified restrictions. If one or more
@@ -92,8 +89,8 @@ public interface AdvisorDivisionDataFacade extends ByMatchcode<AdvisorDivisionMa
     ResultPage<AdvisorDivisionItemDTO> find(@RequestParam(value = "l") String language,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage,
-        @RequestParam(value = "mc", required = false) Collection<AdvisorDivisionMatchcode> matchcodes,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter) throws PnetDataApiException;
 
 }

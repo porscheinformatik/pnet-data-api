@@ -15,7 +15,7 @@
 package pnet.data.api.brand;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
-import pnet.data.api.Tenant;
 import pnet.data.api.util.ByMatchcode;
 
 /**
@@ -36,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/brands")
-public interface BrandDataFacade extends ByMatchcode<BrandMatchcode, BrandDataDTO>
+public interface BrandDataFacade extends ByMatchcode<BrandDataDTO>
 {
 
     /**
@@ -50,8 +49,7 @@ public interface BrandDataFacade extends ByMatchcode<BrandMatchcode, BrandDataDT
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<BrandDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<BrandMatchcode> matchcodes)
+    ResultCollection<BrandDataDTO> getAll(@RequestParam(value = "mc", required = false) List<String> matchcodes)
         throws PnetDataApiException;
 
     /**
@@ -71,7 +69,7 @@ public interface BrandDataFacade extends ByMatchcode<BrandMatchcode, BrandDataDT
     ResultPage<BrandItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage,
-        @RequestParam(value = "t", required = false) Collection<Tenant> tenants) throws PnetDataApiException;
+        @RequestParam(value = "t", required = false) List<String> tenants) throws PnetDataApiException;
 
     /**
      * Finds multiple {@link BrandItemDTO}s each matching all specified restrictions. If one or more restrictions are
@@ -88,8 +86,8 @@ public interface BrandDataFacade extends ByMatchcode<BrandMatchcode, BrandDataDT
      */
     @RequestMapping(value = "/find")
     ResultPage<BrandItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<BrandMatchcode> matchcodes,
-        @RequestParam(value = "t", required = false) Collection<Tenant> tenants,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
+        @RequestParam(value = "t", required = false) List<String> tenants,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

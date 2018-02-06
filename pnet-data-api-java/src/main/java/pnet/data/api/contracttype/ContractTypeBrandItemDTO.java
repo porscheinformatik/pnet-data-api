@@ -18,8 +18,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
-import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 
@@ -28,16 +26,15 @@ import pnet.data.api.util.WithTenant;
  *
  * @author ham
  */
-public class ContractTypeBrandItemDTO implements WithTenant, WithMatchcode<BrandMatchcode>, Serializable
+public class ContractTypeBrandItemDTO implements WithTenant, WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = 5188767605476792978L;
 
-    private final Tenant tenant;
-    private final BrandMatchcode matchcode;
+    private final String tenant;
+    private final String matchcode;
 
-    public ContractTypeBrandItemDTO(@JsonProperty("tenante") Tenant tenant,
-        @JsonProperty("matchcode") BrandMatchcode matchcode)
+    public ContractTypeBrandItemDTO(@JsonProperty("tenante") String tenant, @JsonProperty("matchcode") String matchcode)
     {
         super();
         this.tenant = tenant;
@@ -45,13 +42,13 @@ public class ContractTypeBrandItemDTO implements WithTenant, WithMatchcode<Brand
     }
 
     @Override
-    public Tenant getTenant()
+    public String getTenant()
     {
         return tenant;
     }
 
     @Override
-    public BrandMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

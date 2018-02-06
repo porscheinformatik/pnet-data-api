@@ -27,17 +27,17 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ContractStateItemDTO implements WithMatchcode<ContractStateMatchcode>, WithLastUpdate, Serializable
+public class ContractStateItemDTO implements WithMatchcode, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 3798249954761818352L;
 
-    private final ContractStateMatchcode matchcode;
+    private final String matchcode;
     private final String label;
     private final LocalDateTime lastUpdate;
 
-    public ContractStateItemDTO(@JsonProperty("matchcode") ContractStateMatchcode matchcode,
-        @JsonProperty("label") String label, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+    public ContractStateItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -47,7 +47,7 @@ public class ContractStateItemDTO implements WithMatchcode<ContractStateMatchcod
     }
 
     @Override
-    public ContractStateMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

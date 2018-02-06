@@ -18,8 +18,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
-import pnet.data.api.infoarea.InfoareaMatchcode;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 
@@ -28,16 +26,16 @@ import pnet.data.api.util.WithTenant;
  *
  * @author ham
  */
-public class FunctionInfoareaDataDTO implements WithTenant, WithMatchcode<InfoareaMatchcode>, Serializable
+public class FunctionInfoareaDataDTO implements WithTenant, WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = 2968257536288936141L;
 
-    private final Tenant tenant;
-    private final InfoareaMatchcode matchcode;
+    private final String tenant;
+    private final String matchcode;
 
-    public FunctionInfoareaDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("infoareaMatchcode") InfoareaMatchcode matchcode)
+    public FunctionInfoareaDataDTO(@JsonProperty("tenant") String tenant,
+        @JsonProperty("infoareaMatchcode") String matchcode)
     {
         super();
 
@@ -46,13 +44,13 @@ public class FunctionInfoareaDataDTO implements WithTenant, WithMatchcode<Infoar
     }
 
     @Override
-    public Tenant getTenant()
+    public String getTenant()
     {
         return tenant;
     }
 
     @Override
-    public InfoareaMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

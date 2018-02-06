@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.function.FunctionMatchcode;
 import pnet.data.api.util.WithMatchcode;
 
 /**
@@ -27,17 +26,17 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class PersonFunctionDataDTO implements WithMatchcode<FunctionMatchcode>, Serializable
+public class PersonFunctionDataDTO implements WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
 
-    private final FunctionMatchcode matchcode;
+    private final String matchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final boolean mainFunction;
 
-    public PersonFunctionDataDTO(@JsonProperty("matchcode") FunctionMatchcode matchcode,
+    public PersonFunctionDataDTO(@JsonProperty("matchcode") String matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("mainFunction") boolean mainFunction)
     {
@@ -50,7 +49,7 @@ public class PersonFunctionDataDTO implements WithMatchcode<FunctionMatchcode>, 
     }
 
     @Override
-    public FunctionMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

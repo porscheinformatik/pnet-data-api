@@ -19,17 +19,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pnet.data.api.Matchcode;
 import pnet.data.api.PnetDataApiException;
 
 /**
  * Used by facades that returns items by {@link Matchcode}.
  *
  * @author ham
- * @param <MatchcodeT> the type of the matchcode
  * @param <ResultT> the type of the result
  */
-public interface ByMatchcode<MatchcodeT extends Matchcode, ResultT extends WithMatchcode<MatchcodeT>>
+public interface ByMatchcode<ResultT extends WithMatchcode>
 {
 
     /**
@@ -39,7 +37,8 @@ public interface ByMatchcode<MatchcodeT extends Matchcode, ResultT extends WithM
      * @return the item, or null if not found
      * @throws PnetDataApiException on occasion
      */
-    @RequestMapping(value = "/{matchcode}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultT getByMatchcode(@PathVariable("matchcode") MatchcodeT matchcode) throws PnetDataApiException;
+    @RequestMapping(value = "/details/{matchcode}", method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    ResultT getByMatchcode(@PathVariable("matchcode") String matchcode) throws PnetDataApiException;
 
 }

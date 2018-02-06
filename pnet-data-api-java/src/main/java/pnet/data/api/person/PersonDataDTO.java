@@ -20,7 +20,6 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 
 /**
@@ -35,7 +34,7 @@ public class PersonDataDTO implements WithLastUpdate, Serializable
 
     private final Integer personId;
 
-    private Tenant administrativeTenant;
+    private String administrativeTenant;
     private FormOfAddress formOfAddress;
     private String academicTitle;
     private String firstName;
@@ -70,12 +69,12 @@ public class PersonDataDTO implements WithLastUpdate, Serializable
         return personId;
     }
 
-    public Tenant getAdministrativeTenant()
+    public String getAdministrativeTenant()
     {
         return administrativeTenant;
     }
 
-    public void setAdministrativeTenant(Tenant administrativeTenant)
+    public void setAdministrativeTenant(String administrativeTenant)
     {
         this.administrativeTenant = administrativeTenant;
     }

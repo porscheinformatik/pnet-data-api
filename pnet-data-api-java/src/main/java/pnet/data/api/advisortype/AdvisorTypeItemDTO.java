@@ -27,19 +27,18 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class AdvisorTypeItemDTO implements WithMatchcode<AdvisorTypeMatchcode>, WithLastUpdate, Serializable
+public class AdvisorTypeItemDTO implements WithMatchcode, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5385814018859561810L;
 
-    private final AdvisorTypeMatchcode matchcode;
+    private final String matchcode;
     private final String label;
     private final String description;
     private LocalDateTime lastUpdate;
 
-    public AdvisorTypeItemDTO(@JsonProperty("matchcode") AdvisorTypeMatchcode matchcode,
-        @JsonProperty("label") String label, @JsonProperty("description") String description,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+    public AdvisorTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
+        @JsonProperty("description") String description, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
         this.matchcode = matchcode;
@@ -60,7 +59,7 @@ public class AdvisorTypeItemDTO implements WithMatchcode<AdvisorTypeMatchcode>, 
     }
 
     @Override
-    public AdvisorTypeMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

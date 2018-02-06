@@ -15,7 +15,7 @@
 package pnet.data.api.externalbrand;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/externalbrands")
-public interface ExternalBrandDataFacade extends ByMatchcode<ExternalBrandMatchcode, ExternalBrandDataDTO>
+public interface ExternalBrandDataFacade extends ByMatchcode<ExternalBrandDataDTO>
 {
 
     /**
@@ -50,9 +50,8 @@ public interface ExternalBrandDataFacade extends ByMatchcode<ExternalBrandMatchc
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<NumberTypeDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<ExternalBrandMatchcode> matchcodes,
-        @RequestParam(value = "id", required = false) Collection<String> ids) throws PnetDataApiException;
+    ResultCollection<NumberTypeDataDTO> getAll(@RequestParam(value = "mc", required = false) List<String> matchcodes,
+        @RequestParam(value = "id", required = false) List<String> ids) throws PnetDataApiException;
 
     /**
      * Searches for {@link ExternalBrandItemDTO} with the specified query.
@@ -65,7 +64,7 @@ public interface ExternalBrandDataFacade extends ByMatchcode<ExternalBrandMatchc
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/search")
-    Collection<ExternalBrandItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
+    List<ExternalBrandItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;
 
@@ -84,9 +83,9 @@ public interface ExternalBrandDataFacade extends ByMatchcode<ExternalBrandMatchc
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/find")
-    Collection<ExternalBrandItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<ExternalBrandMatchcode> matchcodes,
-        @RequestParam(value = "id", required = false) Collection<String> ids,
+    List<ExternalBrandItemDTO> find(@RequestParam(value = "l") String language,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
+        @RequestParam(value = "id", required = false) List<String> ids,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

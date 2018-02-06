@@ -32,7 +32,7 @@ public class GenericParameterizedTypeReference<T> extends ParameterizedTypeRefer
     @Override
     public Type getType()
     {
-        return generic.getType();
+        return generic;
     }
 
     @Override

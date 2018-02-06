@@ -20,7 +20,6 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -31,19 +30,18 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class ApplicationItemDTO
-    implements WithMatchcode<ApplicationMatchcode>, WithTenants, WithLastUpdate, Serializable
+public class ApplicationItemDTO implements WithMatchcode, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 1943888464506455363L;
 
-    private final ApplicationMatchcode matchcode;
-    private final Collection<Tenant> tenants;
+    private final String matchcode;
+    private final Collection<String> tenants;
     private final String label;
     private final LocalDateTime lastUpdate;
 
-    public ApplicationItemDTO(@JsonProperty("matchcode") ApplicationMatchcode matchcode,
-        @JsonProperty("tenants") Collection<Tenant> tenants, @JsonProperty("label") String label,
+    public ApplicationItemDTO(@JsonProperty("matchcode") String matchcode,
+        @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("label") String label,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -54,13 +52,13 @@ public class ApplicationItemDTO
     }
 
     @Override
-    public ApplicationMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }
 
     @Override
-    public Collection<Tenant> getTenants()
+    public Collection<String> getTenants()
     {
         return tenants;
     }

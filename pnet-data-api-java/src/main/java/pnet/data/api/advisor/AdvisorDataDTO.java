@@ -19,10 +19,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
-import pnet.data.api.advisordivision.AdvisorDivisionMatchcode;
-import pnet.data.api.advisortype.AdvisorTypeMatchcode;
-import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.WithTenant;
 
 /**
@@ -35,18 +31,17 @@ public class AdvisorDataDTO implements WithTenant, Serializable
 
     private static final long serialVersionUID = -5535179500060765387L;
 
-    private final Tenant tenant;
-    private final BrandMatchcode brandMatchcode;
-    private final AdvisorTypeMatchcode advisorTypeMatchcode;
-    private final AdvisorDivisionMatchcode advisorDivisionMatchcode;
+    private final String tenant;
+    private final String brandMatchcode;
+    private final String advisorTypeMatchcode;
+    private final String advisorDivisionMatchcode;
     private final Integer companyId;
     private final Integer personId;
     private final LocalDateTime lastUpdate;
 
-    public AdvisorDataDTO(@JsonProperty("tenant") Tenant tenant,
-        @JsonProperty("brandMatchcode") BrandMatchcode brandMatchcode,
-        @JsonProperty("advisorTypeMatchcode") AdvisorTypeMatchcode advisorTypeMatchcode,
-        @JsonProperty("advisorDivisionMatchcode") AdvisorDivisionMatchcode advisorDivisionMatchcode,
+    public AdvisorDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("advisorTypeMatchcode") String advisorTypeMatchcode,
+        @JsonProperty("advisorDivisionMatchcode") String advisorDivisionMatchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("personId") Integer personId,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
@@ -61,22 +56,22 @@ public class AdvisorDataDTO implements WithTenant, Serializable
     }
 
     @Override
-    public Tenant getTenant()
+    public String getTenant()
     {
         return tenant;
     }
 
-    public BrandMatchcode getBrandMatchcode()
+    public String getBrandMatchcode()
     {
         return brandMatchcode;
     }
 
-    public AdvisorTypeMatchcode getAdvisorTypeMatchcode()
+    public String getAdvisorTypeMatchcode()
     {
         return advisorTypeMatchcode;
     }
 
-    public AdvisorDivisionMatchcode getAdvisorDivisionMatchcode()
+    public String getAdvisorDivisionMatchcode()
     {
         return advisorDivisionMatchcode;
     }

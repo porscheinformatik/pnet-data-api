@@ -30,18 +30,17 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class CompanyGroupTypeDataDTO
-    implements WithMatchcode<CompanyGroupTypeMatchcode>, WithLabels, WithLastUpdate, Serializable
+public class CompanyGroupTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 7656177578952551086L;
 
-    private final CompanyGroupTypeMatchcode matchcode;
+    private final String matchcode;
 
     private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
-    public CompanyGroupTypeDataDTO(@JsonProperty("matchcode") CompanyGroupTypeMatchcode matchcode)
+    public CompanyGroupTypeDataDTO(@JsonProperty("matchcode") String matchcode)
     {
         super();
 
@@ -49,7 +48,7 @@ public class CompanyGroupTypeDataDTO
     }
 
     @Override
-    public CompanyGroupTypeMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }

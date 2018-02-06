@@ -15,7 +15,7 @@
 package pnet.data.api.contractstate;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/contractstates")
-public interface ContractStateDataFacade extends ByMatchcode<ContractStateMatchcode, ContractStateDataDTO>
+public interface ContractStateDataFacade extends ByMatchcode<ContractStateDataDTO>
 {
 
     /**
@@ -49,8 +49,7 @@ public interface ContractStateDataFacade extends ByMatchcode<ContractStateMatchc
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<ContractStateDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<ContractStateMatchcode> matchcodes)
+    ResultCollection<ContractStateDataDTO> getAll(@RequestParam(value = "mc", required = false) List<String> matchcodes)
         throws PnetDataApiException;
 
     /**
@@ -83,7 +82,7 @@ public interface ContractStateDataFacade extends ByMatchcode<ContractStateMatchc
      */
     @RequestMapping(value = "/find")
     ResultPage<ContractStateItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<ContractStateMatchcode> matchcodes,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

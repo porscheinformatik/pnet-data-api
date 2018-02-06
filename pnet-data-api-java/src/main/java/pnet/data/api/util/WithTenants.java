@@ -16,8 +16,6 @@ package pnet.data.api.util;
 
 import java.util.Collection;
 
-import pnet.data.api.Tenant;
-
 /**
  * Used for DTOs that support multiple tenants.
  *
@@ -29,7 +27,7 @@ public interface WithTenants
     /**
      * @return A list of all tenants that support this item.
      */
-    Collection<Tenant> getTenants();
+    Collection<String> getTenants();
 
     /**
      * Returns true if the DTOs contains the specified tenant, false otherwise.
@@ -37,7 +35,7 @@ public interface WithTenants
      * @param tenant the tenant
      * @return true if present
      */
-    default boolean containsTenant(Tenant tenant)
+    default boolean containsTenant(String tenant)
     {
         return getTenants().contains(tenant);
     }

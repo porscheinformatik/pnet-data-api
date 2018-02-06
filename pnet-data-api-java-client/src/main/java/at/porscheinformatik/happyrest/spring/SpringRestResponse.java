@@ -29,7 +29,14 @@ class SpringRestResponse<T> implements RestResponse<T>
     @Override
     public String getStatus()
     {
-        return response.getStatusCodeValue() + " " + response.getStatusCode().getReasonPhrase();
+        String status = String.valueOf(response.getStatusCodeValue());
+
+        if (response.getStatusCode().getReasonPhrase() != null)
+        {
+            status += " " + response.getStatusCode().getReasonPhrase();
+        }
+
+        return status;
     }
 
     @Override

@@ -14,7 +14,7 @@
  */
 package pnet.data.api.consent;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
-import pnet.data.api.application.ApplicationMatchcode;
 
 /**
  * Provides access to consents.
@@ -48,9 +47,8 @@ public interface ConsentDataFacade
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<ConsentDataDTO> getAll(
-        @RequestParam(value = "personId", required = false) Collection<Integer> personIds,
-        @RequestParam(value = "application", required = false) Collection<ApplicationMatchcode> applicationMatchcodes)
+    ResultCollection<ConsentDataDTO> getAll(@RequestParam(value = "personId", required = false) List<Integer> personIds,
+        @RequestParam(value = "application", required = false) List<String> applicationMatchcodes)
         throws PnetDataApiException;
 
 }

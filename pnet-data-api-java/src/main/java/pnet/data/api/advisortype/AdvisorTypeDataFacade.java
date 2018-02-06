@@ -15,7 +15,7 @@
 package pnet.data.api.advisortype;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/advisortypes")
-public interface AdvisorTypeDataFacade extends ByMatchcode<AdvisorTypeMatchcode, AdvisorTypeDataDTO>
+public interface AdvisorTypeDataFacade extends ByMatchcode<AdvisorTypeDataDTO>
 {
 
     /**
@@ -49,8 +49,7 @@ public interface AdvisorTypeDataFacade extends ByMatchcode<AdvisorTypeMatchcode,
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<AdvisorTypeDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<AdvisorTypeMatchcode> matchcodes)
+    ResultCollection<AdvisorTypeDataDTO> getAll(@RequestParam(value = "mc", required = false) List<String> matchcodes)
         throws PnetDataApiException;
 
     /**
@@ -82,7 +81,7 @@ public interface AdvisorTypeDataFacade extends ByMatchcode<AdvisorTypeMatchcode,
      */
     @RequestMapping(value = "/find")
     ResultPage<AdvisorTypeItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<AdvisorTypeMatchcode> matchcodes,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

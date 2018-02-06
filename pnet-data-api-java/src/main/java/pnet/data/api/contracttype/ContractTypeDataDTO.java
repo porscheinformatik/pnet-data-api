@@ -22,7 +22,6 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -34,21 +33,20 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class ContractTypeDataDTO
-    implements WithMatchcode<ContractTypeMatchcode>, WithTenants, WithLabels, WithLastUpdate, Serializable
+public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -1947283275602928634L;
 
-    private final ContractTypeMatchcode matchcode;
+    private final String matchcode;
 
     private Map<Locale, String> labels;
-    private Collection<Tenant> tenants;
+    private Collection<String> tenants;
     private Collection<ContractTypeBrandDataDTO> brands;
     private String type;
     private LocalDateTime lastUpdate;
 
-    public ContractTypeDataDTO(@JsonProperty("matchcode") ContractTypeMatchcode matchcode)
+    public ContractTypeDataDTO(@JsonProperty("matchcode") String matchcode)
     {
         super();
 
@@ -56,7 +54,7 @@ public class ContractTypeDataDTO
     }
 
     @Override
-    public ContractTypeMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }
@@ -73,12 +71,12 @@ public class ContractTypeDataDTO
     }
 
     @Override
-    public Collection<Tenant> getTenants()
+    public Collection<String> getTenants()
     {
         return tenants;
     }
 
-    public void setTenants(Collection<Tenant> tenants)
+    public void setTenants(Collection<String> tenants)
     {
         this.tenants = tenants;
     }

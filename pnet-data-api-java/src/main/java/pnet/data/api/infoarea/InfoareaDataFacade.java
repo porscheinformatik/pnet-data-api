@@ -15,7 +15,7 @@
 package pnet.data.api.infoarea;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
-import pnet.data.api.brand.BrandMatchcode;
 import pnet.data.api.util.ByMatchcode;
 
 /**
@@ -36,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/infoareas")
-public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, InfoareaDataDTO>
+public interface InfoareaDataFacade extends ByMatchcode<InfoareaDataDTO>
 {
 
     /**
@@ -50,8 +49,7 @@ public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, Infoa
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultCollection<InfoareaDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<InfoareaMatchcode> matchcodes)
+    ResultCollection<InfoareaDataDTO> getAll(@RequestParam(value = "mc", required = false) List<String> matchcodes)
         throws PnetDataApiException;
 
     /**
@@ -73,9 +71,8 @@ public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, Infoa
     ResultPage<InfoareaItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage,
-        @RequestParam(value = "t", required = false) Collection<BrandMatchcode> tenants,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes)
-        throws PnetDataApiException;
+        @RequestParam(value = "t", required = false) List<String> tenants,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes) throws PnetDataApiException;
     // CHECKSTYLE:ON
 
     /**
@@ -95,9 +92,9 @@ public interface InfoareaDataFacade extends ByMatchcode<InfoareaMatchcode, Infoa
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/find")
     ResultPage<InfoareaItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<InfoareaMatchcode> matchcodes,
-        @RequestParam(value = "t", required = false) Collection<BrandMatchcode> tenants,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
+        @RequestParam(value = "t", required = false) List<String> tenants,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

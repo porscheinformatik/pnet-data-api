@@ -1,4 +1,4 @@
-package pnet.data.api.client;
+package pnet.data.api.client.context;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,8 @@ import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.spring.SpringRestCall;
+import pnet.data.api.client.PnetDataClientLoginException;
+import pnet.data.api.util.Utils;
 
 /**
  * Repository for holding creating and caching RestCall objects.
@@ -31,7 +33,7 @@ public class PnetDataApiTokenRepository
         restCalls.remove(key);
     }
 
-    public RestCall createRestCall(PnetDataApiTokenKey key) throws PnetDataApiLoginException
+    public RestCall createRestCall(PnetDataApiTokenKey key) throws PnetDataClientLoginException
     {
         RestCall restCall = restCalls.get(key);
 
@@ -43,7 +45,7 @@ public class PnetDataApiTokenRepository
         return restCall;
     }
 
-    protected RestCall login(PnetDataApiTokenKey key) throws PnetDataApiLoginException
+    protected RestCall login(PnetDataApiTokenKey key) throws PnetDataClientLoginException
     {
         String url = key.getUrl();
 
@@ -55,6 +57,18 @@ public class PnetDataApiTokenRepository
             if (response.isSuccessful())
             {
                 String token = response.getFirstHeader("Authorization");
+
+                if (Utils.isEmpty(token))
+                {
+                    throw new PnetDataClientLoginException("Authorization header is missing", url, key.getUsername(),
+                        response);
+                }
+
+                if (token.startsWith("Bearer "))
+                {
+                    token = token.substring(7);
+                }
+                
                 RestCall restCall = new SpringRestCall(url).header("Authorization", token);
 
                 restCalls.put(key, restCall);
@@ -62,13 +76,13 @@ public class PnetDataApiTokenRepository
                 return restCall;
             }
 
-            throw new PnetDataApiLoginException("Login failed at \"%s\" with user \"%s\": %s", key.getUrl(),
+            throw new PnetDataClientLoginException("Login failed at \"%s\" with user \"%s\": %s", key.getUrl(),
                 key.getUsername(), response);
 
         }
         catch (Exception e)
         {
-            throw new PnetDataApiLoginException("Login failed at \"%s\" with user \"%s\"", e, key.getUrl(),
+            throw new PnetDataClientLoginException("Login failed at \"%s\" with user \"%s\"", e, key.getUrl(),
                 key.getUsername(), null);
         }
     }

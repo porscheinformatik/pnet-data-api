@@ -1,7 +1,7 @@
-package pnet.data.api.client;
+package pnet.data.api.client.context;
 
 import at.porscheinformatik.happyrest.RestCall;
-import pnet.data.api.Tenant;
+import pnet.data.api.client.PnetDataClientLoginException;
 
 /**
  * Abstract base implementation for a rest client.
@@ -9,12 +9,12 @@ import pnet.data.api.Tenant;
  * @author ham
  * @param <T> the type of rest client for fluent interface
  */
-public abstract class AbstractPnetDataApiRestClient<T> implements PnetDataApiContextAware<T>
+public abstract class AbstractPnetDataApiClient<T> implements PnetDataApiContextAware<T>
 {
 
     private final PnetDataApiContext context;
 
-    public AbstractPnetDataApiRestClient(PnetDataApiContext context)
+    public AbstractPnetDataApiClient(PnetDataApiContext context)
     {
         super();
 
@@ -30,7 +30,7 @@ public abstract class AbstractPnetDataApiRestClient<T> implements PnetDataApiCon
     }
 
     @Override
-    public T withTenant(Tenant tenant)
+    public T withTenant(String tenant)
     {
         return newInstance(context.withTenant(tenant));
     }
@@ -41,7 +41,7 @@ public abstract class AbstractPnetDataApiRestClient<T> implements PnetDataApiCon
         return newInstance(context.withCredentials(username, password));
     }
 
-    protected RestCall createRestCall() throws PnetDataApiLoginException
+    protected RestCall createRestCall() throws PnetDataClientLoginException
     {
         return context.createRestCall();
     }

@@ -1,13 +1,11 @@
 package pnet.data.api.client;
 
-import pnet.data.api.Tenant;
-
 /**
  * The preferences for all request to the Partner.Net Data API.
  *
  * @author ham
  */
-public interface PnetDataApiPrefs
+public interface PnetDataClientPrefs
 {
 
     /**
@@ -28,5 +26,5 @@ public interface PnetDataApiPrefs
     /**
      * @return the (default) tenant for requests to the Partner.Net Data API.
      */
-    Tenant getPnetDataApiTenant();
+    String getPnetDataApiTenant();
 }

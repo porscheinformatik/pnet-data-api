@@ -21,8 +21,6 @@ import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.GeoPoint;
-import pnet.data.api.Tenant;
-import pnet.data.api.companytype.CompanyTypeMatchcode;
 
 /**
  * Holds companydata.
@@ -36,7 +34,7 @@ public class CompanyDataDTO implements Serializable
 
     private final Integer companyId;
 
-    private Tenant administrativeTenant;
+    private String administrativeTenant;
     private String name;
     private String nameAffix;
     private String marketingName;
@@ -53,7 +51,7 @@ public class CompanyDataDTO implements Serializable
     private String region;
     private String iban;
     private String bic;
-    private Collection<CompanyTypeMatchcode> types;
+    private Collection<String> types;
     private String phoneNumber;
     private String speedDial;
     private String faxNumber;
@@ -83,12 +81,12 @@ public class CompanyDataDTO implements Serializable
         return companyId;
     }
 
-    public Tenant getAdministrativeTenant()
+    public String getAdministrativeTenant()
     {
         return administrativeTenant;
     }
 
-    public void setAdministrativeTenant(Tenant administrativeTenant)
+    public void setAdministrativeTenant(String administrativeTenant)
     {
         this.administrativeTenant = administrativeTenant;
     }
@@ -253,12 +251,12 @@ public class CompanyDataDTO implements Serializable
         this.bic = bic;
     }
 
-    public Collection<CompanyTypeMatchcode> getTypes()
+    public Collection<String> getTypes()
     {
         return types;
     }
 
-    public void setTypes(Collection<CompanyTypeMatchcode> types)
+    public void setTypes(Collection<String> types)
     {
         this.types = types;
     }

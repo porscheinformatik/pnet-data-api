@@ -15,7 +15,7 @@
 package pnet.data.api.activity;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.ResultCollection;
 import pnet.data.api.ResultPage;
-import pnet.data.api.brand.BrandMatchcode;
-import pnet.data.api.companytype.CompanyTypeMatchcode;
-import pnet.data.api.contracttype.ContractTypeMatchcode;
-import pnet.data.api.infoarea.InfoareaMatchcode;
 import pnet.data.api.util.ByMatchcode;
 
 /**
@@ -39,7 +35,7 @@ import pnet.data.api.util.ByMatchcode;
  */
 @RestController
 @RequestMapping("/api/v1/activities")
-public interface ActivityDataFacade extends ByMatchcode<ActivityMatchcode, ActivityDataDTO>
+public interface ActivityDataFacade extends ByMatchcode<ActivityDataDTO>
 {
 
     /**
@@ -55,8 +51,7 @@ public interface ActivityDataFacade extends ByMatchcode<ActivityMatchcode, Activ
      * @throws PnetDataApiException on occasion
      */
     @RequestMapping(value = "/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResultPage<ActivityDataDTO> getAll(
-        @RequestParam(value = "mc", required = false) Collection<ActivityMatchcode> matchcodes,
+    ResultPage<ActivityDataDTO> getAll(@RequestParam(value = "mc", required = false) List<String> matchcodes,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;
 
@@ -82,12 +77,11 @@ public interface ActivityDataFacade extends ByMatchcode<ActivityMatchcode, Activ
     ResultPage<ActivityItemDTO> search(@RequestParam(value = "l") String language, @RequestParam("q") String query,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage,
-        @RequestParam(value = "t", required = false) Collection<BrandMatchcode> tenants,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
-        @RequestParam(value = "contractType",
-            required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
-        @RequestParam(value = "infoarea", required = false) Collection<InfoareaMatchcode> infoareaMatchcodes)
+        @RequestParam(value = "t", required = false) List<String> tenants,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes,
+        @RequestParam(value = "companyType", required = false) List<String> companyTypeMatchcodes,
+        @RequestParam(value = "contractType", required = false) List<String> contractTypeMatchcodes,
+        @RequestParam(value = "infoarea", required = false) List<String> infoareaMatchcodes)
         throws PnetDataApiException;
     // CHECKSTYLE:ON
 
@@ -111,13 +105,12 @@ public interface ActivityDataFacade extends ByMatchcode<ActivityMatchcode, Activ
     // CHECKSTYLE:OFF
     @RequestMapping(value = "/find")
     ResultPage<ActivityItemDTO> find(@RequestParam(value = "l") String language,
-        @RequestParam(value = "mc", required = false) Collection<ActivityMatchcode> matchcodes,
-        @RequestParam(value = "t", required = false) Collection<BrandMatchcode> tenants,
-        @RequestParam(value = "b", required = false) Collection<BrandMatchcode> brandMatchcodes,
-        @RequestParam(value = "companyType", required = false) Collection<CompanyTypeMatchcode> companyTypeMatchcodes,
-        @RequestParam(value = "contractType",
-            required = false) Collection<ContractTypeMatchcode> contractTypeMatchcodes,
-        @RequestParam(value = "infoarea", required = false) Collection<InfoareaMatchcode> infoareaMatchcodes,
+        @RequestParam(value = "mc", required = false) List<String> matchcodes,
+        @RequestParam(value = "t", required = false) List<String> tenants,
+        @RequestParam(value = "b", required = false) List<String> brandMatchcodes,
+        @RequestParam(value = "companyType", required = false) List<String> companyTypeMatchcodes,
+        @RequestParam(value = "contractType", required = false) List<String> contractTypeMatchcodes,
+        @RequestParam(value = "infoarea", required = false) List<String> infoareaMatchcodes,
         @RequestParam(value = "up", required = false) LocalDateTime updatedAfter,
         @RequestParam(value = "p", defaultValue = "0") int pageIndex,
         @RequestParam(value = "pp", defaultValue = "10") int itemsPerPage) throws PnetDataApiException;

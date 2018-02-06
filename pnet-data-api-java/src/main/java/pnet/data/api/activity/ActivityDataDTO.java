@@ -22,7 +22,6 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.Tenant;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -35,23 +34,23 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 public class ActivityDataDTO
-    implements WithMatchcode<ActivityMatchcode>, WithLabels, WithDescriptions, WithTenants, WithLastUpdate, Serializable
+    implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 5133673955487263429L;
 
-    private final ActivityMatchcode matchcode;
+    private final String matchcode;
 
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
-    private Collection<Tenant> tenants;
+    private Collection<String> tenants;
     private Collection<ActivityBrandDataDTO> brands;
     private Collection<ActivityCompanyTypeDataDTO> companyTypes;
     private Collection<ActivityContractTypeDataDTO> contractTypes;
     private Collection<ActivityInfoareaDataDTO> infoareas;
     private LocalDateTime lastUpdate;
 
-    public ActivityDataDTO(@JsonProperty("matchcode") ActivityMatchcode matchcode)
+    public ActivityDataDTO(@JsonProperty("matchcode") String matchcode)
     {
         super();
 
@@ -59,7 +58,7 @@ public class ActivityDataDTO
     }
 
     @Override
-    public ActivityMatchcode getMatchcode()
+    public String getMatchcode()
     {
         return matchcode;
     }
@@ -87,12 +86,12 @@ public class ActivityDataDTO
     }
 
     @Override
-    public Collection<Tenant> getTenants()
+    public Collection<String> getTenants()
     {
         return tenants;
     }
 
-    public void setTenants(Collection<Tenant> tenants)
+    public void setTenants(Collection<String> tenants)
     {
         this.tenants = tenants;
     }

@@ -1,6 +1,5 @@
 package at.porscheinformatik.happyrest;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -52,53 +51,17 @@ public interface RestCall
 
     RestCall body(Object body);
 
-    RestCall header(String name, String value);
+    RestCall header(String name, String... value);
 
-    default RestCall headers(String name, String... values)
-    {
-        Arrays.stream(values).forEach($ -> header(name, $));
+    RestCall headers(String name, Collection<String> values);
 
-        return this;
-    }
+    RestCall variable(String name, Object... value);
 
-    default RestCall headers(String name, Collection<String> values)
-    {
-        values.forEach($ -> header(name, $));
+    RestCall variables(String name, Collection<?> values);
 
-        return this;
-    }
+    RestCall parameter(String name, Object... value);
 
-    RestCall variable(String name, Object value);
-
-    default RestCall variables(String name, Object... values)
-    {
-        Arrays.stream(values).forEach($ -> variable(name, $));
-
-        return this;
-    }
-
-    default RestCall variables(String name, Collection<Object> values)
-    {
-        values.forEach($ -> variable(name, $));
-
-        return this;
-    }
-
-    RestCall parameter(String name, Object value);
-
-    default RestCall parameters(String name, Object... values)
-    {
-        Arrays.stream(values).forEach($ -> parameter(name, $));
-
-        return this;
-    }
-
-    default RestCall parameters(String name, Collection<Object> values)
-    {
-        values.forEach($ -> parameter(name, $));
-
-        return this;
-    }
+    RestCall parameters(String name, Collection<?> values);
 
     <T> T get(Class<T> responseType);
 

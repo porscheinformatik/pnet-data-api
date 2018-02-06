@@ -14,20 +14,17 @@
  */
 package pnet.data.api.util;
 
-import pnet.data.api.Matchcode;
-
 /**
  * A item, that uses a {@link Matchcode} as universal identifier.
  *
  * @author ham
- * @param <MatchcodeT> the type of {@link Matchcode}
  */
-public interface WithMatchcode<MatchcodeT extends Matchcode>
+public interface WithMatchcode
 {
 
     /**
      * @return The unique, alpha-numeric key of the item. This key is the same in all environments.
      */
-    MatchcodeT getMatchcode();
+    String getMatchcode();
 
 }
