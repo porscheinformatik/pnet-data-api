@@ -9,6 +9,13 @@
 
     <name>Partner.Net Data API</name>
 
+    <scm>
+        <connection>scm:git:https://github.com/porscheinformatik/pnet-data-api.git</connection>
+        <developerConnection>scm:git:https://github.com/porscheinformatik/pnet-data-api.git</developerConnection>
+        <url>https://github.com/porscheinformatik/pnet-data-api</url>
+        <tag>HEAD</tag>
+    </scm>
+
     <packaging>pom</packaging>
 
     <modules>
