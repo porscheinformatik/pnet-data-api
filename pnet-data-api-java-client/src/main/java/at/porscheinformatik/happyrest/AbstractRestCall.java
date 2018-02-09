@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A REST call. Objects of this type must be final and thread-safe!
@@ -43,6 +44,13 @@ public abstract class AbstractRestCall implements RestCall
     public RestCall url(String url)
     {
         return copy(url, acceptableMediaTypes, attributes, body);
+    }
+
+    @Override
+    public RestCall path(String path)
+    {
+        return copy(prepareUrl(Objects.requireNonNull(url, "Cannot add path to missing URL"), path),
+            acceptableMediaTypes, attributes, body);
     }
 
     @Override
@@ -302,5 +310,32 @@ public abstract class AbstractRestCall implements RestCall
 
     @Override
     public abstract <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType);
+
+    protected static String prepareUrl(String url, String path)
+    {
+        if (path == null || path.length() == 0)
+        {
+            return url;
+        }
+
+        if (!url.endsWith("/"))
+        {
+            url += "/";
+        }
+
+        if (path != null)
+        {
+            if (path.startsWith("/"))
+            {
+                url += path.substring(1);
+            }
+            else
+            {
+                url += path;
+            }
+        }
+
+        return url;
+    }
 
 }

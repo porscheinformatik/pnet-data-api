@@ -156,7 +156,7 @@ public class SpringRestCall extends AbstractRestCall
             headers.setAccept(MediaType.parseMediaTypes(acceptableMediaTypes));
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(preparePath(path));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(prepareUrl(getUrl(), path));
         Map<String, Object> variables = new HashMap<>();
         List<RestAttribute> attributes = getAttributes();
 
@@ -221,30 +221,6 @@ public class SpringRestCall extends AbstractRestCall
         }
 
         return builder.buildAndExpand(variables).encode().toUri();
-    }
-
-    protected String preparePath(String path)
-    {
-        String result = getUrl();
-
-        if (!result.endsWith("/"))
-        {
-            result += "/";
-        }
-
-        if (path != null)
-        {
-            if (path.startsWith("/"))
-            {
-                result += path.substring(1);
-            }
-            else
-            {
-                result += path;
-            }
-        }
-
-        return result;
     }
 
 }

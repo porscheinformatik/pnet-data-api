@@ -21,6 +21,8 @@ import pnet.data.api.util.Utils;
 public class PnetDataApiTokenRepository
 {
 
+    private static final String TOKEN_PREFIX = "Bearer";
+
     private final Map<PnetDataApiTokenKey, RestCall> restCalls = new HashMap<>();
 
     public PnetDataApiTokenRepository()
@@ -52,7 +54,7 @@ public class PnetDataApiTokenRepository
         try
         {
             RestResponse<Void> response =
-                new SpringRestCall().url(url).acceptJson().body(key).invoke(RestMethod.POST, "login", Void.class);
+                new SpringRestCall().url(url).body(key).invoke(RestMethod.POST, "login", Void.class);
 
             if (response.isSuccessful())
             {
@@ -64,12 +66,12 @@ public class PnetDataApiTokenRepository
                         response);
                 }
 
-                if (token.startsWith("Bearer "))
+                if (token.startsWith(TOKEN_PREFIX))
                 {
-                    token = token.substring(7);
+                    token = token.substring(TOKEN_PREFIX.length()).trim();
                 }
-                
-                RestCall restCall = new SpringRestCall(url).header("Authorization", token);
+
+                RestCall restCall = new SpringRestCall(url).header("Authorization", TOKEN_PREFIX + " " + token);
 
                 restCalls.put(key, restCall);
 

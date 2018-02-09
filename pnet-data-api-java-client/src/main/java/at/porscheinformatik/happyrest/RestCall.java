@@ -29,7 +29,21 @@ public interface RestCall
 
     String getUrl();
 
+    /**
+     * Returns a new instance of a {@link RestCall}, that points to the specified URL.
+     * 
+     * @param url the url
+     * @return a new instance
+     */
     RestCall url(String url);
+
+    /**
+     * Returns a new instance of a {@link RestCall} and adds the path to the URL.
+     * 
+     * @param path the path
+     * @return a new instance
+     */
+    RestCall path(String path);
 
     List<String> getAcceptableMediaTypes();
 
