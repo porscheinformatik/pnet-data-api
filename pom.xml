@@ -19,7 +19,6 @@
 
     <modules>
         <module>pnet-data-api-java</module>
-        <module>pnet-data-api-java-client</module>
     </modules>
 
     <licenses>
@@ -39,12 +38,6 @@
             <dependency>
                 <groupId>at.porscheinformatik.pnet</groupId>
                 <artifactId>pnet-data-api-java</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>at.porscheinformatik.pnet</groupId>
-                <artifactId>pnet-data-api-java-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

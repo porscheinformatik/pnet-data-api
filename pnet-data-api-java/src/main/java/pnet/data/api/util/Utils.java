@@ -14,8 +14,11 @@
  */
 package pnet.data.api.util;
 
+import java.lang.reflect.Array;
 import java.text.Collator;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -238,6 +241,33 @@ public final class Utils
         }
 
         return false;
+    }
+
+    /**
+     * Nullsafe empty function for arrays
+     *
+     * @param <T> the type of array items
+     * @param array the array
+     * @return true if null or empty
+     */
+    public static <T> boolean isEmpty(T[] array)
+    {
+        return (array == null) || (Array.getLength(array) <= 0);
+    }
+
+    public static <T> List<T> unmodifiable(List<T> list)
+    {
+        if (list == null)
+        {
+            return null;
+        }
+
+        if (list.getClass().getSimpleName().contains("Unmodifiable"))
+        {
+            return list;
+        }
+
+        return Collections.unmodifiableList(list);
     }
 
 }

@@ -29,8 +29,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
 
     static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int numberOfItems, int pageIndex, int numberOfPages)
     {
-        return new ResultPage<T>()
-        {
+        return new ResultPage<T>() {
             private static final long serialVersionUID = -999167833058168881L;
 
             @Override
