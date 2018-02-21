@@ -61,14 +61,14 @@ public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>
     }
 
     @Override
-    public SELF filter(String key, Object... values)
+    public SELF filter(String parameterName, Object... values)
     {
         List<Pair<String, Object>> filterItems =
             this.filters != null ? new ArrayList<>(this.filters) : new ArrayList<>();
 
         for (Object value : values)
         {
-            filterItems.add(Pair.of(key, value));
+            filterItems.add(Pair.of(parameterName, value));
         }
 
         return newInstance(filterItems);

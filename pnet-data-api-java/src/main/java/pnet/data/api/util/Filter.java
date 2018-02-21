@@ -10,6 +10,6 @@ package pnet.data.api.util;
 public interface Filter<SELF extends Filter<SELF>>
 {
 
-    SELF filter(String key, Object... values);
+    SELF filter(String parameterName, Object... values);
 
 }
