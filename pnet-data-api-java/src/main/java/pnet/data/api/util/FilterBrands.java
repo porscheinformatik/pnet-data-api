@@ -4,12 +4,12 @@ package pnet.data.api.util;
  * Filters brands
  *
  * @author ham
- * @param <T> the type of the filter for chaining
+ * @param <SELF> the type of the filter for chaining
  */
-public interface FilterBrands<T extends Filter<T>> extends Filter<T>
+public interface FilterBrands<SELF extends Filter<SELF>> extends Filter<SELF>
 {
 
-    default T filterBrand(String... brandMatchcodes)
+    default SELF filterBrand(String... brandMatchcodes)
     {
         return filter("b", (Object[]) brandMatchcodes);
     }

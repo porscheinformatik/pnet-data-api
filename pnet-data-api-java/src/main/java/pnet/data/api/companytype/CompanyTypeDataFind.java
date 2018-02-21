@@ -6,6 +6,7 @@ import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictMatchcodes;
+import pnet.data.api.util.RestrictTenants;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
@@ -14,10 +15,11 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  * @author ham
  */
 public class CompanyTypeDataFind extends AbstractFind<CompanyTypeItemDTO, CompanyTypeDataFind>
-    implements RestrictMatchcodes<CompanyTypeDataFind>, RestrictUpdatedAfter<CompanyTypeDataFind>
+    implements RestrictMatchcodes<CompanyTypeDataFind>, RestrictTenants<CompanyTypeDataFind>,
+    RestrictUpdatedAfter<CompanyTypeDataFind>
 {
 
-    CompanyTypeDataFind(FindFunction<CompanyTypeItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
+    public CompanyTypeDataFind(FindFunction<CompanyTypeItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
     {
         super(findFunction, restrictItems);
     }

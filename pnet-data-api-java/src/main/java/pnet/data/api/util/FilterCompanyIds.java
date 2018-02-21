@@ -4,12 +4,12 @@ package pnet.data.api.util;
  * Filters company ids
  *
  * @author ham
- * @param <T> the type of the filter for chaining
+ * @param <SELF> the type of the filter for chaining
  */
-public interface FilterCompanyIds<T extends Filter<T>> extends Filter<T>
+public interface FilterCompanyIds<SELF extends Filter<SELF>> extends Filter<SELF>
 {
 
-    default T filterCompanyId(Integer... companyIds)
+    default SELF filterCompanyId(Integer... companyIds)
     {
         return filter("companyId", (Object[]) companyIds);
     }

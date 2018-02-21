@@ -4,12 +4,12 @@ package pnet.data.api.util;
  * Restricts matchcodes.
  *
  * @author ham
- * @param <T> the type of the restrict for chaining
+ * @param <SELF> the type of the restrict for chaining
  */
-public interface RestrictMatchcodes<T extends Restrict<T>> extends Restrict<T>
+public interface RestrictMatchcodes<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default T restrictMatchcode(String... matchcode)
+    default SELF restrictMatchcode(String... matchcode)
     {
         return restrict("mc", (Object[]) matchcode);
     }

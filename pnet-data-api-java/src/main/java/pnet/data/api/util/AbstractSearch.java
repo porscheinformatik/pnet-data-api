@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -53,7 +54,7 @@ public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>
     }
 
     @Override
-    public PnetDataClientResultPage<DTO> execute(String language, String query, int pageIndex, int itemsPerPage)
+    public PnetDataClientResultPage<DTO> execute(Locale language, String query, int pageIndex, int itemsPerPage)
         throws PnetDataApiException
     {
         return searchFunction.search(language, query, filters, pageIndex, itemsPerPage);

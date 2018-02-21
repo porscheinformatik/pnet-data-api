@@ -15,8 +15,10 @@
 package pnet.data.api;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Holding results of a search or find operation with paging information.
@@ -29,7 +31,8 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
 
     static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int numberOfItems, int pageIndex, int numberOfPages)
     {
-        return new ResultPage<T>() {
+        return new ResultPage<T>() //
+        {
             private static final long serialVersionUID = -999167833058168881L;
 
             @Override
@@ -69,6 +72,13 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
      */
     List<T> getItems();
 
+    default Stream<T> stream()
+    {
+        List<T> items = getItems();
+
+        return items != null ? items.stream() : Collections.<T> emptyList().stream();
+    }
+    
     /**
      * @return the first item, null if there isn't one
      */
@@ -77,6 +87,17 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
         List<T> items = getItems();
 
         return items != null && items.size() > 0 ? items.get(0) : null;
+    }
+
+    /**
+     * @param index the index
+     * @return the item at the specified index, null if there isn't one
+     */
+    default T get(int index)
+    {
+        List<T> items = getItems();
+
+        return items != null && index < items.size() ? items.get(index) : null;
     }
 
     /**

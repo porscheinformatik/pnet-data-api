@@ -4,12 +4,12 @@ package pnet.data.api.util;
  * A filter for Data-API queries
  *
  * @author ham
- * @param <T> the type of the filter, for chaining
+ * @param <SELF> the type of the filter, for chaining
  */
 @FunctionalInterface
-public interface Filter<T extends Filter<T>>
+public interface Filter<SELF extends Filter<SELF>>
 {
 
-    T filter(String key, Object... values);
+    SELF filter(String key, Object... values);
 
 }

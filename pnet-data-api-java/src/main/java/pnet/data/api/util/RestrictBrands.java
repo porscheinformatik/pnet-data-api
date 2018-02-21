@@ -4,12 +4,12 @@ package pnet.data.api.util;
  * Restricts brands
  *
  * @author ham
- * @param <T> the type of the restrict for chaining
+ * @param <SELF> the type of the restrict for chaining
  */
-public interface RestrictBrands<T extends Restrict<T>> extends Restrict<T>
+public interface RestrictBrands<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default T restrictBrand(String... brandMatchcodes)
+    default SELF restrictBrand(String... brandMatchcodes)
     {
         return restrict("b", (Object[]) brandMatchcodes);
     }

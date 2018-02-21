@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Locale;
+
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.PnetDataClientResultPage;
 
@@ -7,12 +9,16 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * A search query.
  *
  * @author ham
- * @param <T> the type of DTO
+ * @param <DTO> the type of DTO
  */
-public interface Search<T>
+public interface Search<DTO>
 {
+    default PnetDataClientResultPage<DTO> execute(Locale language, String query) throws PnetDataApiException
+    {
+        return execute(language, query, 0, 10);
+    }
 
-    PnetDataClientResultPage<T> execute(String language, String query, int pageIndex, int itemsPerPage)
+    PnetDataClientResultPage<DTO> execute(Locale language, String query, int pageIndex, int itemsPerPage)
         throws PnetDataApiException;
 
 }

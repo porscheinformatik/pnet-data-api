@@ -1,6 +1,7 @@
 package pnet.data.api.util;
 
 import java.util.List;
+import java.util.Locale;
 
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -15,7 +16,7 @@ import pnet.data.api.client.PnetDataClientResultPage;
 public interface SearchFunction<DTO>
 {
 
-    PnetDataClientResultPage<DTO> search(String language, String query, List<Pair<String, Object>> filters,
+    PnetDataClientResultPage<DTO> search(Locale language, String query, List<Pair<String, Object>> filters,
         int pageIndex, int itemsPerPage) throws PnetDataApiException;
 
 }
