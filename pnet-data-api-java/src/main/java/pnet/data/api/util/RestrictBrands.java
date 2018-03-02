@@ -9,7 +9,7 @@ package pnet.data.api.util;
 public interface RestrictBrands<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default SELF restrictBrand(String... brandMatchcodes)
+    default SELF brand(String... brandMatchcodes)
     {
         return restrict("b", (Object[]) brandMatchcodes);
     }

@@ -40,7 +40,7 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> im
         }
         catch (NoSuchMethodException | SecurityException e)
         {
-            throw new UnsupportedOperationException("Necessary constructor not available", e);
+            throw new UnsupportedOperationException("Necessary constructor is missing", e);
         }
 
         try
@@ -61,14 +61,14 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> im
     }
 
     @Override
-    public SELF restrict(String key, Object... values)
+    public SELF restrict(String parameterName, Object... values)
     {
         List<Pair<String, Object>> restrictItems =
             this.restricts != null ? new ArrayList<>(this.restricts) : new ArrayList<>();
 
         for (Object value : values)
         {
-            restrictItems.add(Pair.of(key, value));
+            restrictItems.add(Pair.of(parameterName, value));
         }
 
         return newInstance(restrictItems);

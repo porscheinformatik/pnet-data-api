@@ -10,6 +10,6 @@ package pnet.data.api.util;
 public interface Restrict<SELF extends Restrict<SELF>>
 {
 
-    SELF restrict(String key, Object... values);
+    SELF restrict(String parameterName, Object... values);
 
 }

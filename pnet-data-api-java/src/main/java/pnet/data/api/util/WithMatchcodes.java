@@ -14,29 +14,19 @@
  */
 package pnet.data.api.util;
 
-import java.util.Locale;
-import java.util.Map;
+import java.util.Collection;
 
 /**
- * Used to mark DTOs with labels
+ * A item, that uses a collection of {@link Matchcode}s as universal identifier.
  *
  * @author ham
  */
-public interface WithLabels
+public interface WithMatchcodes
 {
 
     /**
-     * @return A map of strings by locale, holding the label of the item in multiple languages.
+     * @return A collection of unique, alpha-numeric keys. These keys are the same in all environments.
      */
-    Map<Locale, String> getLabels();
-
-    /**
-     * @param language the language, may be null
-     * @return The label in the specified language, null if not found.
-     */
-    default String getLabel(Locale language)
-    {
-        return PnetDataApiUtils.getText(language, getLabels());
-    }
+    Collection<String> getMatchcodes();
 
 }

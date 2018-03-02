@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -41,13 +42,12 @@ public class ActivityItemDTO implements WithMatchcode, WithTenants, WithLastUpda
     private final String label;
     private final String description;
     private final Collection<String> tenants;
-    private final Collection<ActivityBrandItemDTO> brands;
+    private final Collection<BrandLinkDTO> brands;
     private final LocalDateTime lastUpdate;
 
     public ActivityItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
         @JsonProperty("description") String description, @JsonProperty("tenants") Collection<String> tenants,
-        @JsonProperty("brands") Collection<ActivityBrandItemDTO> brands,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("brands") Collection<BrandLinkDTO> brands, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -87,7 +87,7 @@ public class ActivityItemDTO implements WithMatchcode, WithTenants, WithLastUpda
         return tenants;
     }
 
-    public Collection<ActivityBrandItemDTO> getBrands()
+    public Collection<BrandLinkDTO> getBrands()
     {
         return brands;
     }

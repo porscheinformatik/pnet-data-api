@@ -15,7 +15,7 @@ public interface RestrictTenants<SELF extends Restrict<SELF>> extends Restrict<S
     //        return restrict("t", "*");
     //    }
 
-    default SELF restrictTenant(String... tenants)
+    default SELF tenant(String... tenants)
     {
         return restrict("t", (Object[]) tenants);
     }

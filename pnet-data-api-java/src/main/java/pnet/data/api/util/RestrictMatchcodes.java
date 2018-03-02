@@ -9,7 +9,7 @@ package pnet.data.api.util;
 public interface RestrictMatchcodes<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default SELF restrictMatchcode(String... matchcode)
+    default SELF matchcode(String... matchcode)
     {
         return restrict("mc", (Object[]) matchcode);
     }

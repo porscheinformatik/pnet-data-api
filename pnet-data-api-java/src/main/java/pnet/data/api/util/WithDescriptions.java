@@ -36,7 +36,7 @@ public interface WithDescriptions
      */
     default String getDescription(Locale language)
     {
-        return Utils.getText(language, getDescriptions());
+        return PnetDataApiUtils.getText(language, getDescriptions());
     }
 
 }

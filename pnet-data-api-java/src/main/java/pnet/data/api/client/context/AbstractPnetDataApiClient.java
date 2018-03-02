@@ -1,5 +1,8 @@
 package pnet.data.api.client.context;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import at.porscheinformatik.happyrest.RestCall;
 import pnet.data.api.client.PnetDataClientLoginException;
 
@@ -7,9 +10,9 @@ import pnet.data.api.client.PnetDataClientLoginException;
  * Abstract base implementation for a rest client.
  *
  * @author ham
- * @param <T> the type of rest client for fluent interface
+ * @param <SELF> the type of rest client for fluent interface
  */
-public abstract class AbstractPnetDataApiClient<T> implements PnetDataApiContextAware<T>
+public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApiClient<SELF>> implements PnetDataApiContextAware<SELF>
 {
 
     private final PnetDataApiContext context;
@@ -21,22 +24,43 @@ public abstract class AbstractPnetDataApiClient<T> implements PnetDataApiContext
         this.context = context;
     }
 
-    protected abstract T newInstance(PnetDataApiContext context);
+    @SuppressWarnings("unchecked")
+    protected SELF newInstance(PnetDataApiContext context)
+    {
+        Constructor<?> constructor;
+        try
+        {
+            constructor = getClass().getConstructor(PnetDataApiContext.class);
+        }
+        catch (NoSuchMethodException | SecurityException e)
+        {
+            throw new UnsupportedOperationException("Necessary constructor is missing", e);
+        }
+
+        try
+        {
+            return (SELF) constructor.newInstance(context);
+        }
+        catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+        {
+            throw new IllegalArgumentException("Failed to invoke constructor", e);
+        }
+    }
 
     @Override
-    public T withUrl(String url)
+    public SELF withUrl(String url)
     {
         return newInstance(context.withUrl(url));
     }
 
     @Override
-    public T withTenant(String tenant)
+    public SELF withTenant(String tenant)
     {
         return newInstance(context.withTenant(tenant));
     }
 
     @Override
-    public T withCredentials(String username, String password)
+    public SELF withCredentials(String username, String password)
     {
         return newInstance(context.withCredentials(username, password));
     }

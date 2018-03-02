@@ -22,6 +22,9 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.brand.BrandLinkDTO;
+import pnet.data.api.companytype.CompanyTypeLinkDTO;
+import pnet.data.api.contracttype.ContractTypeLinkDTO;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -44,10 +47,9 @@ public class ActivityDataDTO
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
     private Collection<String> tenants;
-    private Collection<ActivityBrandDataDTO> brands;
-    private Collection<ActivityCompanyTypeDataDTO> companyTypes;
-    private Collection<ActivityContractTypeDataDTO> contractTypes;
-    private Collection<ActivityInfoareaDataDTO> infoareas;
+    private Collection<BrandLinkDTO> brands;
+    private Collection<CompanyTypeLinkDTO> companyTypes;
+    private Collection<ContractTypeLinkDTO> contractTypes;
     private LocalDateTime lastUpdate;
 
     public ActivityDataDTO(@JsonProperty("matchcode") String matchcode)
@@ -96,22 +98,22 @@ public class ActivityDataDTO
         this.tenants = tenants;
     }
 
-    public Collection<ActivityBrandDataDTO> getBrands()
+    public Collection<BrandLinkDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<ActivityBrandDataDTO> brands)
+    public void setBrands(Collection<BrandLinkDTO> brands)
     {
         this.brands = brands;
     }
 
-    public Collection<ActivityCompanyTypeDataDTO> getCompanyTypes()
+    public Collection<CompanyTypeLinkDTO> getCompanyTypes()
     {
         return companyTypes;
     }
 
-    public void setCompanyTypes(Collection<ActivityCompanyTypeDataDTO> companyTypes)
+    public void setCompanyTypes(Collection<CompanyTypeLinkDTO> companyTypes)
     {
         this.companyTypes = companyTypes;
     }
@@ -120,27 +122,14 @@ public class ActivityDataDTO
      * @return This activity is only available, if the company has one of these contracts. This collection is only
      *         relevant, if the company type of the company says so.
      */
-    public Collection<ActivityContractTypeDataDTO> getContractTypes()
+    public Collection<ContractTypeLinkDTO> getContractTypes()
     {
         return contractTypes;
     }
 
-    public void setContractTypes(Collection<ActivityContractTypeDataDTO> contractTypes)
+    public void setContractTypes(Collection<ContractTypeLinkDTO> contractTypes)
     {
         this.contractTypes = contractTypes;
-    }
-
-    /**
-     * @return The inforareas, that are linked to this activity.
-     */
-    public Collection<ActivityInfoareaDataDTO> getInfoareas()
-    {
-        return infoareas;
-    }
-
-    public void setInfoareas(Collection<ActivityInfoareaDataDTO> infoareas)
-    {
-        this.infoareas = infoareas;
     }
 
     @Override
@@ -159,8 +148,8 @@ public class ActivityDataDTO
     {
         return String.format(
             "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
-                + "contractTypes=%s, infoareas=%s, lastUpdate=%s]",
-            matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, infoareas, lastUpdate);
+                + "contractTypes=%s, lastUpdate=%s]",
+            matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, lastUpdate);
     }
 
 }

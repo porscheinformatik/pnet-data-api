@@ -16,18 +16,18 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the filter itself for fluent interface
  */
-public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>> implements Search<DTO>, Filter<SELF>
+public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>> implements Search<DTO>, Restrict<SELF>
 {
 
     private final SearchFunction<DTO> searchFunction;
-    private final List<Pair<String, Object>> filters;
+    private final List<Pair<String, Object>> restricts;
 
-    protected AbstractSearch(SearchFunction<DTO> searchFunction, List<Pair<String, Object>> filterItems)
+    protected AbstractSearch(SearchFunction<DTO> searchFunction, List<Pair<String, Object>> restricts)
     {
         super();
 
         this.searchFunction = searchFunction;
-        this.filters = filterItems;
+        this.restricts = restricts;
     }
 
     @SuppressWarnings("unchecked")
@@ -40,7 +40,7 @@ public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>
         }
         catch (NoSuchMethodException | SecurityException e)
         {
-            throw new UnsupportedOperationException("Necessary constructor not available", e);
+            throw new UnsupportedOperationException("Necessary constructor is missing", e);
         }
 
         try
@@ -57,14 +57,14 @@ public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>
     public PnetDataClientResultPage<DTO> execute(Locale language, String query, int pageIndex, int itemsPerPage)
         throws PnetDataApiException
     {
-        return searchFunction.search(language, query, filters, pageIndex, itemsPerPage);
+        return searchFunction.search(language, query, restricts, pageIndex, itemsPerPage);
     }
 
     @Override
-    public SELF filter(String parameterName, Object... values)
+    public SELF restrict(String parameterName, Object... values)
     {
         List<Pair<String, Object>> filterItems =
-            this.filters != null ? new ArrayList<>(this.filters) : new ArrayList<>();
+            this.restricts != null ? new ArrayList<>(this.restricts) : new ArrayList<>();
 
         for (Object value : values)
         {

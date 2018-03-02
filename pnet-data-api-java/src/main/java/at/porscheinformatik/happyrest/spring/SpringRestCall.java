@@ -35,28 +35,16 @@ import at.porscheinformatik.happyrest.RestVariable;
 public class SpringRestCall extends AbstractRestCall
 {
 
-    private static final RestTemplate REST_TEMPLATE = new RestTemplate();
-
     private static final Logger LOG = LoggerFactory.getLogger(SpringRestCall.class);
 
     private final RestTemplate restTemplate;
 
-    public SpringRestCall()
-    {
-        this(REST_TEMPLATE, null, null, null, null);
-    }
-
-    public SpringRestCall(String url)
-    {
-        this(REST_TEMPLATE, url, null, null, null);
-    }
-
-    public SpringRestCall(RestTemplate restTemplate)
+    protected SpringRestCall(RestTemplate restTemplate)
     {
         this(restTemplate, null, null, null, null);
     }
 
-    public SpringRestCall(RestTemplate restTemplate, String url)
+    protected SpringRestCall(RestTemplate restTemplate, String url)
     {
         this(restTemplate, url, null, null, null);
     }

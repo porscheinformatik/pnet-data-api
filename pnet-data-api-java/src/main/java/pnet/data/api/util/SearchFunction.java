@@ -16,7 +16,7 @@ import pnet.data.api.client.PnetDataClientResultPage;
 public interface SearchFunction<DTO>
 {
 
-    PnetDataClientResultPage<DTO> search(Locale language, String query, List<Pair<String, Object>> filters,
+    PnetDataClientResultPage<DTO> search(Locale language, String query, List<Pair<String, Object>> restricts,
         int pageIndex, int itemsPerPage) throws PnetDataApiException;
 
 }

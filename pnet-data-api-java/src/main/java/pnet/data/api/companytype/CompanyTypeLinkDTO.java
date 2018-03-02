@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.activity;
+package pnet.data.api.companytype;
 
 import java.io.Serializable;
 
@@ -26,7 +26,7 @@ import pnet.data.api.util.WithTenant;
  *
  * @author ham
  */
-public class ActivityCompanyTypeDataDTO implements WithTenant, WithMatchcode, Serializable
+public class CompanyTypeLinkDTO implements WithTenant, WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = -2028835160784471478L;
@@ -34,7 +34,7 @@ public class ActivityCompanyTypeDataDTO implements WithTenant, WithMatchcode, Se
     private final String tenant;
     private final String matchcode;
 
-    public ActivityCompanyTypeDataDTO(@JsonProperty("tenant") String tenant,
+    public CompanyTypeLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode)
     {
         super();
@@ -85,7 +85,7 @@ public class ActivityCompanyTypeDataDTO implements WithTenant, WithMatchcode, Se
             return false;
         }
 
-        ActivityCompanyTypeDataDTO other = (ActivityCompanyTypeDataDTO) obj;
+        CompanyTypeLinkDTO other = (CompanyTypeLinkDTO) obj;
 
         if (matchcode == null)
         {

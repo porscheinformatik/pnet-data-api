@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public interface RestrictUpdatedAfter<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default SELF restrictUpdatedAfter(LocalDateTime updatedAfter)
+    default SELF updatedAfter(LocalDateTime updatedAfter)
     {
         return restrict("up", updatedAfter);
     }
