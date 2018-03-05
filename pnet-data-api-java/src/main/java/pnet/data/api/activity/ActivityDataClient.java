@@ -3,6 +3,8 @@ package pnet.data.api.activity;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.stereotype.Service;
+
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
@@ -17,6 +19,7 @@ import pnet.data.api.util.Pair;
  *
  * @author ham
  */
+@Service
 public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataClient>
     implements GetByMatchcode<ActivityDataDTO>
 {
@@ -34,8 +37,9 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
             .parameters("mc", matchcodes)
             .parameter("p", pageIndex)
             .parameter("pp", itemsPerPage)
-            .get("/api/v1/activities/details",
-                new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>() {});
+            .get("/api/v1/activities/details", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>()
+            {
+            });
 
         resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
 
@@ -56,8 +60,9 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
             .parameters(restricts)
             .parameter("p", pageIndex)
             .parameter("pp", itemsPerPage)
-            .get("/api/v1/activities/search",
-                new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>() {});
+            .get("/api/v1/activities/search", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
+            {
+            });
 
         resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
@@ -77,7 +82,9 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
             .parameter("l", language)
             .parameter("p", pageIndex)
             .parameter("pp", itemsPerPage)
-            .get("/api/v1/activities/find", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>() {});
+            .get("/api/v1/activities/find", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
+            {
+            });
 
         resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 

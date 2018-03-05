@@ -91,7 +91,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
      * @throws PnetDataApiException
      */
     @Override
-    public PnetDataClientResultPage<T> getNextPage() throws PnetDataApiException
+    public PnetDataClientResultPage<T> nextPage() throws PnetDataApiException
     {
         if (nextPageSupplier == null || !hasNextPage())
         {

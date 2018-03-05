@@ -16,7 +16,8 @@ public class CompanyTypeDataSearch extends AbstractSearch<CompanyTypeItemDTO, Co
     implements RestrictTenants<CompanyTypeDataSearch>
 {
 
-    CompanyTypeDataSearch(SearchFunction<CompanyTypeItemDTO> searchFunction, List<Pair<String, Object>> restrictItems)
+    public CompanyTypeDataSearch(SearchFunction<CompanyTypeItemDTO> searchFunction,
+        List<Pair<String, Object>> restrictItems)
     {
         super(searchFunction, restrictItems);
     }

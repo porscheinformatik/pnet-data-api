@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -42,7 +44,7 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
 
     private Map<Locale, String> labels;
     private Collection<String> tenants;
-    private Collection<ContractTypeBrandDataDTO> brands;
+    private Collection<ContractTypeBrandLinkDTO> brands;
     private String type;
     private LocalDateTime lastUpdate;
 
@@ -81,12 +83,17 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
         this.tenants = tenants;
     }
 
-    public Collection<ContractTypeBrandDataDTO> getBrands()
+    public Collection<ContractTypeBrandLinkDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<ContractTypeBrandDataDTO> brands)
+    public Collection<ContractTypeBrandLinkDTO> getBrandsOfTenant(String tenant)
+    {
+        return getBrands().stream().filter($ -> Objects.equals(tenant, $.getTenant())).collect(Collectors.toList());
+    }
+
+    public void setBrands(Collection<ContractTypeBrandLinkDTO> brands)
     {
         this.brands = brands;
     }

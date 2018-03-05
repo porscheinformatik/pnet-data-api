@@ -23,6 +23,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.brand.BrandLinkDTO;
+import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -33,7 +34,7 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class ActivityItemDTO implements WithMatchcode, WithTenants, WithLastUpdate, Serializable
+public class ActivityItemDTO implements WithMatchcode, WithTenants, WithBrandLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 156511831954172558L;
@@ -87,6 +88,7 @@ public class ActivityItemDTO implements WithMatchcode, WithTenants, WithLastUpda
         return tenants;
     }
 
+    @Override
     public Collection<BrandLinkDTO> getBrands()
     {
         return brands;

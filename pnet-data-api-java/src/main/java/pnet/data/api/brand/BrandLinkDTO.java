@@ -14,61 +14,23 @@
  */
 package pnet.data.api.brand;
 
-import java.io.Serializable;
-import java.util.Collection;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.WithMatchcodes;
-import pnet.data.api.util.WithTenant;
+import pnet.data.api.util.AbstractLinkDTO;
 
 /**
  * Holds a brand.
  *
  * @author ham
  */
-public class BrandLinkDTO implements WithTenant, WithMatchcodes, Serializable
+public class BrandLinkDTO extends AbstractLinkDTO
 {
 
-    private static final long serialVersionUID = 6759967646557769422L;
+    private static final long serialVersionUID = -5756014789178869166L;
 
-    private final String tenant;
-    private final boolean brandIndependent;
-    private final Collection<String> matchcodes;
-
-    public BrandLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("brandIndependent") boolean brandIndependent,
-        @JsonProperty("matchcodes") Collection<String> matchcodes)
+    public BrandLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {
-        super();
-
-        this.tenant = tenant;
-        this.brandIndependent = brandIndependent;
-        this.matchcodes = matchcodes;
-    }
-
-    @Override
-    public String getTenant()
-    {
-        return tenant;
-    }
-
-    public boolean isBrandIndependent()
-    {
-        return brandIndependent;
-    }
-
-    @Override
-    public Collection<String> getMatchcodes()
-    {
-        return matchcodes;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("BrandLinkDTO [tenant=%s, brandIndependent=%s, matchcodes=%s]", tenant, brandIndependent,
-            matchcodes);
+        super(tenant, matchcode);
     }
 
 }

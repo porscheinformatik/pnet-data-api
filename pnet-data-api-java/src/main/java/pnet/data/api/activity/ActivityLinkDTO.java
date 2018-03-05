@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.function;
+package pnet.data.api.activity;
 
 import java.io.Serializable;
 
@@ -22,19 +22,19 @@ import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 
 /**
- * Holds a number type.
+ * Holds a link to an activity
  *
  * @author ham
  */
-public class FunctionNumberTypeDataDTO implements WithTenant, WithMatchcode, Serializable
+public class ActivityLinkDTO implements WithTenant, WithMatchcode, Serializable
 {
 
-    private static final long serialVersionUID = -5782141662030293391L;
+    private static final long serialVersionUID = -5441503535879450447L;
 
     private final String tenant;
     private final String matchcode;
 
-    public FunctionNumberTypeDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
+    public ActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {
         super();
 
@@ -84,7 +84,7 @@ public class FunctionNumberTypeDataDTO implements WithTenant, WithMatchcode, Ser
             return false;
         }
 
-        FunctionNumberTypeDataDTO other = (FunctionNumberTypeDataDTO) obj;
+        ActivityLinkDTO other = (ActivityLinkDTO) obj;
 
         if (matchcode == null)
         {

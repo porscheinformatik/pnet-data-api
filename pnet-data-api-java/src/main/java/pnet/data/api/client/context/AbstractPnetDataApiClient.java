@@ -34,7 +34,7 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
         }
         catch (NoSuchMethodException | SecurityException e)
         {
-            throw new UnsupportedOperationException("Necessary constructor is missing", e);
+            throw new UnsupportedOperationException("Necessary constructor in " + getClass() + " is missing", e);
         }
 
         try

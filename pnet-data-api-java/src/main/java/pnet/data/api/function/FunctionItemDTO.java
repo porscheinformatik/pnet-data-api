@@ -22,6 +22,8 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.brand.BrandLinkDTO;
+import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -32,7 +34,7 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class FunctionItemDTO implements WithMatchcode, WithTenants, WithLastUpdate, Serializable
+public class FunctionItemDTO implements WithMatchcode, WithTenants, WithBrandLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 8278014048912826651L;
@@ -41,13 +43,12 @@ public class FunctionItemDTO implements WithMatchcode, WithTenants, WithLastUpda
     private final String label;
     private final String description;
     private final Collection<String> tenants;
-    private final Collection<FunctionBrandItemDTO> brands;
+    private final Collection<BrandLinkDTO> brands;
     private final LocalDateTime lastUpdate;
 
     public FunctionItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
         @JsonProperty("description") String description, @JsonProperty("tenants") Collection<String> tenants,
-        @JsonProperty("brands") Collection<FunctionBrandItemDTO> brands,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("brands") Collection<BrandLinkDTO> brands, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -87,7 +88,8 @@ public class FunctionItemDTO implements WithMatchcode, WithTenants, WithLastUpda
         return tenants;
     }
 
-    public Collection<FunctionBrandItemDTO> getBrands()
+    @Override
+    public Collection<BrandLinkDTO> getBrands()
     {
         return brands;
     }

@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -44,7 +46,7 @@ public class AdvisorDivisionDataDTO
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
     private Collection<String> tenants;
-    private Collection<AdvisorDivisionBrandDataDTO> brands;
+    private Collection<AdvisorDivisionBrandLinkDTO> brands;
     private LocalDateTime lastUpdate;
 
     public AdvisorDivisionDataDTO(@JsonProperty("matchcode") String matchcode)
@@ -93,12 +95,17 @@ public class AdvisorDivisionDataDTO
         this.tenants = tenants;
     }
 
-    public Collection<AdvisorDivisionBrandDataDTO> getBrands()
+    public Collection<AdvisorDivisionBrandLinkDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<AdvisorDivisionBrandDataDTO> brands)
+    public Collection<AdvisorDivisionBrandLinkDTO> getBrandsOfTenant(String tenant)
+    {
+        return getBrands().stream().filter($ -> Objects.equals(tenant, $.getTenant())).collect(Collectors.toList());
+    }
+
+    public void setBrands(Collection<AdvisorDivisionBrandLinkDTO> brands)
     {
         this.brands = brands;
     }

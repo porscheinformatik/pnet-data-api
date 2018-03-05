@@ -14,48 +14,29 @@
  */
 package pnet.data.api.advisordivision;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.WithMatchcode;
-import pnet.data.api.util.WithTenant;
+import pnet.data.api.util.AbstractLinkDTO;
 
 /**
  * A brand for an advisor division.
  *
  * @author ham
  */
-public class AdvisorDivisionBrandDataDTO implements WithTenant, WithMatchcode, Serializable
+public class AdvisorDivisionBrandLinkDTO extends AbstractLinkDTO
 {
 
-    private static final long serialVersionUID = -2420615097654809299L;
-
-    private final String tenant;
-    private final String matchcode;
+    private static final long serialVersionUID = 4906679956173547375L;
     private final Collection<String> types;
 
-    public AdvisorDivisionBrandDataDTO(@JsonProperty("tenant") String tenant,
+    public AdvisorDivisionBrandLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("types") Collection<String> types)
     {
-        super();
+        super(tenant, matchcode);
 
-        this.tenant = tenant;
-        this.matchcode = matchcode;
         this.types = types;
-    }
-
-    @Override
-    public String getTenant()
-    {
-        return tenant;
-    }
-
-    @Override
-    public String getMatchcode()
-    {
-        return matchcode;
     }
 
     public Collection<String> getTypes()
@@ -67,11 +48,8 @@ public class AdvisorDivisionBrandDataDTO implements WithTenant, WithMatchcode, S
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-
+        int result = super.hashCode();
+        result = prime * result + ((types == null) ? 0 : types.hashCode());
         return result;
     }
 
@@ -82,50 +60,33 @@ public class AdvisorDivisionBrandDataDTO implements WithTenant, WithMatchcode, S
         {
             return true;
         }
-
-        if (obj == null)
+        if (!super.equals(obj))
         {
             return false;
         }
-
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof AdvisorDivisionBrandLinkDTO))
         {
             return false;
         }
-
-        AdvisorDivisionBrandDataDTO other = (AdvisorDivisionBrandDataDTO) obj;
-
-        if (matchcode == null)
+        AdvisorDivisionBrandLinkDTO other = (AdvisorDivisionBrandLinkDTO) obj;
+        if (types == null)
         {
-            if (other.matchcode != null)
+            if (other.types != null)
             {
                 return false;
             }
         }
-        else if (!matchcode.equals(other.matchcode))
+        else if (!types.equals(other.types))
         {
             return false;
         }
-
-        if (tenant == null)
-        {
-            if (other.tenant != null)
-            {
-                return false;
-            }
-        }
-        else if (!tenant.equals(other.tenant))
-        {
-            return false;
-        }
-
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [types=%s]", matchcode, tenant, types);
+        return String.format("%s(%s) [types=%s]", getMatchcode(), getTenant(), types);
     }
 
 }

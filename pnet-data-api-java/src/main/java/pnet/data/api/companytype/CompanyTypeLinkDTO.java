@@ -14,110 +14,23 @@
  */
 package pnet.data.api.companytype;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.WithMatchcode;
-import pnet.data.api.util.WithTenant;
+import pnet.data.api.util.AbstractLinkDTO;
 
 /**
  * Holds a company type.
  *
  * @author ham
  */
-public class CompanyTypeLinkDTO implements WithTenant, WithMatchcode, Serializable
+public class CompanyTypeLinkDTO extends AbstractLinkDTO
 {
 
-    private static final long serialVersionUID = -2028835160784471478L;
+    private static final long serialVersionUID = 4825498983415614109L;
 
-    private final String tenant;
-    private final String matchcode;
-
-    public CompanyTypeLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("matchcode") String matchcode)
+    public CompanyTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {
-        super();
-
-        this.tenant = tenant;
-        this.matchcode = matchcode;
-    }
-
-    @Override
-    public String getTenant()
-    {
-        return tenant;
-    }
-
-    @Override
-    public String getMatchcode()
-    {
-        return matchcode;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-
-        CompanyTypeLinkDTO other = (CompanyTypeLinkDTO) obj;
-
-        if (matchcode == null)
-        {
-            if (other.matchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!matchcode.equals(other.matchcode))
-        {
-            return false;
-        }
-
-        if (tenant == null)
-        {
-            if (other.tenant != null)
-            {
-                return false;
-            }
-        }
-        else if (!tenant.equals(other.tenant))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("%s(%s)", matchcode, tenant);
+        super(tenant, matchcode);
     }
 
 }

@@ -14,47 +14,30 @@
  */
 package pnet.data.api.contracttype;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.WithMatchcode;
-import pnet.data.api.util.WithTenant;
+import pnet.data.api.util.AbstractLinkDTO;
 
 /**
  * A brand for a specified tenant.
  *
  * @author ham
  */
-public class ContractTypeBrandDataDTO implements WithTenant, WithMatchcode, Serializable
+public class ContractTypeBrandLinkDTO extends AbstractLinkDTO
 {
 
     private static final long serialVersionUID = -4749964162640876397L;
 
-    private final String tenant;
-    private final String matchcode;
     private final Collection<String> states;
 
-    public ContractTypeBrandDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
+    public ContractTypeBrandLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("states") Collection<String> states)
     {
-        super();
-        this.tenant = tenant;
-        this.matchcode = matchcode;
+        super(tenant, matchcode);
+
         this.states = states;
-    }
-
-    @Override
-    public String getTenant()
-    {
-        return tenant;
-    }
-
-    @Override
-    public String getMatchcode()
-    {
-        return matchcode;
     }
 
     public Collection<String> getStates()
@@ -66,11 +49,8 @@ public class ContractTypeBrandDataDTO implements WithTenant, WithMatchcode, Seri
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-
+        int result = super.hashCode();
+        result = prime * result + ((states == null) ? 0 : states.hashCode());
         return result;
     }
 
@@ -81,50 +61,33 @@ public class ContractTypeBrandDataDTO implements WithTenant, WithMatchcode, Seri
         {
             return true;
         }
-
-        if (obj == null)
+        if (!super.equals(obj))
         {
             return false;
         }
-
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof ContractTypeBrandLinkDTO))
         {
             return false;
         }
-
-        ContractTypeBrandDataDTO other = (ContractTypeBrandDataDTO) obj;
-
-        if (matchcode == null)
+        ContractTypeBrandLinkDTO other = (ContractTypeBrandLinkDTO) obj;
+        if (states == null)
         {
-            if (other.matchcode != null)
+            if (other.states != null)
             {
                 return false;
             }
         }
-        else if (!matchcode.equals(other.matchcode))
+        else if (!states.equals(other.states))
         {
             return false;
         }
-
-        if (tenant == null)
-        {
-            if (other.tenant != null)
-            {
-                return false;
-            }
-        }
-        else if (!tenant.equals(other.tenant))
-        {
-            return false;
-        }
-
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [states=%s]", matchcode, tenant, states);
+        return String.format("%s(%s) [states=%s]", getMatchcode(), getTenant(), states);
     }
 
 }

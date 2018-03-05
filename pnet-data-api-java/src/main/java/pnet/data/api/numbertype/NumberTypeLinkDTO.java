@@ -12,23 +12,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.contracttype;
+package pnet.data.api.numbertype;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.util.AbstractLinkDTO;
 
 /**
- * Holds a contract type.
+ * Holds a number type.
  *
  * @author ham
  */
-public class ContractTypeLinkDTO extends AbstractLinkDTO
+public class NumberTypeLinkDTO extends AbstractLinkDTO
 {
 
-    private static final long serialVersionUID = 7156531727995281244L;
+    private static final long serialVersionUID = 3721146874940409127L;
 
-    public ContractTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
+    public NumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {
         super(tenant, matchcode);
     }

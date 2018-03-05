@@ -22,6 +22,15 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.activity.ActivityLinkDTO;
+import pnet.data.api.brand.BrandLinkDTO;
+import pnet.data.api.brand.WithBrandLinks;
+import pnet.data.api.companytype.CompanyTypeLinkDTO;
+import pnet.data.api.companytype.WithCompanyTypeLinks;
+import pnet.data.api.contracttype.ContractTypeLinkDTO;
+import pnet.data.api.contracttype.WithContractTypeLinks;
+import pnet.data.api.numbertype.NumberTypeLinkDTO;
+import pnet.data.api.numbertype.WithNumberTypeLinks;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -33,8 +42,8 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class FunctionDataDTO
-    implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithLastUpdate, Serializable
+public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks,
+    WithCompanyTypeLinks, WithContractTypeLinks, WithNumberTypeLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -3654140715367585861L;
@@ -44,12 +53,11 @@ public class FunctionDataDTO
     private Map<Locale, String> labels;
     private Map<Locale, String> descriptions;
     private Collection<String> tenants;
-    private Collection<FunctionBrandDataDTO> brands;
-    private Collection<FunctionCompanyTypeDataDTO> companyTypes;
-    private Collection<FunctionContractTypeDataDTO> contractTypes;
-    private Collection<FunctionNumberTypeDataDTO> numberTypes;
-    private Collection<FunctionActivityDataDTO> activities;
-    private Collection<FunctionInfoareaDataDTO> infoareas;
+    private Collection<BrandLinkDTO> brands;
+    private Collection<CompanyTypeLinkDTO> companyTypes;
+    private Collection<ContractTypeLinkDTO> contractTypes;
+    private Collection<NumberTypeLinkDTO> numberTypes;
+    private Collection<ActivityLinkDTO> activities;
     private LocalDateTime lastUpdate;
 
     public FunctionDataDTO(@JsonProperty("matchcode") String matchcode)
@@ -87,7 +95,8 @@ public class FunctionDataDTO
         this.descriptions = descriptions;
     }
 
-    public Collection<FunctionBrandDataDTO> getBrands()
+    @Override
+    public Collection<BrandLinkDTO> getBrands()
     {
         return brands;
     }
@@ -103,17 +112,18 @@ public class FunctionDataDTO
         this.tenants = tenants;
     }
 
-    public void setBrands(Collection<FunctionBrandDataDTO> brands)
+    public void setBrands(Collection<BrandLinkDTO> brands)
     {
         this.brands = brands;
     }
 
-    public Collection<FunctionCompanyTypeDataDTO> getCompanyTypes()
+    @Override
+    public Collection<CompanyTypeLinkDTO> getCompanyTypes()
     {
         return companyTypes;
     }
 
-    public void setCompanyTypes(Collection<FunctionCompanyTypeDataDTO> companyTypes)
+    public void setCompanyTypes(Collection<CompanyTypeLinkDTO> companyTypes)
     {
         this.companyTypes = companyTypes;
     }
@@ -122,12 +132,13 @@ public class FunctionDataDTO
      * @return This function is only available, if the company has one of these contracts. This collection is only
      *         relevant, if the company type of the company says so.
      */
-    public Collection<FunctionContractTypeDataDTO> getContractTypes()
+    @Override
+    public Collection<ContractTypeLinkDTO> getContractTypes()
     {
         return contractTypes;
     }
 
-    public void setContractTypes(Collection<FunctionContractTypeDataDTO> contractTypes)
+    public void setContractTypes(Collection<ContractTypeLinkDTO> contractTypes)
     {
         this.contractTypes = contractTypes;
     }
@@ -135,12 +146,13 @@ public class FunctionDataDTO
     /**
      * @return The number types necessary for this function.
      */
-    public Collection<FunctionNumberTypeDataDTO> getNumberTypes()
+    @Override
+    public Collection<NumberTypeLinkDTO> getNumberTypes()
     {
         return numberTypes;
     }
 
-    public void setNumberTypes(Collection<FunctionNumberTypeDataDTO> numberTypes)
+    public void setNumberTypes(Collection<NumberTypeLinkDTO> numberTypes)
     {
         this.numberTypes = numberTypes;
     }
@@ -148,27 +160,14 @@ public class FunctionDataDTO
     /**
      * @return The activities, that are linked to this function.
      */
-    public Collection<FunctionActivityDataDTO> getActivities()
+    public Collection<ActivityLinkDTO> getActivities()
     {
         return activities;
     }
 
-    public void setActivities(Collection<FunctionActivityDataDTO> activities)
+    public void setActivities(Collection<ActivityLinkDTO> activities)
     {
         this.activities = activities;
-    }
-
-    /**
-     * @return The inforareas, that are linked to this function.
-     */
-    public Collection<FunctionInfoareaDataDTO> getInfoareas()
-    {
-        return infoareas;
-    }
-
-    public void setInfoareas(Collection<FunctionInfoareaDataDTO> infoareas)
-    {
-        this.infoareas = infoareas;
     }
 
     @Override
@@ -186,9 +185,9 @@ public class FunctionDataDTO
     public String toString()
     {
         return String.format(
-            "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, contractTypes=%s, numberTypes=%s, activities=%s, infoareas=%s, lastUpdate=%s]",
+            "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, contractTypes=%s, numberTypes=%s, activities=%s, lastUpdate=%s]",
             matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, numberTypes, activities,
-            infoareas, lastUpdate);
+            lastUpdate);
     }
 
 }

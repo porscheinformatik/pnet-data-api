@@ -20,6 +20,8 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.brand.BrandLinkDTO;
+import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -29,7 +31,7 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class AdvisorDivisionItemDTO implements WithMatchcode, WithTenants, WithLastUpdate, Serializable
+public class AdvisorDivisionItemDTO implements WithMatchcode, WithTenants, WithBrandLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 5381823779754782156L;
@@ -38,13 +40,12 @@ public class AdvisorDivisionItemDTO implements WithMatchcode, WithTenants, WithL
     private final String label;
     private final String description;
     private final Collection<String> tenants;
-    private final Collection<AdvisorDivisionBrandItemDTO> brands;
+    private final Collection<BrandLinkDTO> brands;
     private final LocalDateTime lastUpdate;
 
     public AdvisorDivisionItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
         @JsonProperty("description") String description, @JsonProperty("tenants") Collection<String> tenants,
-        @JsonProperty("brands") Collection<AdvisorDivisionBrandItemDTO> brands,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("brands") Collection<BrandLinkDTO> brands, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
         this.matchcode = matchcode;
@@ -77,7 +78,7 @@ public class AdvisorDivisionItemDTO implements WithMatchcode, WithTenants, WithL
         return tenants;
     }
 
-    public Collection<AdvisorDivisionBrandItemDTO> getBrands()
+    public Collection<BrandLinkDTO> getBrands()
     {
         return brands;
     }

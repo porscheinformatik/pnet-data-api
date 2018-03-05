@@ -16,6 +16,6 @@ public interface PnetDataClientResultPage<T> extends ResultPage<T>
      * @return the next page. Executes a call if there is another page. Never null, but an empty page.
      * @throws PnetDataApiException on occasion
      */
-    PnetDataClientResultPage<T> getNextPage() throws PnetDataApiException;
+    PnetDataClientResultPage<T> nextPage() throws PnetDataApiException;
 
 }

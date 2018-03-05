@@ -40,7 +40,7 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> im
         }
         catch (NoSuchMethodException | SecurityException e)
         {
-            throw new UnsupportedOperationException("Necessary constructor is missing", e);
+            throw new UnsupportedOperationException("Necessary constructor in " + getClass() + " is missing", e);
         }
 
         try

@@ -12,30 +12,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pnet.data.api.function;
+package pnet.data.api.util;
 
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.WithMatchcode;
-import pnet.data.api.util.WithTenant;
-
 /**
- * Holds a brand.
+ * Abstract implementation of a link.
  *
  * @author ham
  */
-public class FunctionBrandItemDTO implements WithTenant, WithMatchcode, Serializable
+public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Serializable
 {
 
-    private static final long serialVersionUID = 2577153321525930572L;
+    private static final long serialVersionUID = -2028835160784471478L;
 
     private final String tenant;
     private final String matchcode;
 
-    public FunctionBrandItemDTO(@JsonProperty("tenant") String tenant, @JsonProperty("brandMatchcode") String matchcode)
+    public AbstractLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {
+        super();
+
         this.tenant = tenant;
         this.matchcode = matchcode;
     }
@@ -82,7 +81,7 @@ public class FunctionBrandItemDTO implements WithTenant, WithMatchcode, Serializ
             return false;
         }
 
-        FunctionBrandItemDTO other = (FunctionBrandItemDTO) obj;
+        AbstractLinkDTO other = (AbstractLinkDTO) obj;
 
         if (matchcode == null)
         {

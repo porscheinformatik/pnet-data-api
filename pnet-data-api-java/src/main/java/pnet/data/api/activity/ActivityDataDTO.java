@@ -23,8 +23,11 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.brand.BrandLinkDTO;
+import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.companytype.CompanyTypeLinkDTO;
+import pnet.data.api.companytype.WithCompanyTypeLinks;
 import pnet.data.api.contracttype.ContractTypeLinkDTO;
+import pnet.data.api.contracttype.WithContractTypeLinks;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -36,8 +39,8 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class ActivityDataDTO
-    implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithLastUpdate, Serializable
+public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks,
+    WithCompanyTypeLinks, WithContractTypeLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 5133673955487263429L;
@@ -98,6 +101,7 @@ public class ActivityDataDTO
         this.tenants = tenants;
     }
 
+    @Override
     public Collection<BrandLinkDTO> getBrands()
     {
         return brands;
@@ -108,6 +112,7 @@ public class ActivityDataDTO
         this.brands = brands;
     }
 
+    @Override
     public Collection<CompanyTypeLinkDTO> getCompanyTypes()
     {
         return companyTypes;
@@ -122,6 +127,7 @@ public class ActivityDataDTO
      * @return This activity is only available, if the company has one of these contracts. This collection is only
      *         relevant, if the company type of the company says so.
      */
+    @Override
     public Collection<ContractTypeLinkDTO> getContractTypes()
     {
         return contractTypes;

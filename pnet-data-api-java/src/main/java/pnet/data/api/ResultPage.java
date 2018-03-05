@@ -139,7 +139,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
      */
     default boolean hasNextPage()
     {
-        return getPageIndex() < getNumberOfPages();
+        return getPageIndex() + 1 < getNumberOfPages();
     }
 
 }
