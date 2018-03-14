@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Defines a generic, parameterized type for info at runtime. <br>
@@ -21,9 +22,58 @@ import java.util.Objects;
 public interface GenericType<T> extends ParameterizedType
 {
 
-    static <T> Builder<T> of(Class<? extends T> rawType)
+    static <T> Builder<T> build(Class<?> rawType)
     {
-        return new Builder<>(null, rawType);
+        return new Builder<>(null, null, rawType);
+    }
+
+    @SuppressWarnings("unchecked")
+    static <T> GenericType<T> of(Type type)
+    {
+        if (type == null)
+        {
+            return null;
+        }
+
+        if (type instanceof GenericType<?>)
+        {
+            return (GenericType<T>) type;
+        }
+
+        if (type instanceof ParameterizedType)
+        {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+
+            return new Of<>(null, parameterizedType.getOwnerType(), (Class<?>) parameterizedType.getRawType(),
+                parameterizedType.getActualTypeArguments());
+        }
+
+        if (type instanceof TypeVariable<?>)
+        {
+            TypeVariable<?> typeVariable = (TypeVariable<?>) type;
+
+            return new Of<>(typeVariable.getName(), null, null, new Type[0]);
+        }
+
+        if (type instanceof Class<?>)
+        {
+            Class<?> clazz = (Class<?>) type;
+            return new Of<>(null, clazz.getEnclosingClass(), clazz, of(clazz.getTypeParameters()));
+        }
+
+        throw new UnsupportedOperationException("Type of " + type.getClass() + " not supported");
+    }
+
+    static GenericType<?>[] of(Type... types)
+    {
+        GenericType<?>[] genericTypes = new GenericType<?>[types.length];
+
+        for (int i = 0; i < types.length; i++)
+        {
+            genericTypes[i] = of(types[i]);
+        }
+
+        return genericTypes;
     }
 
     /**
@@ -34,214 +84,99 @@ public interface GenericType<T> extends ParameterizedType
      */
     class Of<S> implements GenericType<S>
     {
-        private final ParameterizedType type;
-        private final Class<?>[] arguments;
+        private final String name;
+        private final Type ownerType;
+        private final Class<?> rawType;
+        private final Type[] actualTypeArguments;
+        private final GenericType<?>[] arguments;
 
         public Of()
         {
-            Type type = getType(getClass(), Of.class);
+            GenericType<Object> genericType = build(Of.class).implementedBy(getClass()).getArgument(0);
 
-            if (!(type instanceof ParameterizedType))
-            {
-                throw new IllegalArgumentException("The " + getClass() + " is not parameterized");
-            }
+            this.name = null;
+            this.ownerType = genericType.getOwnerType();
+            this.rawType = genericType.getType();
+            this.actualTypeArguments = genericType.getActualTypeArguments();
+            this.arguments = genericType.getArguments();
+        }
 
-            this.type = (ParameterizedType) type;
-            this.arguments = getTypeArguments(getClass(), type);
+        Of(String name, Type ownerType, Class<?> rawType, Type... actualTypeArguments)
+        {
+            super();
 
+            this.name = name;
+            this.ownerType = ownerType;
+            this.rawType = rawType;
+            this.actualTypeArguments = actualTypeArguments;
+            this.arguments = of(actualTypeArguments);
         }
 
         @Override
-        public Class<?>[] getArguments()
+        public String getName()
         {
-            return arguments;
+            return name;
         }
 
         @Override
         public Type[] getActualTypeArguments()
         {
-            return type.getActualTypeArguments();
+            return actualTypeArguments;
+        }
+
+        @Override
+        public GenericType<?>[] getArguments()
+        {
+            return arguments;
         }
 
         @Override
         public Type getRawType()
         {
-            return type.getRawType();
+            return rawType;
         }
 
         @Override
         public Type getOwnerType()
         {
-            return type.getOwnerType();
+            return ownerType;
+        }
+
+        @Override
+        public boolean equals(Object other)
+        {
+            if (!(other instanceof ParameterizedType))
+            {
+                return false;
+            }
+
+            ParameterizedType that = (ParameterizedType) other;
+
+            return getRawType().equals(that.getRawType())
+                && Objects.equals(getOwnerType(), that.getOwnerType())
+                && Arrays.equals(getActualTypeArguments(), that.getActualTypeArguments());
         }
 
         @Override
         public int hashCode()
         {
-            final int prime = 31;
-            int result = 1;
-
-            result = prime * result + ((type == null) ? 0 : type.hashCode());
-
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj)
-        {
-            if (this == obj)
-            {
-                return true;
-            }
-
-            if (obj == null)
-            {
-                return false;
-            }
-
-            if (!(obj instanceof Of))
-            {
-                return false;
-            }
-
-            Of<?> other = (Of<?>) obj;
-
-            if (type == null)
-            {
-                if (other.type != null)
-                {
-                    return false;
-                }
-            }
-            else if (!type.equals(other.type))
-            {
-                return false;
-            }
-
-            return true;
+            return (ownerType == null ? 0 : ownerType.hashCode()) ^ arguments.hashCode() ^ rawType.hashCode();
         }
 
         @Override
         public String toString()
         {
-            return type.toString();
-        }
+            StringBuilder builder = new StringBuilder(rawType != null ? rawType.getTypeName() : name);
 
-        public static Class<?>[] getTypeArguments(Class<?> implementingType, Class<?> rawType)
-        {
-            Type type = getType(implementingType, rawType);
-
-            if (type == null)
+            if (arguments.length > 0)
             {
-                throw new IllegalArgumentException(implementingType + " does not extend or implement " + rawType);
+                builder
+                    .append('<')
+                    .append(Arrays.stream(arguments).map(Type::getTypeName).collect(Collectors.joining(", ")))
+                    .append('>');
             }
 
-            return getTypeArguments(implementingType, type);
-        }
-
-        public static Class<?>[] getTypeArguments(Class<?> implementingType, Type type)
-        {
-            Type[] types;
-
-            if (type instanceof ParameterizedType)
-            {
-                types = ((ParameterizedType) type).getActualTypeArguments();
-            }
-            else if (type instanceof Class<?>)
-            {
-                types = ((Class<?>) type).getTypeParameters();
-            }
-            else
-            {
-                throw new UnsupportedOperationException("Unsupported type: " + type.getClass());
-            }
-
-            Class<?>[] classes = new Class<?>[types.length];
-
-            for (int i = 0; i < types.length; i++)
-            {
-                if (types[i] instanceof Class<?>)
-                {
-                    classes[i] = (Class<?>) types[i];
-                    continue;
-                }
-
-                if (types[i] instanceof TypeVariable<?> && implementingType != type)
-                {
-                    TypeVariable<?> typeVariable = (TypeVariable<?>) types[i];
-                    String name = typeVariable.getName();
-                    Class<?> genericDeclaration = (Class<?>) typeVariable.getGenericDeclaration();
-                    TypeVariable<?>[] parameters = genericDeclaration.getTypeParameters();
-                    Class<?>[] variableTypes = getTypeArguments(implementingType, genericDeclaration);
-
-                    for (int j = 0; j < Math.min(parameters.length, variableTypes.length); j++)
-                    {
-                        if (name.equals(parameters[j].getName()))
-                        {
-                            classes[i] = variableTypes[j];
-                            break;
-                        }
-                    }
-
-                    if (classes[i] == null)
-                    {
-                        throw new IllegalArgumentException("Definition of type parameter "
-                            + name
-                            + " of "
-                            + genericDeclaration
-                            + " is not available at runtime");
-                    }
-                }
-            }
-
-            return classes;
-        }
-
-        public static Type getType(Class<?> implementingType, Class<?> rawType)
-        {
-            if (implementingType == rawType)
-            {
-                return implementingType;
-            }
-
-            Class<?>[] interfaces = implementingType.getInterfaces();
-
-            for (int i = 0; i < interfaces.length; i++)
-            {
-                if (interfaces[i] == rawType)
-                {
-                    return implementingType.getGenericInterfaces()[i];
-                }
-            }
-
-            if (implementingType.getSuperclass() == rawType)
-            {
-                return implementingType.getGenericSuperclass();
-            }
-
-            for (Class<?> interf : interfaces)
-            {
-                Type type = getType(interf, rawType);
-
-                if (type != null)
-                {
-                    return type;
-                }
-            }
-
-            Class<?> superclass = implementingType.getSuperclass();
-
-            if (superclass != null)
-            {
-                Type type = getType(superclass, rawType);
-
-                if (type != null)
-                {
-                    return type;
-                }
-            }
-
-            return null;
+            return builder.toString();
         }
     }
 
@@ -253,15 +188,22 @@ public interface GenericType<T> extends ParameterizedType
      */
     class Builder<T>
     {
+        private final String name;
         private final Type ownerType;
-        private final Class<? extends T> rawType;
+        private final Class<?> rawType;
 
-        public Builder(Type ownerType, Class<? extends T> rawType)
+        public Builder(String name, Type ownerType, Class<?> rawType)
         {
             super();
 
+            this.name = name;
             this.ownerType = ownerType;
             this.rawType = rawType;
+        }
+
+        public Builder<T> named(String name)
+        {
+            return new Builder<>(name, ownerType, rawType);
         }
 
         public Builder<T> ownedBy(Type ownerType)
@@ -271,12 +213,12 @@ public interface GenericType<T> extends ParameterizedType
                 throw new IllegalArgumentException("OwnerType already set");
             }
 
-            return new Builder<>(ownerType, rawType);
-        }
+            if (ownerType == null)
+            {
+                return this;
+            }
 
-        public <U extends T> GenericType<U> implementedBy(Class<?> implementingType)
-        {
-            return with(Of.getTypeArguments(implementingType, rawType));
+            return new Builder<>(name, ownerType, rawType);
         }
 
         public <U extends T> GenericType<U> instancedBy(T instance)
@@ -284,11 +226,16 @@ public interface GenericType<T> extends ParameterizedType
             return implementedBy(Objects.requireNonNull(instance, "Instance is null").getClass());
         }
 
-        public <U extends T> GenericType<U> with(Class<?>... arguments)
+        public <U extends T> GenericType<U> implementedBy(Class<?> implementingType)
+        {
+            return with(findTypeArguments(rawType, implementingType));
+        }
+
+        public <U extends T> GenericType<U> with(Type... arguments)
         {
             Objects.requireNonNull(rawType, "RawType is null");
 
-            if (rawType.getTypeParameters().length != arguments.length)
+            if (rawType instanceof Class<?> && ((Class<?>) rawType).getTypeParameters().length != arguments.length)
             {
                 throw new IllegalArgumentException("Invalid number of type arguments");
             }
@@ -309,84 +256,156 @@ public interface GenericType<T> extends ParameterizedType
                 }
             }
 
-            return new GenericType<U>()
+            return new Of<>(name, ownerType, rawType, arguments);
+        }
+
+        public static Type[] findTypeArguments(Type rawType, Class<?> implementingType)
+        {
+            Type genericType = findGenericType(rawType, implementingType);
+
+            if (genericType == null)
             {
-                @Override
-                public Class<?>[] getArguments()
+                throw new IllegalArgumentException(implementingType + " does not extend or implement " + rawType);
+            }
+
+            Type[] parameters;
+
+            if (genericType instanceof ParameterizedType)
+            {
+                parameters = ((ParameterizedType) genericType).getActualTypeArguments();
+            }
+            else if (genericType instanceof Class<?>)
+            {
+                parameters = ((Class<?>) genericType).getTypeParameters();
+            }
+            else
+            {
+                throw new UnsupportedOperationException("Unsupported type: " + genericType.getClass());
+            }
+
+            Type[] results = new Type[parameters.length];
+
+            for (int i = 0; i < parameters.length; i++)
+            {
+                results[i] = findTypeArgument(parameters[i], implementingType);
+            }
+
+            return results;
+        }
+
+        protected static Type findTypeArgument(Type parameter, Class<?> implementingType)
+        {
+            if (parameter instanceof Class<?>)
+            {
+                return parameter;
+            }
+
+            if (parameter instanceof TypeVariable<?>)
+            {
+
+                TypeVariable<?> typeVariable = (TypeVariable<?>) parameter;
+                Class<?> genericDeclaration = (Class<?>) typeVariable.getGenericDeclaration();
+
+                if (implementingType == genericDeclaration)
                 {
-                    return arguments;
+                    return parameter;
                 }
 
-                @Override
-                public Type[] getActualTypeArguments()
+                String name = typeVariable.getName();
+                TypeVariable<?>[] parameters = genericDeclaration.getTypeParameters();
+                Type[] variableTypes = findTypeArguments(genericDeclaration, implementingType);
+
+                for (int j = 0; j < Math.min(parameters.length, variableTypes.length); j++)
                 {
-                    return arguments;
-                }
-
-                @Override
-                public Type getRawType()
-                {
-                    return rawType;
-                }
-
-                @Override
-                public Type getOwnerType()
-                {
-                    return ownerType;
-                }
-
-                @Override
-                public String toString()
-                {
-                    StringBuilder builder = new StringBuilder();
-
-                    builder.append(rawType.getName()).append('<');
-
-                    Arrays.stream(arguments).forEach(builder::append);
-
-                    return builder.append('>').toString();
-                }
-
-                @Override
-                public boolean equals(Object other)
-                {
-                    if (!(other instanceof ParameterizedType))
+                    if (name.equals(parameters[j].getName()))
                     {
-                        return false;
+                        return variableTypes[j];
                     }
-
-                    ParameterizedType that = (ParameterizedType) other;
-
-                    return getRawType().equals(that.getRawType())
-                        && Objects.equals(getOwnerType(), that.getOwnerType())
-                        && Arrays.equals(getActualTypeArguments(), that.getActualTypeArguments());
                 }
 
-                @Override
-                public int hashCode()
+                return typeVariable;
+            }
+
+            if (parameter instanceof ParameterizedType)
+            {
+                return build((Class<?>) ((ParameterizedType) parameter).getRawType())
+                    .with(((ParameterizedType) parameter).getActualTypeArguments());
+            }
+
+            throw new UnsupportedOperationException("Unsupported type of " + parameter.getClass());
+        }
+
+        public static Type findGenericType(Type type, Class<?> implementingType)
+        {
+            if (implementingType == type)
+            {
+                return implementingType;
+            }
+
+            Class<?>[] interfaces = implementingType.getInterfaces();
+
+            for (int i = 0; i < interfaces.length; i++)
+            {
+                if (interfaces[i] == type)
                 {
-                    return (ownerType == null ? 0 : ownerType.hashCode()) ^ arguments.hashCode() ^ rawType.hashCode();
+                    return implementingType.getGenericInterfaces()[i];
                 }
-            };
+            }
+
+            if (implementingType.getSuperclass() == type)
+            {
+                return implementingType.getGenericSuperclass();
+            }
+
+            for (Class<?> interf : interfaces)
+            {
+                Type result = findGenericType(type, interf);
+
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            Class<?> superclass = implementingType.getSuperclass();
+
+            if (superclass != null)
+            {
+                Type result = findGenericType(type, superclass);
+
+                if (result != null)
+                {
+                    return result;
+                }
+            }
+
+            return null;
         }
     }
+
+    String getName();
 
     default Class<?> getType()
     {
         return (Class<?>) getRawType();
     }
 
+    GenericType<?>[] getArguments();
+
     default int getNumberOfArguments()
     {
         return getArguments().length;
     }
 
-    Class<?>[] getArguments();
+    default <U> GenericType<U> getArgument(int index)
+    {
+        return of(getActualTypeArguments()[index]);
+    }
 
     @SuppressWarnings("unchecked")
-    default <U> Class<U> getArgument(int index)
+    default <U> Class<U> getArgumentClass(int index)
     {
-        return (Class<U>) getArguments()[index];
+        return (Class<U>) getArgument(index).getType();
     }
 
 }

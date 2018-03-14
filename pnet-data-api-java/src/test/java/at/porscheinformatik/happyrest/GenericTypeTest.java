@@ -3,7 +3,11 @@ package at.porscheinformatik.happyrest;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
+import java.util.List;
+
 import org.junit.Test;
+
+import at.porscheinformatik.happyrest.GenericType.Of;
 
 /**
  * <pre>
@@ -31,52 +35,136 @@ public class GenericTypeTest
     {
     }
 
+    private interface E extends A<List<String>>
+    {
+    }
+
     @Test
     public void testImplementedByNonGeneric()
     {
-        GenericType<CharSequence> genericType = GenericType.of(CharSequence.class).implementedBy(String.class);
+        GenericType<CharSequence> genericType = GenericType.build(CharSequence.class).implementedBy(String.class);
 
         assertThat(genericType.getType(), equalTo(CharSequence.class));
-        assertThat(genericType.getArguments().length, is(0));
+        assertThat(genericType.getNumberOfArguments(), is(0));
+        assertThat(genericType.getTypeName(), is("java.lang.CharSequence"));
     }
 
     @Test
     public void testImplementedBy()
     {
-        GenericType<A<?>> genericType = GenericType.of(A.class).implementedBy(D.class);
-        Class<?> typeArgument = genericType.getArgument(0);
+        GenericType<A<?>> genericType = GenericType.build(A.class).implementedBy(D.class);
 
-        assertThat(typeArgument, equalTo(String.class));
+        assertThat(genericType.getType(), equalTo(A.class));
+        assertThat(genericType.getNumberOfArguments(), is(1));
+        assertThat(genericType.getArgumentClass(0), equalTo(String.class));
+        assertThat(genericType.getTypeName(), is("at.porscheinformatik.happyrest.GenericTypeTest$A<java.lang.String>"));
+
+        GenericType<Object> innerGenericType = genericType.getArgument(0);
+
+        assertThat(innerGenericType.getType(), equalTo(String.class));
+        assertThat(innerGenericType.getNumberOfArguments(), is(0));
+        assertThat(innerGenericType.getTypeName(), is("java.lang.String"));
     }
 
     @Test
     public void testInstanceBy()
     {
         D d = new D();
-        GenericType<D> genericType = GenericType.of(B.class).instancedBy(d);
+        GenericType<D> genericType = GenericType.build(B.class).instancedBy(d);
 
-        assertThat(genericType.getArgument(0), equalTo(Integer.class));
-        assertThat(genericType.getArgument(1), equalTo(String.class));
+        assertThat(genericType.getType(), equalTo(B.class));
+        assertThat(genericType.getNumberOfArguments(), is(2));
+        assertThat(genericType.getArgumentClass(0), equalTo(Integer.class));
+        assertThat(genericType.getArgumentClass(1), equalTo(String.class));
+        assertThat(genericType.getTypeName(),
+            is("at.porscheinformatik.happyrest.GenericTypeTest$B<java.lang.Integer, java.lang.String>"));
+
+        GenericType<Object> innerGenericType = genericType.getArgument(0);
+
+        assertThat(innerGenericType.getType(), equalTo(Integer.class));
+        assertThat(innerGenericType.getNumberOfArguments(), is(0));
+        assertThat(innerGenericType.getTypeName(), is("java.lang.Integer"));
+
+        innerGenericType = genericType.getArgument(1);
+
+        assertThat(innerGenericType.getType(), equalTo(String.class));
+        assertThat(innerGenericType.getNumberOfArguments(), is(0));
+        assertThat(innerGenericType.getTypeName(), is("java.lang.String"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testInvalidInstancedBy()
+    @Test
+    public void testMissingType()
     {
         C<Double> c = new C<>();
-        GenericType<A<?>> genericType = GenericType.of(A.class).instancedBy(c);
-        Class<?> typeArgument = genericType.getArguments()[0];
+        GenericType<A<?>> genericType = GenericType.build(A.class).instancedBy(c);
 
-        assertThat(typeArgument, equalTo(Double.class));
+        assertThat(genericType.getType(), equalTo(A.class));
+        assertThat(genericType.getNumberOfArguments(), is(1));
+        assertThat(genericType.getArgumentClass(0), nullValue()); // the type information is not available
+        assertThat(genericType.getTypeName(), is("at.porscheinformatik.happyrest.GenericTypeTest$A<U>"));
+
+        GenericType<Object> innerGenericType = genericType.getArgument(0);
+
+        assertThat(innerGenericType.getType(), nullValue());
+        assertThat(innerGenericType.getNumberOfArguments(), is(0));
+        assertThat(innerGenericType.getTypeName(), is("U"));
+    }
+
+    @Test
+    public void testDoppeltGemoppelt()
+    {
+        GenericType<A<?>> genericType = GenericType.build(A.class).implementedBy(E.class);
+
+        assertThat(genericType.getType(), equalTo(A.class));
+        assertThat(genericType.getNumberOfArguments(), is(1));
+        assertThat(genericType.getArgumentClass(0), equalTo(List.class));
+        assertThat(genericType.getTypeName(),
+            is("at.porscheinformatik.happyrest.GenericTypeTest$A<java.util.List<java.lang.String>>"));
+
+        GenericType<Object> innerGenericType = genericType.getArgument(0);
+
+        assertThat(innerGenericType.getType(), equalTo(List.class));
+        assertThat(innerGenericType.getNumberOfArguments(), is(1));
+        assertThat(innerGenericType.getArgumentClass(0), equalTo(String.class));
+        assertThat(innerGenericType.getTypeName(), is("java.util.List<java.lang.String>"));
+
+        innerGenericType = innerGenericType.getArgument(0);
+
+        assertThat(innerGenericType.getType(), equalTo(String.class));
+        assertThat(innerGenericType.getNumberOfArguments(), is(0));
+        assertThat(innerGenericType.getTypeName(), is("java.lang.String"));
     }
 
     @Test
     public void testOf()
     {
-        Class<Object> argument = new GenericType.Of<C<String>>()
+        Of<String> genericType = new Of<String>()
         {
-        }.getArgument(0);
+        };
 
-        System.out.println(argument);
+        assertThat(genericType.getType(), equalTo(String.class));
+        assertThat(genericType.getNumberOfArguments(), is(0));
+        assertThat(genericType.getTypeName(), is("java.lang.String"));
+    }
+
+    @Test
+    public void testDoppeltGemoppeltOf()
+    {
+        Of<List<String>> genericType = new Of<List<String>>()
+        {
+        };
+
+        assertThat(genericType.getType(), equalTo(List.class));
+        assertThat(genericType.getNumberOfArguments(), is(1));
+        assertThat(genericType.getArgumentClass(0), equalTo(String.class));
+        assertThat(genericType.getTypeName(), is("java.util.List<java.lang.String>"));
+
+        GenericType<Object> innerGenericType = genericType.getArgument(0);
+
+        assertThat(innerGenericType.getType(), equalTo(String.class));
+        assertThat(innerGenericType.getNumberOfArguments(), is(0));
+        assertThat(innerGenericType.getTypeName(), is("java.lang.String"));
+
     }
 
 }
