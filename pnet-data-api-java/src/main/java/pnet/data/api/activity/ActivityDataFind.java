@@ -23,7 +23,7 @@ public class ActivityDataFind extends AbstractFind<ActivityItemDTO, ActivityData
     RestrictUpdatedAfter<ActivityDataFind>
 {
 
-    ActivityDataFind(FindFunction<ActivityItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
+    public ActivityDataFind(FindFunction<ActivityItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
     {
         super(findFunction, restrictItems);
     }

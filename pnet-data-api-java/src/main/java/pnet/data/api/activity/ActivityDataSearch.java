@@ -20,7 +20,7 @@ public class ActivityDataSearch extends AbstractSearch<ActivityItemDTO, Activity
     RestrictCompanyTypes<ActivityDataSearch>, RestrictContractTypes<ActivityDataSearch>
 {
 
-    ActivityDataSearch(SearchFunction<ActivityItemDTO> searchFunction, List<Pair<String, Object>> restrictItems)
+    public ActivityDataSearch(SearchFunction<ActivityItemDTO> searchFunction, List<Pair<String, Object>> restrictItems)
     {
         super(searchFunction, restrictItems);
     }
