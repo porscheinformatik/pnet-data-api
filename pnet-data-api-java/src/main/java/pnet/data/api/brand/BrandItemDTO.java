@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -29,7 +30,7 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class BrandItemDTO implements WithMatchcode, WithTenants, WithLastUpdate, Serializable
+public class BrandItemDTO implements WithMatchcode, WithLabel, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 4547030944469871555L;
@@ -62,6 +63,7 @@ public class BrandItemDTO implements WithMatchcode, WithTenants, WithLastUpdate,
         return tenants;
     }
 
+    @Override
     public String getLabel()
     {
         return label;

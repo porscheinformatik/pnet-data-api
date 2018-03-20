@@ -15,16 +15,16 @@
 package pnet.data.api.util;
 
 /**
- * An item, that uses a {@link Matchcode} as universal identifier.
+ * An item, that has a label.
  *
  * @author ham
  */
-public interface WithMatchcode
+public interface WithLabel
 {
 
     /**
-     * @return The unique, alpha-numeric key of the item. This key is the same in all environments.
+     * @return the label
      */
-    String getMatchcode();
+    String getLabel();
 
 }

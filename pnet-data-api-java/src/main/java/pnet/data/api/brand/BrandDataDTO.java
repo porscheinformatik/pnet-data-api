@@ -32,7 +32,7 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class BrandDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable
+public class BrandDataDTO implements WithMatchcode, WithLabels, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5392033900534170882L;

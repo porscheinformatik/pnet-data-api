@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
+import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -32,7 +33,8 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class ContractTypeItemDTO implements WithMatchcode, WithTenants, WithBrandLinks, WithLastUpdate, Serializable
+public class ContractTypeItemDTO
+    implements WithMatchcode, WithTenants, WithLabel, WithBrandLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -6345795957251172952L;
@@ -64,6 +66,7 @@ public class ContractTypeItemDTO implements WithMatchcode, WithTenants, WithBran
         return matchcode;
     }
 
+    @Override
     public String getLabel()
     {
         return label;

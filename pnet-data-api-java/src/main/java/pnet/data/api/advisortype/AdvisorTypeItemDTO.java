@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.util.WithDescription;
+import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
@@ -27,7 +29,7 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class AdvisorTypeItemDTO implements WithMatchcode, WithLastUpdate, Serializable
+public class AdvisorTypeItemDTO implements WithMatchcode, WithLabel, WithDescription, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5385814018859561810L;
@@ -64,11 +66,13 @@ public class AdvisorTypeItemDTO implements WithMatchcode, WithLastUpdate, Serial
         return matchcode;
     }
 
+    @Override
     public String getLabel()
     {
         return label;
     }
 
+    @Override
     public String getDescription()
     {
         return description;

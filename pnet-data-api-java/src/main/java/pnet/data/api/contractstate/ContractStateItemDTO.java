@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
@@ -27,7 +28,7 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ContractStateItemDTO implements WithMatchcode, WithLastUpdate, Serializable
+public class ContractStateItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 3798249954761818352L;
@@ -52,6 +53,7 @@ public class ContractStateItemDTO implements WithMatchcode, WithLastUpdate, Seri
         return matchcode;
     }
 
+    @Override
     public String getLabel()
     {
         return label;

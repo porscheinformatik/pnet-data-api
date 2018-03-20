@@ -17,7 +17,7 @@ package pnet.data.api.util;
 import java.util.Collection;
 
 /**
- * A item, that uses a collection of {@link Matchcode}s as universal identifier.
+ * An item, that uses a collection of {@link Matchcode}s as universal identifier.
  *
  * @author ham
  */

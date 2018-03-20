@@ -24,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
+import pnet.data.api.util.WithDescription;
+import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -34,7 +36,8 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class FunctionItemDTO implements WithMatchcode, WithTenants, WithBrandLinks, WithLastUpdate, Serializable
+public class FunctionItemDTO
+    implements WithMatchcode, WithTenants, WithLabel, WithDescription, WithBrandLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 8278014048912826651L;
@@ -69,6 +72,7 @@ public class FunctionItemDTO implements WithMatchcode, WithTenants, WithBrandLin
     /**
      * @return The label in the requested language.
      */
+    @Override
     public String getLabel()
     {
         return label;
@@ -77,6 +81,7 @@ public class FunctionItemDTO implements WithMatchcode, WithTenants, WithBrandLin
     /**
      * @return The description in the requested language.
      */
+    @Override
     public String getDescription()
     {
         return description;
