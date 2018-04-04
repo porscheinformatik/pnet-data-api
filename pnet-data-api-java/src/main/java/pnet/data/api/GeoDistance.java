@@ -14,8 +14,6 @@
  */
 package pnet.data.api;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -23,25 +21,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author ham
  */
-public class GeoDistance implements Serializable
+public class GeoDistance extends GeoPoint
 {
 
     private static final long serialVersionUID = 5927413577348524173L;
 
-    private final GeoPoint origin;
     private final double distance;
 
-    public GeoDistance(@JsonProperty("origin") GeoPoint origin, @JsonProperty("distance") double distance)
+    public GeoDistance(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon,
+        @JsonProperty("distance") double distance)
     {
-        super();
+        super(lat, lon);
 
-        this.origin = origin;
         this.distance = distance;
-    }
-
-    public GeoPoint getOrigin()
-    {
-        return origin;
     }
 
     public double getDistance()
@@ -52,7 +44,7 @@ public class GeoDistance implements Serializable
     @Override
     public String toString()
     {
-        return String.format(String.format("%s [%.0f m]", origin, distance));
+        return String.format(String.format("%s [%.0f m]", super.toString(), distance));
     }
 
 }

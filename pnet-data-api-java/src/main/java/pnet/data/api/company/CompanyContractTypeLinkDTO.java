@@ -16,53 +16,46 @@ package pnet.data.api.company;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.WithMatchcode;
-import pnet.data.api.util.WithTenant;
+import pnet.data.api.util.AbstractLinkDTO;
+import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
- * Holds the brand of a company with all contracts for the brand.
+ * Holds the contracts of a company.
  *
  * @author ham
  */
-public class CompanyBrandDataDTO implements WithTenant, WithMatchcode, WithValidPeriod, Serializable
+public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
+    implements WithBrandMatchcode, WithValidPeriod, Serializable
 {
 
-    private static final long serialVersionUID = 7506202638418892087L;
+    private static final long serialVersionUID = 5617472922439542723L;
 
-    private final String tenant;
-    private final String matchcode;
+    private final String brandMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
-    private final Collection<CompanyContractTypeDataDTO> contracts;
+    private final boolean kvps;
 
-    public CompanyBrandDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
+    public CompanyContractTypeLinkDTO(@JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode, @JsonProperty("brand") String brand,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("contracts") Collection<CompanyContractTypeDataDTO> contracts)
+        @JsonProperty("kvps") boolean kvps)
     {
-        this.tenant = tenant;
-        this.matchcode = matchcode;
+        super(tenant, matchcode);
+
+        brandMatchcode = brand;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.contracts = Collections.unmodifiableCollection(Objects.requireNonNull(contracts, "Contrats are null"));
+        this.kvps = kvps;
     }
 
     @Override
-    public String getTenant()
+    public String getBrandMatchcode()
     {
-        return tenant;
-    }
-
-    @Override
-    public String getMatchcode()
-    {
-        return matchcode;
+        return brandMatchcode;
     }
 
     @Override
@@ -77,21 +70,20 @@ public class CompanyBrandDataDTO implements WithTenant, WithMatchcode, WithValid
         return validTo;
     }
 
-    public Collection<CompanyContractTypeDataDTO> getContracts()
+    public boolean isKvps()
     {
-        return contracts;
+        return kvps;
     }
 
     @Override
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+        int result = super.hashCode();
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + (kvps ? 1231 : 1237);
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
-
+        result = prime * result + ((validTo == null) ? 0 : validTo.hashCode());
         return result;
     }
 
@@ -102,43 +94,30 @@ public class CompanyBrandDataDTO implements WithTenant, WithMatchcode, WithValid
         {
             return true;
         }
-
-        if (obj == null)
+        if (!super.equals(obj))
         {
             return false;
         }
-
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof CompanyContractTypeLinkDTO))
         {
             return false;
         }
-
-        CompanyBrandDataDTO other = (CompanyBrandDataDTO) obj;
-
-        if (matchcode == null)
+        CompanyContractTypeLinkDTO other = (CompanyContractTypeLinkDTO) obj;
+        if (brandMatchcode == null)
         {
-            if (other.matchcode != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!matchcode.equals(other.matchcode))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
         {
             return false;
         }
-
-        if (tenant == null)
-        {
-            if (other.tenant != null)
-            {
-                return false;
-            }
-        }
-        else if (!tenant.equals(other.tenant))
+        if (kvps != other.kvps)
         {
             return false;
         }
-
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -150,15 +129,25 @@ public class CompanyBrandDataDTO implements WithTenant, WithMatchcode, WithValid
         {
             return false;
         }
-
+        if (validTo == null)
+        {
+            if (other.validTo != null)
+            {
+                return false;
+            }
+        }
+        else if (!validTo.equals(other.validTo))
+        {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [validFrom=%s, validTo=%s, contracts=%s]", matchcode, tenant, validFrom, validTo,
-            contracts);
+        return String.format("%s(%s) [brandMatchcode=%s, validFrom=%s, validTo=%s, kvps=%s]", getMatchcode(),
+            getTenant(), brandMatchcode, validFrom, validTo, kvps);
     }
 
 }

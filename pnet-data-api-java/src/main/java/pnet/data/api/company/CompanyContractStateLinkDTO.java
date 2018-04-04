@@ -19,7 +19,9 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.AbstractLinkDTO;
+import pnet.data.api.util.WithBrandMatchcode;
+import pnet.data.api.util.WithContractTypeMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
@@ -27,29 +29,40 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-public class CompanyContractStateDataDTO implements WithMatchcode, WithValidPeriod, Serializable
+public class CompanyContractStateLinkDTO extends AbstractLinkDTO
+    implements WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 8013176883992921779L;
 
-    private final String matchcode;
+    private final String brandMatchcode;
+    private final String contractTypeMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
 
-    public CompanyContractStateDataDTO(@JsonProperty("matchcode") String matchcode,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
+    public CompanyContractStateLinkDTO(@JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode, @JsonProperty("brand") String brandMatchcode,
+        @JsonProperty("contractType") String contractType, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo)
     {
-        super();
+        super(tenant, matchcode);
 
-        this.matchcode = matchcode;
+        this.brandMatchcode = brandMatchcode;
+        contractTypeMatchcode = contractType;
         this.validFrom = validFrom;
         this.validTo = validTo;
     }
 
     @Override
-    public String getMatchcode()
+    public String getBrandMatchcode()
     {
-        return matchcode;
+        return brandMatchcode;
+    }
+
+    @Override
+    public String getContractTypeMatchcode()
+    {
+        return contractTypeMatchcode;
     }
 
     @Override
@@ -68,11 +81,10 @@ public class CompanyContractStateDataDTO implements WithMatchcode, WithValidPeri
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
+        int result = super.hashCode();
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + ((contractTypeMatchcode == null) ? 0 : contractTypeMatchcode.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
-
         return result;
     }
 
@@ -83,31 +95,37 @@ public class CompanyContractStateDataDTO implements WithMatchcode, WithValidPeri
         {
             return true;
         }
-
-        if (obj == null)
+        if (!super.equals(obj))
         {
             return false;
         }
-
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof CompanyContractStateLinkDTO))
         {
             return false;
         }
-
-        CompanyContractStateDataDTO other = (CompanyContractStateDataDTO) obj;
-
-        if (matchcode == null)
+        CompanyContractStateLinkDTO other = (CompanyContractStateLinkDTO) obj;
+        if (brandMatchcode == null)
         {
-            if (other.matchcode != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!matchcode.equals(other.matchcode))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
         {
             return false;
         }
-
+        if (contractTypeMatchcode == null)
+        {
+            if (other.contractTypeMatchcode != null)
+            {
+                return false;
+            }
+        }
+        else if (!contractTypeMatchcode.equals(other.contractTypeMatchcode))
+        {
+            return false;
+        }
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -119,14 +137,14 @@ public class CompanyContractStateDataDTO implements WithMatchcode, WithValidPeri
         {
             return false;
         }
-
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s [validFrom=%s, validTo=%s]", matchcode, validFrom, validTo);
+        return String.format("%s(%s) [brandMathcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]",
+            getMatchcode(), getTenant(), brandMatchcode, contractTypeMatchcode, validFrom, validTo);
     }
 
 }

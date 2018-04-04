@@ -37,7 +37,8 @@ public class CompanyItemDTO implements Serializable
     private final String name;
     private final String nameAffix;
     private final String marketingName;
-    private final Collection<CompanyBrandItemDTO> brands;
+    private final Collection<String> tenants;
+    private final Collection<CompanyBrandLinkDTO> brands;
     private final String companyNumber;
     private final String street;
     private final String city;
@@ -45,18 +46,19 @@ public class CompanyItemDTO implements Serializable
     private final String countryCode;
     private final String country;
     private final String region;
-    private final Collection<String> types;
+    private final Collection<CompanyTypeLinkDTO> types;
     private final GeoPoint location;
     private final LocalDateTime lastUpdate;
 
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("name") String name,
         @JsonProperty("nameAffix") String nameAffix, @JsonProperty("marketingName") String marketingName,
-        @JsonProperty("brands") Collection<CompanyBrandItemDTO> brands,
+        @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("brands") Collection<CompanyBrandLinkDTO> brands,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("street") String street,
         @JsonProperty("city") String city, @JsonProperty("zip") String zip,
         @JsonProperty("countryCode") String countryCode, @JsonProperty("country") String country,
-        @JsonProperty("region") String region, @JsonProperty("types") Collection<String> types,
+        @JsonProperty("region") String region, @JsonProperty("types") Collection<CompanyTypeLinkDTO> types,
         @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -65,6 +67,7 @@ public class CompanyItemDTO implements Serializable
         this.name = name;
         this.nameAffix = nameAffix;
         this.marketingName = marketingName;
+        this.tenants = tenants;
         this.brands = brands;
         this.companyNumber = companyNumber;
         this.street = street;
@@ -103,7 +106,12 @@ public class CompanyItemDTO implements Serializable
         return marketingName;
     }
 
-    public Collection<CompanyBrandItemDTO> getBrands()
+    public Collection<String> getTenants()
+    {
+        return tenants;
+    }
+
+    public Collection<CompanyBrandLinkDTO> getBrands()
     {
         return brands;
     }
@@ -143,7 +151,7 @@ public class CompanyItemDTO implements Serializable
         return region;
     }
 
-    public Collection<String> getTypes()
+    public Collection<CompanyTypeLinkDTO> getTypes()
     {
         return types;
     }
@@ -163,10 +171,10 @@ public class CompanyItemDTO implements Serializable
     {
         return String.format(
             "CompanyItemDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
-                + "brands=%s, companyNumber=%s, street=%s, city=%s, zip=%s, countryCode=%s, country=%s, region=%s, "
+                + "tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, zip=%s, countryCode=%s, country=%s, region=%s, "
                 + "types=%s, location=%s, lastUpdate=%s]",
-            companyId, administrativeTenant, name, nameAffix, marketingName, brands, companyNumber, street, city, zip,
-            countryCode, country, region, types, location, lastUpdate);
+            companyId, administrativeTenant, name, nameAffix, marketingName, tenants, brands, companyNumber, street,
+            city, zip, countryCode, country, region, types, location, lastUpdate);
     }
 
 }

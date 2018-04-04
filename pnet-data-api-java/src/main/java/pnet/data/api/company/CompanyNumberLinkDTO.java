@@ -25,7 +25,7 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class CompanyNumberDataDTO implements WithMatchcode, Serializable
+public class CompanyNumberLinkDTO implements WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = 2495670532285085314L;
@@ -33,7 +33,7 @@ public class CompanyNumberDataDTO implements WithMatchcode, Serializable
     private final String matchcode;
     private final String number;
 
-    public CompanyNumberDataDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("number") String number)
+    public CompanyNumberLinkDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("number") String number)
     {
         super();
 
@@ -81,7 +81,7 @@ public class CompanyNumberDataDTO implements WithMatchcode, Serializable
             return false;
         }
 
-        CompanyNumberDataDTO other = (CompanyNumberDataDTO) obj;
+        CompanyNumberLinkDTO other = (CompanyNumberLinkDTO) obj;
 
         if (matchcode == null)
         {

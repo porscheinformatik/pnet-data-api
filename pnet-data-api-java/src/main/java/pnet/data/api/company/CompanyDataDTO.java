@@ -38,11 +38,14 @@ public class CompanyDataDTO implements Serializable
     private String name;
     private String nameAffix;
     private String marketingName;
-    private Collection<CompanyBrandDataDTO> brands;
-    private String uidNumber;
+    private Collection<String> tenants;
+    private Collection<CompanyBrandLinkDTO> brands;
+    private Collection<CompanyContractTypeLinkDTO> contractTypes;
+    private Collection<CompanyContractStateLinkDTO> contractStates;
+    private String vatIdNumber;
     private String sapNumber;
     private String companyNumber;
-    private Collection<CompanyNumberDataDTO> additionalNumbers;
+    private Collection<CompanyNumberLinkDTO> additionalNumbers;
     private String street;
     private String city;
     private String zip;
@@ -51,22 +54,22 @@ public class CompanyDataDTO implements Serializable
     private String region;
     private String iban;
     private String bic;
-    private Collection<String> types;
+    private Collection<CompanyTypeLinkDTO> types;
     private String phoneNumber;
     private String speedDial;
     private String faxNumber;
     private String email;
     private String homepage;
     private String postal;
-    private Collection<String> legalForm;
-    private String dvrNumber;
-    private String fbNumber;
+    private String legalFormMatchcode;
+    private String dataProcessingRegisterNumber;
+    private String commercialRegisterNumber;
     private String certificateType;
     private String certificateNumber;
     private String jurisdiction;
     private GeoPoint location;
     private Collection<CompanyExternalBrandDataDTO> extenalBrands;
-    private Integer headquaterCompanyId;
+    private Integer headquarterCompanyId;
     private LocalDateTime lastUpdate;
 
     public CompanyDataDTO(@JsonProperty("companyId") Integer companyId)
@@ -121,24 +124,54 @@ public class CompanyDataDTO implements Serializable
         this.marketingName = marketingName;
     }
 
-    public Collection<CompanyBrandDataDTO> getBrands()
+    public Collection<String> getTenants()
+    {
+        return tenants;
+    }
+
+    public void setTenants(Collection<String> tenants)
+    {
+        this.tenants = tenants;
+    }
+
+    public Collection<CompanyBrandLinkDTO> getBrands()
     {
         return brands;
     }
 
-    public void setBrands(Collection<CompanyBrandDataDTO> brands)
+    public void setBrands(Collection<CompanyBrandLinkDTO> brands)
     {
         this.brands = brands;
     }
 
-    public String getUidNumber()
+    public Collection<CompanyContractTypeLinkDTO> getContractTypes()
     {
-        return uidNumber;
+        return contractTypes;
     }
 
-    public void setUidNumber(String uidNumber)
+    public void setContractTypes(Collection<CompanyContractTypeLinkDTO> contractTypes)
     {
-        this.uidNumber = uidNumber;
+        this.contractTypes = contractTypes;
+    }
+
+    public Collection<CompanyContractStateLinkDTO> getContractStates()
+    {
+        return contractStates;
+    }
+
+    public void setContractStates(Collection<CompanyContractStateLinkDTO> contractStates)
+    {
+        this.contractStates = contractStates;
+    }
+
+    public String getVatIdNumber()
+    {
+        return vatIdNumber;
+    }
+
+    public void setVatIdNumber(String vatIdNumber)
+    {
+        this.vatIdNumber = vatIdNumber;
     }
 
     public String getSapNumber()
@@ -161,12 +194,12 @@ public class CompanyDataDTO implements Serializable
         this.companyNumber = companyNumber;
     }
 
-    public Collection<CompanyNumberDataDTO> getAdditionalNumbers()
+    public Collection<CompanyNumberLinkDTO> getAdditionalNumbers()
     {
         return additionalNumbers;
     }
 
-    public void setAdditionalNumbers(Collection<CompanyNumberDataDTO> additionalNumbers)
+    public void setAdditionalNumbers(Collection<CompanyNumberLinkDTO> additionalNumbers)
     {
         this.additionalNumbers = additionalNumbers;
     }
@@ -251,12 +284,12 @@ public class CompanyDataDTO implements Serializable
         this.bic = bic;
     }
 
-    public Collection<String> getTypes()
+    public Collection<CompanyTypeLinkDTO> getTypes()
     {
         return types;
     }
 
-    public void setTypes(Collection<String> types)
+    public void setTypes(Collection<CompanyTypeLinkDTO> types)
     {
         this.types = types;
     }
@@ -321,34 +354,34 @@ public class CompanyDataDTO implements Serializable
         this.postal = postal;
     }
 
-    public Collection<String> getLegalForm()
+    public String getLegalFormMatchcode()
     {
-        return legalForm;
+        return legalFormMatchcode;
     }
 
-    public void setLegalForm(Collection<String> legalForm)
+    public void setLegalFormMatchcode(String legalFormMatchcode)
     {
-        this.legalForm = legalForm;
+        this.legalFormMatchcode = legalFormMatchcode;
     }
 
-    public String getDvrNumber()
+    public String getDataProcessingRegisterNumber()
     {
-        return dvrNumber;
+        return dataProcessingRegisterNumber;
     }
 
-    public void setDvrNumber(String dvrNumber)
+    public void setDataProcessingRegisterNumber(String dataProcessingRegisterNumber)
     {
-        this.dvrNumber = dvrNumber;
+        this.dataProcessingRegisterNumber = dataProcessingRegisterNumber;
     }
 
-    public String getFbNumber()
+    public String getCommercialRegisterNumber()
     {
-        return fbNumber;
+        return commercialRegisterNumber;
     }
 
-    public void setFbNumber(String fbNumber)
+    public void setCommercialRegisterNumber(String commercialRegisterNumber)
     {
-        this.fbNumber = fbNumber;
+        this.commercialRegisterNumber = commercialRegisterNumber;
     }
 
     public String getCertificateType()
@@ -401,14 +434,14 @@ public class CompanyDataDTO implements Serializable
         this.extenalBrands = extenalBrands;
     }
 
-    public Integer getHeadquaterCompanyId()
+    public Integer getHeadquarterCompanyId()
     {
-        return headquaterCompanyId;
+        return headquarterCompanyId;
     }
 
-    public void setHeadquaterCompanyId(Integer headquaterCompanyId)
+    public void setHeadquarterCompanyId(Integer headquarterCompanyId)
     {
-        this.headquaterCompanyId = headquaterCompanyId;
+        this.headquarterCompanyId = headquarterCompanyId;
     }
 
     public LocalDateTime getLastUpdate()
@@ -426,15 +459,17 @@ public class CompanyDataDTO implements Serializable
     {
         return String.format(
             "CompanyDataDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
-                + "uidNumber=%s, sapNumber=%s, companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, zip=%s, "
-                + "countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, "
-                + "speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, legalForm=%s, dvrNumber=%s, fbNumber=%s, "
-                + "certificateType=%s, certificateNumber=%s, jurisdiction=%s, location=%s, "
-                + "extenalBrands=%s, headquaterCompanyId=%s, lastUpdate=%s]",
-            companyId, administrativeTenant, name, nameAffix, marketingName, uidNumber, sapNumber, companyNumber,
-            additionalNumbers, street, city, zip, countryCode, country, region, iban, bic, types, phoneNumber,
-            speedDial, faxNumber, email, homepage, postal, legalForm, dvrNumber, fbNumber, certificateType,
-            certificateNumber, jurisdiction, location, extenalBrands, headquaterCompanyId, lastUpdate);
+                + "tenants=%s, brands=%s, contractTypes=%s, contractStates=%s, vatIdNumber=%s, sapNumber=%s, "
+                + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, zip=%s, countryCode=%s, country=%s, "
+                + "region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, speedDial=%s, faxNumber=%s, email=%s, "
+                + "homepage=%s, postal=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, "
+                + "certificateType=%s, certificateNumber=%s, "
+                + "jurisdiction=%s, location=%s, extenalBrands=%s, headquarterCompanyId=%s, lastUpdate=%s]",
+            companyId, administrativeTenant, name, nameAffix, marketingName, tenants, brands, contractTypes,
+            contractStates, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city, zip, countryCode,
+            country, region, iban, bic, types, phoneNumber, speedDial, faxNumber, email, homepage, postal,
+            legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber, certificateType,
+            certificateNumber, jurisdiction, location, extenalBrands, headquarterCompanyId, lastUpdate);
     }
 
 }
