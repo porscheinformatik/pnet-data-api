@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 public interface ResultPage<T> extends Iterable<T>, Serializable
 {
 
-    static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int numberOfItems, int pageIndex, int numberOfPages)
+    static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int totalNumberOfItems, int pageIndex, int numberOfPages)
     {
         return new ResultPage<T>() //
         {
@@ -48,9 +48,9 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
             }
 
             @Override
-            public int getNumberOfItems()
+            public int getTotalNumberOfItems()
             {
-                return numberOfItems;
+                return totalNumberOfItems;
             }
 
             @Override
@@ -122,7 +122,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     /**
      * @return the total number of items.
      */
-    int getNumberOfItems();
+    int getTotalNumberOfItems();
 
     /**
      * @return the index of this page, 0-based.

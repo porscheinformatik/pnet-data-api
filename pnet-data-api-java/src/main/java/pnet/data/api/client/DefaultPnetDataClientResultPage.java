@@ -22,26 +22,26 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     public static <T> DefaultPnetDataClientResultPage<T> of(ResultPage<T> resultPage)
     {
         return new DefaultPnetDataClientResultPage<>(resultPage.getItems(), resultPage.getItemsPerPage(),
-            resultPage.getNumberOfItems(), resultPage.getPageIndex(), resultPage.getNumberOfPages());
+            resultPage.getTotalNumberOfItems(), resultPage.getPageIndex(), resultPage.getNumberOfPages());
     }
 
     private final List<T> items;
     private final int itemsPerPage;
-    private final int numberOfItems;
+    private final int totalNumberOfItems;
     private final int pageIndex;
     private final int numberOfPages;
 
     private PnetDataClientNextPageSupplier<T> nextPageSupplier;
 
     public DefaultPnetDataClientResultPage(@JsonProperty("items") List<T> items,
-        @JsonProperty("itemsPerPage") int itemsPerPage, @JsonProperty("numberOfItems") int numberOfItems,
+        @JsonProperty("itemsPerPage") int itemsPerPage, @JsonProperty("totalNumberOfItems") int totalNumberOfItems,
         @JsonProperty("pageIndex") int pageIndex, @JsonProperty("numberOfPages") int numberOfPages)
     {
         super();
 
         this.items = items;
         this.itemsPerPage = itemsPerPage;
-        this.numberOfItems = numberOfItems;
+        this.totalNumberOfItems = totalNumberOfItems;
         this.pageIndex = pageIndex;
         this.numberOfPages = numberOfPages;
     }
@@ -59,9 +59,9 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     }
 
     @Override
-    public int getNumberOfItems()
+    public int getTotalNumberOfItems()
     {
-        return numberOfItems;
+        return totalNumberOfItems;
     }
 
     @Override
@@ -95,7 +95,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     {
         if (nextPageSupplier == null || !hasNextPage())
         {
-            return new DefaultPnetDataClientResultPage<>(Collections.emptyList(), itemsPerPage, numberOfItems,
+            return new DefaultPnetDataClientResultPage<>(Collections.emptyList(), itemsPerPage, totalNumberOfItems,
                 pageIndex + 1, numberOfPages);
         }
 
