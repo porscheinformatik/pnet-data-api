@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
@@ -19,9 +21,9 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
     implements GetByMatchcode<ExternalBrandDataDTO>
 {
 
-    public ExternalBrandDataClient(PnetDataApiContext context)
+    public ExternalBrandDataClient(ObjectMapper mapper, PnetDataApiContext context)
     {
-        super(context);
+        super(mapper, context);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
 
     public ExternalBrandDataSearch search()
     {
-        return new ExternalBrandDataSearch(this::search, null);
+        return new ExternalBrandDataSearch(getMapper(), this::search, null);
     }
 
     protected PnetDataClientResultPage<ExternalBrandItemDTO> search(Locale language, String query,
@@ -68,7 +70,7 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
 
     public ExternalBrandDataFind find()
     {
-        return new ExternalBrandDataFind(this::find, null);
+        return new ExternalBrandDataFind(getMapper(), this::find, null);
     }
 
     protected PnetDataClientResultPage<ExternalBrandItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

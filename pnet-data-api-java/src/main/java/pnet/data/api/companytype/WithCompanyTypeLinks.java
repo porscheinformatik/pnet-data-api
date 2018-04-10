@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 /**
  * A data object, that contains {@link CompanyTypeLinkDTO}s.
- * 
+ *
  * @author ham
  */
 public interface WithCompanyTypeLinks

@@ -2,9 +2,10 @@ package pnet.data.api.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -16,27 +17,28 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the filter itself for fluent interface
  */
-public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>> implements Search<DTO>, Restrict<SELF>
+public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>> extends AbstractRestricable<SELF>
+    implements Search<DTO>, Restrict<SELF>
 {
 
     private final SearchFunction<DTO> searchFunction;
-    private final List<Pair<String, Object>> restricts;
 
-    protected AbstractSearch(SearchFunction<DTO> searchFunction, List<Pair<String, Object>> restricts)
+    protected AbstractSearch(ObjectMapper mapper, SearchFunction<DTO> searchFunction,
+        List<Pair<String, Object>> restricts)
     {
-        super();
+        super(mapper, restricts);
 
         this.searchFunction = searchFunction;
-        this.restricts = restricts;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    protected SELF newInstance(List<Pair<String, Object>> filterItems)
+    protected SELF newInstance(ObjectMapper mapper, List<Pair<String, Object>> restricts)
     {
         Constructor<?> constructor;
         try
         {
-            constructor = getClass().getConstructor(SearchFunction.class, List.class);
+            constructor = getClass().getConstructor(ObjectMapper.class, SearchFunction.class, List.class);
         }
         catch (NoSuchMethodException | SecurityException e)
         {
@@ -45,7 +47,7 @@ public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>
 
         try
         {
-            return (SELF) constructor.newInstance(searchFunction, filterItems);
+            return (SELF) constructor.newInstance(getMapper(), searchFunction, restricts);
         }
         catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
         {
@@ -57,21 +59,7 @@ public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>
     public PnetDataClientResultPage<DTO> execute(Locale language, String query, int pageIndex, int itemsPerPage)
         throws PnetDataApiException
     {
-        return searchFunction.search(language, query, restricts, pageIndex, itemsPerPage);
-    }
-
-    @Override
-    public SELF restrict(String parameterName, Object... values)
-    {
-        List<Pair<String, Object>> filterItems =
-            this.restricts != null ? new ArrayList<>(this.restricts) : new ArrayList<>();
-
-        for (Object value : values)
-        {
-            filterItems.add(Pair.of(parameterName, value));
-        }
-
-        return newInstance(filterItems);
+        return searchFunction.search(language, query, getRestricts(), pageIndex, itemsPerPage);
     }
 
 }

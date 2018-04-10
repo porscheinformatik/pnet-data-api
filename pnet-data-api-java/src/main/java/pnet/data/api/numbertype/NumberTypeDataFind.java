@@ -2,6 +2,8 @@ package pnet.data.api.numbertype;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
@@ -12,9 +14,10 @@ public class NumberTypeDataFind extends AbstractFind<NumberTypeItemDTO, NumberTy
     implements RestrictMatchcodes<NumberTypeDataFind>, RestrictUpdatedAfter<NumberTypeDataFind>
 {
 
-    public NumberTypeDataFind(FindFunction<NumberTypeItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
+    public NumberTypeDataFind(ObjectMapper mapper, FindFunction<NumberTypeItemDTO> findFunction,
+        List<Pair<String, Object>> restricts)
     {
-        super(findFunction, restrictItems);
+        super(mapper, findFunction, restricts);
     }
 
 }

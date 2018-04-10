@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
@@ -22,9 +24,9 @@ import pnet.data.api.util.Pair;
 public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClient> implements GetById<CompanyDataDTO>
 {
 
-    public CompanyDataClient(PnetDataApiContext context)
+    public CompanyDataClient(ObjectMapper mapper, PnetDataApiContext context)
     {
-        super(context);
+        super(mapper, context);
     }
 
     @Override
@@ -174,7 +176,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
 
     public CompanyDataSearch search()
     {
-        return new CompanyDataSearch(this::search, null);
+        return new CompanyDataSearch(getMapper(), this::search, null);
     }
 
     protected PnetDataClientResultPage<CompanyItemDTO> search(Locale language, String query,
@@ -197,7 +199,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
 
     public CompanyDataFind find()
     {
-        return new CompanyDataFind(this::find, null);
+        return new CompanyDataFind(getMapper(), this::find, null);
     }
 
     protected PnetDataClientResultPage<CompanyItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

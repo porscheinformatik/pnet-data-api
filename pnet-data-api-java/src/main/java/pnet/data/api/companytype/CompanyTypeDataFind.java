@@ -2,6 +2,8 @@ package pnet.data.api.companytype;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
@@ -19,9 +21,10 @@ public class CompanyTypeDataFind extends AbstractFind<CompanyTypeItemDTO, Compan
     RestrictUpdatedAfter<CompanyTypeDataFind>
 {
 
-    public CompanyTypeDataFind(FindFunction<CompanyTypeItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
+    public CompanyTypeDataFind(ObjectMapper mapper, FindFunction<CompanyTypeItemDTO> findFunction,
+        List<Pair<String, Object>> restricts)
     {
-        super(findFunction, restrictItems);
+        super(mapper, findFunction, restricts);
     }
 
 }

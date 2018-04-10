@@ -2,6 +2,8 @@ package pnet.data.api.brand;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
@@ -18,9 +20,10 @@ public class BrandDataFind extends AbstractFind<BrandItemDTO, BrandDataFind>
     implements RestrictTenants<BrandDataFind>, RestrictMatchcodes<BrandDataFind>, RestrictUpdatedAfter<BrandDataFind>
 {
 
-    public BrandDataFind(FindFunction<BrandItemDTO> findFunction, List<Pair<String, Object>> restricts)
+    public BrandDataFind(ObjectMapper mapper, FindFunction<BrandItemDTO> findFunction,
+        List<Pair<String, Object>> restricts)
     {
-        super(findFunction, restricts);
+        super(mapper, findFunction, restricts);
     }
 
 }

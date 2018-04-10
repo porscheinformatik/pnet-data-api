@@ -2,6 +2,8 @@ package pnet.data.api.companytype;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictTenants;
@@ -16,10 +18,10 @@ public class CompanyTypeDataSearch extends AbstractSearch<CompanyTypeItemDTO, Co
     implements RestrictTenants<CompanyTypeDataSearch>
 {
 
-    public CompanyTypeDataSearch(SearchFunction<CompanyTypeItemDTO> searchFunction,
-        List<Pair<String, Object>> restrictItems)
+    public CompanyTypeDataSearch(ObjectMapper mapper, SearchFunction<CompanyTypeItemDTO> searchFunction,
+        List<Pair<String, Object>> restricts)
     {
-        super(searchFunction, restrictItems);
+        super(mapper, searchFunction, restricts);
     }
 
 }

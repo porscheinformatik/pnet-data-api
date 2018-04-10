@@ -29,7 +29,8 @@ import java.util.stream.Stream;
 public interface ResultPage<T> extends Iterable<T>, Serializable
 {
 
-    static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int totalNumberOfItems, int pageIndex, int numberOfPages)
+    static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int totalNumberOfItems, int pageIndex,
+        int numberOfPages)
     {
         return new ResultPage<T>() //
         {
@@ -78,7 +79,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
 
         return items != null ? items.stream() : Collections.<T> emptyList().stream();
     }
-    
+
     /**
      * @return the first item, null if there isn't one
      */

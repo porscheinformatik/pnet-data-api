@@ -56,8 +56,7 @@ public class PnetDataApiTokenRepository
 
         try
         {
-            RestResponse<Void> response =
-                factory.url(url).body(key).invoke(RestMethod.POST, "login", Void.class);
+            RestResponse<Void> response = factory.url(url).body(key).invoke(RestMethod.POST, "login", Void.class);
 
             if (response.isSuccessful())
             {

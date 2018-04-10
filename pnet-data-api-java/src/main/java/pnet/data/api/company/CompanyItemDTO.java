@@ -42,7 +42,7 @@ public class CompanyItemDTO implements Serializable
     private final String companyNumber;
     private final String street;
     private final String city;
-    private final String zip;
+    private final String postalCode;
     private final String countryCode;
     private final String country;
     private final String region;
@@ -56,7 +56,7 @@ public class CompanyItemDTO implements Serializable
         @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<CompanyBrandLinkDTO> brands,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("street") String street,
-        @JsonProperty("city") String city, @JsonProperty("zip") String zip,
+        @JsonProperty("city") String city, @JsonProperty("postalCode") String postalCode,
         @JsonProperty("countryCode") String countryCode, @JsonProperty("country") String country,
         @JsonProperty("region") String region, @JsonProperty("types") Collection<CompanyTypeLinkDTO> types,
         @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
@@ -72,7 +72,7 @@ public class CompanyItemDTO implements Serializable
         this.companyNumber = companyNumber;
         this.street = street;
         this.city = city;
-        this.zip = zip;
+        this.postalCode = postalCode;
         this.countryCode = countryCode;
         this.country = country;
         this.region = region;
@@ -131,9 +131,9 @@ public class CompanyItemDTO implements Serializable
         return city;
     }
 
-    public String getZip()
+    public String getPostalCode()
     {
-        return zip;
+        return postalCode;
     }
 
     public String getCountryCode()
@@ -171,10 +171,10 @@ public class CompanyItemDTO implements Serializable
     {
         return String.format(
             "CompanyItemDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
-                + "tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, zip=%s, countryCode=%s, country=%s, region=%s, "
+                + "tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, country=%s, region=%s, "
                 + "types=%s, location=%s, lastUpdate=%s]",
             companyId, administrativeTenant, name, nameAffix, marketingName, tenants, brands, companyNumber, street,
-            city, zip, countryCode, country, region, types, location, lastUpdate);
+            city, postalCode, countryCode, country, region, types, location, lastUpdate);
     }
 
 }

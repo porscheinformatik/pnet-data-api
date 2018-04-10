@@ -77,7 +77,7 @@ public interface RestCall
 
     RestCall parameters(String name, Collection<?> values);
 
-    RestCall parameters(Collection<Pair<String, Object>> values);
+    RestCall parameters(Collection<? extends Pair<String, ?>> values);
 
     <T> T get(Class<T> responseType);
 

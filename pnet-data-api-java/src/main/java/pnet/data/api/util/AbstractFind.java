@@ -2,9 +2,10 @@ package pnet.data.api.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -16,27 +17,27 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the restriction itself for fluent interface
  */
-public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> implements Find<DTO>, Restrict<SELF>
+public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> extends AbstractRestricable<SELF>
+    implements Find<DTO>, Restrict<SELF>
 {
 
     private final FindFunction<DTO> findFunction;
-    private final List<Pair<String, Object>> restricts;
 
-    protected AbstractFind(FindFunction<DTO> findFunction, List<Pair<String, Object>> restrictItems)
+    protected AbstractFind(ObjectMapper mapper, FindFunction<DTO> findFunction, List<Pair<String, Object>> restricts)
     {
-        super();
+        super(mapper, restricts);
 
         this.findFunction = findFunction;
-        this.restricts = restrictItems;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
-    protected SELF newInstance(List<Pair<String, Object>> restrictItems)
+    protected SELF newInstance(ObjectMapper mapper, List<Pair<String, Object>> restricts)
     {
         Constructor<?> constructor;
         try
         {
-            constructor = getClass().getConstructor(FindFunction.class, List.class);
+            constructor = getClass().getConstructor(ObjectMapper.class, FindFunction.class, List.class);
         }
         catch (NoSuchMethodException | SecurityException e)
         {
@@ -45,7 +46,7 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> im
 
         try
         {
-            return (SELF) constructor.newInstance(findFunction, restrictItems);
+            return (SELF) constructor.newInstance(getMapper(), findFunction, restricts);
         }
         catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
         {
@@ -57,21 +58,7 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> im
     public PnetDataClientResultPage<DTO> execute(Locale language, int pageIndex, int itemsPerPage)
         throws PnetDataApiException
     {
-        return findFunction.find(language, restricts, pageIndex, itemsPerPage);
-    }
-
-    @Override
-    public SELF restrict(String parameterName, Object... values)
-    {
-        List<Pair<String, Object>> restrictItems =
-            this.restricts != null ? new ArrayList<>(this.restricts) : new ArrayList<>();
-
-        for (Object value : values)
-        {
-            restrictItems.add(Pair.of(parameterName, value));
-        }
-
-        return newInstance(restrictItems);
+        return findFunction.find(language, getRestricts(), pageIndex, itemsPerPage);
     }
 
 }

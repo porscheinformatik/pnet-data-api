@@ -48,7 +48,7 @@ public class CompanyDataDTO implements Serializable
     private Collection<CompanyNumberLinkDTO> additionalNumbers;
     private String street;
     private String city;
-    private String zip;
+    private String postalCode;
     private String countryCode;
     private String country;
     private String region;
@@ -68,7 +68,7 @@ public class CompanyDataDTO implements Serializable
     private String certificateNumber;
     private String jurisdiction;
     private GeoPoint location;
-    private Collection<CompanyExternalBrandDataDTO> extenalBrands;
+    private Collection<CompanyExternalBrandDataDTO> externalBrands;
     private Integer headquarterCompanyId;
     private LocalDateTime lastUpdate;
 
@@ -224,14 +224,14 @@ public class CompanyDataDTO implements Serializable
         this.city = city;
     }
 
-    public String getZip()
+    public String getPostalCode()
     {
-        return zip;
+        return postalCode;
     }
 
-    public void setZip(String zip)
+    public void setPostalCode(String postalCode)
     {
-        this.zip = zip;
+        this.postalCode = postalCode;
     }
 
     public String getCountryCode()
@@ -424,14 +424,14 @@ public class CompanyDataDTO implements Serializable
         this.location = location;
     }
 
-    public Collection<CompanyExternalBrandDataDTO> getExtenalBrands()
+    public Collection<CompanyExternalBrandDataDTO> getExternalBrands()
     {
-        return extenalBrands;
+        return externalBrands;
     }
 
-    public void setExtenalBrands(Collection<CompanyExternalBrandDataDTO> extenalBrands)
+    public void setExternalBrands(Collection<CompanyExternalBrandDataDTO> externalBrands)
     {
-        this.extenalBrands = extenalBrands;
+        this.externalBrands = externalBrands;
     }
 
     public Integer getHeadquarterCompanyId()
@@ -460,16 +460,16 @@ public class CompanyDataDTO implements Serializable
         return String.format(
             "CompanyDataDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
                 + "tenants=%s, brands=%s, contractTypes=%s, contractStates=%s, vatIdNumber=%s, sapNumber=%s, "
-                + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, zip=%s, countryCode=%s, country=%s, "
+                + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, country=%s, "
                 + "region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, speedDial=%s, faxNumber=%s, email=%s, "
                 + "homepage=%s, postal=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, "
                 + "certificateType=%s, certificateNumber=%s, "
-                + "jurisdiction=%s, location=%s, extenalBrands=%s, headquarterCompanyId=%s, lastUpdate=%s]",
+                + "jurisdiction=%s, location=%s, externalBrands=%s, headquarterCompanyId=%s, lastUpdate=%s]",
             companyId, administrativeTenant, name, nameAffix, marketingName, tenants, brands, contractTypes,
-            contractStates, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city, zip, countryCode,
-            country, region, iban, bic, types, phoneNumber, speedDial, faxNumber, email, homepage, postal,
+            contractStates, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city, postalCode,
+            countryCode, country, region, iban, bic, types, phoneNumber, speedDial, faxNumber, email, homepage, postal,
             legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber, certificateType,
-            certificateNumber, jurisdiction, location, extenalBrands, headquarterCompanyId, lastUpdate);
+            certificateNumber, jurisdiction, location, externalBrands, headquarterCompanyId, lastUpdate);
     }
 
 }

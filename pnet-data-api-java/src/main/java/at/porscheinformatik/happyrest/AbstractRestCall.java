@@ -141,7 +141,7 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public RestCall parameters(Collection<Pair<String, Object>> values)
+    public RestCall parameters(Collection<? extends Pair<String, ?>> values)
     {
         if (values == null || values.isEmpty())
         {

@@ -2,15 +2,17 @@ package pnet.data.api.numbertype;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
 public class NumberTypeDataSearch extends AbstractSearch<NumberTypeItemDTO, NumberTypeDataSearch>
 {
-    public NumberTypeDataSearch(SearchFunction<NumberTypeItemDTO> searchFunction,
-        List<Pair<String, Object>> restrictItems)
+    public NumberTypeDataSearch(ObjectMapper mapper, SearchFunction<NumberTypeItemDTO> searchFunction,
+        List<Pair<String, Object>> restricts)
     {
-        super(searchFunction, restrictItems);
+        super(mapper, searchFunction, restricts);
     }
 }

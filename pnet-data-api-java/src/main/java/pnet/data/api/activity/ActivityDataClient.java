@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
@@ -24,9 +26,9 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
     implements GetByMatchcode<ActivityDataDTO>
 {
 
-    public ActivityDataClient(PnetDataApiContext context)
+    public ActivityDataClient(ObjectMapper mapper, PnetDataApiContext context)
     {
-        super(context);
+        super(mapper, context);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
     public ActivityDataSearch search()
     {
-        return new ActivityDataSearch(this::search, null);
+        return new ActivityDataSearch(getMapper(), this::search, null);
     }
 
     protected PnetDataClientResultPage<ActivityItemDTO> search(Locale language, String query,
@@ -71,7 +73,7 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
     public ActivityDataFind find()
     {
-        return new ActivityDataFind(this::find, null);
+        return new ActivityDataFind(getMapper(), this::find, null);
     }
 
     protected PnetDataClientResultPage<ActivityItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

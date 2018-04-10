@@ -1,10 +1,12 @@
 package pnet.data.api.company;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import pnet.data.api.util.WithMatchcode;
 
 /**
  * A link to a company type
- * 
+ *
  * @author HAM
  */
 public class CompanyTypeLinkDTO implements WithMatchcode
@@ -12,7 +14,7 @@ public class CompanyTypeLinkDTO implements WithMatchcode
 
     private final String matchcode;
 
-    public CompanyTypeLinkDTO(String matchcode)
+    public CompanyTypeLinkDTO(@JsonProperty("matchcode") String matchcode)
     {
         super();
         this.matchcode = matchcode;

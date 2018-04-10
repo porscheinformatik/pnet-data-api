@@ -26,6 +26,11 @@ public class GeoDistance extends GeoPoint
 
     private static final long serialVersionUID = 5927413577348524173L;
 
+    public static GeoDistance of(double lat, double lon, double distance)
+    {
+        return new GeoDistance(lat, lon, distance);
+    }
+
     private final double distance;
 
     public GeoDistance(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon,
@@ -39,6 +44,11 @@ public class GeoDistance extends GeoPoint
     public double getDistance()
     {
         return distance;
+    }
+
+    public boolean contains(GeoPoint point)
+    {
+        return point.distanceTo(this) <= distance;
     }
 
     @Override
