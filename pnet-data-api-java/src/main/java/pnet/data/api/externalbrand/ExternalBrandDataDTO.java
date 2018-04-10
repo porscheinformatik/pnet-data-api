@@ -16,10 +16,12 @@ package pnet.data.api.externalbrand;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.WithLabel;
+import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
@@ -28,7 +30,7 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-public class ExternalBrandDataDTO implements WithMatchcode, WithLabel, WithLastUpdate, Serializable
+public class ExternalBrandDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5466024519780832525L;
@@ -36,7 +38,7 @@ public class ExternalBrandDataDTO implements WithMatchcode, WithLabel, WithLastU
     private final String matchcode;
 
     private String id;
-    private String label;
+    private Map<Locale, String> labels;
     private LocalDateTime lastUpdate;
 
     public ExternalBrandDataDTO(@JsonProperty("matchcode") String matchcode)
@@ -63,14 +65,14 @@ public class ExternalBrandDataDTO implements WithMatchcode, WithLabel, WithLastU
     }
 
     @Override
-    public String getLabel()
+    public Map<Locale, String> getLabels()
     {
-        return label;
+        return labels;
     }
 
-    public void setLabel(String label)
+    public void setLabels(Map<Locale, String> labels)
     {
-        this.label = label;
+        this.labels = labels;
     }
 
     @Override
@@ -87,8 +89,8 @@ public class ExternalBrandDataDTO implements WithMatchcode, WithLabel, WithLastU
     @Override
     public String toString()
     {
-        return String.format("ExternalBrandDataDTO [id=%s, matchcode=%s, label=%s, lastUpdate=%s]", id, matchcode,
-            label, lastUpdate);
+        return String.format("ExternalBrandDataDTO [matchcode=%s, id=%s, labels=%s, lastUpdate=%s]", matchcode, id,
+            labels, lastUpdate);
     }
 
 }
