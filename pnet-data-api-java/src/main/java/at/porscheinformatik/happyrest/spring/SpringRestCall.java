@@ -1,8 +1,11 @@
 package at.porscheinformatik.happyrest.spring;
 
+import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.URI;
-import java.util.Arrays;
+import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode;
+import org.springframework.web.util.UriBuilder;
 
 import at.porscheinformatik.happyrest.AbstractRestCall;
 import at.porscheinformatik.happyrest.GenericType;
@@ -144,9 +149,14 @@ public class SpringRestCall extends AbstractRestCall
             headers.setAccept(MediaType.parseMediaTypes(acceptableMediaTypes));
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(prepareUrl(getUrl(), path));
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(prepareUrl(getUrl(), path));
+
+        factory.setEncodingMode(EncodingMode.URI_COMPONENT);
+
+        UriBuilder builder = factory.builder();
         Map<String, Object> variables = new HashMap<>();
         List<RestAttribute> attributes = getAttributes();
+        int id = 0;
 
         if (attributes != null)
         {
@@ -169,29 +179,25 @@ public class SpringRestCall extends AbstractRestCall
 
                 if (attribute instanceof RestParameter)
                 {
-                    if (value instanceof Object[])
+                    if (value.getClass().isArray())
                     {
-                        Arrays.stream((Object[]) value).forEach(v -> builder.queryParam(name, v));
-                    }
-                    else if (value instanceof double[])
-                    {
-                        Arrays.stream((double[]) value).forEach(v -> builder.queryParam(name, v));
-                    }
-                    else if (value instanceof long[])
-                    {
-                        Arrays.stream((long[]) value).forEach(v -> builder.queryParam(name, v));
-                    }
-                    else if (value instanceof int[])
-                    {
-                        Arrays.stream((int[]) value).forEach(v -> builder.queryParam(name, v));
+                        for (int i = 0; i < Array.getLength(value); i++)
+                        {
+                            queryParam(builder, variables, name, id++, Array.get(value, i));
+                        }
                     }
                     else if (value instanceof Iterable<?>)
                     {
-                        ((Iterable<?>) value).forEach(v -> builder.queryParam(name, v));
+                        Iterator<?> iterator = ((Iterable<?>) value).iterator();
+
+                        while (iterator.hasNext())
+                        {
+                            queryParam(builder, variables, name, id++, iterator.next());
+                        }
                     }
                     else
                     {
-                        builder.queryParam(name, value);
+                        queryParam(builder, variables, name, id++, value);
                     }
 
                     continue;
@@ -208,7 +214,22 @@ public class SpringRestCall extends AbstractRestCall
             }
         }
 
-        return builder.buildAndExpand(variables).encode().toUri();
+        try
+        {
+            return builder.build(variables).toURL().toURI();
+        }
+        catch (MalformedURLException | URISyntaxException e)
+        {
+            throw new IllegalArgumentException("Failed to parse URL", e);
+        }
+    }
+
+    private void queryParam(UriBuilder builder, Map<String, Object> variables, String name, int id, Object value)
+    {
+        String key = "#" + id;
+
+        builder.queryParam(name, "{" + key + "}");
+        variables.put(key, value);
     }
 
 }

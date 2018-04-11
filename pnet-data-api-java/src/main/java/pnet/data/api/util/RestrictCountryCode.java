@@ -6,10 +6,10 @@ package pnet.data.api.util;
  * @author ham
  * @param <SELF> the type of the filter for chaining
  */
-public interface RestrictCountryCodes<SELF extends Restrict<SELF>> extends Restrict<SELF>
+public interface RestrictCountryCode<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default SELF countryCodes(String... countryCodes)
+    default SELF countryCode(String... countryCodes)
     {
         return restrict("countryCode", (Object[]) countryCodes);
     }

@@ -6,7 +6,7 @@ package pnet.data.api.util;
  * @author ham
  * @param <SELF> the type of the filter for chaining
  */
-public interface RestrictActivities<SELF extends Restrict<SELF>> extends Restrict<SELF>
+public interface RestrictActivity<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
     default SELF activity(String... activityMatchcodes)

@@ -7,9 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
-import pnet.data.api.util.RestrictBrands;
+import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictContractTypes;
-import pnet.data.api.util.RestrictCountryCodes;
+import pnet.data.api.util.RestrictCountryCode;
 import pnet.data.api.util.RestrictExternalBrands;
 import pnet.data.api.util.RestrictHeadquarter;
 import pnet.data.api.util.RestrictIds;
@@ -25,8 +25,8 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  * @author HAM
  */
 public class CompanyDataFind extends AbstractFind<CompanyItemDTO, CompanyDataFind>
-    implements RestrictIds<CompanyDataFind>, RestrictTenants<CompanyDataFind>, RestrictBrands<CompanyDataFind>,
-    RestrictPostalCodes<CompanyDataFind>, RestrictCountryCodes<CompanyDataFind>, RestrictTypes<CompanyDataFind>,
+    implements RestrictIds<CompanyDataFind>, RestrictTenants<CompanyDataFind>, RestrictBrand<CompanyDataFind>,
+    RestrictPostalCodes<CompanyDataFind>, RestrictCountryCode<CompanyDataFind>, RestrictTypes<CompanyDataFind>,
     RestrictContractTypes<CompanyDataFind>, RestrictLocation<CompanyDataFind>, RestrictExternalBrands<CompanyDataFind>,
     RestrictHeadquarter<CompanyDataFind>, RestrictUpdatedAfter<CompanyDataFind>
 {

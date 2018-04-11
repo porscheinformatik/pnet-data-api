@@ -35,7 +35,7 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
         Constructor<?> constructor;
         try
         {
-            constructor = getClass().getConstructor(PnetDataApiContext.class);
+            constructor = getClass().getConstructor(ObjectMapper.class, PnetDataApiContext.class);
         }
         catch (NoSuchMethodException | SecurityException e)
         {
@@ -44,7 +44,7 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
 
         try
         {
-            return (SELF) constructor.newInstance(context);
+            return (SELF) constructor.newInstance(mapper, context);
         }
         catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
         {

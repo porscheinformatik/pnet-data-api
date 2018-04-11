@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
-import pnet.data.api.util.RestrictBrands;
+import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompanyTypes;
 import pnet.data.api.util.RestrictContractTypes;
 import pnet.data.api.util.RestrictTenants;
@@ -18,7 +18,7 @@ import pnet.data.api.util.SearchFunction;
  * @author ham
  */
 public class ActivityDataSearch extends AbstractSearch<ActivityItemDTO, ActivityDataSearch>
-    implements RestrictTenants<ActivityDataSearch>, RestrictBrands<ActivityDataSearch>,
+    implements RestrictTenants<ActivityDataSearch>, RestrictBrand<ActivityDataSearch>,
     RestrictCompanyTypes<ActivityDataSearch>, RestrictContractTypes<ActivityDataSearch>
 {
 
