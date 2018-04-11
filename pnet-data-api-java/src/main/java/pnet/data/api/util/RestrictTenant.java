@@ -6,7 +6,7 @@ package pnet.data.api.util;
  * @author ham
  * @param <SELF> the type of the restrict for chaining
  */
-public interface RestrictTenants<SELF extends Restrict<SELF>> extends Restrict<SELF>
+public interface RestrictTenant<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
     // TODO "*" for all tenants

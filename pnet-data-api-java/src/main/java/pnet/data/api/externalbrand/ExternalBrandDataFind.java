@@ -7,11 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
-import pnet.data.api.util.RestrictMatchcodes;
+import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
 public class ExternalBrandDataFind extends AbstractFind<ExternalBrandItemDTO, ExternalBrandDataFind>
-    implements RestrictMatchcodes<ExternalBrandDataFind>, RestrictUpdatedAfter<ExternalBrandDataFind>
+    implements RestrictMatchcode<ExternalBrandDataFind>, RestrictUpdatedAfter<ExternalBrandDataFind>
 {
 
     public ExternalBrandDataFind(ObjectMapper mapper, FindFunction<ExternalBrandItemDTO> findFunction,

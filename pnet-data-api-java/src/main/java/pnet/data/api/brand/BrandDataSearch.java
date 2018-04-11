@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
-import pnet.data.api.util.RestrictTenants;
+import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.SearchFunction;
 
 /**
@@ -15,7 +15,7 @@ import pnet.data.api.util.SearchFunction;
  * @author ham
  */
 public class BrandDataSearch extends AbstractSearch<BrandItemDTO, BrandDataSearch>
-    implements RestrictTenants<BrandDataSearch>
+    implements RestrictTenant<BrandDataSearch>
 {
 
     public BrandDataSearch(ObjectMapper mapper, SearchFunction<BrandItemDTO> searchFunction,

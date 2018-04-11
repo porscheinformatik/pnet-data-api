@@ -9,11 +9,11 @@ import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictBrand;
-import pnet.data.api.util.RestrictCompanyTypes;
-import pnet.data.api.util.RestrictContractTypes;
-import pnet.data.api.util.RestrictMatchcodes;
-import pnet.data.api.util.RestrictNumberTypes;
-import pnet.data.api.util.RestrictTenants;
+import pnet.data.api.util.RestrictCompanyType;
+import pnet.data.api.util.RestrictContractType;
+import pnet.data.api.util.RestrictMatchcode;
+import pnet.data.api.util.RestrictNumberType;
+import pnet.data.api.util.RestrictTenant;
 
 /**
  * Find interface for {@link FunctionItemDTO}s
@@ -21,9 +21,9 @@ import pnet.data.api.util.RestrictTenants;
  * @author HAM
  */
 public class FunctionDataFind extends AbstractFind<FunctionItemDTO, FunctionDataFind>
-    implements RestrictMatchcodes<FunctionDataFind>, RestrictTenants<FunctionDataFind>,
-    RestrictBrand<FunctionDataFind>, RestrictCompanyTypes<FunctionDataFind>, RestrictContractTypes<FunctionDataFind>,
-    RestrictActivity<FunctionDataFind>, RestrictNumberTypes<FunctionDataFind>
+    implements RestrictMatchcode<FunctionDataFind>, RestrictTenant<FunctionDataFind>,
+    RestrictBrand<FunctionDataFind>, RestrictCompanyType<FunctionDataFind>, RestrictContractType<FunctionDataFind>,
+    RestrictActivity<FunctionDataFind>, RestrictNumberType<FunctionDataFind>
 {
     public FunctionDataFind(ObjectMapper mapper, FindFunction<FunctionItemDTO> findFunction,
         List<Pair<String, Object>> restricts)

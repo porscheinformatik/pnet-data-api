@@ -8,15 +8,15 @@ import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBrand;
-import pnet.data.api.util.RestrictContractTypes;
+import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictCountryCode;
-import pnet.data.api.util.RestrictExternalBrands;
+import pnet.data.api.util.RestrictExternalBrand;
 import pnet.data.api.util.RestrictHeadquarter;
-import pnet.data.api.util.RestrictIds;
+import pnet.data.api.util.RestrictId;
 import pnet.data.api.util.RestrictLocation;
-import pnet.data.api.util.RestrictPostalCodes;
-import pnet.data.api.util.RestrictTenants;
-import pnet.data.api.util.RestrictTypes;
+import pnet.data.api.util.RestrictPostalCode;
+import pnet.data.api.util.RestrictTenant;
+import pnet.data.api.util.RestrictType;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
@@ -25,9 +25,9 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  * @author HAM
  */
 public class CompanyDataFind extends AbstractFind<CompanyItemDTO, CompanyDataFind>
-    implements RestrictIds<CompanyDataFind>, RestrictTenants<CompanyDataFind>, RestrictBrand<CompanyDataFind>,
-    RestrictPostalCodes<CompanyDataFind>, RestrictCountryCode<CompanyDataFind>, RestrictTypes<CompanyDataFind>,
-    RestrictContractTypes<CompanyDataFind>, RestrictLocation<CompanyDataFind>, RestrictExternalBrands<CompanyDataFind>,
+    implements RestrictId<CompanyDataFind>, RestrictTenant<CompanyDataFind>, RestrictBrand<CompanyDataFind>,
+    RestrictPostalCode<CompanyDataFind>, RestrictCountryCode<CompanyDataFind>, RestrictType<CompanyDataFind>,
+    RestrictContractType<CompanyDataFind>, RestrictLocation<CompanyDataFind>, RestrictExternalBrand<CompanyDataFind>,
     RestrictHeadquarter<CompanyDataFind>, RestrictUpdatedAfter<CompanyDataFind>
 {
 

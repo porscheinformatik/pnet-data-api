@@ -7,11 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
-import pnet.data.api.util.RestrictMatchcodes;
+import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
 public class NumberTypeDataFind extends AbstractFind<NumberTypeItemDTO, NumberTypeDataFind>
-    implements RestrictMatchcodes<NumberTypeDataFind>, RestrictUpdatedAfter<NumberTypeDataFind>
+    implements RestrictMatchcode<NumberTypeDataFind>, RestrictUpdatedAfter<NumberTypeDataFind>
 {
 
     public NumberTypeDataFind(ObjectMapper mapper, FindFunction<NumberTypeItemDTO> findFunction,

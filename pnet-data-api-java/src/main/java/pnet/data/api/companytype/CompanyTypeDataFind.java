@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
-import pnet.data.api.util.RestrictMatchcodes;
-import pnet.data.api.util.RestrictTenants;
+import pnet.data.api.util.RestrictMatchcode;
+import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
@@ -17,7 +17,7 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  * @author ham
  */
 public class CompanyTypeDataFind extends AbstractFind<CompanyTypeItemDTO, CompanyTypeDataFind>
-    implements RestrictMatchcodes<CompanyTypeDataFind>, RestrictTenants<CompanyTypeDataFind>,
+    implements RestrictMatchcode<CompanyTypeDataFind>, RestrictTenant<CompanyTypeDataFind>,
     RestrictUpdatedAfter<CompanyTypeDataFind>
 {
 

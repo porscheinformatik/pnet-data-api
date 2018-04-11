@@ -6,7 +6,7 @@ package pnet.data.api.util;
  * @author ham
  * @param <SELF> the type of the restrict for chaining
  */
-public interface RestrictExternalBrands<SELF extends Restrict<SELF>> extends Restrict<SELF>
+public interface RestrictExternalBrand<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
     default SELF externalBrand(String... externalBrandMatchcodes)
