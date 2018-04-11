@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
@@ -22,9 +24,9 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
     implements GetByMatchcode<AdvisorTypeDataDTO>
 {
 
-    public AdvisorTypeDataClient(PnetDataApiContext context)
+    public AdvisorTypeDataClient(ObjectMapper mapper, PnetDataApiContext context)
     {
-        super(context);
+        super(mapper, context);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
 
     public AdvisorTypeDataSearch search()
     {
-        return new AdvisorTypeDataSearch(this::search, null);
+        return new AdvisorTypeDataSearch(getMapper(), this::search, null);
     }
 
     protected PnetDataClientResultPage<AdvisorTypeItemDTO> search(Locale language, String query,
@@ -71,7 +73,7 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
 
     public AdvisorTypeDataFind find()
     {
-        return new AdvisorTypeDataFind(this::find, null);
+        return new AdvisorTypeDataFind(getMapper(), this::find, null);
     }
 
     protected PnetDataClientResultPage<AdvisorTypeItemDTO>
