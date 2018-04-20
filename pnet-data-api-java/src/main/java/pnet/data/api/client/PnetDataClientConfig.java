@@ -9,6 +9,7 @@ import pnet.data.api.brand.BrandPnetDataApiClientConfig;
 import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 import pnet.data.api.company.CompanyPnetDataApiClientConfig;
 import pnet.data.api.companytype.CompanyTypePnetDataApiClientConfig;
+import pnet.data.api.contractstate.ContractStatePnetDataApiClientConfig;
 import pnet.data.api.externalbrand.ExternalBrandPnetDataApiClientConfig;
 import pnet.data.api.function.FunctionPnetDataApiClientConfig;
 import pnet.data.api.numbertype.NumberTypePnetDataApiClientConfig;
@@ -24,6 +25,7 @@ import pnet.data.api.numbertype.NumberTypePnetDataApiClientConfig;
     CompanyPnetDataApiClientConfig.class,
     CompanyTypePnetDataApiClientConfig.class,
     ContextPnetDataApiClientConfig.class,
+    ContractStatePnetDataApiClientConfig.class,
     ExternalBrandPnetDataApiClientConfig.class,
     FunctionPnetDataApiClientConfig.class,
     NumberTypePnetDataApiClientConfig.class})
