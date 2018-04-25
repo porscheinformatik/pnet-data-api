@@ -10,6 +10,9 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
+/**
+ * Find class for {@link AdvisorTypeItemDTO}s
+ */
 public class AdvisorTypeDataFind extends AbstractFind<AdvisorTypeItemDTO, AdvisorTypeDataFind>
     implements RestrictMatchcode<AdvisorTypeDataFind>, RestrictUpdatedAfter<AdvisorTypeDataFind>
 {

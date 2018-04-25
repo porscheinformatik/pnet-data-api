@@ -21,9 +21,9 @@ import pnet.data.api.util.RestrictTenant;
  * @author HAM
  */
 public class FunctionDataFind extends AbstractFind<FunctionItemDTO, FunctionDataFind>
-    implements RestrictMatchcode<FunctionDataFind>, RestrictTenant<FunctionDataFind>,
-    RestrictBrand<FunctionDataFind>, RestrictCompanyType<FunctionDataFind>, RestrictContractType<FunctionDataFind>,
-    RestrictActivity<FunctionDataFind>, RestrictNumberType<FunctionDataFind>
+    implements RestrictMatchcode<FunctionDataFind>, RestrictTenant<FunctionDataFind>, RestrictBrand<FunctionDataFind>,
+    RestrictCompanyType<FunctionDataFind>, RestrictContractType<FunctionDataFind>, RestrictActivity<FunctionDataFind>,
+    RestrictNumberType<FunctionDataFind>
 {
     public FunctionDataFind(ObjectMapper mapper, FindFunction<FunctionItemDTO> findFunction,
         List<Pair<String, Object>> restricts)

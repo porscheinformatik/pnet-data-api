@@ -20,8 +20,8 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  * @author ham
  */
 public class ActivityDataFind extends AbstractFind<ActivityItemDTO, ActivityDataFind>
-    implements RestrictMatchcode<ActivityDataFind>, RestrictTenant<ActivityDataFind>,
-    RestrictBrand<ActivityDataFind>, RestrictCompanyType<ActivityDataFind>, RestrictContractType<ActivityDataFind>,
+    implements RestrictMatchcode<ActivityDataFind>, RestrictTenant<ActivityDataFind>, RestrictBrand<ActivityDataFind>,
+    RestrictCompanyType<ActivityDataFind>, RestrictContractType<ActivityDataFind>,
     RestrictUpdatedAfter<ActivityDataFind>
 {
 

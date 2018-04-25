@@ -8,6 +8,9 @@ import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
+/**
+ * Search class for {@link AdvisorTypeDataDTO}.
+ */
 public class AdvisorTypeDataSearch extends AbstractSearch<AdvisorTypeItemDTO, AdvisorTypeDataSearch>
 {
 
