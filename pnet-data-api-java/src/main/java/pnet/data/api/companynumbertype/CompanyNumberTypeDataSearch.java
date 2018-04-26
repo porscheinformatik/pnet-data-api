@@ -8,6 +8,9 @@ import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
+/**
+ * Search interface for {@link CompanyNumberTypeDataClient}.
+ */
 public class CompanyNumberTypeDataSearch extends AbstractSearch<CompanyNumberTypeItemDTO, CompanyNumberTypeDataSearch>
 {
     public CompanyNumberTypeDataSearch(ObjectMapper mapper, SearchFunction<CompanyNumberTypeItemDTO> searchFunction,

@@ -8,6 +8,9 @@ import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
+/**
+ * Search object for {@link CompanyGroupTypeDataClient}.
+ */
 public class CompanyGroupTypeDataSearch extends AbstractSearch<CompanyGroupTypeItemDTO, CompanyGroupTypeDataSearch>
 {
     public CompanyGroupTypeDataSearch(ObjectMapper mapper, SearchFunction<CompanyGroupTypeItemDTO> searchFunction,

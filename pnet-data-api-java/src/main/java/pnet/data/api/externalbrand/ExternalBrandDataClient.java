@@ -3,9 +3,8 @@ package pnet.data.api.externalbrand;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
@@ -16,14 +15,18 @@ import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
+/**
+ * Client for {@link ExternalBrandDataDTO}s.
+ */
 @Service
 public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalBrandDataClient>
     implements GetByMatchcode<ExternalBrandDataDTO>
 {
 
-    public ExternalBrandDataClient(ObjectMapper mapper, PnetDataApiContext context)
+    @Autowired
+    public ExternalBrandDataClient(PnetDataApiContext context)
     {
-        super(mapper, context);
+        super(context);
     }
 
     @Override

@@ -31,9 +31,7 @@ public class ContextPnetDataApiClientConfig
     @Bean
     public RestCallFactory restCallFactory()
     {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        objectMapper.registerModules(new JacksonPnetDataApiModule());
+        ObjectMapper objectMapper = JacksonPnetDataApiModule.createObjectMapper();
 
         RestTemplate restTemplate = new RestTemplate();
         SimpleClientHttpRequestFactory requestFactory =
@@ -60,4 +58,5 @@ public class ContextPnetDataApiClientConfig
 
         return new SpringRestCallFactory(restTemplate);
     }
+
 }

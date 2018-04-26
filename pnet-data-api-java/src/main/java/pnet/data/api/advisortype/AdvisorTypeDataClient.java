@@ -3,9 +3,8 @@ package pnet.data.api.advisortype;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
@@ -24,9 +23,10 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
     implements GetByMatchcode<AdvisorTypeDataDTO>
 {
 
-    public AdvisorTypeDataClient(ObjectMapper mapper, PnetDataApiContext context)
+    @Autowired
+    public AdvisorTypeDataClient(PnetDataApiContext context)
     {
-        super(mapper, context);
+        super(context);
     }
 
     @Override

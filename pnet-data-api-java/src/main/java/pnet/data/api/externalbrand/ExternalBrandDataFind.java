@@ -10,6 +10,9 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
+/**
+ * Find interface for the {@link ExternalBrandDataClient}.
+ */
 public class ExternalBrandDataFind extends AbstractFind<ExternalBrandItemDTO, ExternalBrandDataFind>
     implements RestrictMatchcode<ExternalBrandDataFind>, RestrictUpdatedAfter<ExternalBrandDataFind>
 {

@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Import;
 
 import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 
+/**
+ * Configuration for {@link NumberTypeDataClient}.
+ */
 @Configuration
 @ComponentScan(basePackageClasses = {NumberTypePnetDataApiClientConfig.class})
 @Import(ContextPnetDataApiClientConfig.class)

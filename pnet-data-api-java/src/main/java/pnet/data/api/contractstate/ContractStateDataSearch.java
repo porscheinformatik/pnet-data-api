@@ -8,6 +8,9 @@ import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
+/**
+ * Search interface for {@link ContractStateDataClient}.
+ */
 public class ContractStateDataSearch extends AbstractSearch<ContractStateItemDTO, ContractStateDataSearch>
 {
 

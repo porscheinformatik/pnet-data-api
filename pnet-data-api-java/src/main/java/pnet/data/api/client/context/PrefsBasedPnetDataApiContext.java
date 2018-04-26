@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pnet.data.api.client.PnetDataClientPrefs;
+import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 
 /**
  * Implementation of the {@link PnetDataApiContext} that is based on the {@link PnetDataClientPrefs}.
@@ -19,7 +20,7 @@ public class PrefsBasedPnetDataApiContext extends AbstractPnetDataApiContext
     @Autowired
     public PrefsBasedPnetDataApiContext(PnetDataApiTokenRepository repository, PnetDataClientPrefs prefs)
     {
-        super(repository);
+        super(JacksonPnetDataApiModule.createObjectMapper(), repository);
 
         this.prefs = prefs;
     }

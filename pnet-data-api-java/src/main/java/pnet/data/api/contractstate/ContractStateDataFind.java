@@ -10,6 +10,9 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
+/**
+ * Find interface for the {@link ContractStateDataClient}.
+ */
 public class ContractStateDataFind extends AbstractFind<ContractStateItemDTO, ContractStateDataFind>
     implements RestrictMatchcode<ContractStateDataFind>, RestrictUpdatedAfter<ContractStateDataFind>
 {

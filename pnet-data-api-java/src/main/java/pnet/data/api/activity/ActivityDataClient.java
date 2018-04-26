@@ -3,9 +3,8 @@ package pnet.data.api.activity;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
@@ -26,9 +25,10 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
     implements GetByMatchcode<ActivityDataDTO>
 {
 
-    public ActivityDataClient(ObjectMapper mapper, PnetDataApiContext context)
+    @Autowired
+    public ActivityDataClient(PnetDataApiContext context)
     {
-        super(mapper, context);
+        super(context);
     }
 
     @Override

@@ -10,6 +10,9 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
+/**
+ * Find interface for {@link CompanyNumberTypeDataClient}.
+ */
 public class CompanyNumberTypeDataFind extends AbstractFind<CompanyNumberTypeItemDTO, CompanyNumberTypeDataFind>
     implements RestrictMatchcode<CompanyNumberTypeDataFind>, RestrictUpdatedAfter<CompanyNumberTypeDataFind>
 {

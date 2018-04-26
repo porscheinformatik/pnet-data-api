@@ -18,14 +18,12 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
     implements PnetDataApiContextAware<SELF>
 {
 
-    private final ObjectMapper mapper;
     private final PnetDataApiContext context;
 
-    public AbstractPnetDataApiClient(ObjectMapper mapper, PnetDataApiContext context)
+    public AbstractPnetDataApiClient(PnetDataApiContext context)
     {
         super();
 
-        this.mapper = mapper;
         this.context = context;
     }
 
@@ -35,7 +33,7 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
         Constructor<?> constructor;
         try
         {
-            constructor = getClass().getConstructor(ObjectMapper.class, PnetDataApiContext.class);
+            constructor = getClass().getConstructor(PnetDataApiContext.class);
         }
         catch (NoSuchMethodException | SecurityException e)
         {
@@ -44,7 +42,7 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
 
         try
         {
-            return (SELF) constructor.newInstance(mapper, context);
+            return (SELF) constructor.newInstance(context);
         }
         catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
         {
@@ -77,7 +75,7 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
 
     protected ObjectMapper getMapper()
     {
-        return mapper;
+        return context.getMapper();
     }
 
 }

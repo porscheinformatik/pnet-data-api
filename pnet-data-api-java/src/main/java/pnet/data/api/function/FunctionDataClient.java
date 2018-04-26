@@ -3,9 +3,8 @@ package pnet.data.api.function;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
@@ -24,9 +23,10 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
     implements GetByMatchcode<FunctionDataDTO>
 {
 
-    public FunctionDataClient(ObjectMapper mapper, PnetDataApiContext context)
+    @Autowired
+    public FunctionDataClient(PnetDataApiContext context)
     {
-        super(mapper, context);
+        super(context);
     }
 
     @Override

@@ -5,8 +5,6 @@ import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
@@ -24,9 +22,9 @@ public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<Compa
     implements GetByMatchcode<CompanyNumberTypeDataDTO>
 {
 
-    public CompanyNumberTypeDataClient(ObjectMapper mapper, PnetDataApiContext context)
+    public CompanyNumberTypeDataClient(PnetDataApiContext context)
     {
-        super(mapper, context);
+        super(context);
     }
 
     @Override

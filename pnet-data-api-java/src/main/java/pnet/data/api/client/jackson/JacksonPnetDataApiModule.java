@@ -3,6 +3,7 @@ package pnet.data.api.client.jackson;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 /**
@@ -23,4 +24,12 @@ public class JacksonPnetDataApiModule extends SimpleModule
         addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
     }
 
+    public static ObjectMapper createObjectMapper()
+    {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        objectMapper.registerModules(new JacksonPnetDataApiModule());
+
+        return objectMapper;
+    }
 }
