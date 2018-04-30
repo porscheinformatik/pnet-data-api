@@ -9,7 +9,12 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
 /**
+<<<<<<< Updated upstream
  * Search interface for the {@link ExternalBrandDataClient}.
+=======
+ * @author cet
+ *
+>>>>>>> Stashed changes
  */
 public class ExternalBrandDataSearch extends AbstractSearch<ExternalBrandItemDTO, ExternalBrandDataSearch>
 {

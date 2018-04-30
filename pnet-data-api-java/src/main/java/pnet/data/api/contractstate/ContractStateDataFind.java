@@ -11,7 +11,12 @@ import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
+<<<<<<< Updated upstream
  * Find interface for the {@link ContractStateDataClient}.
+=======
+ * @author cet
+ *
+>>>>>>> Stashed changes
  */
 public class ContractStateDataFind extends AbstractFind<ContractStateItemDTO, ContractStateDataFind>
     implements RestrictMatchcode<ContractStateDataFind>, RestrictUpdatedAfter<ContractStateDataFind>

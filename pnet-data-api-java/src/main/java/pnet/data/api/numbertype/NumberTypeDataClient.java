@@ -16,7 +16,12 @@ import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
+<<<<<<< Updated upstream
  * Client for {@link NumberTypeDataDTO}s.
+=======
+ * @author cet
+ *
+>>>>>>> Stashed changes
  */
 @Service
 public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDataClient>

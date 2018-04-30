@@ -91,6 +91,21 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     }
 
     /**
+     * @return the first item, null if there isn't one
+     */
+    default T unique()
+    {
+        int totalNumberOfItems = getTotalNumberOfItems();
+
+        if (totalNumberOfItems > 1)
+        {
+            throw new IllegalStateException("Multiple items found");
+        }
+
+        return first();
+    }
+
+    /**
      * @param index the index
      * @return the item at the specified index, null if there isn't one
      */

@@ -8,6 +8,8 @@ import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 
 /**
  * Client for CompanyNumberType.
+ * 
+ * @author cet
  */
 @Configuration
 @ComponentScan(basePackageClasses = {CompanyNumberTypePnetDataApiClientConfig.class})

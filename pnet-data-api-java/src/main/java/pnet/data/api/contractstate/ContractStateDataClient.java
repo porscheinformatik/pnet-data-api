@@ -17,6 +17,8 @@ import pnet.data.api.util.Pair;
 
 /**
  * Data-API client for {@link ContractStateDataDTO}s.
+ * 
+ * @author cet
  */
 @Service
 public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractStateDataClient>

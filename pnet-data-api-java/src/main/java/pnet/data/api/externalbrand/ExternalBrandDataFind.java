@@ -11,7 +11,12 @@ import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
+<<<<<<< Updated upstream
  * Find interface for the {@link ExternalBrandDataClient}.
+=======
+ * @author cet
+ *
+>>>>>>> Stashed changes
  */
 public class ExternalBrandDataFind extends AbstractFind<ExternalBrandItemDTO, ExternalBrandDataFind>
     implements RestrictMatchcode<ExternalBrandDataFind>, RestrictUpdatedAfter<ExternalBrandDataFind>

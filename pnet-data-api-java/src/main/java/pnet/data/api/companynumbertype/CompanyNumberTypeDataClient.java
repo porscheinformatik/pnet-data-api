@@ -16,6 +16,8 @@ import pnet.data.api.util.Pair;
 
 /**
  * Data-API client for {@link CompanyNumberTypeDataDTO}s.
+ * 
+ * @author cet
  */
 @Service
 public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<CompanyNumberTypeDataClient>

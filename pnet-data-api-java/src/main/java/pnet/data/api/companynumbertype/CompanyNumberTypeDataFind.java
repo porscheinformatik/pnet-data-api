@@ -11,7 +11,12 @@ import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
+<<<<<<< Updated upstream
  * Find interface for {@link CompanyNumberTypeDataClient}.
+=======
+ * @author cet
+ *
+>>>>>>> Stashed changes
  */
 public class CompanyNumberTypeDataFind extends AbstractFind<CompanyNumberTypeItemDTO, CompanyNumberTypeDataFind>
     implements RestrictMatchcode<CompanyNumberTypeDataFind>, RestrictUpdatedAfter<CompanyNumberTypeDataFind>

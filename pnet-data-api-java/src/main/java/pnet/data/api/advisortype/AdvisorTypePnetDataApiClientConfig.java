@@ -8,6 +8,8 @@ import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 
 /**
  * Client for AdvisorType.
+ * 
+ * @author cet
  */
 @Configuration
 @ComponentScan(basePackageClasses = {AdvisorTypePnetDataApiClientConfig.class})

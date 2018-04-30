@@ -1,9 +1,8 @@
-package pnet.data.api.advisortype;
+package pnet.data.api.contracttype;
 
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.GenericType;
@@ -12,35 +11,35 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
+import pnet.data.api.company.ContractTypeDataFind;
 import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
- * Data-API client for {@link AdvisorTypeDataDTO}s.
- * 
+ * Data-API client for {@link ContractTypeDataDTO}s.
+ *
  * @author cet
  */
 @Service
-public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorTypeDataClient>
-    implements GetByMatchcode<AdvisorTypeDataDTO>
+public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTypeDataClient>
+    implements GetByMatchcode<ContractTypeDataDTO>
 {
 
-    @Autowired
-    public AdvisorTypeDataClient(PnetDataApiContext context)
+    public ContractTypeDataClient(PnetDataApiContext context)
     {
         super(context);
     }
 
     @Override
-    public PnetDataClientResultPage<AdvisorTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
+    public PnetDataClientResultPage<ContractTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<AdvisorTypeDataDTO> resultPage = createRestCall() //
+        DefaultPnetDataClientResultPage<ContractTypeDataDTO> resultPage = createRestCall() //
             .parameters("mc", matchcodes)
             .parameter("p", pageIndex)
             .parameter("pp", itemsPerPage)
-            .get("/api/v1/advisortypes/details",
-                new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeDataDTO>>()
+            .get("/api/v1/contracttypes/details",
+                new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeDataDTO>>()
                 {
                 });
 
@@ -49,22 +48,22 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
         return resultPage;
     }
 
-    public AdvisorTypeDataSearch search()
+    public ContractTypeDataSearch search()
     {
-        return new AdvisorTypeDataSearch(getMapper(), this::search, null);
+        return new ContractTypeDataSearch(getMapper(), this::search, null);
     }
 
-    protected PnetDataClientResultPage<AdvisorTypeItemDTO> search(Locale language, String query,
+    protected PnetDataClientResultPage<ContractTypeItemDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<AdvisorTypeItemDTO> resultPage = createRestCall()
+        DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = createRestCall()
             .parameter("l", language)
             .parameter("q", query)
             .parameters(restricts)
             .parameter("p", pageIndex)
             .parameter("pp", itemsPerPage)
-            .get("/api/v1/advisortypes/search",
-                new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
+            .get("/api/v1/contracttypes/search",
+                new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
                 {
                 });
 
@@ -73,28 +72,26 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
         return resultPage;
     }
 
-    public AdvisorTypeDataFind find()
+    public ContractTypeDataFind find()
     {
-        return new AdvisorTypeDataFind(getMapper(), this::find, null);
+        return new ContractTypeDataFind(getMapper(), this::find, null);
     }
 
-    protected PnetDataClientResultPage<AdvisorTypeItemDTO>
-
-        find(Locale language, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
-            throws PnetDataApiException
+    protected PnetDataClientResultPage<ContractTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
+        int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<AdvisorTypeItemDTO> resultPage = createRestCall()
+        DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = createRestCall()
             .parameters(restricts)
             .parameter("l", language)
             .parameter("p", pageIndex)
             .parameter("pp", itemsPerPage)
-            .get("/api/v1/advisortypes/find", new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
-            {
-            });
+            .get("/api/v1/contracttypes/find",
+                new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
+                {
+                });
 
         resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
         return resultPage;
     }
-
 }
