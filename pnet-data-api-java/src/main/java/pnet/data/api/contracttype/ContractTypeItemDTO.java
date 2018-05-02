@@ -20,8 +20,6 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.brand.BrandLinkDTO;
-import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -33,8 +31,7 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-public class ContractTypeItemDTO
-    implements WithMatchcode, WithTenants, WithLabel, WithBrandLinks, WithLastUpdate, Serializable
+public class ContractTypeItemDTO implements WithMatchcode, WithTenants, WithLabel, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -6345795957251172952L;
@@ -42,13 +39,14 @@ public class ContractTypeItemDTO
     private final String matchcode;
     private final String label;
     private final Collection<String> tenants;
-    private final Collection<BrandLinkDTO> brands;
+    private final Collection<ContractTypeBrandLinkDTO> brands;
     private final String type;
     private final LocalDateTime lastUpdate;
 
     public ContractTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("brands") Collection<BrandLinkDTO> brands,
-        @JsonProperty("type") String type, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("brands") Collection<ContractTypeBrandLinkDTO> brands, @JsonProperty("type") String type,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -78,8 +76,7 @@ public class ContractTypeItemDTO
         return tenants;
     }
 
-    @Override
-    public Collection<BrandLinkDTO> getBrands()
+    public Collection<ContractTypeBrandLinkDTO> getBrands()
     {
         return brands;
     }
