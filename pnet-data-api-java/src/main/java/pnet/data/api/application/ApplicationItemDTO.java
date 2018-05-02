@@ -16,38 +16,32 @@ package pnet.data.api.application;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
-import pnet.data.api.util.WithTenants;
 
 /**
- * Holds a company type. A company is linked to one or more company types. Functions and activities need company types
- * as prerequisite.
+ * Holds an application.
  *
  * @author ham
  */
-public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithTenants, WithLastUpdate, Serializable
+public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 1943888464506455363L;
 
     private final String matchcode;
-    private final Collection<String> tenants;
     private final String label;
     private final LocalDateTime lastUpdate;
 
-    public ApplicationItemDTO(@JsonProperty("matchcode") String matchcode,
-        @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("label") String label,
+    public ApplicationItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
         this.matchcode = matchcode;
-        this.tenants = tenants;
         this.label = label;
         this.lastUpdate = lastUpdate;
     }
@@ -56,12 +50,6 @@ public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithTenants
     public String getMatchcode()
     {
         return matchcode;
-    }
-
-    @Override
-    public Collection<String> getTenants()
-    {
-        return tenants;
     }
 
     @Override
@@ -79,8 +67,8 @@ public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithTenants
     @Override
     public String toString()
     {
-        return String.format("CompanyTypeItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s]", matchcode,
-            tenants, label, lastUpdate);
+        return String.format("CompanyTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label,
+            lastUpdate);
     }
 
 }
