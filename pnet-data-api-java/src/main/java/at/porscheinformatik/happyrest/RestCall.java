@@ -1,5 +1,7 @@
 package at.porscheinformatik.happyrest;
 
+import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
 
@@ -61,11 +63,29 @@ public interface RestCall
         return accept(MEDIA_TYPE_APPLICATION_XML);
     }
 
-    //    RestCall basicAuthorization(UsernamePasswordCredentials credentials);
+    default RestCall basicAuthorization(String username, String password)
+    {
+        Charset charset = Charset.forName("UTF-8");
+        String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes(charset));
+
+        return header("Authorization", "Basic " + credentials);
+    }
 
     List<RestAttribute> getAttributes();
 
     RestCall body(Object body);
+
+    RestCall contentType(String contentType);
+
+    default RestCall contentTypeJson()
+    {
+        return contentType(MEDIA_TYPE_APPLICATION_JSON_UTF8);
+    }
+
+    default RestCall contentTypeXML()
+    {
+        return contentType(MEDIA_TYPE_APPLICATION_XML);
+    }
 
     RestCall header(String name, String... value);
 

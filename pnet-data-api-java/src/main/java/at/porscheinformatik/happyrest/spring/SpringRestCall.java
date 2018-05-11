@@ -46,26 +46,27 @@ public class SpringRestCall extends AbstractRestCall
 
     protected SpringRestCall(RestTemplate restTemplate)
     {
-        this(restTemplate, null, null, null, null);
+        this(restTemplate, null, null, null, null, null);
     }
 
     protected SpringRestCall(RestTemplate restTemplate, String url)
     {
-        this(restTemplate, url, null, null, null);
+        this(restTemplate, url, null, null, null, null);
     }
 
     protected SpringRestCall(RestTemplate restTemplate, String url, List<String> acceptableMediaTypes,
-        List<RestAttribute> attributes, Object body)
+        String contentType, List<RestAttribute> attributes, Object body)
     {
-        super(url, acceptableMediaTypes, attributes, body);
+        super(url, acceptableMediaTypes, contentType, attributes, body);
 
         this.restTemplate = restTemplate;
     }
 
     @Override
-    protected RestCall copy(String url, List<String> acceptableMediaTypes, List<RestAttribute> attributes, Object body)
+    protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
+        List<RestAttribute> attributes, Object body)
     {
-        return new SpringRestCall(restTemplate, url, acceptableMediaTypes, attributes, body);
+        return new SpringRestCall(restTemplate, url, acceptableMediaTypes, contentType, attributes, body);
     }
 
     @Override
@@ -147,6 +148,13 @@ public class SpringRestCall extends AbstractRestCall
         if (acceptableMediaTypes != null)
         {
             headers.setAccept(MediaType.parseMediaTypes(acceptableMediaTypes));
+        }
+
+        String contentType = getContentType();
+
+        if (contentType != null)
+        {
+            headers.setContentType(MediaType.parseMediaType(contentType));
         }
 
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(prepareUrl(getUrl(), path));

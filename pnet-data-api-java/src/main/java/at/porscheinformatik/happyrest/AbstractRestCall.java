@@ -19,22 +19,24 @@ public abstract class AbstractRestCall implements RestCall
 
     private final String url;
     private final List<String> acceptableMediaTypes;
+    private final String contentType;
     private final Object body;
     private final List<RestAttribute> attributes;
 
-    protected AbstractRestCall(String url, List<String> acceptableMediaTypes, List<RestAttribute> attributes,
-        Object body)
+    protected AbstractRestCall(String url, List<String> acceptableMediaTypes, String contentType,
+        List<RestAttribute> attributes, Object body)
     {
         super();
 
         this.url = url;
         this.acceptableMediaTypes = acceptableMediaTypes;
+        this.contentType = contentType;
         this.attributes = attributes;
         this.body = body;
     }
 
-    protected abstract RestCall copy(String url, List<String> acceptableMediaTypes, List<RestAttribute> attributes,
-        Object body);
+    protected abstract RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
+        List<RestAttribute> attributes, Object body);
 
     @Override
     public String getUrl()
@@ -45,14 +47,14 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall url(String url)
     {
-        return copy(url, acceptableMediaTypes, attributes, body);
+        return copy(url, acceptableMediaTypes, contentType, attributes, body);
     }
 
     @Override
     public RestCall path(String path)
     {
         return copy(prepareUrl(Objects.requireNonNull(url, "Cannot add path to missing URL"), path),
-            acceptableMediaTypes, attributes, body);
+            acceptableMediaTypes, contentType, attributes, body);
     }
 
     @Override
@@ -71,7 +73,7 @@ public abstract class AbstractRestCall implements RestCall
             acceptableMediaTypes.addAll(0, this.acceptableMediaTypes);
         }
 
-        return copy(url, Collections.unmodifiableList(acceptableMediaTypes), attributes, body);
+        return copy(url, Collections.unmodifiableList(acceptableMediaTypes), contentType, attributes, body);
     }
 
     @Override
@@ -161,7 +163,18 @@ public abstract class AbstractRestCall implements RestCall
             attributes.addAll(0, this.attributes);
         }
 
-        return copy(url, acceptableMediaTypes, Collections.unmodifiableList(attributes), body);
+        return copy(url, acceptableMediaTypes, contentType, Collections.unmodifiableList(attributes), body);
+    }
+
+    public String getContentType()
+    {
+        return contentType;
+    }
+
+    @Override
+    public RestCall contentType(String contentType)
+    {
+        return copy(url, acceptableMediaTypes, contentType, attributes, body);
     }
 
     public Object getBody()
@@ -172,7 +185,7 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall body(Object body)
     {
-        return copy(url, acceptableMediaTypes, attributes, body);
+        return copy(url, acceptableMediaTypes, contentType, attributes, body);
     }
 
     @Override
