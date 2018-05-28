@@ -1,5 +1,7 @@
 package pnet.data.api.company;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.util.WithMatchcode;
@@ -9,9 +11,11 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author HAM
  */
-public class CompanyTypeLinkDTO implements WithMatchcode
+public class CompanyTypeLinkDTO implements WithMatchcode, Serializable
 {
 
+    private static final long serialVersionUID = -6736388715804866171L;
+    
     private final String matchcode;
 
     public CompanyTypeLinkDTO(@JsonProperty("matchcode") String matchcode)

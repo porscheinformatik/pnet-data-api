@@ -160,7 +160,7 @@ public interface GenericType<T> extends ParameterizedType
         @Override
         public int hashCode()
         {
-            return (ownerType == null ? 0 : ownerType.hashCode()) ^ arguments.hashCode() ^ rawType.hashCode();
+            return (ownerType == null ? 0 : ownerType.hashCode()) ^ Arrays.hashCode(arguments) ^ rawType.hashCode();
         }
 
         @Override

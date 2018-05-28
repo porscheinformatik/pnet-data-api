@@ -92,7 +92,7 @@ class SpringRestResponse<T> implements RestResponse<T>
     @Override
     public String getContentType()
     {
-        return response.getHeaders().getContentType().toString();
+        return String.valueOf(response.getHeaders().getContentType());
     }
 
     @Override

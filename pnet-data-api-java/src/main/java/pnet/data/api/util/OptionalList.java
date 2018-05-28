@@ -131,13 +131,13 @@ public class OptionalList<T> implements List<T>
     @Override
     public boolean removeAll(Collection<?> c)
     {
-        return list != null ? removeAll(c) : false;
+        return list != null ? list.removeAll(c) : false;
     }
 
     @Override
     public boolean retainAll(Collection<?> c)
     {
-        return list != null ? retainAll(c) : false;
+        return list != null ? list.retainAll(c) : false;
     }
 
     @Override
