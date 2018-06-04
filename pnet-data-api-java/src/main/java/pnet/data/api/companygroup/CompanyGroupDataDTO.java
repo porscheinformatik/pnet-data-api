@@ -16,7 +16,6 @@ package pnet.data.api.companygroup;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Collections;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,17 +30,13 @@ public class CompanyGroupDataDTO implements Serializable
     private static final long serialVersionUID = -260656363547122718L;
 
     private final Integer leadingCompanyId;
-    private final String typeMatchcode;
-    private final Collection<Integer> companyIds;
+    private Collection<CompanyGroupMemberLinkDTO> members;
 
-    public CompanyGroupDataDTO(@JsonProperty("leadingCompanyId") Integer leadingCompanyId,
-        @JsonProperty("typeMathcode") String typeMatchcode, @JsonProperty("companyIds") Collection<Integer> companyIds)
+    public CompanyGroupDataDTO(@JsonProperty("leadingCompanyId") Integer leadingCompanyId)
     {
         super();
 
         this.leadingCompanyId = leadingCompanyId;
-        this.typeMatchcode = typeMatchcode;
-        this.companyIds = Collections.unmodifiableCollection(companyIds);
     }
 
     public Integer getLeadingCompanyId()
@@ -49,80 +44,14 @@ public class CompanyGroupDataDTO implements Serializable
         return leadingCompanyId;
     }
 
-    public String getTypeMathcode()
+    public Collection<CompanyGroupMemberLinkDTO> getMembers()
     {
-        return typeMatchcode;
+        return members;
     }
 
-    public Collection<Integer> getCompanyIds()
+    public void setMembers(Collection<CompanyGroupMemberLinkDTO> members)
     {
-        return companyIds;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((leadingCompanyId == null) ? 0 : leadingCompanyId.hashCode());
-        result = prime * result + ((typeMatchcode == null) ? 0 : typeMatchcode.hashCode());
-
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-
-        CompanyGroupDataDTO other = (CompanyGroupDataDTO) obj;
-
-        if (leadingCompanyId == null)
-        {
-            if (other.leadingCompanyId != null)
-            {
-                return false;
-            }
-        }
-        else if (!leadingCompanyId.equals(other.leadingCompanyId))
-        {
-            return false;
-        }
-
-        if (typeMatchcode == null)
-        {
-            if (other.typeMatchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!typeMatchcode.equals(other.typeMatchcode))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("CompanyGroupDataDTO [leadingCompanyId=%s, typeMatchcode=%s, companyIds=%s]",
-            leadingCompanyId, typeMatchcode, companyIds);
+        this.members = members;
     }
 
 }
