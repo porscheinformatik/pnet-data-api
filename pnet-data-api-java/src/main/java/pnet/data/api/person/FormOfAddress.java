@@ -22,8 +22,8 @@ package pnet.data.api.person;
 public enum FormOfAddress
 {
 
-    NOT_SPECIFIED,
-    FEMALE,
-    MALE,
+    UNIVERSAL,
+    FEMININE,
+    MASCULINE,
 
 }
