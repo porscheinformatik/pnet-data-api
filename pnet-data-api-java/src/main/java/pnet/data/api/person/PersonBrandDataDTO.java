@@ -42,13 +42,11 @@ public class PersonBrandDataDTO implements WithTenant, WithMatchcode, WithValidP
     private final LocalDateTime validTo;
     private final Collection<PersonFunctionDataDTO> functions;
     private final Collection<PersonActivityDataDTO> activities;
-    private final Collection<PersonInfoareaDataDTO> infoareas;
 
     public PersonBrandDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("functions") Collection<PersonFunctionDataDTO> functions,
-        @JsonProperty("activities") Collection<PersonActivityDataDTO> activities,
-        @JsonProperty("infoareas") Collection<PersonInfoareaDataDTO> infoareas)
+        @JsonProperty("activities") Collection<PersonActivityDataDTO> activities)
     {
         this.tenant = tenant;
         this.matchcode = matchcode;
@@ -56,7 +54,6 @@ public class PersonBrandDataDTO implements WithTenant, WithMatchcode, WithValidP
         this.validTo = validTo;
         this.functions = Collections.unmodifiableCollection(Objects.requireNonNull(functions, "Functions are null"));
         this.activities = Collections.unmodifiableCollection(Objects.requireNonNull(activities, "Activities are null"));
-        this.infoareas = Collections.unmodifiableCollection(Objects.requireNonNull(infoareas, "Infoareas are null"));
     }
 
     @Override
@@ -91,11 +88,6 @@ public class PersonBrandDataDTO implements WithTenant, WithMatchcode, WithValidP
     public Collection<PersonActivityDataDTO> getActivities()
     {
         return activities;
-    }
-
-    public Collection<PersonInfoareaDataDTO> getInfoareas()
-    {
-        return infoareas;
     }
 
     @Override
