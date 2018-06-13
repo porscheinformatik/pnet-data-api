@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.util.AbstractLinkDTO;
+import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
@@ -27,32 +29,33 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-public class PersonNumberTypeDataDTO implements WithMatchcode, WithValidPeriod, Serializable
+public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
+    implements WithMatchcode, WithCompanyId, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -3446430282367218468L;
 
-    private final String matchcode;
+    private final Integer companyId;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
     private final String number;
 
-    public PersonNumberTypeDataDTO(@JsonProperty("matchcode") String matchcode,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("number") String number)
+    public PersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("companyId") Integer companyId, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo, @JsonProperty("number") String number)
     {
-        super();
+        super(tenant, matchcode);
 
-        this.matchcode = matchcode;
+        this.companyId = companyId;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.number = number;
     }
 
     @Override
-    public String getMatchcode()
+    public Integer getCompanyId()
     {
-        return matchcode;
+        return companyId;
     }
 
     @Override
@@ -76,11 +79,9 @@ public class PersonNumberTypeDataDTO implements WithMatchcode, WithValidPeriod, 
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
+        int result = super.hashCode();
+        result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
-
         return result;
     }
 
@@ -91,31 +92,26 @@ public class PersonNumberTypeDataDTO implements WithMatchcode, WithValidPeriod, 
         {
             return true;
         }
-
-        if (obj == null)
+        if (!super.equals(obj))
         {
             return false;
         }
-
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof PersonNumberTypeLinkDTO))
         {
             return false;
         }
-
-        PersonNumberTypeDataDTO other = (PersonNumberTypeDataDTO) obj;
-
-        if (matchcode == null)
+        PersonNumberTypeLinkDTO other = (PersonNumberTypeLinkDTO) obj;
+        if (companyId == null)
         {
-            if (other.matchcode != null)
+            if (other.companyId != null)
             {
                 return false;
             }
         }
-        else if (!matchcode.equals(other.matchcode))
+        else if (!companyId.equals(other.companyId))
         {
             return false;
         }
-
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -127,14 +123,14 @@ public class PersonNumberTypeDataDTO implements WithMatchcode, WithValidPeriod, 
         {
             return false;
         }
-
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s [number=%s, validFrom=%s, validTo=%s]", matchcode, number, validFrom, validTo);
+        return String.format("%s [companyId=%s, validFrom=%s, validTo=%s, number=%s]", super.toString(), companyId,
+            validFrom, validTo, number);
     }
 
 }

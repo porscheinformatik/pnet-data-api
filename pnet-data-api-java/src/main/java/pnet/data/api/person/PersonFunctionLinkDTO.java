@@ -16,56 +16,56 @@ package pnet.data.api.person;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.util.AbstractLinkDTO;
+import pnet.data.api.util.WithBrandMatchcode;
+import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithMatchcode;
-import pnet.data.api.util.WithTenant;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
- * Holds the brand of a company with all contracts for the brand.
+ * Holds the function of a person for one company and brand.
  *
  * @author ham
  */
-public class PersonBrandDataDTO implements WithTenant, WithMatchcode, WithValidPeriod, Serializable
+public class PersonFunctionLinkDTO extends AbstractLinkDTO
+    implements WithMatchcode, WithCompanyId, WithBrandMatchcode, WithValidPeriod, Serializable
 {
 
-    private static final long serialVersionUID = 4304701417184336190L;
+    private static final long serialVersionUID = -5572016715722241376L;
 
-    private final String tenant;
-    private final String matchcode;
+    private final Integer companyId;
+    private final String brandMatchcode;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
-    private final Collection<PersonFunctionDataDTO> functions;
-    private final Collection<PersonActivityDataDTO> activities;
+    private final boolean mainFunction;
 
-    public PersonBrandDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
+    public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("companyId") Integer companyId, @JsonProperty("brandMatchcode") String brandMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("functions") Collection<PersonFunctionDataDTO> functions,
-        @JsonProperty("activities") Collection<PersonActivityDataDTO> activities)
+        @JsonProperty("mainFunction") boolean mainFunction)
     {
-        this.tenant = tenant;
-        this.matchcode = matchcode;
+        super(tenant, matchcode);
+
+        this.companyId = companyId;
+        this.brandMatchcode = brandMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.functions = Collections.unmodifiableCollection(Objects.requireNonNull(functions, "Functions are null"));
-        this.activities = Collections.unmodifiableCollection(Objects.requireNonNull(activities, "Activities are null"));
+        this.mainFunction = mainFunction;
     }
 
     @Override
-    public String getTenant()
+    public Integer getCompanyId()
     {
-        return tenant;
+        return companyId;
     }
 
     @Override
-    public String getMatchcode()
+    public String getBrandMatchcode()
     {
-        return matchcode;
+        return brandMatchcode;
     }
 
     @Override
@@ -80,26 +80,19 @@ public class PersonBrandDataDTO implements WithTenant, WithMatchcode, WithValidP
         return validTo;
     }
 
-    public Collection<PersonFunctionDataDTO> getFunctions()
+    public boolean isMainFunction()
     {
-        return functions;
-    }
-
-    public Collection<PersonActivityDataDTO> getActivities()
-    {
-        return activities;
+        return mainFunction;
     }
 
     @Override
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
+        int result = super.hashCode();
+        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
-
         return result;
     }
 
@@ -110,43 +103,37 @@ public class PersonBrandDataDTO implements WithTenant, WithMatchcode, WithValidP
         {
             return true;
         }
-
-        if (obj == null)
+        if (!super.equals(obj))
         {
             return false;
         }
-
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof PersonFunctionLinkDTO))
         {
             return false;
         }
-
-        PersonBrandDataDTO other = (PersonBrandDataDTO) obj;
-
-        if (matchcode == null)
+        PersonFunctionLinkDTO other = (PersonFunctionLinkDTO) obj;
+        if (brandMatchcode == null)
         {
-            if (other.matchcode != null)
+            if (other.brandMatchcode != null)
             {
                 return false;
             }
         }
-        else if (!matchcode.equals(other.matchcode))
+        else if (!brandMatchcode.equals(other.brandMatchcode))
         {
             return false;
         }
-
-        if (tenant == null)
+        if (companyId == null)
         {
-            if (other.tenant != null)
+            if (other.companyId != null)
             {
                 return false;
             }
         }
-        else if (!tenant.equals(other.tenant))
+        else if (!companyId.equals(other.companyId))
         {
             return false;
         }
-
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -158,15 +145,14 @@ public class PersonBrandDataDTO implements WithTenant, WithMatchcode, WithValidP
         {
             return false;
         }
-
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [validFrom=%s, validTo=%s, functions=%s, activities=%s]", matchcode, tenant,
-            validFrom, validTo, functions, activities);
+        return String.format("%s [companyId=%s, brandMatchcode=%s, validFrom=%s, validTo=%s, mainFunction=%s]",
+            super.toString(), companyId, brandMatchcode, validFrom, validTo, mainFunction);
     }
 
 }

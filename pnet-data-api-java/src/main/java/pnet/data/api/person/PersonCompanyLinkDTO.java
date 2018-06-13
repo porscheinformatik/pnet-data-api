@@ -16,7 +16,6 @@ package pnet.data.api.person;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -27,7 +26,7 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-public class PersonCompanyDataDTO implements WithValidPeriod, Serializable
+public class PersonCompanyLinkDTO implements WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 7199829304360405636L;
@@ -35,21 +34,15 @@ public class PersonCompanyDataDTO implements WithValidPeriod, Serializable
     private final Integer companyId;
     private final LocalDateTime validFrom;
     private final LocalDateTime validTo;
-    private final Collection<PersonBrandDataDTO> brands;
-    private final Collection<PersonNumberTypeDataDTO> numbers;
 
-    public PersonCompanyDataDTO(@JsonProperty("companyId") Integer companyId,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("brands") Collection<PersonBrandDataDTO> brands,
-        @JsonProperty("numbers") Collection<PersonNumberTypeDataDTO> numbers)
+    public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
     {
         super();
 
         this.companyId = companyId;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.brands = brands;
-        this.numbers = numbers;
     }
 
     public Integer getCompanyId()
@@ -67,16 +60,6 @@ public class PersonCompanyDataDTO implements WithValidPeriod, Serializable
     public LocalDateTime getValidTo()
     {
         return validTo;
-    }
-
-    public Collection<PersonBrandDataDTO> getBrands()
-    {
-        return brands;
-    }
-
-    public Collection<PersonNumberTypeDataDTO> getNumbers()
-    {
-        return numbers;
     }
 
     @Override
@@ -109,7 +92,7 @@ public class PersonCompanyDataDTO implements WithValidPeriod, Serializable
             return false;
         }
 
-        PersonCompanyDataDTO other = (PersonCompanyDataDTO) obj;
+        PersonCompanyLinkDTO other = (PersonCompanyLinkDTO) obj;
 
         if (companyId == null)
         {
@@ -141,8 +124,8 @@ public class PersonCompanyDataDTO implements WithValidPeriod, Serializable
     @Override
     public String toString()
     {
-        return String.format("PersonCompanyDataDTO [companyId=%s, validFrom=%s, validTo=%s, brands=%s, numbers=%s]",
-            companyId, validFrom, validTo, brands, numbers);
+        return String.format("PersonCompanyDataDTO [companyId=%s, validFrom=%s, validTo=%s]", companyId, validFrom,
+            validTo);
     }
 
 }

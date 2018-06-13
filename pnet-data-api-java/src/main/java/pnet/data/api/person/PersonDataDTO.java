@@ -17,9 +17,12 @@ package pnet.data.api.person;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import pnet.data.api.util.WithId;
 import pnet.data.api.util.WithLastUpdate;
 
 /**
@@ -27,19 +30,19 @@ import pnet.data.api.util.WithLastUpdate;
  *
  * @author ham
  */
-public class PersonDataDTO implements WithLastUpdate, Serializable
+public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -2096202204327773391L;
 
-    private final Integer personId;
+    private final Integer id;
 
     private String administrativeTenant;
+    private Collection<String> tenants;
     private FormOfAddress formOfAddress;
     private String academicTitle;
     private String firstName;
     private String lastName;
-    private String userName;
     private NameAffix nameAffix;
     private String guid;
     private String preferredUserId;
@@ -54,19 +57,24 @@ public class PersonDataDTO implements WithLastUpdate, Serializable
     private String controllingArea;
     private String personnelDepartment;
     private String jobDescription;
-    private Collection<PersonCompanyDataDTO> companies;
+    private Collection<PersonCompanyLinkDTO> companies;
+    private Collection<PersonNumberTypeLinkDTO> numbers;
+    private Collection<PersonFunctionLinkDTO> functions;
+    private Collection<PersonActivityLinkDTO> activities;
+    private String checksum;
     private LocalDateTime lastUpdate;
 
-    public PersonDataDTO(@JsonProperty("personId") Integer personId)
+    public PersonDataDTO(@JsonProperty("id") Integer id)
     {
         super();
 
-        this.personId = personId;
+        this.id = id;
     }
 
-    public Integer getPersonId()
+    @Override
+    public Integer getId()
     {
-        return personId;
+        return id;
     }
 
     public String getAdministrativeTenant()
@@ -77,6 +85,16 @@ public class PersonDataDTO implements WithLastUpdate, Serializable
     public void setAdministrativeTenant(String administrativeTenant)
     {
         this.administrativeTenant = administrativeTenant;
+    }
+
+    public Collection<String> getTenants()
+    {
+        return tenants;
+    }
+
+    public void setTenants(Collection<String> tenants)
+    {
+        this.tenants = tenants;
     }
 
     public FormOfAddress getFormOfAddress()
@@ -117,16 +135,6 @@ public class PersonDataDTO implements WithLastUpdate, Serializable
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
-    }
-
-    public String getUserName()
-    {
-        return userName;
-    }
-
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
     }
 
     public NameAffix getNameAffix()
@@ -269,14 +277,74 @@ public class PersonDataDTO implements WithLastUpdate, Serializable
         this.jobDescription = jobDescription;
     }
 
-    public Collection<PersonCompanyDataDTO> getCompanies()
+    public Collection<PersonCompanyLinkDTO> getCompanies()
     {
         return companies;
     }
 
-    public void setCompanies(Collection<PersonCompanyDataDTO> companies)
+    public Optional<PersonCompanyLinkDTO> findCompany(Predicate<? super PersonCompanyLinkDTO> predicate)
+    {
+        return companies.stream().filter(predicate).findFirst();
+    }
+
+    public void setCompanies(Collection<PersonCompanyLinkDTO> companies)
     {
         this.companies = companies;
+    }
+
+    public Collection<PersonNumberTypeLinkDTO> getNumbers()
+    {
+        return numbers;
+    }
+
+    public Optional<PersonNumberTypeLinkDTO> findNumber(Predicate<? super PersonNumberTypeLinkDTO> predicate)
+    {
+        return numbers.stream().filter(predicate).findFirst();
+    }
+
+    public void setNumbers(Collection<PersonNumberTypeLinkDTO> numbers)
+    {
+        this.numbers = numbers;
+    }
+
+    public Collection<PersonFunctionLinkDTO> getFunctions()
+    {
+        return functions;
+    }
+
+    public Optional<PersonFunctionLinkDTO> findFunction(Predicate<? super PersonFunctionLinkDTO> predicate)
+    {
+        return functions.stream().filter(predicate).findFirst();
+    }
+
+    public void setFunctions(Collection<PersonFunctionLinkDTO> functions)
+    {
+        this.functions = functions;
+    }
+
+    public Collection<PersonActivityLinkDTO> getActivities()
+    {
+        return activities;
+    }
+
+    public Optional<PersonActivityLinkDTO> findActivity(Predicate<? super PersonActivityLinkDTO> predicate)
+    {
+        return activities.stream().filter(predicate).findFirst();
+    }
+
+    public void setActivities(Collection<PersonActivityLinkDTO> activities)
+    {
+        this.activities = activities;
+    }
+
+    public String getChecksum()
+    {
+        return checksum;
+    }
+
+    public void setChecksum(String checksum)
+    {
+        this.checksum = checksum;
     }
 
     /**
@@ -297,15 +365,15 @@ public class PersonDataDTO implements WithLastUpdate, Serializable
     public String toString()
     {
         return String.format(
-            "PersonDataDTO [personId=%s, administrativeTenant=%s, formOfAddress=%s, academicTitle=%s, firstName=%s, "
-                + "lastName=%s, userName=%s, nameAffix=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
+            "PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+                + "firstName=%s, lastName=%s, nameAffix=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
                 + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
-                + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
-                + "companies=%s, lastUpdate=%s]",
-            personId, administrativeTenant, formOfAddress, academicTitle, firstName, lastName, userName, nameAffix,
-            guid, preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter,
-            personnelNumber, supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, companies,
-            lastUpdate);
+                + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, companies=%s, "
+                + "numbers=%s, functions=%s, activities=%s, checksum=%s, lastUpdate=%s]",
+            id, administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName, nameAffix, guid,
+            preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter, personnelNumber,
+            supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, companies, numbers,
+            functions, activities, checksum, lastUpdate);
     }
 
 }

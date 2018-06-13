@@ -18,6 +18,7 @@ import pnet.data.api.contracttype.ContractTypePnetDataApiClientConfig;
 import pnet.data.api.externalbrand.ExternalBrandPnetDataApiClientConfig;
 import pnet.data.api.function.FunctionPnetDataApiClientConfig;
 import pnet.data.api.numbertype.NumberTypePnetDataApiClientConfig;
+import pnet.data.api.person.PersonPnetDataApiClientConfig;
 
 /**
  * Spring configuration for the PnetDataApiClient module
@@ -38,7 +39,8 @@ import pnet.data.api.numbertype.NumberTypePnetDataApiClientConfig;
     ContractTypePnetDataApiClientConfig.class,
     ExternalBrandPnetDataApiClientConfig.class,
     FunctionPnetDataApiClientConfig.class,
-    NumberTypePnetDataApiClientConfig.class})
+    NumberTypePnetDataApiClientConfig.class,
+    PersonPnetDataApiClientConfig.class})
 public class PnetDataClientConfig
 {
 

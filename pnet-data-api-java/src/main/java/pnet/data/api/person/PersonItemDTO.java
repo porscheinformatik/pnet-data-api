@@ -16,23 +16,26 @@ package pnet.data.api.person;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithPersonId;
 
 /**
  * An result item for a search for persons.
  *
  * @author ham
  */
-public class PersonItemDTO implements WithLastUpdate, Serializable
+public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -481025382258675738L;
 
     private final Integer personId;
     private final String administrativeTenant;
+    private final Collection<String> tenants;
     private final FormOfAddress formOfAddress;
     private final String academicTitle;
     private final String firstName;
@@ -42,14 +45,16 @@ public class PersonItemDTO implements WithLastUpdate, Serializable
 
     public PersonItemDTO(@JsonProperty("personId") Integer personId,
         @JsonProperty("administrativeTenant") String administrativeTenant,
-        @JsonProperty("formOfAddress") FormOfAddress formOfAddress, @JsonProperty("academicTitle") String academicTitle,
-        @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
-        @JsonProperty("nameAffix") NameAffix nameAffix, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
+        @JsonProperty("academicTitle") String academicTitle, @JsonProperty("firstName") String firstName,
+        @JsonProperty("lastName") String lastName, @JsonProperty("nameAffix") NameAffix nameAffix,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
         this.personId = personId;
         this.administrativeTenant = administrativeTenant;
+        this.tenants = tenants;
         this.formOfAddress = formOfAddress;
         this.academicTitle = academicTitle;
         this.firstName = firstName;
@@ -58,6 +63,7 @@ public class PersonItemDTO implements WithLastUpdate, Serializable
         this.lastUpdate = lastUpdate;
     }
 
+    @Override
     public Integer getPersonId()
     {
         return personId;
@@ -66,6 +72,11 @@ public class PersonItemDTO implements WithLastUpdate, Serializable
     public String getAdministrativeTenant()
     {
         return administrativeTenant;
+    }
+
+    public Collection<String> getTenants()
+    {
+        return tenants;
     }
 
     public FormOfAddress getFormOfAddress()
