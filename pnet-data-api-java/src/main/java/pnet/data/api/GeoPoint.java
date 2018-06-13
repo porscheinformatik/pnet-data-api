@@ -18,11 +18,15 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * A point on the globe.
  *
  * @author ham
  */
+@ApiModel(description = "Holds information about a geographical point on the earth")
 public class GeoPoint implements Serializable
 {
 
@@ -33,7 +37,9 @@ public class GeoPoint implements Serializable
         return new GeoPoint(lat, lon);
     }
 
+    @ApiModelProperty(notes = "The latitude of the geographical point")
     private final double lat;
+    @ApiModelProperty(notes = "The longitude of the geographical point")
     private final double lon;
 
     public GeoPoint(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon)

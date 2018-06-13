@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithMatchcode;
 
 /**
@@ -11,11 +13,13 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author HAM
  */
+@ApiModel(description = "Holds minimal information about a type of the company")
 public class CompanyTypeLinkDTO implements WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = -6736388715804866171L;
-    
+
+    @ApiModelProperty(notes = "The unique matchcode of the type")
     private final String matchcode;
 
     public CompanyTypeLinkDTO(@JsonProperty("matchcode") String matchcode)

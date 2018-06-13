@@ -15,7 +15,9 @@
 package pnet.data.api.numbertype;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
+import io.swagger.annotations.ApiModel;
 import pnet.data.api.util.AbstractLinkDTO;
 
 /**
@@ -23,6 +25,7 @@ import pnet.data.api.util.AbstractLinkDTO;
  *
  * @author ham
  */
+@ApiModel(description = "Holds minimal information about a number type")
 public class NumberTypeLinkDTO extends AbstractLinkDTO
 {
 
@@ -31,6 +34,20 @@ public class NumberTypeLinkDTO extends AbstractLinkDTO
     public NumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {
         super(tenant, matchcode);
+    }
+
+    @JsonPropertyDescription("A tenant where the number type is valid")
+    @Override
+    public String getTenant()
+    {
+        return super.getTenant();
+    }
+
+    @JsonPropertyDescription("The unique matchcode of the number type")
+    @Override
+    public String getMatchcode()
+    {
+        return super.getMatchcode();
     }
 
 }

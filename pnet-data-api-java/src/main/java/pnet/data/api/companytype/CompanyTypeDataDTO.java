@@ -22,6 +22,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -33,17 +35,24 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
+@ApiModel(description = "Holds all information about a company type")
 public class CompanyTypeDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5837538753457547027L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the company type")
     private final String matchcode;
 
+    @ApiModelProperty(notes = "The tenants where the company type is valid")
     private Collection<String> tenants;
+    @ApiModelProperty(notes = "The label of the company type with all existing translations")
     private Map<Locale, String> labels;
+    @ApiModelProperty(notes = "The level of the company type (The smaller the level is, the higher is the importance)")
     private int level;
+    @ApiModelProperty(notes = "The flag that declares, whether contracts matter for this company type")
     private boolean contractSpecific;
+    @ApiModelProperty(notes = "The time and date when the company type was last changed")
     private LocalDateTime lastUpdate;
 
     public CompanyTypeDataDTO(@JsonProperty("matchcode") String matchcode)

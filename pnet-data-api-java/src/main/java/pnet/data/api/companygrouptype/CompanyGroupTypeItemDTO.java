@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -28,13 +30,17 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
+@ApiModel(description = "Holds basic information about a company group type")
 public class CompanyGroupTypeItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -3404509259945335365L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the company group type")
     private final String matchcode;
+    @ApiModelProperty(notes = "The label of the company group type in the requested language")
     private final String label;
+    @ApiModelProperty(notes = "The time and date when the company group type was last changed")
     private final LocalDateTime lastUpdate;
 
     public CompanyGroupTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,

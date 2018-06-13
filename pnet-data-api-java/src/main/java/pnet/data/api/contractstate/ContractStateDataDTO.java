@@ -21,6 +21,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -30,14 +32,18 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
+@ApiModel(description = "Holds all information about a contract state")
 public class ContractStateDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -2459240786345993039L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the contract state")
     private final String matchcode;
 
+    @ApiModelProperty(notes = "The label of the contract state with all existing translations")
     private Map<Locale, String> labels;
+    @ApiModelProperty(notes = "The time and date when the contract state was last changed")
     private LocalDateTime lastUpdate;
 
     public ContractStateDataDTO(@JsonProperty("matchcode") String matchcode)

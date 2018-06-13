@@ -18,7 +18,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithValidPeriod;
@@ -28,15 +31,20 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
+@ApiModel(description = "Holds minimal information about the contract type of a company")
 public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
     implements WithBrandMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 5617472922439542723L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the brand")
     private final String brandMatchcode;
+    @ApiModelProperty(notes = "The date and time from when this contract state is/was valid for the company")
     private final LocalDateTime validFrom;
+    @ApiModelProperty(notes = "The date and time till when this contract state is/was valid for the company")
     private final LocalDateTime validTo;
+    @ApiModelProperty(notes = "The flag that declares, whether the contract takes part in the KVPS or not")
     private final boolean kvps;
 
     public CompanyContractTypeLinkDTO(@JsonProperty("tenant") String tenant,
@@ -50,6 +58,20 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.kvps = kvps;
+    }
+
+    @JsonPropertyDescription("A tenant where the contract type is valid")
+    @Override
+    public String getTenant()
+    {
+        return super.getTenant();
+    }
+
+    @JsonPropertyDescription("The unique matchcode of the contract type")
+    @Override
+    public String getMatchcode()
+    {
+        return super.getMatchcode();
     }
 
     @Override

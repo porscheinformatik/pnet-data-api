@@ -22,6 +22,8 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithDescription;
@@ -36,17 +38,24 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
+@ApiModel(description = "Holds basic information about an activity")
 public class ActivityItemDTO
     implements WithMatchcode, WithLabel, WithDescription, WithTenants, WithBrandLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 156511831954172558L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the activity")
     private final String matchcode;
+    @ApiModelProperty(notes = "The label of the activity in the requested language")
     private final String label;
+    @ApiModelProperty(notes = "The description of the activity in the requested language")
     private final String description;
+    @ApiModelProperty(notes = "The tenants where the activity is valid")
     private final Collection<String> tenants;
+    @ApiModelProperty(notes = "The brands where the activity is valid")
     private final Collection<BrandLinkDTO> brands;
+    @ApiModelProperty(notes = "The time and date when the activity was last changed")
     private final LocalDateTime lastUpdate;
 
     public ActivityItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,

@@ -20,12 +20,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Holding results of a search or find operation with paging information.
  *
  * @author ham
  * @param <T> the type of item
  */
+@ApiModel(description = "Holds results of a search or find operation with paging information")
 public interface ResultPage<T> extends Iterable<T>, Serializable
 {
 
@@ -133,21 +137,25 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     /**
      * @return the number of items per page, which must not be the same a the number of items in this page.
      */
+    @ApiModelProperty(notes = "The amount of items that each page can hold")
     int getItemsPerPage();
 
     /**
      * @return the total number of items.
      */
+    @ApiModelProperty(notes = "The total amount of items that the search/find operation found")
     int getTotalNumberOfItems();
 
     /**
      * @return the index of this page, 0-based.
      */
+    @ApiModelProperty(notes = "The index of the current page (the index is 0-based)")
     int getPageIndex();
 
     /**
      * @return the total number of pages.
      */
+    @ApiModelProperty(notes = "The total amount of pages, that the search/find operation found")
     int getNumberOfPages();
 
     /**

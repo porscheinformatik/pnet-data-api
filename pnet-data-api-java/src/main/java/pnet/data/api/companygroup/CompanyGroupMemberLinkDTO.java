@@ -2,11 +2,22 @@ package pnet.data.api.companygroup;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.company.CompanyContractTypeLinkDTO;
 
+/**
+ * Holds minimal information about a company group member.
+ *
+ * @author cet
+ *
+ */
+@ApiModel(description = "Holds minimal information about a company group member")
 public class CompanyGroupMemberLinkDTO
 {
+    @ApiModelProperty(notes = "The unique matchcode of the company group type of the company group")
     private String groupType;
+    @ApiModelProperty(notes = "The unique id of the company that is in the company group")
     private Integer companyId;
 
     public CompanyGroupMemberLinkDTO(@JsonProperty("companyId") Integer companyId,

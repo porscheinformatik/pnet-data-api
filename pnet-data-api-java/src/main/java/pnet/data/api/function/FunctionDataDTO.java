@@ -22,6 +22,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.activity.ActivityLinkDTO;
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
@@ -42,22 +44,33 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
+@ApiModel(description = "Holds all information about a function")
 public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks,
     WithCompanyTypeLinks, WithContractTypeLinks, WithNumberTypeLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -3654140715367585861L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the function")
     private final String matchcode;
 
+    @ApiModelProperty(notes = "The label of the function with all existing translations")
     private Map<Locale, String> labels;
+    @ApiModelProperty(notes = "The description of the function with all existing translations")
     private Map<Locale, String> descriptions;
+    @ApiModelProperty(notes = "The tenants where the function is valid")
     private Collection<String> tenants;
+    @ApiModelProperty(notes = "The brands where the function is valid")
     private Collection<BrandLinkDTO> brands;
+    @ApiModelProperty(notes = "The company types where the function is valid")
     private Collection<CompanyTypeLinkDTO> companyTypes;
+    @ApiModelProperty(notes = "The contract types where the function is valid")
     private Collection<ContractTypeLinkDTO> contractTypes;
+    @ApiModelProperty(notes = "The contract number where the function is valid")
     private Collection<NumberTypeLinkDTO> numberTypes;
+    @ApiModelProperty(notes = "The activities the function has")
     private Collection<ActivityLinkDTO> activities;
+    @ApiModelProperty(notes = "The time and date when the function was last changed")
     private LocalDateTime lastUpdate;
 
     public FunctionDataDTO(@JsonProperty("matchcode") String matchcode)

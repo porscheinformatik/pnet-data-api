@@ -21,6 +21,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -30,15 +32,20 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
+@ApiModel(description = "Holds all information about an external brand")
 public class ExternalBrandDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5466024519780832525L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the external brand")
     private final String matchcode;
 
+    @ApiModelProperty(notes = "The unique id of the external brand")
     private String id;
+    @ApiModelProperty(notes = "The label of the external brand with all existing translations")
     private Map<Locale, String> labels;
+    @ApiModelProperty(notes = "The time and date when the external brand was last changed")
     private LocalDateTime lastUpdate;
 
     public ExternalBrandDataDTO(@JsonProperty("matchcode") String matchcode)

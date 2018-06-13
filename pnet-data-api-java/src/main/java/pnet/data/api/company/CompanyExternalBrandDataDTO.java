@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
@@ -27,16 +29,23 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
+@ApiModel(description = "Holds minimal information about an external brand of the company")
 public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -1049613870676274132L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the external brand")
     private final String matchcode;
+    @ApiModelProperty(notes = "The date and time from when this external brand is/was valid for the company")
     private final LocalDateTime validFrom;
+    @ApiModelProperty(notes = "The date and time till when this external brand is/was valid for the company")
     private final LocalDateTime validTo;
+    @ApiModelProperty(notes = "This flag declares, whether this external brand is sold by the company")
     private final boolean sales;
+    @ApiModelProperty(notes = "This flag declares, whether this external brand is serviced by the company ")
     private final boolean service;
+    @ApiModelProperty(notes = "The local flag")
     private final boolean local;
 
     public CompanyExternalBrandDataDTO(@JsonProperty("matchcode") String matchcode,

@@ -18,6 +18,8 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 
@@ -26,12 +28,15 @@ import pnet.data.api.util.WithTenant;
  *
  * @author ham
  */
+@ApiModel(description = "Holds basic information about the brand of a company")
 public class CompanyBrandItemDTO implements WithTenant, WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = 3854328576692607595L;
 
+    @ApiModelProperty(notes = "The tenant of the brand")
     private final String tenant;
+    @ApiModelProperty(notes = "The matchcode of the brand")
     private final String matchcode;
 
     public CompanyBrandItemDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)

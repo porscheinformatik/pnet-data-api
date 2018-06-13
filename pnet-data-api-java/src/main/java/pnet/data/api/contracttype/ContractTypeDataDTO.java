@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -35,17 +37,24 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
+@ApiModel(description = "Holds all information about a contract type")
 public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -1947283275602928634L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the contract type")
     private final String matchcode;
 
+    @ApiModelProperty(notes = "The label of the contract type with all existing translations")
     private Map<Locale, String> labels;
+    @ApiModelProperty(notes = "The tenants where the contract type is valid")
     private Collection<String> tenants;
+    @ApiModelProperty(notes = "The brands where the contract type is valid")
     private Collection<ContractTypeBrandLinkDTO> brands;
+    @ApiModelProperty(notes = "The type of the contract")
     private String type;
+    @ApiModelProperty(notes = "The time and date when the contract type was last changed")
     private LocalDateTime lastUpdate;
 
     public ContractTypeDataDTO(@JsonProperty("matchcode") String matchcode)

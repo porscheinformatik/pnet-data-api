@@ -21,6 +21,8 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -30,14 +32,18 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
+@ApiModel(description = "Holds all information about a company number type")
 public class CompanyNumberTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 8523314179106137587L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the company number type")
     private final String matchcode;
 
+    @ApiModelProperty(notes = "The label of the company number type with all existing translations")
     private Map<Locale, String> labels;
+    @ApiModelProperty(notes = "The time and date when the company number type was last changed")
     private LocalDateTime lastUpdate;
 
     public CompanyNumberTypeDataDTO(@JsonProperty("matchcode") String matchcode)

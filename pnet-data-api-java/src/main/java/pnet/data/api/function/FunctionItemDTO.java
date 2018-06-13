@@ -22,6 +22,8 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithDescription;
@@ -36,17 +38,24 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
+@ApiModel(description = "Holds basic information about a function")
 public class FunctionItemDTO
     implements WithMatchcode, WithTenants, WithLabel, WithDescription, WithBrandLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 8278014048912826651L;
 
+    @ApiModelProperty(notes = "The unique matchcode of the function")
     private final String matchcode;
+    @ApiModelProperty(notes = "The label of the function in the requested language")
     private final String label;
+    @ApiModelProperty(notes = "The description of the function in the requested language")
     private final String description;
+    @ApiModelProperty(notes = "The tenants where the function is valid")
     private final Collection<String> tenants;
+    @ApiModelProperty(notes = "The brands where the function is valid")
     private final Collection<BrandLinkDTO> brands;
+    @ApiModelProperty(notes = "The time and date when the function was last changed")
     private final LocalDateTime lastUpdate;
 
     public FunctionItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
