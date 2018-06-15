@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 import pnet.data.api.activity.ActivityPnetDataApiClientConfig;
+import pnet.data.api.advisor.AdvisorPnetDataApiClientConfig;
 import pnet.data.api.advisortype.AdvisorTypePnetDataApiClientConfig;
 import pnet.data.api.application.ApplicationPnetDataApiClientConfig;
 import pnet.data.api.brand.BrandPnetDataApiClientConfig;
@@ -26,6 +27,7 @@ import pnet.data.api.person.PersonPnetDataApiClientConfig;
 @Configuration
 @Import({
     ActivityPnetDataApiClientConfig.class,
+    AdvisorPnetDataApiClientConfig.class,
     AdvisorTypePnetDataApiClientConfig.class,
     ApplicationPnetDataApiClientConfig.class,
     BrandPnetDataApiClientConfig.class,
