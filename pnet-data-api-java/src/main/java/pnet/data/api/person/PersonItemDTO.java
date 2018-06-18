@@ -20,6 +20,8 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithPersonId;
 
@@ -28,19 +30,29 @@ import pnet.data.api.util.WithPersonId;
  *
  * @author ham
  */
+@ApiModel(description = "Holds basic information about a person")
 public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -481025382258675738L;
 
+    @ApiModelProperty(notes = "The unique id of the person")
     private final Integer personId;
+    @ApiModelProperty(notes = "The tenant, in which this person is administrated")
     private final String administrativeTenant;
+    @ApiModelProperty(notes = "The tenants where the person is valid")
     private final Collection<String> tenants;
+    @ApiModelProperty(notes = "The form of the adress the person prefers")
     private final FormOfAddress formOfAddress;
+    @ApiModelProperty(notes = "The academic title of the person")
     private final String academicTitle;
+    @ApiModelProperty(notes = "The first name of the person")
     private final String firstName;
+    @ApiModelProperty(notes = "The last name of the person")
     private final String lastName;
+    @ApiModelProperty(notes = "The name affix the person has")
     private final NameAffix nameAffix;
+    @ApiModelProperty(notes = "The time and date when the person was last changed")
     private final LocalDateTime lastUpdate;
 
     public PersonItemDTO(@JsonProperty("personId") Integer personId,

@@ -18,7 +18,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
@@ -30,16 +33,24 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
+@ApiModel(description = "Holds minimal information about a function the person has")
 public class PersonFunctionLinkDTO extends AbstractLinkDTO
     implements WithMatchcode, WithCompanyId, WithBrandMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
 
+    @ApiModelProperty(notes = "The id of the company the person has the function at")
     private final Integer companyId;
+    @ApiModelProperty(notes = "The matchcode of a brand the person has the function for")
     private final String brandMatchcode;
+    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company")
     private final LocalDateTime validFrom;
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company")
     private final LocalDateTime validTo;
+
+    @ApiModelProperty(
+        notes = "The flag that declares, whether this function is the main function of the person at the specific company or not")
     private final boolean mainFunction;
 
     public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
@@ -54,6 +65,20 @@ public class PersonFunctionLinkDTO extends AbstractLinkDTO
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.mainFunction = mainFunction;
+    }
+
+    @JsonPropertyDescription("A tenant where the function is valid")
+    @Override
+    public String getTenant()
+    {
+        return super.getTenant();
+    }
+
+    @JsonPropertyDescription("The unique matchcode of the function")
+    @Override
+    public String getMatchcode()
+    {
+        return super.getMatchcode();
     }
 
     @Override

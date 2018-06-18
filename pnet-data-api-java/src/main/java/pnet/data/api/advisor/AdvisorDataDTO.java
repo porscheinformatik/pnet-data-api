@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithTenant;
 
 /**
@@ -26,17 +28,25 @@ import pnet.data.api.util.WithTenant;
  *
  * @author ham
  */
+@ApiModel(description = "Holds all information about an advisor")
 public class AdvisorDataDTO implements WithTenant, Serializable
 {
 
     private static final long serialVersionUID = -5535179500060765387L;
 
+    @ApiModelProperty(notes = "A tenant where the activity is valid")
     private final String tenant;
+    @ApiModelProperty(notes = "The unique matchcode of a brand where the advisor is valid")
     private final String brandMatchcode;
+    @ApiModelProperty(notes = "The unique matchcode of an advisor type of the advisor")
     private final String advisorTypeMatchcode;
+    @ApiModelProperty(notes = "The unique matchcode of an advisor division the advisor is in")
     private final String advisorDivisionMatchcode;
+    @ApiModelProperty(notes = "The id of a company the the advisor is a advisor at")
     private final Integer companyId;
+    @ApiModelProperty(notes = "The id of the person that is the advisor")
     private final Integer personId;
+    @ApiModelProperty(notes = "The time and date when the activity was last changed")
     private final LocalDateTime lastUpdate;
 
     public AdvisorDataDTO(@JsonProperty("tenant") String tenant, @JsonProperty("brandMatchcode") String brandMatchcode,

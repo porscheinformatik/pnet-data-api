@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
@@ -26,13 +28,17 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
+@ApiModel(description = "Holds minimal information about a employment the person has/had")
 public class PersonCompanyLinkDTO implements WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 7199829304360405636L;
 
+    @ApiModelProperty(notes = "The unique id of the company the person has/had an employment at")
     private final Integer companyId;
+    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company")
     private final LocalDateTime validFrom;
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company")
     private final LocalDateTime validTo;
 
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,

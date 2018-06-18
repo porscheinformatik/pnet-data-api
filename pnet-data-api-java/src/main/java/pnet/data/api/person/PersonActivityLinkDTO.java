@@ -17,7 +17,10 @@ package pnet.data.api.person;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
@@ -28,14 +31,19 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
+@ApiModel(description = "Holds minimal information about a activity of the person")
 public class PersonActivityLinkDTO extends AbstractLinkDTO
     implements WithMatchcode, WithCompanyId, WithBrandMatchcode, Serializable
 {
 
     private static final long serialVersionUID = 4247336068734009775L;
 
+    @ApiModelProperty(notes = "The unique id of the company the person has the activity at")
     private final Integer companyId;
+    @ApiModelProperty(notes = "A unique matchcode of the brand where the activity is valid")
     private final String brandMatchcode;
+    @ApiModelProperty(
+        notes = "The flag that declares, whether this activity is assigned to the person due to a function or not")
     private final boolean dueToFunction;
 
     public PersonActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
@@ -47,6 +55,20 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
         this.companyId = companyId;
         this.brandMatchcode = brandMatchcode;
         this.dueToFunction = dueToFunction;
+    }
+
+    @JsonPropertyDescription("A tenant where the activity is valid")
+    @Override
+    public String getTenant()
+    {
+        return super.getTenant();
+    }
+
+    @JsonPropertyDescription("The unique matchcode of the activity")
+    @Override
+    public String getMatchcode()
+    {
+        return super.getMatchcode();
     }
 
     @Override

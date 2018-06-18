@@ -22,6 +22,8 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithId;
 import pnet.data.api.util.WithLastUpdate;
 
@@ -30,38 +32,66 @@ import pnet.data.api.util.WithLastUpdate;
  *
  * @author ham
  */
+@ApiModel(description = "Holds all information about a person")
 public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -2096202204327773391L;
 
+    @ApiModelProperty(notes = "The unique id of the person")
     private final Integer id;
 
+    @ApiModelProperty(notes = "The tenant, in which this person is administrated")
     private String administrativeTenant;
+    @ApiModelProperty(notes = "The tenants where the person is valid")
     private Collection<String> tenants;
+    @ApiModelProperty(notes = "The form of the adress the person prefers")
     private FormOfAddress formOfAddress;
+    @ApiModelProperty(notes = "The academic title of the person")
     private String academicTitle;
+    @ApiModelProperty(notes = "The first name of the person")
     private String firstName;
+    @ApiModelProperty(notes = "The last name of the person")
     private String lastName;
+    @ApiModelProperty(notes = "The name affix the person has")
     private NameAffix nameAffix;
+    @ApiModelProperty(notes = "The global user id of the person")
     private String guid;
+    @ApiModelProperty(notes = "The preferred user id of the person")
     private String preferredUserId;
+    @ApiModelProperty(notes = "The phone number of the person at work")
     private String phoneNumber;
+    @ApiModelProperty(notes = "The mobile phone number of the person regarding business")
     private String mobileNumber;
+    @ApiModelProperty(notes = "The fax number of the person at work")
     private String faxNumber;
+    @ApiModelProperty(notes = "The business email of the person")
     private String email;
+    @ApiModelProperty(notes = "The id of the company the person is mainly busy at")
     private Integer contactCompanyId;
+    @ApiModelProperty(notes = "The cost center of the person")
     private String costCenter;
+    @ApiModelProperty(notes = "The personnel number of the person")
     private String personnelNumber;
+    @ApiModelProperty(notes = "The personnel number of the supervisor of the person")
     private String supervisorPersonnelNumber;
+    @ApiModelProperty(notes = "The controlling area the person belongs to")
     private String controllingArea;
+    @ApiModelProperty(notes = "The personnel department the person belongs to")
     private String personnelDepartment;
+    @ApiModelProperty(notes = "The description of the job the person mainly does")
     private String jobDescription;
+    @ApiModelProperty(notes = "The companies the person has employments at")
     private Collection<PersonCompanyLinkDTO> companies;
+    @ApiModelProperty(notes = "The number types the person has at specific companies")
     private Collection<PersonNumberTypeLinkDTO> numbers;
+    @ApiModelProperty(notes = "The functions the person has at specific companies")
     private Collection<PersonFunctionLinkDTO> functions;
+    @ApiModelProperty(notes = "The activities the person has at specific companies")
     private Collection<PersonActivityLinkDTO> activities;
+    @ApiModelProperty(notes = "The checksum of all data of a person, which is needed to detect changes")
     private String checksum;
+    @ApiModelProperty(notes = "The time and date when the person was last changed")
     private LocalDateTime lastUpdate;
 
     public PersonDataDTO(@JsonProperty("id") Integer id)

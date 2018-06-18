@@ -18,7 +18,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithMatchcode;
@@ -29,15 +32,20 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
+@ApiModel(description = "Holds minimal information about a person")
 public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
     implements WithMatchcode, WithCompanyId, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -3446430282367218468L;
 
+    @ApiModelProperty(notes = "The id of the company the person has the number at")
     private final Integer companyId;
+    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company")
     private final LocalDateTime validFrom;
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company")
     private final LocalDateTime validTo;
+    @ApiModelProperty(notes = "The actual number, that fits the number type")
     private final String number;
 
     public PersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
@@ -51,6 +59,23 @@ public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
         this.validTo = validTo;
         this.number = number;
     }
+    
+    
+    @JsonPropertyDescription("A tenant where the number type is valid")
+    @Override
+    public String getTenant()
+    {
+        return super.getTenant();
+    }
+
+    @JsonPropertyDescription("The unique matchcode of the number type")
+    @Override
+    public String getMatchcode()
+    {
+        return super.getMatchcode();
+    }
+
+
 
     @Override
     public Integer getCompanyId()
