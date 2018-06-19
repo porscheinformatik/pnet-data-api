@@ -12,7 +12,7 @@ import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
  * Find class for {@link AdvisorTypeItemDTO}s
- * 
+ *
  * @author cet
  */
 public class AdvisorTypeDataFind extends AbstractFind<AdvisorTypeItemDTO, AdvisorTypeDataFind>

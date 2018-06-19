@@ -7,12 +7,11 @@ import org.springframework.context.annotation.Import;
 import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 
 /**
-<<<<<<< Updated upstream
- * Configuration for {@link NumberTypeDataClient}.
-=======
+ * <<<<<<< Updated upstream Configuration for {@link NumberTypeDataClient}. =======
+ * 
  * @author cet
  *
->>>>>>> Stashed changes
+ *         >>>>>>> Stashed changes
  */
 @Configuration
 @ComponentScan(basePackageClasses = {NumberTypePnetDataApiClientConfig.class})

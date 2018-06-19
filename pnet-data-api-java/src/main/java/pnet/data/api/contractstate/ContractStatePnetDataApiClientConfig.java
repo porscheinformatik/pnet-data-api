@@ -8,7 +8,7 @@ import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 
 /**
  * Client for ContractState.
- * 
+ *
  * @author cet
  */
 @Configuration

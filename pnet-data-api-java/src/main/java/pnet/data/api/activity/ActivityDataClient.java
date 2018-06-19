@@ -6,8 +6,10 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 
 import at.porscheinformatik.happyrest.GenericType;
+import pnet.data.api.PnetDataApiAccessException;
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
@@ -52,9 +54,13 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
             return resultPage;
         }
+        catch (ResourceAccessException e)
+        {
+            throw new PnetDataApiAccessException(e);
+        }
         catch (HttpServerErrorException e)
         {
-            throw new PnetDataApiServerException("Request failed", e);
+            throw new PnetDataApiServerException(e);
         }
         catch (Exception | Error e)
         {
@@ -86,9 +92,13 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
             return resultPage;
         }
+        catch (ResourceAccessException e)
+        {
+            throw new PnetDataApiAccessException(e);
+        }
         catch (HttpServerErrorException e)
         {
-            throw new PnetDataApiServerException("Request failed", e);
+            throw new PnetDataApiServerException(e);
         }
         catch (Exception | Error e)
         {
@@ -119,9 +129,13 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
             return resultPage;
         }
+        catch (ResourceAccessException e)
+        {
+            throw new PnetDataApiAccessException(e);
+        }
         catch (HttpServerErrorException e)
         {
-            throw new PnetDataApiServerException("Request failed", e);
+            throw new PnetDataApiServerException(e);
         }
         catch (Exception | Error e)
         {

@@ -19,7 +19,7 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     protected AbstractPnetDataApiContext(ObjectMapper mapper, PnetDataApiTokenRepository repository)
     {
         super();
-        
+
         this.mapper = mapper;
         this.repository = repository;
     }

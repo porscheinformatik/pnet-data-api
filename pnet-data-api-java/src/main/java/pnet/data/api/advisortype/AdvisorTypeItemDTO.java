@@ -36,7 +36,7 @@ public class AdvisorTypeItemDTO implements WithMatchcode, WithLabel, WithDescrip
 {
 
     private static final long serialVersionUID = -5385814018859561810L;
-    
+
     @ApiModelProperty(notes = "The unique matchcode of the advisor type")
     private final String matchcode;
     @ApiModelProperty(notes = "The label of the advisor type in the requested language")

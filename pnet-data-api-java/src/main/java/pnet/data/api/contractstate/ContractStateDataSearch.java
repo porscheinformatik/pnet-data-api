@@ -9,12 +9,11 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
 /**
-<<<<<<< Updated upstream
- * Search interface for {@link ContractStateDataClient}.
-=======
+ * <<<<<<< Updated upstream Search interface for {@link ContractStateDataClient}. =======
+ * 
  * @author cet
  *
->>>>>>> Stashed changes
+ *         >>>>>>> Stashed changes
  */
 public class ContractStateDataSearch extends AbstractSearch<ContractStateItemDTO, ContractStateDataSearch>
 {

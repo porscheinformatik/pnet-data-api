@@ -14,7 +14,7 @@ public interface PnetDataApiContext
 {
 
     ObjectMapper getMapper();
-    
+
     PnetDataApiContext withUrl(String url);
 
     PnetDataApiContext withTenant(String tenant);

@@ -59,8 +59,7 @@ public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
         this.validTo = validTo;
         this.number = number;
     }
-    
-    
+
     @JsonPropertyDescription("A tenant where the number type is valid")
     @Override
     public String getTenant()
@@ -74,8 +73,6 @@ public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
     {
         return super.getMatchcode();
     }
-
-
 
     @Override
     public Integer getCompanyId()
