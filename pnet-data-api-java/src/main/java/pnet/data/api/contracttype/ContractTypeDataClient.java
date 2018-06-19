@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -34,18 +36,29 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
     public PnetDataClientResultPage<ContractTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<ContractTypeDataDTO> resultPage = createRestCall() //
-            .parameters("mc", matchcodes)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/contracttypes/details",
-                new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeDataDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<ContractTypeDataDTO> resultPage = createRestCall() //
+                .parameters("mc", matchcodes)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/contracttypes/details",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeDataDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
     public ContractTypeDataSearch search()
@@ -56,20 +69,31 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
     protected PnetDataClientResultPage<ContractTypeItemDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = createRestCall()
-            .parameter("l", language)
-            .parameter("q", query)
-            .parameters(restricts)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/contracttypes/search",
-                new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = createRestCall()
+                .parameter("l", language)
+                .parameter("q", query)
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/contracttypes/search",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
     public ContractTypeDataFind find()
@@ -80,18 +104,29 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
     protected PnetDataClientResultPage<ContractTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
         int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = createRestCall()
-            .parameters(restricts)
-            .parameter("l", language)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/contracttypes/find",
-                new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = createRestCall()
+                .parameters(restricts)
+                .parameter("l", language)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/contracttypes/find",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 }

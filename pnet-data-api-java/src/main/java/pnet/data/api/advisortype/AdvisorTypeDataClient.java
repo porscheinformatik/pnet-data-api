@@ -5,9 +5,11 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -17,7 +19,7 @@ import pnet.data.api.util.Pair;
 
 /**
  * Data-API client for {@link AdvisorTypeDataDTO}s.
- * 
+ *
  * @author cet
  */
 @Service
@@ -35,18 +37,29 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
     public PnetDataClientResultPage<AdvisorTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<AdvisorTypeDataDTO> resultPage = createRestCall() //
-            .parameters("mc", matchcodes)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/advisortypes/details",
-                new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeDataDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<AdvisorTypeDataDTO> resultPage = createRestCall() //
+                .parameters("mc", matchcodes)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/advisortypes/details",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeDataDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
     public AdvisorTypeDataSearch search()
@@ -57,20 +70,31 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
     protected PnetDataClientResultPage<AdvisorTypeItemDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<AdvisorTypeItemDTO> resultPage = createRestCall()
-            .parameter("l", language)
-            .parameter("q", query)
-            .parameters(restricts)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/advisortypes/search",
-                new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<AdvisorTypeItemDTO> resultPage = createRestCall()
+                .parameter("l", language)
+                .parameter("q", query)
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/advisortypes/search",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
     public AdvisorTypeDataFind find()
@@ -83,18 +107,30 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
         find(Locale language, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
             throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<AdvisorTypeItemDTO> resultPage = createRestCall()
-            .parameters(restricts)
-            .parameter("l", language)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/advisortypes/find", new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
-            {
-            });
+        try
+        {
+            DefaultPnetDataClientResultPage<AdvisorTypeItemDTO> resultPage = createRestCall()
+                .parameters(restricts)
+                .parameter("l", language)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/advisortypes/find",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
 }

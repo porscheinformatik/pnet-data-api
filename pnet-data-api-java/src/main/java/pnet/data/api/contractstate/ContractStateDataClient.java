@@ -5,9 +5,11 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -17,7 +19,7 @@ import pnet.data.api.util.Pair;
 
 /**
  * Data-API client for {@link ContractStateDataDTO}s.
- * 
+ *
  * @author cet
  */
 @Service
@@ -35,18 +37,29 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
     public PnetDataClientResultPage<ContractStateDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<ContractStateDataDTO> resultPage = createRestCall() //
-            .parameters("mc", matchcodes)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/contractstates/details",
-                new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateDataDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<ContractStateDataDTO> resultPage = createRestCall() //
+                .parameters("mc", matchcodes)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/contractstates/details",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateDataDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
     public ContractStateDataSearch search()
@@ -57,20 +70,31 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
     protected PnetDataClientResultPage<ContractStateItemDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<ContractStateItemDTO> resultPage = createRestCall()
-            .parameter("l", language)
-            .parameter("q", query)
-            .parameters(restricts)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/contractstates/search",
-                new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<ContractStateItemDTO> resultPage = createRestCall()
+                .parameter("l", language)
+                .parameter("q", query)
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/contractstates/search",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
     public ContractStateDataFind find()
@@ -81,18 +105,29 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
     protected PnetDataClientResultPage<ContractStateItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
         int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<ContractStateItemDTO> resultPage = createRestCall()
-            .parameters(restricts)
-            .parameter("l", language)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/contractstates/find",
-                new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<ContractStateItemDTO> resultPage = createRestCall()
+                .parameters(restricts)
+                .parameter("l", language)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/contractstates/find",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 }

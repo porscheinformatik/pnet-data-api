@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -16,7 +18,7 @@ import pnet.data.api.util.Pair;
 
 /**
  * Data-API client for {@link CompanyNumberTypeDataDTO}s.
- * 
+ *
  * @author cet
  */
 @Service
@@ -33,18 +35,29 @@ public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<Compa
     public PnetDataClientResultPage<CompanyNumberTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO> resultPage = createRestCall() //
-            .parameters("mc", matchcodes)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/companynumbertypes/details",
-                new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO> resultPage = createRestCall() //
+                .parameters("mc", matchcodes)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/companynumbertypes/details",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
     public CompanyNumberTypeDataSearch search()
@@ -55,20 +68,31 @@ public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<Compa
     protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO> resultPage = createRestCall()
-            .parameter("l", language)
-            .parameter("q", query)
-            .parameters(restricts)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/companynumbertypes/search",
-                new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO> resultPage = createRestCall()
+                .parameter("l", language)
+                .parameter("q", query)
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/companynumbertypes/search",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 
     public CompanyNumberTypeDataFind find()
@@ -79,18 +103,29 @@ public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<Compa
     protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> find(Locale language,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO> resultPage = createRestCall()
-            .parameters(restricts)
-            .parameter("l", language)
-            .parameter("p", pageIndex)
-            .parameter("pp", itemsPerPage)
-            .get("/api/v1/companynumbertypes/find",
-                new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO>>()
-                {
-                });
+        try
+        {
+            DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO> resultPage = createRestCall()
+                .parameters(restricts)
+                .parameter("l", language)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/companynumbertypes/find",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO>>()
+                    {
+                    });
 
-        resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
-        return resultPage;
+            return resultPage;
+        }
+        catch (HttpServerErrorException e)
+        {
+            throw new PnetDataApiServerException("Request failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataApiException("Unhandled exception", e);
+        }
     }
 }
