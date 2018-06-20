@@ -6,7 +6,8 @@
     "scripts": {
         "start": "webpack-dev-server --mode development --open",
         "build": "webpack --mode production",
-        "deploy": "npm run webpack & cd dist & git add --all & git commit -m \"Updates gh-pages\" & git pull --rebase & git push & cd .."
+        "deploy": "npm run webpack & cd dist & git add --all & git commit -m \"Updates gh-pages\" & git pull --rebase & git push & cd ..",
+        "init": "git submodule update"
     },
     "repository": {
         "type": "git",
