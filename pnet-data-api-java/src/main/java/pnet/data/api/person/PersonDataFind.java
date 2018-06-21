@@ -20,18 +20,19 @@ import pnet.data.api.util.RestrictPersonnelNumber;
 import pnet.data.api.util.RestrictPreferredUserId;
 import pnet.data.api.util.RestrictSupervisorPersonnelNumber;
 import pnet.data.api.util.RestrictTenant;
+import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
  * Find interface for persons.
  *
  * @author ham
  */
-public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind>
-    implements RestrictId<PersonDataFind>, RestrictTenant<PersonDataFind>, RestrictGuid<PersonDataFind>,
-    RestrictPreferredUserId<PersonDataFind>, RestrictEmail<PersonDataFind>, RestrictCostCenter<PersonDataFind>,
-    RestrictPersonnelNumber<PersonDataFind>, RestrictSupervisorPersonnelNumber<PersonDataFind>,
-    RestrictControllingArea<PersonDataFind>, RestrictPersonnelDepartment<PersonDataFind>,
-    RestrictCompanyId<PersonDataFind>, RestrictFunction<PersonDataFind>, RestrictActivity<PersonDataFind>
+public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind> implements RestrictId<PersonDataFind>,
+    RestrictTenant<PersonDataFind>, RestrictGuid<PersonDataFind>, RestrictPreferredUserId<PersonDataFind>,
+    RestrictEmail<PersonDataFind>, RestrictCostCenter<PersonDataFind>, RestrictPersonnelNumber<PersonDataFind>,
+    RestrictSupervisorPersonnelNumber<PersonDataFind>, RestrictControllingArea<PersonDataFind>,
+    RestrictPersonnelDepartment<PersonDataFind>, RestrictCompanyId<PersonDataFind>, RestrictFunction<PersonDataFind>,
+    RestrictActivity<PersonDataFind>, RestrictUpdatedAfter<PersonDataFind>
 {
 
     public PersonDataFind(ObjectMapper mapper, FindFunction<PersonItemDTO> findFunction,
