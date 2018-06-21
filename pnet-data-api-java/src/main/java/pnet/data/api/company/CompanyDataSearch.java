@@ -2,8 +2,6 @@ package pnet.data.api.company;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBrand;
@@ -26,9 +24,8 @@ public class CompanyDataSearch extends AbstractSearch<CompanyItemDTO, CompanyDat
     RestrictLocation<CompanyDataSearch>, RestrictHeadquarter<CompanyDataSearch>
 {
 
-    public CompanyDataSearch(ObjectMapper mapper, SearchFunction<CompanyItemDTO> searchFunction,
-        List<Pair<String, Object>> restricts)
+    public CompanyDataSearch(SearchFunction<CompanyItemDTO> searchFunction, List<Pair<String, Object>> restricts)
     {
-        super(mapper, searchFunction, restricts);
+        super(searchFunction, restricts);
     }
 }

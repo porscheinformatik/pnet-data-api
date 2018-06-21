@@ -2,8 +2,6 @@ package pnet.data.api.company;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.contracttype.ContractTypeItemDTO;
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
@@ -21,10 +19,9 @@ public class ContractTypeDataFind extends AbstractFind<ContractTypeItemDTO, Cont
     RestrictUpdatedAfter<ContractTypeDataFind>
 {
 
-    public ContractTypeDataFind(ObjectMapper mapper, FindFunction<ContractTypeItemDTO> findFunction,
-        List<Pair<String, Object>> restricts)
+    public ContractTypeDataFind(FindFunction<ContractTypeItemDTO> findFunction, List<Pair<String, Object>> restricts)
     {
-        super(mapper, findFunction, restricts);
+        super(findFunction, restricts);
     }
 
 }

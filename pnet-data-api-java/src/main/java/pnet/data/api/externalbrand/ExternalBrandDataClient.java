@@ -70,7 +70,7 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
 
     public ExternalBrandDataSearch search()
     {
-        return new ExternalBrandDataSearch(getMapper(), this::search, null);
+        return new ExternalBrandDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<ExternalBrandItemDTO> search(Locale language, String query,
@@ -109,7 +109,7 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
 
     public ExternalBrandDataFind find()
     {
-        return new ExternalBrandDataFind(getMapper(), this::find, null);
+        return new ExternalBrandDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<ExternalBrandItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

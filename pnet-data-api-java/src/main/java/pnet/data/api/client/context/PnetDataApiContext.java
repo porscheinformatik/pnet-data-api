@@ -1,7 +1,5 @@
 package pnet.data.api.client.context;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import at.porscheinformatik.happyrest.RestCall;
 import pnet.data.api.client.PnetDataClientLoginException;
 
@@ -12,8 +10,6 @@ import pnet.data.api.client.PnetDataClientLoginException;
  */
 public interface PnetDataApiContext
 {
-
-    ObjectMapper getMapper();
 
     PnetDataApiContext withUrl(String url);
 

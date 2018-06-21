@@ -8,7 +8,7 @@ import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 
 /**
  * <<<<<<< Updated upstream Configuration for {@link NumberTypeDataClient}. =======
- * 
+ *
  * @author cet
  *
  *         >>>>>>> Stashed changes

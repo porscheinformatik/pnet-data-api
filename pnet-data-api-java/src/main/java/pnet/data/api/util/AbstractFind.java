@@ -5,8 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Locale;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.PnetDataApiException;
 import pnet.data.api.client.PnetDataClientResultPage;
 
@@ -23,21 +21,21 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> ex
 
     private final FindFunction<DTO> findFunction;
 
-    protected AbstractFind(ObjectMapper mapper, FindFunction<DTO> findFunction, List<Pair<String, Object>> restricts)
+    protected AbstractFind(FindFunction<DTO> findFunction, List<Pair<String, Object>> restricts)
     {
-        super(mapper, restricts);
+        super(restricts);
 
         this.findFunction = findFunction;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected SELF newInstance(ObjectMapper mapper, List<Pair<String, Object>> restricts)
+    protected SELF newInstance(List<Pair<String, Object>> restricts)
     {
         Constructor<?> constructor;
         try
         {
-            constructor = getClass().getConstructor(ObjectMapper.class, FindFunction.class, List.class);
+            constructor = getClass().getConstructor(FindFunction.class, List.class);
         }
         catch (NoSuchMethodException | SecurityException e)
         {
@@ -46,7 +44,7 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> ex
 
         try
         {
-            return (SELF) constructor.newInstance(getMapper(), findFunction, restricts);
+            return (SELF) constructor.newInstance(findFunction, restricts);
         }
         catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
         {

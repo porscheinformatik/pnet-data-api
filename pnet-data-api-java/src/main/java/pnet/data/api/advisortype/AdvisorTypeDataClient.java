@@ -70,7 +70,7 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
 
     public AdvisorTypeDataSearch search()
     {
-        return new AdvisorTypeDataSearch(getMapper(), this::search, null);
+        return new AdvisorTypeDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<AdvisorTypeItemDTO> search(Locale language, String query,
@@ -109,7 +109,7 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
 
     public AdvisorTypeDataFind find()
     {
-        return new AdvisorTypeDataFind(getMapper(), this::find, null);
+        return new AdvisorTypeDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<AdvisorTypeItemDTO>

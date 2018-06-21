@@ -2,8 +2,6 @@ package pnet.data.api.activity;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBrand;
@@ -22,10 +20,9 @@ public class ActivityDataSearch extends AbstractSearch<ActivityItemDTO, Activity
     RestrictCompanyType<ActivityDataSearch>, RestrictContractType<ActivityDataSearch>
 {
 
-    public ActivityDataSearch(ObjectMapper mapper, SearchFunction<ActivityItemDTO> searchFunction,
-        List<Pair<String, Object>> restricts)
+    public ActivityDataSearch(SearchFunction<ActivityItemDTO> searchFunction, List<Pair<String, Object>> restricts)
     {
-        super(mapper, searchFunction, restricts);
+        super(searchFunction, restricts);
     }
 
 }

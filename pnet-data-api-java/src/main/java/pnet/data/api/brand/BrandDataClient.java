@@ -68,7 +68,7 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient> 
 
     public BrandDataSearch search()
     {
-        return new BrandDataSearch(getMapper(), this::search, null);
+        return new BrandDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<BrandItemDTO>
@@ -108,7 +108,7 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient> 
 
     public BrandDataFind find()
     {
-        return new BrandDataFind(getMapper(), this::find, null);
+        return new BrandDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<BrandItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

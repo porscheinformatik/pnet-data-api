@@ -70,7 +70,7 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
     public ActivityDataSearch search()
     {
-        return new ActivityDataSearch(getMapper(), this::search, null);
+        return new ActivityDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<ActivityItemDTO> search(Locale language, String query,
@@ -108,7 +108,7 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
     public ActivityDataFind find()
     {
-        return new ActivityDataFind(getMapper(), this::find, null);
+        return new ActivityDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<ActivityItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

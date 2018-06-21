@@ -1,7 +1,5 @@
 package pnet.data.api.client.context;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import at.porscheinformatik.happyrest.RestCall;
 import pnet.data.api.client.PnetDataClientLoginException;
 
@@ -13,21 +11,13 @@ import pnet.data.api.client.PnetDataClientLoginException;
 public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
 {
 
-    private final ObjectMapper mapper;
     private final PnetDataApiTokenRepository repository;
 
-    protected AbstractPnetDataApiContext(ObjectMapper mapper, PnetDataApiTokenRepository repository)
+    protected AbstractPnetDataApiContext(PnetDataApiTokenRepository repository)
     {
         super();
 
-        this.mapper = mapper;
         this.repository = repository;
-    }
-
-    @Override
-    public ObjectMapper getMapper()
-    {
-        return mapper;
     }
 
     protected abstract PnetDataApiTokenKey getKey();
@@ -37,7 +27,7 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     {
         PnetDataApiTokenKey key = getKey();
 
-        return new DefaultPnetDataApiContext(mapper, repository,
+        return new DefaultPnetDataApiContext(repository,
             new PnetDataApiTokenKey(url, key.getTenant(), key.getUsername(), key.getPassword()));
     }
 
@@ -46,7 +36,7 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     {
         PnetDataApiTokenKey key = getKey();
 
-        return new DefaultPnetDataApiContext(mapper, repository,
+        return new DefaultPnetDataApiContext(repository,
             new PnetDataApiTokenKey(key.getUrl(), tenant, key.getUsername(), key.getPassword()));
     }
 
@@ -55,7 +45,7 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     {
         PnetDataApiTokenKey key = getKey();
 
-        return new DefaultPnetDataApiContext(mapper, repository,
+        return new DefaultPnetDataApiContext(repository,
             new PnetDataApiTokenKey(key.getUrl(), key.getTenant(), username, password));
     }
 

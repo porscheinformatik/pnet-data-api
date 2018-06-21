@@ -2,8 +2,6 @@ package pnet.data.api.advisortype;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
@@ -19,10 +17,9 @@ public class AdvisorTypeDataFind extends AbstractFind<AdvisorTypeItemDTO, Adviso
     implements RestrictMatchcode<AdvisorTypeDataFind>, RestrictUpdatedAfter<AdvisorTypeDataFind>
 {
 
-    public AdvisorTypeDataFind(ObjectMapper mapper, FindFunction<AdvisorTypeItemDTO> findFunction,
-        List<Pair<String, Object>> restricts)
+    public AdvisorTypeDataFind(FindFunction<AdvisorTypeItemDTO> findFunction, List<Pair<String, Object>> restricts)
     {
-        super(mapper, findFunction, restricts);
+        super(findFunction, restricts);
     }
 
 }

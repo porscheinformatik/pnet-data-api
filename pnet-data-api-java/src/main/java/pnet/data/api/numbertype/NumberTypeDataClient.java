@@ -70,7 +70,7 @@ public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDa
 
     public NumberTypeDataSearch search()
     {
-        return new NumberTypeDataSearch(getMapper(), this::search, null);
+        return new NumberTypeDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<NumberTypeItemDTO> search(Locale language, String query,
@@ -109,7 +109,7 @@ public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDa
 
     public NumberTypeDataFind find()
     {
-        return new NumberTypeDataFind(getMapper(), this::find, null);
+        return new NumberTypeDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<NumberTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

@@ -2,8 +2,6 @@ package pnet.data.api.function;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
@@ -24,9 +22,8 @@ public class FunctionDataSearch extends AbstractSearch<FunctionItemDTO, Function
     RestrictCompanyType<FunctionDataSearch>, RestrictContractType<FunctionDataSearch>,
     RestrictActivity<FunctionDataSearch>, RestrictNumberType<FunctionDataSearch>
 {
-    public FunctionDataSearch(ObjectMapper mapper, SearchFunction<FunctionItemDTO> searchFunction,
-        List<Pair<String, Object>> restricts)
+    public FunctionDataSearch(SearchFunction<FunctionItemDTO> searchFunction, List<Pair<String, Object>> restricts)
     {
-        super(mapper, searchFunction, restricts);
+        super(searchFunction, restricts);
     }
 }

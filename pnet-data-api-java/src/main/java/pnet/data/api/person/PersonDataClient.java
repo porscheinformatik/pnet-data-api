@@ -128,7 +128,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
 
     public PersonDataSearch search()
     {
-        return new PersonDataSearch(getMapper(), this::search, null);
+        return new PersonDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<PersonItemDTO> search(Locale language, String query,
@@ -166,7 +166,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
 
     public PersonDataFind find()
     {
-        return new PersonDataFind(getMapper(), this::find, null);
+        return new PersonDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<PersonItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

@@ -69,7 +69,7 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
 
     public ContractTypeDataSearch search()
     {
-        return new ContractTypeDataSearch(getMapper(), this::search, null);
+        return new ContractTypeDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<ContractTypeItemDTO> search(Locale language, String query,
@@ -108,7 +108,7 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
 
     public ContractTypeDataFind find()
     {
-        return new ContractTypeDataFind(getMapper(), this::find, null);
+        return new ContractTypeDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<ContractTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

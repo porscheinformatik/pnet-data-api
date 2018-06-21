@@ -67,7 +67,7 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
 
     public FunctionDataSearch search()
     {
-        return new FunctionDataSearch(getMapper(), this::search, null);
+        return new FunctionDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<FunctionItemDTO> search(Locale language, String query,
@@ -105,7 +105,7 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
 
     public FunctionDataFind find()
     {
-        return new FunctionDataFind(getMapper(), this::find, null);
+        return new FunctionDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<FunctionItemDTO>

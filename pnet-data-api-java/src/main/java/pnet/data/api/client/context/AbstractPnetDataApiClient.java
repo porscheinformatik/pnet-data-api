@@ -3,8 +3,6 @@ package pnet.data.api.client.context;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import at.porscheinformatik.happyrest.RestCall;
 import pnet.data.api.client.PnetDataClientLoginException;
 
@@ -71,11 +69,6 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
     protected RestCall createRestCall() throws PnetDataClientLoginException
     {
         return context.createRestCall();
-    }
-
-    protected ObjectMapper getMapper()
-    {
-        return context.getMapper();
     }
 
 }

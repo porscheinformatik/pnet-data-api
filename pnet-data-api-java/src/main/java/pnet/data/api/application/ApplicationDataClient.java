@@ -68,7 +68,7 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
 
     public ApplicationDataSearch search()
     {
-        return new ApplicationDataSearch(getMapper(), this::search, null);
+        return new ApplicationDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<ApplicationItemDTO> search(Locale language, String query,
@@ -107,7 +107,7 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
 
     public ApplicationDataFind find()
     {
-        return new ApplicationDataFind(getMapper(), this::find, null);
+        return new ApplicationDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<ApplicationItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

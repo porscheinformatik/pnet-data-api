@@ -70,7 +70,7 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
 
     public CompanyTypeDataSearch search()
     {
-        return new CompanyTypeDataSearch(getMapper(), this::search, null);
+        return new CompanyTypeDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<CompanyTypeItemDTO> search(Locale language, String query,
@@ -109,7 +109,7 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
 
     public CompanyTypeDataFind find()
     {
-        return new CompanyTypeDataFind(getMapper(), this::find, null);
+        return new CompanyTypeDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<CompanyTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

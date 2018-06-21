@@ -70,7 +70,7 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
 
     public ContractStateDataSearch search()
     {
-        return new ContractStateDataSearch(getMapper(), this::search, null);
+        return new ContractStateDataSearch(this::search, null);
     }
 
     protected PnetDataClientResultPage<ContractStateItemDTO> search(Locale language, String query,
@@ -109,7 +109,7 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
 
     public ContractStateDataFind find()
     {
-        return new ContractStateDataFind(getMapper(), this::find, null);
+        return new ContractStateDataFind(this::find, null);
     }
 
     protected PnetDataClientResultPage<ContractStateItemDTO> find(Locale language, List<Pair<String, Object>> restricts,

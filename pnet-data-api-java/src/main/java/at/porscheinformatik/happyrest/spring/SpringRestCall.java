@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,7 @@ import org.springframework.web.util.UriBuilder;
 import at.porscheinformatik.happyrest.AbstractRestCall;
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestAttribute;
+import at.porscheinformatik.happyrest.RestAttributeConverter;
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestHeader;
 import at.porscheinformatik.happyrest.RestMethod;
@@ -44,29 +46,29 @@ public class SpringRestCall extends AbstractRestCall
 
     private final RestTemplate restTemplate;
 
-    protected SpringRestCall(RestTemplate restTemplate)
+    protected SpringRestCall(RestTemplate restTemplate, ConversionService conversionService)
     {
-        this(restTemplate, null, null, null, null, null);
+        this(restTemplate, null, null, null, null, toConverter(conversionService), null);
     }
 
-    protected SpringRestCall(RestTemplate restTemplate, String url)
+    protected SpringRestCall(RestTemplate restTemplate, ConversionService conversionService, String url)
     {
-        this(restTemplate, url, null, null, null, null);
+        this(restTemplate, url, null, null, null, toConverter(conversionService), null);
     }
 
     protected SpringRestCall(RestTemplate restTemplate, String url, List<String> acceptableMediaTypes,
-        String contentType, List<RestAttribute> attributes, Object body)
+        String contentType, List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
     {
-        super(url, acceptableMediaTypes, contentType, attributes, body);
+        super(url, acceptableMediaTypes, contentType, attributes, converter, body);
 
         this.restTemplate = restTemplate;
     }
 
     @Override
     protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
-        List<RestAttribute> attributes, Object body)
+        List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
     {
-        return new SpringRestCall(restTemplate, url, acceptableMediaTypes, contentType, attributes, body);
+        return new SpringRestCall(restTemplate, url, acceptableMediaTypes, contentType, attributes, converter, body);
     }
 
     @Override
@@ -171,17 +173,18 @@ public class SpringRestCall extends AbstractRestCall
             for (RestAttribute attribute : attributes)
             {
                 Object value = attribute.getValue();
+
+                if (value == null)
+                {
+                    continue;
+                }
+
                 String name = attribute.getName();
 
                 if (attribute instanceof RestHeader)
                 {
-                    headers.add(name, (String) attribute.getValue());
+                    headers.add(name, convert(value));
 
-                    continue;
-                }
-
-                if (value == null)
-                {
                     continue;
                 }
 
@@ -191,7 +194,7 @@ public class SpringRestCall extends AbstractRestCall
                     {
                         for (int i = 0; i < Array.getLength(value); i++)
                         {
-                            queryParam(builder, variables, name, id++, Array.get(value, i));
+                            queryParam(builder, variables, name, id++, convert(Array.get(value, i)));
                         }
                     }
                     else if (value instanceof Iterable<?>)
@@ -200,12 +203,12 @@ public class SpringRestCall extends AbstractRestCall
 
                         while (iterator.hasNext())
                         {
-                            queryParam(builder, variables, name, id++, iterator.next());
+                            queryParam(builder, variables, name, id++, convert(iterator.next()));
                         }
                     }
                     else
                     {
-                        queryParam(builder, variables, name, id++, value);
+                        queryParam(builder, variables, name, id++, convert(value));
                     }
 
                     continue;
@@ -213,7 +216,7 @@ public class SpringRestCall extends AbstractRestCall
 
                 if (attribute instanceof RestVariable)
                 {
-                    variables.put(name, value);
+                    variables.put(name, convert(value));
 
                     continue;
                 }
@@ -238,6 +241,12 @@ public class SpringRestCall extends AbstractRestCall
 
         builder.queryParam(name, "{" + key + "}");
         variables.put(key, value);
+    }
+
+    protected static RestAttributeConverter toConverter(ConversionService conversionService)
+    {
+        return conversionService != null ? value -> conversionService.convert(value, String.class)
+            : value -> String.valueOf(value);
     }
 
 }

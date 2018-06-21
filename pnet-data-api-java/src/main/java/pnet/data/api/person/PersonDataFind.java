@@ -2,8 +2,6 @@ package pnet.data.api.person;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
@@ -35,10 +33,9 @@ public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind> 
     RestrictActivity<PersonDataFind>, RestrictUpdatedAfter<PersonDataFind>
 {
 
-    public PersonDataFind(ObjectMapper mapper, FindFunction<PersonItemDTO> findFunction,
-        List<Pair<String, Object>> restrictItems)
+    public PersonDataFind(FindFunction<PersonItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
     {
-        super(mapper, findFunction, restrictItems);
+        super(findFunction, restrictItems);
     }
 
 }

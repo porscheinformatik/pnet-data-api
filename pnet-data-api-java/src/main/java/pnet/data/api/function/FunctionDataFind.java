@@ -2,8 +2,6 @@ package pnet.data.api.function;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
@@ -25,9 +23,8 @@ public class FunctionDataFind extends AbstractFind<FunctionItemDTO, FunctionData
     RestrictCompanyType<FunctionDataFind>, RestrictContractType<FunctionDataFind>, RestrictActivity<FunctionDataFind>,
     RestrictNumberType<FunctionDataFind>
 {
-    public FunctionDataFind(ObjectMapper mapper, FindFunction<FunctionItemDTO> findFunction,
-        List<Pair<String, Object>> restricts)
+    public FunctionDataFind(FindFunction<FunctionItemDTO> findFunction, List<Pair<String, Object>> restricts)
     {
-        super(mapper, findFunction, restricts);
+        super(findFunction, restricts);
     }
 }

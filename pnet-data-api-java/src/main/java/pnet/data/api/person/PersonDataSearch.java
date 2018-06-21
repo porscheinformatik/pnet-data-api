@@ -2,8 +2,6 @@ package pnet.data.api.person;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pnet.data.api.util.AbstractSearch;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
@@ -22,10 +20,9 @@ public class PersonDataSearch extends AbstractSearch<PersonItemDTO, PersonDataSe
     RestrictFunction<PersonDataSearch>, RestrictActivity<PersonDataSearch>
 {
 
-    public PersonDataSearch(ObjectMapper mapper, SearchFunction<PersonItemDTO> searchFunction,
-        List<Pair<String, Object>> restrictItems)
+    public PersonDataSearch(SearchFunction<PersonItemDTO> searchFunction, List<Pair<String, Object>> restrictItems)
     {
-        super(mapper, searchFunction, restrictItems);
+        super(searchFunction, restrictItems);
     }
 
 }
