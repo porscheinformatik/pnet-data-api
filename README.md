@@ -4,5 +4,7 @@ This project contains the definition of the API for accessing the data stock of 
 
 This API is currently in development.
 
-<a href="https://porscheinformatik.github.io/pnet-data-api/" target="_blank">Swagger Documentation of the pnet-data-api</a>
+[Swagger Documentation of the pnet-data-api](https://porscheinformatik.github.io/pnet-data-api/)
+
+[pnet-data-api-swagger.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/swagger/pnet-data-api-swagger.json)
 
