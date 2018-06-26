@@ -4,7 +4,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import at.porscheinformatik.happyrest.RestCall;
-import pnet.data.api.client.PnetDataClientLoginException;
+import at.porscheinformatik.happyrest.RestResponseException;
+import pnet.data.api.PnetDataApiException;
+import pnet.data.api.client.PnetDataClientException;
 
 /**
  * Abstract base implementation for a rest client.
@@ -15,6 +17,18 @@ import pnet.data.api.client.PnetDataClientLoginException;
 public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApiClient<SELF>>
     implements PnetDataApiContextAware<SELF>
 {
+
+    /**
+     * Function for a rest call
+     *
+     * @author ham
+     * @param <Any> the type of result
+     */
+    @FunctionalInterface
+    public interface RestCallFunction<Any>
+    {
+        Any restCall(RestCall restCall) throws Exception;
+    }
 
     private final PnetDataApiContext context;
 
@@ -66,9 +80,34 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
         return newInstance(context.withCredentials(username, password));
     }
 
-    protected RestCall createRestCall() throws PnetDataClientLoginException
+    protected <Any> Any invoke(RestCallFunction<Any> fn) throws PnetDataApiException
     {
-        return context.createRestCall();
+        return invoke(fn, true);
+    }
+
+    protected <Any> Any invoke(RestCallFunction<Any> fn, boolean retryOnUnauthorized) throws PnetDataApiException
+    {
+        RestCall restCall = context.restCall();
+
+        try
+        {
+            return fn.restCall(restCall);
+        }
+        catch (RestResponseException e)
+        {
+            if (e.getStatusCode() == 401 && retryOnUnauthorized)
+            {
+                context.invalidateLogin();
+
+                return invoke(fn, false);
+            }
+
+            throw new PnetDataClientException("REST call failed", e);
+        }
+        catch (Exception | Error e)
+        {
+            throw new PnetDataClientException("REST call failed", e);
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import org.springframework.http.ResponseEntity;
 
 import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestUtils;
 
 class SpringRestResponse<T> implements RestResponse<T>
 {
@@ -27,16 +28,9 @@ class SpringRestResponse<T> implements RestResponse<T>
     }
 
     @Override
-    public String getStatus()
+    public String getStatusMessage()
     {
-        String status = String.valueOf(response.getStatusCodeValue());
-
-        if (response.getStatusCode().getReasonPhrase() != null)
-        {
-            status += " " + response.getStatusCode().getReasonPhrase();
-        }
-
-        return status;
+        return RestUtils.getHttpStatusMessage(getStatusCode(), response.getStatusCode().getReasonPhrase());
     }
 
     @Override

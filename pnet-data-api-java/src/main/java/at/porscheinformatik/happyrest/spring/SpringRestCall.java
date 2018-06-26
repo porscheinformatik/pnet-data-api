@@ -16,8 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import org.springframework.web.util.DefaultUriBuilderFactory.EncodingMode;
@@ -28,10 +27,12 @@ import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestAttribute;
 import at.porscheinformatik.happyrest.RestAttributeConverter;
 import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestHeader;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestResponseException;
 import at.porscheinformatik.happyrest.RestVariable;
 
 /**
@@ -72,7 +73,7 @@ public class SpringRestCall extends AbstractRestCall
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType)
+    public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
     {
         HttpHeaders headers = new HttpHeaders();
         URI uri = processAttributes(headers, path);
@@ -84,17 +85,18 @@ public class SpringRestCall extends AbstractRestCall
         {
             return new SpringRestResponse<>(restTemplate.exchange(uri, toHttpMethod(method), entity, responseType));
         }
-        catch (HttpClientErrorException e)
+        catch (RestClientResponseException e)
         {
-            LOG.warn(String.format("%s Request \"%s\" failed: %s %s\n\tHeaders: %s\n\tBody: %s", method, uri,
-                e.getStatusCode(), e.getStatusText(), e.getResponseHeaders(), e.getResponseBodyAsString()));
-
-            throw e;
+            throw new RestResponseException(method + " " + uri, e.getRawStatusCode(), e.getStatusText(), e);
+        }
+        catch (Exception e)
+        {
+            throw new RestException(method + " " + uri, e);
         }
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
+    public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException
     {
         HttpHeaders headers = new HttpHeaders();
         URI uri = processAttributes(headers, path);
@@ -107,12 +109,13 @@ public class SpringRestCall extends AbstractRestCall
             return new SpringRestResponse<>(restTemplate.exchange(uri, toHttpMethod(method), entity,
                 GenericParameterizedTypeReference.of(responseType)));
         }
-        catch (HttpStatusCodeException e)
+        catch (RestClientResponseException e)
         {
-            LOG.warn(String.format("%s Request \"%s\" failed: %s %s\n\tHeaders: %s\n\tBody: %s", method, uri,
-                e.getStatusCode(), e.getStatusText(), e.getResponseHeaders(), e.getResponseBodyAsString()));
-
-            throw e;
+            throw new RestResponseException(method + " " + uri, e.getRawStatusCode(), e.getStatusText(), e);
+        }
+        catch (Exception e)
+        {
+            throw new RestException(method + " " + uri, e);
         }
     }
 
@@ -143,7 +146,7 @@ public class SpringRestCall extends AbstractRestCall
         }
     }
 
-    protected URI processAttributes(HttpHeaders headers, String path)
+    protected URI processAttributes(HttpHeaders headers, String path) throws RestException
     {
         List<String> acceptableMediaTypes = getAcceptableMediaTypes();
 
@@ -221,7 +224,7 @@ public class SpringRestCall extends AbstractRestCall
                     continue;
                 }
 
-                throw new IllegalArgumentException("Rest attrbiute of " + attribute.getClass() + " not supported.");
+                throw new RestException("Rest attrbiute of %s not supported", attribute.getClass());
             }
         }
 

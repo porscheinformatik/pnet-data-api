@@ -15,6 +15,7 @@
 package pnet.data.api.about;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,14 +31,22 @@ public class AboutDataDTO implements Serializable
 
     private final String partnerNetVersion;
     private final String dataApiVersion;
+    private final Integer userId;
+    private final Collection<String> tenants;
+    private final Collection<String> authorities;
 
     public AboutDataDTO(@JsonProperty("partnerNetVersion") String partnerNetVersion,
-        @JsonProperty("dataApiVersion") String dataApiVersion)
+        @JsonProperty("dataApiVersion") String dataApiVersion, @JsonProperty("userId") Integer userId,
+        @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("authorities") Collection<String> authorities)
     {
         super();
 
         this.partnerNetVersion = partnerNetVersion;
         this.dataApiVersion = dataApiVersion;
+        this.userId = userId;
+        this.tenants = tenants;
+        this.authorities = authorities;
     }
 
     /**
@@ -54,6 +63,29 @@ public class AboutDataDTO implements Serializable
     public String getDataApiVersion()
     {
         return dataApiVersion;
+    }
+
+    public Integer getUserId()
+    {
+        return userId;
+    }
+
+    public Collection<String> getTenants()
+    {
+        return tenants;
+    }
+
+    public Collection<String> getAuthorities()
+    {
+        return authorities;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format(
+            "AboutDataDTO [partnerNetVersion=%s, dataApiVersion=%s, userId=%s, tenants=%s, authorities=%s]",
+            partnerNetVersion, dataApiVersion, userId, tenants, authorities);
     }
 
 }

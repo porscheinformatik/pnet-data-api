@@ -5,13 +5,9 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.ResourceAccessException;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiAccessException;
 import pnet.data.api.PnetDataApiException;
-import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -39,9 +35,8 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
     public PnetDataClientResultPage<CompanyTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyTypeDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyTypeDataDTO> resultPage = restCall //
                 .parameters("mc", matchcodes)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
@@ -53,19 +48,7 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
             resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyTypeDataSearch search()
@@ -76,9 +59,8 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
     protected PnetDataClientResultPage<CompanyTypeItemDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyTypeItemDTO> resultPage = createRestCall()
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyTypeItemDTO> resultPage = restCall
                 .parameter("l", language)
                 .parameter("q", query)
                 .parameters(restricts)
@@ -92,19 +74,7 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
             resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyTypeDataFind find()
@@ -115,9 +85,8 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
     protected PnetDataClientResultPage<CompanyTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
         int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyTypeItemDTO> resultPage = createRestCall()
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyTypeItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .parameter("l", language)
                 .parameter("p", pageIndex)
@@ -130,19 +99,7 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
             resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
 }

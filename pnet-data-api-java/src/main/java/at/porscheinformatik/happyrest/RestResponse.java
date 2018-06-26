@@ -15,7 +15,12 @@ public interface RestResponse<T>
 
     int getStatusCode();
 
-    String getStatus();
+    String getStatusMessage();
+
+    default String getStatus()
+    {
+        return getStatusCode() + " " + getStatusMessage();
+    }
 
     boolean isInformational();
 

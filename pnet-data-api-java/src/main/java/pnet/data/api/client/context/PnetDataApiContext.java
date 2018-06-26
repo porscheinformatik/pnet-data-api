@@ -1,7 +1,7 @@
 package pnet.data.api.client.context;
 
 import at.porscheinformatik.happyrest.RestCall;
-import pnet.data.api.client.PnetDataClientLoginException;
+import pnet.data.api.client.PnetDataClientException;
 
 /**
  * Context for accessing the Partner.Net Data API
@@ -17,6 +17,8 @@ public interface PnetDataApiContext
 
     PnetDataApiContext withCredentials(String username, String password);
 
-    RestCall createRestCall() throws PnetDataClientLoginException;
+    RestCall restCall() throws PnetDataClientException;
 
+    void invalidateLogin() throws PnetDataClientException;
+    
 }

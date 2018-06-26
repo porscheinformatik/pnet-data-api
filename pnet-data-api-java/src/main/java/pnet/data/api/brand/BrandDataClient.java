@@ -5,13 +5,9 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.ResourceAccessException;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiAccessException;
 import pnet.data.api.PnetDataApiException;
-import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -38,32 +34,17 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient> 
     public PnetDataClientResultPage<BrandDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<BrandDataDTO> resultPage = createRestCall()
-                .parameter("mc", matchcodes)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/brands/details", new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>()
-                {
-                });
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<BrandDataDTO> resultPage =
+                restCall.parameter("mc", matchcodes).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/brands/details", new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>()
+                    {
+                    });
 
             resultPage.setNextPageSupplier(() -> getAllByMatchcodes(matchcodes, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public BrandDataSearch search()
@@ -76,9 +57,8 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient> 
         search(Locale language, String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
             throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<BrandItemDTO> resultPage = createRestCall()
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<BrandItemDTO> resultPage = restCall
                 .parameter("l", language)
                 .parameter("q", query)
                 .parameters(restricts)
@@ -91,19 +71,7 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient> 
             resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public BrandDataFind find()
@@ -114,9 +82,8 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient> 
     protected PnetDataClientResultPage<BrandItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
         int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<BrandItemDTO> resultPage = createRestCall()
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<BrandItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .parameter("l", language)
                 .parameter("p", pageIndex)
@@ -128,18 +95,6 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient> 
             resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 }

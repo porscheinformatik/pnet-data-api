@@ -5,13 +5,9 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.ResourceAccessException;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiAccessException;
 import pnet.data.api.PnetDataApiException;
-import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -93,9 +89,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         List<String> preferredUserIds, List<String> emails, List<String> personnelNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<PersonDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<PersonDataDTO> resultPage = restCall //
                 .parameters("id", ids)
                 .parameters("guid", guids)
                 .parameters("preferredUserId", preferredUserIds)
@@ -111,19 +106,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 () -> getAll(ids, guids, preferredUserIds, emails, personnelNumbers, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public PersonDataSearch search()
@@ -134,9 +117,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
     protected PnetDataClientResultPage<PersonItemDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = createRestCall()
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = restCall
                 .parameter("l", language)
                 .parameter("q", query)
                 .parameters(restricts)
@@ -149,19 +131,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
             resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public PersonDataFind find()
@@ -172,9 +142,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
     protected PnetDataClientResultPage<PersonItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
         int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = createRestCall()
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .parameter("l", language)
                 .parameter("p", pageIndex)
@@ -186,18 +155,6 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
             resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 }

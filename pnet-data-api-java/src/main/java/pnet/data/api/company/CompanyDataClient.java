@@ -6,13 +6,9 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.ResourceAccessException;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiAccessException;
 import pnet.data.api.PnetDataApiException;
-import pnet.data.api.PnetDataApiServerException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -37,9 +33,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     public PnetDataClientResultPage<CompanyDataDTO> getAllByIds(List<Integer> ids, int pageIndex, int itemsPerPage)
         throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
                 .parameters("id", ids)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
@@ -50,19 +45,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             resultPage.setNextPageSupplier(() -> getAllByIds(ids, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyDataDTO getByVatIdNumber(String vatIdNumber) throws PnetDataApiException
@@ -73,9 +56,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     public PnetDataClientResultPage<CompanyDataDTO> getAllByVatIdNumbers(List<String> vatIdNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
                 .parameters("vatIdNumber", vatIdNumbers)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
@@ -86,19 +68,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             resultPage.setNextPageSupplier(() -> getAllByVatIdNumbers(vatIdNumbers, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyDataDTO getBySapNumber(String sapNumber) throws PnetDataApiException
@@ -109,9 +79,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     public PnetDataClientResultPage<CompanyDataDTO> getAllBySapNumbers(List<String> sapNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
                 .parameters("sapNumber", sapNumbers)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
@@ -122,19 +91,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             resultPage.setNextPageSupplier(() -> getAllBySapNumbers(sapNumbers, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyDataDTO getByCompanyNumber(String companyNumber) throws PnetDataApiException
@@ -145,9 +102,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     public PnetDataClientResultPage<CompanyDataDTO> getAllByCompanyNumbers(List<String> companyNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
                 .parameters("companyNumber", companyNumbers)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
@@ -158,19 +114,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             resultPage.setNextPageSupplier(() -> getAllByCompanyNumbers(companyNumbers, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyDataDTO getByIban(String iban) throws PnetDataApiException
@@ -181,9 +125,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     public PnetDataClientResultPage<CompanyDataDTO> getAllByIbans(List<String> ibans, int pageIndex, int itemsPerPage)
         throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
                 .parameters("iban", ibans)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
@@ -194,19 +137,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             resultPage.setNextPageSupplier(() -> getAllByIbans(ibans, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyDataDTO getByEmail(String email) throws PnetDataApiException
@@ -217,9 +148,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     public PnetDataClientResultPage<CompanyDataDTO> getAllByEmails(List<String> emails, int pageIndex, int itemsPerPage)
         throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
                 .parameters("email", emails)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
@@ -230,19 +160,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             resultPage.setNextPageSupplier(() -> getAllByEmails(emails, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyDataDTO getByDataProcessingRegisterNumber(String dataProcessingRegisterNumber)
@@ -254,9 +172,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     public PnetDataClientResultPage<CompanyDataDTO> getAllByDataProcessingRegisterNumbers(
         List<String> dataProcessingRegisterNumbers, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = createRestCall() //
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
                 .parameters("dataProcessingRegisterNumber", dataProcessingRegisterNumbers)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
@@ -268,19 +185,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyDataSearch search()
@@ -291,9 +196,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     protected PnetDataClientResultPage<CompanyItemDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyItemDTO> resultPage = createRestCall()
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyItemDTO> resultPage = restCall
                 .parameter("l", language)
                 .parameter("q", query)
                 .parameters(restricts)
@@ -306,19 +210,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 
     public CompanyDataFind find()
@@ -329,9 +221,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     protected PnetDataClientResultPage<CompanyItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
         int pageIndex, int itemsPerPage) throws PnetDataApiException
     {
-        try
-        {
-            DefaultPnetDataClientResultPage<CompanyItemDTO> resultPage = createRestCall()
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .parameter("l", language)
                 .parameter("p", pageIndex)
@@ -343,18 +234,6 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
 
             return resultPage;
-        }
-        catch (ResourceAccessException e)
-        {
-            throw new PnetDataApiAccessException(e);
-        }
-        catch (HttpServerErrorException e)
-        {
-            throw new PnetDataApiServerException(e);
-        }
-        catch (Exception | Error e)
-        {
-            throw new PnetDataApiException("Unhandled exception", e);
-        }
+        });
     }
 }

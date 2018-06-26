@@ -71,6 +71,11 @@ public interface RestCall
         return header("Authorization", "Basic " + credentials);
     }
 
+    default RestCall bearerAuthorization(String token)
+    {
+        return header("Authorization", "Bearer " + token);
+    }
+
     List<RestAttribute> getAttributes();
 
     RestCall body(Object body);
@@ -99,60 +104,132 @@ public interface RestCall
 
     RestCall parameters(Collection<? extends Pair<String, ?>> values);
 
-    <T> T get(Class<T> responseType);
+    default <T> T get(Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.GET, null, responseType).getBody();
+    }
 
-    <T> T get(String path, Class<T> responseType);
+    default <T> T get(String path, Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.GET, path, responseType).getBody();
+    }
 
-    <T> T get(GenericType<T> responseType);
+    default <T> T get(GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.GET, null, responseType).getBody();
+    }
 
-    <T> T get(String path, GenericType<T> responseType);
+    default <T> T get(String path, GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.GET, path, responseType).getBody();
+    }
 
-    <T> T put(Class<T> responseType);
+    default <T> T put(Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.PUT, null, responseType).getBody();
+    }
 
-    <T> T put(String path, Class<T> responseType);
+    default <T> T put(String path, Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.PUT, path, responseType).getBody();
+    }
 
-    <T> T put(GenericType<T> responseType);
+    default <T> T put(GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.PUT, null, responseType).getBody();
+    }
 
-    <T> T put(String path, GenericType<T> responseType);
+    default <T> T put(String path, GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.PUT, path, responseType).getBody();
+    }
 
-    <T> T post(Class<T> responseType);
+    default <T> T post(Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.POST, null, responseType).getBody();
+    }
 
-    <T> T post(String path, Class<T> responseType);
+    default <T> T post(String path, Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.POST, path, responseType).getBody();
+    }
 
-    <T> T post(GenericType<T> responseType);
+    default <T> T post(GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.POST, null, responseType).getBody();
+    }
 
-    <T> T post(String path, GenericType<T> responseType);
+    default <T> T post(String path, GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.POST, path, responseType).getBody();
+    }
 
-    <T> T delete(Class<T> responseType);
+    default <T> T delete(Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.DELETE, null, responseType).getBody();
+    }
 
-    <T> T delete(String path, Class<T> responseType);
+    default <T> T delete(String path, Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.DELETE, path, responseType).getBody();
+    }
 
-    <T> T delete(GenericType<T> responseType);
+    default <T> T delete(GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.DELETE, null, responseType).getBody();
+    }
 
-    <T> T delete(String path, GenericType<T> responseType);
+    default <T> T delete(String path, GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.DELETE, path, responseType).getBody();
+    }
 
-    <T> T options(Class<T> responseType);
+    default <T> T options(Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.OPTIONS, null, responseType).getBody();
+    }
 
-    <T> T options(String path, Class<T> responseType);
+    default <T> T options(String path, Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.OPTIONS, path, responseType).getBody();
+    }
 
-    <T> T options(GenericType<T> responseType);
+    default <T> T options(GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.OPTIONS, null, responseType).getBody();
+    }
 
-    <T> T options(String path, GenericType<T> responseType);
+    default <T> T options(String path, GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.OPTIONS, path, responseType).getBody();
+    }
 
-    <T> T patch(Class<T> responseType);
+    default <T> T patch(Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.PATCH, null, responseType).getBody();
+    }
 
-    <T> T patch(String path, Class<T> responseType);
+    default <T> T patch(String path, Class<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.PATCH, path, responseType).getBody();
+    }
 
-    <T> T patch(GenericType<T> responseType);
+    default <T> T patch(GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.PATCH, null, responseType).getBody();
+    }
 
-    <T> T patch(String path, GenericType<T> responseType);
+    default <T> T patch(String path, GenericType<T> responseType) throws RestException
+    {
+        return invoke(RestMethod.PATCH, path, responseType).getBody();
+    }
 
-    <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType);
+    <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException;
 
-    <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType);
+    <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException;
 
-    <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType);
+    <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException;
 
-    <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType);
+    <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException;
 
 }

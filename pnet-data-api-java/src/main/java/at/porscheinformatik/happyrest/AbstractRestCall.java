@@ -213,166 +213,24 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public <T> T get(Class<T> responseType)
-    {
-        return invoke(RestMethod.GET, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T get(String path, Class<T> responseType)
-    {
-        return invoke(RestMethod.GET, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T get(GenericType<T> responseType)
-    {
-        return invoke(RestMethod.GET, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T get(String path, GenericType<T> responseType)
-    {
-        return invoke(RestMethod.GET, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T put(Class<T> responseType)
-    {
-        return invoke(RestMethod.PUT, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T put(String path, Class<T> responseType)
-    {
-        return invoke(RestMethod.PUT, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T put(GenericType<T> responseType)
-    {
-        return invoke(RestMethod.PUT, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T put(String path, GenericType<T> responseType)
-    {
-        return invoke(RestMethod.PUT, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T post(Class<T> responseType)
-    {
-        return invoke(RestMethod.POST, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T post(String path, Class<T> responseType)
-    {
-        return invoke(RestMethod.POST, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T post(GenericType<T> responseType)
-    {
-        return invoke(RestMethod.POST, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T post(String path, GenericType<T> responseType)
-    {
-        return invoke(RestMethod.POST, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T delete(Class<T> responseType)
-    {
-        return invoke(RestMethod.DELETE, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T delete(String path, Class<T> responseType)
-    {
-        return invoke(RestMethod.DELETE, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T delete(GenericType<T> responseType)
-    {
-        return invoke(RestMethod.DELETE, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T delete(String path, GenericType<T> responseType)
-    {
-        return invoke(RestMethod.DELETE, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T options(Class<T> responseType)
-    {
-        return invoke(RestMethod.OPTIONS, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T options(String path, Class<T> responseType)
-    {
-        return invoke(RestMethod.OPTIONS, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T options(GenericType<T> responseType)
-    {
-        return invoke(RestMethod.OPTIONS, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T options(String path, GenericType<T> responseType)
-    {
-        return invoke(RestMethod.OPTIONS, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T patch(Class<T> responseType)
-    {
-        return invoke(RestMethod.PATCH, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T patch(String path, Class<T> responseType)
-    {
-        return invoke(RestMethod.PATCH, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> T patch(GenericType<T> responseType)
-    {
-        return invoke(RestMethod.PATCH, null, responseType).getBody();
-    }
-
-    @Override
-    public <T> T patch(String path, GenericType<T> responseType)
-    {
-        return invoke(RestMethod.PATCH, path, responseType).getBody();
-    }
-
-    @Override
-    public <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType)
+    public <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException
     {
         return invoke(method, null, responseType);
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType)
+    public <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException
     {
         return invoke(method, null, responseType);
     }
 
     @Override
-    public abstract <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType);
+    public abstract <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType)
+        throws RestException;
 
     @Override
-    public abstract <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType);
+    public abstract <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
+        throws RestException;
 
     protected static String prepareUrl(String url, String path)
     {
