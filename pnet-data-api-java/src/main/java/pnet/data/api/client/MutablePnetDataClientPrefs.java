@@ -11,20 +11,18 @@ public class MutablePnetDataClientPrefs implements PnetDataClientPrefs
     private String url;
     private String username;
     private String password;
-    private String tenant;
 
     public MutablePnetDataClientPrefs()
     {
         super();
     }
 
-    public MutablePnetDataClientPrefs(String url, String username, String password, String tenant)
+    public MutablePnetDataClientPrefs(String url, String username, String password)
     {
         super();
         this.url = url;
         this.username = username;
         this.password = password;
-        this.tenant = tenant;
     }
 
     @Override
@@ -58,17 +56,6 @@ public class MutablePnetDataClientPrefs implements PnetDataClientPrefs
     public void setPnetDataApiPassword(String password)
     {
         this.password = password;
-    }
-
-    @Override
-    public String getPnetDataApiTenant()
-    {
-        return tenant;
-    }
-
-    public void setPnetDataApiTenant(String tenant)
-    {
-        this.tenant = tenant;
     }
 
 }

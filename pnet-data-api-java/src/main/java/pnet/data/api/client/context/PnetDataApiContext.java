@@ -13,12 +13,10 @@ public interface PnetDataApiContext
 
     PnetDataApiContext withUrl(String url);
 
-    PnetDataApiContext withTenant(String tenant);
-
     PnetDataApiContext withCredentials(String username, String password);
 
     RestCall restCall() throws PnetDataClientException;
 
     void invalidateLogin() throws PnetDataClientException;
-    
+
 }

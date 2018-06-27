@@ -28,16 +28,7 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
         PnetDataApiTokenKey key = getKey();
 
         return new DefaultPnetDataApiContext(repository,
-            new PnetDataApiTokenKey(url, key.getTenant(), key.getUsername(), key.getPassword()));
-    }
-
-    @Override
-    public PnetDataApiContext withTenant(String tenant)
-    {
-        PnetDataApiTokenKey key = getKey();
-
-        return new DefaultPnetDataApiContext(repository,
-            new PnetDataApiTokenKey(key.getUrl(), tenant, key.getUsername(), key.getPassword()));
+            new PnetDataApiTokenKey(url, key.getUsername(), key.getPassword()));
     }
 
     @Override
@@ -45,8 +36,7 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     {
         PnetDataApiTokenKey key = getKey();
 
-        return new DefaultPnetDataApiContext(repository,
-            new PnetDataApiTokenKey(key.getUrl(), key.getTenant(), username, password));
+        return new DefaultPnetDataApiContext(repository, new PnetDataApiTokenKey(key.getUrl(), username, password));
     }
 
     @Override

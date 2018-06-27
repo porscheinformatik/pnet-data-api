@@ -23,8 +23,4 @@ public interface PnetDataClientPrefs
      */
     String getPnetDataApiPassword();
 
-    /**
-     * @return the (default) tenant for requests to the Partner.Net Data API.
-     */
-    String getPnetDataApiTenant();
 }

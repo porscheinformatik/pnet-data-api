@@ -69,12 +69,6 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
     }
 
     @Override
-    public SELF withTenant(String tenant)
-    {
-        return newInstance(context.withTenant(tenant));
-    }
-
-    @Override
     public SELF withCredentials(String username, String password)
     {
         return newInstance(context.withCredentials(username, password));

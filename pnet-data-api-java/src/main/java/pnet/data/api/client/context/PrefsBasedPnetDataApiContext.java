@@ -27,8 +27,8 @@ public class PrefsBasedPnetDataApiContext extends AbstractPnetDataApiContext
     @Override
     protected PnetDataApiTokenKey getKey()
     {
-        return new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiTenant(),
-            prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword());
+        return new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiUsername(),
+            prefs.getPnetDataApiPassword());
     }
 
 }

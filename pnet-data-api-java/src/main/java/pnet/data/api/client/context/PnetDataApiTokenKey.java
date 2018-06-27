@@ -13,16 +13,14 @@ public class PnetDataApiTokenKey
 {
 
     private final String url;
-    private final String tenant;
     private final String username;
     private final String password;
 
-    public PnetDataApiTokenKey(String url, String tenant, String username, String password)
+    public PnetDataApiTokenKey(String url, String username, String password)
     {
         super();
 
         this.url = Objects.requireNonNull(url, "Url is null");
-        this.tenant = Objects.requireNonNull(tenant, "Tenant is null");
         this.username = Objects.requireNonNull(username, "Username is null");
         this.password = Objects.requireNonNull(password, "Password is null");
     }
@@ -31,11 +29,6 @@ public class PnetDataApiTokenKey
     public String getUrl()
     {
         return url;
-    }
-
-    public String getTenant()
-    {
-        return tenant;
     }
 
     public String getUsername()
@@ -55,7 +48,6 @@ public class PnetDataApiTokenKey
         int result = 1;
 
         result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
         result = prime * result + ((url == null) ? 0 : url.hashCode());
         result = prime * result + ((username == null) ? 0 : username.hashCode());
 
@@ -94,18 +86,6 @@ public class PnetDataApiTokenKey
             return false;
         }
 
-        if (tenant == null)
-        {
-            if (other.tenant != null)
-            {
-                return false;
-            }
-        }
-        else if (!tenant.equals(other.tenant))
-        {
-            return false;
-        }
-
         if (url == null)
         {
             if (other.url != null)
@@ -136,7 +116,7 @@ public class PnetDataApiTokenKey
     @Override
     public String toString()
     {
-        return String.format("PnetDataApiClientTokenKey [url=%s, tenant=%s, username=%s]", url, tenant, username);
+        return String.format("PnetDataApiClientTokenKey [url=%s, username=%s]", url, username);
     }
 
 }

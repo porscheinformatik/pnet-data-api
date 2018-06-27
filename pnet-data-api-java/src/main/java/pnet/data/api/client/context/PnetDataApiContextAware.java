@@ -12,8 +12,6 @@ public interface PnetDataApiContextAware<T>
 
     T withUrl(String url);
 
-    T withTenant(String tenant);
-
     T withCredentials(String username, String password);
 
 }
