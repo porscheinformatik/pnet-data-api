@@ -19,20 +19,33 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
- * Holds information about the Partner.Net Data API.
+ * Holds information about the Partner.Net Data API and the connected user.
  *
  * @author ham
  */
+@ApiModel(description = "Holds information about the Partner.Net Data API and the connected user.")
 public class AboutDataDTO implements Serializable
 {
 
     private static final long serialVersionUID = -6140129628280468919L;
 
+    @ApiModelProperty(notes = "The version of the Partner.Net.")
     private final String partnerNetVersion;
+
+    @ApiModelProperty(notes = "The supported version Partner.Net Data API.")
     private final String dataApiVersion;
+
+    @ApiModelProperty(notes = "The id of the system user used for this request.")
     private final Integer userId;
+
+    @ApiModelProperty(notes = "All available tenants of the system user used for this request.")
     private final Collection<String> tenants;
+
+    @ApiModelProperty(notes = "All rights of the system user used for this request.")
     private final Collection<String> authorities;
 
     public AboutDataDTO(@JsonProperty("partnerNetVersion") String partnerNetVersion,
@@ -58,23 +71,32 @@ public class AboutDataDTO implements Serializable
     }
 
     /**
-     * @return the version of the Partner.Net Data API
+     * @return the supported version Partner.Net Data API
      */
     public String getDataApiVersion()
     {
         return dataApiVersion;
     }
 
+    /**
+     * @return the id of the system user used for this request
+     */
     public Integer getUserId()
     {
         return userId;
     }
 
+    /**
+     * @return all available tenants of the system user used for this request
+     */
     public Collection<String> getTenants()
     {
         return tenants;
     }
 
+    /**
+     * @return all rights of the system user used for this request
+     */
     public Collection<String> getAuthorities()
     {
         return authorities;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="15 seconds">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %date | %-5level | %msg | \(%file:%line\) [%thread | %logger]%n%rootException
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="warn">
+        <appender-ref ref="CONSOLE" />
+    </root>
+    
+    <logger name="at.porscheinformatik.happyrest" level="INFO" />
+    <logger name="pnet" level="INFO" />
+    
+</configuration>
