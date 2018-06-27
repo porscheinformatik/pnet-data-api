@@ -10,7 +10,7 @@
 
     <artifactId>pnet-data-api-java</artifactId>
 
-    <name>Partner.Net Data API for Java</name>
+    <name>Partner.Net Data API Java Client</name>
 
     <dependencies>
         <dependency>
