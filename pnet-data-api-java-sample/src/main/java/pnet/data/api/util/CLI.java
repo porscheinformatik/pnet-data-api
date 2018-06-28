@@ -11,6 +11,7 @@ import java.io.Reader;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.Collator;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -52,7 +54,9 @@ public class CLI
 
         default "";
 
-        String format() default "";
+        String format()
+
+        default "";
 
         String description() default "";
 
@@ -481,15 +485,76 @@ public class CLI
             return args.iterator();
         }
 
+        @SuppressWarnings("unchecked")
+        protected <Any> Any convert(String value, Class<Any> type)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            if (type.isAssignableFrom(String.class))
+            {
+                return (Any) value;
+            }
+
+            if (type.isAssignableFrom(Boolean.class))
+            {
+                return (Any) Boolean.valueOf(Boolean.parseBoolean(value));
+            }
+
+            if (type.isAssignableFrom(Byte.class))
+            {
+                return (Any) Byte.decode(value);
+            }
+
+            if (type.isAssignableFrom(Short.class))
+            {
+                return (Any) Short.decode(value);
+            }
+
+            if (type.isAssignableFrom(Integer.class))
+            {
+                return (Any) Integer.decode(value);
+            }
+
+            if (type.isAssignableFrom(Long.class))
+            {
+                return (Any) Long.decode(value);
+            }
+
+            if (type.isAssignableFrom(Float.class))
+            {
+                return (Any) Float.valueOf(Float.parseFloat(value));
+            }
+
+            if (type.isAssignableFrom(Double.class))
+            {
+                return (Any) Double.valueOf(Double.parseDouble(value));
+            }
+
+            if (type.isAssignableFrom(Character.class))
+            {
+                if (value.length() > 1)
+                {
+                    throw new IllegalArgumentException("Character expected");
+                }
+
+                return (Any) Character.valueOf(value.charAt(0));
+            }
+
+            throw new UnsupportedOperationException("Type not supported: " + type);
+        }
+
         /**
          * Returns a new {@link Arguments} object with all arguments, starting at the current index. The arguments will
          * be removed from the original list of arguments.
          *
          * @return a new {@link Arguments} object
          */
-        public Arguments consume()
+        public Arguments consumeAll()
         {
-            return consume(0);
+            return consumeAll(0);
         }
 
         /**
@@ -499,7 +564,7 @@ public class CLI
          * @param startIndex the start index
          * @return a new {@link Arguments} object
          */
-        public Arguments consume(int startIndex)
+        public Arguments consumeAll(int startIndex)
         {
             List<String> result = new ArrayList<>();
 
@@ -511,45 +576,51 @@ public class CLI
             return new Arguments(result);
         }
 
-        public Object consume(Class<?> type)
+        public <Any> Optional<Any> consume(Class<Any> type)
         {
-            if (type.isAssignableFrom(String.class))
-            {
-                return consumeString();
-            }
-
-            throw new UnsupportedOperationException("Type not supported: " + type);
+            return consume(0, type);
         }
 
-        /**
-         * Removes and returns the first arguments as string.
-         *
-         * @return the first argument as string, null if there is no argument
-         */
-        public String consumeString()
-        {
-            return consumeString(0);
-        }
-
-        /**
-         * Removes and returns the argument at the specified index as string.
-         *
-         * @param index the index
-         * @return the argument at the specified index as string, null if the index is out of bounds.
-         */
-        public String consumeString(int index)
+        @SuppressWarnings("unchecked")
+        public <Any> Optional<Any> consume(int index, Class<Any> type)
         {
             if (isEmpty())
             {
-                return null;
+                return Optional.empty();
             }
 
             if (index >= size())
             {
-                return null;
+                return Optional.empty();
             }
 
-            return args.remove(index);
+            if (type.isArray())
+            {
+                return (Optional<Any>) consumeArray(index, type.getComponentType());
+            }
+
+            return Optional.of(convert(args.remove(index), type));
+        }
+
+        @SuppressWarnings("unchecked")
+        public <Any> Optional<Any[]> consumeArray(int index, Class<Any> componentType)
+        {
+            Optional<Any> value = consume(index, componentType);
+
+            if (!value.isPresent())
+            {
+                return Optional.empty();
+            }
+
+            List<Any> list = new ArrayList<>();
+
+            while (value.isPresent())
+            {
+                list.add(value.get());
+                value = consume(index, componentType);
+            }
+
+            return Optional.of(list.<Any> toArray((Any[]) Array.newInstance(componentType, list.size())));
         }
 
         /**
@@ -558,13 +629,13 @@ public class CLI
          * @param key the argument
          * @return the value part (next argument), null if key was not found
          */
-        public String consumeString(String key)
+        public <Any> Optional<Any> consume(String key, Class<Any> type)
         {
             int indexOf = args.indexOf(key);
 
             if (indexOf < 0)
             {
-                return null;
+                return Optional.empty();
             }
 
             args.remove(indexOf);
@@ -574,127 +645,7 @@ public class CLI
                 throw new IllegalArgumentException(String.format("Invalid argument: %s. Value is missing.", key));
             }
 
-            return args.remove(indexOf);
-        }
-
-        /**
-         * Removes and returns the first arguments as long.
-         *
-         * @return the first argument as long, null if there is no argument
-         */
-        public Long consumeLong()
-        {
-            return consumeLong(0);
-        }
-
-        /**
-         * Removes and returns the argument at the specified index as long.
-         *
-         * @param index the index
-         * @return the argument at the specified index as long, null if the index is out of bounds.
-         */
-        public Long consumeLong(int index)
-        {
-            String value = consumeString(index);
-
-            if (value == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                return Long.decode(value);
-            }
-            catch (NumberFormatException e)
-            {
-                throw new IllegalArgumentException(String.format("Invalid number: %s", value));
-            }
-        }
-
-        /**
-         * Searches for the specified argument. If found, removes it and returns and removes the next argument.
-         *
-         * @param key the argument
-         * @return the value part (next argument), null if key was not found
-         */
-        public Long consumeLong(String key)
-        {
-            String value = consumeString(key);
-
-            if (value == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                return Long.decode(value);
-            }
-            catch (NumberFormatException e)
-            {
-                throw new IllegalArgumentException(String.format("Invalid number: %s", value));
-            }
-        }
-
-        /**
-         * Removes and returns the first arguments as double.
-         *
-         * @return the first argument as double, null if there is no argument
-         */
-        public Double consumeDouble()
-        {
-            return consumeDouble(0);
-        }
-
-        /**
-         * Removes and returns the argument at the specified index as double.
-         *
-         * @param index the index
-         * @return the argument at the specified index as double, null if the index is out of bounds.
-         */
-        public Double consumeDouble(int index)
-        {
-            String value = consumeString(index);
-
-            if (value == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                return Double.valueOf(value);
-            }
-            catch (NumberFormatException e)
-            {
-                throw new IllegalArgumentException(String.format("Invalid number: %s", value));
-            }
-        }
-
-        /**
-         * Searches for the specified argument. If found, removes it and returns and removes the next argument.
-         *
-         * @param key the argument
-         * @return the value part (next argument), null if key was not found
-         */
-        public Double consumeDouble(String key)
-        {
-            String value = consumeString(key);
-
-            if (value == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                return Double.valueOf(value);
-            }
-            catch (NumberFormatException e)
-            {
-                throw new IllegalArgumentException(String.format("Invalid number: %s", value));
-            }
+            return consume(indexOf, type);
         }
 
         /**
@@ -732,14 +683,33 @@ public class CLI
         }
     }
 
-    protected static abstract class Handler implements Comparable<Handler>
+    protected static interface Handler extends Comparable<Handler>
+    {
+        String getName();
+
+        String getFormat();
+
+        String getDescription();
+
+        void printShortDescription(CLI cli);
+
+        void handle(Arguments arguments);
+
+        @Override
+        default int compareTo(Handler o)
+        {
+            return DICTIONARY_COLLATOR.compare(getName(), o.getName());
+        }
+    }
+
+    protected static abstract class AbstractHandler implements Handler
     {
 
         private final String name;
         private final String format;
         private final String description;
 
-        public Handler(String name, String format, String description)
+        public AbstractHandler(String name, String format, String description)
         {
             super();
 
@@ -748,32 +718,33 @@ public class CLI
             this.description = description;
         }
 
+        @Override
         public String getName()
         {
             return name;
         }
 
+        @Override
         public String getFormat()
         {
             return format;
         }
 
+        @Override
         public String getDescription()
         {
             return description;
         }
 
-        public String describe(int leftLength)
+        @Override
+        public void printShortDescription(CLI cli)
         {
-            StringBuilder builder = new StringBuilder(name);
+            cli.info(describe(30));
+        }
 
-            builder.append(" ");
-
-            if (format != null)
-            {
-                builder.append(format);
-                builder.append(" ");
-            }
+        protected String describe(int leftLength)
+        {
+            StringBuilder builder = new StringBuilder(describeCommand());
 
             while (builder.length() < leftLength)
             {
@@ -786,16 +757,212 @@ public class CLI
             return builder.toString();
         }
 
-        public abstract void handle(Arguments arguments);
+        protected String describeCommand()
+        {
+            StringBuilder builder = new StringBuilder(name);
+
+            builder.append(" ");
+
+            if (format != null)
+            {
+                builder.append(format);
+                builder.append(" ");
+            }
+
+            return builder.toString();
+        }
+
+    }
+
+    protected static class Formulary implements Handler
+    {
+        private final Map<String, Handler> handlers = new HashMap<>();
+
+        private final Formulary parent;
+        private final String name;
+
+        public Formulary(Formulary parent, String name)
+        {
+            super();
+
+            this.parent = parent;
+            this.name = name;
+        }
+
+        public Formulary getParent()
+        {
+            return parent;
+        }
 
         @Override
-        public int compareTo(Handler o)
+        public String getName()
         {
-            return DICTIONARY_COLLATOR.compare(name, o.name);
+            return name;
+        }
+
+        @Override
+        public String getFormat()
+        {
+            return null;
+        }
+
+        @Override
+        public String getDescription()
+        {
+            return null;
+        }
+
+        @Override
+        public void printShortDescription(CLI cli)
+        {
+            List<Handler> handlers = new ArrayList<>(this.handlers.values());
+
+            Collections.sort(handlers);
+
+            for (Handler handler : handlers)
+            {
+                handler.printShortDescription(cli);
+            }
+        }
+
+        public void register(Object instance)
+        {
+            Class<?> type = instance.getClass();
+
+            Method[] methods = type.getMethods();
+
+            for (Method method : methods)
+            {
+                register(instance, method);
+            }
+        }
+
+        private void register(Object instance, Method method)
+        {
+            Command command = method.getAnnotation(Command.class);
+
+            if (command != null)
+            {
+                Class<?>[] parameterTypes = method.getParameterTypes();
+
+                String name = command.name();
+
+                if (name == null || name.length() == 0)
+                {
+                    name = method.getName();
+                }
+
+                String format = command.format();
+
+                if (format == null || format.length() == 0)
+                {
+
+                    if (parameterTypes.length > 0)
+                    {
+                        format =
+                            Arrays.stream(parameterTypes).map(Class::getSimpleName).collect(Collectors.joining(" "));
+                    }
+                }
+
+                String description = command.description();
+
+                register(instance, method, parameterTypes, name, format, description);
+            }
+        }
+
+        protected void register(Object instance, Method method, Class<?>[] parameterTypes, String name, String format,
+            String description)
+        {
+            name = name.trim();
+
+            int index = name.indexOf(' ');
+
+            if (index >= 0)
+            {
+                String command = name.substring(index);
+
+                name = name.substring(0, index);
+
+                Handler handler = get(name);
+
+                if (handler == null || !(handler instanceof Formulary))
+                {
+                    handler = register(new Formulary(name));
+                }
+
+                ((Formulary) handler).register(instance, method, parameterTypes, command, format, description);
+
+                return;
+            }
+
+            register(new AbstractHandler(name, format, description)
+            {
+                @Override
+                public void handle(Arguments arguments)
+                {
+                    Object[] args = new Object[parameterTypes.length];
+
+                    for (int i = 0; i < parameterTypes.length; i++)
+                    {
+                        args[i] = arguments.consume(parameterTypes[i]).orElse(null);
+                    }
+
+                    try
+                    {
+                        method.invoke(instance, args);
+                    }
+                    catch (IllegalAccessException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (IllegalArgumentException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (InvocationTargetException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        protected <AnyHandler extends Handler> AnyHandler register(AnyHandler handler)
+        {
+            handlers.put(handler.getName().toLowerCase(), handler);
+
+            return handler;
+        }
+
+        protected Handler get(String name)
+        {
+            return handlers.get(name.toLowerCase());
+        }
+
+        @Override
+        public void handle(Arguments arguments)
+        {
+            Optional<String> optionalCommand = arguments.consume(String.class);
+
+            if (!optionalCommand.isPresent())
+            {
+                throw new IllegalArgumentException("Command missing");
+            }
+
+            String command = optionalCommand.get().trim().toLowerCase();
+
+            Handler handler = handlers.get(command);
+
+            if (handler == null)
+            {
+                throw new IllegalArgumentException("Invalid command: " + command);
+            }
+
+            handler.handle(arguments);
         }
     }
 
-    private final Map<String, Handler> handlers = new HashMap<>();
+    private final Formulary formulary = new Formulary(null);
 
     protected final InputStream in;
     protected final PrintStream out;
@@ -829,76 +996,7 @@ public class CLI
 
     public void register(Object instance)
     {
-        Class<?> type = instance.getClass();
-
-        Method[] methods = type.getMethods();
-
-        for (Method method : methods)
-        {
-            Command command = method.getAnnotation(Command.class);
-
-            if (command != null)
-            {
-                Class<?>[] parameterTypes = method.getParameterTypes();
-
-                String name = command.name();
-
-                if (name == null || name.length() == 0)
-                {
-                    name = method.getName();
-                }
-
-                String format = command.format();
-
-                if (format == null || format.length() == 0)
-                {
-
-                    if (parameterTypes.length > 0)
-                    {
-                        format =
-                            Arrays.stream(parameterTypes).map(Class::getSimpleName).collect(Collectors.joining(" "));
-                    }
-                }
-
-                String description = command.description();
-
-                register(new Handler(name, format, description)
-                {
-                    @Override
-                    public void handle(Arguments arguments)
-                    {
-                        Object[] args = new Object[parameterTypes.length];
-
-                        for (int i = 0; i < parameterTypes.length; i++)
-                        {
-                            args[i] = arguments.consume(parameterTypes[i]);
-                        }
-
-                        try
-                        {
-                            method.invoke(instance, args);
-                        }
-                        catch (IllegalAccessException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        catch (IllegalArgumentException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        catch (InvocationTargetException e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }
-    }
-
-    protected void register(Handler handler)
-    {
-        handlers.put(handler.getName().toLowerCase(), handler);
+        formulary.register(instance);
     }
 
     public Arguments consume(String prompt) throws IOException
@@ -917,40 +1015,13 @@ public class CLI
 
     public void consumeCommand(String prompt) throws IOException
     {
-        Arguments arguments = consume(prompt);
-
-        String command = arguments.consumeString();
-
-        if (command == null)
-        {
-            return;
-        }
-
-        command = command.trim().toLowerCase();
-
-        Handler handler = handlers.get(command);
-
-        if (handler == null)
-        {
-            warn("Unknown command: %s", command);
-
-            return;
-        }
-
-        handler.handle(arguments);
+        formulary.handle(consume(prompt));
     }
 
     @CLI.Command(description = "Prints this help.")
     public void help()
     {
-        List<Handler> handlers = new ArrayList<>(this.handlers.values());
-
-        Collections.sort(handlers);
-
-        for (Handler handler : handlers)
-        {
-            info(handler.describe(20));
-        }
+        formulary.printShortDescription(this);
     }
 
     @CLI.Command(description = "Exit this program.")

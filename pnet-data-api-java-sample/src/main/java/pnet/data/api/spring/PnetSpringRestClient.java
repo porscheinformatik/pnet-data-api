@@ -64,10 +64,10 @@ public class PnetSpringRestClient
         page.forEach(cli::info);
     }
 
-    @CLI.Command(format = "id", description = "Find a person by id")
-    public void findPersonById(Integer id) throws PnetDataClientException
+    @CLI.Command(name = "find person byId", format = "id [id...]", description = "Find a person by id")
+    public void findPersonById(Integer... ids) throws PnetDataClientException
     {
-        PnetDataClientResultPage<PersonItemDTO> page = personDataClient.find().id(id).execute(Locale.getDefault());
+        PnetDataClientResultPage<PersonItemDTO> page = personDataClient.find().id(ids).execute(Locale.getDefault());
 
         cli.info("Found %d results.", page.getTotalNumberOfItems());
 
@@ -91,7 +91,7 @@ public class PnetSpringRestClient
         if (username != null)
         {
             Arguments arguments = cli.consume("Password: ");
-            String password = arguments.consumeString();
+            String password = arguments.consume(String.class).orElse(null);
 
             if (password != null)
             {
