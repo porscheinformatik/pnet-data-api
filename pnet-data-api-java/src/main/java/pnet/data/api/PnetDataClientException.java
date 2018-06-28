@@ -1,15 +1,14 @@
-package pnet.data.api.client;
+package pnet.data.api;
 
 import at.porscheinformatik.happyrest.RestResponseException;
 import at.porscheinformatik.happyrest.RestUtils;
-import pnet.data.api.PnetDataApiException;
 
 /**
  * An exception raised on login error.
  *
  * @author ham
  */
-public class PnetDataClientException extends PnetDataApiException
+public class PnetDataClientException extends Exception
 {
 
     private static final long serialVersionUID = -454458537464803864L;
@@ -19,7 +18,7 @@ public class PnetDataClientException extends PnetDataApiException
 
     public PnetDataClientException(String message, Object... args)
     {
-        super(message, args);
+        super(String.format(message, args));
 
         statusCode = -1;
         statusMessage = RestUtils.getHttpStatusMessage(statusCode);
@@ -27,7 +26,7 @@ public class PnetDataClientException extends PnetDataApiException
 
     public PnetDataClientException(String message, Throwable cause, Object... args)
     {
-        super(enhanceMessage(message, cause), cause, args);
+        super(String.format(enhanceMessage(message, cause), args), cause);
 
         statusCode = cause instanceof RestResponseException ? ((RestResponseException) cause).getStatusCode() : -1;
         statusMessage = cause instanceof RestResponseException ? ((RestResponseException) cause).getStatusMessage()

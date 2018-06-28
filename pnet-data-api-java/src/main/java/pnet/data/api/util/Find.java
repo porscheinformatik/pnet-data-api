@@ -2,7 +2,7 @@ package pnet.data.api.util;
 
 import java.util.Locale;
 
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 
 /**
@@ -14,11 +14,12 @@ import pnet.data.api.client.PnetDataClientResultPage;
 public interface Find<DTO>
 {
 
-    default PnetDataClientResultPage<DTO> execute(Locale language) throws PnetDataApiException
+    default PnetDataClientResultPage<DTO> execute(Locale language) throws PnetDataClientException
     {
         return execute(language, 0, 10);
     }
 
-    PnetDataClientResultPage<DTO> execute(Locale language, int pageIndex, int itemsPerPage) throws PnetDataApiException;
+    PnetDataClientResultPage<DTO> execute(Locale language, int pageIndex, int itemsPerPage)
+        throws PnetDataClientException;
 
 }

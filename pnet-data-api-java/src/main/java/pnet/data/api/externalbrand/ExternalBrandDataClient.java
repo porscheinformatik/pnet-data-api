@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -33,7 +33,7 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
 
     @Override
     public PnetDataClientResultPage<ExternalBrandDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ExternalBrandDataDTO> resultPage = restCall //
@@ -57,7 +57,7 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
     }
 
     protected PnetDataClientResultPage<ExternalBrandItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
+        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ExternalBrandItemDTO> resultPage = restCall
@@ -83,7 +83,7 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
     }
 
     protected PnetDataClientResultPage<ExternalBrandItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataApiException
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ExternalBrandItemDTO> resultPage = restCall

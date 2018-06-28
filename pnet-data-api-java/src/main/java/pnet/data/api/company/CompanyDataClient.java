@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -31,7 +31,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
 
     @Override
     public PnetDataClientResultPage<CompanyDataDTO> getAllByIds(List<Integer> ids, int pageIndex, int itemsPerPage)
-        throws PnetDataApiException
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
@@ -48,13 +48,13 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         });
     }
 
-    public CompanyDataDTO getByVatIdNumber(String vatIdNumber) throws PnetDataApiException
+    public CompanyDataDTO getByVatIdNumber(String vatIdNumber) throws PnetDataClientException
     {
         return getAllByVatIdNumbers(Arrays.asList(vatIdNumber), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> getAllByVatIdNumbers(List<String> vatIdNumbers, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
@@ -71,13 +71,13 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         });
     }
 
-    public CompanyDataDTO getBySapNumber(String sapNumber) throws PnetDataApiException
+    public CompanyDataDTO getBySapNumber(String sapNumber) throws PnetDataClientException
     {
         return getAllBySapNumbers(Arrays.asList(sapNumber), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> getAllBySapNumbers(List<String> sapNumbers, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
@@ -94,13 +94,13 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         });
     }
 
-    public CompanyDataDTO getByCompanyNumber(String companyNumber) throws PnetDataApiException
+    public CompanyDataDTO getByCompanyNumber(String companyNumber) throws PnetDataClientException
     {
         return getAllByCompanyNumbers(Arrays.asList(companyNumber), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> getAllByCompanyNumbers(List<String> companyNumbers, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
@@ -117,13 +117,13 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         });
     }
 
-    public CompanyDataDTO getByIban(String iban) throws PnetDataApiException
+    public CompanyDataDTO getByIban(String iban) throws PnetDataClientException
     {
         return getAllByIbans(Arrays.asList(iban), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> getAllByIbans(List<String> ibans, int pageIndex, int itemsPerPage)
-        throws PnetDataApiException
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
@@ -140,13 +140,13 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         });
     }
 
-    public CompanyDataDTO getByEmail(String email) throws PnetDataApiException
+    public CompanyDataDTO getByEmail(String email) throws PnetDataClientException
     {
         return getAllByEmails(Arrays.asList(email), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> getAllByEmails(List<String> emails, int pageIndex, int itemsPerPage)
-        throws PnetDataApiException
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
@@ -164,13 +164,13 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     }
 
     public CompanyDataDTO getByDataProcessingRegisterNumber(String dataProcessingRegisterNumber)
-        throws PnetDataApiException
+        throws PnetDataClientException
     {
         return getAllByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumber), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> getAllByDataProcessingRegisterNumbers(
-        List<String> dataProcessingRegisterNumbers, int pageIndex, int itemsPerPage) throws PnetDataApiException
+        List<String> dataProcessingRegisterNumbers, int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall //
@@ -194,7 +194,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     }
 
     protected PnetDataClientResultPage<CompanyItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
+        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyItemDTO> resultPage = restCall
@@ -219,7 +219,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
     }
 
     protected PnetDataClientResultPage<CompanyItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataApiException
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyItemDTO> resultPage = restCall

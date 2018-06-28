@@ -6,13 +6,15 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
 import pnet.data.api.activity.ActivityDataClient;
 import pnet.data.api.activity.ActivityItemDTO;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientResultPage;
+import pnet.data.api.person.PersonDataClient;
+import pnet.data.api.person.PersonItemDTO;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 
@@ -31,6 +33,9 @@ public class PnetSpringRestClient
     @Autowired
     private ActivityDataClient activityDataClient;
 
+    @Autowired
+    private PersonDataClient personDataClient;
+
     private PnetSpringRestClient()
     {
         super();
@@ -41,7 +46,7 @@ public class PnetSpringRestClient
     }
 
     @CLI.Command(description = "Info about the Partner.Net Data API and the user.")
-    public void about() throws PnetDataApiException
+    public void about() throws PnetDataClientException
     {
         AboutDataDTO about = aboutDataClient.about();
 
@@ -49,10 +54,20 @@ public class PnetSpringRestClient
     }
 
     @CLI.Command(format = "query", description = "Query activities")
-    public void activities(String query) throws PnetDataApiException
+    public void activities(String query) throws PnetDataClientException
     {
         PnetDataClientResultPage<ActivityItemDTO> page =
             activityDataClient.search().execute(Locale.getDefault(), query);
+
+        cli.info("Found %d results.", page.getTotalNumberOfItems());
+
+        page.forEach(cli::info);
+    }
+
+    @CLI.Command(format = "id", description = "Find a person by id")
+    public void findPersonById(Integer id) throws PnetDataClientException
+    {
+        PnetDataClientResultPage<PersonItemDTO> page = personDataClient.find().id(id).execute(Locale.getDefault());
 
         cli.info("Found %d results.", page.getTotalNumberOfItems());
 

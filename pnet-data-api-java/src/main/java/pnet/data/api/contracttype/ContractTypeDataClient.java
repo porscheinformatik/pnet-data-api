@@ -6,7 +6,7 @@ import java.util.Locale;
 import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -32,7 +32,7 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
 
     @Override
     public PnetDataClientResultPage<ContractTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeDataDTO> resultPage = restCall //
@@ -56,7 +56,7 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
     }
 
     protected PnetDataClientResultPage<ContractTypeItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataApiException
+        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = restCall
@@ -82,7 +82,7 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
     }
 
     protected PnetDataClientResultPage<ContractTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataApiException
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = restCall

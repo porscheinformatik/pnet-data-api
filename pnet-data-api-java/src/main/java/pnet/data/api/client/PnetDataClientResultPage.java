@@ -1,6 +1,6 @@
 package pnet.data.api.client;
 
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.ResultPage;
 
 /**
@@ -14,8 +14,8 @@ public interface PnetDataClientResultPage<T> extends ResultPage<T>
 
     /**
      * @return the next page. Executes a call if there is another page. Never null, but an empty page.
-     * @throws PnetDataApiException on occasion
+     * @throws PnetDataClientException on occasion
      */
-    PnetDataClientResultPage<T> nextPage() throws PnetDataApiException;
+    PnetDataClientResultPage<T> nextPage() throws PnetDataClientException;
 
 }

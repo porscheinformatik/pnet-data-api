@@ -1,7 +1,7 @@
 package pnet.data.api.client.context;
 
 import at.porscheinformatik.happyrest.RestCall;
-import pnet.data.api.client.PnetDataClientException;
+import pnet.data.api.PnetDataClientException;
 
 /**
  * Context for accessing the Partner.Net Data API

@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Locale;
 
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 
 /**
@@ -54,7 +54,7 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> ex
 
     @Override
     public PnetDataClientResultPage<DTO> execute(Locale language, int pageIndex, int itemsPerPage)
-        throws PnetDataApiException
+        throws PnetDataClientException
     {
         return findFunction.find(language, getRestricts(), pageIndex, itemsPerPage);
     }

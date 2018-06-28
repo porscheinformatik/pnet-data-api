@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -26,7 +26,7 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
     }
 
     public PnetDataClientResultPage<CompanyGroupDataDTO> getAllByLeadingCompanyIds(List<Integer> ids, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall //
@@ -45,7 +45,7 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
     }
 
     public PnetDataClientResultPage<CompanyGroupDataDTO> getAllByCompanyIds(List<Integer> ids, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall //
@@ -64,7 +64,7 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
     }
 
     public PnetDataClientResultPage<CompanyGroupDataDTO> getAllByCompanyGroupType(List<String> types, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall //

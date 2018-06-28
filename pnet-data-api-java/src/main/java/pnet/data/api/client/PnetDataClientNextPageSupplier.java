@@ -1,6 +1,6 @@
 package pnet.data.api.client;
 
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 
 /**
  * Supplier for the next page
@@ -11,6 +11,6 @@ import pnet.data.api.PnetDataApiException;
 public interface PnetDataClientNextPageSupplier<T>
 {
 
-    PnetDataClientResultPage<T> get() throws PnetDataApiException;
+    PnetDataClientResultPage<T> get() throws PnetDataClientException;
 
 }

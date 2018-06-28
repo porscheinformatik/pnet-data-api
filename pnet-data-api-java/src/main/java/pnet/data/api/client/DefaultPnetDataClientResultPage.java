@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.ResultPage;
 
 /**
@@ -88,10 +88,10 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
 
     /**
      * @return the next page. Executes a call if there is another page. Never null, but an empty page.
-     * @throws PnetDataApiException
+     * @throws PnetDataClientException on occasion
      */
     @Override
-    public PnetDataClientResultPage<T> nextPage() throws PnetDataApiException
+    public PnetDataClientResultPage<T> nextPage() throws PnetDataClientException
     {
         if (nextPageSupplier == null || !hasNextPage())
         {

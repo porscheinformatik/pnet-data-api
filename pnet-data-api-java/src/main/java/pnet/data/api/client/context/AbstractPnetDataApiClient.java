@@ -5,8 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestResponseException;
-import pnet.data.api.PnetDataApiException;
-import pnet.data.api.client.PnetDataClientException;
+import pnet.data.api.PnetDataClientException;
 
 /**
  * Abstract base implementation for a rest client.
@@ -74,12 +73,12 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
         return newInstance(context.withCredentials(username, password));
     }
 
-    protected <Any> Any invoke(RestCallFunction<Any> fn) throws PnetDataApiException
+    protected <Any> Any invoke(RestCallFunction<Any> fn) throws PnetDataClientException
     {
         return invoke(fn, true);
     }
 
-    protected <Any> Any invoke(RestCallFunction<Any> fn, boolean retryOnUnauthorized) throws PnetDataApiException
+    protected <Any> Any invoke(RestCallFunction<Any> fn, boolean retryOnUnauthorized) throws PnetDataClientException
     {
         RestCall restCall = context.restCall();
 

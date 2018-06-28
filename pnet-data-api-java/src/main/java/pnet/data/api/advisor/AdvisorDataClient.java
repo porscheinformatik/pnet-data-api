@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.GenericType;
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
@@ -24,7 +24,7 @@ public class AdvisorDataClient extends AbstractPnetDataApiClient<AdvisorDataClie
     }
 
     public PnetDataClientResultPage<AdvisorDataDTO> getAllByCompanyId(List<Integer> ids, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<AdvisorDataDTO> resultPage = restCall //
@@ -42,7 +42,7 @@ public class AdvisorDataClient extends AbstractPnetDataApiClient<AdvisorDataClie
     }
 
     public PnetDataClientResultPage<AdvisorDataDTO> getAllByPersonId(List<Integer> ids, int pageIndex, int itemsPerPage)
-        throws PnetDataApiException
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<AdvisorDataDTO> resultPage = restCall //
@@ -60,7 +60,7 @@ public class AdvisorDataClient extends AbstractPnetDataApiClient<AdvisorDataClie
     }
 
     public PnetDataClientResultPage<AdvisorDataDTO> getAllByAdvisorType(List<String> matchcodes, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<AdvisorDataDTO> resultPage = restCall //
@@ -78,7 +78,7 @@ public class AdvisorDataClient extends AbstractPnetDataApiClient<AdvisorDataClie
     }
 
     public PnetDataClientResultPage<AdvisorDataDTO> getAllByAdvisorDivision(List<String> matchcodes, int pageIndex,
-        int itemsPerPage) throws PnetDataApiException
+        int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<AdvisorDataDTO> resultPage = restCall //

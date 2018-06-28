@@ -3,7 +3,7 @@ package pnet.data.api.about;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pnet.data.api.PnetDataApiException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
 
@@ -24,11 +24,11 @@ public class AboutDataClient extends AbstractPnetDataApiClient<AboutDataClient>
 
     /**
      * Returns information about the Partner.Net Data API.
-     * 
+     *
      * @return DTO holding information about the Partner.Net Data API
-     * @throws PnetDataApiException on occasion
+     * @throws PnetDataClientException on occasion
      */
-    public AboutDataDTO about() throws PnetDataApiException
+    public AboutDataDTO about() throws PnetDataClientException
     {
         return invoke(restCall -> restCall.get("/api/v1/about/", AboutDataDTO.class));
     }

@@ -9,7 +9,7 @@ import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestResponse;
-import pnet.data.api.client.PnetDataClientException;
+import pnet.data.api.PnetDataClientException;
 import pnet.data.api.util.PnetDataApiUtils;
 
 /**
@@ -76,7 +76,7 @@ public class PnetDataApiTokenRepository
 
     /**
      * Puts the rest call into the cache for later use
-     * 
+     *
      * @param key the key
      * @param restCall the rest call object
      */
