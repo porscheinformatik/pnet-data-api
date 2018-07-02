@@ -18,4 +18,11 @@ public interface PnetDataClientResultPage<T> extends ResultPage<T>
      */
     PnetDataClientResultPage<T> nextPage() throws PnetDataClientException;
 
+    /**
+     * @param index the index of the page, 0-based
+     * @return the specified page
+     * @throws PnetDataClientException on occasion
+     */
+    PnetDataClientResultPage<T> getPage(int index) throws PnetDataClientException;
+
 }

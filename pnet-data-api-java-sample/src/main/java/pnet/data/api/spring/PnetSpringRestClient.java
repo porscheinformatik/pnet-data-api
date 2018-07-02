@@ -1,7 +1,9 @@
 package pnet.data.api.spring;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,11 +12,21 @@ import pnet.data.api.PnetDataClientException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
 import pnet.data.api.activity.ActivityDataClient;
-import pnet.data.api.activity.ActivityItemDTO;
+import pnet.data.api.advisortype.AdvisorTypeDataClient;
+import pnet.data.api.application.ApplicationDataClient;
+import pnet.data.api.brand.BrandDataClient;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientResultPage;
+import pnet.data.api.company.CompanyDataClient;
+import pnet.data.api.companygrouptype.CompanyGroupTypeDataClient;
+import pnet.data.api.companynumbertype.CompanyNumberTypeDataClient;
+import pnet.data.api.companytype.CompanyTypeDataClient;
+import pnet.data.api.contractstate.ContractStateDataClient;
+import pnet.data.api.contracttype.ContractTypeDataClient;
+import pnet.data.api.externalbrand.ExternalBrandDataClient;
+import pnet.data.api.function.FunctionDataClient;
+import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
-import pnet.data.api.person.PersonItemDTO;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 
@@ -32,6 +44,45 @@ public class PnetSpringRestClient
 
     @Autowired
     private ActivityDataClient activityDataClient;
+
+    @Autowired
+    private AdvisorTypeDataClient advisorTypeDataClient;
+
+    @Autowired
+    private ApplicationDataClient applicationDataClient;
+
+    @Autowired
+    private BrandDataClient brandDataClient;
+
+    @Autowired
+    private CompanyDataClient companyDataClient;
+
+    //    @Autowired
+    //    private CompanyGroupDataClient companyGroupDataClient;
+
+    @Autowired
+    private CompanyGroupTypeDataClient companyGroupTypeDataClient;
+
+    @Autowired
+    private CompanyNumberTypeDataClient companyNumberTypeDataClient;
+
+    @Autowired
+    private CompanyTypeDataClient companyTypeDataClient;
+
+    @Autowired
+    private ContractStateDataClient contractStateDataClient;
+
+    @Autowired
+    private ContractTypeDataClient contractTypeDataClient;
+
+    @Autowired
+    private ExternalBrandDataClient externalBrandDataClient;
+    @Autowired
+
+    private FunctionDataClient functionDataClient;
+
+    @Autowired
+    private NumberTypeDataClient numberTypeDataClient;
 
     @Autowired
     private PersonDataClient personDataClient;
@@ -53,28 +104,114 @@ public class PnetSpringRestClient
         cli.info(about);
     }
 
-    @CLI.Command(format = "query", description = "Query activities")
-    public void activities(String query) throws PnetDataClientException
+    @CLI.Command(name = "get activity", format = "<MATCHCODE...>",
+        description = "Returns the query with the specified matchcode.")
+    public void getActivity(String... matchcodes) throws PnetDataClientException
     {
-        PnetDataClientResultPage<ActivityItemDTO> page =
-            activityDataClient.search().execute(Locale.getDefault(), query);
-
-        cli.info("Found %d results.", page.getTotalNumberOfItems());
-
-        page.forEach(cli::info);
+        printResults(activityDataClient.getAllByMatchcodes(Arrays.asList(matchcodes), 0, 10));
     }
 
-    @CLI.Command(name = "find person byId", format = "id [id...]", description = "Find a person by id")
+    @CLI.Command(name = "find activity by mc", format = "<MATCHCODE...>",
+        description = "Find activities by matchcodes.")
+    public void findActivities(String... matchcodes) throws PnetDataClientException
+    {
+        printResults(activityDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+    }
+
+    @CLI.Command(name = {"search activities", "s a"}, format = "<QUERY>", description = "Query activities.")
+    public void searchActivities(String query) throws PnetDataClientException
+    {
+        printResults(activityDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search advisortypes", "s at"}, format = "<QUERY>", description = "Query advisor types.")
+    public void searchAdvisorTypes(String query) throws PnetDataClientException
+    {
+        printResults(advisorTypeDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search applications", "s ap"}, format = "<QUERY>", description = "Query applications.")
+    public void searchApplications(String query) throws PnetDataClientException
+    {
+        printResults(applicationDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search brands", "s b"}, format = "<QUERY>", description = "Query brands.")
+    public void searchBrands(String query) throws PnetDataClientException
+    {
+        printResults(brandDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search companies", "s c"}, format = "<QUERY>", description = "Query companies.")
+    public void searchCompanies(String query) throws PnetDataClientException
+    {
+        printResults(companyDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search companygrouptypes", "s cgt"}, format = "<QUERY>",
+        description = "Query company group types.")
+    public void searchCompanyGroups(String query) throws PnetDataClientException
+    {
+        printResults(companyGroupTypeDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search companynumbertypes", "s cnt"}, format = "<QUERY>",
+        description = "Query company number types.")
+    public void searchCompanyNumberTypes(String query) throws PnetDataClientException
+    {
+        printResults(companyNumberTypeDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search companytypes", "s ct"}, format = "<QUERY>", description = "Query company types.")
+    public void searchCompanyTypes(String query) throws PnetDataClientException
+    {
+        printResults(companyTypeDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search contractstates", "s cos"}, format = "<QUERY>",
+        description = "Query contract states types.")
+    public void searchContractStates(String query) throws PnetDataClientException
+    {
+        printResults(contractStateDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search contracttypes", "s cot"}, format = "<QUERY>", description = "Query contract types.")
+    public void searchContractTypes(String query) throws PnetDataClientException
+    {
+        printResults(contractTypeDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search externalbrands", "s eb"}, format = "<QUERY>", description = "Query external brands.")
+    public void searchExternalBrands(String query) throws PnetDataClientException
+    {
+        printResults(externalBrandDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search functions", "s f"}, format = "<QUERY>", description = "Query functions.")
+    public void searchFunctions(String query) throws PnetDataClientException
+    {
+        printResults(functionDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = {"search numbertypes", "s nt"}, format = "<QUERY>", description = "Query number types.")
+    public void searchNumberTypes(String query) throws PnetDataClientException
+    {
+        printResults(numberTypeDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(name = "find person by id", format = "<ID...>", description = "Find a person by id.")
     public void findPersonById(Integer... ids) throws PnetDataClientException
     {
-        PnetDataClientResultPage<PersonItemDTO> page = personDataClient.find().id(ids).execute(Locale.getDefault());
-
-        cli.info("Found %d results.", page.getTotalNumberOfItems());
-
-        page.forEach(cli::info);
+        printResults(personDataClient.find().id(ids).execute(Locale.getDefault()));
     }
 
-    @CLI.Command(format = "[url]", description = "Prints or overrides the predefined URL.")
+    @CLI.Command(name = {"search persons", "s p"}, format = "<QUERY>", description = "Search for a person.")
+    public void searchPerson(String query) throws PnetDataClientException
+    {
+        printResults(personDataClient.search().execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(format = "[<URL>]", description = "Prints or overrides the predefined URL.")
     public void url(String url)
     {
         if (url != null)
@@ -85,7 +222,7 @@ public class PnetSpringRestClient
         cli.info("url = %s", prefs.getPnetDataApiUrl());
     }
 
-    @CLI.Command(format = "[username]", description = "Prints or overrides the username and password.")
+    @CLI.Command(format = "[<USERNAME>]", description = "Prints or overrides the username and password.")
     public void user(String username) throws IOException
     {
         if (username != null)
@@ -105,6 +242,50 @@ public class PnetSpringRestClient
         }
 
         cli.info("username = %s", prefs.getPnetDataApiUsername());
+    }
+
+    protected void printResults(PnetDataClientResultPage<?> page) throws PnetDataClientException
+    {
+        cli.info("Found %d results.", page.getTotalNumberOfItems());
+
+        while (true)
+        {
+            cli.info("\nPage %d of %d:", page.getPageIndex() + 1, page.getNumberOfPages());
+
+            page.forEach(cli::info);
+
+            if (!page.hasNextPage())
+            {
+                break;
+            }
+
+            Optional<String> result = cli.consume("\nNext page (y/n/<INDEX>)? ").consume(String.class);
+
+            if (!result.isPresent())
+            {
+                break;
+            }
+
+            try
+            {
+                int index = Integer.parseInt(result.get());
+                page = page.getPage(index);
+
+                continue;
+            }
+            catch (NumberFormatException e)
+            {
+                // it's ok, passt scho
+            }
+
+            if (!"y".equals(result.get()))
+            {
+                break;
+            }
+
+            page = page.nextPage();
+        }
+
     }
 
     public void consume()

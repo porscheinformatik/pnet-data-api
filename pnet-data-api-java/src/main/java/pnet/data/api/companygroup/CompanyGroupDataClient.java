@@ -38,7 +38,7 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
                     {
                     });
 
-            resultPage.setNextPageSupplier(() -> getAllByLeadingCompanyIds(ids, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByLeadingCompanyIds(ids, index, itemsPerPage));
 
             return resultPage;
         });
@@ -57,7 +57,7 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
                     {
                     });
 
-            resultPage.setNextPageSupplier(() -> getAllByCompanyIds(ids, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByCompanyIds(ids, index, itemsPerPage));
 
             return resultPage;
         });
@@ -76,7 +76,7 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
                     {
                     });
 
-            resultPage.setNextPageSupplier(() -> getAllByCompanyGroupType(types, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByCompanyGroupType(types, index, itemsPerPage));
 
             return resultPage;
         });

@@ -31,7 +31,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     private final int pageIndex;
     private final int numberOfPages;
 
-    private PnetDataClientNextPageSupplier<T> nextPageSupplier;
+    private PnetDataClientPageSupplier<T> pageSupplier;
 
     public DefaultPnetDataClientResultPage(@JsonProperty("items") List<T> items,
         @JsonProperty("itemsPerPage") int itemsPerPage, @JsonProperty("totalNumberOfItems") int totalNumberOfItems,
@@ -76,14 +76,14 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         return numberOfPages;
     }
 
-    public PnetDataClientNextPageSupplier<T> getNextPageSupplier()
+    public PnetDataClientPageSupplier<T> getPageSupplier()
     {
-        return nextPageSupplier;
+        return pageSupplier;
     }
 
-    public void setNextPageSupplier(PnetDataClientNextPageSupplier<T> nextPageSupplier)
+    public void setPageSupplier(PnetDataClientPageSupplier<T> pageSupplier)
     {
-        this.nextPageSupplier = nextPageSupplier;
+        this.pageSupplier = pageSupplier;
     }
 
     /**
@@ -93,13 +93,24 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     @Override
     public PnetDataClientResultPage<T> nextPage() throws PnetDataClientException
     {
-        if (nextPageSupplier == null || !hasNextPage())
+        if (!hasNextPage())
         {
             return new DefaultPnetDataClientResultPage<>(Collections.emptyList(), itemsPerPage, totalNumberOfItems,
                 pageIndex + 1, numberOfPages);
         }
 
-        return nextPageSupplier.get();
+        return pageSupplier.get(pageIndex + 1);
+    }
+
+    @Override
+    public PnetDataClientResultPage<T> getPage(int index) throws PnetDataClientException
+    {
+        if (pageSupplier == null)
+        {
+            throw new UnsupportedOperationException("Feature not implemented");
+        }
+
+        return pageSupplier.get(index);
     }
 
 }

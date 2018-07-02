@@ -102,8 +102,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 {
                 });
 
-            resultPage.setNextPageSupplier(
-                () -> getAll(ids, guids, preferredUserIds, emails, personnelNumbers, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(
+                index -> getAll(ids, guids, preferredUserIds, emails, personnelNumbers, index, itemsPerPage));
 
             return resultPage;
         });
@@ -128,7 +128,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 
             return resultPage;
         });
@@ -152,7 +152,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
 
             return resultPage;
         });

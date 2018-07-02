@@ -35,7 +35,7 @@ public class AdvisorDataClient extends AbstractPnetDataApiClient<AdvisorDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByCompanyId(ids, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByCompanyId(ids, index, itemsPerPage));
 
             return resultPage;
         });
@@ -53,7 +53,7 @@ public class AdvisorDataClient extends AbstractPnetDataApiClient<AdvisorDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByPersonId(ids, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByPersonId(ids, index, itemsPerPage));
 
             return resultPage;
         });
@@ -71,7 +71,7 @@ public class AdvisorDataClient extends AbstractPnetDataApiClient<AdvisorDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByAdvisorType(matchcodes, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByAdvisorType(matchcodes, index, itemsPerPage));
 
             return resultPage;
         });
@@ -89,7 +89,7 @@ public class AdvisorDataClient extends AbstractPnetDataApiClient<AdvisorDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByAdvisorDivision(matchcodes, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByAdvisorDivision(matchcodes, index, itemsPerPage));
 
             return resultPage;
         });

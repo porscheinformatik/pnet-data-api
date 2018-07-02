@@ -42,7 +42,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByIds(ids, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByIds(ids, index, itemsPerPage));
 
             return resultPage;
         });
@@ -65,7 +65,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByVatIdNumbers(vatIdNumbers, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByVatIdNumbers(vatIdNumbers, index, itemsPerPage));
 
             return resultPage;
         });
@@ -88,7 +88,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllBySapNumbers(sapNumbers, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllBySapNumbers(sapNumbers, index, itemsPerPage));
 
             return resultPage;
         });
@@ -111,7 +111,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByCompanyNumbers(companyNumbers, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByCompanyNumbers(companyNumbers, index, itemsPerPage));
 
             return resultPage;
         });
@@ -134,7 +134,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByIbans(ibans, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByIbans(ibans, index, itemsPerPage));
 
             return resultPage;
         });
@@ -157,7 +157,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByEmails(emails, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByEmails(emails, index, itemsPerPage));
 
             return resultPage;
         });
@@ -181,8 +181,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> getAllByDataProcessingRegisterNumbers(dataProcessingRegisterNumbers,
-                pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> getAllByDataProcessingRegisterNumbers(dataProcessingRegisterNumbers,
+                index, itemsPerPage));
 
             return resultPage;
         });
@@ -207,7 +207,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> search(language, query, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 
             return resultPage;
         });
@@ -231,7 +231,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 {
                 });
 
-            resultPage.setNextPageSupplier(() -> find(language, restricts, pageIndex + 1, itemsPerPage));
+            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
 
             return resultPage;
         });

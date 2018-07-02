@@ -50,9 +50,7 @@ public class CLI
     public @interface Command
     {
 
-        String name()
-
-        default "";
+        String[] name() default {};
 
         String format()
 
@@ -64,8 +62,6 @@ public class CLI
 
     /**
      * A scanner for the shell
-     *
-     * @author Manfred Hantschel
      */
     protected static class Scanner
     {
@@ -218,8 +214,6 @@ public class CLI
 
     /**
      * A tokenizer for the shell
-     *
-     * @author Manfred Hantschel
      */
     protected static class Tokenizer
     {
@@ -317,6 +311,9 @@ public class CLI
         }
     }
 
+    /**
+     * The parser
+     */
     protected static class Parser
     {
 
@@ -357,8 +354,6 @@ public class CLI
 
     /**
      * Accessor for arguments. The common concept is, that when consuming an argument, it will be removed.
-     *
-     * @author Manfred Hantschel
      */
     public static class Arguments implements Iterable<String>, Cloneable
     {
@@ -691,7 +686,7 @@ public class CLI
 
         String getDescription();
 
-        void printShortDescription(CLI cli);
+        void printShortDescription(CLI cli, String prefix);
 
         void handle(Arguments arguments);
 
@@ -737,31 +732,11 @@ public class CLI
         }
 
         @Override
-        public void printShortDescription(CLI cli)
+        public void printShortDescription(CLI cli, String prefix)
         {
-            cli.info(describe(30));
-        }
+            StringBuilder builder = new StringBuilder(prefix);
 
-        protected String describe(int leftLength)
-        {
-            StringBuilder builder = new StringBuilder(describeCommand());
-
-            while (builder.length() < leftLength)
-            {
-                builder.append(".");
-            }
-
-            builder.append(" ");
-            builder.append(description);
-
-            return builder.toString();
-        }
-
-        protected String describeCommand()
-        {
-            StringBuilder builder = new StringBuilder(name);
-
-            builder.append(" ");
+            builder.append(name).append(" ");
 
             if (format != null)
             {
@@ -769,29 +744,29 @@ public class CLI
                 builder.append(" ");
             }
 
-            return builder.toString();
-        }
+            while (builder.length() < 40)
+            {
+                builder.append(".");
+            }
 
+            builder.append(" ");
+            builder.append(description);
+
+            cli.info(builder);
+        }
     }
 
     protected static class Formulary implements Handler
     {
         private final Map<String, Handler> handlers = new HashMap<>();
 
-        private final Formulary parent;
         private final String name;
 
-        public Formulary(Formulary parent, String name)
+        public Formulary(String name)
         {
             super();
 
-            this.parent = parent;
             this.name = name;
-        }
-
-        public Formulary getParent()
-        {
-            return parent;
         }
 
         @Override
@@ -813,7 +788,7 @@ public class CLI
         }
 
         @Override
-        public void printShortDescription(CLI cli)
+        public void printShortDescription(CLI cli, String prefix)
         {
             List<Handler> handlers = new ArrayList<>(this.handlers.values());
 
@@ -821,7 +796,7 @@ public class CLI
 
             for (Handler handler : handlers)
             {
-                handler.printShortDescription(cli);
+                handler.printShortDescription(cli, prefix + (name != null ? name + " " : ""));
             }
         }
 
@@ -845,11 +820,11 @@ public class CLI
             {
                 Class<?>[] parameterTypes = method.getParameterTypes();
 
-                String name = command.name();
+                String[] names = command.name();
 
-                if (name == null || name.length() == 0)
+                if (names == null || names.length == 0)
                 {
-                    name = method.getName();
+                    names = new String[]{method.getName()};
                 }
 
                 String format = command.format();
@@ -866,6 +841,15 @@ public class CLI
 
                 String description = command.description();
 
+                register(instance, method, parameterTypes, names, format, description);
+            }
+        }
+
+        protected void register(Object instance, Method method, Class<?>[] parameterTypes, String[] names,
+            String format, String description)
+        {
+            for (String name : names)
+            {
                 register(instance, method, parameterTypes, name, format, description);
             }
         }
@@ -968,9 +952,6 @@ public class CLI
     protected final PrintStream out;
     protected final PrintStream err;
 
-    private final InputStreamReader reader;
-    private final Scanner scanner;
-    private final Tokenizer tokenizer;
     private final Parser parser;
 
     public CLI()
@@ -986,9 +967,10 @@ public class CLI
         this.out = out;
         this.err = err;
 
-        reader = new InputStreamReader(in);
-        scanner = new Scanner(reader);
-        tokenizer = new Tokenizer(scanner);
+        InputStreamReader reader = new InputStreamReader(in);
+        Scanner scanner = new Scanner(reader);
+        Tokenizer tokenizer = new Tokenizer(scanner);
+
         parser = new Parser(tokenizer);
 
         register(this);
@@ -999,7 +981,7 @@ public class CLI
         formulary.register(instance);
     }
 
-    public Arguments consume(String prompt) throws IOException
+    public Arguments consume(String prompt)
     {
         if (prompt != null && prompt.length() > 0)
         {
@@ -1010,10 +992,17 @@ public class CLI
             writeOut("\n> ");
         }
 
-        return parser.parse();
+        try
+        {
+            return parser.parse();
+        }
+        catch (IOException e)
+        {
+            throw new IllegalStateException("Failed to read command", e);
+        }
     }
 
-    public void consumeCommand(String prompt) throws IOException
+    public void consumeCommand(String prompt)
     {
         formulary.handle(consume(prompt));
     }
@@ -1021,7 +1010,7 @@ public class CLI
     @CLI.Command(description = "Prints this help.")
     public void help()
     {
-        formulary.printShortDescription(this);
+        formulary.printShortDescription(this, "");
     }
 
     @CLI.Command(description = "Exit this program.")
