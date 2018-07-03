@@ -4,6 +4,9 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import pnet.data.api.util.Pair;
 
@@ -15,6 +18,8 @@ import pnet.data.api.util.Pair;
 public interface RestCall
 {
 
+    public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
+    
     String MEIDA_TYPE_APPLICATION_ATOM_XML = "application/atom+xml";
     String MEDIA_TYPE_APPLICATION_JSON = "application/json";
     String MEDIA_TYPE_APPLICATION_JSON_UTF8 = "application/json;charset=UTF-8";
@@ -68,15 +73,40 @@ public interface RestCall
         Charset charset = Charset.forName("UTF-8");
         String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes(charset));
 
-        return header("Authorization", "Basic " + credentials);
+        return header(AUTHORIZATION_HEADER_NAME, "Basic " + credentials);
     }
 
     default RestCall bearerAuthorization(String token)
     {
-        return header("Authorization", "Bearer " + token);
+        return header(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
+    }
+
+    default String getAuthorization()
+    {
+        return getHeader(AUTHORIZATION_HEADER_NAME);
     }
 
     List<RestAttribute> getAttributes();
+
+    default Optional<Object> getAttribute(Class<? extends RestAttribute> type, String name)
+    {
+        return getAttributes()
+            .stream()
+            .filter(type::isInstance)
+            .filter(attribute -> Objects.equals(attribute.getName(), name))
+            .findFirst()
+            .map(RestAttribute::getValue);
+    }
+
+    default List<Object> getAttributes(Class<? extends RestAttribute> type, String name)
+    {
+        return getAttributes()
+            .stream()
+            .filter(type::isInstance)
+            .filter(attribute -> Objects.equals(attribute.getName(), name))
+            .map(RestAttribute::getValue)
+            .collect(Collectors.toList());
+    }
 
     RestCall body(Object body);
 
@@ -94,15 +124,40 @@ public interface RestCall
 
     RestCall header(String name, String... value);
 
+    default String getHeader(String name)
+    {
+        return (String) getAttribute(RestHeader.class, name).orElse(null);
+    }
+
     RestCall headers(String name, Collection<String> values);
+
+    default List<Object> getHeaders(String name)
+    {
+        return getAttributes(RestHeader.class, name);
+    }
 
     RestCall variable(String name, Object... value);
 
+    default Object getVariable(String name)
+    {
+        return getAttribute(RestVariable.class, name).orElse(null);
+    }
+
     RestCall parameter(String name, Object... value);
+
+    default Object getParameter(String name)
+    {
+        return getAttribute(RestParameter.class, name).orElse(null);
+    }
 
     RestCall parameters(String name, Collection<?> values);
 
     RestCall parameters(Collection<? extends Pair<String, ?>> values);
+
+    default List<Object> getParameters(String name)
+    {
+        return getAttributes(RestParameter.class, name);
+    }
 
     default <T> T get(Class<T> responseType) throws RestException
     {

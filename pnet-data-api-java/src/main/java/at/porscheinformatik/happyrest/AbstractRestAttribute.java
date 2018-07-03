@@ -28,4 +28,9 @@ public abstract class AbstractRestAttribute implements RestAttribute
         return value;
     }
 
+    @Override
+    public String toString()
+    {
+        return String.format("%s %s = %s", getClass().getSimpleName(), getName(), getValue());
+    }
 }

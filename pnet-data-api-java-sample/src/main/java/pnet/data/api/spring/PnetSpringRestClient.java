@@ -17,7 +17,10 @@ import pnet.data.api.application.ApplicationDataClient;
 import pnet.data.api.brand.BrandDataClient;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientResultPage;
+import pnet.data.api.client.context.PnetDataApiTokenKey;
+import pnet.data.api.client.context.PnetDataApiTokenRepository;
 import pnet.data.api.company.CompanyDataClient;
+import pnet.data.api.companygroup.CompanyGroupDataClient;
 import pnet.data.api.companygrouptype.CompanyGroupTypeDataClient;
 import pnet.data.api.companynumbertype.CompanyNumberTypeDataClient;
 import pnet.data.api.companytype.CompanyTypeDataClient;
@@ -57,8 +60,8 @@ public class PnetSpringRestClient
     @Autowired
     private CompanyDataClient companyDataClient;
 
-    //    @Autowired
-    //    private CompanyGroupDataClient companyGroupDataClient;
+    @Autowired
+    private CompanyGroupDataClient companyGroupDataClient;
 
     @Autowired
     private CompanyGroupTypeDataClient companyGroupTypeDataClient;
@@ -77,8 +80,8 @@ public class PnetSpringRestClient
 
     @Autowired
     private ExternalBrandDataClient externalBrandDataClient;
-    @Autowired
 
+    @Autowired
     private FunctionDataClient functionDataClient;
 
     @Autowired
@@ -86,6 +89,9 @@ public class PnetSpringRestClient
 
     @Autowired
     private PersonDataClient personDataClient;
+
+    @Autowired
+    private PnetDataApiTokenRepository repository;
 
     private PnetSpringRestClient()
     {
@@ -104,6 +110,26 @@ public class PnetSpringRestClient
         cli.info(about);
     }
 
+    @CLI.Command(description = "Prints the JSON Web Token of the user.")
+    public void token() throws PnetDataClientException
+    {
+        PnetDataApiTokenKey key = new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiUsername(),
+            prefs.getPnetDataApiPassword());
+
+        cli.info("token = %s", repository.restCall(key).getHeader("Authorization"));
+    }
+
+    @CLI.Command(description = "Invalidates the stored JSON Web Token.")
+    public void logout() throws PnetDataClientException
+    {
+        PnetDataApiTokenKey key = new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiUsername(),
+            prefs.getPnetDataApiPassword());
+
+        repository.invalidate(key);
+
+        cli.info("Logged out.");
+    }
+
     @CLI.Command(name = "get activity", format = "<MATCHCODE...>",
         description = "Returns the query with the specified matchcode.")
     public void getActivity(String... matchcodes) throws PnetDataClientException
@@ -111,11 +137,32 @@ public class PnetSpringRestClient
         printResults(activityDataClient.getAllByMatchcodes(Arrays.asList(matchcodes), 0, 10));
     }
 
+    @CLI.Command(name = "get comany by id", format = "<COMPANY-ID...>",
+        description = "Returns the company with the specified id.")
+    public void getCompany(Integer... ids) throws PnetDataClientException
+    {
+        printResults(companyDataClient.getAllByIds(Arrays.asList(ids), 0, 10));
+    }
+
     @CLI.Command(name = "find activity by mc", format = "<MATCHCODE...>",
         description = "Find activities by matchcodes.")
     public void findActivities(String... matchcodes) throws PnetDataClientException
     {
         printResults(activityDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+    }
+
+    @CLI.Command(name = "find company groups by leader", format = "<COMPANY-ID...>",
+        description = "Find all company groups with the specified leader.")
+    public void findCompanyGroupsByLeader(Integer... ids) throws PnetDataClientException
+    {
+        printResults(companyGroupDataClient.getAllByLeadingCompanyIds(Arrays.asList(ids), 0, 10));
+    }
+
+    @CLI.Command(name = "find company groups by member", format = "<COMPANY-ID...>",
+        description = "Find all company groups with the specified member.")
+    public void findCompanyGroupsByMember(Integer... ids) throws PnetDataClientException
+    {
+        printResults(companyGroupDataClient.getAllByCompanyIds(Arrays.asList(ids), 0, 10));
     }
 
     @CLI.Command(name = {"search activities", "s a"}, format = "<QUERY>", description = "Query activities.")
@@ -211,12 +258,22 @@ public class PnetSpringRestClient
         printResults(personDataClient.search().execute(Locale.getDefault(), query));
     }
 
-    @CLI.Command(format = "[<URL>]", description = "Prints or overrides the predefined URL.")
-    public void url(String url)
+    @CLI.Command(format = "[<URL>] [<USERNAME>] [<PASSWORD>] ", description = "Prints or overrides the predefined URL.")
+    public void url(String url, String username, String password)
     {
         if (url != null)
         {
             prefs.setPnetDataApiUrl(url);
+        }
+
+        if (username != null)
+        {
+            prefs.setPnetDataApiUsername(username);
+        }
+
+        if (password != null)
+        {
+            prefs.setPnetDataApiPassword(password);
         }
 
         cli.info("url = %s", prefs.getPnetDataApiUrl());

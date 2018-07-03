@@ -24,5 +24,5 @@ public interface RestAttribute
     String getName();
 
     Object getValue();
-
+    
 }
