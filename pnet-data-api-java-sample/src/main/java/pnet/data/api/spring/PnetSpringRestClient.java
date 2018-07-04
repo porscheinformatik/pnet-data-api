@@ -1,6 +1,8 @@
 package pnet.data.api.spring;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -263,6 +265,23 @@ public class PnetSpringRestClient
     public void searchPerson(String query) throws PnetDataClientException
     {
         printResults(personDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+    }
+
+    @CLI.Command(description = "Opens the Swagger Documentation.")
+    public void swagger() throws IOException
+    {
+        String url = prefs.getPnetDataApiUrl();
+
+        if (!url.endsWith("/"))
+        {
+            url += "/";
+        }
+
+        url += "swagger-ui.html";
+
+        cli.info("Opening: %s", url);
+        
+        Desktop.getDesktop().browse(URI.create(url));
     }
 
     @CLI.Command(format = "[<TENANT>...]", description = "Sets the tenant filter.")
