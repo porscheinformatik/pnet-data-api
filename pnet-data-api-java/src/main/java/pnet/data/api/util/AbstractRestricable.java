@@ -29,8 +29,14 @@ public abstract class AbstractRestricable<SELF extends AbstractRestricable<SELF>
         return restricts;
     }
 
+    @SuppressWarnings("unchecked")
     public SELF restrict(String parameterName, Object... values)
     {
+        if (values == null || values.length == 0)
+        {
+            return (SELF) this;
+        }
+
         List<Pair<String, Object>> restricts =
             this.restricts != null ? new ArrayList<>(this.restricts) : new ArrayList<>();
 

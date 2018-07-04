@@ -18,10 +18,9 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -758,7 +757,7 @@ public class CLI
 
     protected static class Formulary implements Handler
     {
-        private final Map<String, Handler> handlers = new HashMap<>();
+        private final List<Handler> handlers = new ArrayList<>();
 
         private final String name;
 
@@ -790,7 +789,7 @@ public class CLI
         @Override
         public void printShortDescription(CLI cli, String prefix)
         {
-            List<Handler> handlers = new ArrayList<>(this.handlers.values());
+            List<Handler> handlers = new ArrayList<>(this.handlers);
 
             Collections.sort(handlers);
 
@@ -913,14 +912,20 @@ public class CLI
 
         protected <AnyHandler extends Handler> AnyHandler register(AnyHandler handler)
         {
-            handlers.put(handler.getName().toLowerCase(), handler);
+            handlers.add(handler);
 
             return handler;
         }
 
         protected Handler get(String name)
         {
-            return handlers.get(name.toLowerCase());
+            String simplifiedName = simplify(name);
+
+            return handlers
+                .stream()
+                .filter(handler -> Objects.equals(simplifiedName, simplify(handler.getName())))
+                .findFirst()
+                .orElse(null);
         }
 
         @Override
@@ -933,9 +938,9 @@ public class CLI
                 throw new IllegalArgumentException("Command missing");
             }
 
-            String command = optionalCommand.get().trim().toLowerCase();
+            String command = optionalCommand.get().trim();
 
-            Handler handler = handlers.get(command);
+            Handler handler = get(command);
 
             if (handler == null)
             {
@@ -1007,7 +1012,7 @@ public class CLI
         formulary.handle(consume(prompt));
     }
 
-    @CLI.Command(description = "Prints this help.")
+    @CLI.Command(name = {"help", "?"}, description = "Prints this help.")
     public void help()
     {
         formulary.printShortDescription(this, "");
@@ -1080,4 +1085,10 @@ public class CLI
         writeErr("\n" + message, args);
         writeErr(ex);
     }
+
+    private static String simplify(String s)
+    {
+        return s.replaceAll("[^\\p{IsLatin}^\\d]", "").toLowerCase();
+    }
+
 }

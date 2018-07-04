@@ -43,54 +43,82 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
 
     @ApiModelProperty(notes = "The tenant, in which this person is administrated")
     private String administrativeTenant;
+
     @ApiModelProperty(notes = "The tenants where the person is valid")
     private Collection<String> tenants;
+
     @ApiModelProperty(notes = "The form of the adress the person prefers")
     private FormOfAddress formOfAddress;
+
     @ApiModelProperty(notes = "The academic title of the person")
     private String academicTitle;
+
     @ApiModelProperty(notes = "The first name of the person")
     private String firstName;
+
     @ApiModelProperty(notes = "The last name of the person")
     private String lastName;
+
     @ApiModelProperty(notes = "The name affix the person has")
     private NameAffix nameAffix;
+
     @ApiModelProperty(notes = "The global user id of the person")
     private String guid;
+
     @ApiModelProperty(notes = "The preferred user id of the person")
     private String preferredUserId;
+
     @ApiModelProperty(notes = "The phone number of the person at work")
     private String phoneNumber;
+
     @ApiModelProperty(notes = "The mobile phone number of the person regarding business")
     private String mobileNumber;
+
     @ApiModelProperty(notes = "The fax number of the person at work")
     private String faxNumber;
+
     @ApiModelProperty(notes = "The business email of the person")
     private String email;
+
     @ApiModelProperty(notes = "The id of the company the person is mainly busy at")
     private Integer contactCompanyId;
+
     @ApiModelProperty(notes = "The cost center of the person")
     private String costCenter;
+
     @ApiModelProperty(notes = "The personnel number of the person")
     private String personnelNumber;
+
     @ApiModelProperty(notes = "The personnel number of the supervisor of the person")
     private String supervisorPersonnelNumber;
+
     @ApiModelProperty(notes = "The controlling area the person belongs to")
     private String controllingArea;
+
     @ApiModelProperty(notes = "The personnel department the person belongs to")
     private String personnelDepartment;
+
     @ApiModelProperty(notes = "The description of the job the person mainly does")
     private String jobDescription;
+
     @ApiModelProperty(notes = "The companies the person has employments at")
     private Collection<PersonCompanyLinkDTO> companies;
+
     @ApiModelProperty(notes = "The number types the person has at specific companies")
     private Collection<PersonNumberTypeLinkDTO> numbers;
+
     @ApiModelProperty(notes = "The functions the person has at specific companies")
     private Collection<PersonFunctionLinkDTO> functions;
+
     @ApiModelProperty(notes = "The activities the person has at specific companies")
     private Collection<PersonActivityLinkDTO> activities;
+
+    @ApiModelProperty(notes = "The advisor assignments of the person for specific companies")
+    private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
+
     @ApiModelProperty(notes = "The checksum of all data of a person, which is needed to detect changes")
     private String checksum;
+
     @ApiModelProperty(notes = "The time and date when the person was last changed")
     private LocalDateTime lastUpdate;
 
@@ -367,6 +395,22 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
         this.activities = activities;
     }
 
+    public Collection<PersonAdvisorAssignmentLinkDTO> getAdvisorAssignments()
+    {
+        return advisorAssignments;
+    }
+
+    public Optional<PersonAdvisorAssignmentLinkDTO> findAdvisorAssignment(
+        Predicate<? super PersonAdvisorAssignmentLinkDTO> predicate)
+    {
+        return advisorAssignments.stream().filter(predicate).findFirst();
+    }
+
+    public void setAdvisorAssignments(Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments)
+    {
+        this.advisorAssignments = advisorAssignments;
+    }
+
     public String getChecksum()
     {
         return checksum;
@@ -394,16 +438,16 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     @Override
     public String toString()
     {
-        return String.format(
-            "PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+        return String
+            .format("PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
                 + "firstName=%s, lastName=%s, nameAffix=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
                 + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
                 + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, companies=%s, "
-                + "numbers=%s, functions=%s, activities=%s, checksum=%s, lastUpdate=%s]",
-            id, administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName, nameAffix, guid,
-            preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter, personnelNumber,
-            supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, companies, numbers,
-            functions, activities, checksum, lastUpdate);
+                + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, checksum=%s, lastUpdate=%s]", id,
+                administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName, nameAffix, guid,
+                preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter,
+                personnelNumber, supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription,
+                companies, numbers, functions, activities, advisorAssignments, checksum, lastUpdate);
     }
 
 }
