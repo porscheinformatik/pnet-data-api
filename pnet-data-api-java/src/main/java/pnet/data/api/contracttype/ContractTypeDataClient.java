@@ -12,7 +12,6 @@ import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.company.ContractTypeDataFind;
-import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
@@ -22,7 +21,6 @@ import pnet.data.api.util.Pair;
  */
 @Service
 public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTypeDataClient>
-    implements GetByMatchcode<ContractTypeDataDTO>
 {
 
     public ContractTypeDataClient(PnetDataApiContext context)
@@ -30,21 +28,23 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
         super(context);
     }
 
-    @Override
-    public PnetDataClientResultPage<ContractTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
+    public ContractTypeDataGet get()
+    {
+        return new ContractTypeDataGet(this::get, null);
+    }
+
+    protected PnetDataClientResultPage<ContractTypeDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<ContractTypeDataDTO> resultPage = restCall //
-                .parameters("mc", matchcodes)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/contracttypes/details",
+            DefaultPnetDataClientResultPage<ContractTypeDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/contracttypes/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeDataDTO>>()
                     {
                     });
 
-            resultPage.setPageSupplier(index -> getAllByMatchcodes(matchcodes, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

@@ -12,7 +12,6 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
-import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
@@ -22,7 +21,6 @@ import pnet.data.api.util.Pair;
  */
 @Service
 public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataClient>
-    implements GetByMatchcode<ActivityDataDTO>
 {
 
     @Autowired
@@ -31,21 +29,22 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
         super(context);
     }
 
-    @Override
-    public PnetDataClientResultPage<ActivityDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
+    public ActivityDataGet get()
+    {
+        return new ActivityDataGet(this::get, null);
+    }
+
+    protected PnetDataClientResultPage<ActivityDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<ActivityDataDTO> resultPage = restCall //
-                .parameters("mc", matchcodes)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/activities/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>()
+            DefaultPnetDataClientResultPage<ActivityDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/activities/details", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>()
                     {
                     });
 
-            resultPage.setPageSupplier(index -> getAllByMatchcodes(matchcodes, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

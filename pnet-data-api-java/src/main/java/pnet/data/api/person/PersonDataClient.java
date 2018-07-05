@@ -1,6 +1,5 @@
 package pnet.data.api.person;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -12,14 +11,13 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
-import pnet.data.api.util.GetById;
 import pnet.data.api.util.Pair;
 
 /**
  * Data-API client for {@link PersonDataDTO}s.
  */
 @Service
-public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient> implements GetById<PersonDataDTO>
+public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient>
 {
 
     public PersonDataClient(PnetDataApiContext context)
@@ -27,83 +25,22 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         super(context);
     }
 
-    @Override
-    public PnetDataClientResultPage<PersonDataDTO> getAllByIds(List<Integer> ids, int pageIndex, int itemsPerPage)
-        throws PnetDataClientException
+    public PersonDataGet get()
     {
-        return getAll(ids, null, null, null, null, pageIndex, itemsPerPage);
+        return new PersonDataGet(this::get, null);
     }
 
-    public PersonDataDTO getByGuid(String guid) throws PnetDataClientException
-    {
-        return getAllByGuids(Arrays.asList(guid), 0, 1).first();
-    }
-
-    public PnetDataClientResultPage<PersonDataDTO> getAllByGuids(List<String> guids, int pageIndex, int itemsPerPage)
-        throws PnetDataClientException
-    {
-        return getAll(null, guids, null, null, null, pageIndex, itemsPerPage);
-    }
-
-    public PersonDataDTO getByPreferredUserId(String preferredUserId) throws PnetDataClientException
-    {
-        return getAllByPreferredUserIds(Arrays.asList(preferredUserId), 0, 1).first();
-    }
-
-    public PnetDataClientResultPage<PersonDataDTO> getAllByPreferredUserIds(List<String> preferredUserIds,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
-    {
-        return getAll(null, null, preferredUserIds, null, null, pageIndex, itemsPerPage);
-    }
-
-    public PersonDataDTO getByEmail(String email) throws PnetDataClientException
-    {
-        return getAllByEmails(Arrays.asList(email), 0, 1).first();
-    }
-
-    public PnetDataClientResultPage<PersonDataDTO> getAllByEmails(List<String> emails, int pageIndex, int itemsPerPage)
-        throws PnetDataClientException
-    {
-        return getAll(null, null, null, emails, null, pageIndex, itemsPerPage);
-    }
-
-    /**
-     * Returns the person with the specified personnel number. Leading zeros will be ignored.
-     *
-     * @param personnelNumber the personnel number
-     * @return the person, null if not found
-     * @throws PnetDataClientException on occasion
-     */
-    public PersonDataDTO getByPersonnelNumber(String personnelNumber) throws PnetDataClientException
-    {
-        return getAllByPersonnelNumbers(Arrays.asList(personnelNumber), 0, 1).first();
-    }
-
-    public PnetDataClientResultPage<PersonDataDTO> getAllByPersonnelNumbers(List<String> personnelNumbers,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
-    {
-        return getAll(null, null, null, null, personnelNumbers, pageIndex, itemsPerPage);
-    }
-
-    protected PnetDataClientResultPage<PersonDataDTO> getAll(List<Integer> ids, List<String> guids,
-        List<String> preferredUserIds, List<String> emails, List<String> personnelNumbers, int pageIndex,
+    protected PnetDataClientResultPage<PersonDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<PersonDataDTO> resultPage = restCall //
-                .parameters("id", ids)
-                .parameters("guid", guids)
-                .parameters("preferredUserId", preferredUserIds)
-                .parameters("email", emails)
-                .parameters("personnelNumber", personnelNumbers)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/persons/details", new GenericType.Of<DefaultPnetDataClientResultPage<PersonDataDTO>>()
-                {
-                });
+            DefaultPnetDataClientResultPage<PersonDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/persons/details", new GenericType.Of<DefaultPnetDataClientResultPage<PersonDataDTO>>()
+                    {
+                    });
 
-            resultPage.setPageSupplier(
-                index -> getAll(ids, guids, preferredUserIds, emails, personnelNumbers, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

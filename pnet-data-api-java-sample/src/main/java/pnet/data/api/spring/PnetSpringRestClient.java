@@ -134,18 +134,83 @@ public class PnetSpringRestClient
         cli.info("Logged out.");
     }
 
-    @CLI.Command(name = "get activity", format = "<MATCHCODE...>",
+    @CLI.Command(name = "get activity by matchcode", format = "<MATCHCODE...>",
         description = "Returns the query with the specified matchcode.")
     public void getActivity(String... matchcodes) throws PnetDataClientException
     {
-        printResults(activityDataClient.getAllByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        printResults(activityDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
     }
 
     @CLI.Command(name = "get company by id", format = "<COMPANY-ID...>",
         description = "Returns the company with the specified id.")
-    public void getCompany(Integer... ids) throws PnetDataClientException
+    public void getCompanyByIds(Integer... ids) throws PnetDataClientException
     {
-        printResults(companyDataClient.getAllByIds(Arrays.asList(ids), 0, 10));
+        printResults(companyDataClient.get().tenant(tenants).allByIds(Arrays.asList(ids), 0, 10));
+    }
+
+    @CLI.Command(name = "get company by vat", format = "<COMPANY-VATIDNUMBER...>",
+        description = "Returns the company with the specified vat id number.")
+    public void getCompanyByVatIdNumbers(String... vatIdNumbers) throws PnetDataClientException
+    {
+        printResults(companyDataClient.get().tenant(tenants).allByVatIdNumbers(Arrays.asList(vatIdNumbers), 0, 10));
+    }
+
+    @CLI.Command(name = "get company by sap", format = "<COMPANY-SAPNUMBER...>",
+        description = "Returns the company with the specified id.")
+    public void getCompanyBySapNumbers(String... sapNumbers) throws PnetDataClientException
+    {
+        printResults(companyDataClient.get().tenant(tenants).allBySapNumbers(Arrays.asList(sapNumbers), 0, 10));
+    }
+
+    @CLI.Command(name = "get company by number", format = "<COMPANY-NUMBER...>",
+        description = "Returns the company with the specified company number.")
+    public void getCompanyByCompanyNumbers(String... companyNumbers) throws PnetDataClientException
+    {
+        printResults(companyDataClient.get().tenant(tenants).allByCompanyNumbers(Arrays.asList(companyNumbers), 0, 10));
+    }
+
+    @CLI.Command(name = "get company by iban", format = "<COMPANY-IBAN...>",
+        description = "Returns the company with the specified iban.")
+    public void getCompanyByIbans(String... ibans) throws PnetDataClientException
+    {
+        printResults(companyDataClient.get().tenant(tenants).allByIbans(Arrays.asList(ibans), 0, 10));
+    }
+
+    @CLI.Command(name = "get company by email", format = "<COMPANY-EMAIL...>",
+        description = "Returns the company with the specified email.")
+    public void getCompanyByEmails(String... emails) throws PnetDataClientException
+    {
+        printResults(companyDataClient.get().tenant(tenants).allByEmails(Arrays.asList(emails), 0, 10));
+    }
+
+    @CLI.Command(name = "get company by dvr", format = "<COMPANY-DPRN...>",
+        description = "Returns the company with the specified data processing register number.")
+    public void getCompanyByDataProcessingRegisterNumbers(String... dataProcessingRegisterNumbers)
+        throws PnetDataClientException
+    {
+        printResults(companyDataClient.get().tenant(tenants).allByDataProcessingRegisterNumbers(
+            Arrays.asList(dataProcessingRegisterNumbers), 0, 10));
+    }
+
+    @CLI.Command(name = "get brand by matchcode", format = "<MATCHCODE...>",
+        description = "Returns the brand with the specified matchcode.")
+    public void getBrand(String... matchcodes) throws PnetDataClientException
+    {
+        printResults(brandDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+    }
+
+    @CLI.Command(name = "get contract type by matchcode", format = "<MATCHCODE...>",
+        description = "Returns the contract type with the specified matchcode.")
+    public void getContractType(String... matchcodes) throws PnetDataClientException
+    {
+        printResults(contractTypeDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+    }
+
+    @CLI.Command(name = "get function by matchcode", format = "<MATCHCODE...>",
+        description = "Returns the function with the specified matchcode.")
+    public void getFunction(String... matchcodes) throws PnetDataClientException
+    {
+        printResults(functionDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
     }
 
     @CLI.Command(name = "find activity by mc", format = "<MATCHCODE...>",
@@ -254,10 +319,38 @@ public class PnetSpringRestClient
     }
 
     @CLI.Command(name = "get person by id", format = "<ID...>",
-        description = "Returns all details of person with the specifieid id.")
+        description = "Returns all details of person with the specified id.")
     public void getPersonById(Integer... ids) throws PnetDataClientException
     {
-        printResults(personDataClient.getAllByIds(Arrays.asList(ids), 0, 10));
+        printResults(personDataClient.get().allByIds(Arrays.asList(ids), 0, 10));
+    }
+
+    @CLI.Command(name = "get person by guid", format = "<GUID...>",
+        description = "Returns all details of person with the specified guid.")
+    public void getPersonByGuid(String... guids) throws PnetDataClientException
+    {
+        printResults(personDataClient.get().allByGuids(Arrays.asList(guids), 0, 10));
+    }
+
+    @CLI.Command(name = "get person by preferredUserId", format = "<PREFID...>",
+        description = "Returns all details of person with the specified prefferedUserId.")
+    public void getPersonByPreferredUserId(String... preferredUserIds) throws PnetDataClientException
+    {
+        printResults(personDataClient.get().allByPrefferedUserIds(Arrays.asList(preferredUserIds), 0, 10));
+    }
+
+    @CLI.Command(name = "get person by email", format = "<EMAIL...>",
+        description = "Returns all details of person with the specified email.")
+    public void getPersonByEmail(String... emails) throws PnetDataClientException
+    {
+        printResults(personDataClient.get().allByEmails(Arrays.asList(emails), 0, 10));
+    }
+
+    @CLI.Command(name = "get person by personnelNumber", format = "<PERSNUMBER...>",
+        description = "Returns all details of person with the specified personnelNumber.")
+    public void getPersonByPersonnelNumber(String... personnelNumbers) throws PnetDataClientException
+    {
+        printResults(personDataClient.get().allByPersonnelNumbers(Arrays.asList(personnelNumbers), 0, 10));
     }
 
     @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
@@ -424,9 +517,8 @@ public class PnetSpringRestClient
     {
         page.stream().map(PrettyPrint::prettyPrint).forEach(cli::info);
 
-        cli
-            .info("\nThis is page %d of %d. Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
-                page.getPageIndex() + 1, page.getNumberOfPages());
+        cli.info("\nThis is page %d of %d. Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
+            page.getPageIndex() + 1, page.getNumberOfPages());
     }
 
     protected PnetDataApiTokenKey key()
