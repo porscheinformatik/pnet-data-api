@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import at.porscheinformatik.happyrest.RestException;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
@@ -118,8 +119,7 @@ public class PnetSpringRestClient
     @CLI.Command(description = "Prints the JSON Web Token of the user.")
     public void token() throws PnetDataClientException
     {
-        PnetDataApiTokenKey key = new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiUsername(),
-            prefs.getPnetDataApiPassword());
+        PnetDataApiTokenKey key = key();
 
         cli.info("token = %s", repository.restCall(key).getHeader("Authorization"));
     }
@@ -127,8 +127,7 @@ public class PnetSpringRestClient
     @CLI.Command(description = "Invalidates the stored JSON Web Token.")
     public void logout() throws PnetDataClientException
     {
-        PnetDataApiTokenKey key = new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiUsername(),
-            prefs.getPnetDataApiPassword());
+        PnetDataApiTokenKey key = key();
 
         repository.invalidate(key);
 
@@ -280,8 +279,19 @@ public class PnetSpringRestClient
         url += "swagger-ui.html";
 
         cli.info("Opening: %s", url);
-        
+
         Desktop.getDesktop().browse(URI.create(url));
+    }
+
+    @CLI.Command(format = "<INDEXNAME>", description = "Performs a full migration for the specified index.")
+    public void migrate(String indexName) throws RestException, PnetDataClientException
+    {
+        repository
+            .restCall(key())
+            .variable("indexName", indexName)
+            .post("/api/v1/migrator/full/{indexName}", Void.class);
+
+        cli.info("Performing a full migration on index %s.", indexName);
     }
 
     @CLI.Command(format = "[<TENANT>...]", description = "Sets the tenant filter.")
@@ -292,7 +302,7 @@ public class PnetSpringRestClient
         cli.info("tenants = %s", Arrays.toString(tenants));
     }
 
-    @CLI.Command(format = "[<URL>] [<USERNAME>] [<PASSWORD>] ", description = "Prints or overrides the predefined URL.")
+    @CLI.Command(format = "[<URL>] [<USERNAME>] [<PASSWORD>]", description = "Prints or overrides the predefined URL.")
     public void url(String url, String username, String password)
     {
         if (url != null)
@@ -313,13 +323,17 @@ public class PnetSpringRestClient
         cli.info("url = %s", prefs.getPnetDataApiUrl());
     }
 
-    @CLI.Command(format = "[<USERNAME>]", description = "Prints or overrides the username and password.")
-    public void user(String username) throws IOException
+    @CLI.Command(format = "[<USERNAME>] [<PASSWORD>]", description = "Prints or overrides the username and password.")
+    public void user(String username, String password) throws IOException
     {
         if (username != null)
         {
-            Arguments arguments = cli.consume("Password: ");
-            String password = arguments.consume(String.class).orElse(null);
+            if (password == null)
+            {
+                Arguments arguments = cli.consume("Password: ");
+
+                password = arguments.consume(String.class).orElse(null);
+            }
 
             if (password != null)
             {
@@ -413,6 +427,12 @@ public class PnetSpringRestClient
         cli
             .info("\nThis is page %d of %d. Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
                 page.getPageIndex() + 1, page.getNumberOfPages());
+    }
+
+    protected PnetDataApiTokenKey key()
+    {
+        return new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiUsername(),
+            prefs.getPnetDataApiPassword());
     }
 
     public void consume()
