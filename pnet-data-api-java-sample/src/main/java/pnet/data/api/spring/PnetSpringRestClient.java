@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -376,15 +377,40 @@ public class PnetSpringRestClient
         Desktop.getDesktop().browse(URI.create(url));
     }
 
-    @CLI.Command(format = "<INDEXNAME>", description = "Performs a full migration for the specified index.")
-    public void migrate(String indexName) throws RestException, PnetDataClientException
+    @CLI.Command(name = "migrate all", format = "<INDEXNAME>",
+        description = "Performs a full migration for the specified index.")
+    public void migrateFull(String indexName) throws RestException, PnetDataClientException
     {
         repository
             .restCall(key())
             .variable("indexName", indexName)
             .post("/api/v1/migrator/full/{indexName}", Void.class);
 
-        cli.info("Performing a full migration on index %s.", indexName);
+        cli.info("Performing a full migration on index: %s.", indexName);
+    }
+
+    @CLI.Command(name = "migrate delta", format = "<INDEXNAME>",
+        description = "Performs a delta migration for the specified index.")
+    public void migrateDelta(String indexName) throws RestException, PnetDataClientException
+    {
+        repository
+            .restCall(key())
+            .variable("indexName", indexName)
+            .post("/api/v1/migrator/delta/{indexName}", Void.class);
+
+        cli.info("Performing a delta migration on index: %s.", indexName);
+    }
+
+    @CLI.Command(name = "migrate state", format = "<INDEXNAME>", description = "Prints the state of the migration.")
+    public void migrateState(String indexName) throws RestException, PnetDataClientException
+    {
+        HashMap<?, ?> state = repository
+            .restCall(key())
+            .variable("indexName", indexName)
+            .get("/api/v1/migrator/states/{indexName}", HashMap.class);
+
+        cli.info("Migration state of index: %s", indexName);
+        cli.info(PrettyPrint.prettyPrint(state));
     }
 
     @CLI.Command(format = "[<TENANT>...]", description = "Sets the tenant filter.")
