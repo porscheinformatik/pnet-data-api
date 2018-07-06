@@ -20,6 +20,17 @@ public class PersonDataGet extends AbstractGet<PersonDataDTO, PersonDataGet>
         super(getFunction, restricts);
     }
 
+    public PersonDataDTO byExternalId(String externalId) throws PnetDataClientException
+    {
+        return allByExternalIds(Arrays.asList(externalId), 0, 1).first();
+    }
+
+    public PnetDataClientResultPage<PersonDataDTO> allByExternalIds(List<String> externalIds, int pageIndex,
+        int itemsPerPage) throws PnetDataClientException
+    {
+        return execute("externalId", externalIds, pageIndex, itemsPerPage);
+    }
+
     public PersonDataDTO byGuid(String guid) throws PnetDataClientException
     {
         return allByGuids(Arrays.asList(guid), 0, 1).first();

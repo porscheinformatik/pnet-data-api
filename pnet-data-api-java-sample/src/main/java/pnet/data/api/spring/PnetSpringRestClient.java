@@ -326,6 +326,13 @@ public class PnetSpringRestClient
         printResults(personDataClient.get().allByIds(Arrays.asList(ids), 0, 10));
     }
 
+    @CLI.Command(name = "get person by external id", format = "<EXTERNALID...>",
+        description = "Returns all details of person with the specified external id.")
+    public void getPersonByExternalId(String... externalIds) throws PnetDataClientException
+    {
+        printResults(personDataClient.get().allByExternalIds(Arrays.asList(externalIds), 0, 10));
+    }
+
     @CLI.Command(name = "get person by guid", format = "<GUID...>",
         description = "Returns all details of person with the specified guid.")
     public void getPersonByGuid(String... guids) throws PnetDataClientException
@@ -381,10 +388,8 @@ public class PnetSpringRestClient
         description = "Performs a full migration for the specified index.")
     public void migrateFull(String indexName) throws RestException, PnetDataClientException
     {
-        repository
-            .restCall(key())
-            .variable("indexName", indexName)
-            .post("/api/v1/migrator/full/{indexName}", Void.class);
+        repository.restCall(key()).variable("indexName", indexName).post("/api/v1/migrator/full/{indexName}",
+            Void.class);
 
         cli.info("Performing a full migration on index: %s.", indexName);
     }

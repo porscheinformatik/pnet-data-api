@@ -50,8 +50,6 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
     private final String firstName;
     @ApiModelProperty(notes = "The last name of the person")
     private final String lastName;
-    @ApiModelProperty(notes = "The name affix the person has")
-    private final NameAffix nameAffix;
     @ApiModelProperty(notes = "The time and date when the person was last changed")
     private final LocalDateTime lastUpdate;
 
@@ -59,8 +57,7 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         @JsonProperty("administrativeTenant") String administrativeTenant,
         @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
         @JsonProperty("academicTitle") String academicTitle, @JsonProperty("firstName") String firstName,
-        @JsonProperty("lastName") String lastName, @JsonProperty("nameAffix") NameAffix nameAffix,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("lastName") String lastName, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -71,7 +68,6 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         this.academicTitle = academicTitle;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.nameAffix = nameAffix;
         this.lastUpdate = lastUpdate;
     }
 
@@ -111,23 +107,10 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         return lastName;
     }
 
-    public NameAffix getNameAffix()
-    {
-        return nameAffix;
-    }
-
     @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format(
-            "PersonItemDTO [personId=%s, administrativeTenant=%s, formOfAddress=%s, academicTitle=%s, firstName=%s, lastName=%s, nameAffix=%s, lastUpdate=%s]",
-            personId, administrativeTenant, formOfAddress, academicTitle, firstName, lastName, nameAffix, lastUpdate);
     }
 
 }

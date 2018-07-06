@@ -59,8 +59,8 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     @ApiModelProperty(notes = "The last name of the person")
     private String lastName;
 
-    @ApiModelProperty(notes = "The name affix the person has")
-    private NameAffix nameAffix;
+    @ApiModelProperty(notes = "The external id of the person")
+    private String externalId;
 
     @ApiModelProperty(notes = "The global user id of the person")
     private String guid;
@@ -195,14 +195,14 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
         this.lastName = lastName;
     }
 
-    public NameAffix getNameAffix()
+    public String getExternalId()
     {
-        return nameAffix;
+        return externalId;
     }
 
-    public void setNameAffix(NameAffix nameAffix)
+    public void setExternalId(String externalId)
     {
-        this.nameAffix = nameAffix;
+        this.externalId = externalId;
     }
 
     public String getGuid()
@@ -438,16 +438,12 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     @Override
     public String toString()
     {
-        return String
-            .format("PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                + "firstName=%s, lastName=%s, nameAffix=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
-                + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
-                + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, companies=%s, "
-                + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, checksum=%s, lastUpdate=%s]", id,
-                administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName, nameAffix, guid,
-                preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter,
-                personnelNumber, supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription,
-                companies, numbers, functions, activities, advisorAssignments, checksum, lastUpdate);
+        return String.format(
+            "PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, firstName=%s, lastName=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, checksum=%s, lastUpdate=%s]",
+            id, administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName, externalId, guid,
+            preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter, personnelNumber,
+            supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, companies, numbers,
+            functions, activities, advisorAssignments, checksum, lastUpdate);
     }
 
 }
