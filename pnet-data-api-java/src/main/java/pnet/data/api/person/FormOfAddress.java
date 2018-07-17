@@ -24,6 +24,6 @@ public enum FormOfAddress
 
     UNIVERSAL,
     FEMININE,
-    MASCULINE,
+    MASCULINE
 
 }
