@@ -418,6 +418,19 @@ public class PnetSpringRestClient
         cli.info(PrettyPrint.prettyPrint(state));
     }
 
+    @CLI.Command(name = "migrate explicit", format = "<INDEXNAME> [<IDS>]", description = "Runs an explicit migration.")
+    public void migrateExplicit(String indexName, String... ids) throws RestException, PnetDataClientException
+    {
+        HashMap<?, ?> state = repository
+            .restCall(key())
+            .variable("indexName", indexName)
+            .parameter("id", ids)
+            .post("/api/v1/migrator/explicit/{indexName}", HashMap.class);
+
+        cli.info("Explicit migration state of index: %s", indexName);
+        cli.info(PrettyPrint.prettyPrint(state));
+    }
+
     @CLI.Command(format = "[<TENANT>...]", description = "Sets the tenant filter.")
     public void tenant(String... tenants)
     {
