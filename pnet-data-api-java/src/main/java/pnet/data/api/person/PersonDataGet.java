@@ -11,6 +11,10 @@ import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictTenant;
 
+/**
+ * @author cet
+ *
+ */
 public class PersonDataGet extends AbstractGet<PersonDataDTO, PersonDataGet>
     implements RestrictTenant<PersonDataGet>, ById<PersonDataDTO, PersonDataGet>
 {

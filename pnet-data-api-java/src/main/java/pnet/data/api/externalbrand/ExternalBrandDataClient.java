@@ -12,7 +12,6 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
-import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
@@ -22,7 +21,6 @@ import pnet.data.api.util.Pair;
  */
 @Service
 public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalBrandDataClient>
-    implements GetByMatchcode<ExternalBrandDataDTO>
 {
 
     @Autowired
@@ -31,21 +29,23 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
         super(context);
     }
 
-    @Override
-    public PnetDataClientResultPage<ExternalBrandDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
+    public ExternalBrandDataGet get()
+    {
+        return new ExternalBrandDataGet(this::get, null);
+    }
+
+    protected PnetDataClientResultPage<ExternalBrandDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<ExternalBrandDataDTO> resultPage = restCall //
-                .parameters("mc", matchcodes)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/externalbrands/details",
+            DefaultPnetDataClientResultPage<ExternalBrandDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/externalbrands/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandDataDTO>>()
                     {
                     });
 
-            resultPage.setPageSupplier(index -> getAllByMatchcodes(matchcodes, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

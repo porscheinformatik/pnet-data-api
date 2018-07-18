@@ -8,6 +8,10 @@ import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictTenant;
 
+/**
+ * @author cet
+ *
+ */
 public class ActivityDataGet extends AbstractGet<ActivityDataDTO, ActivityDataGet>
     implements RestrictTenant<ActivityDataGet>, ByMatchcode<ActivityDataDTO, ActivityDataGet>
 {

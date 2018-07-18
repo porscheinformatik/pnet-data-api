@@ -12,7 +12,6 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
-import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
@@ -22,7 +21,6 @@ import pnet.data.api.util.Pair;
  */
 @Service
 public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractStateDataClient>
-    implements GetByMatchcode<ContractStateDataDTO>
 {
 
     @Autowired
@@ -31,21 +29,23 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
         super(context);
     }
 
-    @Override
-    public PnetDataClientResultPage<ContractStateDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
+    public ContractStateDataGet get()
+    {
+        return new ContractStateDataGet(this::get, null);
+    }
+
+    protected PnetDataClientResultPage<ContractStateDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<ContractStateDataDTO> resultPage = restCall //
-                .parameters("mc", matchcodes)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/contractstates/details",
+            DefaultPnetDataClientResultPage<ContractStateDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/contractstates/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateDataDTO>>()
                     {
                     });
 
-            resultPage.setPageSupplier(index -> getAllByMatchcodes(matchcodes, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

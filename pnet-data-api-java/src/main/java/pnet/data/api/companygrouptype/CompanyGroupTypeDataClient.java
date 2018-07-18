@@ -12,7 +12,6 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
-import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
@@ -22,7 +21,6 @@ import pnet.data.api.util.Pair;
  */
 @Service
 public class CompanyGroupTypeDataClient extends AbstractPnetDataApiClient<CompanyGroupTypeDataClient>
-    implements GetByMatchcode<CompanyGroupTypeDataDTO>
 {
     @Autowired
     public CompanyGroupTypeDataClient(PnetDataApiContext context)
@@ -30,21 +28,23 @@ public class CompanyGroupTypeDataClient extends AbstractPnetDataApiClient<Compan
         super(context);
     }
 
-    @Override
-    public PnetDataClientResultPage<CompanyGroupTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
+    public CompanyGroupTypeDataGet get()
+    {
+        return new CompanyGroupTypeDataGet(this::get, null);
+    }
+
+    protected PnetDataClientResultPage<CompanyGroupTypeDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<CompanyGroupTypeDataDTO> resultPage = restCall //
-                .parameters("mc", matchcodes)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/companygrouptypes/details",
+            DefaultPnetDataClientResultPage<CompanyGroupTypeDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/companygrouptypes/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupTypeDataDTO>>()
                     {
                     });
 
-            resultPage.setPageSupplier(index -> getAllByMatchcodes(matchcodes, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

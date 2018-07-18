@@ -15,7 +15,7 @@ public class ApplicationDataFind extends AbstractFind<ApplicationItemDTO, Applic
     implements RestrictMatchcode<ApplicationDataFind>, RestrictUpdatedAfter<ApplicationDataFind>
 {
 
-    protected ApplicationDataFind(FindFunction<ApplicationItemDTO> searchFunction, List<Pair<String, Object>> restricts)
+    public ApplicationDataFind(FindFunction<ApplicationItemDTO> searchFunction, List<Pair<String, Object>> restricts)
     {
         super(searchFunction, restricts);
     }

@@ -11,6 +11,10 @@ import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictTenant;
 
+/**
+ * @author cet
+ *
+ */
 public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     implements RestrictTenant<CompanyDataGet>, ById<CompanyDataDTO, CompanyDataGet>
 {

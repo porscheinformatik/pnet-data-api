@@ -12,7 +12,6 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
-import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
@@ -22,7 +21,6 @@ import pnet.data.api.util.Pair;
  */
 @Service
 public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorTypeDataClient>
-    implements GetByMatchcode<AdvisorTypeDataDTO>
 {
 
     @Autowired
@@ -31,21 +29,23 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
         super(context);
     }
 
-    @Override
-    public PnetDataClientResultPage<AdvisorTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
+    public AdvisorTypeDataGet get()
+    {
+        return new AdvisorTypeDataGet(this::get, null);
+    }
+
+    protected PnetDataClientResultPage<AdvisorTypeDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<AdvisorTypeDataDTO> resultPage = restCall //
-                .parameters("mc", matchcodes)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/advisortypes/details",
+            DefaultPnetDataClientResultPage<AdvisorTypeDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/advisortypes/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeDataDTO>>()
                     {
                     });
 
-            resultPage.setPageSupplier(index -> getAllByMatchcodes(matchcodes, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

@@ -10,6 +10,7 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
+import pnet.data.api.util.Pair;
 
 /**
  * Data-API client for {@link CompanyGroupDataDTO}s.
@@ -25,58 +26,23 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
         super(context);
     }
 
-    public PnetDataClientResultPage<CompanyGroupDataDTO> getAllByLeadingCompanyIds(List<Integer> ids, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    public CompanyGroupDataGet get()
     {
-        return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall //
-                .parameters("leadingCompanyId", ids)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/companygroups/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
-                    {
-                    });
-
-            resultPage.setPageSupplier(index -> getAllByLeadingCompanyIds(ids, index, itemsPerPage));
-
-            return resultPage;
-        });
+        return new CompanyGroupDataGet(this::get, null);
     }
 
-    public PnetDataClientResultPage<CompanyGroupDataDTO> getAllByCompanyIds(List<Integer> ids, int pageIndex,
+    protected PnetDataClientResultPage<CompanyGroupDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall //
-                .parameters("companyId", ids)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/companygroups/details",
+            DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/companygroups/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
                     {
                     });
 
-            resultPage.setPageSupplier(index -> getAllByCompanyIds(ids, index, itemsPerPage));
-
-            return resultPage;
-        });
-    }
-
-    public PnetDataClientResultPage<CompanyGroupDataDTO> getAllByCompanyGroupType(List<String> types, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
-    {
-        return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall //
-                .parameters("type", types)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/companygroups/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
-                    {
-                    });
-
-            resultPage.setPageSupplier(index -> getAllByCompanyGroupType(types, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

@@ -11,7 +11,6 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
-import pnet.data.api.util.GetByMatchcode;
 import pnet.data.api.util.Pair;
 
 /**
@@ -21,7 +20,6 @@ import pnet.data.api.util.Pair;
  */
 @Service
 public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<CompanyNumberTypeDataClient>
-    implements GetByMatchcode<CompanyNumberTypeDataDTO>
 {
 
     public CompanyNumberTypeDataClient(PnetDataApiContext context)
@@ -29,21 +27,23 @@ public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<Compa
         super(context);
     }
 
-    @Override
-    public PnetDataClientResultPage<CompanyNumberTypeDataDTO> getAllByMatchcodes(List<String> matchcodes, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    public CompanyNumberTypeDataGet get()
+    {
+        return new CompanyNumberTypeDataGet(this::get, null);
+    }
+
+    protected PnetDataClientResultPage<CompanyNumberTypeDataDTO> get(List<Pair<String, Object>> restricts,
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO> resultPage = restCall //
-                .parameters("mc", matchcodes)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/companynumbertypes/details",
+            DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO> resultPage =
+                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
+                    "/api/v1/companynumbertypes/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO>>()
                     {
                     });
 
-            resultPage.setPageSupplier(index -> getAllByMatchcodes(matchcodes, index, itemsPerPage));
+            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
             return resultPage;
         });

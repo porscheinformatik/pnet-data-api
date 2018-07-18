@@ -19,7 +19,7 @@ public class CompanyNumberTypeDataFind extends AbstractFind<CompanyNumberTypeIte
     implements RestrictMatchcode<CompanyNumberTypeDataFind>, RestrictUpdatedAfter<CompanyNumberTypeDataFind>
 {
 
-    protected CompanyNumberTypeDataFind(FindFunction<CompanyNumberTypeItemDTO> findFunction,
+    public CompanyNumberTypeDataFind(FindFunction<CompanyNumberTypeItemDTO> findFunction,
         List<Pair<String, Object>> restricts)
     {
         super(findFunction, restricts);

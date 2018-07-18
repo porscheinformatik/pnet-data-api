@@ -19,8 +19,7 @@ public class ContractStateDataFind extends AbstractFind<ContractStateItemDTO, Co
     implements RestrictMatchcode<ContractStateDataFind>, RestrictUpdatedAfter<ContractStateDataFind>
 {
 
-    protected ContractStateDataFind(FindFunction<ContractStateItemDTO> findFunction,
-        List<Pair<String, Object>> restricts)
+    public ContractStateDataFind(FindFunction<ContractStateItemDTO> findFunction, List<Pair<String, Object>> restricts)
     {
         super(findFunction, restricts);
     }
