@@ -549,16 +549,6 @@ public class PnetSpringRestClient
         cli.info("Performing a delta migration on index: %s.", indexName);
     }
 
-    @CLI.Command(name = "migrate explicit", format = "<INDEXNAME> <IDS...>",
-        description = "Performs an explicit migration for the specified index and ids.")
-    public void migrateExplicit(String indexName, String... ids) throws RestException, PnetDataClientException
-    {
-        repository.restCall(key()).variable("indexName", indexName).parameters("id", Arrays.asList(ids)).post(
-            "/api/v1/migrator/explicit/{indexName}", Void.class);
-
-        cli.info("Performing a explicit migration on index: %s for ids: %s.", indexName, Arrays.asList(ids));
-    }
-
     @CLI.Command(name = "migrate state", format = "<INDEXNAME>", description = "Prints the state of the migration.")
     public void migrateState(String indexName) throws RestException, PnetDataClientException
     {
@@ -572,11 +562,8 @@ public class PnetSpringRestClient
     @CLI.Command(name = "migrate explicit", format = "<INDEXNAME> [<IDS>]", description = "Runs an explicit migration.")
     public void migrateExplicit(String indexName, String... ids) throws RestException, PnetDataClientException
     {
-        HashMap<?, ?> state = repository
-            .restCall(key())
-            .variable("indexName", indexName)
-            .parameter("id", ids)
-            .post("/api/v1/migrator/explicit/{indexName}", HashMap.class);
+        HashMap<?, ?> state = repository.restCall(key()).variable("indexName", indexName).parameter("id", ids).post(
+            "/api/v1/migrator/explicit/{indexName}", HashMap.class);
 
         cli.info("Explicit migration state of index: %s", indexName);
         cli.info(PrettyPrint.prettyPrint(state));
