@@ -25,6 +25,6 @@ public class PnetSpringRestClientConfig
     @Bean
     public MutablePnetDataClientPrefs pnetDataClientPrefs()
     {
-        return new MutablePnetDataClientPrefs("https://localhost:4443/pnetdata", "pnetsample", "pnetsample");
+        return new MutablePnetDataClientPrefs("https://localhost:4443/data", "pnetsample", "pnetsample");
     }
 }
