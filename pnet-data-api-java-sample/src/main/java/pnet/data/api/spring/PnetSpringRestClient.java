@@ -189,8 +189,10 @@ public class PnetSpringRestClient
     public void getCompaniesByDataProcessingRegisterNumbers(String... dataProcessingRegisterNumbers)
         throws PnetDataClientException
     {
-        printResults(companyDataClient.get().tenant(tenants).allByDataProcessingRegisterNumbers(
-            Arrays.asList(dataProcessingRegisterNumbers), 0, 10));
+        printResults(companyDataClient
+            .get()
+            .tenant(tenants)
+            .allByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumbers), 0, 10));
     }
 
     @CLI.Command(name = "get brand by mc", format = "<MATCHCODE...>",
@@ -533,8 +535,10 @@ public class PnetSpringRestClient
         description = "Performs a full migration for the specified index.")
     public void migrateFull(String indexName) throws RestException, PnetDataClientException
     {
-        repository.restCall(key()).variable("indexName", indexName).post("/api/v1/migrator/full/{indexName}",
-            Void.class);
+        repository
+            .restCall(key())
+            .variable("indexName", indexName)
+            .post("/api/v1/migrator/full/{indexName}", Void.class);
 
         cli.info("Performing a full migration on index: %s.", indexName);
     }
@@ -562,8 +566,11 @@ public class PnetSpringRestClient
     @CLI.Command(name = "migrate explicit", format = "<INDEXNAME> [<IDS>]", description = "Runs an explicit migration.")
     public void migrateExplicit(String indexName, String... ids) throws RestException, PnetDataClientException
     {
-        HashMap<?, ?> state = repository.restCall(key()).variable("indexName", indexName).parameter("id", ids).post(
-            "/api/v1/migrator/explicit/{indexName}", HashMap.class);
+        HashMap<?, ?> state = repository
+            .restCall(key())
+            .variable("indexName", indexName)
+            .parameter("id", (Object[]) ids)
+            .post("/api/v1/migrator/explicit/{indexName}", HashMap.class);
 
         cli.info("Explicit migration state of index: %s", indexName);
         cli.info(PrettyPrint.prettyPrint(state));
@@ -578,10 +585,12 @@ public class PnetSpringRestClient
     }
 
     @CLI.Command(format = "[<URL>] [<USERNAME>] [<PASSWORD>]", description = "Prints or overrides the predefined URL.")
-    public void url(String url, String username, String password)
+    public void url(String url, String username, String password) throws PnetDataClientException
     {
         if (url != null)
         {
+            logout();
+
             prefs.setPnetDataApiUrl(url);
         }
 
@@ -599,10 +608,12 @@ public class PnetSpringRestClient
     }
 
     @CLI.Command(format = "[<USERNAME>] [<PASSWORD>]", description = "Prints or overrides the username and password.")
-    public void user(String username, String password) throws IOException
+    public void user(String username, String password) throws IOException, PnetDataClientException
     {
         if (username != null)
         {
+            logout();
+
             if (password == null)
             {
                 Arguments arguments = cli.consume("Password: ");
@@ -699,8 +710,9 @@ public class PnetSpringRestClient
     {
         page.stream().map(PrettyPrint::prettyPrint).forEach(cli::info);
 
-        cli.info("\nThis is page %d of %d. Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
-            page.getPageIndex() + 1, page.getNumberOfPages());
+        cli
+            .info("\nThis is page %d of %d. Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
+                page.getPageIndex() + 1, page.getNumberOfPages());
     }
 
     protected PnetDataApiTokenKey key()
