@@ -49,12 +49,14 @@ public class SpringRestCall extends AbstractRestCall
 
     protected SpringRestCall(RestTemplate restTemplate, ConversionService conversionService)
     {
-        this(restTemplate, null, null, null, null, toConverter(conversionService), null);
+        this(restTemplate, null, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null, toConverter(conversionService),
+            null);
     }
 
     protected SpringRestCall(RestTemplate restTemplate, ConversionService conversionService, String url)
     {
-        this(restTemplate, url, null, null, null, toConverter(conversionService), null);
+        this(restTemplate, url, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null, toConverter(conversionService),
+            null);
     }
 
     protected SpringRestCall(RestTemplate restTemplate, String url, List<String> acceptableMediaTypes,
@@ -106,8 +108,8 @@ public class SpringRestCall extends AbstractRestCall
 
         try
         {
-            return new SpringRestResponse<>(restTemplate.exchange(uri, toHttpMethod(method), entity,
-                GenericParameterizedTypeReference.of(responseType)));
+            return new SpringRestResponse<>(restTemplate
+                .exchange(uri, toHttpMethod(method), entity, GenericParameterizedTypeReference.of(responseType)));
         }
         catch (RestClientResponseException e)
         {
