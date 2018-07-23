@@ -1,0 +1,237 @@
+package at.porscheinformatik.happyrest.spring;
+
+import java.lang.reflect.Array;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import at.porscheinformatik.happyrest.AbstractRestCall;
+import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.RestAttribute;
+import at.porscheinformatik.happyrest.RestAttributeConverter;
+import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.RestException;
+import at.porscheinformatik.happyrest.RestHeader;
+import at.porscheinformatik.happyrest.RestMethod;
+import at.porscheinformatik.happyrest.RestParameter;
+import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestResponseException;
+import at.porscheinformatik.happyrest.RestVariable;
+
+public class Spring4RestCall extends AbstractRestCall
+{
+    private static final Logger LOG = LoggerFactory.getLogger(Spring4RestCall.class);
+    private final RestTemplate restTemplate;
+
+    protected Spring4RestCall(RestTemplate restTemplate, ConversionService conversionService)
+    {
+        this(restTemplate, MediaType.APPLICATION_JSON_VALUE, null, null, null, toConverter(conversionService), null);
+    }
+
+    protected Spring4RestCall(RestTemplate restTemplate, ConversionService conversionService, String url)
+    {
+        this(restTemplate, url, null, MediaType.APPLICATION_JSON_VALUE, null, toConverter(conversionService),
+            (Object) null);
+    }
+
+    protected Spring4RestCall(RestTemplate restTemplate, String url, List<String> acceptableMediaTypes,
+        String contentType, List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
+    {
+        super(url, acceptableMediaTypes, contentType, attributes, converter, body);
+        this.restTemplate = restTemplate;
+    }
+
+    @Override
+    protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
+        List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
+    {
+        return new Spring4RestCall(restTemplate, url, acceptableMediaTypes, contentType, attributes, converter, body);
+    }
+
+    @Override
+    public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
+    {
+        HttpHeaders headers = new HttpHeaders();
+        URI uri = processAttributes(headers, path);
+        HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
+        LOG.info(String.format("Sending %s request: %s", method, uri));
+
+        try
+        {
+            return new Spring4RestResponse<>(restTemplate.exchange(uri, toHttpMethod(method), entity, responseType));
+        }
+        catch (RestClientResponseException var8)
+        {
+            throw new RestResponseException(method + " " + uri, var8.getRawStatusCode(), var8.getStatusText(), var8);
+        }
+        catch (Exception var9)
+        {
+            throw new RestException(method + " " + uri, var9, new Object[0]);
+        }
+    }
+
+    @Override
+    public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException
+    {
+        HttpHeaders headers = new HttpHeaders();
+        URI uri = processAttributes(headers, path);
+        HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
+        LOG.info(String.format("Sending %s request: %s", method, uri));
+
+        try
+        {
+            return new Spring4RestResponse<>(restTemplate
+                .exchange(uri, toHttpMethod(method), entity, GenericParameterizedTypeReference.of(responseType)));
+        }
+        catch (RestClientResponseException var8)
+        {
+            throw new RestResponseException(method + " " + uri, var8.getRawStatusCode(), var8.getStatusText(), var8);
+        }
+        catch (Exception var9)
+        {
+            throw new RestException(method + " " + uri, var9, new Object[0]);
+        }
+    }
+
+    protected HttpMethod toHttpMethod(RestMethod method)
+    {
+        switch (method)
+        {
+            case DELETE:
+                return HttpMethod.DELETE;
+            case GET:
+                return HttpMethod.GET;
+            case OPTIONS:
+                return HttpMethod.OPTIONS;
+            case PATCH:
+                return HttpMethod.PATCH;
+            case POST:
+                return HttpMethod.POST;
+            case PUT:
+                return HttpMethod.PUT;
+            default:
+                throw new UnsupportedOperationException("Unsupported method: " + method);
+        }
+    }
+
+    protected URI processAttributes(HttpHeaders headers, String path) throws RestException
+    {
+        List<String> acceptableMediaTypes = getAcceptableMediaTypes();
+        if (acceptableMediaTypes != null)
+        {
+            headers.setAccept(MediaType.parseMediaTypes(acceptableMediaTypes));
+        }
+
+        String contentType = getContentType();
+        if (contentType != null)
+        {
+            headers.setContentType(MediaType.parseMediaType(contentType));
+        }
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(prepareUrl(getUrl(), path));
+
+        Map<String, Object> variables = new HashMap<>();
+        List<RestAttribute> attributes = this.getAttributes();
+        int id = 0;
+        if (attributes != null)
+        {
+            Iterator<RestAttribute> var10 = attributes.iterator();
+
+            label65: while (true)
+            {
+                while (true)
+                {
+                    RestAttribute attribute;
+                    Object value;
+                    do
+                    {
+                        if (!var10.hasNext())
+                        {
+                            break label65;
+                        }
+
+                        attribute = var10.next();
+                        value = attribute.getValue();
+                    } while (value == null);
+
+                    String name = attribute.getName();
+                    if (attribute instanceof RestHeader)
+                    {
+                        headers.add(name, convert(value));
+                    }
+                    else if (attribute instanceof RestParameter)
+                    {
+                        if (value.getClass().isArray())
+                        {
+                            for (int i = 0; i < Array.getLength(value); ++i)
+                            {
+                                queryParam(builder, variables, name, id++, convert(Array.get(value, i)));
+                            }
+                        }
+                        else if (value instanceof Iterable)
+                        {
+                            Iterator<?> iterator = ((Iterable<?>) value).iterator();
+
+                            while (iterator.hasNext())
+                            {
+                                queryParam(builder, variables, name, id++, convert(iterator.next()));
+                            }
+                        }
+                        else
+                        {
+                            queryParam(builder, variables, name, id++, convert(value));
+                        }
+                    }
+                    else
+                    {
+                        if (!(attribute instanceof RestVariable))
+                        {
+                            throw new RestException("Rest attrbiute of %s not supported",
+                                new Object[]{attribute.getClass()});
+                        }
+
+                        variables.put(name, convert(value));
+                    }
+                }
+            }
+        }
+
+        try
+        {
+            return builder.buildAndExpand(variables).toUri();
+        }
+        catch (RuntimeException ex)
+        {
+            throw new IllegalArgumentException("Failed to parse URL", ex);
+        }
+    }
+
+    private void queryParam(UriComponentsBuilder builder, Map<String, Object> variables, String name, int id,
+        Object value)
+    {
+        String key = "#" + id;
+        builder.queryParam(name, new Object[]{"{" + key + "}"});
+        variables.put(key, value);
+    }
+
+    protected static RestAttributeConverter toConverter(ConversionService conversionService)
+    {
+        return conversionService != null ? (value) -> {
+            return conversionService.convert(value, String.class);
+        } : (value) -> {
+            return String.valueOf(value);
+        };
+    }
+}
