@@ -547,8 +547,10 @@ public class PnetSpringRestClient
         description = "Performs a delta migration for the specified index.")
     public void migrateDelta(String indexName) throws RestException, PnetDataClientException
     {
-        repository.restCall(key()).variable("indexName", indexName).post("/api/v1/migrator/delta/{indexName}",
-            Void.class);
+        repository
+            .restCall(key())
+            .variable("indexName", indexName)
+            .post("/api/v1/migrator/delta/{indexName}", Void.class);
 
         cli.info("Performing a delta migration on index: %s.", indexName);
     }
@@ -556,8 +558,10 @@ public class PnetSpringRestClient
     @CLI.Command(name = "migrate state", format = "<INDEXNAME>", description = "Prints the state of the migration.")
     public void migrateState(String indexName) throws RestException, PnetDataClientException
     {
-        HashMap<?, ?> state = repository.restCall(key()).variable("indexName", indexName).get(
-            "/api/v1/migrator/states/{indexName}", HashMap.class);
+        HashMap<?, ?> state = repository
+            .restCall(key())
+            .variable("indexName", indexName)
+            .get("/api/v1/migrator/states/{indexName}", HashMap.class);
 
         cli.info("Migration state of index: %s", indexName);
         cli.info(PrettyPrint.prettyPrint(state));
@@ -589,7 +593,14 @@ public class PnetSpringRestClient
     {
         if (url != null)
         {
-            logout();
+            try
+            {
+                logout();
+            }
+            catch (Exception | Error e)
+            {
+                // ignore
+            }
 
             prefs.setPnetDataApiUrl(url);
         }
@@ -612,7 +623,14 @@ public class PnetSpringRestClient
     {
         if (username != null)
         {
-            logout();
+            try
+            {
+                logout();
+            }
+            catch (Exception | Error e)
+            {
+                // ignore
+            }
 
             if (password == null)
             {

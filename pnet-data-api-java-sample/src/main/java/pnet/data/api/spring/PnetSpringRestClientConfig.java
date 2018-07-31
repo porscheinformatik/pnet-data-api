@@ -25,6 +25,6 @@ public class PnetSpringRestClientConfig
     @Bean
     public MutablePnetDataClientPrefs pnetDataClientPrefs()
     {
-        return new MutablePnetDataClientPrefs("https://localhost:4443/data", "pnetsample", "pnetsample");
+        return new MutablePnetDataClientPrefs("https://qa-data.auto-partner.net/data", null, null);
     }
 }
