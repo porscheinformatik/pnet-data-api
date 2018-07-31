@@ -6,7 +6,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.web.client.RestTemplate;
 
 import at.porscheinformatik.happyrest.RestCallFactory;
-import at.porscheinformatik.happyrest.spring.SpringRestCallFactory;
+import at.porscheinformatik.happyrest.spring.Spring4RestCallFactory;
 
 /**
  * <pre>
@@ -16,15 +16,15 @@ import at.porscheinformatik.happyrest.spring.SpringRestCallFactory;
  * </pre>
  */
 @Configuration
-@ComponentScan(basePackageClasses = {ContextPnetDataApiClientConfig.class})
-public class ContextPnetDataApiClientConfig extends AbstractContextPnetDataApiClientConfig
+@ComponentScan(basePackageClasses = {ContextPnetDataApiClientSpring4Config.class})
+public class ContextPnetDataApiClientSpring4Config extends AbstractContextPnetDataApiClientConfig
 {
 
     @Override
     protected RestCallFactory createSpringRestCallFactory(ConversionService conversionService,
         RestTemplate restTemplate)
     {
-        return new SpringRestCallFactory(restTemplate, conversionService);
+        return new Spring4RestCallFactory(restTemplate, conversionService);
     }
 
 }
