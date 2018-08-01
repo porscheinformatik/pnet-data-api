@@ -24,7 +24,7 @@ Bezeichnung: The name of the user, something like: "My Application System User"
 
 Informationen und Freigaben: We need the name of the application, that will use this user. The application must already be known to the Partner.&#78;et. It depends on the application, which persons are accessible (the consent of the person is needed).
 
-Additionally, we will enter your own user as manager for the systemuser. This means that you, and nobody else, can request a password for the user. If more uses should be allowed to do this, add a list to this field.
+Additionally, we will enter your own user as manager for the systemuser. This means that you, and nobody else, can request a password for the user. If more users should be allowed to do this, add a list to this field.
 
 After the systemuser has been created, you can use the [Systemuser Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) for requesting a password.
 
