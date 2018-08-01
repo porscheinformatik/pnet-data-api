@@ -1,0 +1,195 @@
+{
+	"info": {
+		"_postman_id": "ccd89987-d171-413e-afb4-bacdbc22a17e",
+		"name": "Partner.Net Data API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"username\":\"...\", \"password\":\"...\"}\n"
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/login",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "About",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/about/",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"about",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activities Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/activities/search?l=de&q=*&p=0&pp=10",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"activities",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Functions Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "PortalId",
+						"value": "AT",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/functions/search?l=de&q=*&p=0&pp=10",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"functions",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

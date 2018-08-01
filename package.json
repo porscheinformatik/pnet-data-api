@@ -6,8 +6,9 @@
     "scripts": {
         "start": "webpack-dev-server --mode development --open",
         "build": "webpack --mode production",
-        "deploy": "npm run build & cd dist & git add --all & git commit -m \"Updates gh-pages\" & git pull --rebase & git push & cd ..",
-        "install": "git submodule init & git submodule update & cd dist & git checkout gh-pages & git pull --rebase & cd ..:"
+        "deploy": "npm run download & npm run build & cd dist & git add --all & git commit -m \"Updates gh-pages\" & git pull --rebase & git push & cd ..",
+        "install": "git submodule init & git submodule update & cd dist & git checkout gh-pages & git pull --rebase & cd ..:",
+        "download": "curl https://data.auto-partner.net/data/v2/api-docs --output src/swagger/pnet-data-api-swagger.json"
     },
     "repository": {
         "type": "git",
