@@ -32,8 +32,8 @@ After the systemuser has been created, you can use the [Systemuser Self-Service]
 
 Following instances are accessible:
 
-| PROD | https://data.auto-partner.net/data    |
-| QA   | https://qa-data.auto-partner.net/data |
+PROD: https://data.auto-partner.net/data
+QA: https://qa-data.auto-partner.net/data
 
 First, perform a login:
 
