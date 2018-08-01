@@ -54,7 +54,7 @@ This will return some information about the server and your user. It's a perfect
 
 # Testing
 
-You can use the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/swagger/Partner.Net%20Data%20API.postman_collection.json) with the [Postman Tool](https://www.getpostman.com/) for testing. Download the tool, import the collection.
+You can use the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/postman/Partner.Net%20Data%20API.postman_collection.json) with the [Postman Tool](https://www.getpostman.com/) for testing. Download the tool, import the collection.
 
 # Java Client Library
 
