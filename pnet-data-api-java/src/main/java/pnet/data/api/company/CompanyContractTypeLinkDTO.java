@@ -40,23 +40,26 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
 
     @ApiModelProperty(notes = "The unique matchcode of the brand")
     private final String brandMatchcode;
-    @ApiModelProperty(notes = "The date and time from when this contract state is/was valid for the company")
+    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid for the company")
     private final LocalDateTime validFrom;
-    @ApiModelProperty(notes = "The date and time till when this contract state is/was valid for the company")
+    @ApiModelProperty(notes = "The date and time till when this contract type is/was valid for the company")
     private final LocalDateTime validTo;
+    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid to a limited extent")
+    private final LocalDateTime limitedExtentFrom;
     @ApiModelProperty(notes = "The flag that declares, whether the contract takes part in the KVPS or not")
     private final boolean kvps;
 
     public CompanyContractTypeLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("brand") String brand,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("kvps") boolean kvps)
+        @JsonProperty("limitedExtentFrom") LocalDateTime limitedExtentFrom, @JsonProperty("kvps") boolean kvps)
     {
         super(tenant, matchcode);
 
         brandMatchcode = brand;
         this.validFrom = validFrom;
         this.validTo = validTo;
+        this.limitedExtentFrom = limitedExtentFrom;
         this.kvps = kvps;
     }
 
@@ -90,6 +93,11 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
     public LocalDateTime getValidTo()
     {
         return validTo;
+    }
+    
+    public LocalDateTime getLimitedExtentFrom()
+    {
+        return limitedExtentFrom;
     }
 
     public boolean isKvps()
