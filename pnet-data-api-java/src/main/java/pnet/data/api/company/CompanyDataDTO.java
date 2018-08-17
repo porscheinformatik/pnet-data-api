@@ -29,88 +29,139 @@ import pnet.data.api.GeoPoint;
  *
  * @author ham
  */
-@ApiModel(description = "Holds all information about a company")
+@ApiModel(description = "Holds all information about one company.")
 public class CompanyDataDTO implements Serializable
 {
 
     private static final long serialVersionUID = -6550030919773234742L;
 
-    @ApiModelProperty(notes = "The unique id of the company")
+    @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;
 
-    @ApiModelProperty(notes = "The tenant, in which this company is administrated")
+    @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
     private String administrativeTenant;
-    @ApiModelProperty(notes = "The name of the company")
+
+    @ApiModelProperty(notes = "The name of the company.")
     private String name;
-    @ApiModelProperty(notes = "The name affix of the company")
+
+    @ApiModelProperty(notes = "The name affix of the company.")
     private String nameAffix;
-    @ApiModelProperty(notes = "The marketing name of the company")
+
+    @ApiModelProperty(notes = "The marketing name of the company.")
     private String marketingName;
-    @ApiModelProperty(notes = "The tenants where the company is valid")
+
+    @ApiModelProperty(notes = "Valid tenants of the company (also known as Portal-ID).")
     private Collection<String> tenants;
-    @ApiModelProperty(notes = "The brands where the company is valid")
+
+    @ApiModelProperty(
+        notes = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
+            + "interface.")
     private Collection<CompanyBrandLinkDTO> brands;
-    @ApiModelProperty(notes = "The contract types where the company is valid")
+
+    @ApiModelProperty(
+        notes = "All contract types assigned to the company. The matchcode of each item fits to the matchcodes of the "
+            + "contract types interface.")
     private Collection<CompanyContractTypeLinkDTO> contractTypes;
-    @ApiModelProperty(notes = "The contract states where the company is valid")
+
+    @ApiModelProperty(
+        notes = "All contract states assigned to the company. The matchcode of each item fits to the matchcodes of the "
+            + "contract states interface.")
     private Collection<CompanyContractStateLinkDTO> contractStates;
-    @ApiModelProperty(notes = "The vat ID of the company")
+
+    @ApiModelProperty(notes = "The vat ID of the company.")
     private String vatIdNumber;
-    @ApiModelProperty(notes = "The sap number of the of the company")
+
+    @ApiModelProperty(notes = "The SAP number of the of the company.")
     private String sapNumber;
-    @ApiModelProperty(notes = "The company number")
+
+    @ApiModelProperty(notes = "The company number. In most cases, this is the same as the SAP number.")
     private String companyNumber;
-    @ApiModelProperty(notes = "The additional numbers of the company")
+
+    @ApiModelProperty(
+        notes = "All additional numbers of the company. The matchcode of each item fits to the matchcodes of the "
+            + "company number types interface.")
     private Collection<CompanyNumberLinkDTO> additionalNumbers;
-    @ApiModelProperty(notes = "The street in which the company is located")
+
+    @ApiModelProperty(notes = "The name of the street as defined in the address of the company.")
     private String street;
-    @ApiModelProperty(notes = "The city in which the company is located")
+
+    @ApiModelProperty(notes = "The name of the city as defined in the address of the company.")
     private String city;
-    @ApiModelProperty(notes = "The postal code of the city in which the company is located")
+
+    @ApiModelProperty(notes = "The postal code of the city as defined in the address of the company.")
     private String postalCode;
-    @ApiModelProperty(notes = "The code of the country in which the company is located")
+
+    @ApiModelProperty(notes = "The code of the country as defined in the address of the company.")
     private String countryCode;
-    @ApiModelProperty(notes = "The name of the country the company is located in")
+
+    @ApiModelProperty(notes = "The name of the country as defined in the address of the company.")
     private String country;
-    @ApiModelProperty(notes = "The region of the country the company is in")
+
+    @ApiModelProperty(notes = "The region as defined in the address of the company.")
     private String region;
-    @ApiModelProperty(notes = "The IBAN of the company")
+
+    @ApiModelProperty(notes = "The IBAN of the company.")
     private String iban;
-    @ApiModelProperty(notes = "The BIC of the company")
+
+    @ApiModelProperty(notes = "The BIC of the company.")
     private String bic;
-    @ApiModelProperty(notes = "The company types the company has")
+
+    @ApiModelProperty(notes = "All company types assigned to the company. The matchcode of each item fits to the "
+        + "matchcodes of the company types interface.")
     private Collection<CompanyTypeLinkDTO> types;
-    @ApiModelProperty(notes = "The phone number of the company")
+
+    @ApiModelProperty(notes = "The phone number of the company.")
     private String phoneNumber;
-    @ApiModelProperty(notes = "The speed dial of the company")
+
+    @ApiModelProperty(notes = "The mobile phone number of the company.")
+    private String mobileNumber;
+
+    @ApiModelProperty(notes = "The speed dial of the company.")
     private String speedDial;
-    @ApiModelProperty(notes = "The fax number of the company")
+
+    @ApiModelProperty(notes = "The fax number of the company.")
     private String faxNumber;
-    @ApiModelProperty(notes = "The email address of the company")
+
+    @ApiModelProperty(notes = "The email address of the company.")
     private String email;
-    @ApiModelProperty(notes = "The homepage of the company")
+
+    @ApiModelProperty(notes = "The homepage of the company.")
     private String homepage;
-    @ApiModelProperty(notes = "The postal address of the company")
+
+    @ApiModelProperty(notes = "The postal address of the company. In contrast to the other address fields, this may "
+        + "contain a simplifcation of the address, like a post office box.")
     private String postal;
-    @ApiModelProperty(notes = "The matchcode of the legal form")
+
+    @ApiModelProperty(notes = "The matchcode of the legal form.")
     private String legalFormMatchcode;
-    @ApiModelProperty(notes = "The DVR number of the company")
+
+    @ApiModelProperty(
+        notes = "The number of the company as defined in the data processing register (also known as DVR).")
     private String dataProcessingRegisterNumber;
-    @ApiModelProperty(notes = "The FB number of the company")
+
+    @ApiModelProperty(notes = "The number of the company in the commerical register (also knwon as FB).")
     private String commercialRegisterNumber;
-    @ApiModelProperty(notes = "The certificate type the company has")
+
+    @ApiModelProperty(notes = "The certificate type of the company.")
     private String certificateType;
-    @ApiModelProperty(notes = "The number of the certificate the company has")
+
+    @ApiModelProperty(notes = "The number of the certificate of the company.")
     private String certificateNumber;
-    @ApiModelProperty(notes = "The venue jurisdiction the company is part of because of the geographical position")
+
+    @ApiModelProperty(notes = "The venue jurisdiction the company is part of because of its geographical position.")
     private String jurisdiction;
-    @ApiModelProperty(notes = "The location of the company in form of a GeoPoint")
+
+    @ApiModelProperty(notes = "The logitude and latitude of the companies location.")
     private GeoPoint location;
-    @ApiModelProperty(notes = "The external brands the company has")
+
+    @ApiModelProperty(notes = "All external brands assigned to the company.")
     private Collection<CompanyExternalBrandDataDTO> externalBrands;
-    @ApiModelProperty(notes = "The id of the company, that is the headquarter to this company")
+
+    @ApiModelProperty(notes = "The id of the company, that is the headquarter to this company.")
     private Integer headquarterCompanyId;
-    @ApiModelProperty(notes = "The time and date when the company was last changed")
+
+    @ApiModelProperty(
+        notes = "The time and date of the last occasion, when the data of the this company has been " + "modified.")
     private LocalDateTime lastUpdate;
 
     public CompanyDataDTO(@JsonProperty("companyId") Integer companyId)
@@ -345,6 +396,16 @@ public class CompanyDataDTO implements Serializable
         this.phoneNumber = phoneNumber;
     }
 
+    public String getMobileNumber()
+    {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber)
+    {
+        this.mobileNumber = mobileNumber;
+    }
+
     public String getSpeedDial()
     {
         return speedDial;
@@ -498,19 +559,19 @@ public class CompanyDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format(
-            "CompanyDataDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
+        return String
+            .format("CompanyDataDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
                 + "tenants=%s, brands=%s, contractTypes=%s, contractStates=%s, vatIdNumber=%s, sapNumber=%s, "
                 + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, country=%s, "
-                + "region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, speedDial=%s, faxNumber=%s, email=%s, "
+                + "region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, "
                 + "homepage=%s, postal=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, "
                 + "certificateType=%s, certificateNumber=%s, "
-                + "jurisdiction=%s, location=%s, externalBrands=%s, headquarterCompanyId=%s, lastUpdate=%s]",
-            companyId, administrativeTenant, name, nameAffix, marketingName, tenants, brands, contractTypes,
-            contractStates, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city, postalCode,
-            countryCode, country, region, iban, bic, types, phoneNumber, speedDial, faxNumber, email, homepage, postal,
-            legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber, certificateType,
-            certificateNumber, jurisdiction, location, externalBrands, headquarterCompanyId, lastUpdate);
+                + "jurisdiction=%s, location=%s, externalBrands=%s, headquarterCompanyId=%s, lastUpdate=%s]", companyId,
+                administrativeTenant, name, nameAffix, marketingName, tenants, brands, contractTypes, contractStates,
+                vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city, postalCode, countryCode,
+                country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial, faxNumber, email, homepage,
+                postal, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber, certificateType,
+                certificateNumber, jurisdiction, location, externalBrands, headquarterCompanyId, lastUpdate);
     }
 
 }
