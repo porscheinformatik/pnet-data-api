@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ccd89987-d171-413e-afb4-bacdbc22a17e",
+		"_postman_id": "94601745-0580-4afe-b037-15b22eb56daf",
 		"name": "Partner.Net Data API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -15,7 +15,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\":\"...\", \"password\":\"...\"}\n"
+					"raw": "{\"username\":\"{{username}}\", \"password\":\"{{password}}\"}\n"
 				},
 				"url": {
 					"raw": "https://data.auto-partner.net/data/login",
@@ -91,7 +91,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://data.auto-partner.net/data/api/v1/activities/search?l=de&q=*&p=0&pp=10",
+					"raw": "https://data.auto-partner.net/data/api/v1/activities/search?l=de&p=0&pp=10&q=*",
 					"protocol": "https",
 					"host": [
 						"data",
@@ -111,8 +111,266 @@
 							"value": "de"
 						},
 						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
 							"key": "q",
 							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all activities matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "Activities Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/activities/find?l=de&p=0&pp=10&mc=TA_STD_MENPKT&mc=TA_GH_DEFAULT",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"activities",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "TA_STD_MENPKT"
+						},
+						{
+							"key": "mc",
+							"value": "TA_GH_DEFAULT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activities Find by CompanyType",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/activities/find?l=de&p=0&pp=10&companyType=CT_DEV",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"activities",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "companyType",
+							"value": "CT_DEV"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activities Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/activities/details/TA_STD_MENPKT",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"activities",
+						"details",
+						"TA_STD_MENPKT"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activities Detail by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/activities/details/?mc=TA_STD_MENPKT&mc=TA_GH_DEFAULT",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"activities",
+						"details",
+						""
+					],
+					"query": [
+						{
+							"key": "mc",
+							"value": "TA_STD_MENPKT"
+						},
+						{
+							"key": "mc",
+							"value": "TA_GH_DEFAULT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AdvisorTypes Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/advisortypes/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"advisortypes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
 						},
 						{
 							"key": "p",
@@ -122,9 +380,1823 @@
 						{
 							"key": "pp",
 							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all advisor types matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "AdvisorTypes Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/advisortypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=AT_MARKETING",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"advisortypes",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "AT_DISPO"
+						},
+						{
+							"key": "mc",
+							"value": "AT_MARKETING"
 						}
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "AdvisorTypes Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/advisortypes/details/AT_DISPO",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"advisortypes",
+						"details",
+						"AT_DISPO"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AdvisorTypes Detail by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/advisortypes/details/?mc=AT_DISPO&mc=AT_MARKETING",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"advisortypes",
+						"details",
+						""
+					],
+					"query": [
+						{
+							"key": "mc",
+							"value": "AT_DISPO"
+						},
+						{
+							"key": "mc",
+							"value": "AT_MARKETING"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Applications Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/applications/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"applications",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all applications matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "Applications Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/applications/find?l=de&p=0&pp=10&mc=AP_PORTAL&mc=AP_SVP",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"applications",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "AP_PORTAL"
+						},
+						{
+							"key": "mc",
+							"value": "AP_SVP"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Applications Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/applications/details/AP_PORTAL",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"applications",
+						"details",
+						"AP_PORTAL"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Applications Detail by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/applications/details/?mc=AP_PORTAL&mc=AP_SVP",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"applications",
+						"details",
+						""
+					],
+					"query": [
+						{
+							"key": "mc",
+							"value": "AP_PORTAL"
+						},
+						{
+							"key": "mc",
+							"value": "AP_SVP"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Brands Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/brands/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"brands",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all brands matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "Brands Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/brands/find?l=de&p=0&pp=10&mc=V&mc=L",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"brands",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "V"
+						},
+						{
+							"key": "mc",
+							"value": "L"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Brands Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/brands/details/V",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"brands",
+						"details",
+						"V"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Brands Detail by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/brands/details/?mc=V&mc=L",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"brands",
+						"details",
+						""
+					],
+					"query": [
+						{
+							"key": "mc",
+							"value": "V"
+						},
+						{
+							"key": "mc",
+							"value": "L"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Companies Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companies/search?l=de&p=0&pp=10&q=Porsche",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companies",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "Porsche"
+						}
+					]
+				},
+				"description": "Returns all matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "Companies Find by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companies/find?l=de&p=0&pp=10&id=11367",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companies",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "id",
+							"value": "11367"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Companies Find by CompanyType",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companies/find?l=de&p=0&pp=10&type=CT_DEV",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companies",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "type",
+							"value": "CT_DEV"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Companies Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companies/details/11367",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companies",
+						"details",
+						"11367"
+					]
+				},
+				"description": "Returns all details of the company."
+			},
+			"response": []
+		},
+		{
+			"name": "Companies Detail by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companies/details/?id=11367",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companies",
+						"details",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "11367"
+						}
+					]
+				},
+				"description": "Returns all details of the company. You can add multiple ids to get more companies at once."
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyGroups Detail by LeadingCompanyId",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companygroups/details/?leadingCompanyId=12415",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companygroups",
+						"details",
+						""
+					],
+					"query": [
+						{
+							"key": "leadingCompanyId",
+							"value": "12415"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyGroupTypes Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companygrouptypes/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companygrouptypes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all company group types matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyGroupTypes Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companygrouptypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CG_STANDORT",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companygrouptypes",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "AT_DISPO"
+						},
+						{
+							"key": "mc",
+							"value": "CG_STANDORT"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyGroupTypes Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companygrouptypes/details/CG_STANDORT",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companygrouptypes",
+						"details",
+						"CG_STANDORT"
+					]
+				},
+				"description": "Returns the details of the company group type. You may use the mc parameter to get multiple details at once."
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyNumberTypes Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companynumbertypes/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companynumbertypes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all company number types matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyNumberTypes Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companynumbertypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CN_KVPS_BNR",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companynumbertypes",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "AT_DISPO"
+						},
+						{
+							"key": "mc",
+							"value": "CN_KVPS_BNR"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyNumberTypes Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companynumbertypes/details/CN_KVPS_BNR",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companynumbertypes",
+						"details",
+						"CN_KVPS_BNR"
+					]
+				},
+				"description": "Returns the details of the company number type. You may use the mc parameter to get multiple details at once."
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyTypes Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companytypes/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companytypes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all company types matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyTypes Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companytypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CT_DEAL",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companytypes",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "AT_DISPO"
+						},
+						{
+							"key": "mc",
+							"value": "CT_DEAL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CompanyTypes Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/companytypes/details/CT_DEAL",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"companytypes",
+						"details",
+						"CT_DEAL"
+					]
+				},
+				"description": "Returns the details of the company type. You may use the mc parameter to get multiple details at once."
+			},
+			"response": []
+		},
+		{
+			"name": "ContractStates Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/contractstates/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"contractstates",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all contract states matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "ContractStates Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/contractstates/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=1",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"contractstates",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "AT_DISPO"
+						},
+						{
+							"key": "mc",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ContractStates Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/contractstates/details/1",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"contractstates",
+						"details",
+						"1"
+					]
+				},
+				"description": "Returns the details of the contract state. You may use the mc parameter to get multiple details at once."
+			},
+			"response": []
+		},
+		{
+			"name": "ContractTypes Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/contracttypes/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"contracttypes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all contract types matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "ContractTypes Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/contracttypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CR_HDL",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"contracttypes",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "AT_DISPO"
+						},
+						{
+							"key": "mc",
+							"value": "CR_HDL"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ContractTypes Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/contracttypes/details/CR_HDL",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"contracttypes",
+						"details",
+						"CR_HDL"
+					]
+				},
+				"description": "Returns the details of the contract type. You may use the mc parameter to get multiple details at once."
+			},
+			"response": []
+		},
+		{
+			"name": "ExternalBrands Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/externalbrands/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"externalbrands",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all external brands matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "ExternalBrands Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/externalbrands/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=BU",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"externalbrands",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "AT_DISPO"
+						},
+						{
+							"key": "mc",
+							"value": "BU"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ExternalBrands Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/externalbrands/details/BU",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"externalbrands",
+						"details",
+						"BU"
+					]
+				},
+				"description": "Returns the details of the external brand. You may use the mc parameter to get multiple details at once."
 			},
 			"response": []
 		},
@@ -142,19 +2214,13 @@
 					]
 				},
 				"method": "GET",
-				"header": [
-					{
-						"key": "PortalId",
-						"value": "AT",
-						"disabled": true
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://data.auto-partner.net/data/api/v1/functions/search?l=de&q=*&p=0&pp=10",
+					"raw": "https://data.auto-partner.net/data/api/v1/functions/search?l=de&p=0&pp=10&q=*",
 					"protocol": "https",
 					"host": [
 						"data",
@@ -174,8 +2240,268 @@
 							"value": "de"
 						},
 						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
 							"key": "q",
 							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all functions matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "Functions Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/functions/find?l=de&p=0&pp=10&mc=TA_STD_MENPKT&mc=FU_ST_USER",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"functions",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "TA_STD_MENPKT"
+						},
+						{
+							"key": "mc",
+							"value": "FU_ST_USER"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Functions Find by CompanyType",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/functions/find?l=de&p=0&pp=10&companyType=CT_DEV",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"functions",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "companyType",
+							"value": "CT_DEV"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Functions Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/functions/details/FU_ST_USER",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"functions",
+						"details",
+						"FU_ST_USER"
+					]
+				},
+				"description": "Returns the details of the functions"
+			},
+			"response": []
+		},
+		{
+			"name": "Functions Detail by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/functions/details/?mc=FU_ST_USER&mc=FU_GH_STD_GI_U",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"functions",
+						"details",
+						""
+					],
+					"query": [
+						{
+							"key": "mc",
+							"value": "FU_ST_USER"
+						},
+						{
+							"key": "mc",
+							"value": "FU_GH_STD_GI_U"
+						}
+					]
+				},
+				"description": "Returns the details of the function. You may use the mc parameter to get multiple details at once."
+			},
+			"response": []
+		},
+		{
+			"name": "NumberTypes Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/numbertypes/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"numbertypes",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
 						},
 						{
 							"key": "p",
@@ -185,9 +2511,368 @@
 						{
 							"key": "pp",
 							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all number types matching the query."
+			},
+			"response": []
+		},
+		{
+			"name": "NumberTypes Find by MC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/numbertypes/find?l=de&p=0&pp=10&mc=NT_VERK_NR",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"numbertypes",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "mc",
+							"value": "NT_VERK_NR"
 						}
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "NumberTypes Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/numbertypes/details/NT_VERK_NR",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"numbertypes",
+						"details",
+						"NT_VERK_NR"
+					]
+				},
+				"description": "Returns the details of the number type. You may use the mc parameter to get multiple details at once."
+			},
+			"response": []
+		},
+		{
+			"name": "Persons Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/persons/search?l=de&p=0&pp=10&q=*",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"persons",
+						"search"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0",
+							"description": "\n"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "q",
+							"value": "*"
+						}
+					]
+				},
+				"description": "Returns all persons matching the query. The persons have to be affiliated with your application, thus you may not see any result with this sample."
+			},
+			"response": []
+		},
+		{
+			"name": "Persons Find by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/persons/find?l=de&p=0&pp=10&id=39997",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"persons",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "id",
+							"value": "39997"
+						}
+					]
+				},
+				"description": "Returns all persons with the specified id. You can add multiple ids to get more users at once. The persons have to be affiliated with your application, thus you may not see any result with this sample."
+			},
+			"response": []
+		},
+		{
+			"name": "Persons Find by Function",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/persons/find?l=de&p=0&pp=10&function=FU_PNET_ENTW",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"persons",
+						"find"
+					],
+					"query": [
+						{
+							"key": "l",
+							"value": "de"
+						},
+						{
+							"key": "p",
+							"value": "0"
+						},
+						{
+							"key": "pp",
+							"value": "10"
+						},
+						{
+							"key": "function",
+							"value": "FU_PNET_ENTW"
+						}
+					]
+				},
+				"description": "Returns all persons with the specified function. You can add multiple functions to get more users at once. The persons have to be affiliated with your application, thus you may not see any result with this sample."
+			},
+			"response": []
+		},
+		{
+			"name": "Persons Detail",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/persons/details/39997",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"persons",
+						"details",
+						"39997"
+					]
+				},
+				"description": "Returns all details of a person. The person has to be affiliated with your application, thus you may not see any result with this sample."
+			},
+			"response": []
+		},
+		{
+			"name": "Persons Detail by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://data.auto-partner.net/data/api/v1/persons/details/?id=39997",
+					"protocol": "https",
+					"host": [
+						"data",
+						"auto-partner",
+						"net"
+					],
+					"path": [
+						"data",
+						"api",
+						"v1",
+						"persons",
+						"details",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "39997"
+						}
+					]
+				},
+				"description": "Returns all details of a person. You can add multiple ids to get more users at once. The person hasto be affiliated with your application, thus you may not see any result with this sample."
 			},
 			"response": []
 		}
