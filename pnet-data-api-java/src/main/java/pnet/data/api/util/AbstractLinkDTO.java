@@ -56,10 +56,8 @@ public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Seri
     {
         final int prime = 31;
         int result = 1;
-
         result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-
         return result;
     }
 
@@ -70,19 +68,15 @@ public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Seri
         {
             return true;
         }
-
         if (obj == null)
         {
             return false;
         }
-
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof AbstractLinkDTO))
         {
             return false;
         }
-
         AbstractLinkDTO other = (AbstractLinkDTO) obj;
-
         if (matchcode == null)
         {
             if (other.matchcode != null)
@@ -94,7 +88,6 @@ public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Seri
         {
             return false;
         }
-
         if (tenant == null)
         {
             if (other.tenant != null)
@@ -106,7 +99,6 @@ public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Seri
         {
             return false;
         }
-
         return true;
     }
 

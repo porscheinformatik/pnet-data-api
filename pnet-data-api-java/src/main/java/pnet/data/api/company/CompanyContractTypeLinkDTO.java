@@ -18,7 +18,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,46 +30,52 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about the contract type of a company")
+@ApiModel(description = "Holds minimal information about the contract type of a company. The matchcode fits to the "
+    + "matchcodes of the contract types interface.")
 public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
     implements WithBrandMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 5617472922439542723L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the brand")
+    @ApiModelProperty(notes = "The matchcode of the brand this contract type is assigned to.")
     private final String brandMatchcode;
-    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid for the company")
+
+    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid for the company.")
     private final LocalDateTime validFrom;
-    @ApiModelProperty(notes = "The date and time till when this contract type is/was valid for the company")
+
+    @ApiModelProperty(notes = "The date and time till when this contract type is/was valid for the company.")
     private final LocalDateTime validTo;
-    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid to a limited extent")
+
+    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid to a limited extent.")
     private final LocalDateTime limitedExtentFrom;
-    @ApiModelProperty(notes = "The flag that declares, whether the contract takes part in the KVPS or not")
+
+    @ApiModelProperty(notes = "If this flag is set to true, the contract takes part in the KVPS.")
     private final boolean kvps;
 
     public CompanyContractTypeLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("matchcode") String matchcode, @JsonProperty("brand") String brand,
+        @JsonProperty("matchcode") String matchcode, @JsonProperty("brand") String brandMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("limitedExtentFrom") LocalDateTime limitedExtentFrom, @JsonProperty("kvps") boolean kvps)
     {
         super(tenant, matchcode);
 
-        brandMatchcode = brand;
+        this.brandMatchcode = brandMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.limitedExtentFrom = limitedExtentFrom;
         this.kvps = kvps;
     }
 
-    @JsonPropertyDescription("A tenant where the contract type is valid")
+    @ApiModelProperty(notes = "The tenant (Portal-ID) where this contract type reference is valid.")
     @Override
     public String getTenant()
     {
         return super.getTenant();
     }
 
-    @JsonPropertyDescription("The unique matchcode of the contract type")
+    @ApiModelProperty(
+        notes = "The matchcode of the contract type (fits the matchcodes of the contract types interface)")
     @Override
     public String getMatchcode()
     {
@@ -94,7 +99,7 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
     {
         return validTo;
     }
-    
+
     public LocalDateTime getLimitedExtentFrom()
     {
         return limitedExtentFrom;
@@ -111,9 +116,7 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
-        result = prime * result + (kvps ? 1231 : 1237);
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
-        result = prime * result + ((validTo == null) ? 0 : validTo.hashCode());
         return result;
     }
 
@@ -144,10 +147,6 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
         {
             return false;
         }
-        if (kvps != other.kvps)
-        {
-            return false;
-        }
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -159,25 +158,15 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
         {
             return false;
         }
-        if (validTo == null)
-        {
-            if (other.validTo != null)
-            {
-                return false;
-            }
-        }
-        else if (!validTo.equals(other.validTo))
-        {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [brandMatchcode=%s, validFrom=%s, validTo=%s, kvps=%s]", getMatchcode(),
-            getTenant(), brandMatchcode, validFrom, validTo, kvps);
+        return String
+            .format("%s(%s) [brandMatchcode=%s, validFrom=%s, validTo=%s, kvps=%s]", getMatchcode(), getTenant(),
+                brandMatchcode, validFrom, validTo, kvps);
     }
 
 }

@@ -20,108 +20,37 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import pnet.data.api.util.WithMatchcode;
-import pnet.data.api.util.WithTenant;
+import pnet.data.api.util.AbstractLinkDTO;
 
 /**
  * Holds the brand of a company with all contracts for the brand.
  *
  * @author ham
  */
-@ApiModel(description = "Holds basic information about the brand of a company")
-public class CompanyBrandItemDTO implements WithTenant, WithMatchcode, Serializable
+@ApiModel(description = "Holds the refrence to a brand of a company. The matchcode fits the matchcodes of the brands "
+    + "interface.")
+public class CompanyBrandItemDTO extends AbstractLinkDTO implements Serializable
 {
 
     private static final long serialVersionUID = 3854328576692607595L;
 
-    @ApiModelProperty(notes = "The tenant of the brand")
-    private final String tenant;
-    @ApiModelProperty(notes = "The matchcode of the brand")
-    private final String matchcode;
-
     public CompanyBrandItemDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {
-        super();
-
-        this.tenant = tenant;
-        this.matchcode = matchcode;
+        super(tenant, matchcode);
     }
 
+    @ApiModelProperty(notes = "The tenant (Portal-ID) where this brand is valid.")
     @Override
     public String getTenant()
     {
-        return tenant;
+        return super.getTenant();
     }
 
+    @ApiModelProperty(notes = "The matchcode of the brand (fits the matchcodes of the brands interface)")
     @Override
     public String getMatchcode()
     {
-        return matchcode;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-
-        if (obj == null)
-        {
-            return false;
-        }
-
-        if (getClass() != obj.getClass())
-        {
-            return false;
-        }
-
-        CompanyBrandItemDTO other = (CompanyBrandItemDTO) obj;
-
-        if (matchcode == null)
-        {
-            if (other.matchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!matchcode.equals(other.matchcode))
-        {
-            return false;
-        }
-
-        if (tenant == null)
-        {
-            if (other.tenant != null)
-            {
-                return false;
-            }
-        }
-        else if (!tenant.equals(other.tenant))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("%s(%s)", matchcode, tenant);
+        return super.getMatchcode();
     }
 
 }
