@@ -57,6 +57,10 @@ This will return some information about the server and your user. It's a perfect
 
 You can use the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/postman/Partner.Net%20Data%20API.postman_collection.json) with the [Postman Tool](https://www.getpostman.com/) for testing. Download the tool, import the collection.
 
+First, execute the "Login" request. Set the username and the password in the "Body" tab (alternatively, you can specify global variables). The request should return with "200 OK". Select the "Headers" tab and copy the token from the "Authorization" header field.
+
+Next, execute the "About" request. Paste the token in the "Authorization" tab (alternatively, you can specify a global variable). Be aware, that the token is only valid for one hour after the login! The request should return with "200 OK" and the "Body" tab should contain some information about versions an the user.
+
 # Java Client Library
 
 If you are using Java, you can checkout the [Partner.&#78;et Data API Java Client](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java). It contains a useful library and a sample implementation.

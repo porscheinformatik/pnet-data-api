@@ -29,45 +29,65 @@ import pnet.data.api.GeoPoint;
  *
  * @author ham
  */
-@ApiModel(description = "Holds basic information about a company")
+@ApiModel(description = "Holds basic information about one company.")
 public class CompanyItemDTO implements Serializable
 {
 
     private static final long serialVersionUID = 4397773907429688509L;
 
-    @ApiModelProperty(notes = "The unique id of the company")
+    @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;
-    @ApiModelProperty(notes = "The tenant, in which this company is administrated")
+
+    @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
     private final String administrativeTenant;
-    @ApiModelProperty(notes = "The name of the company")
+
+    @ApiModelProperty(notes = "The name of the company.")
     private final String name;
-    @ApiModelProperty(notes = "The name affix of the company")
+
+    @ApiModelProperty(notes = "The name affix of the company.")
     private final String nameAffix;
-    @ApiModelProperty(notes = "The marketing name of the company")
+
+    @ApiModelProperty(notes = "The marketing name of the company.")
     private final String marketingName;
-    @ApiModelProperty(notes = "The tenants where the company is valid")
+
+    @ApiModelProperty(notes = "Valid tenants of the company (also known as Portal-ID).")
     private final Collection<String> tenants;
-    @ApiModelProperty(notes = "The brands where the company is valid")
+
+    @ApiModelProperty(
+        notes = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
+            + "interface.")
     private final Collection<CompanyBrandLinkDTO> brands;
-    @ApiModelProperty(notes = "The company number")
+
+    @ApiModelProperty(notes = "The company number. In most cases, this is the same as the SAP number.")
     private final String companyNumber;
-    @ApiModelProperty(notes = "The street in which the company is located")
+
+    @ApiModelProperty(notes = "The name of the street as defined in the address of the company.")
     private final String street;
-    @ApiModelProperty(notes = "The city in which the company is located")
+
+    @ApiModelProperty(notes = "The name of the city as defined in the address of the company.")
     private final String city;
-    @ApiModelProperty(notes = "The postal code of the city in which the company is located")
+
+    @ApiModelProperty(notes = "The postal code of the city as defined in the address of the company.")
     private final String postalCode;
-    @ApiModelProperty(notes = "The code of the country in which the company is located")
+
+    @ApiModelProperty(notes = "The code of the country as defined in the address of the company.")
     private final String countryCode;
-    @ApiModelProperty(notes = "The name of the country the company is located in")
+
+    @ApiModelProperty(notes = "The name of the country as defined in the address of the company.")
     private final String country;
-    @ApiModelProperty(notes = "The region of the country the company is in")
+
+    @ApiModelProperty(notes = "The region as defined in the address of the company.")
     private final String region;
-    @ApiModelProperty(notes = "The company types the company has")
+
+    @ApiModelProperty(notes = "All company types assigned to the company. The matchcode of each item fits to the "
+        + "matchcodes of the company types interface.")
     private final Collection<CompanyTypeLinkDTO> types;
-    @ApiModelProperty(notes = "The location of the company in form of a GeoPoint")
+
+    @ApiModelProperty(notes = "The logitude and latitude of the companies location.")
     private final GeoPoint location;
-    @ApiModelProperty(notes = "The time and date when the company was last changed")
+
+    @ApiModelProperty(
+        notes = "The time and date of the last occasion, when the data of the this company has been modified.")
     private final LocalDateTime lastUpdate;
 
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId,
@@ -189,12 +209,12 @@ public class CompanyItemDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format(
-            "CompanyItemDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
+        return String
+            .format("CompanyItemDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
                 + "tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, country=%s, region=%s, "
-                + "types=%s, location=%s, lastUpdate=%s]",
-            companyId, administrativeTenant, name, nameAffix, marketingName, tenants, brands, companyNumber, street,
-            city, postalCode, countryCode, country, region, types, location, lastUpdate);
+                + "types=%s, location=%s, lastUpdate=%s]", companyId, administrativeTenant, name, nameAffix,
+                marketingName, tenants, brands, companyNumber, street, city, postalCode, countryCode, country, region,
+                types, location, lastUpdate);
     }
 
 }

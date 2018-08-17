@@ -18,7 +18,6 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,15 +29,17 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about the brand of a company")
+@ApiModel(description = "Holds minimal information about the brand of a company. The matchcode fits the matchcodes of "
+    + "the brands interface.")
 public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 7506202638418892087L;
 
-    @ApiModelProperty(notes = "The date and time from when this brand is/was valid for the company")
+    @ApiModelProperty(notes = "The date and time from when this brand is/was valid for the company.")
     private final LocalDateTime validFrom;
-    @ApiModelProperty(notes = "The date and time till when this brand is/was valid for the company")
+
+    @ApiModelProperty(notes = "The date and time till when this brand is/was valid for the company.")
     private final LocalDateTime validTo;
 
     public CompanyBrandLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
@@ -48,6 +49,20 @@ public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPer
 
         this.validFrom = validFrom;
         this.validTo = validTo;
+    }
+
+    @ApiModelProperty(notes = "The tenant (Portal-ID) where this brand is valid.")
+    @Override
+    public String getTenant()
+    {
+        return super.getTenant();
+    }
+
+    @ApiModelProperty(notes = "The matchcode of the brand (fits the matchcodes of the brands interface)")
+    @Override
+    public String getMatchcode()
+    {
+        return super.getMatchcode();
     }
 
     @Override
@@ -60,20 +75,6 @@ public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPer
     public LocalDateTime getValidTo()
     {
         return validTo;
-    }
-
-    @JsonPropertyDescription("A tenant where the brand is valid")
-    @Override
-    public String getTenant()
-    {
-        return super.getTenant();
-    }
-
-    @JsonPropertyDescription("The unique matchcode of the brand")
-    @Override
-    public String getMatchcode()
-    {
-        return super.getMatchcode();
     }
 
     @Override

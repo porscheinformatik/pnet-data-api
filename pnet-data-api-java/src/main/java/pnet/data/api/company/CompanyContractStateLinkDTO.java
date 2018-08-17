@@ -31,43 +31,48 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about the contract state of a company")
+@ApiModel(description = "Holds minimal information about the contract state of a company. The matchcode fits to the "
+    + "matchcodes of the contract state interface.")
 public class CompanyContractStateLinkDTO extends AbstractLinkDTO
     implements WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 8013176883992921779L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the brand")
+    @ApiModelProperty(notes = "The matchcode of the brand this contract state is assigned to.")
     private final String brandMatchcode;
-    @ApiModelProperty(notes = "The unique matchcode of the contract type")
+
+    @ApiModelProperty(notes = "The matchcode of the contract type this contract state is assigned to.")
     private final String contractTypeMatchcode;
-    @ApiModelProperty(notes = "The date and time from when this contract state is/was valid for the company")
+
+    @ApiModelProperty(notes = "The date and time from when this contract state is/was valid for the company.")
     private final LocalDateTime validFrom;
-    @ApiModelProperty(notes = "The date and time till when this contract state is/was valid for the company")
+
+    @ApiModelProperty(notes = "The date and time till when this contract state is/was valid for the company.")
     private final LocalDateTime validTo;
 
     public CompanyContractStateLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("brand") String brandMatchcode,
-        @JsonProperty("contractType") String contractType, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("contractType") String contractTypeMatchcode, @JsonProperty("validFrom") LocalDateTime validFrom,
         @JsonProperty("validTo") LocalDateTime validTo)
     {
         super(tenant, matchcode);
 
         this.brandMatchcode = brandMatchcode;
-        contractTypeMatchcode = contractType;
+        this.contractTypeMatchcode = contractTypeMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
     }
 
-    @ApiModelProperty(notes = "A tenant where the contract state is valid")
+    @ApiModelProperty(notes = "The tenant (Portal-ID) where this contract state is valid.")
     @Override
     public String getTenant()
     {
         return super.getTenant();
     }
 
-    @ApiModelProperty(notes = "The unique matchcode of the contract state")
+    @ApiModelProperty(
+        notes = "The matchcode of the contract state (fits the matchcodes of the contract state interface)")
     @Override
     public String getMatchcode()
     {
@@ -164,8 +169,9 @@ public class CompanyContractStateLinkDTO extends AbstractLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s(%s) [brandMathcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]",
-            getMatchcode(), getTenant(), brandMatchcode, contractTypeMatchcode, validFrom, validTo);
+        return String
+            .format("%s(%s) [brandMathcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]", getMatchcode(),
+                getTenant(), brandMatchcode, contractTypeMatchcode, validFrom, validTo);
     }
 
 }

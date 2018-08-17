@@ -13,13 +13,14 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author HAM
  */
-@ApiModel(description = "Holds minimal information about a type of the company")
+@ApiModel(description = "Holds minimal information about a type of the company. The matchcode fits the matchcodes of "
+    + "the company types interface.")
 public class CompanyTypeLinkDTO implements WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = -6736388715804866171L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the type")
+    @ApiModelProperty(notes = "The matchcode of the type (fits the matchcodes of the company types interface).")
     private final String matchcode;
 
     public CompanyTypeLinkDTO(@JsonProperty("matchcode") String matchcode)
