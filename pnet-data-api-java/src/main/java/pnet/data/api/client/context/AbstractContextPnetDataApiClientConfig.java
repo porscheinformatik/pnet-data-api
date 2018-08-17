@@ -20,6 +20,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.RestCallFactory;
@@ -98,6 +99,8 @@ public abstract class AbstractContextPnetDataApiClientConfig
         ConversionService conversionService = conversionServiceFactoryBean.getObject();
 
         ObjectMapper objectMapper = JacksonPnetDataApiModule.createObjectMapper();
+
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         RestTemplate restTemplate = new RestTemplate();
         SimpleClientHttpRequestFactory requestFactory =
