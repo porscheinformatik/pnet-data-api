@@ -35,11 +35,14 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/companygroups/details",
+            DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/companygroups/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));

@@ -6,6 +6,7 @@ import pnet.data.api.PnetDataClientException;
  * Supplier for the specified page
  *
  * @author ham
+ * @param <T> the type of result
  */
 @FunctionalInterface
 public interface PnetDataClientPageSupplier<T>

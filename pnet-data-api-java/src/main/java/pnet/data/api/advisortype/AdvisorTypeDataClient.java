@@ -38,11 +38,14 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<AdvisorTypeDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/advisortypes/details",
+            DefaultPnetDataClientResultPage<AdvisorTypeDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/advisortypes/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeDataDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
@@ -69,6 +72,7 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
                 .get("/api/v1/advisortypes/search",
                     new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -96,6 +100,7 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
                 .get("/api/v1/advisortypes/find",
                     new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));

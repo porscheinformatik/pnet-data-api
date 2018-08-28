@@ -86,8 +86,9 @@ public class CompanyTypeItemDTO implements WithMatchcode, WithLabel, WithTenants
     @Override
     public String toString()
     {
-        return String.format("CompanyTypeItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s]", matchcode,
-            tenants, label, lastUpdate);
+        return String
+            .format("CompanyTypeItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s]", matchcode, tenants, label,
+                lastUpdate);
     }
 
 }

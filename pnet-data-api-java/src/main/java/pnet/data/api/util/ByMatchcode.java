@@ -10,6 +10,7 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * Executes a get call by matchcode
  *
  * @author cet
+ * @param <DTO> the type of DTO
  * @param <SELF> the type of the restrict for chaining
  */
 public interface ByMatchcode<DTO, SELF extends By<DTO, SELF>> extends By<DTO, SELF>

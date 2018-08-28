@@ -1,3 +1,10 @@
+pnet-data-api 1.2.1
+===================
+
+**Changes to the Java client:**
+
+* Cosmetics: Cleanup and fixes for warnings.
+
 pnet-data-api 1.2.0 
 ===================
 

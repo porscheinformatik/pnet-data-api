@@ -163,10 +163,11 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
     @Override
     public String toString()
     {
-        return String.format(
-            "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
-                + "contractTypes=%s, lastUpdate=%s]",
-            matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, lastUpdate);
+        return String
+            .format(
+                "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
+                    + "contractTypes=%s, lastUpdate=%s]",
+                matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, lastUpdate);
     }
 
 }

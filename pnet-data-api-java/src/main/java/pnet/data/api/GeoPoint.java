@@ -83,6 +83,7 @@ public class GeoPoint implements Serializable
      * @param lon2 second longitude value
      * @param el1 first elevation in meters
      * @param el2 second elevation in meters
+     * @return the distance
      * @returns distance in meters
      */
     private static double distance(double lat1, double lat2, double lon1, double lon2, double el1, double el2)

@@ -15,7 +15,7 @@
 package pnet.data.api.util;
 
 /**
- * An item, that uses a {@link Matchcode} as universal identifier.
+ * An item, that uses a matchcode as universal identifier.
  *
  * @author ham
  */

@@ -18,8 +18,8 @@ import pnet.data.api.util.Pair;
 public interface RestCall
 {
 
-    public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
-    
+    String AUTHORIZATION_HEADER_NAME = "Authorization";
+
     String MEIDA_TYPE_APPLICATION_ATOM_XML = "application/atom+xml";
     String MEDIA_TYPE_APPLICATION_JSON = "application/json";
     String MEDIA_TYPE_APPLICATION_JSON_UTF8 = "application/json;charset=UTF-8";

@@ -37,8 +37,13 @@ import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.PrettyPrint;
 
+/**
+ * The client with all commands.
+ *
+ * @author ham
+ */
 @Service
-public class PnetSpringRestClient
+public final class PnetSpringRestClient
 {
 
     private final CLI cli;

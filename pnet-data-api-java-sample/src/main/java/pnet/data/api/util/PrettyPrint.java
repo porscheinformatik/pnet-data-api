@@ -6,7 +6,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 
-public class PrettyPrint
+/**
+ * A pretty printer using an object mapper to print JSON.
+ */
+public final class PrettyPrint
 {
 
     private static final ObjectMapper MAPPER = JacksonPnetDataApiModule.createObjectMapper();
@@ -14,6 +17,11 @@ public class PrettyPrint
     static
     {
         MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    private PrettyPrint()
+    {
+        super();
     }
 
     public static String prettyPrint(Object o)

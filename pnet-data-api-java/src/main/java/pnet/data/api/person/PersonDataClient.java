@@ -34,11 +34,14 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<PersonDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/persons/details", new GenericType.Of<DefaultPnetDataClientResultPage<PersonDataDTO>>()
-                    {
-                    });
+            DefaultPnetDataClientResultPage<PersonDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/persons/details", new GenericType.Of<DefaultPnetDataClientResultPage<PersonDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -63,6 +66,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/persons/search", new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -87,6 +91,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/persons/find", new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));

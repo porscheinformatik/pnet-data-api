@@ -51,9 +51,11 @@ public abstract class AbstractGet<DTO, SELF extends AbstractGet<DTO, SELF>> exte
         }
     }
 
-    public PnetDataClientResultPage<DTO> execute(String parameterName, List<?> parameterValues, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    public PnetDataClientResultPage<DTO> execute(String parameterName, List<?> parameterValues, int pageIndex,
+        int itemsPerPage) throws PnetDataClientException
     {
-        return getFunction.get(restrict(parameterName, parameterValues.toArray()).getRestricts(), pageIndex, itemsPerPage);
+        return getFunction
+            .get(restrict(parameterName, parameterValues.toArray()).getRestricts(), pageIndex, itemsPerPage);
     }
 
 }

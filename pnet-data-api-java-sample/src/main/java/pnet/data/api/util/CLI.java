@@ -43,6 +43,9 @@ public class CLI
         DICTIONARY_COLLATOR.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
     }
 
+    /**
+     * A command.
+     */
     @Documented
     @Retention(RUNTIME)
     @Target(METHOD)
@@ -346,6 +349,8 @@ public class CLI
                     case COMMAND:
                         tokens.add(token.getValue());
                         break;
+                    default:
+                        throw new UnsupportedOperationException("Unsupported token type: " + token.getType());
                 }
             }
         }
@@ -620,7 +625,9 @@ public class CLI
         /**
          * Searches for the specified argument. If found, removes it and returns and removes the next argument.
          *
+         * @param <Any> the type of argument to consume
          * @param key the argument
+         * @param type the type of the argument
          * @return the value part (next argument), null if key was not found
          */
         public <Any> Optional<Any> consume(String key, Class<Any> type)
@@ -677,7 +684,10 @@ public class CLI
         }
     }
 
-    protected static interface Handler extends Comparable<Handler>
+    /**
+     * A handler for a command.
+     */
+    protected interface Handler extends Comparable<Handler>
     {
         String getName();
 
@@ -696,7 +706,10 @@ public class CLI
         }
     }
 
-    protected static abstract class AbstractHandler implements Handler
+    /**
+     * Abstract implementation of an {@link Handler}
+     */
+    protected abstract static class AbstractHandler implements Handler
     {
 
         private final String name;

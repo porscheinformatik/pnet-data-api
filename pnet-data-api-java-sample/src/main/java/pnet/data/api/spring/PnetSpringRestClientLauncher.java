@@ -2,8 +2,19 @@ package pnet.data.api.spring;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class PnetSpringRestClientLauncher
+/**
+ * The main class for the sample.
+ *
+ * @author ham
+ */
+public final class PnetSpringRestClientLauncher
 {
+
+    private PnetSpringRestClientLauncher()
+    {
+        super();
+    }
+
     public static void main(String[] args)
     {
         try (AnnotationConfigApplicationContext context =

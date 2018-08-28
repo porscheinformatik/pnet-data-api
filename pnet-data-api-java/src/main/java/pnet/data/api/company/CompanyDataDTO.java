@@ -14,7 +14,6 @@
  */
 package pnet.data.api.company;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -30,10 +29,8 @@ import pnet.data.api.GeoPoint;
  * @author ham
  */
 @ApiModel(description = "Holds all information about one company.")
-public class CompanyDataDTO implements Serializable
+public class CompanyDataDTO
 {
-
-    private static final long serialVersionUID = -6550030919773234742L;
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;

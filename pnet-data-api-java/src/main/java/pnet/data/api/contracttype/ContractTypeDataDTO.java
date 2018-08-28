@@ -131,8 +131,9 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
     @Override
     public String toString()
     {
-        return String.format("ContractTypeDataDTO [matchcode=%s, labels=%s, tenants=%s, brands=%s, type=%s]", matchcode,
-            labels, tenants, brands, type);
+        return String
+            .format("ContractTypeDataDTO [matchcode=%s, labels=%s, tenants=%s, brands=%s, type=%s]", matchcode, labels,
+                tenants, brands, type);
     }
 
 }

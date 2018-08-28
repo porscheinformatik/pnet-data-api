@@ -39,19 +39,19 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeri
     @ApiModelProperty(
         notes = "The matchcode of the external brand (fits the matchcodes of the external brand interface.")
     private final String matchcode;
-    
+
     @ApiModelProperty(notes = "The date and time from when this external brand is/was valid for the company.")
     private final LocalDateTime validFrom;
-    
+
     @ApiModelProperty(notes = "The date and time till when this external brand is/was valid for the company.")
     private final LocalDateTime validTo;
-    
+
     @ApiModelProperty(notes = "This flag declares, whether this external brand is sold by the company.")
     private final boolean sales;
-    
+
     @ApiModelProperty(notes = "This flag declares, whether this external brand is serviced by the company.")
     private final boolean service;
-    
+
     @ApiModelProperty(notes = "The local flag. Does local things unknown to most people, especially those writing this "
         + "documentation.")
     private final boolean local;

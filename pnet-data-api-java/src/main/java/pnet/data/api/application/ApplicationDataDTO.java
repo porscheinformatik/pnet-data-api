@@ -98,8 +98,9 @@ public class ApplicationDataDTO implements WithMatchcode, WithLabels, WithDescri
     @Override
     public String toString()
     {
-        return String.format("ApplicationDataDTO [matchcode=%s, labels=%s, descriptions=%s, lastUpdate=%s]", matchcode,
-            labels, descriptions, lastUpdate);
+        return String
+            .format("ApplicationDataDTO [matchcode=%s, labels=%s, descriptions=%s, lastUpdate=%s]", matchcode, labels,
+                descriptions, lastUpdate);
     }
 
 }

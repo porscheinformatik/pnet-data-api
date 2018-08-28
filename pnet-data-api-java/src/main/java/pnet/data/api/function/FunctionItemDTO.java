@@ -117,9 +117,9 @@ public class FunctionItemDTO
     @Override
     public String toString()
     {
-        return String.format(
-            "FunctionItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s]", matchcode,
-            label, description, tenants, brands, lastUpdate);
+        return String
+            .format("FunctionItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s]",
+                matchcode, label, description, tenants, brands, lastUpdate);
     }
 
 }

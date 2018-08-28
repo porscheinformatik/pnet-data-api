@@ -14,7 +14,6 @@
  */
 package pnet.data.api.companygroup;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,13 +27,12 @@ import io.swagger.annotations.ApiModelProperty;
  * @author ham
  */
 @ApiModel(description = "Holds all information about a company group")
-public class CompanyGroupDataDTO implements Serializable
+public class CompanyGroupDataDTO
 {
-
-    private static final long serialVersionUID = -260656363547122718L;
 
     @ApiModelProperty(notes = "The unique id of the company that is leading the company group")
     private final Integer leadingCompanyId;
+
     @ApiModelProperty(notes = "The members of the company group")
     private Collection<CompanyGroupMemberLinkDTO> members;
 

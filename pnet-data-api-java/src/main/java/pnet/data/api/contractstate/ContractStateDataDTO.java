@@ -84,8 +84,8 @@ public class ContractStateDataDTO implements WithMatchcode, WithLabels, WithLast
     @Override
     public String toString()
     {
-        return String.format("ContractStateDataDTO [matchcode=%s, labels=%s, lastUpdate=%s]", matchcode, labels,
-            lastUpdate);
+        return String
+            .format("ContractStateDataDTO [matchcode=%s, labels=%s, lastUpdate=%s]", matchcode, labels, lastUpdate);
     }
 
 }

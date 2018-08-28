@@ -15,7 +15,7 @@ import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.util.Pair;
 
 /**
- * Implementation of the {@link CompanyTypeDataFacade}.
+ * Implementation of the {@link AbstractPnetDataApiClient}.
  *
  * @author ham
  */
@@ -38,11 +38,14 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<CompanyTypeDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/companytypes/details",
+            DefaultPnetDataClientResultPage<CompanyTypeDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/companytypes/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<CompanyTypeDataDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
@@ -69,6 +72,7 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
                 .get("/api/v1/companytypes/search",
                     new GenericType.Of<DefaultPnetDataClientResultPage<CompanyTypeItemDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -94,6 +98,7 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
                 .get("/api/v1/companytypes/find",
                     new GenericType.Of<DefaultPnetDataClientResultPage<CompanyTypeItemDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));

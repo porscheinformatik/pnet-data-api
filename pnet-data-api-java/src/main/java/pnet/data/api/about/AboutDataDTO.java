@@ -105,9 +105,9 @@ public class AboutDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format(
-            "AboutDataDTO [partnerNetVersion=%s, dataApiVersion=%s, userId=%s, tenants=%s, authorities=%s]",
-            partnerNetVersion, dataApiVersion, userId, tenants, authorities);
+        return String
+            .format("AboutDataDTO [partnerNetVersion=%s, dataApiVersion=%s, userId=%s, tenants=%s, authorities=%s]",
+                partnerNetVersion, dataApiVersion, userId, tenants, authorities);
     }
 
 }

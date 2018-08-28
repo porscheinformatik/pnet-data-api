@@ -31,6 +31,11 @@ import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
 import at.porscheinformatik.happyrest.RestVariable;
 
+/**
+ * A REST call, compatible to Spring4. This implementation is thread-safe!
+ *
+ * @author ham
+ */
 public class Spring4RestCall extends AbstractRestCall
 {
     private static final Logger LOG = LoggerFactory.getLogger(Spring4RestCall.class);

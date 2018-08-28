@@ -74,8 +74,8 @@ public class ContractStateItemDTO implements WithMatchcode, WithLabel, WithLastU
     @Override
     public String toString()
     {
-        return String.format("ContractStateItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label,
-            lastUpdate);
+        return String
+            .format("ContractStateItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label, lastUpdate);
     }
 
 }

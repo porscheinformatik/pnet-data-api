@@ -36,11 +36,14 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<ApplicationDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/applications/details",
+            DefaultPnetDataClientResultPage<ApplicationDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/applications/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationDataDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
@@ -67,6 +70,7 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
                 .get("/api/v1/applications/search",
                     new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationItemDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -92,6 +96,7 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
                 .get("/api/v1/applications/find",
                     new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationItemDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));

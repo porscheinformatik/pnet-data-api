@@ -16,4 +16,5 @@ import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 @Import(ContextPnetDataApiClientConfig.class)
 public class ContractTypePnetDataApiClientConfig
 {
+    // intentionally left blank
 }

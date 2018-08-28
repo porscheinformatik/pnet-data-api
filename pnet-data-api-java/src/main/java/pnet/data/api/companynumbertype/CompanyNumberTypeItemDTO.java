@@ -71,8 +71,8 @@ public class CompanyNumberTypeItemDTO implements WithMatchcode, WithLastUpdate, 
     @Override
     public String toString()
     {
-        return String.format("CompanyNumberTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label,
-            lastUpdate);
+        return String
+            .format("CompanyNumberTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label, lastUpdate);
     }
 
 }

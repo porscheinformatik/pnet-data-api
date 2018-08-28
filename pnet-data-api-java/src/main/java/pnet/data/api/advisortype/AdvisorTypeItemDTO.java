@@ -88,8 +88,9 @@ public class AdvisorTypeItemDTO implements WithMatchcode, WithLabel, WithDescrip
     @Override
     public String toString()
     {
-        return String.format("AdvisorTypeItemDTO [matchcode=%s, label=%s, description=%s, lastUpdate=%s]", matchcode,
-            label, description, lastUpdate);
+        return String
+            .format("AdvisorTypeItemDTO [matchcode=%s, label=%s, description=%s, lastUpdate=%s]", matchcode, label,
+                description, lastUpdate);
     }
 
 }

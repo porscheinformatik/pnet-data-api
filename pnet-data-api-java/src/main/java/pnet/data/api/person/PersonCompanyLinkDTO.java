@@ -130,8 +130,8 @@ public class PersonCompanyLinkDTO implements WithValidPeriod, Serializable
     @Override
     public String toString()
     {
-        return String.format("PersonCompanyDataDTO [companyId=%s, validFrom=%s, validTo=%s]", companyId, validFrom,
-            validTo);
+        return String
+            .format("PersonCompanyDataDTO [companyId=%s, validFrom=%s, validTo=%s]", companyId, validFrom, validTo);
     }
 
 }

@@ -129,8 +129,9 @@ public class BrandDataDTO implements WithMatchcode, WithLabels, WithTenants, Wit
     @Override
     public String toString()
     {
-        return String.format("BrandDataDTO [matchcode=%s, tenants=%s, labels=%s, ordinal=%s, path=%s]", matchcode,
-            tenants, labels, ordinal, path);
+        return String
+            .format("BrandDataDTO [matchcode=%s, tenants=%s, labels=%s, ordinal=%s, path=%s]", matchcode, tenants,
+                labels, ordinal, path);
     }
 
 }

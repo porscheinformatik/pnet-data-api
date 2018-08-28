@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import pnet.data.api.company.CompanyContractTypeLinkDTO;
 
 /**
  * Holds minimal information about a company group member.
@@ -71,7 +70,7 @@ public class CompanyGroupMemberLinkDTO
         {
             return false;
         }
-        if (!(obj instanceof CompanyContractTypeLinkDTO))
+        if (!(obj instanceof CompanyGroupMemberLinkDTO))
         {
             return false;
         }

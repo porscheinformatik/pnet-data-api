@@ -21,22 +21,27 @@ public class GenericTypeTest
 
     private interface A<U>
     {
+        // intentionally left blank
     }
 
     private interface B<S, T> extends A<T>
     {
+        // intentionally left blank
     }
 
     private class C<U> implements B<Integer, U>
     {
+        // intentionally left blank
     }
 
     private class D extends C<String>
     {
+        // intentionally left blank
     }
 
     private interface E extends A<List<String>>
     {
+        // intentionally left blank
     }
 
     @Test
@@ -140,6 +145,7 @@ public class GenericTypeTest
     {
         Of<String> genericType = new Of<String>()
         {
+            // intentionally left blank
         };
 
         assertThat(genericType.getType(), equalTo(String.class));
@@ -152,6 +158,7 @@ public class GenericTypeTest
     {
         Of<List<String>> genericType = new Of<List<String>>()
         {
+            // intentionally left blank
         };
 
         assertThat(genericType.getType(), equalTo(List.class));

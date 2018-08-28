@@ -85,8 +85,9 @@ public class BrandItemDTO implements WithMatchcode, WithLabel, WithTenants, With
     @Override
     public String toString()
     {
-        return String.format("BrandItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s]", matchcode, tenants,
-            label, lastUpdate);
+        return String
+            .format("BrandItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s]", matchcode, tenants, label,
+                lastUpdate);
     }
 
 }

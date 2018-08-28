@@ -96,8 +96,9 @@ public class ExternalBrandDataDTO implements WithMatchcode, WithLabels, WithLast
     @Override
     public String toString()
     {
-        return String.format("ExternalBrandDataDTO [matchcode=%s, id=%s, labels=%s, lastUpdate=%s]", matchcode, id,
-            labels, lastUpdate);
+        return String
+            .format("ExternalBrandDataDTO [matchcode=%s, id=%s, labels=%s, lastUpdate=%s]", matchcode, id, labels,
+                lastUpdate);
     }
 
 }

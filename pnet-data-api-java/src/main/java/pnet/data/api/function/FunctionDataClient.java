@@ -36,11 +36,14 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<FunctionDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/functions/details", new GenericType.Of<DefaultPnetDataClientResultPage<FunctionDataDTO>>()
-                    {
-                    });
+            DefaultPnetDataClientResultPage<FunctionDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/functions/details", new GenericType.Of<DefaultPnetDataClientResultPage<FunctionDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -65,6 +68,7 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/functions/search", new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -91,6 +95,7 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/functions/find", new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));

@@ -36,11 +36,14 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/companies/details", new GenericType.Of<DefaultPnetDataClientResultPage<CompanyDataDTO>>()
-                    {
-                    });
+            DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/companies/details", new GenericType.Of<DefaultPnetDataClientResultPage<CompanyDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -65,6 +68,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/companies/search", new GenericType.Of<DefaultPnetDataClientResultPage<CompanyItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -89,6 +93,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/companies/find", new GenericType.Of<DefaultPnetDataClientResultPage<CompanyItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));

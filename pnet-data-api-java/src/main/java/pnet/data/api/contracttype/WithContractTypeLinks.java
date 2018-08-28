@@ -27,8 +27,10 @@ public interface WithContractTypeLinks
      */
     default Collection<ContractTypeLinkDTO> getContractTypesOfTenant(String tenant)
     {
-        return getContractTypes().stream().filter($ -> Objects.equals(tenant, $.getTenant())).collect(
-            Collectors.toList());
+        return getContractTypes()
+            .stream()
+            .filter($ -> Objects.equals(tenant, $.getTenant()))
+            .collect(Collectors.toList());
     }
 
 }

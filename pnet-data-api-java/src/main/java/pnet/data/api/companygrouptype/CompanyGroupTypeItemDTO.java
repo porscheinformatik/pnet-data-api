@@ -73,8 +73,8 @@ public class CompanyGroupTypeItemDTO implements WithMatchcode, WithLabel, WithLa
     @Override
     public String toString()
     {
-        return String.format("CompanyGroupTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label,
-            lastUpdate);
+        return String
+            .format("CompanyGroupTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label, lastUpdate);
     }
 
 }

@@ -151,8 +151,9 @@ public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s [companyId=%s, validFrom=%s, validTo=%s, number=%s]", super.toString(), companyId,
-            validFrom, validTo, number);
+        return String
+            .format("%s [companyId=%s, validFrom=%s, validTo=%s, number=%s]", super.toString(), companyId, validFrom,
+                validTo, number);
     }
 
 }

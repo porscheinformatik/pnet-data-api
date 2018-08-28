@@ -27,8 +27,10 @@ public interface WithNumberTypeLinks
      */
     default Collection<NumberTypeLinkDTO> getNumberTypesOfTenant(String tenant)
     {
-        return getNumberTypes().stream().filter($ -> Objects.equals(tenant, $.getTenant())).collect(
-            Collectors.toList());
+        return getNumberTypes()
+            .stream()
+            .filter($ -> Objects.equals(tenant, $.getTenant()))
+            .collect(Collectors.toList());
     }
 
 }

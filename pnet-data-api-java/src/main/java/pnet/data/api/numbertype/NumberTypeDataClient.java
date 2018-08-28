@@ -38,11 +38,14 @@ public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDa
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<NumberTypeDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/numbertypes/details",
+            DefaultPnetDataClientResultPage<NumberTypeDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/numbertypes/details",
                     new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeDataDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
@@ -69,6 +72,7 @@ public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDa
                 .get("/api/v1/numbertypes/search",
                     new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeItemDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -94,6 +98,7 @@ public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDa
                 .get("/api/v1/numbertypes/find",
                     new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeItemDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));

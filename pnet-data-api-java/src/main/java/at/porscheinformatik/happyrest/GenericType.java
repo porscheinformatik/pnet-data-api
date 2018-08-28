@@ -235,7 +235,7 @@ public interface GenericType<T> extends ParameterizedType
         {
             Objects.requireNonNull(rawType, "RawType is null");
 
-            if (rawType instanceof Class<?> && ((Class<?>) rawType).getTypeParameters().length != arguments.length)
+            if (((Class<?>) rawType).getTypeParameters().length != arguments.length)
             {
                 throw new IllegalArgumentException("Invalid number of type arguments");
             }

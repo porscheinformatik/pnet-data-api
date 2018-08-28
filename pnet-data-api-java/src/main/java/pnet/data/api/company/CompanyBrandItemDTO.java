@@ -14,8 +14,6 @@
  */
 package pnet.data.api.company;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
@@ -29,10 +27,10 @@ import pnet.data.api.util.AbstractLinkDTO;
  */
 @ApiModel(description = "Holds the refrence to a brand of a company. The matchcode fits the matchcodes of the brands "
     + "interface.")
-public class CompanyBrandItemDTO extends AbstractLinkDTO implements Serializable
+public class CompanyBrandItemDTO extends AbstractLinkDTO
 {
 
-    private static final long serialVersionUID = 3854328576692607595L;
+    private static final long serialVersionUID = 3718076879527390575L;
 
     public CompanyBrandItemDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {

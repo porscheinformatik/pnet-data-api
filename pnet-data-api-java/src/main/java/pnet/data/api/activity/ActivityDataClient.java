@@ -38,10 +38,14 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<ActivityDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/activities/details", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>()
+            DefaultPnetDataClientResultPage<ActivityDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/activities/details",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>()
                     {
+                        // intentionally left blank
                     });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
@@ -67,6 +71,7 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/activities/search", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -91,6 +96,7 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/activities/find", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));

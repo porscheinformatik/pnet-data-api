@@ -176,8 +176,9 @@ public class PersonFunctionLinkDTO extends AbstractLinkDTO
     @Override
     public String toString()
     {
-        return String.format("%s [companyId=%s, brandMatchcode=%s, validFrom=%s, validTo=%s, mainFunction=%s]",
-            super.toString(), companyId, brandMatchcode, validFrom, validTo, mainFunction);
+        return String
+            .format("%s [companyId=%s, brandMatchcode=%s, validFrom=%s, validTo=%s, mainFunction=%s]", super.toString(),
+                companyId, brandMatchcode, validFrom, validTo, mainFunction);
     }
 
 }

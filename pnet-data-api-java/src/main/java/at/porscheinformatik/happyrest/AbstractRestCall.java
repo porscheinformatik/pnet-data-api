@@ -152,8 +152,10 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return attribute(values.stream().map($ -> RestAttribute.parameter($.getLeft(), $.getRight())).toArray(
-            size -> new RestAttribute[size]));
+        return attribute(values
+            .stream()
+            .map($ -> RestAttribute.parameter($.getLeft(), $.getRight()))
+            .toArray(size -> new RestAttribute[size]));
     }
 
     protected RestCall attribute(RestAttribute... attributesToAdd)
@@ -244,16 +246,13 @@ public abstract class AbstractRestCall implements RestCall
             url += "/";
         }
 
-        if (path != null)
+        if (path.startsWith("/"))
         {
-            if (path.startsWith("/"))
-            {
-                url += path.substring(1);
-            }
-            else
-            {
-                url += path;
-            }
+            url += path.substring(1);
+        }
+        else
+        {
+            url += path;
         }
 
         return url;

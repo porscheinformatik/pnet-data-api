@@ -10,6 +10,7 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * Executes a get call by id
  *
  * @author cet
+ * @param <DTO> the type of DTO
  * @param <SELF> the type of the restrict for chaining
  */
 public interface ById<DTO, SELF extends By<DTO, SELF>> extends By<DTO, SELF>

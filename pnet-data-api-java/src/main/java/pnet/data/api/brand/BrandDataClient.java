@@ -38,11 +38,14 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
         int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<BrandDataDTO> resultPage =
-                restCall.parameters(restricts).parameter("p", pageIndex).parameter("pp", itemsPerPage).get(
-                    "/api/v1/brands/details", new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>()
-                    {
-                    });
+            DefaultPnetDataClientResultPage<BrandDataDTO> resultPage = restCall
+                .parameters(restricts)
+                .parameter("p", pageIndex)
+                .parameter("pp", itemsPerPage)
+                .get("/api/v1/brands/details", new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -69,6 +72,7 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/brands/search", new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
@@ -93,6 +97,7 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/brands/find", new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
                 {
+                    // intentionally left blank
                 });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
