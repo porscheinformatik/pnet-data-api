@@ -16,6 +16,75 @@ The access conforms the General Data Protection Regulation.
 
 The data is available by a REST interface. Check the current version of [Swagger-Documentation](https://data.auto-partner.net/data/swagger-ui.html) for more information.
 
+# Available Data
+
+The available data consists of:
+
+* Persons
+    * Ids and the name
+    * Contact information (email, phone, ...)
+    * Employments (companies, personnel number, department, ...)
+    * Roles (functions and activities)
+* Companies
+    * Ids and the name
+    * Contract information (email, phone, ...)
+    * Address
+    * Bands, company types and contracts
+* Company Groups
+
+The data of persons and companies contains references to some master data, that can be access, too:
+
+* Activities
+* Advisor Types
+* Applications
+* Brands
+* Company Group Types
+* Company Number Types
+* Company Types
+* Contract States
+* Contract Types
+* External Brands
+* Functions
+* Number Types
+
+Most of the data interfaces provide three methods:
+
+* details - For accessing all available information about the data item (e.g. the person with the id 100).
+* search - For accessing a reduced amount of information per data item, but supporting fuzzy searches including wildcards (e.g. all persons called "Jane").
+* find - For accessing a reduced amount of information per data item, but with fast filters (e.g. all persons with a defined function).
+
+The person data is filtered by default. You will only be able to access persons, that are relevant for your application (gave the consent for accessing their data) and the data of each person is filtered according to the claims of your application.
+
+# Considerations
+
+## Performance
+
+The Partner.&#78;et Data API is a scaleable application hosted in a cloud environment and is based on an NoSQL-Database in the background. Requests should be fast and the data should be accurate. The data from the Partner.&#78;et get's synced every few seconds and should be up-to-date most of the time.
+
+The REST Interface provides the data as fast as it can. Currently we don't have performance issues because of too many users or too many requests. Generally, it is better to make multple smaller requests, than fewer larger ones.
+
+Consider caching relevant information! Most of the data does not change very often. We encourage you to store results locally and reuse the information instead of performing the same request over and over again.
+
+## Paging
+
+The result of each request is paged, that means that it splits the result into multiple pages. You can add the desired page size to each request ("pp" parameter), but the server may reduce it, if it is too large. Currently, each page is limited to, at most, 100 items.
+
+You can request subsequent pages by adding a page ("p") parameter, but the rest of the request must be exactly the same (otherwise you may miss some items).
+
+## Last Update
+
+If you are syncing data with your local database, consider using the "lastUpdate" value. You can add an "up"-parameter to your find request, and the result will only contain items, that have been changed since your specified date.
+
+**When syncing person data with your application, this is a must.**
+
+## Details vs Search vs Find
+
+The difference between "search" and "find", is, that the "search" aims for user interaction (e.g. like searching with a fuzzy query) and the "find" aims for technical solutions (e.g. like finding all persons with a defined function).
+
+Use "search" only, if you need a fuzzy search for a specified term other than "*"! For all other cases, use "find"!
+
+The "details" requests return more information per item, but the request is slower compared to the "find" and "search" requests.
+
 # User
 
 You will need a systemuser for accessing the data. You can request such a user with a [Partner.Net Wartungsantrag](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_MAINT_PROP). Just create a new document and select "Sonstiges".
@@ -24,7 +93,7 @@ Bezeichnung: The name of the user, something like: "My Application System User"
 
 Informationen und Freigaben: We need the name of the application, that will use this user. The application must already be known to the Partner.&#78;et. It depends on the application, which persons are accessible (the consent of the person is needed).
 
-Additionally, we will enter your own user as manager for the systemuser. This means that you, and nobody else, can request a password for the user. If more users should be allowed to do this, add a list to this field.
+Additionally, we will enter your own user as manager for the systemuser. This means that you, and nobody else, can request a password for the user. If more users should be allowed to do this, please add a list.
 
 After the systemuser has been created, you can use the [Systemuser Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) for requesting a password.
 
