@@ -339,6 +339,20 @@ public final class PnetSpringRestClient
         printResults(brandDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
     }
 
+    @CLI.Command(name = "find company by number", format = "<NUMBER...>",
+        description = "Find companies by company number.")
+    public void findCompaniesByNumber(String... numbers) throws PnetDataClientException
+    {
+        printResults(companyDataClient.find().companyNumber(numbers).execute(Locale.getDefault()));
+    }
+
+    @CLI.Command(name = "find person by number", format = "<NUMBER...>",
+        description = "Find persons by personnel number.")
+    public void findPersonsByNumber(String... numbers) throws PnetDataClientException
+    {
+        printResults(personDataClient.find().personnelNumber(numbers).execute(Locale.getDefault()));
+    }
+
     @CLI.Command(name = "find contract states by mc", format = "<MATCHCODE...>",
         description = "Find contract states by matchcodes.")
     public void findContractStates(String... matchcodes) throws PnetDataClientException

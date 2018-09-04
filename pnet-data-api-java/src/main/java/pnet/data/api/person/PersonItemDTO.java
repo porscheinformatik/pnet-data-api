@@ -38,18 +38,28 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
 
     @ApiModelProperty(notes = "The unique id of the person")
     private final Integer personId;
+
     @ApiModelProperty(notes = "The tenant, in which this person is administrated")
     private final String administrativeTenant;
+
     @ApiModelProperty(notes = "The tenants where the person is valid")
     private final Collection<String> tenants;
+
     @ApiModelProperty(notes = "The form of the adress the person prefers")
     private final FormOfAddress formOfAddress;
+
     @ApiModelProperty(notes = "The academic title of the person")
     private final String academicTitle;
+
     @ApiModelProperty(notes = "The first name of the person")
     private final String firstName;
+
     @ApiModelProperty(notes = "The last name of the person")
     private final String lastName;
+
+    @ApiModelProperty(notes = "The personnel number of the person")
+    private final String personnelNumber;
+
     @ApiModelProperty(notes = "The time and date when the person was last changed")
     private final LocalDateTime lastUpdate;
 
@@ -57,7 +67,8 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         @JsonProperty("administrativeTenant") String administrativeTenant,
         @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
         @JsonProperty("academicTitle") String academicTitle, @JsonProperty("firstName") String firstName,
-        @JsonProperty("lastName") String lastName, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("lastName") String lastName, @JsonProperty("personnelNumber") String personnelNumber,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -68,6 +79,7 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         this.academicTitle = academicTitle;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.personnelNumber = personnelNumber;
         this.lastUpdate = lastUpdate;
     }
 
@@ -107,10 +119,26 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         return lastName;
     }
 
+    public String getPersonnelNumber()
+    {
+        return personnelNumber;
+    }
+
     @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String
+            .format(
+                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+                    + "firstName=%s, lastName=%s, personnelNumber=%s, lastUpdate=%s]",
+                personId, administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName,
+                personnelNumber, lastUpdate);
     }
 
 }
