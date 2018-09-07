@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Import;
 
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientConfig;
+import pnet.data.api.util.Prefs;
 
 /**
  * Configuration for the PnetRestClient.
@@ -25,6 +26,10 @@ public class PnetSpringRestClientConfig
     @Bean
     public MutablePnetDataClientPrefs pnetDataClientPrefs()
     {
-        return new MutablePnetDataClientPrefs("https://qa-data.auto-partner.net/data", null, null);
+        String url = Prefs.getUrl(Prefs.DEFAULT_KEY);
+        String username = Prefs.getUsername(Prefs.DEFAULT_KEY);
+        String password = Prefs.getPassword(Prefs.DEFAULT_KEY);
+
+        return new MutablePnetDataClientPrefs(url, username, password);
     }
 }

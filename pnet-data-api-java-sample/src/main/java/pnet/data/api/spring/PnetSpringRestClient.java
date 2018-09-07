@@ -35,6 +35,7 @@ import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
+import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
 
 /**
@@ -635,6 +636,71 @@ public final class PnetSpringRestClient
         }
 
         cli.info("url = %s", prefs.getPnetDataApiUrl());
+        cli.info("username = %s", prefs.getPnetDataApiUsername());
+        cli.info("\nTip: Type \"store\" to set this as default.");
+    }
+
+    @CLI.Command(format = "[<KEY>]", description = "Stores the URL and username/password to your prefernces.")
+    public void store(String key)
+    {
+        if (key == null)
+        {
+            key = Prefs.DEFAULT_KEY;
+        }
+
+        Prefs.setUrl(key, prefs.getPnetDataApiUrl());
+        Prefs.setUsername(key, prefs.getPnetDataApiUsername());
+        Prefs.setPassword(key, prefs.getPnetDataApiPassword());
+
+        cli.info("URL, username and (encoded) password have been stored locally with key: %s", key);
+    }
+
+    @CLI.Command(format = "[<KEY>]", description = "Loads the URL and username/password from your prefernces.")
+    public void load(String key) throws PnetDataClientException
+    {
+        if (key == null)
+        {
+            key = Prefs.DEFAULT_KEY;
+        }
+
+        String url = Prefs.getUrl(key);
+
+        if (url == null)
+        {
+            cli.error("Could not find prefs with key: %s", key);
+            return;
+        }
+
+        String username = Prefs.getUsername(key);
+        String password = Prefs.getPassword(key);
+
+        url(url, username, password);
+    }
+
+    @CLI.Command(format = "[<KEY>]", description = "Remove the URL and username/password from your prefernces.")
+    public void remove(String key) throws PnetDataClientException
+    {
+        if (key == null)
+        {
+            key = Prefs.DEFAULT_KEY;
+        }
+
+        Prefs.remove(key);
+        
+        cli.info("URL, username and password with key \"%s\" have been removed.", key);
+    }
+
+    @CLI.Command(description = "Lists all locally stored keys")
+    public void list()
+    {
+        cli.info("Locally stored keys:\n");
+
+        Prefs
+            .keys()
+            .stream()
+            .filter(key -> key.endsWith(".url"))
+            .map(key -> key.substring(0, key.length() - 4))
+            .forEach(key -> cli.info("%s: %s (%s)", key, Prefs.getUrl(key), Prefs.getUsername(key)));
     }
 
     @CLI.Command(format = "[<USERNAME>] [<PASSWORD>]", description = "Prints or overrides the username and password.")
