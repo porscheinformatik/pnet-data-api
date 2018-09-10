@@ -1,6 +1,5 @@
 package pnet.data.api.client;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -86,17 +85,12 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         this.pageSupplier = pageSupplier;
     }
 
-    /**
-     * @return the next page. Executes a call if there is another page. Never null, but an empty page.
-     * @throws PnetDataClientException on occasion
-     */
     @Override
     public PnetDataClientResultPage<T> nextPage() throws PnetDataClientException
     {
         if (!hasNextPage())
         {
-            return new DefaultPnetDataClientResultPage<>(Collections.emptyList(), itemsPerPage, totalNumberOfItems,
-                pageIndex + 1, numberOfPages);
+            return null;
         }
 
         return pageSupplier.get(pageIndex + 1);

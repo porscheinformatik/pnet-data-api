@@ -4,6 +4,7 @@ pnet-data-api 1.3.1
 **Changes to the Java client:**
 
 * Better error messages
+* nextPage return null instead of an empty page, if there are no more pages.
 
 pnet-data-api 1.3.0
 ===================
