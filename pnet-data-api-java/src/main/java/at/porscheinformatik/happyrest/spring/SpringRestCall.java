@@ -89,7 +89,7 @@ public class SpringRestCall extends AbstractRestCall
         }
         catch (RestClientResponseException e)
         {
-            throw new RestResponseException(method + " " + uri, e.getRawStatusCode(), e.getStatusText(), e);
+            throw new RestResponseException(toDescription(method, uri, e), e.getRawStatusCode(), e.getStatusText(), e);
         }
         catch (Exception e)
         {
@@ -113,7 +113,7 @@ public class SpringRestCall extends AbstractRestCall
         }
         catch (RestClientResponseException e)
         {
-            throw new RestResponseException(method + " " + uri, e.getRawStatusCode(), e.getStatusText(), e);
+            throw new RestResponseException(toDescription(method, uri, e), e.getRawStatusCode(), e.getStatusText(), e);
         }
         catch (Exception e)
         {
@@ -252,6 +252,19 @@ public class SpringRestCall extends AbstractRestCall
     {
         return conversionService != null ? value -> conversionService.convert(value, String.class)
             : value -> String.valueOf(value);
+    }
+
+    protected static String toDescription(RestMethod method, URI uri, RestClientResponseException e)
+    {
+        String description = method + " " + uri;
+        String body = e.getResponseBodyAsString();
+
+        if (body != null)
+        {
+            description += ": " + body;
+        }
+
+        return description;
     }
 
 }

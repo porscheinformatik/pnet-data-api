@@ -1,3 +1,10 @@
+pnet-data-api 1.3.1
+===================
+
+**Changes to the Java client:**
+
+* Better error messages
+
 pnet-data-api 1.3.0
 ===================
 

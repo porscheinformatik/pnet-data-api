@@ -78,9 +78,9 @@ public class Spring4RestCall extends AbstractRestCall
         {
             return new Spring4RestResponse<>(restTemplate.exchange(uri, toHttpMethod(method), entity, responseType));
         }
-        catch (RestClientResponseException var8)
+        catch (RestClientResponseException e)
         {
-            throw new RestResponseException(method + " " + uri, var8.getRawStatusCode(), var8.getStatusText(), var8);
+            throw new RestResponseException(toDescription(method, uri, e), e.getRawStatusCode(), e.getStatusText(), e);
         }
         catch (Exception var9)
         {
@@ -101,9 +101,9 @@ public class Spring4RestCall extends AbstractRestCall
             return new Spring4RestResponse<>(restTemplate
                 .exchange(uri, toHttpMethod(method), entity, GenericParameterizedTypeReference.of(responseType)));
         }
-        catch (RestClientResponseException var8)
+        catch (RestClientResponseException e)
         {
-            throw new RestResponseException(method + " " + uri, var8.getRawStatusCode(), var8.getStatusText(), var8);
+            throw new RestResponseException(toDescription(method, uri, e), e.getRawStatusCode(), e.getStatusText(), e);
         }
         catch (Exception var9)
         {
@@ -239,4 +239,18 @@ public class Spring4RestCall extends AbstractRestCall
             return String.valueOf(value);
         };
     }
+
+    protected static String toDescription(RestMethod method, URI uri, RestClientResponseException e)
+    {
+        String description = method + " " + uri;
+        String body = e.getResponseBodyAsString();
+
+        if (body != null)
+        {
+            description += ": " + body;
+        }
+        
+        return description;
+    }
+
 }
