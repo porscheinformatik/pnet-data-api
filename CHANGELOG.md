@@ -3,8 +3,13 @@ pnet-data-api 1.3.1
 
 **Changes to the Java client:**
 
-* Better error messages
-* nextPage return null instead of an empty page, if there are no more pages.
+* Better error messages.
+* NextPage returns null, if there are no more pages, instead of an empty page.
+
+**Changes to the Java client sample:**
+
+* Reordered methods by type.
+* Adds export methods for testing scroll support.
 
 pnet-data-api 1.3.0
 ===================
