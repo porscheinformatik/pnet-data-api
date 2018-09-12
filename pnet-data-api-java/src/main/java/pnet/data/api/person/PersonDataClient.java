@@ -95,6 +95,23 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setScrollSupplier(this::next);
+
+            return resultPage;
+        });
+    }
+
+    protected PnetDataClientResultPage<PersonItemDTO> next(String scrollId) throws PnetDataClientException
+    {
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = restCall
+                .variable("scrollId", scrollId)
+                .get("/api/v1/persons/next/{scrollId}", new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
+                {
+                    // intentionally left blank
+                });
+
+            resultPage.setScrollSupplier(this::next);
 
             return resultPage;
         });

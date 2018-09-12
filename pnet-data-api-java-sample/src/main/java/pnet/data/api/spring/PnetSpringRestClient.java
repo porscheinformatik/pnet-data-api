@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ import pnet.data.api.client.context.PnetDataApiTokenRepository;
 import pnet.data.api.company.CompanyDataClient;
 import pnet.data.api.companygroup.CompanyGroupDataClient;
 import pnet.data.api.companygrouptype.CompanyGroupTypeDataClient;
+import pnet.data.api.companygrouptype.CompanyGroupTypeItemDTO;
 import pnet.data.api.companynumbertype.CompanyNumberTypeDataClient;
 import pnet.data.api.companytype.CompanyTypeDataClient;
 import pnet.data.api.contractstate.ContractStateDataClient;
@@ -154,7 +157,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all activities", description = "Exports all activities.")
     public void exportAllActivities() throws PnetDataClientException
     {
-        printAllResutls(activityDataClient.find().tenant(tenants).execute(Locale.getDefault(), 0, 100),
+        printAllResults(activityDataClient.find().tenant(tenants).scroll().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
                 dto.getLastUpdate()));
     }
@@ -184,7 +187,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all advisor types", description = "Exports all advisor types.")
     public void exportAllAdvisorTypes() throws PnetDataClientException
     {
-        printAllResutls(advisorTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(advisorTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getLastUpdate()));
     }
 
@@ -213,7 +216,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all applications", description = "Exports all applications.")
     public void exportAllApplications() throws PnetDataClientException
     {
-        printAllResutls(applicationDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(applicationDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -242,7 +245,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all brands", description = "Export all brands.")
     public void exportAllBrands() throws PnetDataClientException
     {
-        printAllResutls(brandDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(brandDataClient.find().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
     }
 
@@ -316,7 +319,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all companies", description = "Exports all companies.")
     public void exportAllCompanies() throws PnetDataClientException
     {
-        printAllResutls(companyDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(companyDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getCompanyId(), dto.getCompanyNumber(), dto.getName(), dto.getNameAffix(),
                 dto.getMarketingName(), dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(),
                 dto.getTypes(), dto.getLastUpdate()));
@@ -355,6 +358,20 @@ public final class PnetSpringRestClient
     public void getCompanyGroupByCompanyIds(Integer... ids) throws PnetDataClientException
     {
         printResults(companyGroupDataClient.get().allByCompanyIds(Arrays.asList(ids), 0, 10));
+    }
+
+    @CLI.Command(name = "export all company groups", description = "Exports all company groups.")
+    public void exportAllCompanyGroups() throws PnetDataClientException
+    {
+        List<String> companyGroupTypeMatchcodes = companyGroupTypeDataClient
+            .find()
+            .execute(Locale.getDefault(), 0, 100)
+            .stream()
+            .map(CompanyGroupTypeItemDTO::getMatchcode)
+            .collect(Collectors.toList());
+
+        printAllResults(companyGroupDataClient.get().scroll().allByCompanyGroupTypes(companyGroupTypeMatchcodes, 0, 25),
+            dto -> toCSV(dto.getLeadingCompanyId(), dto.getMembers()));
     }
 
     @CLI.Command(name = "find company groups by leader", format = "<COMPANY-ID...>",
@@ -396,7 +413,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all company group types", description = "Exports all company group types.")
     public void exportAllCompanyGroupTypes() throws PnetDataClientException
     {
-        printAllResutls(companyGroupTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(companyGroupTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -425,7 +442,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all company number types", description = "Exports all company number types.")
     public void exportAllCompanyNumberTypes() throws PnetDataClientException
     {
-        printAllResutls(companyNumberTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(companyNumberTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -447,7 +464,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all company types", description = "Exports all company types.")
     public void exportAllCompanyTypes() throws PnetDataClientException
     {
-        printAllResutls(companyTypeDataClient.find().tenant(tenants).execute(Locale.getDefault(), 0, 100),
+        printAllResults(companyTypeDataClient.find().tenant(tenants).execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
     }
 
@@ -469,7 +486,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all contract states", description = "Exports all contract states.")
     public void exportAllContractStates() throws PnetDataClientException
     {
-        printAllResutls(contractStateDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(contractStateDataClient.find().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -498,7 +515,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all contract types", description = "Exports all contract types.")
     public void exportAllContractTypes() throws PnetDataClientException
     {
-        printAllResutls(contractTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(contractTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(), dto.getBrands(),
                 dto.getLastUpdate()));
     }
@@ -528,7 +545,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all external brands", description = "Exports all external brands.")
     public void exportAllExternalBrands() throws PnetDataClientException
     {
-        printAllResutls(externalBrandDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(externalBrandDataClient.find().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -557,7 +574,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all functions", description = "Exports all functions.")
     public void exportAllFunctions() throws PnetDataClientException
     {
-        printAllResutls(functionDataClient.find().tenant(tenants).execute(Locale.getDefault(), 0, 100),
+        printAllResults(functionDataClient.find().tenant(tenants).scroll().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
                 dto.getLastUpdate()));
     }
@@ -587,7 +604,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all number types", description = "Exports all number types.")
     public void exportAllNumberTypes() throws PnetDataClientException
     {
-        printAllResutls(numberTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
+        printAllResults(numberTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -651,7 +668,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all persons", description = "Exports all persons available for the current user.")
     public void exportAllPersons() throws PnetDataClientException
     {
-        printAllResutls(personDataClient.find().tenant(tenants).execute(Locale.getDefault(), 0, 100),
+        printAllResults(personDataClient.find().tenant(tenants).scroll().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getAcademicTitle(), dto.getFormOfAddress(),
                 dto.getFirstName(), dto.getLastName(), dto.getAdministrativeTenant(), dto.getLastUpdate()));
     }
@@ -959,7 +976,7 @@ public final class PnetSpringRestClient
         printPage(page);
     }
 
-    protected <Any> void printAllResutls(PnetDataClientResultPage<Any> page, Function<Any, String> formatter)
+    protected <Any> void printAllResults(PnetDataClientResultPage<Any> page, Function<Any, String> formatter)
         throws PnetDataClientException
     {
         long millis = System.currentTimeMillis();

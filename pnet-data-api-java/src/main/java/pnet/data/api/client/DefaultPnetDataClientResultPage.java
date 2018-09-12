@@ -21,7 +21,8 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     public static <T> DefaultPnetDataClientResultPage<T> of(ResultPage<T> resultPage)
     {
         return new DefaultPnetDataClientResultPage<>(resultPage.getItems(), resultPage.getItemsPerPage(),
-            resultPage.getTotalNumberOfItems(), resultPage.getPageIndex(), resultPage.getNumberOfPages());
+            resultPage.getTotalNumberOfItems(), resultPage.getPageIndex(), resultPage.getNumberOfPages(),
+            resultPage.getScrollId());
     }
 
     private final List<T> items;
@@ -29,12 +30,15 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     private final int totalNumberOfItems;
     private final int pageIndex;
     private final int numberOfPages;
+    private final String scrollId;
 
     private PnetDataClientPageSupplier<T> pageSupplier;
+    private PnetDataClientScrollSupplier<T> scrollSupplier;;
 
     public DefaultPnetDataClientResultPage(@JsonProperty("items") List<T> items,
         @JsonProperty("itemsPerPage") int itemsPerPage, @JsonProperty("totalNumberOfItems") int totalNumberOfItems,
-        @JsonProperty("pageIndex") int pageIndex, @JsonProperty("numberOfPages") int numberOfPages)
+        @JsonProperty("pageIndex") int pageIndex, @JsonProperty("numberOfPages") int numberOfPages,
+        @JsonProperty("scrollId") String scrollId)
     {
         super();
 
@@ -43,6 +47,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         this.totalNumberOfItems = totalNumberOfItems;
         this.pageIndex = pageIndex;
         this.numberOfPages = numberOfPages;
+        this.scrollId = scrollId;
     }
 
     @Override
@@ -75,6 +80,12 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         return numberOfPages;
     }
 
+    @Override
+    public String getScrollId()
+    {
+        return scrollId;
+    }
+
     public PnetDataClientPageSupplier<T> getPageSupplier()
     {
         return pageSupplier;
@@ -85,6 +96,16 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         this.pageSupplier = pageSupplier;
     }
 
+    public PnetDataClientScrollSupplier<T> getScrollSupplier()
+    {
+        return scrollSupplier;
+    }
+
+    public void setScrollSupplier(PnetDataClientScrollSupplier<T> scrollSupplier)
+    {
+        this.scrollSupplier = scrollSupplier;
+    }
+
     @Override
     public PnetDataClientResultPage<T> nextPage() throws PnetDataClientException
     {
@@ -93,7 +114,23 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
             return null;
         }
 
-        return pageSupplier.get(pageIndex + 1);
+        PnetDataClientResultPage<T> result;
+
+        if (scrollId != null && scrollSupplier != null)
+        {
+            result = scrollSupplier.get(scrollId);
+        }
+        else
+        {
+            result = pageSupplier.get(pageIndex + 1);
+        }
+
+        if (result != null && result.size() == 0)
+        {
+            return null;
+        }
+
+        return result;
     }
 
     @Override
@@ -101,10 +138,17 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     {
         if (pageSupplier == null)
         {
-            throw new UnsupportedOperationException("Feature not implemented");
+            throw new UnsupportedOperationException("Feature not supported");
         }
 
-        return pageSupplier.get(index);
+        PnetDataClientResultPage<T> result = pageSupplier.get(index);
+
+        if (result != null && result.size() == 0)
+        {
+            return null;
+        }
+
+        return result;
     }
 
 }

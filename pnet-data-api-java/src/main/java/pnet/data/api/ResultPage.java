@@ -34,7 +34,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
 {
 
     static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int totalNumberOfItems, int pageIndex,
-        int numberOfPages)
+        int numberOfPages, String scrollId)
     {
         return new ResultPage<T>() //
         {
@@ -68,6 +68,12 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
             public int getNumberOfPages()
             {
                 return numberOfPages;
+            }
+
+            @Override
+            public String getScrollId()
+            {
+                return scrollId;
             }
         };
     }
@@ -157,6 +163,13 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
      */
     @ApiModelProperty(notes = "The total amount of pages, that the search/find operation found")
     int getNumberOfPages();
+
+    /**
+     * Returns the scroll id, if available
+     *
+     * @return the scroll id
+     */
+    String getScrollId();
 
     /**
      * @return true if there is another page

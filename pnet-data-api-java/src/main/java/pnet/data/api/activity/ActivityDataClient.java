@@ -100,6 +100,24 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
                 });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setScrollSupplier(this::next);
+
+            return resultPage;
+        });
+    }
+
+    protected PnetDataClientResultPage<ActivityItemDTO> next(String scrollId) throws PnetDataClientException
+    {
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<ActivityItemDTO> resultPage = restCall
+                .variable("scrollId", scrollId)
+                .get("/api/v1/activities/next/{scrollId}",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
+                    {
+                        // intentionally left blank
+                    });
+
+            resultPage.setScrollSupplier(this::next);
 
             return resultPage;
         });

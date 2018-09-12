@@ -1,3 +1,20 @@
+pnet-data-api 1.4.0
+===================
+
+**Changes to the API**
+
+* Support for faster (scrolling) mass queries in:
+  * activities (find)
+  * applications (find)
+  * companies (find)
+  * company groups (get)
+  * functions (find)
+  * persons (find)
+
+**Changes to the Java client:**
+
+* Support for the scrolling mass queries.
+
 pnet-data-api 1.3.1
 ===================
 

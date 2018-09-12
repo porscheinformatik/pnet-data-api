@@ -46,6 +46,24 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
                     });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setScrollSupplier(this::next);
+
+            return resultPage;
+        });
+    }
+
+    protected PnetDataClientResultPage<CompanyGroupDataDTO> next(String scrollId) throws PnetDataClientException
+    {
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall
+                .variable("scrollId", scrollId)
+                .get("/api/v1/companygroups/next/{scrollId}",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
+                    {
+                        // intentionally left blank
+                    });
+
+            resultPage.setScrollSupplier(this::next);
 
             return resultPage;
         });

@@ -8,12 +8,14 @@ import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.util.AbstractGet;
 import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictScroll;
 
 /**
  * @author cet
  *
  */
 public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, CompanyGroupDataGet>
+    implements RestrictScroll<CompanyGroupDataGet>
 {
 
     public CompanyGroupDataGet(GetFunction<CompanyGroupDataDTO> getFunction, List<Pair<String, Object>> restricts)

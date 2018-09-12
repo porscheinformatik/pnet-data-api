@@ -99,6 +99,24 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
                 });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setScrollSupplier(this::next);
+
+            return resultPage;
+        });
+    }
+
+    protected PnetDataClientResultPage<FunctionItemDTO> next(String scrollId) throws PnetDataClientException
+    {
+        return invoke(restCall -> {
+            DefaultPnetDataClientResultPage<FunctionItemDTO> resultPage = restCall
+                .variable("scrollId", scrollId)
+                .get("/api/v1/functions/next/{scrollId}",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
+                    {
+                        // intentionally left blank
+                    });
+
+            resultPage.setScrollSupplier(this::next);
 
             return resultPage;
         });
