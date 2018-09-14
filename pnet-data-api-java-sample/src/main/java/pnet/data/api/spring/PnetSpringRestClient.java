@@ -1,5 +1,7 @@
 package pnet.data.api.spring;
 
+import static pnet.data.api.util.PrettyPrint.*;
+
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -124,7 +126,7 @@ public final class PnetSpringRestClient
     {
         AboutDataDTO about = aboutDataClient.about();
 
-        cli.info(about);
+        cli.info(prettyPrint(about));
     }
 
     @CLI.Command(description = "Prints the JSON Web Token of the user.")
