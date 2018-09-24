@@ -12,9 +12,22 @@ The Partner.&#78;et Data API provides access to the data of the Partner.&#78;et.
 
 The access conforms the General Data Protection Regulation.
 
+# Contents
+
+* [REST Interface](#rest-interface)
+* [Available Data](#available-data)
+* [Considerations](#considerations)
+* [User for Access](#user-for-access)
+* [Available Instances](#available-instances)
+* [Testing with cURL](#testing-with-curl)
+* [Testing with Postman](#testing-with-postman)
+* [Java Client Library](#java-client-library)
+
 # REST Interface
 
-The data is available by a REST interface. Check the current version of [Swagger-Documentation](https://data.auto-partner.net/data/swagger-ui.html) for more information.
+The data is available by a REST interface. Check the current version (production) of [Swagger-Documentation](https://data.auto-partner.net/data/swagger-ui.html) for more information. The QA environment contains the
+[upcoming Swagger-Documentation](https://qa-data.auto-partner.net/data/swagger-ui.html), that might differ
+a little bit.
 
 # Available Data
 
@@ -69,7 +82,7 @@ Use scroll-queries if you want to process large result sets.
 
 ## Paging
 
-The result of each request is paged, that means that it splits the result into multiple pages. You can add the desired page size to each request (`pp` parameter), but the server may reduce it, if it is too large. Currently, each page is limited to, at most, 100 items.
+The result of each request is paged, that means, that it splits the result into multiple pages. You can add the desired page size to each request (`pp` parameter), but the server may reduce it, if it is too large. Currently, each page is limited to, at most, 100 items.
 
 You can request subsequent pages by adding a page (`p`) parameter, but the rest of the request must be exactly the same (otherwise you may miss some items).
 
@@ -93,7 +106,7 @@ Some `find`-queries support scrolling (applications, activities, companies, comp
 
 **Be aware, that the `scrollId` is only valid for a few seconds after each request (it's like a session timeout)! If you don't have enough time to process the data on your side, choose a smaller page size.**
 
-# User
+# User for Access
 
 You will need a systemuser for accessing the data. You can request such a user with a [Partner.Net Wartungsantrag](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_MAINT_PROP). Just create a new document and select "Sonstiges".
 
@@ -105,7 +118,7 @@ Additionally, we will enter your own user as manager for the systemuser. This me
 
 After the systemuser has been created, you can use the [Systemuser Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) for requesting a password.
 
-# Access
+# Available Instances
 
 Following instances are accessible:
 
@@ -216,7 +229,7 @@ You can use the token with `$JWT`.
 
 In windows, you can experiment with the `set` command and `%JWT%` as placeholder.
 
-## Testing with Postman
+# Testing with Postman
 
 [Postman](https://www.getpostman.com/) is a free tool for accessing REST interfaces. Download the tool and install it. Finally, you can import the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/postman/Partner.Net%20Data%20API.postman_collection.json) collection with a lot of samples.
 
@@ -231,4 +244,6 @@ Next, execute the "About" request. Paste the token in the "Authorization" tab (a
 # Java Client Library
 
 If you are using Java, you can checkout the [Partner.&#78;et Data API Java Client](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java). It contains a useful library and a sample implementation.
+
+Tip: You can use the [Sample Implementation](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java-sample) as a standalone client.
 
