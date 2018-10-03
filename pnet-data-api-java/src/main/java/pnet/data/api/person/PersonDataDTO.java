@@ -15,6 +15,7 @@
 package pnet.data.api.person;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
@@ -58,6 +59,9 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
 
     @ApiModelProperty(notes = "The last name of the person")
     private String lastName;
+
+    @ApiModelProperty(notes = "The birthdate of the person")
+    private LocalDate birthdate;
 
     @ApiModelProperty(notes = "The external id of the person")
     private String externalId;
@@ -193,6 +197,16 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
+    }
+
+    public LocalDate getBirthdate()
+    {
+        return birthdate;
+    }
+
+    public void setBirthdate(LocalDate birthdate)
+    {
+        this.birthdate = birthdate;
     }
 
     public String getExternalId()
@@ -438,17 +452,17 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     @Override
     public String toString()
     {
-        return String
-            .format("PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+        return String.format(
+            "PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
                 + "firstName=%s, lastName=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
                 + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
                 + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
                 + "companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, checksum=%s, "
-                + "lastUpdate=%s]", id, administrativeTenant, tenants, formOfAddress, academicTitle, firstName,
-                lastName, externalId, guid, preferredUserId, phoneNumber, mobileNumber, faxNumber, email,
-                contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea,
-                personnelDepartment, jobDescription, companies, numbers, functions, activities, advisorAssignments,
-                checksum, lastUpdate);
+                + "lastUpdate=%s]",
+            id, administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName, externalId, guid,
+            preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter, personnelNumber,
+            supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, companies, numbers,
+            functions, activities, advisorAssignments, checksum, lastUpdate);
     }
 
 }
