@@ -1,5 +1,6 @@
 package pnet.data.api.client.jackson;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.core.Version;
@@ -22,6 +23,8 @@ public class JacksonPnetDataApiModule extends SimpleModule
 
         addSerializer(new LocalDateTimeSerializer());
         addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
+        addSerializer(new LocalDateSerializer());
+        addDeserializer(LocalDate.class, new LocalDateDeserializer());
     }
 
     public static ObjectMapper createObjectMapper()
