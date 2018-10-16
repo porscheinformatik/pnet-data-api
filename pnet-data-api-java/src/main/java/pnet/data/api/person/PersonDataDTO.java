@@ -116,6 +116,9 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     @ApiModelProperty(notes = "The advisor assignments of the person for specific companies")
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
+    @ApiModelProperty(notes = "Indicates, whether the person will get deleted automatically in the near future")
+    private boolean automaticDeletion;
+
     @ApiModelProperty(notes = "The checksum of all data of a person, which is needed to detect changes")
     private String checksum;
 
@@ -411,6 +414,16 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
         this.advisorAssignments = advisorAssignments;
     }
 
+    public boolean isAutomaticDeletion()
+    {
+        return automaticDeletion;
+    }
+
+    public void setAutomaticDeletion(boolean automaticDeletion)
+    {
+        this.automaticDeletion = automaticDeletion;
+    }
+
     public String getChecksum()
     {
         return checksum;
@@ -438,17 +451,65 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     @Override
     public String toString()
     {
-        return String
-            .format("PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                + "firstName=%s, lastName=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
-                + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
-                + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
-                + "companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, checksum=%s, "
-                + "lastUpdate=%s]", id, administrativeTenant, tenants, formOfAddress, academicTitle, firstName,
-                lastName, externalId, guid, preferredUserId, phoneNumber, mobileNumber, faxNumber, email,
-                contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea,
-                personnelDepartment, jobDescription, companies, numbers, functions, activities, advisorAssignments,
-                checksum, lastUpdate);
+        return "PersonDataDTO [id="
+            + id
+            + ", administrativeTenant="
+            + administrativeTenant
+            + ", tenants="
+            + tenants
+            + ", formOfAddress="
+            + formOfAddress
+            + ", academicTitle="
+            + academicTitle
+            + ", firstName="
+            + firstName
+            + ", lastName="
+            + lastName
+            + ", externalId="
+            + externalId
+            + ", guid="
+            + guid
+            + ", preferredUserId="
+            + preferredUserId
+            + ", phoneNumber="
+            + phoneNumber
+            + ", mobileNumber="
+            + mobileNumber
+            + ", faxNumber="
+            + faxNumber
+            + ", email="
+            + email
+            + ", contactCompanyId="
+            + contactCompanyId
+            + ", costCenter="
+            + costCenter
+            + ", personnelNumber="
+            + personnelNumber
+            + ", supervisorPersonnelNumber="
+            + supervisorPersonnelNumber
+            + ", controllingArea="
+            + controllingArea
+            + ", personnelDepartment="
+            + personnelDepartment
+            + ", jobDescription="
+            + jobDescription
+            + ", companies="
+            + companies
+            + ", numbers="
+            + numbers
+            + ", functions="
+            + functions
+            + ", activities="
+            + activities
+            + ", advisorAssignments="
+            + advisorAssignments
+            + ", automaticDeletion="
+            + automaticDeletion
+            + ", checksum="
+            + checksum
+            + ", lastUpdate="
+            + lastUpdate
+            + "]";
     }
 
 }
