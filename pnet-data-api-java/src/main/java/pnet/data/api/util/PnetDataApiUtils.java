@@ -292,7 +292,7 @@ public final class PnetDataApiUtils
     /**
      * format a iso date and time.
      *
-     * @param dateTime - the date and time to format
+     * @param date - the date and time to format
      * @return Formatted date
      */
     public static String formatISODate(LocalDate date)
@@ -330,8 +330,8 @@ public final class PnetDataApiUtils
 
         if (dateAsString.trim().contains("T"))
         {
-            return LocalDate.parse(dateAsString.substring(0, dateAsString.trim().indexOf("T")),
-                DateTimeFormatter.ISO_DATE);
+            return LocalDate
+                .parse(dateAsString.substring(0, dateAsString.trim().indexOf("T")), DateTimeFormatter.ISO_DATE);
         }
 
         return LocalDate.parse(dateAsString, DateTimeFormatter.ISO_DATE);

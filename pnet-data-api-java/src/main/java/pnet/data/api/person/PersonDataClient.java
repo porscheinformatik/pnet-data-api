@@ -106,10 +106,11 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/persons/next/{scrollId}", new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get("/api/v1/persons/next/{scrollId}",
+                    new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
+                    {
+                        // intentionally left blank
+                    });
 
             resultPage.setScrollSupplier(this::next);
 

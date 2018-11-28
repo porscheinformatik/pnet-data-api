@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import pnet.data.api.util.PnetDataApiUtils;
 
+/**
+ * @author cet
+ */
 public class LocalDateSerializer extends StdSerializer<LocalDate>
 {
 

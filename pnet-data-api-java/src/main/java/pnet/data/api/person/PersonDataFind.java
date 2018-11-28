@@ -29,14 +29,14 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  *
  * @author ham
  */
-public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind>
-    implements RestrictId<PersonDataFind>, RestrictTenant<PersonDataFind>, RestrictGuid<PersonDataFind>,
-    RestrictPreferredUserId<PersonDataFind>, RestrictEmail<PersonDataFind>, RestrictCostCenter<PersonDataFind>,
-    RestrictPersonnelNumber<PersonDataFind>, RestrictSupervisorPersonnelNumber<PersonDataFind>,
-    RestrictControllingArea<PersonDataFind>, RestrictPersonnelDepartment<PersonDataFind>,
-    RestrictCompanyId<PersonDataFind>, RestrictFunction<PersonDataFind>, RestrictActivity<PersonDataFind>,
-    RestrictAdvisorAssignmentCompany<PersonDataFind>, RestrictAdvisorAssignmentType<PersonDataFind>,
-    RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictUpdatedAfter<PersonDataFind>, RestrictScroll<PersonDataFind>
+public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind> implements RestrictId<PersonDataFind>,
+    RestrictTenant<PersonDataFind>, RestrictGuid<PersonDataFind>, RestrictPreferredUserId<PersonDataFind>,
+    RestrictEmail<PersonDataFind>, RestrictCostCenter<PersonDataFind>, RestrictPersonnelNumber<PersonDataFind>,
+    RestrictSupervisorPersonnelNumber<PersonDataFind>, RestrictControllingArea<PersonDataFind>,
+    RestrictPersonnelDepartment<PersonDataFind>, RestrictCompanyId<PersonDataFind>, RestrictFunction<PersonDataFind>,
+    RestrictActivity<PersonDataFind>, RestrictAdvisorAssignmentCompany<PersonDataFind>,
+    RestrictAdvisorAssignmentType<PersonDataFind>, RestrictAdvisorAssignmentDivision<PersonDataFind>,
+    RestrictUpdatedAfter<PersonDataFind>, RestrictScroll<PersonDataFind>
 {
 
     public PersonDataFind(FindFunction<PersonItemDTO> findFunction, List<Pair<String, Object>> restrictItems)

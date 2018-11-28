@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import pnet.data.api.util.PnetDataApiUtils;
 
+/**
+ * @author cet
+ */
 public class LocalDateDeserializer extends StdDeserializer<LocalDate>
 {
     private static final long serialVersionUID = 1L;
