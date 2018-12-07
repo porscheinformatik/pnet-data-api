@@ -22,6 +22,7 @@ The access conforms the General Data Protection Regulation.
 * [Testing with cURL](#testing-with-curl)
 * [Testing with Postman](#testing-with-postman)
 * [Java Client Library](#java-client-library)
+* [Common Problems](#common-problems)
 
 # REST Interface
 
@@ -72,9 +73,9 @@ The person data is filtered by default. You will only be able to access persons,
 
 ## Performance
 
-The Partner.&#78;et Data API is a scaleable application hosted in a cloud environment and is based on an NoSQL-Database in the background. Requests should be fast and the data should be accurate. The data from the Partner.&#78;et get's synced every few seconds and should be up-to-date most of the time.
+The Partner.&#78;et Data API is a scalable application hosted in a cloud environment and is based on an NoSQL-Database in the background. Requests should be fast and the data should be accurate. The data from the Partner.&#78;et gets synced every few seconds and should be up-to-date most of the time.
 
-The REST Interface provides the data as fast as it can. Currently we don't have performance issues because of too many users or too many requests. Generally, it is better to make multple smaller requests, than fewer larger ones.
+The REST Interface provides the data as fast as it can. Currently we don't have performance issues because of too many users or too many requests. Generally, it is better to make multiple smaller requests, than fewer larger ones.
 
 Consider caching relevant information! Most of the data does not change very often. We encourage you to store results locally and reuse the information instead of performing the same request over and over again.
 
@@ -100,23 +101,23 @@ Use `search` only, if you need a fuzzy search for a specified term other than `*
 
 The `details` requests return more information per item, but the request is slower compared to the `find` and `search` requests.
 
-## Scroll-Queries
+## Scroll Queries
 
-Some `find`-queries support scrolling (applications, activities, companies, company groups, functions and persons). Use scrolling queries (only) if you expect and process large result sets (> 1000 entries). Pass `scroll=true` to the request. The first response will contain a `scrollId`. Call the the `next` interface with the `scrollId` as last path segment to get the next result set.
+Some `find`-queries support scrolling (applications, activities, companies, company groups, functions and persons). Use scrolling queries (only) if you expect and process large result sets (that won't find on one page). Pass `scroll=true` to the request. The first response will contain a `scrollId`. Call the the `next` interface with the `scrollId` as last path segment to get the next result set.
 
 **Be aware, that the `scrollId` is only valid for a few seconds after each request (it's like a session timeout)! If you don't have enough time to process the data on your side, choose a smaller page size.**
 
 # User for Access
 
-You will need a systemuser for accessing the data. You can request such a user with a [Partner.Net Wartungsantrag](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_MAINT_PROP). Just create a new document and select "Sonstiges".
+You will need a system user for accessing the data. You can request such a user with a [Partner.&#78;et Wartungsantrag](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_MAINT_PROP). Just create a new document and select "Sonstiges".
 
 Bezeichnung: The name of the user, something like: "My Application System User"
 
 Informationen und Freigaben: We need the name of the application, that will use this user. The application must already be known to the Partner.&#78;et. It depends on the application, which persons are accessible (the consent of the person is needed).
 
-Additionally, we will enter your own user as manager for the systemuser. This means that you, and nobody else, can request a password for the user. If more users should be allowed to do this, please add a list.
+Additionally, we will enter your own user as manager for the system user. This means that you, and nobody else, can request a password for the user. If more users should be allowed to do this, please add a list.
 
-After the systemuser has been created, you can use the [Systemuser Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) for requesting a password.
+After the system user has been created, you can use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) for requesting a password.
 
 # Available Instances
 
@@ -145,7 +146,7 @@ This will return some information about the server and your user. It's a perfect
 
 # Testing with cURL
 
-The simpliest way to access the data, is by using the [cURL-Tool](https://curl.haxx.se/). It's available on most Linux installation, and even in Windows, it's quite common and easy to install.
+The simplest way to access the data, is by using the [cURL-Tool](https://curl.haxx.se/). It's available on most Linux installation, and even in Windows, it's quite common and easy to install.
 
 ## Perform a login
 
@@ -177,7 +178,7 @@ This should return some information about the version and your user.
 
 ## Search data
 
-The simpliest call, is to search for data. Let's test it with functions:
+The simplest call, is to search for data. Let's test it with functions:
 
 ```
 curl -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...' -X GET https://qa-data.auto-partner.net/data/api/v1/functions/search?l=en\&q=*
@@ -231,7 +232,7 @@ In windows, you can experiment with the `set` command and `%JWT%` as placeholder
 
 # Testing with Postman
 
-[Postman](https://www.getpostman.com/) is a free tool for accessing REST interfaces. Download the tool and install it. Finally, you can import the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/postman/Partner.Net%20Data%20API.postman_collection.json) collection with a lot of samples.
+[Postman](https://www.getpostman.com/) is a free tool for accessing REST interfaces. Download the tool and install it. Finally, you can import the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/postman/Partner.&#78;et%20Data%20API.postman_collection.json) collection with a lot of samples.
 
 ## Perform a login
 
@@ -246,4 +247,59 @@ Next, execute the "About" request. Paste the token in the "Authorization" tab (a
 If you are using Java, you can checkout the [Partner.&#78;et Data API Java Client](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java). It contains a useful library and a sample implementation.
 
 Tip: You can use the [Sample Implementation](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java-sample) as a standalone client.
+
+# Common Problems
+
+## Where can I apply for a system user?
+
+Please check the chapter [User for Access](#user-for-access).
+
+## Where can I get my password from?
+
+After the system user has been created, you can use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) for requesting a password. You should see the system user in the list. Click on the name and you will see the details of this user. In this form, you can request a new password.
+
+If the system user is missing, you may be missing in the list of responsible persons for this system user. In such a case, please contact your contact person at the Porsche Holding.
+
+## I'm not allowed to access the Data API, but the password is correct!
+
+Use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) to check the access log. It will contain a more detailed explanation of what went wrong. Quite often the IP is not allowed. You can add it in the Self-Service as well.
+
+## When querying data, why do I get duplicate entries while others are missing?
+
+With reach request a new search will be performed in our database. When your are iterating over pages, it may happen, that the next page contains an entry, that was already present on the last page, while another one is missing. We are trying our best to avoid this by sorting the results, but if someone is changing the data at the same moment you are accessing it, it may happen nevertheless.
+
+You can avoid this problem at all by using the `scroll` parameter (it's only available with `find` queries). Check [Scroll Queries](#scroll-queries) for more information.
+
+## When querying persons, why are some missing?
+
+When you are accessing the Data API, you are using a system user that is linked to a specific application. For data protection reasons, you can only access persons, that gave their consent, that the application is allowed to use their data.
+
+Giving consent may either happen when the person first accesses the application by clicking on the link in the Partner.&#78;et Portal or automatically, if the person got a right (function or activity), that implies that she or he needs this application of the daily work (legitimate interest).
+
+All queries to personal data are check against these consents. Especially when you are testing on the QA system, remember that the only very few persons have access to this instance.
+
+## How can I use multiple conditions in one query?
+
+You can add parameters more than once. The following query will return all persons with at least one of the specified activities:
+
+```
+.../persons/find?scroll=true&activity=TA_ACT_1&activity=TA_ACT_2&activity=TA_ACT_3
+```
+
+You may note, that the parameter separator of the URL looks like an "and", but, in this case, it's an "or" condition.
+
+A common pitfall is, that if you are using other conditions in the same query: they are treated as "and". Only conditions to the same field are treated as "or".
+
+```
+.../persons/find?scroll=true&activity=TA_ACT_1&activity=TA_ACT_2&function=FU_FUN_1&function=FU_FUN_1
+```
+
+This will result in a search that's more like: `(TA_ACT_1 OR TA_ACT_2) AND (FU_FUN_1 OR FU_FUN_2)`.
+
+
+
+
+
+
+
 
