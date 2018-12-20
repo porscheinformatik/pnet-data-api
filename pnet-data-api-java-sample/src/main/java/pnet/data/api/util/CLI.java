@@ -492,47 +492,47 @@ public class CLI
                 return null;
             }
 
-            if (type.isAssignableFrom(String.class))
+            if (String.class.isAssignableFrom(type))
             {
                 return (Any) value;
             }
 
-            if (type.isAssignableFrom(Boolean.class))
+            if (Boolean.class.isAssignableFrom(type))
             {
                 return (Any) Boolean.valueOf(Boolean.parseBoolean(value));
             }
 
-            if (type.isAssignableFrom(Byte.class))
+            if (Byte.class.isAssignableFrom(type))
             {
                 return (Any) Byte.decode(value);
             }
 
-            if (type.isAssignableFrom(Short.class))
+            if (Short.class.isAssignableFrom(type))
             {
                 return (Any) Short.decode(value);
             }
 
-            if (type.isAssignableFrom(Integer.class))
+            if (Integer.class.isAssignableFrom(type))
             {
                 return (Any) Integer.decode(value);
             }
 
-            if (type.isAssignableFrom(Long.class))
+            if (Long.class.isAssignableFrom(type))
             {
                 return (Any) Long.decode(value);
             }
 
-            if (type.isAssignableFrom(Float.class))
+            if (Float.class.isAssignableFrom(type))
             {
                 return (Any) Float.valueOf(Float.parseFloat(value));
             }
 
-            if (type.isAssignableFrom(Double.class))
+            if (Double.class.isAssignableFrom(type))
             {
                 return (Any) Double.valueOf(Double.parseDouble(value));
             }
 
-            if (type.isAssignableFrom(Character.class))
+            if (Character.class.isAssignableFrom(type))
             {
                 if (value.length() > 1)
                 {
@@ -542,7 +542,7 @@ public class CLI
                 return (Any) Character.valueOf(value.charAt(0));
             }
 
-            if (type.isAssignableFrom(Enum.class))
+            if (Enum.class.isAssignableFrom(type))
             {
                 return (Any) Enum.valueOf((Class<T>) type, value);
             }
@@ -700,7 +700,7 @@ public class CLI
 
         String getDescription();
 
-        void printShortDescription(CLI cli, String prefix);
+        String getHelp(String prefix, String... qs);
 
         void handle(Arguments arguments);
 
@@ -749,7 +749,7 @@ public class CLI
         }
 
         @Override
-        public void printShortDescription(CLI cli, String prefix)
+        public String getHelp(String prefix, String... qs)
         {
             StringBuilder builder = new StringBuilder(prefix);
 
@@ -769,7 +769,7 @@ public class CLI
             builder.append(" ");
             builder.append(description);
 
-            cli.info(builder);
+            return builder.toString();
         }
     }
 
@@ -805,16 +805,31 @@ public class CLI
         }
 
         @Override
-        public void printShortDescription(CLI cli, String prefix)
+        public String getHelp(String prefix, String... qs)
         {
+            StringBuilder result = new StringBuilder();
             List<Handler> handlers = new ArrayList<>(this.handlers);
 
             Collections.sort(handlers);
 
             for (Handler handler : handlers)
             {
-                handler.printShortDescription(cli, prefix + (name != null ? name + " " : ""));
+                String help = handler.getHelp(prefix + (name != null ? name + " " : ""), qs);
+
+                if (!containsEach(help, qs))
+                {
+                    continue;
+                }
+
+                if (result.length() > 0)
+                {
+                    result.append("\n");
+                }
+
+                result.append(help);
             }
+
+            return result.toString();
         }
 
         public void register(Object instance)
@@ -1030,10 +1045,19 @@ public class CLI
         formulary.handle(consume(prompt));
     }
 
-    @CLI.Command(name = {"help", "?"}, description = "Prints this help.")
-    public void help()
+    @CLI.Command(name = {"help", "?"}, format = "[q]", description = "Prints this help.")
+    public void help(String... qs)
     {
-        formulary.printShortDescription(this, "");
+        String help = formulary.getHelp("", qs);
+
+        if (help.length() == 0)
+        {
+            info("No help found for: %s", Arrays.stream(qs).collect(Collectors.joining(" ")));
+        }
+        else
+        {
+            info(help);
+        }
     }
 
     @CLI.Command(description = "Exit this program.")
@@ -1107,6 +1131,26 @@ public class CLI
     private static String simplify(String s)
     {
         return s.replaceAll("[^\\p{IsLatin}^\\d]", "").toLowerCase();
+    }
+
+    private static boolean containsEach(String s, String... qs)
+    {
+        if (qs == null || qs.length == 0)
+        {
+            return true;
+        }
+
+        s = s.toLowerCase();
+
+        for (String q : qs)
+        {
+            if (!s.contains(q.toLowerCase()))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
