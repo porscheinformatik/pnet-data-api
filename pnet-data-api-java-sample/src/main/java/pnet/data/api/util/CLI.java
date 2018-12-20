@@ -485,7 +485,7 @@ public class CLI
         }
 
         @SuppressWarnings("unchecked")
-        protected <Any> Any convert(String value, Class<Any> type)
+        protected <Any, T extends Enum<T>> Any convert(String value, Class<Any> type)
         {
             if (value == null)
             {
@@ -540,6 +540,11 @@ public class CLI
                 }
 
                 return (Any) Character.valueOf(value.charAt(0));
+            }
+
+            if (type.isAssignableFrom(Enum.class))
+            {
+                return (Any) Enum.valueOf((Class<T>) type, value);
             }
 
             throw new UnsupportedOperationException("Type not supported: " + type);

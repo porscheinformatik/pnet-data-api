@@ -39,6 +39,8 @@ import pnet.data.api.externalbrand.ExternalBrandDataClient;
 import pnet.data.api.function.FunctionDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
+import pnet.data.api.todo.TodoCategory;
+import pnet.data.api.todo.TodoGroupDataClient;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.Prefs;
@@ -107,6 +109,9 @@ public final class PnetSpringRestClient
     private PersonDataClient personDataClient;
 
     @Autowired
+    private TodoGroupDataClient todoGroupDataClient;
+
+    @Autowired
     private PnetDataApiTokenRepository repository;
 
     private String[] tenants;
@@ -164,7 +169,7 @@ public final class PnetSpringRestClient
                 dto.getLastUpdate()));
     }
 
-    @CLI.Command(name = "find activity by mc", format = "<MATCHCODE...>",
+    @CLI.Command(name = "find activities by mc", format = "<MATCHCODE...>",
         description = "Find activities by matchcodes.")
     public void findActivities(String... matchcodes) throws PnetDataClientException
     {
@@ -625,42 +630,42 @@ public final class PnetSpringRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get persons by id", format = "<ID...>",
+    @CLI.Command(name = "get person by id", format = "<ID...>",
         description = "Returns all details of persons with the specified ids.")
     public void getPersonById(Integer... ids) throws PnetDataClientException
     {
         printResults(personDataClient.get().allByIds(Arrays.asList(ids), 0, 10));
     }
 
-    @CLI.Command(name = "get persons by external id", format = "<EXTERNALID...>",
+    @CLI.Command(name = "get person by external id", format = "<EXTERNALID...>",
         description = "Returns all details of persons with the specified external ids.")
     public void getPersonByExternalId(String... externalIds) throws PnetDataClientException
     {
         printResults(personDataClient.get().allByExternalIds(Arrays.asList(externalIds), 0, 10));
     }
 
-    @CLI.Command(name = "get persons by guid", format = "<GUID...>",
+    @CLI.Command(name = "get person by guid", format = "<GUID...>",
         description = "Returns all details of persons with the specified guids.")
     public void getPersonByGuid(String... guids) throws PnetDataClientException
     {
         printResults(personDataClient.get().allByGuids(Arrays.asList(guids), 0, 10));
     }
 
-    @CLI.Command(name = "get persons by preferredUserId", format = "<PREFID...>",
+    @CLI.Command(name = "get person by preferredUserId", format = "<PREFID...>",
         description = "Returns all details of persons with the specified prefferedUserIds.")
     public void getPersonByPreferredUserId(String... preferredUserIds) throws PnetDataClientException
     {
         printResults(personDataClient.get().allByPrefferedUserIds(Arrays.asList(preferredUserIds), 0, 10));
     }
 
-    @CLI.Command(name = "get persons by email", format = "<EMAIL...>",
+    @CLI.Command(name = "get person by email", format = "<EMAIL...>",
         description = "Returns all details of persons with the specified emails.")
     public void getPersonByEmail(String... emails) throws PnetDataClientException
     {
         printResults(personDataClient.get().allByEmails(Arrays.asList(emails), 0, 10));
     }
 
-    @CLI.Command(name = "get persons by personnelNumber", format = "<PERSNUMBER...>",
+    @CLI.Command(name = "get person by personnelNumber", format = "<PERSNUMBER...>",
         description = "Returns all details of persons with the specified personnelNumbers.")
     public void getPersonByPersonnelNumber(String... personnelNumbers) throws PnetDataClientException
     {
@@ -692,6 +697,29 @@ public final class PnetSpringRestClient
     public void searchPerson(String query) throws PnetDataClientException
     {
         printResults(personDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    @CLI.Command(name = "export all todo groups", description = "Exports all todo groups.")
+    public void exportAllTodoGroups() throws PnetDataClientException
+    {
+        printAllResults(todoGroupDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getLabel(), dto.getHeadline(),
+                dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "find todo groups by category", format = "<CATEGORY...>",
+        description = "Find todo groups by category.")
+    public void findTodoGroupsByCategory(TodoCategory... categories) throws PnetDataClientException
+    {
+        printResults(todoGroupDataClient.find().category(categories).execute(Locale.getDefault()));
+    }
+
+    @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
+    public void searchTodoGroups(String query) throws PnetDataClientException
+    {
+        printResults(todoGroupDataClient.search().execute(Locale.getDefault(), query));
     }
 
     ////////////////////////////////////////////////////////////////////////////
