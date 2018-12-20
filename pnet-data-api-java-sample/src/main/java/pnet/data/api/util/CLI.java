@@ -1069,7 +1069,14 @@ public class CLI
 
     protected void writeOut(String message, Object... args)
     {
-        out.printf(message, args);
+        if (args == null || args.length == 0)
+        {
+            out.print(message);
+        }
+        else
+        {
+            out.printf(message, args);
+        }
     }
 
     protected void writeOut(Throwable ex)

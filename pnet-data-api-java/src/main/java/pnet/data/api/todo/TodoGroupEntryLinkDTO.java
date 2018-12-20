@@ -1,6 +1,7 @@
 package pnet.data.api.todo;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,30 +33,42 @@ public class TodoGroupEntryLinkDTO
     private final LocalDateTime created;
 
     @ApiModelProperty(
-        notes = "The date and time the execution of this item has been started. Null if the execution has not been started, yes.")
+        notes = "The date and time the execution of this entry has been started. Null if the execution has not been started, yes.")
     private final LocalDateTime started;
 
-    @ApiModelProperty(notes = "True if the item has been rejected.")
+    @ApiModelProperty(notes = "The date and time, this entry was approved. Null if it has not been approved, yet..")
+    private final LocalDateTime approved;
+
+    @ApiModelProperty(notes = "The id of the person, that did the approval.")
+    private final Integer approvedByPersonId;
+
+    @ApiModelProperty(notes = "The name of the person, that did the approval.")
+    private final String approvedByPersonName;
+
+    @ApiModelProperty(notes = "The name of the person, that did the approval.")
+    private final Collection<Integer> assignedToPersonIds;
+
+    @ApiModelProperty(notes = "True if the entry has been rejected.")
     private final boolean rejected;
 
-    @ApiModelProperty(notes = "True if the item has been archived.")
-    private final boolean archived;
-
-    @ApiModelProperty(notes = "The earliest date and time, the execution of this item may start.")
+    @ApiModelProperty(notes = "The earliest date and time, the execution of this entry may start.")
     private final LocalDateTime scheduled;
 
-    @ApiModelProperty(notes = "The headline of the item.")
+    @ApiModelProperty(notes = "The headline of the entry.")
     private final String headline;
 
-    @ApiModelProperty(notes = "The description of the item.")
+    @ApiModelProperty(notes = "The description of the entry.")
     private final String description;
 
     public TodoGroupEntryLinkDTO(@JsonProperty("id") Integer id, @JsonProperty("type") String type,
         @JsonProperty("source") TodoSource source, @JsonProperty("state") TodoState state,
         @JsonProperty("created") LocalDateTime created, @JsonProperty("started") LocalDateTime started,
-        @JsonProperty("rejected") boolean rejected, @JsonProperty("archived") boolean archived,
-        @JsonProperty("scheduled") LocalDateTime scheduled, @JsonProperty("headline") String headline,
-        @JsonProperty("description") String description)
+        @JsonProperty("approved") LocalDateTime approved,
+        @JsonProperty("approvedByPersonId") Integer approvedByPersonId,
+        @JsonProperty("approvedByPersonName") String approvedByPersonName,
+        @JsonProperty("assignedToPersonIds") Collection<Integer> assignedToPersonIds,
+        @JsonProperty("rejected") boolean rejected, @JsonProperty("scheduled") LocalDateTime scheduled,
+        @JsonProperty("headline") String headline, @JsonProperty("description") String description)
     {
         super();
 
@@ -65,8 +78,11 @@ public class TodoGroupEntryLinkDTO
         this.state = state;
         this.created = created;
         this.started = started;
+        this.approved = approved;
+        this.approvedByPersonId = approvedByPersonId;
+        this.approvedByPersonName = approvedByPersonName;
+        this.assignedToPersonIds = assignedToPersonIds;
         this.rejected = rejected;
-        this.archived = archived;
         this.scheduled = scheduled;
         this.headline = headline;
         this.description = description;
@@ -102,14 +118,29 @@ public class TodoGroupEntryLinkDTO
         return started;
     }
 
+    public LocalDateTime getApproved()
+    {
+        return approved;
+    }
+
+    public Integer getApprovedByPersonId()
+    {
+        return approvedByPersonId;
+    }
+
+    public String getApprovedByPersonName()
+    {
+        return approvedByPersonName;
+    }
+
+    public Collection<Integer> getAssignedToPersonIds()
+    {
+        return assignedToPersonIds;
+    }
+
     public boolean isRejected()
     {
         return rejected;
-    }
-
-    public boolean isArchived()
-    {
-        return archived;
     }
 
     public LocalDateTime getScheduled()
@@ -170,10 +201,11 @@ public class TodoGroupEntryLinkDTO
     public String toString()
     {
         return String
-            .format(
-                "TodoGroupItemLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, started=%s, rejected=%s,"
-                    + " archived=%s, scheduled=%s, headline=%s, description=%s]",
-                id, type, source, state, created, started, rejected, archived, scheduled, headline, description);
+            .format("TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, started=%s, approved=%s, "
+                + "approvedByPersonId=%s, approvedByPersonName=%s, assignedToPersonIds=%s, rejected=%s, scheduled=%s, "
+                + "headline=%s, description=%s]", id, type, source, state, created, started, approved,
+                approvedByPersonId, approvedByPersonName, assignedToPersonIds, rejected, scheduled, headline,
+                description);
     }
 
 }

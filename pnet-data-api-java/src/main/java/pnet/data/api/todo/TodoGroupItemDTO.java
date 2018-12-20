@@ -24,9 +24,6 @@ public class TodoGroupItemDTO
     @ApiModelProperty(notes = "The label of the group.")
     private String label;
 
-    @ApiModelProperty(notes = "The headline of the group.")
-    private String headline;
-
     @ApiModelProperty(notes = "The persons that are references in the various to-do entries.")
     private Collection<TodoGroupPersonLinkDTO> persons;
 
@@ -72,16 +69,6 @@ public class TodoGroupItemDTO
         this.label = label;
     }
 
-    public String getHeadline()
-    {
-        return headline;
-    }
-
-    public void setHeadline(String headline)
-    {
-        this.headline = headline;
-    }
-
     public void setPersons(Collection<TodoGroupPersonLinkDTO> persons)
     {
         this.persons = persons;
@@ -111,9 +98,8 @@ public class TodoGroupItemDTO
     public String toString()
     {
         return String
-            .format(
-                "TodoGroupDataDTO [category=%s, referenceId=%s, label=%s, headline=%s, persons=%s, entries=%s, lastUpdate=%s]",
-                category, referenceId, label, headline, persons, entries, lastUpdate);
+            .format("TodoGroupDataDTO [category=%s, referenceId=%s, label=%s, persons=%s, entries=%s, lastUpdate=%s]",
+                category, referenceId, label, persons, entries, lastUpdate);
     }
 
 }

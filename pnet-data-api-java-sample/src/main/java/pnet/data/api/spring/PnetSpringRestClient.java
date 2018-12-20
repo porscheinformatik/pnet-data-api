@@ -41,6 +41,8 @@ import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.todo.TodoCategory;
 import pnet.data.api.todo.TodoGroupDataClient;
+import pnet.data.api.todo.TodoGroupEntryLinkDTO;
+import pnet.data.api.todo.TodoGroupPersonLinkDTO;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.Prefs;
@@ -705,7 +707,9 @@ public final class PnetSpringRestClient
     public void exportAllTodoGroups() throws PnetDataClientException
     {
         printAllResults(todoGroupDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getLabel(), dto.getHeadline(),
+            dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getLabel(),
+                dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
+                dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
                 dto.getLastUpdate()));
     }
 

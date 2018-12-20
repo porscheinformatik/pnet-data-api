@@ -25,16 +25,16 @@ public class TodoGroupPersonLinkDTO implements Serializable
     private final String name;
 
     @ApiModelProperty(notes = "True, if the person has some open work to do in this group.")
-    private final boolean obliged;
+    private final boolean assigned;
 
     public TodoGroupPersonLinkDTO(@JsonProperty("personId") Integer personId, @JsonProperty("name") String name,
-        @JsonProperty("obliged") boolean obliged)
+        @JsonProperty("assigned") boolean assigned)
     {
         super();
 
         this.personId = personId;
         this.name = name;
-        this.obliged = obliged;
+        this.assigned = assigned;
     }
 
     public Integer getPersonId()
@@ -47,9 +47,9 @@ public class TodoGroupPersonLinkDTO implements Serializable
         return name;
     }
 
-    public boolean isObliged()
+    public boolean isAssigned()
     {
-        return obliged;
+        return assigned;
     }
 
     @Override
@@ -57,8 +57,8 @@ public class TodoGroupPersonLinkDTO implements Serializable
     {
         final int prime = 31;
         int result = 1;
+        result = prime * result + (assigned ? 1231 : 1237);
         result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + (obliged ? 1231 : 1237);
         result = prime * result + ((personId == null) ? 0 : personId.hashCode());
         return result;
     }
@@ -79,6 +79,10 @@ public class TodoGroupPersonLinkDTO implements Serializable
             return false;
         }
         TodoGroupPersonLinkDTO other = (TodoGroupPersonLinkDTO) obj;
+        if (assigned != other.assigned)
+        {
+            return false;
+        }
         if (name == null)
         {
             if (other.name != null)
@@ -87,10 +91,6 @@ public class TodoGroupPersonLinkDTO implements Serializable
             }
         }
         else if (!name.equals(other.name))
-        {
-            return false;
-        }
-        if (obliged != other.obliged)
         {
             return false;
         }
@@ -111,7 +111,6 @@ public class TodoGroupPersonLinkDTO implements Serializable
     @Override
     public String toString()
     {
-        return String.format("TodoGroupPersonLinkDTO [personId=%s, name=%s, obliged=%s]", personId, name, obliged);
+        return String.format("TodoGroupPersonLinkDTO [personId=%s, name=%s, assigned=%s]", personId, name, assigned);
     }
-
 }
