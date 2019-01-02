@@ -15,6 +15,7 @@
 package pnet.data.api.person;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -60,6 +61,9 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
     @ApiModelProperty(notes = "The personnel number of the person")
     private final String personnelNumber;
 
+    @ApiModelProperty(notes = "The birthdate of the person")
+    private final LocalDate birthdate;
+
     @ApiModelProperty(notes = "The time and date when the person was last changed")
     private final LocalDateTime lastUpdate;
 
@@ -68,7 +72,7 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
         @JsonProperty("academicTitle") String academicTitle, @JsonProperty("firstName") String firstName,
         @JsonProperty("lastName") String lastName, @JsonProperty("personnelNumber") String personnelNumber,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("birthdate") LocalDate birthdate, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -80,6 +84,7 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         this.firstName = firstName;
         this.lastName = lastName;
         this.personnelNumber = personnelNumber;
+        this.birthdate = birthdate;
         this.lastUpdate = lastUpdate;
     }
 
@@ -124,6 +129,11 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         return personnelNumber;
     }
 
+    public LocalDate getBirthdate()
+    {
+        return birthdate;
+    }
+
     @Override
     public LocalDateTime getLastUpdate()
     {
@@ -135,10 +145,9 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
     {
         return String
             .format(
-                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                    + "firstName=%s, lastName=%s, personnelNumber=%s, lastUpdate=%s]",
+                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, firstName=%s, lastName=%s, personnelNumber=%s, birthdate=%s, lastUpdate=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName,
-                personnelNumber, lastUpdate);
+                personnelNumber, birthdate, lastUpdate);
     }
 
 }
