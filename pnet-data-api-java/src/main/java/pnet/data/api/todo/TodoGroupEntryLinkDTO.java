@@ -32,11 +32,10 @@ public class TodoGroupEntryLinkDTO
     @ApiModelProperty(notes = "The date and time this to-do entry has been created.")
     private final LocalDateTime created;
 
-    @ApiModelProperty(
-        notes = "The date and time the execution of this entry has been started. Null if the execution has not been started, yes.")
-    private final LocalDateTime started;
+    @ApiModelProperty(notes = "The name of the person, that did the approval.")
+    private final Collection<Integer> assignedToPersonIds;
 
-    @ApiModelProperty(notes = "The date and time, this entry was approved. Null if it has not been approved, yet..")
+    @ApiModelProperty(notes = "The date and time, this entry was approved. Null, if it has not been approved, yet..")
     private final LocalDateTime approved;
 
     @ApiModelProperty(notes = "The id of the person, that did the approval.")
@@ -45,14 +44,19 @@ public class TodoGroupEntryLinkDTO
     @ApiModelProperty(notes = "The name of the person, that did the approval.")
     private final String approvedByPersonName;
 
-    @ApiModelProperty(notes = "The name of the person, that did the approval.")
-    private final Collection<Integer> assignedToPersonIds;
-
     @ApiModelProperty(notes = "True if the entry has been rejected.")
     private final boolean rejected;
 
     @ApiModelProperty(notes = "The earliest date and time, the execution of this entry may start.")
     private final LocalDateTime scheduled;
+
+    @ApiModelProperty(
+        notes = "The date and time the execution of this entry has been started. Null, if the execution has not been started, yet.")
+    private final LocalDateTime started;
+
+    @ApiModelProperty(
+        notes = "The date and time this to-do entry has been finished. Null, it the execution has not been finished, yet.")
+    private final LocalDateTime finished;
 
     @ApiModelProperty(notes = "The headline of the entry.")
     private final String headline;
@@ -62,13 +66,14 @@ public class TodoGroupEntryLinkDTO
 
     public TodoGroupEntryLinkDTO(@JsonProperty("id") Integer id, @JsonProperty("type") String type,
         @JsonProperty("source") TodoSource source, @JsonProperty("state") TodoState state,
-        @JsonProperty("created") LocalDateTime created, @JsonProperty("started") LocalDateTime started,
+        @JsonProperty("created") LocalDateTime created,
+        @JsonProperty("assignedToPersonIds") Collection<Integer> assignedToPersonIds,
         @JsonProperty("approved") LocalDateTime approved,
         @JsonProperty("approvedByPersonId") Integer approvedByPersonId,
-        @JsonProperty("approvedByPersonName") String approvedByPersonName,
-        @JsonProperty("assignedToPersonIds") Collection<Integer> assignedToPersonIds,
-        @JsonProperty("rejected") boolean rejected, @JsonProperty("scheduled") LocalDateTime scheduled,
-        @JsonProperty("headline") String headline, @JsonProperty("description") String description)
+        @JsonProperty("approvedByPersonName") String approvedByPersonName, @JsonProperty("rejected") boolean rejected,
+        @JsonProperty("scheduled") LocalDateTime scheduled, @JsonProperty("started") LocalDateTime started,
+        @JsonProperty("finished") LocalDateTime finished, @JsonProperty("headline") String headline,
+        @JsonProperty("description") String description)
     {
         super();
 
@@ -77,10 +82,11 @@ public class TodoGroupEntryLinkDTO
         this.source = source;
         this.state = state;
         this.created = created;
-        this.started = started;
         this.approved = approved;
         this.approvedByPersonId = approvedByPersonId;
         this.approvedByPersonName = approvedByPersonName;
+        this.started = started;
+        this.finished = finished;
         this.assignedToPersonIds = assignedToPersonIds;
         this.rejected = rejected;
         this.scheduled = scheduled;
@@ -113,9 +119,9 @@ public class TodoGroupEntryLinkDTO
         return created;
     }
 
-    public LocalDateTime getStarted()
+    public Collection<Integer> getAssignedToPersonIds()
     {
-        return started;
+        return assignedToPersonIds;
     }
 
     public LocalDateTime getApproved()
@@ -133,11 +139,6 @@ public class TodoGroupEntryLinkDTO
         return approvedByPersonName;
     }
 
-    public Collection<Integer> getAssignedToPersonIds()
-    {
-        return assignedToPersonIds;
-    }
-
     public boolean isRejected()
     {
         return rejected;
@@ -146,6 +147,16 @@ public class TodoGroupEntryLinkDTO
     public LocalDateTime getScheduled()
     {
         return scheduled;
+    }
+
+    public LocalDateTime getStarted()
+    {
+        return started;
+    }
+
+    public LocalDateTime getFinished()
+    {
+        return finished;
     }
 
     public String getHeadline()
@@ -159,52 +170,13 @@ public class TodoGroupEntryLinkDTO
     }
 
     @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (obj == null)
-        {
-            return false;
-        }
-        if (!(obj instanceof TodoGroupEntryLinkDTO))
-        {
-            return false;
-        }
-        TodoGroupEntryLinkDTO other = (TodoGroupEntryLinkDTO) obj;
-        if (id == null)
-        {
-            if (other.id != null)
-            {
-                return false;
-            }
-        }
-        else if (!id.equals(other.id))
-        {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public String toString()
     {
         return String
-            .format("TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, started=%s, approved=%s, "
-                + "approvedByPersonId=%s, approvedByPersonName=%s, assignedToPersonIds=%s, rejected=%s, scheduled=%s, "
-                + "headline=%s, description=%s]", id, type, source, state, created, started, approved,
-                approvedByPersonId, approvedByPersonName, assignedToPersonIds, rejected, scheduled, headline,
+            .format("TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, assignedToPersonIds=%s, "
+                + "approved=%s, approvedByPersonId=%s, approvedByPersonName=%s, rejected=%s, scheduled=%s, started=%s, "
+                + "finished=%s, headline=%s, description=%s]", id, type, source, state, created, assignedToPersonIds,
+                approved, approvedByPersonId, approvedByPersonName, rejected, scheduled, started, finished, headline,
                 description);
     }
 

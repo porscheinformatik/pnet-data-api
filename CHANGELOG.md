@@ -1,3 +1,17 @@
+pnet-data-api 1.7.1
+===================
+
+**Changes to the API:**
+
+* Added finished date to to-do entries.
+
+pnet-data-api 1.7.0
+===================
+
+**Changes to the API:**
+
+* Birthdate has been added
+
 pnet-data-api 1.6.0
 ===================
 
