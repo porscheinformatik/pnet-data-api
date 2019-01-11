@@ -3,6 +3,8 @@ package pnet.data.api.todo;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -16,32 +18,51 @@ public class TodoGroupItemDTO
 {
 
     @ApiModelProperty(notes = "The category of to-dos, this groups is holding.")
-    private TodoCategory category;
+    private final TodoCategory category;
+
+    @ApiModelProperty(notes = "The label of the category.")
+    private final String categoryLabel;
 
     @ApiModelProperty(notes = "The reference ID of all to-dos in this group.")
-    private Integer referenceId;
+    private final Integer referenceId;
 
-    @ApiModelProperty(notes = "The label of the group.")
-    private String label;
+    @ApiModelProperty(notes = "The label of the group, decribing the referenced item.")
+    private final String label;
 
     @ApiModelProperty(notes = "The persons that are references in the various to-do entries.")
-    private Collection<TodoGroupPersonLinkDTO> persons;
+    private final Collection<TodoGroupPersonLinkDTO> persons;
 
     @ApiModelProperty(notes = "All to-do entries in this group.")
-    private Collection<TodoGroupEntryLinkDTO> entries;
+    private final Collection<TodoGroupEntryLinkDTO> entries;
 
     @ApiModelProperty(
         notes = "The exact date and time of the last time this group or one of the to-do entries have been modified.")
-    private LocalDateTime lastUpdate;
+    private final LocalDateTime lastUpdate;
+
+    public TodoGroupItemDTO(@JsonProperty("category") TodoCategory category,
+        @JsonProperty("categoryLabel") String categoryLabel, @JsonProperty("referenceId") Integer referenceId,
+        @JsonProperty("label") String label, @JsonProperty("persons") Collection<TodoGroupPersonLinkDTO> persons,
+        @JsonProperty("entries") Collection<TodoGroupEntryLinkDTO> entries,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+    {
+        super();
+        this.category = category;
+        this.categoryLabel = categoryLabel;
+        this.referenceId = referenceId;
+        this.label = label;
+        this.persons = persons;
+        this.entries = entries;
+        this.lastUpdate = lastUpdate;
+    }
 
     public TodoCategory getCategory()
     {
         return category;
     }
 
-    public void setCategory(TodoCategory category)
+    public String getCategoryLabel()
     {
-        this.category = category;
+        return categoryLabel;
     }
 
     public Integer getReferenceId()
@@ -49,9 +70,9 @@ public class TodoGroupItemDTO
         return referenceId;
     }
 
-    public void setReferenceId(Integer referenceId)
+    public String getLabel()
     {
-        this.referenceId = referenceId;
+        return label;
     }
 
     public Collection<TodoGroupPersonLinkDTO> getPersons()
@@ -59,29 +80,9 @@ public class TodoGroupItemDTO
         return persons;
     }
 
-    public String getLabel()
-    {
-        return label;
-    }
-
-    public void setLabel(String label)
-    {
-        this.label = label;
-    }
-
-    public void setPersons(Collection<TodoGroupPersonLinkDTO> persons)
-    {
-        this.persons = persons;
-    }
-
     public Collection<TodoGroupEntryLinkDTO> getEntries()
     {
         return entries;
-    }
-
-    public void setEntries(Collection<TodoGroupEntryLinkDTO> entries)
-    {
-        this.entries = entries;
     }
 
     public LocalDateTime getLastUpdate()
@@ -89,17 +90,13 @@ public class TodoGroupItemDTO
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
-        this.lastUpdate = lastUpdate;
-    }
-
     @Override
     public String toString()
     {
         return String
-            .format("TodoGroupDataDTO [category=%s, referenceId=%s, label=%s, persons=%s, entries=%s, lastUpdate=%s]",
-                category, referenceId, label, persons, entries, lastUpdate);
+            .format(
+                "TodoGroupItemDTO [category=%s, categoryLabel=%s, referenceId=%s, label=%s, persons=%s, entries=%s, "
+                    + "lastUpdate=%s]",
+                category, categoryLabel, referenceId, label, persons, entries, lastUpdate);
     }
-
 }

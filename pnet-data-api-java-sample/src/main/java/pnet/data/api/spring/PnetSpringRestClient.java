@@ -720,6 +720,13 @@ public final class PnetSpringRestClient
         printResults(todoGroupDataClient.find().category(categories).execute(Locale.getDefault()));
     }
 
+    @CLI.Command(name = "find todo groups by person id", format = "<ID...>",
+        description = "Find todo groups by person id.")
+    public void findTodoGroupsByOPersonId(Integer... personIds) throws PnetDataClientException
+    {
+        printResults(todoGroupDataClient.find().personId(personIds).execute(Locale.getDefault()));
+    }
+
     @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
     public void searchTodoGroups(String query) throws PnetDataClientException
     {

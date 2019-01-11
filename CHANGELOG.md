@@ -1,3 +1,10 @@
+pnet-data-api 1.7.2
+===================
+
+**Changes to the API:**
+
+* Added category label to to-do entries.
+
 pnet-data-api 1.7.1
 ===================
 
