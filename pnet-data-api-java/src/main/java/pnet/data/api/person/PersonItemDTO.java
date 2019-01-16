@@ -37,34 +37,37 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
 
     private static final long serialVersionUID = -481025382258675738L;
 
-    @ApiModelProperty(notes = "The unique id of the person")
+    @ApiModelProperty(notes = "The unique id of the person.")
     private final Integer personId;
 
-    @ApiModelProperty(notes = "The tenant, in which this person is administrated")
+    @ApiModelProperty(notes = "The tenant, in which this person is administrated.")
     private final String administrativeTenant;
 
-    @ApiModelProperty(notes = "The tenants where the person is valid")
+    @ApiModelProperty(notes = "The tenants where the person is valid.")
     private final Collection<String> tenants;
 
-    @ApiModelProperty(notes = "The form of the adress the person prefers")
+    @ApiModelProperty(notes = "The form of the adress the person prefers.")
     private final FormOfAddress formOfAddress;
 
-    @ApiModelProperty(notes = "The academic title of the person")
+    @ApiModelProperty(notes = "The academic title of the person.")
     private final String academicTitle;
 
-    @ApiModelProperty(notes = "The first name of the person")
+    @ApiModelProperty(notes = "The first name of the person.")
     private final String firstName;
 
-    @ApiModelProperty(notes = "The last name of the person")
+    @ApiModelProperty(notes = "The last name of the person.")
     private final String lastName;
 
-    @ApiModelProperty(notes = "The personnel number of the person")
+    @ApiModelProperty(notes = "The personnel number of the person.")
     private final String personnelNumber;
 
-    @ApiModelProperty(notes = "The birthdate of the person")
+    @ApiModelProperty(notes = "The birthdate of the person.")
     private final LocalDate birthdate;
 
-    @ApiModelProperty(notes = "The time and date when the person was last changed")
+    @ApiModelProperty(notes = " The email of the person.")
+    private final String email;
+
+    @ApiModelProperty(notes = "The time and date when the person was last changed.")
     private final LocalDateTime lastUpdate;
 
     public PersonItemDTO(@JsonProperty("personId") Integer personId,
@@ -72,7 +75,8 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
         @JsonProperty("academicTitle") String academicTitle, @JsonProperty("firstName") String firstName,
         @JsonProperty("lastName") String lastName, @JsonProperty("personnelNumber") String personnelNumber,
-        @JsonProperty("birthdate") LocalDate birthdate, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("birthdate") LocalDate birthdate, @JsonProperty("email") String email,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -85,6 +89,7 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         this.lastName = lastName;
         this.personnelNumber = personnelNumber;
         this.birthdate = birthdate;
+        this.email = email;
         this.lastUpdate = lastUpdate;
     }
 
@@ -134,6 +139,11 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         return birthdate;
     }
 
+    public String getEmail()
+    {
+        return email;
+    }
+
     @Override
     public LocalDateTime getLastUpdate()
     {
@@ -145,9 +155,9 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
     {
         return String
             .format(
-                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, firstName=%s, lastName=%s, personnelNumber=%s, birthdate=%s, lastUpdate=%s]",
+                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+                    + "firstName=%s, lastName=%s, personnelNumber=%s, birthdate=%s, email=%s, lastUpdate=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName,
-                personnelNumber, birthdate, lastUpdate);
+                personnelNumber, birthdate, email, lastUpdate);
     }
-
 }

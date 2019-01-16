@@ -1,3 +1,10 @@
+pnet-data-api 1.7.3
+===================
+
+**Changes to the API:**
+
+* Added email to person search and find results.
+
 pnet-data-api 1.7.2
 ===================
 
