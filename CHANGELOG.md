@@ -1,3 +1,10 @@
+pnet-data-api 1.7.4
+===================
+
+**Changes to the API:**
+
+* Added a reference matchcode to to-do groups.
+
 pnet-data-api 1.7.3
 ===================
 

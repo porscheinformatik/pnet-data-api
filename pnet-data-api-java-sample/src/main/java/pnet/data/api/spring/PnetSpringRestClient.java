@@ -707,10 +707,17 @@ public final class PnetSpringRestClient
     public void exportAllTodoGroups() throws PnetDataClientException
     {
         printAllResults(todoGroupDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getLabel(),
+            dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
                 dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
                 dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
                 dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "find todo groups by mc", format = "<ID...>",
+        description = "Find todo groups by reference matchcode.")
+    public void findTodoGroupsByReferenceMatchcode(String... referenceMatchcodes) throws PnetDataClientException
+    {
+        printResults(todoGroupDataClient.find().referenceMatchcode(referenceMatchcodes).execute(Locale.getDefault()));
     }
 
     @CLI.Command(name = "find todo groups by category", format = "<CATEGORY...>",
@@ -720,7 +727,7 @@ public final class PnetSpringRestClient
         printResults(todoGroupDataClient.find().category(categories).execute(Locale.getDefault()));
     }
 
-    @CLI.Command(name = "find todo groups by person id", format = "<ID...>",
+    @CLI.Command(name = "find todo groups by person id", format = "<PERSION-ID...>",
         description = "Find todo groups by person id.")
     public void findTodoGroupsByOPersonId(Integer... personIds) throws PnetDataClientException
     {

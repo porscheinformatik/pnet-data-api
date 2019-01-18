@@ -26,6 +26,9 @@ public class TodoGroupItemDTO
     @ApiModelProperty(notes = "The reference ID of all to-dos in this group.")
     private final Integer referenceId;
 
+    @ApiModelProperty(notes = "The reference matchcode of all to-dos in this group.")
+    private final String referenceMatchcode;
+
     @ApiModelProperty(notes = "The label of the group, decribing the referenced item.")
     private final String label;
 
@@ -41,7 +44,8 @@ public class TodoGroupItemDTO
 
     public TodoGroupItemDTO(@JsonProperty("category") TodoCategory category,
         @JsonProperty("categoryLabel") String categoryLabel, @JsonProperty("referenceId") Integer referenceId,
-        @JsonProperty("label") String label, @JsonProperty("persons") Collection<TodoGroupPersonLinkDTO> persons,
+        @JsonProperty("referenceMatchcode") String referenceMatchcode, @JsonProperty("label") String label,
+        @JsonProperty("persons") Collection<TodoGroupPersonLinkDTO> persons,
         @JsonProperty("entries") Collection<TodoGroupEntryLinkDTO> entries,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
@@ -49,6 +53,7 @@ public class TodoGroupItemDTO
         this.category = category;
         this.categoryLabel = categoryLabel;
         this.referenceId = referenceId;
+        this.referenceMatchcode = referenceMatchcode;
         this.label = label;
         this.persons = persons;
         this.entries = entries;
@@ -68,6 +73,11 @@ public class TodoGroupItemDTO
     public Integer getReferenceId()
     {
         return referenceId;
+    }
+
+    public String getReferenceMatchcode()
+    {
+        return referenceMatchcode;
     }
 
     public String getLabel()
@@ -95,8 +105,9 @@ public class TodoGroupItemDTO
     {
         return String
             .format(
-                "TodoGroupItemDTO [category=%s, categoryLabel=%s, referenceId=%s, label=%s, persons=%s, entries=%s, "
-                    + "lastUpdate=%s]",
-                category, categoryLabel, referenceId, label, persons, entries, lastUpdate);
+                "TodoGroupItemDTO [category=%s, categoryLabel=%s, referenceId=%s, referenceMatchcode=%s, label=%s, "
+                    + "persons=%s, entries=%s, lastUpdate=%s]",
+                category, categoryLabel, referenceId, referenceMatchcode, label, persons, entries, lastUpdate);
     }
+
 }

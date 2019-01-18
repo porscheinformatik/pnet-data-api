@@ -8,6 +8,7 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictCategory;
 import pnet.data.api.util.RestrictPersonId;
 import pnet.data.api.util.RestrictReferenceId;
+import pnet.data.api.util.RestrictReferenceMatchcode;
 import pnet.data.api.util.RestrictScroll;
 import pnet.data.api.util.RestrictState;
 import pnet.data.api.util.RestrictType;
@@ -18,9 +19,9 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  *
  * @author HAM
  */
-public class TodoGroupDataFind extends AbstractFind<TodoGroupItemDTO, TodoGroupDataFind>
-    implements RestrictCategory<TodoGroupDataFind>, RestrictPersonId<TodoGroupDataFind>,
-    RestrictReferenceId<TodoGroupDataFind>, RestrictState<TodoGroupDataFind>, RestrictType<TodoGroupDataFind>,
+public class TodoGroupDataFind extends AbstractFind<TodoGroupItemDTO, TodoGroupDataFind> implements
+    RestrictCategory<TodoGroupDataFind>, RestrictPersonId<TodoGroupDataFind>, RestrictReferenceId<TodoGroupDataFind>,
+    RestrictReferenceMatchcode<TodoGroupDataFind>, RestrictState<TodoGroupDataFind>, RestrictType<TodoGroupDataFind>,
     RestrictUpdatedAfter<TodoGroupDataFind>, RestrictScroll<TodoGroupDataFind>
 {
 
