@@ -25,6 +25,8 @@ public enum TodoCategory
 
     PERSON,
 
+    PERSON_LOCK,
+
     COMPANY,
 
     SYSTEMUSER,
