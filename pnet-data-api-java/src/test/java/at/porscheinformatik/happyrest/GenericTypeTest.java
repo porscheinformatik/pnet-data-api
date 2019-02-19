@@ -138,10 +138,19 @@ public class GenericTypeTest
         assertThat(innerGenericType.getType(), equalTo(String.class));
         assertThat(innerGenericType.getNumberOfArguments(), is(0));
         assertThat(innerGenericType.getTypeName(), is("java.lang.String"));
+
+        GenericType.Of<A<List<String>>> genericTypeOfOf = new GenericType.Of<A<List<String>>>()
+        {
+            // intentionally left blank
+        };
+
+        assertThat(genericType.equals(genericTypeOfOf), is(true));
+        assertThat(genericTypeOfOf.equals(genericType), is(true));
+        assertThat(genericType.hashCode(), is(genericTypeOfOf.hashCode()));
     }
 
     @Test
-    public void testOf()
+    public void testOfString()
     {
         Of<String> genericType = new Of<String>()
         {
@@ -151,6 +160,35 @@ public class GenericTypeTest
         assertThat(genericType.getType(), equalTo(String.class));
         assertThat(genericType.getNumberOfArguments(), is(0));
         assertThat(genericType.getTypeName(), is("java.lang.String"));
+
+        assertThat(GenericType.of(String.class).equals(genericType), is(true));
+        assertThat(genericType.equals(GenericType.of(String.class)), is(true));
+        assertThat(GenericType.of(Integer.class).equals(genericType), is(false));
+        assertThat(genericType.equals(GenericType.of(Integer.class)), is(false));
+
+        assertThat(genericType.hashCode(), is(GenericType.of(String.class).hashCode()));
+        assertThat(genericType.hashCode(), not(is(GenericType.of(Integer.class).hashCode())));
+    }
+
+    @Test
+    public void testOfObject()
+    {
+        Of<Object> genericType = new Of<Object>()
+        {
+            // intentionally left blank
+        };
+
+        assertThat(genericType.getType(), equalTo(Object.class));
+        assertThat(genericType.getNumberOfArguments(), is(0));
+        assertThat(genericType.getTypeName(), is("java.lang.Object"));
+
+        assertThat(GenericType.of(Object.class).equals(genericType), is(true));
+        assertThat(genericType.equals(GenericType.of(Object.class)), is(true));
+        assertThat(GenericType.of(Integer.class).equals(genericType), is(false));
+        assertThat(genericType.equals(GenericType.of(Integer.class)), is(false));
+
+        assertThat(genericType.hashCode(), is(GenericType.of(Object.class).hashCode()));
+        assertThat(genericType.hashCode(), not(is(GenericType.of(Integer.class).hashCode())));
     }
 
     @Test
@@ -171,7 +209,6 @@ public class GenericTypeTest
         assertThat(innerGenericType.getType(), equalTo(String.class));
         assertThat(innerGenericType.getNumberOfArguments(), is(0));
         assertThat(innerGenericType.getTypeName(), is("java.lang.String"));
-
     }
 
 }
