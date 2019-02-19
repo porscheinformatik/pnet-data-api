@@ -44,9 +44,6 @@ public class TodoGroupEntryLinkDTO
     @ApiModelProperty(notes = "The name of the person, that did the approval.")
     private final String approvedByPersonName;
 
-    @ApiModelProperty(notes = "True if the entry has been rejected.")
-    private final boolean rejected;
-
     @ApiModelProperty(notes = "The earliest date and time, the execution of this entry may start.")
     private final LocalDateTime scheduled;
 
@@ -70,7 +67,7 @@ public class TodoGroupEntryLinkDTO
         @JsonProperty("assignedToPersonIds") Collection<Integer> assignedToPersonIds,
         @JsonProperty("approved") LocalDateTime approved,
         @JsonProperty("approvedByPersonId") Integer approvedByPersonId,
-        @JsonProperty("approvedByPersonName") String approvedByPersonName, @JsonProperty("rejected") boolean rejected,
+        @JsonProperty("approvedByPersonName") String approvedByPersonName, 
         @JsonProperty("scheduled") LocalDateTime scheduled, @JsonProperty("started") LocalDateTime started,
         @JsonProperty("finished") LocalDateTime finished, @JsonProperty("headline") String headline,
         @JsonProperty("description") String description)
@@ -88,7 +85,6 @@ public class TodoGroupEntryLinkDTO
         this.started = started;
         this.finished = finished;
         this.assignedToPersonIds = assignedToPersonIds;
-        this.rejected = rejected;
         this.scheduled = scheduled;
         this.headline = headline;
         this.description = description;
@@ -139,11 +135,6 @@ public class TodoGroupEntryLinkDTO
         return approvedByPersonName;
     }
 
-    public boolean isRejected()
-    {
-        return rejected;
-    }
-
     public LocalDateTime getScheduled()
     {
         return scheduled;
@@ -174,9 +165,9 @@ public class TodoGroupEntryLinkDTO
     {
         return String
             .format("TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, assignedToPersonIds=%s, "
-                + "approved=%s, approvedByPersonId=%s, approvedByPersonName=%s, rejected=%s, scheduled=%s, started=%s, "
+                + "approved=%s, approvedByPersonId=%s, approvedByPersonName=%s, scheduled=%s, started=%s, "
                 + "finished=%s, headline=%s, description=%s]", id, type, source, state, created, assignedToPersonIds,
-                approved, approvedByPersonId, approvedByPersonName, rejected, scheduled, started, finished, headline,
+                approved, approvedByPersonId, approvedByPersonName, scheduled, started, finished, headline,
                 description);
     }
 

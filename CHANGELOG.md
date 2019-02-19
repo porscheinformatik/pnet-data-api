@@ -1,3 +1,25 @@
+pnet-data-api 1.7.7
+===================
+
+**Changes to the API:**
+
+* Additional TodoStates.
+* Replaced rejected flag in to-dos with state.
+
+pnet-data-api 1.7.6
+===================
+
+**Changes to the API:**
+
+* Adds categories with translations (PNET-1261)
+
+pnet-data-api 1.7.5
+===================
+
+**Changes to the API:**
+
+* Add PERSON_LOCK TodoCategory.
+
 pnet-data-api 1.7.4
 ===================
 
