@@ -13,6 +13,7 @@ import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictNumberType;
 import pnet.data.api.util.RestrictScroll;
 import pnet.data.api.util.RestrictTenant;
+import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
  * Find interface for {@link FunctionItemDTO}s
@@ -22,8 +23,9 @@ import pnet.data.api.util.RestrictTenant;
 public class FunctionDataFind extends AbstractFind<FunctionItemDTO, FunctionDataFind>
     implements RestrictMatchcode<FunctionDataFind>, RestrictTenant<FunctionDataFind>, RestrictBrand<FunctionDataFind>,
     RestrictCompanyType<FunctionDataFind>, RestrictContractType<FunctionDataFind>, RestrictActivity<FunctionDataFind>,
-    RestrictNumberType<FunctionDataFind>, RestrictScroll<FunctionDataFind>
+    RestrictNumberType<FunctionDataFind>, RestrictUpdatedAfter<FunctionDataFind>, RestrictScroll<FunctionDataFind>
 {
+
     public FunctionDataFind(FindFunction<FunctionItemDTO> findFunction, List<Pair<String, Object>> restricts)
     {
         super(findFunction, restricts);

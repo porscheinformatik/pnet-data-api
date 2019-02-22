@@ -103,4 +103,10 @@ public class CompanyGroupMemberLinkDTO
         return true;
     }
 
+    @Override
+    public String toString()
+    {
+        return String.format("%s:%s", groupType, companyId);
+    }
+
 }

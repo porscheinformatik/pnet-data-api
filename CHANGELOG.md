@@ -1,6 +1,14 @@
 pnet-data-api 1.7.7
 ===================
 
+**Changes to the Java Client:**
+
+* Removed updatedAfter from company groups (it's not supported)
+* Added updatedAfter to functions (was missing)
+
+pnet-data-api 1.7.7
+===================
+
 **Changes to the API:**
 
 * Additional TodoStates.

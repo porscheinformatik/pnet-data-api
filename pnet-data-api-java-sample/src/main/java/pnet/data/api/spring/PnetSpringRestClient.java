@@ -5,6 +5,7 @@ import static pnet.data.api.util.PrettyPrint.*;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -171,6 +172,23 @@ public final class PnetSpringRestClient
                 dto.getLastUpdate()));
     }
 
+    @CLI.Command(name = "export all updated activities", format = "[<DAYS>:1]",
+        description = "Exports all activities updated since yesterday.")
+    public void exportAllUpdatedActivities(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            activityDataClient
+                .find()
+                .tenant(tenants)
+                .updatedAfter(updatedAfter)
+                .scroll()
+                .execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
+                dto.getLastUpdate()));
+    }
+
     @CLI.Command(name = "find activities by mc", format = "<MATCHCODE...>",
         description = "Find activities by matchcodes.")
     public void findActivities(String... matchcodes) throws PnetDataClientException
@@ -197,6 +215,16 @@ public final class PnetSpringRestClient
     public void exportAllAdvisorTypes() throws PnetDataClientException
     {
         printAllResults(advisorTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "export all updated advisor types", format = "[<DAYS>:1]",
+        description = "Exports all advisor types updated since yesterday.")
+    public void exportAllUpdatedAdvisorTypes(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(advisorTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getLastUpdate()));
     }
 
@@ -229,6 +257,17 @@ public final class PnetSpringRestClient
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
+    @CLI.Command(name = "export all updated applications", format = "[<DAYS>:1]",
+        description = "Exports all applications updated since yesterday.")
+    public void exportAllUpdatedApplications(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            applicationDataClient.find().updatedAfter(updatedAfter).scroll().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+    }
+
     @CLI.Command(name = "find applications by mc", format = "<MATCHCODE...>",
         description = "Find applications by matchcodes.")
     public void findApplications(String... matchcodes) throws PnetDataClientException
@@ -251,10 +290,20 @@ public final class PnetSpringRestClient
         printResults(brandDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
     }
 
-    @CLI.Command(name = "export all brands", description = "Export all brands.")
+    @CLI.Command(name = "export all brands", description = "Export all brands updated since yesterday.")
     public void exportAllBrands() throws PnetDataClientException
     {
         printAllResults(brandDataClient.find().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "export all updated brands", format = "[<DAYS>:1]",
+        description = "Export all brands updated since yesterday.")
+    public void exportAllUpdatedBrands(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(brandDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
     }
 
@@ -329,6 +378,19 @@ public final class PnetSpringRestClient
     public void exportAllCompanies() throws PnetDataClientException
     {
         printAllResults(companyDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getCompanyId(), dto.getCompanyNumber(), dto.getName(), dto.getNameAffix(),
+                dto.getMarketingName(), dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(),
+                dto.getTypes(), dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "export all updated companies", format = "[<DAYS>:1]",
+        description = "Exports all companies updated since yesterday.")
+    public void exportAllUpdatedCompanies(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            companyDataClient.find().updatedAfter(updatedAfter).scroll().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getCompanyId(), dto.getCompanyNumber(), dto.getName(), dto.getNameAffix(),
                 dto.getMarketingName(), dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(),
                 dto.getTypes(), dto.getLastUpdate()));
@@ -426,6 +488,17 @@ public final class PnetSpringRestClient
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
+    @CLI.Command(name = "export all updated company group types", format = "[<DAYS>:1]",
+        description = "Exports all company group types updated since yesterday.")
+    public void exportAllUpdatedCompanyGroupTypes(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            companyGroupTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+    }
+
     @CLI.Command(name = "find company group types by mc", format = "<MATCHCODE...>",
         description = "Find comany group types by matchcodes.")
     public void findCompanyGroupTypes(String... matchcodes) throws PnetDataClientException
@@ -455,6 +528,17 @@ public final class PnetSpringRestClient
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
+    @CLI.Command(name = "export all updated company number types", format = "[<DAYS>:1]",
+        description = "Exports all updated company number types.")
+    public void exportAllUpdatedCompanyNumberTypes(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            companyNumberTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+    }
+
     @CLI.Command(name = "find company number types by mc", format = "<MATCHCODE...>",
         description = "Find comany number types by matchcodes.")
     public void findCompanyNumberTypes(String... matchcodes) throws PnetDataClientException
@@ -477,6 +561,21 @@ public final class PnetSpringRestClient
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
     }
 
+    @CLI.Command(name = "export all updated company types", format = "[<DAYS>:1]",
+        description = "Exports all company types updated since yesterday.")
+    public void exportAllUpdatedCompanyTypes(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            companyTypeDataClient
+                .find()
+                .updatedAfter(updatedAfter)
+                .tenant(tenants)
+                .execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
+    }
+
     @CLI.Command(name = "search company types", format = "<QUERY>", description = "Query company types.")
     public void searchCompanyTypes(String query) throws PnetDataClientException
     {
@@ -496,6 +595,16 @@ public final class PnetSpringRestClient
     public void exportAllContractStates() throws PnetDataClientException
     {
         printAllResults(contractStateDataClient.find().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "export all updated contract states", format = "[<DAYS>:1]",
+        description = "Exports all contract states updated since yesterday.")
+    public void exportAllUpdatedContractStates(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(contractStateDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -529,6 +638,17 @@ public final class PnetSpringRestClient
                 dto.getLastUpdate()));
     }
 
+    @CLI.Command(name = "export all updated contract types", format = "[<DAYS>:1]",
+        description = "Exports all contract types updated since yesterday.")
+    public void exportAllUpdatedContractTypes(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(contractTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(), dto.getBrands(),
+                dto.getLastUpdate()));
+    }
+
     @CLI.Command(name = "find contract types by mc", format = "<MATCHCODE...>",
         description = "Find contract types by matchcodes.")
     public void findContractTypes(String... matchcodes) throws PnetDataClientException
@@ -555,6 +675,16 @@ public final class PnetSpringRestClient
     public void exportAllExternalBrands() throws PnetDataClientException
     {
         printAllResults(externalBrandDataClient.find().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "export all updated external brands", format = "[<DAYS>:1]",
+        description = "Exports all external brands updated since yesterday.")
+    public void exportAllUpdatedExternalBrands(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(externalBrandDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -588,6 +718,23 @@ public final class PnetSpringRestClient
                 dto.getLastUpdate()));
     }
 
+    @CLI.Command(name = "export all updated functions", format = "[<DAYS>:1]",
+        description = "Exports all functions updated since yesterday.")
+    public void exportAllUpdatedFunctions(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            functionDataClient
+                .find()
+                .tenant(tenants)
+                .updatedAfter(updatedAfter)
+                .scroll()
+                .execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
+                dto.getLastUpdate()));
+    }
+
     @CLI.Command(name = "find functions by mc", format = "<MATCHCODE...>",
         description = "Find functions by matchcodes.")
     public void findFunctions(String... matchcodes) throws PnetDataClientException
@@ -614,6 +761,16 @@ public final class PnetSpringRestClient
     public void exportAllNumberTypes() throws PnetDataClientException
     {
         printAllResults(numberTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "export all updated number types", format = "[<DAYS>:1]",
+        description = "Exports all number types updated since yesterday.")
+    public void exportAllUpdatedNumberTypes(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(numberTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
@@ -682,6 +839,23 @@ public final class PnetSpringRestClient
                 dto.getFirstName(), dto.getLastName(), dto.getAdministrativeTenant(), dto.getLastUpdate()));
     }
 
+    @CLI.Command(name = "export all updated persons", format = "[<DAYS>:1]",
+        description = "Exports all persons available for the current user, that have been updated since yesterday.")
+    public void exportAllUpdatedPersons(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            personDataClient
+                .find()
+                .tenant(tenants)
+                .updatedAfter(updatedAfter)
+                .scroll()
+                .execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getAcademicTitle(), dto.getFormOfAddress(),
+                dto.getFirstName(), dto.getLastName(), dto.getAdministrativeTenant(), dto.getLastUpdate()));
+    }
+
     @CLI.Command(name = "find persons by number", format = "<NUMBER...>",
         description = "Find persons by personnel number.")
     public void findPersonsByNumber(String... numbers) throws PnetDataClientException
@@ -707,6 +881,20 @@ public final class PnetSpringRestClient
     public void exportAllTodoGroups() throws PnetDataClientException
     {
         printAllResults(todoGroupDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
+            dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
+                dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
+                dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
+                dto.getLastUpdate()));
+    }
+
+    @CLI.Command(name = "export all updated todo groups", format = "[<DAYS>:1]",
+        description = "Exports all todo groups updated since yesterday.")
+    public void exportAllUpdatedTodoGroups(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        printAllResults(
+            todoGroupDataClient.find().updatedAfter(updatedAfter).scroll().execute(Locale.getDefault(), 0, 100),
             dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
                 dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
                 dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
