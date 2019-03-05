@@ -1,38 +1,33 @@
 package pnet.data.api.client.jackson;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.Locale;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-import pnet.data.api.util.PnetDataApiUtils;
-
 /**
- * @author cet
+ * @author ham
  */
-public class LocalDateSerializer extends StdSerializer<LocalDate>
+public class LocaleSerializer extends StdSerializer<Locale>
 {
 
     private static final long serialVersionUID = -7933082923583193689L;
 
-    /**
-     *
-     */
-    public LocalDateSerializer()
+    public LocaleSerializer()
     {
-        super(LocalDate.class);
+        super(Locale.class);
     }
 
     @Override
-    public void serialize(LocalDate value, JsonGenerator jgen, SerializerProvider provider)
+    public void serialize(Locale value, JsonGenerator jgen, SerializerProvider provider)
         throws IOException, JsonGenerationException
     {
         if (value != null)
         {
-            jgen.writeString(PnetDataApiUtils.formatISODate(value));
+            jgen.writeString(value.toLanguageTag());
         }
         else
         {

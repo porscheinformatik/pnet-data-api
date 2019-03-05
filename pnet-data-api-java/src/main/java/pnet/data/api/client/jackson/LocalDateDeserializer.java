@@ -30,6 +30,6 @@ public class LocalDateDeserializer extends StdDeserializer<LocalDate>
     {
         String dateAsString = _parseString(jp, ctxt);
 
-        return PnetDataApiUtils.parseISODate(dateAsString);
+        return dateAsString == null ? null : PnetDataApiUtils.parseISODate(dateAsString);
     }
 }

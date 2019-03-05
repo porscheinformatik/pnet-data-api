@@ -34,5 +34,9 @@ public class LocalDateTimeSerializer extends StdSerializer<LocalDateTime>
         {
             jgen.writeString(PnetDataApiUtils.formatISO(value));
         }
+        else
+        {
+            jgen.writeNull();
+        }
     }
 }

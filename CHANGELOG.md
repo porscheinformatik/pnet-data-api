@@ -1,3 +1,13 @@
+pnet-data-api 1.7.9
+===================
+
+* Languages for Persons
+
+pnet-data-api 1.7.8
+===================
+
+* Added test to reproduce possible error.
+
 pnet-data-api 1.7.7
 ===================
 

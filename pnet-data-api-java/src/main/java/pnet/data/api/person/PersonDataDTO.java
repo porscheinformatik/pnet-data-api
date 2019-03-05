@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
@@ -104,6 +105,9 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
 
     @ApiModelProperty(notes = "The description of the job the person mainly does")
     private String jobDescription;
+
+    @ApiModelProperty(notes = "The languages known to the user, ordered by preference")
+    private List<PersonLanguageLinkDTO> languages;
 
     @ApiModelProperty(notes = "The companies the person has employments at")
     private Collection<PersonCompanyLinkDTO> companies;
@@ -350,6 +354,16 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     public void setJobDescription(String jobDescription)
     {
         this.jobDescription = jobDescription;
+    }
+
+    public List<PersonLanguageLinkDTO> getLanguages()
+    {
+        return languages;
+    }
+
+    public void setLanguages(List<PersonLanguageLinkDTO> languages)
+    {
+        this.languages = languages;
     }
 
     public Collection<PersonCompanyLinkDTO> getCompanies()
