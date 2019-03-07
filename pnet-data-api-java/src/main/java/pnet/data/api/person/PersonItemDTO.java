@@ -52,6 +52,9 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
     @ApiModelProperty(notes = "The academic title of the person.")
     private final String academicTitle;
 
+    @ApiModelProperty(notes = "The academic title of the person, placed after the name.")
+    private final String academicTitlePostNominal;
+
     @ApiModelProperty(notes = "The first name of the person.")
     private final String firstName;
 
@@ -73,10 +76,11 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
     public PersonItemDTO(@JsonProperty("personId") Integer personId,
         @JsonProperty("administrativeTenant") String administrativeTenant,
         @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
-        @JsonProperty("academicTitle") String academicTitle, @JsonProperty("firstName") String firstName,
-        @JsonProperty("lastName") String lastName, @JsonProperty("personnelNumber") String personnelNumber,
-        @JsonProperty("birthdate") LocalDate birthdate, @JsonProperty("email") String email,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("academicTitle") String academicTitle,
+        @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
+        @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
+        @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
+        @JsonProperty("email") String email, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -85,6 +89,7 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         this.tenants = tenants;
         this.formOfAddress = formOfAddress;
         this.academicTitle = academicTitle;
+        this.academicTitlePostNominal = academicTitlePostNominal;
         this.firstName = firstName;
         this.lastName = lastName;
         this.personnelNumber = personnelNumber;
@@ -117,6 +122,11 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
     public String getAcademicTitle()
     {
         return academicTitle;
+    }
+
+    public String getAcademicTitlePostNominal()
+    {
+        return academicTitlePostNominal;
     }
 
     public String getFirstName()
@@ -156,8 +166,10 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         return String
             .format(
                 "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                    + "firstName=%s, lastName=%s, personnelNumber=%s, birthdate=%s, email=%s, lastUpdate=%s]",
-                personId, administrativeTenant, tenants, formOfAddress, academicTitle, firstName, lastName,
-                personnelNumber, birthdate, email, lastUpdate);
+                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, personnelNumber=%s, birthdate=%s, "
+                    + "email=%s, lastUpdate=%s]",
+                personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
+                firstName, lastName, personnelNumber, birthdate, email, lastUpdate);
     }
+
 }

@@ -31,6 +31,7 @@ import pnet.data.api.client.context.PnetDataApiTokenRepository;
 import pnet.data.api.company.CompanyDataClient;
 import pnet.data.api.companygroup.CompanyGroupDataClient;
 import pnet.data.api.companygrouptype.CompanyGroupTypeDataClient;
+import pnet.data.api.companygrouptype.CompanyGroupTypeDataFind;
 import pnet.data.api.companygrouptype.CompanyGroupTypeItemDTO;
 import pnet.data.api.companynumbertype.CompanyNumberTypeDataClient;
 import pnet.data.api.companytype.CompanyTypeDataClient;
@@ -431,11 +432,18 @@ public final class PnetSpringRestClient
         printResults(companyGroupDataClient.get().allByCompanyIds(Arrays.asList(ids), 0, 10));
     }
 
-    @CLI.Command(name = "export all company groups", description = "Exports all company groups.")
-    public void exportAllCompanyGroups() throws PnetDataClientException
+    @CLI.Command(name = "export all company groups", format = "[<GROUP-MATCHCODE...>]",
+        description = "Exports all company groups.")
+    public void exportAllCompanyGroups(String... matchcodes) throws PnetDataClientException
     {
-        List<String> companyGroupTypeMatchcodes = companyGroupTypeDataClient
-            .find()
+        CompanyGroupTypeDataFind find = companyGroupTypeDataClient.find();
+
+        if (matchcodes != null && matchcodes.length > 0)
+        {
+            find = find.matchcode(matchcodes);
+        }
+
+        List<String> companyGroupTypeMatchcodes = find
             .execute(Locale.getDefault(), 0, 100)
             .stream()
             .map(CompanyGroupTypeItemDTO::getMatchcode)
@@ -835,8 +843,9 @@ public final class PnetSpringRestClient
     public void exportAllPersons() throws PnetDataClientException
     {
         printAllResults(personDataClient.find().tenant(tenants).scroll().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getAcademicTitle(), dto.getFormOfAddress(),
-                dto.getFirstName(), dto.getLastName(), dto.getAdministrativeTenant(), dto.getLastUpdate()));
+            dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getFormOfAddress(), dto.getAcademicTitle(),
+                dto.getFirstName(), dto.getLastName(), dto.getAcademicTitlePostNominal(), dto.getAdministrativeTenant(),
+                dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated persons", format = "[<DAYS>:1]",
@@ -852,8 +861,9 @@ public final class PnetSpringRestClient
                 .updatedAfter(updatedAfter)
                 .scroll()
                 .execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getAcademicTitle(), dto.getFormOfAddress(),
-                dto.getFirstName(), dto.getLastName(), dto.getAdministrativeTenant(), dto.getLastUpdate()));
+            dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getFormOfAddress(), dto.getAcademicTitle(),
+                dto.getFirstName(), dto.getLastName(), dto.getAcademicTitlePostNominal(), dto.getAdministrativeTenant(),
+                dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find persons by number", format = "<NUMBER...>",

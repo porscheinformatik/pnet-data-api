@@ -2,6 +2,7 @@ pnet-data-api 1.7.9
 ===================
 
 * Languages for Persons
+* Academic title post nominal for Persons
 
 pnet-data-api 1.7.8
 ===================

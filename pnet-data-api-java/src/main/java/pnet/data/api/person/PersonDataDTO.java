@@ -55,6 +55,9 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     @ApiModelProperty(notes = "The academic title of the person")
     private String academicTitle;
 
+    @ApiModelProperty(notes = "The academic title of the person, that's placed after the name.")
+    private String academicTitlePostNominal;
+
     @ApiModelProperty(notes = "The first name of the person")
     private String firstName;
 
@@ -184,6 +187,16 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     public void setAcademicTitle(String academicTitle)
     {
         this.academicTitle = academicTitle;
+    }
+
+    public String getAcademicTitlePostNominal()
+    {
+        return academicTitlePostNominal;
+    }
+
+    public void setAcademicTitlePostNominal(String academicTitlePostNominal)
+    {
+        this.academicTitlePostNominal = academicTitlePostNominal;
     }
 
     public String getFirstName()
@@ -481,15 +494,16 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     {
         return String
             .format("PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                + "firstName=%s, lastName=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
-                + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
-                + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
-                + "companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, automaticDeletion=%s, checksum=%s, "
-                + "lastUpdate=%s]", id, administrativeTenant, tenants, formOfAddress, academicTitle, firstName,
-                lastName, externalId, guid, preferredUserId, phoneNumber, mobileNumber, faxNumber, email,
+                + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, birthdate=%s, externalId=%s, guid=%s, "
+                + "preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, "
+                + "costCenter=%s, personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, "
+                + "personnelDepartment=%s, jobDescription=%s, languages=%s, companies=%s, numbers=%s, functions=%s, "
+                + "activities=%s, advisorAssignments=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]", id,
+                administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal, firstName,
+                lastName, birthdate, externalId, guid, preferredUserId, phoneNumber, mobileNumber, faxNumber, email,
                 contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea,
-                personnelDepartment, jobDescription, companies, numbers, functions, activities, advisorAssignments,
-                automaticDeletion, checksum, lastUpdate);
+                personnelDepartment, jobDescription, languages, companies, numbers, functions, activities,
+                advisorAssignments, automaticDeletion, checksum, lastUpdate);
     }
 
 }

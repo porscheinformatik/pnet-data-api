@@ -968,7 +968,7 @@ public class CLI
 
             if (!optionalCommand.isPresent())
             {
-                throw new IllegalArgumentException("Command missing");
+                return;
             }
 
             String command = optionalCommand.get().trim();
