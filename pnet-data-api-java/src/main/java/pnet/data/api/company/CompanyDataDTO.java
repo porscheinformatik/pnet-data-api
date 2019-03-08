@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.GeoPoint;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds companydata.
@@ -29,11 +30,15 @@ import pnet.data.api.GeoPoint;
  * @author ham
  */
 @ApiModel(description = "Holds all information about one company.")
-public class CompanyDataDTO
+public class CompanyDataDTO implements WithMatchcode
 {
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;
+
+    @ApiModelProperty(
+        notes = "The matchcode of the external brand (fits the matchcodes of the external brand interface.")
+    private String matchcode;
 
     @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
     private String administrativeTenant;
@@ -171,6 +176,17 @@ public class CompanyDataDTO
     public Integer getCompanyId()
     {
         return companyId;
+    }
+
+    @Override
+    public String getMatchcode()
+    {
+        return matchcode;
+    }
+
+    public void setMatchcode(String matchcode)
+    {
+        this.matchcode = matchcode;
     }
 
     public String getAdministrativeTenant()
@@ -557,18 +573,19 @@ public class CompanyDataDTO
     public String toString()
     {
         return String
-            .format("CompanyDataDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
-                + "tenants=%s, brands=%s, contractTypes=%s, contractStates=%s, vatIdNumber=%s, sapNumber=%s, "
-                + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, country=%s, "
-                + "region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, "
-                + "homepage=%s, postal=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, "
-                + "certificateType=%s, certificateNumber=%s, "
-                + "jurisdiction=%s, location=%s, externalBrands=%s, headquarterCompanyId=%s, lastUpdate=%s]", companyId,
-                administrativeTenant, name, nameAffix, marketingName, tenants, brands, contractTypes, contractStates,
-                vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city, postalCode, countryCode,
-                country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial, faxNumber, email, homepage,
-                postal, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber, certificateType,
-                certificateNumber, jurisdiction, location, externalBrands, headquarterCompanyId, lastUpdate);
+            .format("CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
+                + "marketingName=%s, tenants=%s, brands=%s, contractTypes=%s, contractStates=%s, vatIdNumber=%s, "
+                + "sapNumber=%s, companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, "
+                + "countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, "
+                + "speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, legalFormMatchcode=%s, "
+                + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
+                + "certificateNumber=%s, jurisdiction=%s, location=%s, externalBrands=%s, headquarterCompanyId=%s, "
+                + "lastUpdate=%s]", companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants,
+                brands, contractTypes, contractStates, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street,
+                city, postalCode, countryCode, country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial,
+                faxNumber, email, homepage, postal, legalFormMatchcode, dataProcessingRegisterNumber,
+                commercialRegisterNumber, certificateType, certificateNumber, jurisdiction, location, externalBrands,
+                headquarterCompanyId, lastUpdate);
     }
 
 }

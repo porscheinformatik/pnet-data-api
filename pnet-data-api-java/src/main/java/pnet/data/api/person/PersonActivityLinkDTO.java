@@ -31,28 +31,39 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a activity of the person")
+@ApiModel(description = "Holds minimal information about a activity of the person.")
 public class PersonActivityLinkDTO extends AbstractLinkDTO
     implements WithMatchcode, WithCompanyId, WithBrandMatchcode, Serializable
 {
 
     private static final long serialVersionUID = 4247336068734009775L;
 
-    @ApiModelProperty(notes = "The unique id of the company the person has the activity at")
+    @ApiModelProperty(notes = "The unique id of the company the person has the activity at.")
     private final Integer companyId;
-    @ApiModelProperty(notes = "A unique matchcode of the brand where the activity is valid")
+
+    @ApiModelProperty(notes = "The matchcode of the company the person has/had an activity at.")
+    private final String companyMatchcode;
+
+    @ApiModelProperty(notes = "The number of the company the person has/had an activity at.")
+    private final String companyNumber;
+
+    @ApiModelProperty(notes = "A unique matchcode of the brand where the activity is valid.")
     private final String brandMatchcode;
+
     @ApiModelProperty(
-        notes = "The flag that declares, whether this activity is assigned to the person due to a function or not")
+        notes = "The flag that declares, whether this activity is assigned to the person due to a function or not.")
     private final boolean dueToFunction;
 
     public PersonActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("companyId") Integer companyId, @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
         @JsonProperty("dueToFunction") boolean dueToFunction)
     {
         super(tenant, matchcode);
 
         this.companyId = companyId;
+        this.companyMatchcode = companyMatchcode;
+        this.companyNumber = companyNumber;
         this.brandMatchcode = brandMatchcode;
         this.dueToFunction = dueToFunction;
     }
@@ -81,6 +92,16 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     public Integer getCompanyId()
     {
         return companyId;
+    }
+
+    public String getCompanyMatchcode()
+    {
+        return companyMatchcode;
+    }
+
+    public String getCompanyNumber()
+    {
+        return companyNumber;
     }
 
     public boolean isDueToFunction()
@@ -143,8 +164,8 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     public String toString()
     {
         return String
-            .format("%s [companyId=%s, brandMatchcode=%s, dueToFunction=%s]", super.toString(), companyId,
-                brandMatchcode, dueToFunction);
+            .format("PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
+                + "dueToFunction=%s]", companyId, companyMatchcode, companyNumber, brandMatchcode, dueToFunction);
     }
 
 }

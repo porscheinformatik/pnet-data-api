@@ -7,9 +7,13 @@ import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictAdvisorAssignmentCompany;
+import pnet.data.api.util.RestrictAdvisorAssignmentCompanyId;
+import pnet.data.api.util.RestrictAdvisorAssignmentCompanyNumber;
 import pnet.data.api.util.RestrictAdvisorAssignmentDivision;
 import pnet.data.api.util.RestrictAdvisorAssignmentType;
+import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
+import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictControllingArea;
 import pnet.data.api.util.RestrictCostCenter;
 import pnet.data.api.util.RestrictEmail;
@@ -33,8 +37,10 @@ public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind> 
     RestrictTenant<PersonDataFind>, RestrictGuid<PersonDataFind>, RestrictPreferredUserId<PersonDataFind>,
     RestrictEmail<PersonDataFind>, RestrictCostCenter<PersonDataFind>, RestrictPersonnelNumber<PersonDataFind>,
     RestrictSupervisorPersonnelNumber<PersonDataFind>, RestrictControllingArea<PersonDataFind>,
-    RestrictPersonnelDepartment<PersonDataFind>, RestrictCompanyId<PersonDataFind>, RestrictFunction<PersonDataFind>,
-    RestrictActivity<PersonDataFind>, RestrictAdvisorAssignmentCompany<PersonDataFind>,
+    RestrictPersonnelDepartment<PersonDataFind>, RestrictCompanyId<PersonDataFind>,
+    RestrictCompanyNumber<PersonDataFind>, RestrictCompany<PersonDataFind>, RestrictFunction<PersonDataFind>,
+    RestrictActivity<PersonDataFind>, RestrictAdvisorAssignmentCompanyId<PersonDataFind>,
+    RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>, RestrictAdvisorAssignmentCompany<PersonDataFind>,
     RestrictAdvisorAssignmentType<PersonDataFind>, RestrictAdvisorAssignmentDivision<PersonDataFind>,
     RestrictUpdatedAfter<PersonDataFind>, RestrictScroll<PersonDataFind>
 {

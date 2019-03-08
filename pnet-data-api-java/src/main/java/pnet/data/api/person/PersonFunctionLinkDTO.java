@@ -33,34 +33,46 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a function the person has")
+@ApiModel(description = "Holds minimal information about a function the person has.")
 public class PersonFunctionLinkDTO extends AbstractLinkDTO
     implements WithMatchcode, WithCompanyId, WithBrandMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
 
-    @ApiModelProperty(notes = "The id of the company the person has the function at")
+    @ApiModelProperty(notes = "The id of the company the person has the function at.")
     private final Integer companyId;
-    @ApiModelProperty(notes = "The matchcode of a brand the person has the function for")
+
+    @ApiModelProperty(notes = "The matchcode of the company the person has/had an function at.")
+    private final String companyMatchcode;
+
+    @ApiModelProperty(notes = "The number of the company the person has/had an function at.")
+    private final String companyNumber;
+
+    @ApiModelProperty(notes = "The matchcode of a brand the person has the function for.")
     private final String brandMatchcode;
-    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company")
+
+    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
     private final LocalDateTime validFrom;
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company")
+
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
     private final LocalDateTime validTo;
 
     @ApiModelProperty(
-        notes = "The flag that declares, whether this function is the main function of the person at the specific company or not")
+        notes = "The flag that declares, whether this function is the main function of the person at the specific company or not.")
     private final boolean mainFunction;
 
     public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("companyId") Integer companyId, @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("mainFunction") boolean mainFunction)
     {
         super(tenant, matchcode);
 
         this.companyId = companyId;
+        this.companyMatchcode = companyMatchcode;
+        this.companyNumber = companyNumber;
         this.brandMatchcode = brandMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -85,6 +97,16 @@ public class PersonFunctionLinkDTO extends AbstractLinkDTO
     public Integer getCompanyId()
     {
         return companyId;
+    }
+
+    public String getCompanyMatchcode()
+    {
+        return companyMatchcode;
+    }
+
+    public String getCompanyNumber()
+    {
+        return companyNumber;
     }
 
     @Override
@@ -177,8 +199,10 @@ public class PersonFunctionLinkDTO extends AbstractLinkDTO
     public String toString()
     {
         return String
-            .format("%s [companyId=%s, brandMatchcode=%s, validFrom=%s, validTo=%s, mainFunction=%s]", super.toString(),
-                companyId, brandMatchcode, validFrom, validTo, mainFunction);
+            .format(
+                "PersonFunctionLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
+                    + "validFrom=%s, validTo=%s, mainFunction=%s]",
+                companyId, companyMatchcode, companyNumber, brandMatchcode, validFrom, validTo, mainFunction);
     }
 
 }

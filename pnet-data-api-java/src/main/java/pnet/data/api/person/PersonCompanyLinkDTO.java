@@ -28,25 +28,37 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a employment the person has/had")
+@ApiModel(description = "Holds minimal information about a employment the person has/had.")
 public class PersonCompanyLinkDTO implements WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 7199829304360405636L;
 
-    @ApiModelProperty(notes = "The unique id of the company the person has/had an employment at")
+    @ApiModelProperty(notes = "The unique id of the company the person has/had an employment at.")
     private final Integer companyId;
-    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company")
+    
+    @ApiModelProperty(notes = "The matchcode of the company the person has/had an employment at.")
+    private final String companyMatchcode;
+    
+    @ApiModelProperty(notes = "The number of the company the person has/had an employment at.")
+    private final String companyNumber;
+    
+    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
     private final LocalDateTime validFrom;
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company")
+    
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
     private final LocalDateTime validTo;
+    
 
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
     {
         super();
 
         this.companyId = companyId;
+        this.companyMatchcode = companyMatchcode;
+        this.companyNumber = companyNumber;
         this.validFrom = validFrom;
         this.validTo = validTo;
     }
@@ -54,6 +66,16 @@ public class PersonCompanyLinkDTO implements WithValidPeriod, Serializable
     public Integer getCompanyId()
     {
         return companyId;
+    }
+
+    public String getCompanyMatchcode()
+    {
+        return companyMatchcode;
+    }
+
+    public String getCompanyNumber()
+    {
+        return companyNumber;
     }
 
     @Override
@@ -131,7 +153,9 @@ public class PersonCompanyLinkDTO implements WithValidPeriod, Serializable
     public String toString()
     {
         return String
-            .format("PersonCompanyDataDTO [companyId=%s, validFrom=%s, validTo=%s]", companyId, validFrom, validTo);
+            .format(
+                "PersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, validFrom=%s, validTo=%s]",
+                companyId, companyMatchcode, companyNumber, validFrom, validTo);
     }
 
 }

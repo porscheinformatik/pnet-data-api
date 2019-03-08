@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.GeoPoint;
+import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds companydata.
@@ -29,11 +30,15 @@ import pnet.data.api.GeoPoint;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about one company.")
-public class CompanyItemDTO
+public class CompanyItemDTO implements WithMatchcode
 {
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;
+
+    @ApiModelProperty(
+        notes = "The matchcode of the company (a combination of administrative tenant and company number)")
+    private final String matchcode;
 
     @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
     private final String administrativeTenant;
@@ -87,7 +92,7 @@ public class CompanyItemDTO
         notes = "The time and date of the last occasion, when the data of the this company has been modified.")
     private final LocalDateTime lastUpdate;
 
-    public CompanyItemDTO(@JsonProperty("companyId") Integer companyId,
+    public CompanyItemDTO(@JsonProperty("companyId") Integer companyId, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("name") String name,
         @JsonProperty("nameAffix") String nameAffix, @JsonProperty("marketingName") String marketingName,
         @JsonProperty("tenants") Collection<String> tenants,
@@ -100,6 +105,7 @@ public class CompanyItemDTO
     {
         super();
         this.companyId = companyId;
+        this.matchcode = matchcode;
         this.administrativeTenant = administrativeTenant;
         this.name = name;
         this.nameAffix = nameAffix;
@@ -121,6 +127,12 @@ public class CompanyItemDTO
     public Integer getCompanyId()
     {
         return companyId;
+    }
+
+    @Override
+    public String getMatchcode()
+    {
+        return matchcode;
     }
 
     public String getAdministrativeTenant()
@@ -207,11 +219,12 @@ public class CompanyItemDTO
     public String toString()
     {
         return String
-            .format("CompanyItemDTO [companyId=%s, administrativeTenant=%s, name=%s, nameAffix=%s, marketingName=%s, "
-                + "tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, country=%s, region=%s, "
-                + "types=%s, location=%s, lastUpdate=%s]", companyId, administrativeTenant, name, nameAffix,
-                marketingName, tenants, brands, companyNumber, street, city, postalCode, countryCode, country, region,
-                types, location, lastUpdate);
+            .format(
+                "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
+                    + "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, "
+                    + "countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s]",
+                companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants, brands,
+                companyNumber, street, city, postalCode, countryCode, country, region, types, location, lastUpdate);
     }
 
 }

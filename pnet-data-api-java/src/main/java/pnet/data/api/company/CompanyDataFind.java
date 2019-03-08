@@ -13,6 +13,7 @@ import pnet.data.api.util.RestrictExternalBrand;
 import pnet.data.api.util.RestrictHeadquarter;
 import pnet.data.api.util.RestrictId;
 import pnet.data.api.util.RestrictLocation;
+import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictPostalCode;
 import pnet.data.api.util.RestrictScroll;
 import pnet.data.api.util.RestrictTenant;
@@ -25,11 +26,11 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  * @author HAM
  */
 public class CompanyDataFind extends AbstractFind<CompanyItemDTO, CompanyDataFind>
-    implements RestrictId<CompanyDataFind>, RestrictTenant<CompanyDataFind>, RestrictBrand<CompanyDataFind>,
-    RestrictCompanyNumber<CompanyDataFind>, RestrictPostalCode<CompanyDataFind>, RestrictCountryCode<CompanyDataFind>,
-    RestrictType<CompanyDataFind>, RestrictContractType<CompanyDataFind>, RestrictLocation<CompanyDataFind>,
-    RestrictExternalBrand<CompanyDataFind>, RestrictHeadquarter<CompanyDataFind>, RestrictUpdatedAfter<CompanyDataFind>,
-    RestrictScroll<CompanyDataFind>
+    implements RestrictId<CompanyDataFind>, RestrictMatchcode<CompanyDataFind>, RestrictTenant<CompanyDataFind>,
+    RestrictBrand<CompanyDataFind>, RestrictCompanyNumber<CompanyDataFind>, RestrictPostalCode<CompanyDataFind>,
+    RestrictCountryCode<CompanyDataFind>, RestrictType<CompanyDataFind>, RestrictContractType<CompanyDataFind>,
+    RestrictLocation<CompanyDataFind>, RestrictExternalBrand<CompanyDataFind>, RestrictHeadquarter<CompanyDataFind>,
+    RestrictUpdatedAfter<CompanyDataFind>, RestrictScroll<CompanyDataFind>
 {
 
     public CompanyDataFind(FindFunction<CompanyItemDTO> findFunction, List<Pair<String, Object>> restricts)

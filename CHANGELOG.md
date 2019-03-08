@@ -1,8 +1,9 @@
-pnet-data-api 1.7.9
+pnet-data-api 1.8.0
 ===================
 
-* Languages for Persons
-* Academic title post nominal for Persons
+* Languages for Persons.
+* Academic title post nominal for Persons.
+* Company numbers and matchcodes where applicable.
 
 pnet-data-api 1.7.8
 ===================

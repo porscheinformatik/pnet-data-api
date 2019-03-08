@@ -32,29 +32,41 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a person")
+@ApiModel(description = "Holds minimal information about a person.")
 public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
     implements WithMatchcode, WithCompanyId, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -3446430282367218468L;
 
-    @ApiModelProperty(notes = "The id of the company the person has the number at")
+    @ApiModelProperty(notes = "The id of the company the person has the number at.")
     private final Integer companyId;
-    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company")
+
+    @ApiModelProperty(notes = "The matchcode of the company the person has the number at.")
+    private final String companyMatchcode;
+
+    @ApiModelProperty(notes = "The number of the company the person has the number at.")
+    private final String companyNumber;
+
+    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
     private final LocalDateTime validFrom;
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company")
+
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
     private final LocalDateTime validTo;
-    @ApiModelProperty(notes = "The actual number, that fits the number type")
+
+    @ApiModelProperty(notes = "The actual number, that fits the number type.")
     private final String number;
 
     public PersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("companyId") Integer companyId, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("validFrom") LocalDateTime validFrom,
         @JsonProperty("validTo") LocalDateTime validTo, @JsonProperty("number") String number)
     {
         super(tenant, matchcode);
 
         this.companyId = companyId;
+        this.companyMatchcode = companyMatchcode;
+        this.companyNumber = companyNumber;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.number = number;
@@ -78,6 +90,16 @@ public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
     public Integer getCompanyId()
     {
         return companyId;
+    }
+
+    public String getCompanyMatchcode()
+    {
+        return companyMatchcode;
+    }
+
+    public String getCompanyNumber()
+    {
+        return companyNumber;
     }
 
     @Override
@@ -152,8 +174,8 @@ public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
     public String toString()
     {
         return String
-            .format("%s [companyId=%s, validFrom=%s, validTo=%s, number=%s]", super.toString(), companyId, validFrom,
-                validTo, number);
+            .format("PersonNumberTypeLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, validFrom=%s, "
+                + "validTo=%s, number=%s]", companyId, companyMatchcode, companyNumber, validFrom, validTo, number);
     }
 
 }

@@ -41,6 +41,12 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO
     @ApiModelProperty(notes = "The unique id of the company the person is advisor for.")
     private final Integer companyId;
 
+    @ApiModelProperty(notes = "The matchcode of the company the person has/had is advisor for.")
+    private final String companyMatchcode;
+
+    @ApiModelProperty(notes = "The number of the company the person has/had is advisor for.")
+    private final String companyNumber;
+
     @ApiModelProperty(notes = "The matchcode of the brand where the person is advisor for.")
     private final String brandMatchcode;
 
@@ -49,12 +55,15 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO
 
     public PersonAdvisorAssignmentLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("brandMatchcode") String brandMatchcode,
         @JsonProperty("divisionMatchcode") String divisionMatchcode)
     {
         super(tenant, matchcode);
 
         this.companyId = companyId;
+        this.companyMatchcode = companyMatchcode;
+        this.companyNumber = companyNumber;
         this.brandMatchcode = brandMatchcode;
         this.divisionMatchcode = divisionMatchcode;
     }
@@ -83,6 +92,16 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO
     public Integer getCompanyId()
     {
         return companyId;
+    }
+
+    public String getCompanyMatchcode()
+    {
+        return companyMatchcode;
+    }
+
+    public String getCompanyNumber()
+    {
+        return companyNumber;
     }
 
     public String getDivisionMatchcode()
@@ -145,8 +164,10 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO
     public String toString()
     {
         return String
-            .format("%s [companyId=%s, brandMatchcode=%s, divisionMatchcode=%s]", super.toString(), companyId,
-                brandMatchcode, divisionMatchcode);
+            .format(
+                "PersonAdvisorAssignmentLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, "
+                    + "brandMatchcode=%s, divisionMatchcode=%s]",
+                companyId, companyMatchcode, companyNumber, brandMatchcode, divisionMatchcode);
     }
 
 }

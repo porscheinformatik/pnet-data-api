@@ -1,7 +1,7 @@
 package pnet.data.api.util;
 
 /**
- * Restricts the companies of the advisor assigments.
+ * Restricts the companies of the advisor assignments.
  *
  * @author ham
  * @param <SELF> the type of the filter for chaining
@@ -9,9 +9,9 @@ package pnet.data.api.util;
 public interface RestrictAdvisorAssignmentCompany<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default SELF advisorAssignmentCompany(Integer... advisorAssignmentCompanyIds)
+    default SELF advisorAssignmentCompany(String... advisorAssignmentCompanyMatchcodes)
     {
-        return restrict("advisorAssignmentCompany", (Object[]) advisorAssignmentCompanyIds);
+        return restrict("advisorAssignmentCompany", (Object[]) advisorAssignmentCompanyMatchcodes);
     }
 
 }

@@ -79,16 +79,16 @@ Finally you can exit the application with `exit`.
 # Available Commands
 
 ```
-?  ..................................... Prints this help.
+? [q] .................................. Prints this help.
 about  ................................. Info about the Partner.Net Data API and the user.
 exit  .................................. Exit this program.
 export all activities  ................. Exports all activities.
 export all advisor types  .............. Exports all advisor types.
 export all applications  ............... Exports all applications.
-export all brands  ..................... Export all brands.
+export all brands  ..................... Export all brands updated since yesterday.
 export all companies  .................. Exports all companies.
 export all company group types  ........ Exports all company group types.
-export all company groups  ............. Exports all company groups.
+export all company groups [<GROUP-MC...>]  Exports all company groups.
 export all company number types  ....... Exports all company number types.
 export all company types  .............. Exports all company types.
 export all contract states  ............ Exports all contract states.
@@ -97,51 +97,77 @@ export all external brands  ............ Exports all external brands.
 export all functions  .................. Exports all functions.
 export all number types  ............... Exports all number types.
 export all persons  .................... Exports all persons available for the current user.
-find activity by mc <MATCHCODE...> ..... Find activities by matchcodes.
-find advisor types by mc <MATCHCODE...>  Find advisor types by matchcodes.
-find applications by mc <MATCHCODE...> . Find applications by matchcodes.
-find brands by mc <MATCHCODE...> ....... Find brands by matchcodes.
+export all todo groups  ................ Exports all todo groups.
+export all updated activities [<DAYS>:1]  Exports all activities updated since yesterday.
+export all updated advisor types [<DAYS>:1]  Exports all advisor types updated since yesterday.
+export all updated applications [<DAYS>:1]  Exports all applications updated since yesterday.
+export all updated brands [<DAYS>:1] ... Export all brands updated since yesterday.
+export all updated companies [<DAYS>:1]  Exports all companies updated since yesterday.
+export all updated company group types [<DAYS>:1]  Exports all company group types updated since yesterday.
+export all updated company number types [<DAYS>:1]  Exports all updated company number types.
+export all updated company types [<DAYS>:1]  Exports all company types updated since yesterday.
+export all updated contract states [<DAYS>:1]  Exports all contract states updated since yesterday.
+export all updated contract types [<DAYS>:1]  Exports all contract types updated since yesterday.
+export all updated external brands [<DAYS>:1]  Exports all external brands updated since yesterday.
+export all updated functions [<DAYS>:1]  Exports all functions updated since yesterday.
+export all updated number types [<DAYS>:1]  Exports all number types updated since yesterday.
+export all updated persons [<DAYS>:1] .. Exports all persons available for the current user, that have been updated since yesterday.
+export all updated todo groups [<DAYS>:1]  Exports all todo groups updated since yesterday.
+find activities by mc <MC...> .......... Find activities by matchcodes.
+find advisor types by mc <MC...> ....... Find advisor types by matchcodes.
+find applications by mc <MC...> ........ Find applications by matchcodes.
+find brands by mc <MC...> .............. Find brands by matchcodes.
 find companies by id <ID...> ........... Find companies by id.
+find companies by mc <MC...> ........... Find companies by matchcode.
 find companies by number <NUMBER...> ... Find companies by company number.
-find company group types by mc <MATCHCODE...>  Find comany group types by matchcodes.
+find company group types by mc <MC...> . Find comany group types by matchcodes.
 find company groups by leader <COMPANY-ID...>  Find all company groups with the specified leader.
 find company groups by member <COMPANY-ID...>  Find all company groups with the specified member.
-find company number types by mc <MATCHCODE...>  Find comany number types by matchcodes.
-find contract states by mc <MATCHCODE...>  Find contract states by matchcodes.
-find contract types by mc <MATCHCODE...>  Find contract types by matchcodes.
-find external brands by mc <MATCHCODE...>  Find external brands by matchcodes.
-find functions by mc <MATCHCODE...> .... Find functions by matchcodes.
-find number types by mc <MATCHCODE...> . Find number types by matchcodes.
+find company number types by mc <MC...>  Find comany number types by matchcodes.
+find contract states by mc <MC...> ..... Find contract states by matchcodes.
+find contract types by mc <MC...> ...... Find contract types by matchcodes.
+find external brands by mc <MC...> ..... Find external brands by matchcodes.
+find functions by mc <MC...> ........... Find functions by matchcodes.
+find number types by mc <MC...> ........ Find number types by matchcodes.
+find persons by company <COMPANY-MC...>  Find persons at a specific company.
 find persons by id <ID...> ............. Find a person by id.
 find persons by number <NUMBER...> ..... Find persons by personnel number.
-get activity by mc <MATCHCODE...> ...... Returns the activities with the specified matchcodes.
-get advisor type by mc <MATCHCODE...> .. Returns the advisor types with the specified matchcodes.
-get application by mc <MATCHCODE...> ... Returns the applications with the specified matchcodes.
-get brand by mc <MATCHCODE...> ......... Returns the brands with the specified matchcodes.
+find todo groups by category <CATEGORY...>  Find todo groups by category.
+find todo groups by mc <ID...> ......... Find todo groups by reference matchcode.
+find todo groups by person id <PERSION-ID...>  Find todo groups by person id.
+get activity by mc <MC...> ............. Returns the activities with the specified matchcodes.
+get advisor type by mc <MC...> ......... Returns the advisor types with the specified matchcodes.
+get application by mc <MC...> .......... Returns the applications with the specified matchcodes.
+get brand by mc <MC...> ................ Returns the brands with the specified matchcodes.
 get company by dvr <COMPANY-DPRN...> ... Returns the companies with the specified data processing register numbers.
 get company by email <COMPANY-EMAIL...>  Returns the company with the specified emails.
 get company by iban <COMPANY-IBAN...> .. Returns the company with the specified ibans.
 get company by id <COMPANY-ID...> ...... Returns the companies with the specified ids.
+get company by mc <COMPANY-MC...> ...... Returns the companies with the specified matchcode.
 get company by number <COMPANY-NUMBER...>  Returns the companies with the specified company numbers.
 get company by sap <COMPANY-SAPNUMBER...>  Returns the companies with the specified sap numbers.
 get company by vat <COMPANY-VATIDNUMBER...>  Returns the companies with the specified vat id numbers.
 get company group by company id <COMPANY-ID...>  Returns the company groups with the specified ids.
+get company group by company mc <COMPANY-MC...>  Returns the company groups with the specified matchcodes.
+get company group by company number <COMPANY-NUMBER...>  Returns the company groups with the specified numbers.
 get company group by leading company id <COMPANY-ID...>  Returns the company groups with the specified ids.
-get company group by type <MATCHCODE...>  Returns the company groups with the specified matchcodes.
-get company group type by mc <MATCHCODE...>  Returns the company group types with the specified matchcodes.
-get company number type by mc <MATCHCODE...>  Returns the company number types with the specified matchcodes.
-get contract state by mc <MATCHCODE...>  Returns the contract states with the specified matchcodes.
-get contract type by mc <MATCHCODE...> . Returns the contract types with the specified matchcodes.
-get external brand by mc <MATCHCODE...>  Returns the external brands with the specified matchcodes.
-get function by mc <MATCHCODE...> ...... Returns the functions with the specified matchcodes.
-get number type by mc <MATCHCODE...> ... Returns the number types with the specified matchcodes.
-get persons by email <EMAIL...> ........ Returns all details of persons with the specified emails.
-get persons by external id <EXTERNALID...>  Returns all details of persons with the specified external ids.
-get persons by guid <GUID...> .......... Returns all details of persons with the specified guids.
-get persons by id <ID...> .............. Returns all details of persons with the specified ids.
-get persons by personnelNumber <PERSNUMBER...>  Returns all details of persons with the specified personnelNumbers.
-get persons by preferredUserId <PREFID...>  Returns all details of persons with the specified prefferedUserIds.
-help  .................................. Prints this help.
+get company group by leading company mc <COMPANY-MC...>  Returns the company groups with the specified mathcodes.
+get company group by leading company number <COMPANY-NUMBER...>  Returns the company groups with the specified numbers.
+get company group by type <MC...> ...... Returns the company groups with the specified matchcodes.
+get company group type by mc <MC...> ... Returns the company group types with the specified matchcodes.
+get company number type by mc <MC...> .. Returns the company number types with the specified matchcodes.
+get contract state by mc <MC...> ....... Returns the contract states with the specified matchcodes.
+get contract type by mc <MC...> ........ Returns the contract types with the specified matchcodes.
+get external brand by mc <MC...> ....... Returns the external brands with the specified matchcodes.
+get function by mc <MC...> ............. Returns the functions with the specified matchcodes.
+get number type by mc <MC...> .......... Returns the number types with the specified matchcodes.
+get person by email <EMAIL...> ......... Returns all details of persons with the specified emails.
+get person by external id <EXTERNALID...>  Returns all details of persons with the specified external ids.
+get person by guid <GUID...> ........... Returns all details of persons with the specified guids.
+get person by id <ID...> ............... Returns all details of persons with the specified ids.
+get person by personnelNumber <PERSNUMBER...>  Returns all details of persons with the specified personnelNumbers.
+get person by preferredUserId <PREFID...>  Returns all details of persons with the specified prefferedUserIds.
+help [q] ............................... Prints this help.
 list  .................................. Lists all locally stored keys
 load [<KEY>] ........................... Loads the URL and username/password from your prefernces.
 logout  ................................ Invalidates the stored JSON Web Token.
@@ -168,6 +194,7 @@ search external brands <QUERY> ......... Query external brands.
 search functions <QUERY> ............... Query functions.
 search number types <QUERY> ............ Query number types.
 search persons <QUERY> ................. Search for a person.
+search todo groups <QUERY> ............. Query todo groups.
 store [<KEY>] .......................... Stores the URL and username/password to your prefernces.
 swagger  ............................... Opens the Swagger Documentation.
 tenant [<TENANT>...] ................... Sets the tenant filter.

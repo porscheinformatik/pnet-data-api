@@ -45,6 +45,50 @@ public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, Compan
         return execute("companyId", companyId, pageIndex, itemsPerPage);
     }
 
+    public CompanyGroupDataDTO byLeadingCompanyNumber(String leadingCompanyNumber) throws PnetDataClientException
+    {
+        return allByLeadingCompanyNumbers(Arrays.asList(leadingCompanyNumber), 0, 1).first();
+    }
+
+    public PnetDataClientResultPage<CompanyGroupDataDTO> allByLeadingCompanyNumbers(List<String> leadingCompanyNumbers,
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    {
+        return execute("leadingCompanyNumber", leadingCompanyNumbers, pageIndex, itemsPerPage);
+    }
+
+    public CompanyGroupDataDTO byCompanyNumber(String companyNumber) throws PnetDataClientException
+    {
+        return allByCompanyNumbers(Arrays.asList(companyNumber), 0, 1).first();
+    }
+
+    public PnetDataClientResultPage<CompanyGroupDataDTO> allByCompanyNumbers(List<String> companyNumber, int pageIndex,
+        int itemsPerPage) throws PnetDataClientException
+    {
+        return execute("companyNumber", companyNumber, pageIndex, itemsPerPage);
+    }
+
+    public CompanyGroupDataDTO byLeadingCompany(String leadingCompanyMatchcode) throws PnetDataClientException
+    {
+        return allByLeadingCompanies(Arrays.asList(leadingCompanyMatchcode), 0, 1).first();
+    }
+
+    public PnetDataClientResultPage<CompanyGroupDataDTO> allByLeadingCompanies(List<String> leadingCompanyMatchcodes,
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    {
+        return execute("leadingCompany", leadingCompanyMatchcodes, pageIndex, itemsPerPage);
+    }
+
+    public CompanyGroupDataDTO byCompany(String companyMatchcode) throws PnetDataClientException
+    {
+        return allByCompanies(Arrays.asList(companyMatchcode), 0, 1).first();
+    }
+
+    public PnetDataClientResultPage<CompanyGroupDataDTO> allByCompanies(List<String> companyMatchcodes, int pageIndex,
+        int itemsPerPage) throws PnetDataClientException
+    {
+        return execute("company", companyMatchcodes, pageIndex, itemsPerPage);
+    }
+
     public CompanyGroupDataDTO byCompanyGroupType(String companyGroupType) throws PnetDataClientException
     {
         return allByCompanyGroupTypes(Arrays.asList(companyGroupType), 0, 1).first();
