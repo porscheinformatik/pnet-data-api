@@ -14,26 +14,26 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "Holds minimal information about a company group member")
 public class CompanyGroupMemberLinkDTO
 {
+    @ApiModelProperty(notes = "The unique id of the company that is in the company group.")
+    private final Integer companyId;
+
+    @ApiModelProperty(notes = "The (almost-unique) matchcode of the company that is in the company group.")
+    private final String companyMatchcode;
+
+    @ApiModelProperty(notes = "The (non-unique) number of the company that is in the company group.")
+    private final String companyNumber;
+
     @ApiModelProperty(notes = "The unique matchcode of the company group type of the company group")
-    private String groupType;
-    @ApiModelProperty(notes = "The unique id of the company that is in the company group")
-    private Integer companyId;
+    private final String groupType;
 
     public CompanyGroupMemberLinkDTO(@JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("groupType") String groupType)
     {
         super();
-        this.groupType = groupType;
         this.companyId = companyId;
-    }
-
-    public String getGroupType()
-    {
-        return groupType;
-    }
-
-    public void setGroupType(String groupType)
-    {
+        this.companyMatchcode = companyMatchcode;
+        this.companyNumber = companyNumber;
         this.groupType = groupType;
     }
 
@@ -42,9 +42,19 @@ public class CompanyGroupMemberLinkDTO
         return companyId;
     }
 
-    public void setCompanyId(Integer companyId)
+    public String getCompanyMatchcode()
     {
-        this.companyId = companyId;
+        return companyMatchcode;
+    }
+
+    public String getCompanyNumber()
+    {
+        return companyNumber;
+    }
+
+    public String getGroupType()
+    {
+        return groupType;
     }
 
     @Override

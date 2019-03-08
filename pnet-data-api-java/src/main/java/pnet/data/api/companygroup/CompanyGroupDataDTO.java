@@ -26,26 +26,46 @@ import io.swagger.annotations.ApiModelProperty;
  *
  * @author ham
  */
-@ApiModel(description = "Holds all information about a company group")
+@ApiModel(description = "Holds all information about a company group.")
 public class CompanyGroupDataDTO
 {
 
-    @ApiModelProperty(notes = "The unique id of the company that is leading the company group")
+    @ApiModelProperty(notes = "The unique id of the company that is leading the company group.")
     private final Integer leadingCompanyId;
+
+    @ApiModelProperty(notes = "The (almost-unique) matchcode of the company that is leading the company group.")
+    private final String leadingCompanyMatchcode;
+
+    @ApiModelProperty(notes = "The (non-unique) number of the company that is leading the company group.")
+    private final String leadingCompanyNumber;
 
     @ApiModelProperty(notes = "The members of the company group")
     private Collection<CompanyGroupMemberLinkDTO> members;
 
-    public CompanyGroupDataDTO(@JsonProperty("leadingCompanyId") Integer leadingCompanyId)
+    public CompanyGroupDataDTO(@JsonProperty("leadingCompanyId") Integer leadingCompanyId,
+        @JsonProperty("leadingCompanyMatchcode") String leadingCompanyMatchcode,
+        @JsonProperty("leadingCompanyNumber") String leadingCompanyNumber)
     {
         super();
 
         this.leadingCompanyId = leadingCompanyId;
+        this.leadingCompanyMatchcode = leadingCompanyMatchcode;
+        this.leadingCompanyNumber = leadingCompanyNumber;
     }
 
     public Integer getLeadingCompanyId()
     {
         return leadingCompanyId;
+    }
+
+    public String getLeadingCompanyMatchcode()
+    {
+        return leadingCompanyMatchcode;
+    }
+    
+    public String getLeadingCompanyNumber()
+    {
+        return leadingCompanyNumber;
     }
 
     public Collection<CompanyGroupMemberLinkDTO> getMembers()

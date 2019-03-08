@@ -1,3 +1,8 @@
+pnet-data-api 1.8.1
+===================
+
+* Added company numbers and matchcodes where to groups, too.
+
 pnet-data-api 1.8.0
 ===================
 
