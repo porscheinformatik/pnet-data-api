@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.WithCompanyId;
 
 /**
  * Holds minimal information about a company group member.
@@ -12,7 +13,7 @@ import io.swagger.annotations.ApiModelProperty;
  *
  */
 @ApiModel(description = "Holds minimal information about a company group member")
-public class CompanyGroupMemberLinkDTO
+public class CompanyGroupMemberLinkDTO implements WithCompanyId
 {
     @ApiModelProperty(notes = "The unique id of the company that is in the company group.")
     private final Integer companyId;
@@ -37,6 +38,7 @@ public class CompanyGroupMemberLinkDTO
         this.groupType = groupType;
     }
 
+    @Override
     public Integer getCompanyId()
     {
         return companyId;

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.GeoPoint;
+import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithMatchcode;
 
 /**
@@ -30,7 +31,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about one company.")
-public class CompanyItemDTO implements WithMatchcode
+public class CompanyItemDTO implements WithCompanyId, WithMatchcode
 {
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
@@ -124,6 +125,7 @@ public class CompanyItemDTO implements WithMatchcode
         this.lastUpdate = lastUpdate;
     }
 
+    @Override
     public Integer getCompanyId()
     {
         return companyId;

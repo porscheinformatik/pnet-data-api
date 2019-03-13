@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
@@ -29,26 +30,25 @@ import pnet.data.api.util.WithValidPeriod;
  * @author ham
  */
 @ApiModel(description = "Holds minimal information about a employment the person has/had.")
-public class PersonCompanyLinkDTO implements WithValidPeriod, Serializable
+public class PersonCompanyLinkDTO implements WithCompanyId, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 7199829304360405636L;
 
     @ApiModelProperty(notes = "The unique id of the company the person has/had an employment at.")
     private final Integer companyId;
-    
+
     @ApiModelProperty(notes = "The matchcode of the company the person has/had an employment at.")
     private final String companyMatchcode;
-    
+
     @ApiModelProperty(notes = "The number of the company the person has/had an employment at.")
     private final String companyNumber;
-    
+
     @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
     private final LocalDateTime validFrom;
-    
+
     @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
     private final LocalDateTime validTo;
-    
 
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
@@ -63,6 +63,7 @@ public class PersonCompanyLinkDTO implements WithValidPeriod, Serializable
         this.validTo = validTo;
     }
 
+    @Override
     public Integer getCompanyId()
     {
         return companyId;
