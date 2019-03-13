@@ -18,13 +18,17 @@ package pnet.data.api.util;
  * An item, that uses an id as universal identifier.
  *
  * @author ham
+ * @deprecated replaced by {@link WithPersonId}
  */
+@Deprecated
 public interface WithId
 {
 
     /**
      * @return The id of the item.
+     * @deprecated replaced by {@link WithPersonId#getPersonId()}
      */
+    @Deprecated
     Integer getId();
 
 }

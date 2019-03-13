@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.WithPersonId;
 
 /**
  * One referenced person of a to-do group.
@@ -13,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author HAM
  */
 @ApiModel(description = "One referenced person of a to-do group.")
-public class TodoGroupPersonLinkDTO implements Serializable
+public class TodoGroupPersonLinkDTO implements WithPersonId, Serializable
 {
 
     private static final long serialVersionUID = -4823204025294192488L;
@@ -37,6 +38,7 @@ public class TodoGroupPersonLinkDTO implements Serializable
         this.assigned = assigned;
     }
 
+    @Override
     public Integer getPersonId()
     {
         return personId;

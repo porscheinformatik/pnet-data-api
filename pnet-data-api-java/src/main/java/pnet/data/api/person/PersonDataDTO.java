@@ -28,6 +28,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithId;
 import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithPersonId;
 
 /**
  * Holds one person.
@@ -35,13 +36,17 @@ import pnet.data.api.util.WithLastUpdate;
  * @author ham
  */
 @ApiModel(description = "Holds all information about a person")
-public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
+public class PersonDataDTO implements WithId, WithPersonId, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -2096202204327773391L;
 
     @ApiModelProperty(notes = "The unique id of the person")
+    @Deprecated
     private final Integer id;
+
+    @ApiModelProperty(notes = "The unique id of the person")
+    private final Integer personId;
 
     @ApiModelProperty(notes = "The tenant, in which this person is administrated")
     private String administrativeTenant;
@@ -136,17 +141,31 @@ public class PersonDataDTO implements WithId, WithLastUpdate, Serializable
     @ApiModelProperty(notes = "The time and date when the person was last changed")
     private LocalDateTime lastUpdate;
 
-    public PersonDataDTO(@JsonProperty("id") Integer id)
+    public PersonDataDTO(@JsonProperty("id") Integer id, @JsonProperty("personId") Integer personId)
     {
         super();
 
-        this.id = id;
+        this.id = id != null ? id : personId;
+        this.personId = personId != null ? personId : id;
     }
 
+    /**
+     * Returns the person id
+     *
+     * @return person id
+     * @deprecated use {@link #getPersonId()} instead
+     */
     @Override
+    @Deprecated
     public Integer getId()
     {
         return id;
+    }
+
+    @Override
+    public Integer getPersonId()
+    {
+        return personId;
     }
 
     public String getAdministrativeTenant()
