@@ -30,19 +30,11 @@ import pnet.data.api.util.WithValidPeriod;
  * @author ham
  */
 @ApiModel(description = "Holds minimal information about a employment the person has/had.")
-public class PersonCompanyLinkDTO implements WithCompanyId, WithValidPeriod, Serializable
+public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
+    implements WithCompanyId, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = 7199829304360405636L;
-
-    @ApiModelProperty(notes = "The unique id of the company the person has/had an employment at.")
-    private final Integer companyId;
-
-    @ApiModelProperty(notes = "The matchcode of the company the person has/had an employment at.")
-    private final String companyMatchcode;
-
-    @ApiModelProperty(notes = "The number of the company the person has/had an employment at.")
-    private final String companyNumber;
 
     @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
     private final LocalDateTime validFrom;
@@ -54,29 +46,10 @@ public class PersonCompanyLinkDTO implements WithCompanyId, WithValidPeriod, Ser
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
     {
-        super();
+        super(companyId, companyMatchcode, companyNumber);
 
-        this.companyId = companyId;
-        this.companyMatchcode = companyMatchcode;
-        this.companyNumber = companyNumber;
         this.validFrom = validFrom;
         this.validTo = validTo;
-    }
-
-    @Override
-    public Integer getCompanyId()
-    {
-        return companyId;
-    }
-
-    public String getCompanyMatchcode()
-    {
-        return companyMatchcode;
-    }
-
-    public String getCompanyNumber()
-    {
-        return companyNumber;
     }
 
     @Override
@@ -95,11 +68,8 @@ public class PersonCompanyLinkDTO implements WithCompanyId, WithValidPeriod, Ser
     public int hashCode()
     {
         final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
+        int result = super.hashCode();
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
-
         return result;
     }
 
@@ -110,31 +80,15 @@ public class PersonCompanyLinkDTO implements WithCompanyId, WithValidPeriod, Ser
         {
             return true;
         }
-
-        if (obj == null)
+        if (!super.equals(obj))
         {
             return false;
         }
-
         if (getClass() != obj.getClass())
         {
             return false;
         }
-
         PersonCompanyLinkDTO other = (PersonCompanyLinkDTO) obj;
-
-        if (companyId == null)
-        {
-            if (other.companyId != null)
-            {
-                return false;
-            }
-        }
-        else if (!companyId.equals(other.companyId))
-        {
-            return false;
-        }
-
         if (validFrom == null)
         {
             if (other.validFrom != null)
@@ -146,7 +100,6 @@ public class PersonCompanyLinkDTO implements WithCompanyId, WithValidPeriod, Ser
         {
             return false;
         }
-
         return true;
     }
 

@@ -1,8 +1,9 @@
 pnet-data-api 1.8.2
 ===================
 
-* The id of the person was renamed to personId (the old field is deprecated)
+* The id of the person was renamed to personId (the old field is deprecated).
 * Added the WithCompanyId interface, where applicable.
+* Added externalId, guid, preferredUserId and companies to person items.
 
 pnet-data-api 1.8.1
 ===================

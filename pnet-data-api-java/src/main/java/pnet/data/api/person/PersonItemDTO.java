@@ -61,6 +61,15 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
     @ApiModelProperty(notes = "The last name of the person.")
     private final String lastName;
 
+    @ApiModelProperty(notes = "The external id of the person")
+    private final String externalId;
+
+    @ApiModelProperty(notes = "The global user id of the person")
+    private final String guid;
+
+    @ApiModelProperty(notes = "The preferred user id of the person")
+    private final String preferredUserId;
+
     @ApiModelProperty(notes = "The personnel number of the person.")
     private final String personnelNumber;
 
@@ -69,6 +78,9 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
 
     @ApiModelProperty(notes = " The email of the person.")
     private final String email;
+
+    @ApiModelProperty(notes = "The companies the person has employments at")
+    private final Collection<ActivePersonCompanyLinkDTO> companies;
 
     @ApiModelProperty(notes = "The time and date when the person was last changed.")
     private final LocalDateTime lastUpdate;
@@ -79,8 +91,12 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         @JsonProperty("academicTitle") String academicTitle,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
+        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
+        @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
-        @JsonProperty("email") String email, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("email") String email,
+        @JsonProperty("companies") Collection<ActivePersonCompanyLinkDTO> companies,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
 
@@ -92,9 +108,13 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         this.academicTitlePostNominal = academicTitlePostNominal;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.externalId = externalId;
+        this.guid = guid;
+        this.preferredUserId = preferredUserId;
         this.personnelNumber = personnelNumber;
         this.birthdate = birthdate;
         this.email = email;
+        this.companies = companies;
         this.lastUpdate = lastUpdate;
     }
 
@@ -139,6 +159,21 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         return lastName;
     }
 
+    public String getExternalId()
+    {
+        return externalId;
+    }
+
+    public String getGuid()
+    {
+        return guid;
+    }
+
+    public String getPreferredUserId()
+    {
+        return preferredUserId;
+    }
+
     public String getPersonnelNumber()
     {
         return personnelNumber;
@@ -154,6 +189,11 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         return email;
     }
 
+    public Collection<ActivePersonCompanyLinkDTO> getCompanies()
+    {
+        return companies;
+    }
+
     @Override
     public LocalDateTime getLastUpdate()
     {
@@ -166,10 +206,11 @@ public class PersonItemDTO implements WithPersonId, WithLastUpdate, Serializable
         return String
             .format(
                 "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, personnelNumber=%s, birthdate=%s, "
-                    + "email=%s, lastUpdate=%s]",
+                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, externalId=%s, guid=%s, preferredUserId=%s, "
+                    + "personnelNumber=%s, birthdate=%s, email=%s, companies=%s, lastUpdate=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, personnelNumber, birthdate, email, lastUpdate);
+                firstName, lastName, externalId, guid, preferredUserId, personnelNumber, birthdate, email, companies,
+                lastUpdate);
     }
 
 }

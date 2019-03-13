@@ -90,6 +90,7 @@ There is a client class for each REST interface:
 * `FunctionDataClient`
 * `NumberTypeDataClient`
 * `PersonDataClient`
+* `TodoGroupDataClient`
 
 The clients and all methods are stateless and threadsafe! You can access the three basic methods by using the fluent interface:
 

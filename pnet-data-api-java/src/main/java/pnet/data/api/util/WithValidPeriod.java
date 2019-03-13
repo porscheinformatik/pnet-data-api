@@ -14,4 +14,27 @@ public interface WithValidPeriod
 
     LocalDateTime getValidTo();
 
+    default boolean isValidAt(LocalDateTime dateTime)
+    {
+        LocalDateTime validFrom = getValidFrom();
+        LocalDateTime validTo = getValidTo();
+
+        if (validTo == null)
+        {
+            if (validFrom == null)
+            {
+                return true;
+            }
+
+            return !validFrom.isAfter(dateTime);
+        }
+
+        if (validFrom == null)
+        {
+            return !validTo.isBefore(dateTime);
+        }
+
+        return !validFrom.isAfter(dateTime) && !validTo.isBefore(dateTime);
+    }
+
 }
