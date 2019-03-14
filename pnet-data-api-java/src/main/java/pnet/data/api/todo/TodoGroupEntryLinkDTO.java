@@ -29,6 +29,9 @@ public class TodoGroupEntryLinkDTO
     @ApiModelProperty(notes = "The state of the to-do entry.")
     private final TodoState state;
 
+    @ApiModelProperty(notes = "The phase of the to-do entry, that depends directly on the state.")
+    private final TodoPhase phase;
+
     @ApiModelProperty(notes = "The date and time this to-do entry has been created.")
     private final LocalDateTime created;
 
@@ -63,11 +66,11 @@ public class TodoGroupEntryLinkDTO
 
     public TodoGroupEntryLinkDTO(@JsonProperty("id") Integer id, @JsonProperty("type") String type,
         @JsonProperty("source") TodoSource source, @JsonProperty("state") TodoState state,
-        @JsonProperty("created") LocalDateTime created,
+        @JsonProperty("phase") TodoPhase phase, @JsonProperty("created") LocalDateTime created,
         @JsonProperty("assignedToPersonIds") Collection<Integer> assignedToPersonIds,
         @JsonProperty("approved") LocalDateTime approved,
         @JsonProperty("approvedByPersonId") Integer approvedByPersonId,
-        @JsonProperty("approvedByPersonName") String approvedByPersonName, 
+        @JsonProperty("approvedByPersonName") String approvedByPersonName,
         @JsonProperty("scheduled") LocalDateTime scheduled, @JsonProperty("started") LocalDateTime started,
         @JsonProperty("finished") LocalDateTime finished, @JsonProperty("headline") String headline,
         @JsonProperty("description") String description)
@@ -78,6 +81,7 @@ public class TodoGroupEntryLinkDTO
         this.type = type;
         this.source = source;
         this.state = state;
+        this.phase = phase;
         this.created = created;
         this.approved = approved;
         this.approvedByPersonId = approvedByPersonId;
@@ -108,6 +112,11 @@ public class TodoGroupEntryLinkDTO
     public TodoState getState()
     {
         return state;
+    }
+
+    public TodoPhase getPhase()
+    {
+        return phase;
     }
 
     public LocalDateTime getCreated()
@@ -164,11 +173,12 @@ public class TodoGroupEntryLinkDTO
     public String toString()
     {
         return String
-            .format("TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, assignedToPersonIds=%s, "
-                + "approved=%s, approvedByPersonId=%s, approvedByPersonName=%s, scheduled=%s, started=%s, "
-                + "finished=%s, headline=%s, description=%s]", id, type, source, state, created, assignedToPersonIds,
-                approved, approvedByPersonId, approvedByPersonName, scheduled, started, finished, headline,
-                description);
+            .format(
+                "TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, assignedToPersonIds=%s, "
+                    + "approved=%s, approvedByPersonId=%s, approvedByPersonName=%s, scheduled=%s, started=%s, "
+                    + "finished=%s, headline=%s, description=%s]",
+                id, type, source, state, created, assignedToPersonIds, approved, approvedByPersonId,
+                approvedByPersonName, scheduled, started, finished, headline, description);
     }
 
 }
