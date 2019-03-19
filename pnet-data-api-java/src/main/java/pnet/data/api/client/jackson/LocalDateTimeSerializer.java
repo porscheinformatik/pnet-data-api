@@ -32,7 +32,7 @@ public class LocalDateTimeSerializer extends StdSerializer<LocalDateTime>
     {
         if (value != null)
         {
-            jgen.writeString(PnetDataApiUtils.formatISO(value));
+            jgen.writeString(PnetDataApiUtils.formatISODateTime(value));
         }
         else
         {

@@ -18,7 +18,11 @@ import java.lang.reflect.Array;
 import java.text.Collator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.TemporalAccessor;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -34,6 +38,25 @@ import org.springframework.util.StringUtils;
  */
 public final class PnetDataApiUtils
 {
+
+    private static final ZoneId UTC = ZoneId.of("UTC");
+    private static final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()
+        .parseCaseInsensitive()
+        .append(DateTimeFormatter.ISO_LOCAL_DATE)
+        .optionalStart()
+        .appendLiteral('T')
+        .append(DateTimeFormatter.ISO_LOCAL_TIME)
+        .optionalStart()
+        .appendOffsetId()
+        .optionalStart()
+        .appendLiteral('[')
+        .parseCaseSensitive()
+        .appendZoneRegionId()
+        .appendLiteral(']')
+        .optionalEnd()
+        .optionalEnd()
+        .optionalEnd()
+        .toFormatter();
 
     /**
      * A collator set to primary strength, which means 'a', 'A' and '&auml;' is the same
@@ -273,28 +296,36 @@ public final class PnetDataApiUtils
         return Collections.unmodifiableList(list);
     }
 
-    /**
-     * format a iso date and time.
-     *
-     * @param dateTime - the date and time to format
-     * @return Formatted date
-     */
-    public static String formatISO(LocalDateTime dateTime)
+    public static LocalDateTime convertDefaultToUTC(LocalDateTime dateTime)
     {
         if (dateTime == null)
         {
             return null;
         }
 
-        return dateTime.format(DateTimeFormatter.ISO_DATE_TIME) + "Z";
+        return dateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(UTC).toLocalDateTime();
     }
 
-    /**
-     * format a iso date and time.
-     *
-     * @param date - the date and time to format
-     * @return Formatted date
-     */
+    public static LocalDateTime convertUTCToDefault(LocalDateTime dateTime)
+    {
+        if (dateTime == null)
+        {
+            return null;
+        }
+
+        return dateTime.atZone(UTC).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    public static String formatISODateTime(LocalDateTime dateTime)
+    {
+        if (dateTime == null)
+        {
+            return null;
+        }
+
+        return convertDefaultToUTC(dateTime).format(DateTimeFormatter.ISO_DATE_TIME) + "Z";
+    }
+
     public static String formatISODate(LocalDate date)
     {
         if (date == null)
@@ -305,45 +336,36 @@ public final class PnetDataApiUtils
         return date.format(DateTimeFormatter.ISO_DATE);
     }
 
-    /**
-     * Parses a iso date.
-     *
-     * @param dateAsString - String
-     * @return LocalDate
-     */
-    public static LocalDateTime parseISODateTime(String dateAsString)
+    public static LocalDateTime parseISODateTime(String dateTimeAsString)
     {
-        if ((dateAsString == null) || (dateAsString.trim().length() == 0))
+        if (dateTimeAsString == null || dateTimeAsString.length() == 0)
         {
             return null;
         }
 
-        return LocalDateTime.parse(dateAsString, findFormatter(dateAsString));
+        TemporalAccessor temporalAccessor =
+            FORMATTER.parseBest(dateTimeAsString, ZonedDateTime::from, LocalDateTime::from, LocalDate::from);
+
+        if (temporalAccessor instanceof ZonedDateTime)
+        {
+            return ((ZonedDateTime) temporalAccessor).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+        }
+
+        if (temporalAccessor instanceof LocalDateTime)
+        {
+            return ((LocalDateTime) temporalAccessor);
+        }
+
+        return ((LocalDate) temporalAccessor).atStartOfDay(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     public static LocalDate parseISODate(String dateAsString)
     {
-        if ((dateAsString == null) || (dateAsString.trim().length() == 0))
+        if (dateAsString == null || dateAsString.length() == 0)
         {
             return null;
         }
 
-        if (dateAsString.trim().contains("T"))
-        {
-            return LocalDate
-                .parse(dateAsString.substring(0, dateAsString.trim().indexOf("T")), DateTimeFormatter.ISO_DATE);
-        }
-
-        return LocalDate.parse(dateAsString, DateTimeFormatter.ISO_DATE);
-    }
-
-    private static DateTimeFormatter findFormatter(String dateAsString)
-    {
-        if (dateAsString.contains("T"))
-        {
-            return DateTimeFormatter.ISO_DATE_TIME;
-        }
-
-        return DateTimeFormatter.ISO_DATE;
+        return parseISODateTime(dateAsString).toLocalDate();
     }
 }
