@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
+import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregates;
 import pnet.data.api.client.PnetDataClientResultPage;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.util.Pair;
@@ -54,20 +56,22 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         return new PersonDataSearch(this::search, null);
     }
 
-    protected PnetDataClientResultPage<PersonItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO> search(Locale language,
+        String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = restCall
+            DefaultPnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO> resultPage = restCall
                 .parameter("l", language)
                 .parameter("q", query)
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/persons/search", new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get("/api/v1/persons/search",
+                    new GenericType.Of<DefaultPnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO>>()
+                    {
+                        // intentionally left blank
+                    });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 

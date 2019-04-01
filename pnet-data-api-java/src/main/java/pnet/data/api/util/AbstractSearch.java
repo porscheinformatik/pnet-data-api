@@ -16,7 +16,7 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <SELF> the type of the filter itself for fluent interface
  */
 public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>> extends AbstractRestricable<SELF>
-    implements Search<DTO>, Restrict<SELF>
+    implements Search<DTO>, Restrict<SELF>, Aggregate<SELF>
 {
 
     private final SearchFunction<DTO> searchFunction;

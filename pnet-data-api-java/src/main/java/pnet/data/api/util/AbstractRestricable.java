@@ -48,4 +48,9 @@ public abstract class AbstractRestricable<SELF extends AbstractRestricable<SELF>
         return newInstance(restricts);
     }
 
+    public SELF aggregate(String name)
+    {
+        return restrict("aggregate", name);
+    }
+
 }

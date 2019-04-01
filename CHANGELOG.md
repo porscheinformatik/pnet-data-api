@@ -1,3 +1,8 @@
+pnet-data-api 1.9.0
+===================
+
+* Aggregates for companies, persons and todo groups.
+
 pnet-data-api 1.8.4
 ===================
 

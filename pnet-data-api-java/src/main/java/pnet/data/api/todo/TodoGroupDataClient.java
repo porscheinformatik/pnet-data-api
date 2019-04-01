@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
+import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregates;
 import pnet.data.api.client.PnetDataClientResultPage;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.util.Pair;
@@ -32,21 +34,23 @@ public class TodoGroupDataClient extends AbstractPnetDataApiClient<TodoGroupData
         return new TodoGroupDataSearch(this::search, null);
     }
 
-    protected PnetDataClientResultPage<TodoGroupItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPageWithAggregates<TodoGroupItemDTO, TodoGroupAggregatesDTO> search(Locale language,
+        String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPage<TodoGroupItemDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
-                .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/todogroups/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<TodoGroupItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+            DefaultPnetDataClientResultPageWithAggregates<TodoGroupItemDTO, TodoGroupAggregatesDTO> resultPage =
+                restCall
+                    .parameter("l", language)
+                    .parameter("q", query)
+                    .parameters(restricts)
+                    .parameter("p", pageIndex)
+                    .parameter("pp", itemsPerPage)
+                    .get("/api/v1/todogroups/search",
+                        new GenericType.Of<DefaultPnetDataClientResultPageWithAggregates<TodoGroupItemDTO, TodoGroupAggregatesDTO>>()
+                        {
+                            // intentionally left blank
+                        });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 

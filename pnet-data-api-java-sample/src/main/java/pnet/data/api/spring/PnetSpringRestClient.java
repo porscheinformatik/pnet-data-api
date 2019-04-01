@@ -26,6 +26,7 @@ import pnet.data.api.application.ApplicationDataClient;
 import pnet.data.api.brand.BrandDataClient;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientResultPage;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
 import pnet.data.api.client.context.PnetDataApiTokenKey;
 import pnet.data.api.client.context.PnetDataApiTokenRepository;
 import pnet.data.api.company.CompanyDataClient;
@@ -424,7 +425,14 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "search companies", format = "<QUERY>", description = "Query companies.")
     public void searchCompanies(String query) throws PnetDataClientException
     {
-        printResults(companyDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+        printResults(companyDataClient
+            .search()
+            .tenant(tenants)
+            .aggregateNumberPerTenant()
+            .aggregateNumberPerBrand()
+            .aggregateNumberPerType()
+            .aggregateNumberPerContractType()
+            .execute(Locale.getDefault(), query));
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -926,7 +934,14 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
     public void searchPerson(String query) throws PnetDataClientException
     {
-        printResults(personDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+        printResults(personDataClient
+            .search()
+            .tenant(tenants)
+            .aggregateNumberPerTenant()
+            .aggregateNumberPerCompany()
+            .aggregateNumberPerFunction()
+            .aggregateNumberPerActivity()
+            .execute(Locale.getDefault(), query));
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -979,7 +994,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
     public void searchTodoGroups(String query) throws PnetDataClientException
     {
-        printResults(todoGroupDataClient.search().execute(Locale.getDefault(), query));
+        printResults(todoGroupDataClient.search().aggregateNumberPerCategory().execute(Locale.getDefault(), query));
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1257,6 +1272,18 @@ public final class PnetSpringRestClient
         }
     }
 
+    @CLI.Command(description = "Prints the aggregates, if available.")
+    public void aggs() throws PnetDataClientException
+    {
+        if (page == null)
+        {
+            cli.error("No result available.");
+            return;
+        }
+
+        printAggregates();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
 
     protected void printResults(PnetDataClientResultPage<?> page) throws PnetDataClientException
@@ -1291,6 +1318,18 @@ public final class PnetSpringRestClient
         this.page = page;
 
         printPage();
+    }
+
+    protected void printAggregates()
+    {
+        if (page == null || !(page instanceof PnetDataClientResultPageWithAggregates<?, ?>))
+        {
+            cli.error("No aggregates available in current page.");
+
+            return;
+        }
+
+        cli.info(PrettyPrint.prettyPrint(((PnetDataClientResultPageWithAggregates<?, ?>) page).getAggregates()));
     }
 
     protected void printPage()
