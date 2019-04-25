@@ -2,7 +2,7 @@ package pnet.data.api.company;
 
 import java.util.List;
 
-import pnet.data.api.util.AbstractSearch;
+import pnet.data.api.util.AbstractSearchWithAggregates;
 import pnet.data.api.util.AggregateNumberPerBrand;
 import pnet.data.api.util.AggregateNumberPerContractType;
 import pnet.data.api.util.AggregateNumberPerTenant;
@@ -15,14 +15,15 @@ import pnet.data.api.util.RestrictHeadquarter;
 import pnet.data.api.util.RestrictLocation;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictType;
-import pnet.data.api.util.SearchFunction;
+import pnet.data.api.util.SearchWithAggregatesFunction;
 
 /**
  * Search interface for companies
  *
  * @author HAM
  */
-public class CompanyDataSearch extends AbstractSearch<CompanyItemDTO, CompanyDataSearch>
+public class CompanyDataSearch
+    extends AbstractSearchWithAggregates<CompanyItemDTO, CompanyAggregatesDTO, CompanyDataSearch>
     implements RestrictTenant<CompanyDataSearch>, RestrictBrand<CompanyDataSearch>,
     RestrictCountryCode<CompanyDataSearch>, RestrictType<CompanyDataSearch>, RestrictContractType<CompanyDataSearch>,
     RestrictLocation<CompanyDataSearch>, RestrictHeadquarter<CompanyDataSearch>,
@@ -30,7 +31,8 @@ public class CompanyDataSearch extends AbstractSearch<CompanyItemDTO, CompanyDat
     AggregateNumberPerType<CompanyDataSearch>, AggregateNumberPerContractType<CompanyDataSearch>
 {
 
-    public CompanyDataSearch(SearchFunction<CompanyItemDTO> searchFunction, List<Pair<String, Object>> restricts)
+    public CompanyDataSearch(SearchWithAggregatesFunction<CompanyItemDTO, CompanyAggregatesDTO> searchFunction,
+        List<Pair<String, Object>> restricts)
     {
         super(searchFunction, restricts);
     }

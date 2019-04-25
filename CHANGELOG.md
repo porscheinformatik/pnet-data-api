@@ -1,3 +1,13 @@
+pnet-data-api 1.9.2
+===================
+
+* Add aggregates to fluent search API.
+
+pnet-data-api 1.9.1
+===================
+
+* Allow find operations for todo-ids.
+
 pnet-data-api 1.9.0
 ===================
 
