@@ -3,6 +3,7 @@ pnet-data-api 1.9.2
 
 * Added aggregates to fluent search API.
 * Added `streamAll()` and `interatorAll()` to result pages to iterate over all result items of this page and all subsequent pages (calls `nextPage()` automatically).
+* Added restrictions (filter) to the sample client.
 
 Known Bugs:
 

@@ -6,10 +6,12 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -21,35 +23,113 @@ import pnet.data.api.PnetDataClientException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
 import pnet.data.api.activity.ActivityDataClient;
+import pnet.data.api.activity.ActivityDataDTO;
+import pnet.data.api.activity.ActivityDataFind;
+import pnet.data.api.activity.ActivityDataGet;
+import pnet.data.api.activity.ActivityDataSearch;
+import pnet.data.api.activity.ActivityItemDTO;
 import pnet.data.api.advisortype.AdvisorTypeDataClient;
+import pnet.data.api.advisortype.AdvisorTypeDataDTO;
+import pnet.data.api.advisortype.AdvisorTypeDataFind;
+import pnet.data.api.advisortype.AdvisorTypeDataGet;
+import pnet.data.api.advisortype.AdvisorTypeDataSearch;
+import pnet.data.api.advisortype.AdvisorTypeItemDTO;
 import pnet.data.api.application.ApplicationDataClient;
+import pnet.data.api.application.ApplicationDataDTO;
+import pnet.data.api.application.ApplicationDataFind;
+import pnet.data.api.application.ApplicationDataGet;
+import pnet.data.api.application.ApplicationDataSearch;
+import pnet.data.api.application.ApplicationItemDTO;
 import pnet.data.api.brand.BrandDataClient;
+import pnet.data.api.brand.BrandDataDTO;
+import pnet.data.api.brand.BrandDataFind;
+import pnet.data.api.brand.BrandDataGet;
+import pnet.data.api.brand.BrandDataSearch;
+import pnet.data.api.brand.BrandItemDTO;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
 import pnet.data.api.client.context.PnetDataApiTokenKey;
 import pnet.data.api.client.context.PnetDataApiTokenRepository;
 import pnet.data.api.company.CompanyDataClient;
+import pnet.data.api.company.CompanyDataDTO;
+import pnet.data.api.company.CompanyDataFind;
+import pnet.data.api.company.CompanyDataGet;
+import pnet.data.api.company.CompanyDataSearch;
+import pnet.data.api.company.CompanyItemDTO;
+import pnet.data.api.company.ContractTypeDataFind;
 import pnet.data.api.companygroup.CompanyGroupDataClient;
+import pnet.data.api.companygroup.CompanyGroupDataDTO;
+import pnet.data.api.companygroup.CompanyGroupDataGet;
 import pnet.data.api.companygrouptype.CompanyGroupTypeDataClient;
+import pnet.data.api.companygrouptype.CompanyGroupTypeDataDTO;
 import pnet.data.api.companygrouptype.CompanyGroupTypeDataFind;
+import pnet.data.api.companygrouptype.CompanyGroupTypeDataGet;
+import pnet.data.api.companygrouptype.CompanyGroupTypeDataSearch;
 import pnet.data.api.companygrouptype.CompanyGroupTypeItemDTO;
 import pnet.data.api.companynumbertype.CompanyNumberTypeDataClient;
+import pnet.data.api.companynumbertype.CompanyNumberTypeDataDTO;
+import pnet.data.api.companynumbertype.CompanyNumberTypeDataFind;
+import pnet.data.api.companynumbertype.CompanyNumberTypeDataGet;
+import pnet.data.api.companynumbertype.CompanyNumberTypeDataSearch;
+import pnet.data.api.companynumbertype.CompanyNumberTypeItemDTO;
 import pnet.data.api.companytype.CompanyTypeDataClient;
+import pnet.data.api.companytype.CompanyTypeDataFind;
+import pnet.data.api.companytype.CompanyTypeDataSearch;
+import pnet.data.api.companytype.CompanyTypeItemDTO;
 import pnet.data.api.contractstate.ContractStateDataClient;
+import pnet.data.api.contractstate.ContractStateDataDTO;
+import pnet.data.api.contractstate.ContractStateDataFind;
+import pnet.data.api.contractstate.ContractStateDataGet;
+import pnet.data.api.contractstate.ContractStateDataSearch;
+import pnet.data.api.contractstate.ContractStateItemDTO;
 import pnet.data.api.contracttype.ContractTypeDataClient;
+import pnet.data.api.contracttype.ContractTypeDataDTO;
+import pnet.data.api.contracttype.ContractTypeDataGet;
+import pnet.data.api.contracttype.ContractTypeDataSearch;
+import pnet.data.api.contracttype.ContractTypeItemDTO;
 import pnet.data.api.externalbrand.ExternalBrandDataClient;
+import pnet.data.api.externalbrand.ExternalBrandDataDTO;
+import pnet.data.api.externalbrand.ExternalBrandDataFind;
+import pnet.data.api.externalbrand.ExternalBrandDataGet;
+import pnet.data.api.externalbrand.ExternalBrandDataSearch;
+import pnet.data.api.externalbrand.ExternalBrandItemDTO;
 import pnet.data.api.function.FunctionDataClient;
+import pnet.data.api.function.FunctionDataDTO;
+import pnet.data.api.function.FunctionDataFind;
+import pnet.data.api.function.FunctionDataGet;
+import pnet.data.api.function.FunctionDataSearch;
+import pnet.data.api.function.FunctionItemDTO;
 import pnet.data.api.numbertype.NumberTypeDataClient;
+import pnet.data.api.numbertype.NumberTypeDataDTO;
+import pnet.data.api.numbertype.NumberTypeDataFind;
+import pnet.data.api.numbertype.NumberTypeDataGet;
+import pnet.data.api.numbertype.NumberTypeDataSearch;
+import pnet.data.api.numbertype.NumberTypeItemDTO;
+import pnet.data.api.person.PersonAggregatesDTO;
 import pnet.data.api.person.PersonDataClient;
+import pnet.data.api.person.PersonDataDTO;
+import pnet.data.api.person.PersonDataFind;
+import pnet.data.api.person.PersonDataGet;
+import pnet.data.api.person.PersonDataSearch;
+import pnet.data.api.person.PersonItemDTO;
 import pnet.data.api.todo.TodoCategory;
 import pnet.data.api.todo.TodoGroupDataClient;
+import pnet.data.api.todo.TodoGroupDataFind;
+import pnet.data.api.todo.TodoGroupDataSearch;
 import pnet.data.api.todo.TodoGroupEntryLinkDTO;
+import pnet.data.api.todo.TodoGroupItemDTO;
 import pnet.data.api.todo.TodoGroupPersonLinkDTO;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
+import pnet.data.api.util.Restrict;
+import pnet.data.api.util.RestrictBrand;
+import pnet.data.api.util.RestrictCompany;
+import pnet.data.api.util.RestrictCompanyId;
+import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictTenant;
 
 /**
  * The client with all commands.
@@ -119,8 +199,13 @@ public final class PnetSpringRestClient
     @Autowired
     private PnetDataApiTokenRepository repository;
 
-    private String[] tenants;
     private PnetDataClientResultPage<?> page;
+
+    private final List<String> restrictedTenants = new ArrayList<>();
+    private final List<String> restrictedBrands = new ArrayList<>();
+    private final List<Integer> restrictedCompanyIds = new ArrayList<>();
+    private final List<String> restrictedCompanyMatchcodes = new ArrayList<>();
+    private final List<String> restrictedCompanyNumbers = new ArrayList<>();
 
     private PnetSpringRestClient()
     {
@@ -163,15 +248,20 @@ public final class PnetSpringRestClient
         description = "Returns the activities with the specified matchcodes.")
     public void getActivities(String... matchcodes) throws PnetDataClientException
     {
-        printResults(activityDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        ActivityDataGet query = restrict(activityDataClient.get());
+        PnetDataClientResultPage<ActivityDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all activities", description = "Exports all activities.")
     public void exportAllActivities() throws PnetDataClientException
     {
-        printAllResults(activityDataClient.find().tenant(tenants).scroll().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
-                dto.getLastUpdate()));
+        ActivityDataFind query = restrict(activityDataClient.find().scroll());
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(),
+            dto.getBrands(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated activities", format = "[<DAYS>:1]",
@@ -179,28 +269,29 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedActivities(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        ActivityDataFind query = restrict(activityDataClient.find().updatedAfter(updatedAfter).scroll());
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(
-            activityDataClient
-                .find()
-                .tenant(tenants)
-                .updatedAfter(updatedAfter)
-                .scroll()
-                .execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
-                dto.getLastUpdate()));
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(),
+            dto.getBrands(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find activities by mc", format = "<MC...>", description = "Find activities by matchcodes.")
     public void findActivities(String... matchcodes) throws PnetDataClientException
     {
-        printResults(activityDataClient.find().tenant(tenants).matchcode(matchcodes).execute(Locale.getDefault()));
+        ActivityDataFind query = restrict(activityDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search activities", format = "<QUERY>", description = "Query activities.")
-    public void searchActivities(String query) throws PnetDataClientException
+    public void searchActivities(String q) throws PnetDataClientException
     {
-        printResults(activityDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+        ActivityDataSearch query = restrict(activityDataClient.search());
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -209,13 +300,19 @@ public final class PnetSpringRestClient
         description = "Returns the advisor types with the specified matchcodes.")
     public void getAdvisorTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(advisorTypeDataClient.get().allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        AdvisorTypeDataGet query = restrict(advisorTypeDataClient.get());
+        PnetDataClientResultPage<AdvisorTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all advisor types", description = "Exports all advisor types.")
     public void exportAllAdvisorTypes() throws PnetDataClientException
     {
-        printAllResults(advisorTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
+        AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find());
+        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result,
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getLastUpdate()));
     }
 
@@ -224,8 +321,10 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedAdvisorTypes(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(advisorTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
+        printAllResults(result,
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getLastUpdate()));
     }
 
@@ -233,13 +332,19 @@ public final class PnetSpringRestClient
         description = "Find advisor types by matchcodes.")
     public void findAdvisorTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(advisorTypeDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search advisor types", format = "<QUERY>", description = "Query advisor types.")
-    public void searchAdvisorTypes(String query) throws PnetDataClientException
+    public void searchAdvisorTypes(String q) throws PnetDataClientException
     {
-        printResults(advisorTypeDataClient.search().execute(Locale.getDefault(), query));
+        AdvisorTypeDataSearch query = restrict(advisorTypeDataClient.search());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -248,14 +353,19 @@ public final class PnetSpringRestClient
         description = "Returns the applications with the specified matchcodes.")
     public void getApplications(String... matchcodes) throws PnetDataClientException
     {
-        printResults(applicationDataClient.get().allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        ApplicationDataGet query = restrict(applicationDataClient.get());
+        PnetDataClientResultPage<ApplicationDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all applications", description = "Exports all applications.")
     public void exportAllApplications() throws PnetDataClientException
     {
-        printAllResults(applicationDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        ApplicationDataFind query = restrict(applicationDataClient.find().scroll());
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated applications", format = "[<DAYS>:1]",
@@ -263,22 +373,28 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedApplications(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        ApplicationDataFind query = restrict(applicationDataClient.find().updatedAfter(updatedAfter).scroll());
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(
-            applicationDataClient.find().updatedAfter(updatedAfter).scroll().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find applications by mc", format = "<MC...>", description = "Find applications by matchcodes.")
     public void findApplications(String... matchcodes) throws PnetDataClientException
     {
-        printResults(applicationDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        ApplicationDataFind query = restrict(applicationDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search applications", format = "<QUERY>", description = "Query applications.")
-    public void searchApplications(String query) throws PnetDataClientException
+    public void searchApplications(String q) throws PnetDataClientException
     {
-        printResults(applicationDataClient.search().execute(Locale.getDefault(), query));
+        ApplicationDataSearch query = restrict(applicationDataClient.search());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -287,13 +403,19 @@ public final class PnetSpringRestClient
         description = "Returns the brands with the specified matchcodes.")
     public void getBrands(String... matchcodes) throws PnetDataClientException
     {
-        printResults(brandDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        BrandDataGet query = restrict(brandDataClient.get());
+        PnetDataClientResultPage<BrandDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all brands", description = "Export all brands updated since yesterday.")
     public void exportAllBrands() throws PnetDataClientException
     {
-        printAllResults(brandDataClient.find().execute(Locale.getDefault(), 0, 100),
+        BrandDataFind query = restrict(brandDataClient.find());
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result,
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
     }
 
@@ -302,21 +424,48 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedBrands(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        BrandDataFind query = restrict(brandDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(brandDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
+        printAllResults(result,
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find brands by mc", format = "<MC...>", description = "Find brands by matchcodes.")
     public void findBrands(String... matchcodes) throws PnetDataClientException
     {
-        printResults(brandDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        BrandDataFind query = restrict(brandDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search brands", format = "<QUERY>", description = "Query brands.")
-    public void searchBrands(String query) throws PnetDataClientException
+    public void searchBrands(String q) throws PnetDataClientException
     {
-        printResults(brandDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+        BrandDataSearch query = restrict(brandDataClient.search());
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
+    }
+
+    @CLI.Command(name = "restrict brands", format = "[<BRAND>...]", description = "Places a restriction with brands for subsequent operations.")
+    public void restrictBrands(String... brands)
+    {
+        if (brands != null && brands.length > 0)
+        {
+            Arrays.stream(brands).forEach(restrictedBrands::add);
+        }
+
+        cli.info("Requests are restricted to brands: %s", restrictedBrands);
+    }
+
+    @CLI.Command(name = "clear brand restrictions", description = "Removes all restrictions for brands.")
+    public void clearBrandRestrictions()
+    {
+        cli.info("Removed %s brand restrictions.", restrictedBrands.size());
+
+        restrictedBrands.clear();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -325,49 +474,61 @@ public final class PnetSpringRestClient
         description = "Returns the companies with the specified ids.")
     public void getCompaniesByIds(Integer... ids) throws PnetDataClientException
     {
-        printResults(companyDataClient.get().tenant(tenants).allByIds(Arrays.asList(ids), 0, 10));
+        CompanyDataGet query = restrict(companyDataClient.get());
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByIds(Arrays.asList(ids), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company by mc", format = "<COMPANY-MC...>",
         description = "Returns the companies with the specified matchcode.")
     public void getCompaniesByMatchcodes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(companyDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        CompanyDataGet query = restrict(companyDataClient.get());
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company by vat", format = "<COMPANY-VATIDNUMBER...>",
         description = "Returns the companies with the specified vat id numbers.")
     public void getCompaniesByVatIdNumbers(String... vatIdNumbers) throws PnetDataClientException
     {
-        printResults(companyDataClient.get().tenant(tenants).allByVatIdNumbers(Arrays.asList(vatIdNumbers), 0, 10));
+        CompanyDataGet query = restrict(companyDataClient.get());
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByVatIdNumbers(Arrays.asList(vatIdNumbers), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company by sap", format = "<COMPANY-SAPNUMBER...>",
         description = "Returns the companies with the specified sap numbers.")
     public void getCompaniesBySapNumbers(String... sapNumbers) throws PnetDataClientException
     {
-        printResults(companyDataClient.get().tenant(tenants).allBySapNumbers(Arrays.asList(sapNumbers), 0, 10));
+        CompanyDataGet query = restrict(companyDataClient.get());
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allBySapNumbers(Arrays.asList(sapNumbers), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company by number", format = "<COMPANY-NUMBER...>",
         description = "Returns the companies with the specified company numbers.")
     public void getCompaniesByCompanyNumbers(String... companyNumbers) throws PnetDataClientException
     {
-        printResults(companyDataClient.get().tenant(tenants).allByCompanyNumbers(Arrays.asList(companyNumbers), 0, 10));
+        printResults(restrict(companyDataClient.get()).allByCompanyNumbers(Arrays.asList(companyNumbers), 0, 10));
     }
 
     @CLI.Command(name = "get company by iban", format = "<COMPANY-IBAN...>",
         description = "Returns the company with the specified ibans.")
     public void getCompaniesByIbans(String... ibans) throws PnetDataClientException
     {
-        printResults(companyDataClient.get().tenant(tenants).allByIbans(Arrays.asList(ibans), 0, 10));
+        printResults(restrict(companyDataClient.get()).allByIbans(Arrays.asList(ibans), 0, 10));
     }
 
     @CLI.Command(name = "get company by email", format = "<COMPANY-EMAIL...>",
         description = "Returns the company with the specified emails.")
     public void getCompaniesByEmails(String... emails) throws PnetDataClientException
     {
-        printResults(companyDataClient.get().tenant(tenants).allByEmails(Arrays.asList(emails), 0, 10));
+        printResults(restrict(companyDataClient.get()).allByEmails(Arrays.asList(emails), 0, 10));
     }
 
     @CLI.Command(name = "get company by dvr", format = "<COMPANY-DPRN...>",
@@ -375,16 +536,20 @@ public final class PnetSpringRestClient
     public void getCompaniesByDataProcessingRegisterNumbers(String... dataProcessingRegisterNumbers)
         throws PnetDataClientException
     {
-        printResults(companyDataClient
-            .get()
-            .tenant(tenants)
-            .allByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumbers), 0, 10));
+        CompanyDataGet query = restrict(companyDataClient.get());
+        PnetDataClientResultPage<CompanyDataDTO> result =
+            query.allByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumbers), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all companies", description = "Exports all companies.")
     public void exportAllCompanies() throws PnetDataClientException
     {
-        printAllResults(companyDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
+        CompanyDataFind query = restrict(companyDataClient.find().scroll());
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result,
             dto -> toCSV(dto.getCompanyId(), dto.getMatchcode(), dto.getName(), dto.getNameAffix(),
                 dto.getMarketingName(), dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(),
                 dto.getTypes(), dto.getLastUpdate()));
@@ -395,9 +560,10 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedCompanies(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        CompanyDataFind query = restrict(companyDataClient.find().updatedAfter(updatedAfter).scroll());
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(
-            companyDataClient.find().updatedAfter(updatedAfter).scroll().execute(Locale.getDefault(), 0, 100),
+        printAllResults(result,
             dto -> toCSV(dto.getCompanyId(), dto.getMatchcode(), dto.getName(), dto.getNameAffix(),
                 dto.getMarketingName(), dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(),
                 dto.getTypes(), dto.getLastUpdate()));
@@ -406,33 +572,91 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "find companies by id", format = "<ID...>", description = "Find companies by id.")
     public void findCompaniesByIds(Integer... ids) throws PnetDataClientException
     {
-        printResults(companyDataClient.find().id(ids).execute(Locale.getDefault()));
+        CompanyDataFind query = restrict(companyDataClient.find().id(ids));
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "find companies by mc", format = "<MC...>", description = "Find companies by matchcode.")
     public void findCompaniesByMatchcodes(String... mcs) throws PnetDataClientException
     {
-        printResults(companyDataClient.find().matchcode(mcs).execute(Locale.getDefault()));
+        CompanyDataFind query = restrict(companyDataClient.find().matchcode(mcs));
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "find companies by number", format = "<NUMBER...>",
         description = "Find companies by company number.")
     public void findCompaniesByNumbers(String... numbers) throws PnetDataClientException
     {
-        printResults(companyDataClient.find().companyNumber(numbers).execute(Locale.getDefault()));
+        CompanyDataFind query = restrict(companyDataClient.find().companyNumber(numbers));
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search companies", format = "<QUERY>", description = "Query companies.")
-    public void searchCompanies(String query) throws PnetDataClientException
+    public void searchCompanies(String q) throws PnetDataClientException
     {
-        printResults(companyDataClient
+        CompanyDataSearch query = restrict(companyDataClient
             .search()
-            .tenant(tenants)
             .aggregateNumberPerTenant()
             .aggregateNumberPerBrand()
             .aggregateNumberPerType()
-            .aggregateNumberPerContractType()
-            .execute(Locale.getDefault(), query));
+            .aggregateNumberPerContractType());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
+    }
+
+    @CLI.Command(name = "restrict company ids", format = "<ID...>",
+        description = "Places a restriction with company numbers for subsequent operations.")
+    public void restrictCompaniesById(Integer... ids)
+    {
+        if (ids != null && ids.length > 0)
+        {
+            Arrays.stream(ids).forEach(restrictedCompanyIds::add);
+        }
+
+        cli.info("Requests are restricted to company ids: %s", restrictedCompanyIds);
+    }
+
+    @CLI.Command(name = "restrict company mcs", format = "<MC...>",
+        description = "Places a restriction with company matchcodes for subsequent operations.")
+    public void restrictCompaniesByMatchcode(String... matchcodes)
+    {
+        if (matchcodes != null && matchcodes.length > 0)
+        {
+            Arrays.stream(matchcodes).forEach(restrictedCompanyMatchcodes::add);
+        }
+
+        cli.info("Requests are restricted to company matchcodes: %s", restrictedCompanyMatchcodes);
+    }
+
+    @CLI.Command(name = "restrict company numbers", format = "<NUMBER...>",
+        description = "Places a restriction with company numbers for subsequent operations.")
+    public void restrictCompaniesByNumber(String... numbers)
+    {
+        if (numbers != null && numbers.length > 0)
+        {
+            Arrays.stream(numbers).forEach(restrictedCompanyNumbers::add);
+        }
+
+        cli.info("Requests are restricted to company numbers: %s", restrictedCompanyNumbers);
+    }
+
+    @CLI.Command(name = "clear company restrictions", description = "Removes all restrictions for companies.")
+    public void clearCompanyRestrictions()
+    {
+        cli
+            .info("Removed %s company restrictions.",
+                restrictedCompanyIds.size() + restrictedCompanyMatchcodes.size() + restrictedCompanyNumbers.size());
+
+        restrictedCompanyIds.clear();
+        restrictedCompanyMatchcodes.clear();
+        restrictedCompanyNumbers.clear();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -441,42 +665,58 @@ public final class PnetSpringRestClient
         description = "Returns the company groups with the specified ids.")
     public void getCompanyGroupByLeadingCompanyIds(Integer... ids) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByLeadingCompanyIds(Arrays.asList(ids), 0, 10));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByLeadingCompanyIds(Arrays.asList(ids), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company group by leading company number", format = "<COMPANY-NUMBER...>",
         description = "Returns the company groups with the specified numbers.")
     public void getCompanyGroupByLeadingCompanyNumbers(String... numbers) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByLeadingCompanyNumbers(Arrays.asList(numbers), 0, 10));
+        CompanyGroupDataGet request = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            request.allByLeadingCompanyNumbers(Arrays.asList(numbers), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company group by leading company mc", format = "<COMPANY-MC...>",
         description = "Returns the company groups with the specified mathcodes.")
     public void getCompanyGroupByLeadingCompanyMatchcodes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByLeadingCompanies(Arrays.asList(matchcodes), 0, 10));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            query.allByLeadingCompanies(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company group by company id", format = "<COMPANY-ID...>",
         description = "Returns the company groups with the specified ids.")
     public void getCompanyGroupByCompanyIds(Integer... ids) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByCompanyIds(Arrays.asList(ids), 0, 10));
+        printResults(restrict(companyGroupDataClient.get()).allByCompanyIds(Arrays.asList(ids), 0, 10));
     }
 
     @CLI.Command(name = "get company group by company number", format = "<COMPANY-NUMBER...>",
         description = "Returns the company groups with the specified numbers.")
     public void getCompanyGroupByCompanyNumbers(String... numbers) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByCompanyNumbers(Arrays.asList(numbers), 0, 10));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyNumbers(Arrays.asList(numbers), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company group by company mc", format = "<COMPANY-MC...>",
         description = "Returns the company groups with the specified matchcodes.")
     public void getCompanyGroupByCompanyMatchcodes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByCompanies(Arrays.asList(matchcodes), 0, 10));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanies(Arrays.asList(matchcodes), 0, 10);
+        printResults(result);
     }
 
     @CLI.Command(name = "export all company groups", format = "[<GROUP-MC...>]",
@@ -490,34 +730,46 @@ public final class PnetSpringRestClient
             find = find.matchcode(matchcodes);
         }
 
-        List<String> companyGroupTypeMatchcodes = find
+        List<String> companyGroupTypeMatchcodes = restrict(find)
             .execute(Locale.getDefault(), 0, 100)
             .stream()
             .map(CompanyGroupTypeItemDTO::getMatchcode)
             .collect(Collectors.toList());
 
-        printAllResults(companyGroupDataClient.get().scroll().allByCompanyGroupTypes(companyGroupTypeMatchcodes, 0, 25),
-            dto -> toCSV(dto.getLeadingCompanyId(), dto.getMembers()));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get().scroll());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            query.allByCompanyGroupTypes(companyGroupTypeMatchcodes, 0, 25);
+
+        printAllResults(result, dto -> toCSV(dto.getLeadingCompanyId(), dto.getMembers()));
     }
 
     @CLI.Command(name = "find company groups by leader", format = "<COMPANY-ID...>",
         description = "Find all company groups with the specified leader.")
     public void findCompanyGroupsByLeader(Integer... ids) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByLeadingCompanyIds(Arrays.asList(ids), 0, 10));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByLeadingCompanyIds(Arrays.asList(ids), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "find company groups by member", format = "<COMPANY-ID...>",
         description = "Find all company groups with the specified member.")
     public void findCompanyGroupsByMember(Integer... ids) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByCompanyIds(Arrays.asList(ids), 0, 10));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyIds(Arrays.asList(ids), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search company group types", format = "<QUERY>", description = "Query company group types.")
-    public void searchCompanyGroups(String query) throws PnetDataClientException
+    public void searchCompanyGroups(String q) throws PnetDataClientException
     {
-        printResults(companyGroupTypeDataClient.search().execute(Locale.getDefault(), query));
+        CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -526,21 +778,31 @@ public final class PnetSpringRestClient
         description = "Returns the company group types with the specified matchcodes.")
     public void getCompanyGroupTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(companyGroupTypeDataClient.get().allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        CompanyGroupTypeDataGet query = restrict(companyGroupTypeDataClient.get());
+        PnetDataClientResultPage<CompanyGroupTypeDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get company group by type", format = "<MC...>",
         description = "Returns the company groups with the specified matchcodes.")
     public void getCompanyGroupTypesByType(String... matchcodes) throws PnetDataClientException
     {
-        printResults(companyGroupDataClient.get().allByCompanyGroupTypes(Arrays.asList(matchcodes), 0, 10));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            query.allByCompanyGroupTypes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all company group types", description = "Exports all company group types.")
     public void exportAllCompanyGroupTypes() throws PnetDataClientException
     {
-        printAllResults(companyGroupTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find());
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated company group types", format = "[<DAYS>:1]",
@@ -548,23 +810,29 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedCompanyGroupTypes(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(
-            companyGroupTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find company group types by mc", format = "<MC...>",
         description = "Find comany group types by matchcodes.")
     public void findCompanyGroupTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(companyGroupTypeDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search company group types", format = "<QUERY>", description = "Query company group types.")
-    public void searchCompanyGroupTypes(String query) throws PnetDataClientException
+    public void searchCompanyGroupTypes(String q) throws PnetDataClientException
     {
-        printResults(companyGroupTypeDataClient.search().execute(Locale.getDefault(), query));
+        CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -573,14 +841,20 @@ public final class PnetSpringRestClient
         description = "Returns the company number types with the specified matchcodes.")
     public void getCompanyNumberTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(companyNumberTypeDataClient.get().allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        CompanyNumberTypeDataGet query = restrict(companyNumberTypeDataClient.get());
+        PnetDataClientResultPage<CompanyNumberTypeDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all company number types", description = "Exports all company number types.")
     public void exportAllCompanyNumberTypes() throws PnetDataClientException
     {
-        printAllResults(companyNumberTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find());
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated company number types", format = "[<DAYS>:1]",
@@ -588,23 +862,29 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedCompanyNumberTypes(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(
-            companyNumberTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find company number types by mc", format = "<MC...>",
         description = "Find comany number types by matchcodes.")
     public void findCompanyNumberTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(companyNumberTypeDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search company number types", format = "<QUERY>", description = "Query company number types.")
-    public void searchCompanyNumberTypes(String query) throws PnetDataClientException
+    public void searchCompanyNumberTypes(String q) throws PnetDataClientException
     {
-        printResults(companyNumberTypeDataClient.search().execute(Locale.getDefault(), query));
+        CompanyNumberTypeDataSearch query = restrict(companyNumberTypeDataClient.search());
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -612,7 +892,10 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all company types", description = "Exports all company types.")
     public void exportAllCompanyTypes() throws PnetDataClientException
     {
-        printAllResults(companyTypeDataClient.find().tenant(tenants).execute(Locale.getDefault(), 0, 100),
+        CompanyTypeDataFind query = restrict(companyTypeDataClient.find());
+        PnetDataClientResultPage<CompanyTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result,
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
     }
 
@@ -621,20 +904,20 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedCompanyTypes(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        CompanyTypeDataFind query = restrict(companyTypeDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<CompanyTypeItemDTO> results = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(
-            companyTypeDataClient
-                .find()
-                .updatedAfter(updatedAfter)
-                .tenant(tenants)
-                .execute(Locale.getDefault(), 0, 100),
+        printAllResults(results,
             dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "search company types", format = "<QUERY>", description = "Query company types.")
-    public void searchCompanyTypes(String query) throws PnetDataClientException
+    public void searchCompanyTypes(String q) throws PnetDataClientException
     {
-        printResults(companyTypeDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+        CompanyTypeDataSearch query = restrict(companyTypeDataClient.search());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -643,14 +926,19 @@ public final class PnetSpringRestClient
         description = "Returns the contract states with the specified matchcodes.")
     public void getContractStates(String... matchcodes) throws PnetDataClientException
     {
-        printResults(contractStateDataClient.get().allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        ContractStateDataGet query = restrict(contractStateDataClient.get());
+        PnetDataClientResultPage<ContractStateDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all contract states", description = "Exports all contract states.")
     public void exportAllContractStates() throws PnetDataClientException
     {
-        printAllResults(contractStateDataClient.find().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        ContractStateDataFind query = restrict(contractStateDataClient.find());
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated contract states", format = "[<DAYS>:1]",
@@ -659,21 +947,29 @@ public final class PnetSpringRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
-        printAllResults(contractStateDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        ContractStateDataFind query = restrict(contractStateDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find contract states by mc", format = "<MC...>",
         description = "Find contract states by matchcodes.")
     public void findContractStates(String... matchcodes) throws PnetDataClientException
     {
-        printResults(contractStateDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        ContractStateDataFind query = restrict(contractStateDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search contract states", format = "<QUERY>", description = "Query contract states types.")
-    public void searchContractStates(String query) throws PnetDataClientException
+    public void searchContractStates(String q) throws PnetDataClientException
     {
-        printResults(contractStateDataClient.search().execute(Locale.getDefault(), query));
+        ContractStateDataSearch query = restrict(contractStateDataClient.search());
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -682,15 +978,20 @@ public final class PnetSpringRestClient
         description = "Returns the contract types with the specified matchcodes.")
     public void getContractTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(contractTypeDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        ContractTypeDataGet query = restrict(contractTypeDataClient.get());
+        PnetDataClientResultPage<ContractTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all contract types", description = "Exports all contract types.")
     public void exportAllContractTypes() throws PnetDataClientException
     {
-        printAllResults(contractTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(), dto.getBrands(),
-                dto.getLastUpdate()));
+        ContractTypeDataFind query = restrict(contractTypeDataClient.find());
+        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(),
+            dto.getBrands(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated contract types", format = "[<DAYS>:1]",
@@ -699,22 +1000,30 @@ public final class PnetSpringRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
-        printAllResults(contractTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(), dto.getBrands(),
-                dto.getLastUpdate()));
+        ContractTypeDataFind query = restrict(contractTypeDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(),
+            dto.getBrands(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find contract types by mc", format = "<MC...>",
         description = "Find contract types by matchcodes.")
     public void findContractTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(contractTypeDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        ContractTypeDataFind query = restrict(contractTypeDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search contract types", format = "<QUERY>", description = "Query contract types.")
-    public void searchContractTypes(String query) throws PnetDataClientException
+    public void searchContractTypes(String q) throws PnetDataClientException
     {
-        printResults(contractTypeDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+        ContractTypeDataSearch query = restrict(contractTypeDataClient.search());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -723,14 +1032,19 @@ public final class PnetSpringRestClient
         description = "Returns the external brands with the specified matchcodes.")
     public void getExternalBrands(String... matchcodes) throws PnetDataClientException
     {
-        printResults(externalBrandDataClient.get().allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        ExternalBrandDataGet query = restrict(externalBrandDataClient.get());
+        PnetDataClientResultPage<ExternalBrandDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all external brands", description = "Exports all external brands.")
     public void exportAllExternalBrands() throws PnetDataClientException
     {
-        printAllResults(externalBrandDataClient.find().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        ExternalBrandDataFind query = restrict(externalBrandDataClient.find());
+        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated external brands", format = "[<DAYS>:1]",
@@ -738,22 +1052,29 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedExternalBrands(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        ExternalBrandDataFind query = restrict(externalBrandDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(externalBrandDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find external brands by mc", format = "<MC...>",
         description = "Find external brands by matchcodes.")
     public void findExternalBrands(String... matchcodes) throws PnetDataClientException
     {
-        printResults(externalBrandDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        ExternalBrandDataFind query = restrict(externalBrandDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search external brands", format = "<QUERY>", description = "Query external brands.")
-    public void searchExternalBrands(String query) throws PnetDataClientException
+    public void searchExternalBrands(String q) throws PnetDataClientException
     {
-        printResults(externalBrandDataClient.search().execute(Locale.getDefault(), query));
+        ExternalBrandDataSearch query = restrict(externalBrandDataClient.search());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -762,15 +1083,20 @@ public final class PnetSpringRestClient
         description = "Returns the functions with the specified matchcodes.")
     public void getFunctions(String... matchcodes) throws PnetDataClientException
     {
-        printResults(functionDataClient.get().tenant(tenants).allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        FunctionDataGet query = restrict(functionDataClient.get());
+        PnetDataClientResultPage<FunctionDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all functions", description = "Exports all functions.")
     public void exportAllFunctions() throws PnetDataClientException
     {
-        printAllResults(functionDataClient.find().tenant(tenants).scroll().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
-                dto.getLastUpdate()));
+        FunctionDataFind query = restrict(functionDataClient.find().scroll());
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(),
+            dto.getBrands(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated functions", format = "[<DAYS>:1]",
@@ -778,28 +1104,29 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedFunctions(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        FunctionDataFind query = restrict(functionDataClient.find().updatedAfter(updatedAfter).scroll());
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(
-            functionDataClient
-                .find()
-                .tenant(tenants)
-                .updatedAfter(updatedAfter)
-                .scroll()
-                .execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
-                dto.getLastUpdate()));
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(),
+            dto.getBrands(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find functions by mc", format = "<MC...>", description = "Find functions by matchcodes.")
     public void findFunctions(String... matchcodes) throws PnetDataClientException
     {
-        printResults(functionDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        FunctionDataFind query = restrict(functionDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search functions", format = "<QUERY>", description = "Query functions.")
-    public void searchFunctions(String query) throws PnetDataClientException
+    public void searchFunctions(String q) throws PnetDataClientException
     {
-        printResults(functionDataClient.search().tenant(tenants).execute(Locale.getDefault(), query));
+        FunctionDataSearch query = restrict(functionDataClient.search());
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -808,14 +1135,19 @@ public final class PnetSpringRestClient
         description = "Returns the number types with the specified matchcodes.")
     public void getNumberTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(numberTypeDataClient.get().allByMatchcodes(Arrays.asList(matchcodes), 0, 10));
+        NumberTypeDataGet query = restrict(numberTypeDataClient.get());
+        PnetDataClientResultPage<NumberTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all number types", description = "Exports all number types.")
     public void exportAllNumberTypes() throws PnetDataClientException
     {
-        printAllResults(numberTypeDataClient.find().execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        NumberTypeDataFind query = restrict(numberTypeDataClient.find());
+        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated number types", format = "[<DAYS>:1]",
@@ -824,20 +1156,28 @@ public final class PnetSpringRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
-        printAllResults(numberTypeDataClient.find().updatedAfter(updatedAfter).execute(Locale.getDefault(), 0, 100),
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        NumberTypeDataFind query = restrict(numberTypeDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find number types by mc", format = "<MC...>", description = "Find number types by matchcodes.")
     public void findNumberTypes(String... matchcodes) throws PnetDataClientException
     {
-        printResults(numberTypeDataClient.find().matchcode(matchcodes).execute(Locale.getDefault()));
+        NumberTypeDataFind query = restrict(numberTypeDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search number types", format = "<QUERY>", description = "Query number types.")
-    public void searchNumberTypes(String query) throws PnetDataClientException
+    public void searchNumberTypes(String q) throws PnetDataClientException
     {
-        printResults(numberTypeDataClient.search().execute(Locale.getDefault(), query));
+        NumberTypeDataSearch query = restrict(numberTypeDataClient.search());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -846,48 +1186,71 @@ public final class PnetSpringRestClient
         description = "Returns all details of persons with the specified ids.")
     public void getPersonById(Integer... ids) throws PnetDataClientException
     {
-        printResults(personDataClient.get().allByIds(Arrays.asList(ids), 0, 10));
+        PersonDataGet query = restrict(personDataClient.get());
+        PnetDataClientResultPage<PersonDataDTO> result = query.allByIds(Arrays.asList(ids), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get person by external id", format = "<EXTERNALID...>",
         description = "Returns all details of persons with the specified external ids.")
     public void getPersonByExternalId(String... externalIds) throws PnetDataClientException
     {
-        printResults(personDataClient.get().allByExternalIds(Arrays.asList(externalIds), 0, 10));
+        PersonDataGet query = restrict(personDataClient.get());
+        PnetDataClientResultPage<PersonDataDTO> result = query.allByExternalIds(Arrays.asList(externalIds), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get person by guid", format = "<GUID...>",
         description = "Returns all details of persons with the specified guids.")
     public void getPersonByGuid(String... guids) throws PnetDataClientException
     {
-        printResults(personDataClient.get().allByGuids(Arrays.asList(guids), 0, 10));
+        PersonDataGet query = restrict(personDataClient.get());
+        PnetDataClientResultPage<PersonDataDTO> result = query.allByGuids(Arrays.asList(guids), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get person by preferredUserId", format = "<PREFID...>",
         description = "Returns all details of persons with the specified prefferedUserIds.")
     public void getPersonByPreferredUserId(String... preferredUserIds) throws PnetDataClientException
     {
-        printResults(personDataClient.get().allByPrefferedUserIds(Arrays.asList(preferredUserIds), 0, 10));
+        PersonDataGet query = restrict(personDataClient.get());
+        PnetDataClientResultPage<PersonDataDTO> result =
+            query.allByPrefferedUserIds(Arrays.asList(preferredUserIds), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get person by email", format = "<EMAIL...>",
         description = "Returns all details of persons with the specified emails.")
     public void getPersonByEmail(String... emails) throws PnetDataClientException
     {
-        printResults(personDataClient.get().allByEmails(Arrays.asList(emails), 0, 10));
+        PersonDataGet query = restrict(personDataClient.get());
+        PnetDataClientResultPage<PersonDataDTO> result = query.allByEmails(Arrays.asList(emails), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "get person by personnelNumber", format = "<PERSNUMBER...>",
         description = "Returns all details of persons with the specified personnelNumbers.")
     public void getPersonByPersonnelNumber(String... personnelNumbers) throws PnetDataClientException
     {
-        printResults(personDataClient.get().allByPersonnelNumbers(Arrays.asList(personnelNumbers), 0, 10));
+        PersonDataGet query = restrict(personDataClient.get());
+        PnetDataClientResultPage<PersonDataDTO> result =
+            query.allByPersonnelNumbers(Arrays.asList(personnelNumbers), 0, 10);
+
+        printResults(result);
     }
 
     @CLI.Command(name = "export all persons", description = "Exports all persons available for the current user.")
     public void exportAllPersons() throws PnetDataClientException
     {
-        printAllResults(personDataClient.find().tenant(tenants).scroll().execute(Locale.getDefault(), 0, 100),
+        PersonDataFind query = restrict(personDataClient.find().scroll());
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result,
             dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getFormOfAddress(), dto.getAcademicTitle(),
                 dto.getFirstName(), dto.getLastName(), dto.getAcademicTitlePostNominal(), dto.getAdministrativeTenant(),
                 dto.getLastUpdate()));
@@ -898,14 +1261,10 @@ public final class PnetSpringRestClient
     public void exportAllUpdatedPersons(Integer days) throws PnetDataClientException
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        PersonDataFind query = restrict(personDataClient.find().updatedAfter(updatedAfter).scroll());
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(
-            personDataClient
-                .find()
-                .tenant(tenants)
-                .updatedAfter(updatedAfter)
-                .scroll()
-                .execute(Locale.getDefault(), 0, 100),
+        printAllResults(result,
             dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getFormOfAddress(), dto.getAcademicTitle(),
                 dto.getFirstName(), dto.getLastName(), dto.getAcademicTitlePostNominal(), dto.getAdministrativeTenant(),
                 dto.getLastUpdate()));
@@ -915,33 +1274,44 @@ public final class PnetSpringRestClient
         description = "Find persons by personnel number.")
     public void findPersonsByNumber(String... numbers) throws PnetDataClientException
     {
-        printResults(personDataClient.find().personnelNumber(numbers).execute(Locale.getDefault()));
+        PersonDataFind query = restrict(personDataClient.find().personnelNumber(numbers));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "find persons by id", format = "<ID...>", description = "Find a person by id.")
     public void findPersonById(Integer... ids) throws PnetDataClientException
     {
-        printResults(personDataClient.find().id(ids).tenant(tenants).execute(Locale.getDefault()));
+        PersonDataFind query = restrict(personDataClient.find().id(ids));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "find persons by company", format = "<COMPANY-MC...>",
         description = "Find persons at a specific company.")
     public void findPersonsByCompany(String... matchcodes) throws PnetDataClientException
     {
-        printResults(personDataClient.find().company(matchcodes).execute(Locale.getDefault()));
+        PersonDataFind query = restrict(personDataClient.find().company(matchcodes));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
-    public void searchPerson(String query) throws PnetDataClientException
+    public void searchPerson(String q) throws PnetDataClientException
     {
-        printResults(personDataClient
+        PersonDataSearch query = restrict(personDataClient
             .search()
-            .tenant(tenants)
             .aggregateNumberPerTenant()
             .aggregateNumberPerCompany()
             .aggregateNumberPerFunction()
-            .aggregateNumberPerActivity()
-            .execute(Locale.getDefault(), query));
+            .aggregateNumberPerActivity());
+        PnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO> result =
+            query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -949,7 +1319,10 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "export all todo groups", description = "Exports all todo groups.")
     public void exportAllTodoGroups() throws PnetDataClientException
     {
-        printAllResults(todoGroupDataClient.find().scroll().execute(Locale.getDefault(), 0, 100),
+        TodoGroupDataFind query = restrict(todoGroupDataClient.find().scroll());
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result,
             dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
                 dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
                 dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
@@ -962,8 +1335,10 @@ public final class PnetSpringRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
-        printAllResults(
-            todoGroupDataClient.find().updatedAfter(updatedAfter).scroll().execute(Locale.getDefault(), 0, 100),
+        TodoGroupDataFind query = restrict(todoGroupDataClient.find().updatedAfter(updatedAfter).scroll());
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result,
             dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
                 dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
                 dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
@@ -974,27 +1349,39 @@ public final class PnetSpringRestClient
         description = "Find todo groups by reference matchcode.")
     public void findTodoGroupsByReferenceMatchcode(String... referenceMatchcodes) throws PnetDataClientException
     {
-        printResults(todoGroupDataClient.find().referenceMatchcode(referenceMatchcodes).execute(Locale.getDefault()));
+        TodoGroupDataFind query = restrict(todoGroupDataClient.find().referenceMatchcode(referenceMatchcodes));
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "find todo groups by category", format = "<CATEGORY...>",
         description = "Find todo groups by category.")
     public void findTodoGroupsByCategory(TodoCategory... categories) throws PnetDataClientException
     {
-        printResults(todoGroupDataClient.find().category(categories).execute(Locale.getDefault()));
+        TodoGroupDataFind query = restrict(todoGroupDataClient.find().category(categories));
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "find todo groups by person id", format = "<PERSION-ID...>",
         description = "Find todo groups by person id.")
     public void findTodoGroupsByOPersonId(Integer... personIds) throws PnetDataClientException
     {
-        printResults(todoGroupDataClient.find().personId(personIds).execute(Locale.getDefault()));
+        TodoGroupDataFind query = restrict(todoGroupDataClient.find().personId(personIds));
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
     }
 
     @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
-    public void searchTodoGroups(String query) throws PnetDataClientException
+    public void searchTodoGroups(String q) throws PnetDataClientException
     {
-        printResults(todoGroupDataClient.search().aggregateNumberPerCategory().execute(Locale.getDefault(), query));
+        TodoGroupDataSearch query = restrict(todoGroupDataClient.search().aggregateNumberPerCategory());
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+
+        printResults(result);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1069,12 +1456,84 @@ public final class PnetSpringRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(format = "[<TENANT>...]", description = "Sets the tenant filter.")
-    public void tenant(String... tenants)
+    @CLI.Command(name = "restrict tenants", format = "[<TENANT>...]",
+        description = "Places a restriction with tenants for subsequent operations.")
+    public void restrictTenants(String... tenants)
     {
-        this.tenants = tenants;
+        if (tenants != null && tenants.length > 0)
+        {
+            Arrays.stream(tenants).forEach(restrictedTenants::add);
+        }
 
-        cli.info("tenants = %s", Arrays.toString(tenants));
+        cli.info("Requests are restricted to tenants: %s", restrictedTenants);
+    }
+
+    @CLI.Command(name = "clear tenant restrictions", description = "Removes all restrictions for tenants.")
+    public void clearTenantRestrictions()
+    {
+        cli.info("Removed %s tenant restrictions.", restrictedTenants.size());
+
+        restrictedTenants.clear();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    @SuppressWarnings("unchecked")
+    protected <T extends Restrict<T>> T restrict(T restrict)
+    {
+        if (restrict instanceof RestrictTenant && restrictedTenants.size() > 0)
+        {
+            cli.info("A restriction for tenants is in place: %s", restrictedTenants);
+
+            restrict =
+                ((RestrictTenant<T>) restrict).tenant(restrictedTenants.toArray(new String[restrictedTenants.size()]));
+        }
+
+        if (restrict instanceof RestrictBrand && restrictedBrands.size() > 0)
+        {
+            cli.info("A restriction for brands is in place: %s", restrictedBrands);
+
+            restrict =
+                ((RestrictBrand<T>) restrict).brand(restrictedBrands.toArray(new String[restrictedBrands.size()]));
+        }
+
+        if (restrict instanceof RestrictCompanyId && restrictedCompanyIds.size() > 0)
+        {
+            cli.info("A restriction for company ids is in place: %s", restrictedCompanyIds);
+
+            restrict = ((RestrictCompanyId<T>) restrict)
+                .companyId(restrictedCompanyIds.toArray(new Integer[restrictedCompanyIds.size()]));
+        }
+
+        if (restrict instanceof RestrictCompany && restrictedCompanyMatchcodes.size() > 0)
+        {
+            cli.info("A restriction for company matchcodes is in place: %s", restrictedCompanyMatchcodes);
+
+            restrict = ((RestrictCompany<T>) restrict)
+                .company(restrictedCompanyMatchcodes.toArray(new String[restrictedCompanyMatchcodes.size()]));
+        }
+
+        if (restrict instanceof RestrictCompanyNumber && restrictedCompanyNumbers.size() > 0)
+        {
+            cli.info("A restriction for company numbers is in place: %s", restrictedCompanyNumbers);
+
+            restrict = ((RestrictCompanyNumber<T>) restrict)
+                .companyNumber(restrictedCompanyNumbers.toArray(new String[restrictedCompanyNumbers.size()]));
+        }
+
+        return restrict;
+    }
+
+    @CLI.Command(name = "clear restrictions", description = "Removes all restrictions.")
+    public void clearRestrictions()
+    {
+        cli.info("Removed all restrictions.");
+
+        restrictedTenants.clear();
+        restrictedBrands.clear();
+        restrictedCompanyIds.clear();
+        restrictedCompanyMatchcodes.clear();
+        restrictedCompanyNumbers.clear();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1297,20 +1756,14 @@ public final class PnetSpringRestClient
         throws PnetDataClientException
     {
         long millis = System.currentTimeMillis();
-        int count = 0;
+        AtomicInteger count = new AtomicInteger();
 
-        while (page != null)
-        {
-            for (Any item : page)
-            {
-                cli.info(formatter.apply(item));
-                count++;
-            }
+        page.streamAll().forEach(item -> {
+            cli.info(formatter.apply(item));
+            count.incrementAndGet();
+        });
 
-            page = page.nextPage();
-        }
-
-        cli.info("\nFound %d results in %,.3f seconds", count, (System.currentTimeMillis() - millis) / 1000d);
+        cli.info("\nFound %d results in %,.3f seconds", count.get(), (System.currentTimeMillis() - millis) / 1000d);
     }
 
     protected void printPage(PnetDataClientResultPage<?> page)
