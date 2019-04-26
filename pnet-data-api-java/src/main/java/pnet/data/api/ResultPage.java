@@ -79,10 +79,13 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     }
 
     /**
-     * @return the list of items, never null.
+     * @return the list of items of this page, never null
      */
     List<T> getItems();
 
+    /**
+     * @return a stream of the items of this page, never null
+     */
     default Stream<T> stream()
     {
         List<T> items = getItems();
@@ -91,7 +94,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     }
 
     /**
-     * @return the first item, null if there isn't one
+     * @return the first item of this page, null if there isn't one
      */
     default T first()
     {
@@ -101,7 +104,8 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     }
 
     /**
-     * @return the first item, null if there isn't one
+     * @return the first item of this page, null if there isn't one
+     * @throws IllegalStateException if there are more than one items
      */
     default T unique()
     {
@@ -117,7 +121,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
 
     /**
      * @param index the index
-     * @return the item at the specified index, null if there isn't one
+     * @return the item at the specified index of this page, null if there isn't one
      */
     default T get(int index)
     {
@@ -127,13 +131,16 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     }
 
     /**
-     * @return the number of items on this page.
+     * @return the number of items of this page
      */
     default int size()
     {
         return getItems().size();
     }
 
+    /**
+     * @return an iterator of the items of this page, never null
+     */
     @Override
     default Iterator<T> iterator()
     {

@@ -1,7 +1,12 @@
 pnet-data-api 1.9.2
 ===================
 
-* Add aggregates to fluent search API.
+* Added aggregates to fluent search API.
+* Added `streamAll()` and `interatorAll()` to result pages to iterate over all result items of this page and all subsequent pages (calls `nextPage()` automatically).
+
+Known Bugs:
+
+* When using scrolling and the `next` interface, the `pageIndex` keeps being zero. This is a problem caused by a third-party library and will not be fixed right now.
 
 pnet-data-api 1.9.1
 ===================

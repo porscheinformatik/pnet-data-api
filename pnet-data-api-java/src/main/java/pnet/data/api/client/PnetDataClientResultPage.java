@@ -1,5 +1,10 @@
 package pnet.data.api.client;
 
+import java.util.Iterator;
+import java.util.Spliterators;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.ResultPage;
 
@@ -11,6 +16,22 @@ import pnet.data.api.ResultPage;
  */
 public interface PnetDataClientResultPage<T> extends ResultPage<T>
 {
+
+    /**
+     * @return a stream of the items of this and the subsequent pages (dynamically calls {@link #nextPage()}
+     */
+    default Stream<T> streamAll()
+    {
+        return StreamSupport.stream(new PnetDataClientPageSpliterator<>(this), false);
+    }
+
+    /**
+     * @return an iterator of all items of this and the subsequent pages (dynamically calls {@link #nextPage()}
+     */
+    default Iterator<T> iteratorAll()
+    {
+        return Spliterators.iterator(new PnetDataClientPageSpliterator<>(this));
+    }
 
     /**
      * @return the next page, null if there is no next page
