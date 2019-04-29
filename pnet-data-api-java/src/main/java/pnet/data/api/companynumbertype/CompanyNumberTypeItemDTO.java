@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
 
@@ -30,7 +31,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about a company number type")
-public class CompanyNumberTypeItemDTO implements WithMatchcode, WithLastUpdate, Serializable
+public class CompanyNumberTypeItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -7642143458911375547L;
@@ -57,6 +58,7 @@ public class CompanyNumberTypeItemDTO implements WithMatchcode, WithLastUpdate, 
         return matchcode;
     }
 
+    @Override
     public String getLabel()
     {
         return label;

@@ -1,3 +1,8 @@
+pnet-data-api 1.9.3
+===================
+
+* Added mocks for most clients to simplify testing.
+
 pnet-data-api 1.9.2
 ===================
 

@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.GeoPoint;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds companydata.
@@ -31,7 +32,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds all information about one company.")
-public class CompanyDataDTO implements WithCompanyId, WithMatchcode
+public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 {
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
@@ -231,6 +232,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode
         this.marketingName = marketingName;
     }
 
+    @Override
     public Collection<String> getTenants()
     {
         return tenants;

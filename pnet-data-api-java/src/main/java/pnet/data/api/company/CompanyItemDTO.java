@@ -23,7 +23,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.GeoPoint;
 import pnet.data.api.util.WithCompanyId;
+import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds companydata.
@@ -31,7 +33,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about one company.")
-public class CompanyItemDTO implements WithCompanyId, WithMatchcode
+public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate
 {
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
@@ -157,6 +159,7 @@ public class CompanyItemDTO implements WithCompanyId, WithMatchcode
         return marketingName;
     }
 
+    @Override
     public Collection<String> getTenants()
     {
         return tenants;
@@ -212,6 +215,7 @@ public class CompanyItemDTO implements WithCompanyId, WithMatchcode
         return location;
     }
 
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;

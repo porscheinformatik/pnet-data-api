@@ -29,6 +29,7 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithId;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithPersonId;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds one person.
@@ -36,7 +37,7 @@ import pnet.data.api.util.WithPersonId;
  * @author ham
  */
 @ApiModel(description = "Holds all information about a person")
-public class PersonDataDTO implements WithId, WithPersonId, WithLastUpdate, Serializable
+public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -2096202204327773391L;
@@ -178,6 +179,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithLastUpdate, Seri
         this.administrativeTenant = administrativeTenant;
     }
 
+    @Override
     public Collection<String> getTenants()
     {
         return tenants;

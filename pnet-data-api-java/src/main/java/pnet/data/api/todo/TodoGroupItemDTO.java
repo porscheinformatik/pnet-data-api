@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.WithLastUpdate;
 
 /**
  * A group of to-dos
@@ -14,7 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author HAM
  */
 @ApiModel(description = "Holds to-dos with the same category and reference id.")
-public class TodoGroupItemDTO
+public class TodoGroupItemDTO implements WithLastUpdate
 {
 
     @ApiModelProperty(notes = "The category of to-dos, this groups is holding.")
@@ -95,6 +96,7 @@ public class TodoGroupItemDTO
         return entries;
     }
 
+    @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
