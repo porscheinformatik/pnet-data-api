@@ -10,14 +10,16 @@ import pnet.data.api.util.ById;
 import pnet.data.api.util.ByMatchcode;
 import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictCompanyMerge;
 import pnet.data.api.util.RestrictTenant;
 
 /**
  * @author cet
  *
  */
-public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet> implements
-    RestrictTenant<CompanyDataGet>, ById<CompanyDataDTO, CompanyDataGet>, ByMatchcode<CompanyDataDTO, CompanyDataGet>
+public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
+    implements RestrictTenant<CompanyDataGet>, ById<CompanyDataDTO, CompanyDataGet>,
+    ByMatchcode<CompanyDataDTO, CompanyDataGet>, RestrictCompanyMerge<CompanyDataGet>
 {
 
     public CompanyDataGet(GetFunction<CompanyDataDTO> getFunction, List<Pair<String, Object>> restricts)

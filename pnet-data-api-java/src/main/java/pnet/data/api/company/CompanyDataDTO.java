@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.GeoPoint;
+import pnet.data.api.companygroup.CompanyGroupMemberLinkDTO;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -53,6 +54,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 
     @ApiModelProperty(notes = "The marketing name of the company.")
     private String marketingName;
+
+    @ApiModelProperty(notes = "Groups this company is part of.")
+    private Collection<CompanyGroupMemberLinkDTO> groupMembers;
 
     @ApiModelProperty(notes = "Valid tenants of the company (also known as Portal-ID).")
     private Collection<String> tenants;
@@ -161,9 +165,6 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "All external brands assigned to the company.")
     private Collection<CompanyExternalBrandDataDTO> externalBrands;
 
-    @ApiModelProperty(notes = "The id of the company, that is the headquarter to this company.")
-    private Integer headquarterCompanyId;
-
     @ApiModelProperty(
         notes = "The time and date of the last occasion, when the data of the this company has been " + "modified.")
     private LocalDateTime lastUpdate;
@@ -230,6 +231,16 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public void setMarketingName(String marketingName)
     {
         this.marketingName = marketingName;
+    }
+
+    public Collection<CompanyGroupMemberLinkDTO> getGroupMembers()
+    {
+        return groupMembers;
+    }
+
+    public void setGroupMembers(Collection<CompanyGroupMemberLinkDTO> groupMembers)
+    {
+        this.groupMembers = groupMembers;
     }
 
     @Override
@@ -553,16 +564,6 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.externalBrands = externalBrands;
     }
 
-    public Integer getHeadquarterCompanyId()
-    {
-        return headquarterCompanyId;
-    }
-
-    public void setHeadquarterCompanyId(Integer headquarterCompanyId)
-    {
-        this.headquarterCompanyId = headquarterCompanyId;
-    }
-
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
@@ -583,13 +584,13 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                 + "countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, "
                 + "speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, legalFormMatchcode=%s, "
                 + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
-                + "certificateNumber=%s, jurisdiction=%s, location=%s, externalBrands=%s, headquarterCompanyId=%s, "
+                + "certificateNumber=%s, jurisdiction=%s, location=%s, externalBrands=%s, "
                 + "lastUpdate=%s]", companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants,
                 brands, contractTypes, contractStates, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street,
                 city, postalCode, countryCode, country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial,
                 faxNumber, email, homepage, postal, legalFormMatchcode, dataProcessingRegisterNumber,
                 commercialRegisterNumber, certificateType, certificateNumber, jurisdiction, location, externalBrands,
-                headquarterCompanyId, lastUpdate);
+                lastUpdate);
     }
 
 }

@@ -57,6 +57,7 @@ import pnet.data.api.company.CompanyDataFind;
 import pnet.data.api.company.CompanyDataGet;
 import pnet.data.api.company.CompanyDataSearch;
 import pnet.data.api.company.CompanyItemDTO;
+import pnet.data.api.company.CompanyMerge;
 import pnet.data.api.company.ContractTypeDataFind;
 import pnet.data.api.companygroup.CompanyGroupDataClient;
 import pnet.data.api.companygroup.CompanyGroupDataDTO;
@@ -128,6 +129,7 @@ import pnet.data.api.util.Restrict;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
+import pnet.data.api.util.RestrictCompanyMerge;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictTenant;
 
@@ -206,6 +208,8 @@ public final class PnetSpringRestClient
     private final List<Integer> restrictedCompanyIds = new ArrayList<>();
     private final List<String> restrictedCompanyMatchcodes = new ArrayList<>();
     private final List<String> restrictedCompanyNumbers = new ArrayList<>();
+
+    private CompanyMerge companyMerge = CompanyMerge.NONE;
 
     private PnetSpringRestClient()
     {
@@ -449,7 +453,8 @@ public final class PnetSpringRestClient
         printResults(result);
     }
 
-    @CLI.Command(name = "restrict brands", format = "[<BRAND>...]", description = "Places a restriction with brands for subsequent operations.")
+    @CLI.Command(name = "restrict brands", format = "[<BRAND>...]",
+        description = "Places a restriction with brands for subsequent operations.")
     public void restrictBrands(String... brands)
     {
         if (brands != null && brands.length > 0)
@@ -657,6 +662,23 @@ public final class PnetSpringRestClient
         restrictedCompanyIds.clear();
         restrictedCompanyMatchcodes.clear();
         restrictedCompanyNumbers.clear();
+    }
+
+    @CLI.Command(name = "merge internet groups",
+        description = "Merges companies according to their internet group settings.")
+    public void mergeInternetGroups()
+    {
+        cli.info("Companies will be merged according to their internet group settings.");
+
+        companyMerge = CompanyMerge.INTERET_GROUP;
+    }
+
+    @CLI.Command(name = "merge none", description = "Do not merge companies.")
+    public void mergeNone()
+    {
+        cli.info("Companies will not be merged.");
+
+        companyMerge = CompanyMerge.NONE;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1519,6 +1541,13 @@ public final class PnetSpringRestClient
 
             restrict = ((RestrictCompanyNumber<T>) restrict)
                 .companyNumber(restrictedCompanyNumbers.toArray(new String[restrictedCompanyNumbers.size()]));
+        }
+
+        if (restrict instanceof RestrictCompanyMerge && companyMerge != CompanyMerge.NONE)
+        {
+            cli.info("Merging companies according to: " + companyMerge);
+
+            restrict = ((RestrictCompanyMerge<T>) restrict).merge(companyMerge);
         }
 
         return restrict;

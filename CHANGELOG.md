@@ -1,3 +1,8 @@
+pnet-data-api 1.9.4
+===================
+
+* Added merge by internet group feature to company queries.
+
 pnet-data-api 1.9.3
 ===================
 
