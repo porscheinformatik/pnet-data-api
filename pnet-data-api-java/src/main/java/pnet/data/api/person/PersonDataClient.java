@@ -2,10 +2,14 @@ package pnet.data.api.person;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.RestMethod;
+import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestResponseException;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregates;
@@ -13,7 +17,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
+import pnet.data.api.util.ImageType;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.Resource;
 
 /**
  * Data-API client for {@link PersonDataDTO}s.
@@ -119,6 +125,30 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
             resultPage.setScrollSupplier(this::next);
 
             return resultPage;
+        });
+    }
+
+    public Optional<Resource> portrait(Integer personId, ImageType imageType) throws PnetDataClientException
+    {
+        return invoke(restCall -> {
+            try
+            {
+                RestResponse<byte[]> response = restCall
+                    .variable("id", personId)
+                    .parameter("type", imageType)
+                    .invoke(RestMethod.GET, "api/v1/persons/portrait/{id}", byte[].class);
+
+                return Optional.of(new Resource(response.getContentType(), response.getBody()));
+            }
+            catch (RestResponseException e)
+            {
+                if (e.getStatusCode() == 404)
+                {
+                    return Optional.empty();
+                }
+
+                throw new PnetDataClientException("Image request for person $1 failed", e, personId);
+            }
         });
     }
 }

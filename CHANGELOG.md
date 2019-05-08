@@ -1,3 +1,8 @@
+pnet-data-api 1.9.5
+===================
+
+* Added the portrait of a person to the client.
+
 pnet-data-api 1.9.4
 ===================
 
