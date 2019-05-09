@@ -1,6 +1,8 @@
 pnet-data-api 1.9.5
 ===================
 
+* Renamed "aggregates" to "aggregations" for consistency.
+* Added merge by internet group feature to person queries.
 * Added the portrait of a person to the client.
 
 pnet-data-api 1.9.4
@@ -16,7 +18,7 @@ pnet-data-api 1.9.3
 pnet-data-api 1.9.2
 ===================
 
-* Added aggregates to fluent search API.
+* Added aggregations to fluent search API.
 * Added `streamAll()` and `interatorAll()` to result pages to iterate over all result items of this page and all subsequent pages (calls `nextPage()` automatically).
 * Added restrictions (filter) to the sample client.
 
@@ -32,7 +34,7 @@ pnet-data-api 1.9.1
 pnet-data-api 1.9.0
 ===================
 
-* Aggregates for companies, persons and todo groups.
+* Aggregations for companies, persons and todo groups.
 
 pnet-data-api 1.8.4
 ===================

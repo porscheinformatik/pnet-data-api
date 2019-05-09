@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.context.PnetDataApiContextMock;
 import pnet.data.api.util.DataClientMock;
 import pnet.data.api.util.ItemClientMock;
@@ -85,22 +85,22 @@ public class PersonDataClientMock extends PersonDataClient
     }
 
     @Override
-    protected PnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO> search(Locale language,
+    protected PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> search(Locale language,
         String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
         List<PersonItemDTO> entries = findItems(restricts);
 
-        List<PersonTenantAggregateDTO> aggregatedTenants =
-            MockUtils.aggregateTenants(entries, PersonTenantAggregateDTO::new);
-        List<PersonCompanyAggregateDTO> aggregatedCompanies = MockUtils
+        List<PersonTenantAggregationDTO> aggregatedTenants =
+            MockUtils.aggregateTenants(entries, PersonTenantAggregationDTO::new);
+        List<PersonCompanyAggregationDTO> aggregatedCompanies = MockUtils
             .aggregateFlat(entries,
                 entry -> entry.getCompanies().stream().map(ActivePersonCompanyLinkDTO::getCompanyId),
-                PersonCompanyAggregateDTO::new);
+                PersonCompanyAggregationDTO::new);
 
-        PersonAggregatesDTO aggregates = new PersonAggregatesDTO(aggregatedTenants, aggregatedCompanies,
+        PersonAggregationsDTO aggregations = new PersonAggregationsDTO(aggregatedTenants, aggregatedCompanies,
             Collections.emptyList(), Collections.emptyList());
 
-        return MockUtils.mockResultPageWithAggregates(entries, aggregates, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPageWithAggregations(entries, aggregations, pageIndex, itemsPerPage);
     }
 }

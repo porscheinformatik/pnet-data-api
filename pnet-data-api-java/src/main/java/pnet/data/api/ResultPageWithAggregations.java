@@ -17,23 +17,23 @@ package pnet.data.api;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
-import pnet.data.api.util.WithAggregates;
+import pnet.data.api.util.WithAggregations;
 
 /**
  * Holding results of a search or find operation with paging information.
  *
  * @author ham
  * @param <T> the type of item
- * @param <AggregatesT> the type of aggregates
+ * @param <AggregationsT> the type of aggregations
  */
-@ApiModel(description = "Holds results of a search or find operation with paging information and aggregates")
-public interface ResultPageWithAggregates<T, AggregatesT> extends ResultPage<T>, WithAggregates<AggregatesT>
+@ApiModel(description = "Holds results of a search or find operation with paging information and aggregations.")
+public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage<T>, WithAggregations<AggregationsT>
 {
 
-    static <T, AggregatesT> ResultPageWithAggregates<T, AggregatesT> of(List<T> items, AggregatesT aggregates,
+    static <T, AggregationsT> ResultPageWithAggregations<T, AggregationsT> of(List<T> items, AggregationsT aggregations,
         int itemsPerPage, int totalNumberOfItems, int pageIndex, int numberOfPages, String scrollId)
     {
-        return new ResultPageWithAggregates<T, AggregatesT>() //
+        return new ResultPageWithAggregations<T, AggregationsT>() //
         {
             private static final long serialVersionUID = -999167833058168881L;
 
@@ -44,9 +44,9 @@ public interface ResultPageWithAggregates<T, AggregatesT> extends ResultPage<T>,
             }
 
             @Override
-            public AggregatesT getAggregates()
+            public AggregationsT getAggregations()
             {
-                return aggregates;
+                return aggregations;
             }
 
             @Override

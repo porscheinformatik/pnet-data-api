@@ -1,4 +1,4 @@
-package pnet.data.api.company;
+package pnet.data.api.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author HAM
  */
-public class CompanyTenantAggregateDTO
+public class PersonTenantAggregationDTO
 {
 
     private final String tenant;
     private final long count;
 
-    public CompanyTenantAggregateDTO(@JsonProperty("tenant") String tenant, @JsonProperty("count") long count)
+    public PersonTenantAggregationDTO(@JsonProperty("tenant") String tenant, @JsonProperty("count") long count)
     {
         super();
 

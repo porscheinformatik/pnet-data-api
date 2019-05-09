@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
-import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.util.Pair;
@@ -34,12 +34,12 @@ public class TodoGroupDataClient extends AbstractPnetDataApiClient<TodoGroupData
         return new TodoGroupDataSearch(this::search, null);
     }
 
-    protected PnetDataClientResultPageWithAggregates<TodoGroupItemDTO, TodoGroupAggregatesDTO> search(Locale language,
+    protected PnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO> search(Locale language,
         String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPageWithAggregates<TodoGroupItemDTO, TodoGroupAggregatesDTO> resultPage =
+            DefaultPnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO> resultPage =
                 restCall
                     .parameter("l", language)
                     .parameter("q", query)
@@ -47,7 +47,7 @@ public class TodoGroupDataClient extends AbstractPnetDataApiClient<TodoGroupData
                     .parameter("p", pageIndex)
                     .parameter("pp", itemsPerPage)
                     .get("/api/v1/todogroups/search",
-                        new GenericType.Of<DefaultPnetDataClientResultPageWithAggregates<TodoGroupItemDTO, TodoGroupAggregatesDTO>>()
+                        new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO>>()
                         {
                             // intentionally left blank
                         });

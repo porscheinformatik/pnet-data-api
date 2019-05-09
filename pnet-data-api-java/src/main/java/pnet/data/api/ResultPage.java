@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -86,6 +88,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     /**
      * @return a stream of the items of this page, never null
      */
+    @JsonIgnore
     default Stream<T> stream()
     {
         List<T> items = getItems();
@@ -96,6 +99,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     /**
      * @return the first item of this page, null if there isn't one
      */
+    @JsonIgnore
     default T first()
     {
         List<T> items = getItems();
@@ -107,6 +111,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
      * @return the first item of this page, null if there isn't one
      * @throws IllegalStateException if there are more than one items
      */
+    @JsonIgnore
     default T unique()
     {
         int totalNumberOfItems = getTotalNumberOfItems();
@@ -133,6 +138,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     /**
      * @return the number of items of this page
      */
+    @JsonIgnore
     default int size()
     {
         return getItems().size();
@@ -142,6 +148,7 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
      * @return an iterator of the items of this page, never null
      */
     @Override
+    @JsonIgnore
     default Iterator<T> iterator()
     {
         return getItems().iterator();

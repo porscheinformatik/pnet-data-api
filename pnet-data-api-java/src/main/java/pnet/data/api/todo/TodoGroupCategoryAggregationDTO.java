@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * @author HAM
  */
-public class TodoGroupCategoryAggregateDTO
+public class TodoGroupCategoryAggregationDTO
 {
 
     private final TodoCategory category;
     private final long count;
 
-    public TodoGroupCategoryAggregateDTO(@JsonProperty("category") TodoCategory category,
+    public TodoGroupCategoryAggregationDTO(@JsonProperty("category") TodoCategory category,
         @JsonProperty("count") long count)
     {
         super();

@@ -2,17 +2,17 @@ package pnet.data.api.company;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import pnet.data.api.util.AbstractCountAggregateDTO;
+import pnet.data.api.util.AbstractCountAggregationDTO;
 
 /**
  * Holds the one aggregation
  *
  * @author HAM
  */
-public class CompanyBrandAggregateDTO extends AbstractCountAggregateDTO
+public class CompanyContractTypeAggregationDTO extends AbstractCountAggregationDTO
 {
 
-    public CompanyBrandAggregateDTO(@JsonProperty("matchcode") String matchcode,
+    public CompanyContractTypeAggregationDTO(@JsonProperty("matchcode") String matchcode,
         @JsonProperty("count") long count)
     {
         super(matchcode, count);

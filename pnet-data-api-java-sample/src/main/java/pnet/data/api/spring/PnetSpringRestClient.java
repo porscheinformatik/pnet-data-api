@@ -48,7 +48,7 @@ import pnet.data.api.brand.BrandDataSearch;
 import pnet.data.api.brand.BrandItemDTO;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.context.PnetDataApiTokenKey;
 import pnet.data.api.client.context.PnetDataApiTokenRepository;
 import pnet.data.api.company.CompanyDataClient;
@@ -107,7 +107,7 @@ import pnet.data.api.numbertype.NumberTypeDataFind;
 import pnet.data.api.numbertype.NumberTypeDataGet;
 import pnet.data.api.numbertype.NumberTypeDataSearch;
 import pnet.data.api.numbertype.NumberTypeItemDTO;
-import pnet.data.api.person.PersonAggregatesDTO;
+import pnet.data.api.person.PersonAggregationsDTO;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.person.PersonDataDTO;
 import pnet.data.api.person.PersonDataFind;
@@ -129,7 +129,7 @@ import pnet.data.api.util.Restrict;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
-import pnet.data.api.util.RestrictCompanyMerge;
+import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictTenant;
 
@@ -1330,7 +1330,7 @@ public final class PnetSpringRestClient
             .aggregateNumberPerCompany()
             .aggregateNumberPerFunction()
             .aggregateNumberPerActivity());
-        PnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO> result =
+        PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> result =
             query.execute(Locale.getDefault(), q);
 
         printResults(result);
@@ -1543,11 +1543,11 @@ public final class PnetSpringRestClient
                 .companyNumber(restrictedCompanyNumbers.toArray(new String[restrictedCompanyNumbers.size()]));
         }
 
-        if (restrict instanceof RestrictCompanyMerge && companyMerge != CompanyMerge.NONE)
+        if (restrict instanceof CompanyMergable && companyMerge != CompanyMerge.NONE)
         {
             cli.info("Merging companies according to: " + companyMerge);
 
-            restrict = ((RestrictCompanyMerge<T>) restrict).merge(companyMerge);
+            restrict = ((CompanyMergable<T>) restrict).merge(companyMerge);
         }
 
         return restrict;
@@ -1760,7 +1760,7 @@ public final class PnetSpringRestClient
         }
     }
 
-    @CLI.Command(description = "Prints the aggregates, if available.")
+    @CLI.Command(description = "Prints the aggregations, if available.")
     public void aggs() throws PnetDataClientException
     {
         if (page == null)
@@ -1769,7 +1769,7 @@ public final class PnetSpringRestClient
             return;
         }
 
-        printAggregates();
+        printAggregations();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1802,16 +1802,16 @@ public final class PnetSpringRestClient
         printPage();
     }
 
-    protected void printAggregates()
+    protected void printAggregations()
     {
-        if (page == null || !(page instanceof PnetDataClientResultPageWithAggregates<?, ?>))
+        if (page == null || !(page instanceof PnetDataClientResultPageWithAggregations<?, ?>))
         {
-            cli.error("No aggregates available in current page.");
+            cli.error("No aggregations available in current page.");
 
             return;
         }
 
-        cli.info(PrettyPrint.prettyPrint(((PnetDataClientResultPageWithAggregates<?, ?>) page).getAggregates()));
+        cli.info(PrettyPrint.prettyPrint(((PnetDataClientResultPageWithAggregations<?, ?>) page).getAggregations()));
     }
 
     protected void printPage()

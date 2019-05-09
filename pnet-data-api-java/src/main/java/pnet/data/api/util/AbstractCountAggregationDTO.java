@@ -7,13 +7,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author HAM
  */
-public abstract class AbstractCountAggregateDTO
+public abstract class AbstractCountAggregationDTO
 {
 
     private final String matchcode;
     private final long count;
 
-    public AbstractCountAggregateDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("count") long count)
+    public AbstractCountAggregationDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("count") long count)
     {
         super();
 

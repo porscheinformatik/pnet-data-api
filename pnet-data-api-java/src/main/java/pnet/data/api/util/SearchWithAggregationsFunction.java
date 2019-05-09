@@ -4,21 +4,21 @@ import java.util.List;
 import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 
 /**
  * Function for search.
  *
  * @author ham
  * @param <DTO> the DTO
- * @param <AggregatesDTO> the type of aggregates DTO
+ * @param <AggregationsDTO> the type of aggregations DTO
  */
 @FunctionalInterface
-public interface SearchWithAggregatesFunction<DTO, AggregatesDTO> extends SearchFunction<DTO>
+public interface SearchWithAggregationsFunction<DTO, AggregationsDTO> extends SearchFunction<DTO>
 {
 
     @Override
-    PnetDataClientResultPageWithAggregates<DTO, AggregatesDTO> search(Locale language, String query,
+    PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> search(Locale language, String query,
         List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException;
 
 }

@@ -11,29 +11,29 @@ import pnet.data.api.ResultPage;
  *
  * @author ham
  * @param <T> the type of items
- * @param <AggregatesT> the type of the aggregates object
+ * @param <AggregationsT> the type of the aggregation object
  */
-public class DefaultPnetDataClientResultPageWithAggregates<T, AggregatesT> extends DefaultPnetDataClientResultPage<T>
-    implements PnetDataClientResultPageWithAggregates<T, AggregatesT>
+public class DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT> extends DefaultPnetDataClientResultPage<T>
+    implements PnetDataClientResultPageWithAggregations<T, AggregationsT>
 {
 
     private static final long serialVersionUID = 860019410295484359L;
 
-    private final AggregatesT aggregates;
+    private final AggregationsT aggregations;
 
-    public DefaultPnetDataClientResultPageWithAggregates(@JsonProperty("items") List<T> items,
-        @JsonProperty("aggregates") AggregatesT aggregates, @JsonProperty("itemsPerPage") int itemsPerPage,
+    public DefaultPnetDataClientResultPageWithAggregations(@JsonProperty("items") List<T> items,
+        @JsonProperty("aggregations") AggregationsT aggregations, @JsonProperty("itemsPerPage") int itemsPerPage,
         @JsonProperty("totalNumberOfItems") int totalNumberOfItems, @JsonProperty("pageIndex") int pageIndex,
         @JsonProperty("numberOfPages") int numberOfPages, @JsonProperty("scrollId") String scrollId)
     {
         super(items, itemsPerPage, totalNumberOfItems, pageIndex, numberOfPages, scrollId);
 
-        this.aggregates = aggregates;
+        this.aggregations = aggregations;
     }
 
     @Override
-    public AggregatesT getAggregates()
+    public AggregationsT getAggregations()
     {
-        return aggregates;
+        return aggregations;
     }
 }

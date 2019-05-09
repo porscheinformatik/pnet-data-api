@@ -7,23 +7,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author HAM
  */
-public class PersonTenantAggregateDTO
+public class PersonCompanyAggregationDTO
 {
 
-    private final String tenant;
+    private final Integer companyId;
     private final long count;
 
-    public PersonTenantAggregateDTO(@JsonProperty("tenant") String tenant, @JsonProperty("count") long count)
+    public PersonCompanyAggregationDTO(@JsonProperty("companyId") Integer companyId, @JsonProperty("count") long count)
     {
         super();
 
-        this.tenant = tenant;
+        this.companyId = companyId;
         this.count = count;
     }
 
-    public String getTenant()
+    public Integer getCompanyId()
     {
-        return tenant;
+        return companyId;
     }
 
     public long getCount()
@@ -34,6 +34,6 @@ public class PersonTenantAggregateDTO
     @Override
     public String toString()
     {
-        return String.format("%s: %s", tenant, count);
+        return String.format("%s: %s", companyId, count);
     }
 }

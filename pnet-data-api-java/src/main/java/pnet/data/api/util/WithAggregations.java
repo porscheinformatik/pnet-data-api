@@ -4,9 +4,9 @@ package pnet.data.api.util;
  * Provides an aggregation result
  *
  * @author HAM
- * @param <AggregatesT> the type of aggregates collector object
+ * @param <AggregationsT> the type of aggregations collector object
  */
-public interface WithAggregates<AggregatesT>
+public interface WithAggregations<AggregationsT>
 {
 
     /**
@@ -14,6 +14,6 @@ public interface WithAggregates<AggregatesT>
      *
      * @return the aggregations
      */
-    AggregatesT getAggregates();
+    AggregationsT getAggregations();
 
 }

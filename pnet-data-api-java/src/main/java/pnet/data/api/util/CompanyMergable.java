@@ -8,7 +8,7 @@ import pnet.data.api.company.CompanyMerge;
  * @author ham
  * @param <SELF> the type of the restrict for chaining
  */
-public interface RestrictCompanyMerge<SELF extends Restrict<SELF>> extends Restrict<SELF>
+public interface CompanyMergable<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
     default SELF mergeInternetGroups()

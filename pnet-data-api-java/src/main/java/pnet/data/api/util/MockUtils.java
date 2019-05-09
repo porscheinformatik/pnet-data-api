@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
-import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 
 /**
  * Utilities for mocks
@@ -41,13 +41,13 @@ public final class MockUtils
         return result;
     }
 
-    public static <T, AggregateT> PnetDataClientResultPageWithAggregates<T, AggregateT> mockResultPageWithAggregates(
-        List<T> allItems, AggregateT aggregates, int pageIndex, int itemsPerPage)
+    public static <T, AggregationsT> PnetDataClientResultPageWithAggregations<T, AggregationsT> mockResultPageWithAggregations(
+        List<T> allItems, AggregationsT aggregations, int pageIndex, int itemsPerPage)
     {
         List<List<T>> chunks = split(allItems, itemsPerPage, ArrayList::new);
         List<T> items = pageIndex >= chunks.size() ? Collections.emptyList() : chunks.get(0);
-        DefaultPnetDataClientResultPageWithAggregates<T, AggregateT> result =
-            new DefaultPnetDataClientResultPageWithAggregates<>(items, aggregates, itemsPerPage, allItems.size(),
+        DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT> result =
+            new DefaultPnetDataClientResultPageWithAggregations<>(items, aggregations, itemsPerPage, allItems.size(),
                 pageIndex, allItems.size() / itemsPerPage + 1, null);
 
         result.setPageSupplier(index -> mockResultPage(allItems, index, itemsPerPage));
@@ -77,8 +77,8 @@ public final class MockUtils
         return result;
     }
 
-    public static <EntryT, GroupT, AggregateT> List<AggregateT> aggregate(Collection<EntryT> entries,
-        Function<? super EntryT, GroupT> mapper, BiFunction<GroupT, Long, AggregateT> aggregateFactory)
+    public static <EntryT, GroupT, AggregationT> List<AggregationT> aggregate(Collection<EntryT> entries,
+        Function<? super EntryT, GroupT> mapper, BiFunction<GroupT, Long, AggregationT> aggregationFactory)
     {
         return entries
             .stream()
@@ -86,13 +86,13 @@ public final class MockUtils
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
             .entrySet()
             .stream()
-            .map(entry -> aggregateFactory.apply(entry.getKey(), entry.getValue()))
+            .map(entry -> aggregationFactory.apply(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
     }
 
-    public static <EntryT, GroupT, AggregateT> List<AggregateT> aggregateFlat(Collection<EntryT> entries,
+    public static <EntryT, GroupT, AggregationT> List<AggregationT> aggregateFlat(Collection<EntryT> entries,
         Function<? super EntryT, ? extends Stream<? extends GroupT>> mapper,
-        BiFunction<GroupT, Long, AggregateT> aggregateFactory)
+        BiFunction<GroupT, Long, AggregationT> aggregationFactory)
     {
         return entries
             .stream()
@@ -100,14 +100,14 @@ public final class MockUtils
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
             .entrySet()
             .stream()
-            .map(entry -> aggregateFactory.apply(entry.getKey(), entry.getValue()))
+            .map(entry -> aggregationFactory.apply(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
     }
 
-    public static <AggregateT> List<AggregateT> aggregateTenants(Collection<? extends WithTenants> entries,
-        BiFunction<String, Long, AggregateT> aggregateFactory)
+    public static <AggregationT> List<AggregationT> aggregateTenants(Collection<? extends WithTenants> entries,
+        BiFunction<String, Long, AggregationT> aggregationFactory)
     {
-        return aggregateFlat(entries, item -> item.getTenants().stream(), aggregateFactory);
+        return aggregateFlat(entries, item -> item.getTenants().stream(), aggregationFactory);
     }
 
 }

@@ -3,6 +3,7 @@ package pnet.data.api.person;
 import java.util.List;
 
 import pnet.data.api.util.AbstractFind;
+import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
@@ -23,10 +24,10 @@ import pnet.data.api.util.RestrictId;
 import pnet.data.api.util.RestrictPersonnelDepartment;
 import pnet.data.api.util.RestrictPersonnelNumber;
 import pnet.data.api.util.RestrictPreferredUserId;
-import pnet.data.api.util.RestrictScroll;
 import pnet.data.api.util.RestrictSupervisorPersonnelNumber;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictUpdatedAfter;
+import pnet.data.api.util.Scrollable;
 
 /**
  * Find interface for persons.
@@ -42,7 +43,7 @@ public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind> 
     RestrictActivity<PersonDataFind>, RestrictAdvisorAssignmentCompanyId<PersonDataFind>,
     RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>, RestrictAdvisorAssignmentCompany<PersonDataFind>,
     RestrictAdvisorAssignmentType<PersonDataFind>, RestrictAdvisorAssignmentDivision<PersonDataFind>,
-    RestrictUpdatedAfter<PersonDataFind>, RestrictScroll<PersonDataFind>
+    RestrictUpdatedAfter<PersonDataFind>, CompanyMergable<PersonDataFind>, Scrollable<PersonDataFind>
 {
 
     public PersonDataFind(FindFunction<PersonItemDTO> findFunction, List<Pair<String, Object>> restrictItems)

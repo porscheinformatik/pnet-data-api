@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
-import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.util.Pair;
@@ -58,19 +58,19 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         return new CompanyDataSearch(this::search, null);
     }
 
-    protected PnetDataClientResultPageWithAggregates<CompanyItemDTO, CompanyAggregatesDTO> search(Locale language,
+    protected PnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> search(Locale language,
         String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPageWithAggregates<CompanyItemDTO, CompanyAggregatesDTO> resultPage = restCall
+            DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> resultPage = restCall
                 .parameter("l", language)
                 .parameter("q", query)
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/companies/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPageWithAggregates<CompanyItemDTO, CompanyAggregatesDTO>>()
+                    new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO>>()
                     {
                         // intentionally left blank
                     });

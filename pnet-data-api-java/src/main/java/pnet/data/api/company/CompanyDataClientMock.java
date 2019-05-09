@@ -9,7 +9,7 @@ import java.util.Locale;
 import pnet.data.api.GeoDistance;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.context.PnetDataApiContextMock;
 import pnet.data.api.util.DataClientMock;
 import pnet.data.api.util.ItemClientMock;
@@ -86,24 +86,24 @@ public class CompanyDataClientMock extends CompanyDataClient implements
     }
 
     @Override
-    protected PnetDataClientResultPageWithAggregates<CompanyItemDTO, CompanyAggregatesDTO> search(Locale language,
+    protected PnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> search(Locale language,
         String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
         List<CompanyItemDTO> entries = findItems(restricts);
 
-        List<CompanyTenantAggregateDTO> aggregatedTenants =
-            MockUtils.aggregateTenants(entries, CompanyTenantAggregateDTO::new);
-        List<CompanyBrandAggregateDTO> aggregatedBrands = MockUtils
+        List<CompanyTenantAggregationDTO> aggregatedTenants =
+            MockUtils.aggregateTenants(entries, CompanyTenantAggregationDTO::new);
+        List<CompanyBrandAggregationDTO> aggregatedBrands = MockUtils
             .aggregateFlat(entries, entry -> entry.getBrands().stream().map(CompanyBrandLinkDTO::getMatchcode),
-                CompanyBrandAggregateDTO::new);
-        List<CompanyTypeAggregateDTO> aggregatedTypes = MockUtils
+                CompanyBrandAggregationDTO::new);
+        List<CompanyTypeAggregationDTO> aggregatedTypes = MockUtils
             .aggregateFlat(entries, entry -> entry.getTypes().stream().map(CompanyTypeLinkDTO::getMatchcode),
-                CompanyTypeAggregateDTO::new);
+                CompanyTypeAggregationDTO::new);
 
-        CompanyAggregatesDTO aggregates =
-            new CompanyAggregatesDTO(aggregatedTenants, aggregatedBrands, aggregatedTypes, Collections.emptyList());
+        CompanyAggregationsDTO aggregations =
+            new CompanyAggregationsDTO(aggregatedTenants, aggregatedBrands, aggregatedTypes, Collections.emptyList());
 
-        return MockUtils.mockResultPageWithAggregates(entries, aggregates, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPageWithAggregations(entries, aggregations, pageIndex, itemsPerPage);
     }
 }

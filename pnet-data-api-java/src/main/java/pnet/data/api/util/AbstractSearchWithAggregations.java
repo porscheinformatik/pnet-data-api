@@ -6,23 +6,23 @@ import java.util.List;
 import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 
 /**
  * Abstract implementation of a search query.
  *
  * @author ham
  * @param <DTO> the type of the DTO
- * @param <AggregatesDTO> the type of aggregates DTO
+ * @param <AggregationsDTO> the type of aggregations DTO
  * @param <SELF> the type of the filter itself for fluent interface
  */
-public abstract class AbstractSearchWithAggregates<DTO, AggregatesDTO, SELF extends AbstractSearchWithAggregates<DTO, AggregatesDTO, SELF>>
-    extends AbstractSearch<DTO, SELF> implements SearchWithAggregates<DTO, AggregatesDTO>
+public abstract class AbstractSearchWithAggregations<DTO, AggregationsDTO, SELF extends AbstractSearchWithAggregations<DTO, AggregationsDTO, SELF>>
+    extends AbstractSearch<DTO, SELF> implements SearchWithAggregations<DTO, AggregationsDTO>
 {
 
-    private final SearchWithAggregatesFunction<DTO, AggregatesDTO> searchFunction;
+    private final SearchWithAggregationsFunction<DTO, AggregationsDTO> searchFunction;
 
-    protected AbstractSearchWithAggregates(SearchWithAggregatesFunction<DTO, AggregatesDTO> searchFunction,
+    protected AbstractSearchWithAggregations(SearchWithAggregationsFunction<DTO, AggregationsDTO> searchFunction,
         List<Pair<String, Object>> restricts)
     {
         super(searchFunction, restricts);
@@ -37,7 +37,7 @@ public abstract class AbstractSearchWithAggregates<DTO, AggregatesDTO, SELF exte
         Constructor<?> constructor;
         try
         {
-            constructor = getClass().getConstructor(SearchWithAggregatesFunction.class, List.class);
+            constructor = getClass().getConstructor(SearchWithAggregationsFunction.class, List.class);
         }
         catch (NoSuchMethodException | SecurityException e)
         {
@@ -55,7 +55,7 @@ public abstract class AbstractSearchWithAggregates<DTO, AggregatesDTO, SELF exte
     }
 
     @Override
-    public PnetDataClientResultPageWithAggregates<DTO, AggregatesDTO> execute(Locale language, String query,
+    public PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> execute(Locale language, String query,
         int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return searchFunction.search(language, query, getRestricts(), pageIndex, itemsPerPage);

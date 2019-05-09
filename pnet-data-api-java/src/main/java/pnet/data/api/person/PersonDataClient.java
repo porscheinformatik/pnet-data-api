@@ -12,9 +12,9 @@ import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
-import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.util.ImageType;
@@ -62,19 +62,19 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         return new PersonDataSearch(this::search, null);
     }
 
-    protected PnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO> search(Locale language,
+    protected PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> search(Locale language,
         String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO> resultPage = restCall
+            DefaultPnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> resultPage = restCall
                 .parameter("l", language)
                 .parameter("q", query)
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
                 .get("/api/v1/persons/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPageWithAggregates<PersonItemDTO, PersonAggregatesDTO>>()
+                    new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO>>()
                     {
                         // intentionally left blank
                     });

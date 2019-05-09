@@ -7,7 +7,7 @@ import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.client.PnetDataClientResultPageWithAggregates;
+import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.context.PnetDataApiContextMock;
 import pnet.data.api.util.ItemClientMock;
 import pnet.data.api.util.MockStore;
@@ -65,16 +65,16 @@ public class TodoGroupDataClientMock extends TodoGroupDataClient
     }
 
     @Override
-    protected PnetDataClientResultPageWithAggregates<TodoGroupItemDTO, TodoGroupAggregatesDTO> search(Locale language,
+    protected PnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO> search(Locale language,
         String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
         List<TodoGroupItemDTO> entries = findItems(restricts);
-        List<TodoGroupCategoryAggregateDTO> aggregatedCategories =
-            MockUtils.aggregate(entries, TodoGroupItemDTO::getCategory, TodoGroupCategoryAggregateDTO::new);
-        TodoGroupAggregatesDTO aggregates = new TodoGroupAggregatesDTO(aggregatedCategories);
+        List<TodoGroupCategoryAggregationDTO> aggregatedCategories =
+            MockUtils.aggregate(entries, TodoGroupItemDTO::getCategory, TodoGroupCategoryAggregationDTO::new);
+        TodoGroupAggregationsDTO aggregations = new TodoGroupAggregationsDTO(aggregatedCategories);
 
-        return MockUtils.mockResultPageWithAggregates(entries, aggregates, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPageWithAggregations(entries, aggregations, pageIndex, itemsPerPage);
     }
 
 }
