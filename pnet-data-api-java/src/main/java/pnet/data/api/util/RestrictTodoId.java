@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts todo ids.
  *
@@ -12,6 +14,11 @@ public interface RestrictTodoId<SELF extends Restrict<SELF>> extends Restrict<SE
     default SELF todoId(Integer... todoIds)
     {
         return restrict("todoId", (Object[]) todoIds);
+    }
+
+    default SELF todoIds(Collection<Integer> todoIds)
+    {
+        return todoId(todoIds.toArray(new Integer[todoIds.size()]));
     }
 
 }

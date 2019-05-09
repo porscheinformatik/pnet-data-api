@@ -1,6 +1,7 @@
 pnet-data-api 1.9.5
 ===================
 
+* Added methods with collections for all restrictions.
 * Renamed "aggregates" to "aggregations" for consistency.
 * Added merge by internet group feature to person queries.
 * Added the portrait of a person to the client.

@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts country codes.
  *
@@ -12,6 +14,11 @@ public interface RestrictCountryCode<SELF extends Restrict<SELF>> extends Restri
     default SELF countryCode(String... countryCodes)
     {
         return restrict("countryCode", (Object[]) countryCodes);
+    }
+
+    default SELF countryCodes(Collection<String> countryCodes)
+    {
+        return countryCode(countryCodes.toArray(new String[countryCodes.size()]));
     }
 
 }

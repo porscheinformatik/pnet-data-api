@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts contract types.
  *
@@ -12,6 +14,11 @@ public interface RestrictContractType<SELF extends Restrict<SELF>> extends Restr
     default SELF contractType(String... contractTypeMatchcodes)
     {
         return restrict("contractType", (Object[]) contractTypeMatchcodes);
+    }
+
+    default SELF contractTypes(Collection<String> contractTypeMatchcodes)
+    {
+        return contractType(contractTypeMatchcodes.toArray(new String[contractTypeMatchcodes.size()]));
     }
 
 }

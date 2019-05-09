@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts company types.
  *
@@ -12,6 +14,11 @@ public interface RestrictCompanyType<SELF extends Restrict<SELF>> extends Restri
     default SELF companyType(String... companyTypeMatchcodes)
     {
         return restrict("companyType", (Object[]) companyTypeMatchcodes);
+    }
+
+    default SELF companyTypes(Collection<String> companyTypeMatchcodes)
+    {
+        return companyType(companyTypeMatchcodes.toArray(new String[companyTypeMatchcodes.size()]));
     }
 
 }

@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts controlling areas.
  *
@@ -12,6 +14,11 @@ public interface RestrictControllingArea<SELF extends Restrict<SELF>> extends Re
     default SELF controllingArea(String... controllingAreas)
     {
         return restrict("controllingArea", (Object[]) controllingAreas);
+    }
+
+    default SELF controllingAreas(Collection<String> controllingAreas)
+    {
+        return controllingArea(controllingAreas.toArray(new String[controllingAreas.size()]));
     }
 
 }

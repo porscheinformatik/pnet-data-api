@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts the types of the advisor assignments.
  *
@@ -12,6 +14,11 @@ public interface RestrictAdvisorAssignmentType<SELF extends Restrict<SELF>> exte
     default SELF advisorType(String... advisorAssignmentTypeMatchcodes)
     {
         return restrict("advisorAssignmentType", (Object[]) advisorAssignmentTypeMatchcodes);
+    }
+
+    default SELF advisorTypes(Collection<String> advisorAssignmentTypeMatchcodes)
+    {
+        return advisorType(advisorAssignmentTypeMatchcodes.toArray(new String[advisorAssignmentTypeMatchcodes.size()]));
     }
 
 }

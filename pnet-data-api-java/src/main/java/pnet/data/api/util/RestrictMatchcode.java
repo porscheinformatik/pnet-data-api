@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts matchcodes.
  *
@@ -12,6 +14,11 @@ public interface RestrictMatchcode<SELF extends Restrict<SELF>> extends Restrict
     default SELF matchcode(String... matchcode)
     {
         return restrict("mc", (Object[]) matchcode);
+    }
+
+    default SELF matchcodes(Collection<String> matchcodes)
+    {
+        return matchcode(matchcodes.toArray(new String[matchcodes.size()]));
     }
 
 }

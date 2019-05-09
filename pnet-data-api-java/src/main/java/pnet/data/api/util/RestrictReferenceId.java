@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts reference ids.
  *
@@ -12,6 +14,11 @@ public interface RestrictReferenceId<SELF extends Restrict<SELF>> extends Restri
     default SELF referenceId(Integer... referenceIds)
     {
         return restrict("referenceId", (Object[]) referenceIds);
+    }
+
+    default SELF referenceIds(Collection<Integer> referenceIds)
+    {
+        return referenceId(referenceIds.toArray(new Integer[referenceIds.size()]));
     }
 
 }

@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts personnel department.
  *
@@ -12,6 +14,11 @@ public interface RestrictPersonnelDepartment<SELF extends Restrict<SELF>> extend
     default SELF personnelDepartment(String... personnelDepartments)
     {
         return restrict("personnelDepartment", (Object[]) personnelDepartments);
+    }
+
+    default SELF personnelDepartments(Collection<String> personnelDepartments)
+    {
+        return personnelDepartment(personnelDepartments.toArray(new String[personnelDepartments.size()]));
     }
 
 }

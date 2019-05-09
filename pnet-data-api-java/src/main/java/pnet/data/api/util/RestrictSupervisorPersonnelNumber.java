@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts supervisor personnel numbers
  *
@@ -12,6 +14,12 @@ public interface RestrictSupervisorPersonnelNumber<SELF extends Restrict<SELF>> 
     default SELF supervisorPersonnelNumber(String... supervisorPersonnelNumbers)
     {
         return restrict("supervisorPersonnelNumber", (Object[]) supervisorPersonnelNumbers);
+    }
+
+    default SELF supervisorPersonnelNumbers(Collection<String> supervisorPersonnelNumbers)
+    {
+        return supervisorPersonnelNumber(
+            supervisorPersonnelNumbers.toArray(new String[supervisorPersonnelNumbers.size()]));
     }
 
 }

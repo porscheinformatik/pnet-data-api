@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts ZIPs.
  *
@@ -12,6 +14,11 @@ public interface RestrictPostalCode<SELF extends Restrict<SELF>> extends Restric
     default SELF postalCode(String... postalCodes)
     {
         return restrict("postalCode", (Object[]) postalCodes);
+    }
+
+    default SELF postalCodes(Collection<String> postalCodes)
+    {
+        return postalCode(postalCodes.toArray(new String[postalCodes.size()]));
     }
 
 }

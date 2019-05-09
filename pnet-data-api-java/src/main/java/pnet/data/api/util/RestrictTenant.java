@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts tenants
  *
@@ -18,6 +20,11 @@ public interface RestrictTenant<SELF extends Restrict<SELF>> extends Restrict<SE
     default SELF tenant(String... tenants)
     {
         return restrict("t", (Object[]) tenants);
+    }
+
+    default SELF tenants(Collection<String> tenants)
+    {
+        return tenant(tenants.toArray(new String[tenants.size()]));
     }
 
 }

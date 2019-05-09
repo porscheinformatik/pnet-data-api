@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 import pnet.data.api.todo.TodoState;
 
 /**
@@ -14,6 +16,11 @@ public interface RestrictState<SELF extends Restrict<SELF>> extends Restrict<SEL
     default SELF state(TodoState... states)
     {
         return restrict("state", (Object[]) states);
+    }
+
+    default SELF states(Collection<TodoState> states)
+    {
+        return state(states.toArray(new TodoState[states.size()]));
     }
 
 }

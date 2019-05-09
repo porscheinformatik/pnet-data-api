@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts preferred user ids.
  *
@@ -12,6 +14,11 @@ public interface RestrictPreferredUserId<SELF extends Restrict<SELF>> extends Re
     default SELF preferredUserId(String... preferredUserIds)
     {
         return restrict("preferredUserId", (Object[]) preferredUserIds);
+    }
+
+    default SELF preferredUserIds(Collection<String> preferredUserIds)
+    {
+        return preferredUserId(preferredUserIds.toArray(new String[preferredUserIds.size()]));
     }
 
 }

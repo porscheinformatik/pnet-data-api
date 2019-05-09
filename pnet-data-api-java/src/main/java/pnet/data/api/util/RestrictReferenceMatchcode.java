@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts the reference matchcode.
  *
@@ -12,6 +14,11 @@ public interface RestrictReferenceMatchcode<SELF extends Restrict<SELF>> extends
     default SELF referenceMatchcode(String... referenceMatchcode)
     {
         return restrict("referenceMatchcode", (Object[]) referenceMatchcode);
+    }
+
+    default SELF referenceMatchcodes(Collection<String> referenceMatchcodes)
+    {
+        return referenceMatchcode(referenceMatchcodes.toArray(new String[referenceMatchcodes.size()]));
     }
 
 }

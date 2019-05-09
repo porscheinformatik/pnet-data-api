@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts types.
  *
@@ -9,9 +11,14 @@ package pnet.data.api.util;
 public interface RestrictType<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default SELF type(String... types)
+    default SELF type(String... typeMatchcodes)
     {
-        return restrict("type", (Object[]) types);
+        return restrict("type", (Object[]) typeMatchcodes);
+    }
+
+    default SELF types(Collection<String> typeMatchcodes)
+    {
+        return type(typeMatchcodes.toArray(new String[typeMatchcodes.size()]));
     }
 
 }

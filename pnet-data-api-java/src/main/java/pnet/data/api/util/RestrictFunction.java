@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts functions.
  *
@@ -12,6 +14,11 @@ public interface RestrictFunction<SELF extends Restrict<SELF>> extends Restrict<
     default SELF function(String... functionMatchcodes)
     {
         return restrict("function", (Object[]) functionMatchcodes);
+    }
+
+    default SELF functions(Collection<String> functionMatchcodes)
+    {
+        return function(functionMatchcodes.toArray(new String[functionMatchcodes.size()]));
     }
 
 }

@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts external brands.
  *
@@ -12,6 +14,11 @@ public interface RestrictExternalBrand<SELF extends Restrict<SELF>> extends Rest
     default SELF externalBrand(String... externalBrandMatchcodes)
     {
         return restrict("externalBrand", (Object[]) externalBrandMatchcodes);
+    }
+
+    default SELF externalBrands(Collection<String> externalBrandMatchcodes)
+    {
+        return externalBrand(externalBrandMatchcodes.toArray(new String[externalBrandMatchcodes.size()]));
     }
 
 }

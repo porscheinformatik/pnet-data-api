@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts company matchcodes.
  *
@@ -12,6 +14,11 @@ public interface RestrictCompany<SELF extends Restrict<SELF>> extends Restrict<S
     default SELF company(String... companyMatchcodes)
     {
         return restrict("company", (Object[]) companyMatchcodes);
+    }
+
+    default SELF companies(Collection<String> companies)
+    {
+        return company(companies.toArray(new String[companies.size()]));
     }
 
 }

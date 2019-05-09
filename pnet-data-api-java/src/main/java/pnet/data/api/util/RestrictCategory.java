@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 import pnet.data.api.todo.TodoCategory;
 
 /**
@@ -14,6 +16,11 @@ public interface RestrictCategory<SELF extends Restrict<SELF>> extends Restrict<
     default SELF category(TodoCategory... categories)
     {
         return restrict("category", (Object[]) categories);
+    }
+
+    default SELF categories(Collection<TodoCategory> categories)
+    {
+        return category(categories.toArray(new TodoCategory[categories.size()]));
     }
 
 }

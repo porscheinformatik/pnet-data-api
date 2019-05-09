@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts the companies of the advisor assignments.
  *
@@ -12,6 +14,12 @@ public interface RestrictAdvisorAssignmentCompanyNumber<SELF extends Restrict<SE
     default SELF advisorAssignmentCompanyNumber(String... advisorAssignmentCompanyNumbers)
     {
         return restrict("advisorAssignmentCompanyNumber", (Object[]) advisorAssignmentCompanyNumbers);
+    }
+
+    default SELF advisorAssignmentCompanyNumbers(Collection<String> advisorAssignmentCompanyNumberMatchcodes)
+    {
+        return advisorAssignmentCompanyNumber(advisorAssignmentCompanyNumberMatchcodes
+            .toArray(new String[advisorAssignmentCompanyNumberMatchcodes.size()]));
     }
 
 }

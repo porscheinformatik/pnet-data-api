@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 import pnet.data.api.todo.TodoSource;
 
 /**
@@ -14,6 +16,11 @@ public interface RestrictSource<SELF extends Restrict<SELF>> extends Restrict<SE
     default SELF source(TodoSource... sources)
     {
         return restrict("source", (Object[]) sources);
+    }
+
+    default SELF sources(Collection<TodoSource> sources)
+    {
+        return source(sources.toArray(new TodoSource[sources.size()]));
     }
 
 }

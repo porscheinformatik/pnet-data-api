@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Collection;
+
 /**
  * Restricts ids.
  *
@@ -9,9 +11,14 @@ package pnet.data.api.util;
 public interface RestrictId<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
-    default SELF id(Integer... companyIds)
+    default SELF id(Integer... ids)
     {
-        return restrict("id", (Object[]) companyIds);
+        return restrict("id", (Object[]) ids);
+    }
+
+    default SELF ids(Collection<Integer> ids)
+    {
+        return id(ids.toArray(new Integer[ids.size()]));
     }
 
 }
