@@ -7,6 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
+import at.porscheinformatik.happyrest.RestUtils;
 
 /**
  * A factory for REST calls using spring
@@ -17,7 +18,48 @@ import at.porscheinformatik.happyrest.RestCallFactory;
 public class SpringRestCallFactory implements RestCallFactory
 {
 
-    public static final SpringRestCallFactory DEFAULT = new SpringRestCallFactory(new RestTemplate(), null);
+    private static final RestTemplate REST_TEMPLATE;
+
+    /**
+     * Use {@link #getDefault()} instead
+     */
+    @Deprecated
+    public static final SpringRestCallFactory DEFAULT;
+
+    private static SpringRestCallFactory defaultFactory = null;
+
+    static
+    {
+        REST_TEMPLATE = new RestTemplate();
+
+        REST_TEMPLATE.getInterceptors().add((request, body, execution) -> {
+            request.getHeaders().add("user-agent", RestUtils.AGENT);
+
+            return execution.execute(request, body);
+        });
+
+        DEFAULT = new SpringRestCallFactory(REST_TEMPLATE, null);
+    }
+
+    public static SpringRestCallFactory getDefault()
+    {
+        SpringRestCallFactory factory = defaultFactory;
+
+        if (factory == null)
+        {
+            RestTemplate restTemplate = new RestTemplate();
+
+            restTemplate.getInterceptors().add((request, body, execution) -> {
+                request.getHeaders().add("user-agent", RestUtils.AGENT);
+
+                return execution.execute(request, body);
+            });
+
+            factory = new SpringRestCallFactory(restTemplate, null);
+        }
+
+        return factory;
+    }
 
     private final RestTemplate restTemplate;
     private final ConversionService conversionService;

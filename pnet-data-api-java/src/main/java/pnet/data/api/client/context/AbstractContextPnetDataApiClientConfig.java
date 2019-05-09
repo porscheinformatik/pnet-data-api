@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.RestCallFactory;
+import at.porscheinformatik.happyrest.RestUtils;
 import pnet.data.api.GeoDistance;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 
@@ -115,6 +116,7 @@ public abstract class AbstractContextPnetDataApiClientConfig
         messageConverter.setObjectMapper(objectMapper);
 
         Iterator<HttpMessageConverter<?>> iterator = restTemplate.getMessageConverters().iterator();
+        
         while (iterator.hasNext())
         {
             HttpMessageConverter<?> elem = iterator.next();
@@ -124,6 +126,12 @@ public abstract class AbstractContextPnetDataApiClientConfig
                 break;
             }
         }
+        
+        restTemplate.getInterceptors().add((request, body, execution) -> {
+            request.getHeaders().add("user-agent", RestUtils.AGENT);
+
+            return execution.execute(request, body);
+        });
 
         return createSpringRestCallFactory(conversionService, restTemplate);
     }

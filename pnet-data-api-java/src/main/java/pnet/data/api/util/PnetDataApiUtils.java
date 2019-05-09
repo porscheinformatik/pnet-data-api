@@ -14,6 +14,8 @@
  */
 package pnet.data.api.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.text.Collator;
 import java.time.LocalDate;
@@ -28,6 +30,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 
 import org.springframework.util.StringUtils;
 
@@ -58,6 +61,9 @@ public final class PnetDataApiUtils
         .optionalEnd()
         .toFormatter();
 
+    public static final String VERSION;
+    public static final String AGENT;
+
     /**
      * A collator set to primary strength, which means 'a', 'A' and '&auml;' is the same
      */
@@ -67,6 +73,36 @@ public final class PnetDataApiUtils
 
     static
     {
+        String version = "UNDEFINED";
+
+        try (InputStream stream = PnetDataApiUtils.class
+            .getClassLoader()
+            .getResourceAsStream("/META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
+        {
+            if (stream != null)
+            {
+                Properties properties = new Properties();
+
+                properties.load(stream);
+
+                version = properties.getProperty("version");
+            }
+            else
+            {
+                System.err.println("Failed to determine version of Pnet Data API Java client.");
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("Failed to determine version of Pnet Data API Java client: " + e);
+        }
+
+        VERSION = version;
+        AGENT = String
+            .format("Pnet Data API Java Client %s (%s; %s) %s %s", VERSION, System.getProperty("os.name"),
+                System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
+                System.getProperty("java.runtime.version"));
+
         DICTIONARY_COLLATOR = Collator.getInstance();
 
         DICTIONARY_COLLATOR.setStrength(Collator.PRIMARY);

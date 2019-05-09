@@ -1,8 +1,11 @@
 package at.porscheinformatik.happyrest;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Utilities for the framework.
@@ -13,6 +16,9 @@ public final class RestUtils
 {
 
     private static final Map<Integer, String> HTTP_STATUS_MESSAGES;
+
+    public static final String VERSION;
+    public static final String AGENT;
 
     static
     {
@@ -86,6 +92,47 @@ public final class RestUtils
         httpStatusMessages.put(511, "Network Authentication Required");
 
         HTTP_STATUS_MESSAGES = Collections.unmodifiableMap(httpStatusMessages);
+
+        String version = "UNDEFINED";
+
+        try (InputStream stream = RestUtils.class
+            .getClassLoader()
+            .getResourceAsStream("/META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
+        {
+            if (stream != null)
+            {
+                Properties properties = new Properties();
+
+                properties.load(stream);
+
+                version = properties.getProperty("version");
+            }
+            else
+            {
+                System.err.println("Failed to determine version of HappyRest.");
+            }
+        }
+        catch (IOException e)
+        {
+            System.err.println("Failed to determine version of HappyRest: " + e);
+        }
+
+        VERSION = version;
+        AGENT = String
+            .format("HappyRest %s (%s; %s) %s %s", VERSION, System.getProperty("os.name"),
+                System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
+                System.getProperty("java.runtime.version"));
+    }
+
+    public static void main(String[] args)
+    {
+        System
+            .getProperties()
+            .entrySet()
+            .stream()
+            .map(entry -> entry.getKey() + " = " + entry.getValue())
+            .sorted()
+            .forEach(System.out::println);
     }
 
     private RestUtils()

@@ -1,3 +1,8 @@
+pnet-data-api 1.9.6
+===================
+
+* Sending meaningful user-agent with REST requests.
+
 pnet-data-api 1.9.5
 ===================
 
