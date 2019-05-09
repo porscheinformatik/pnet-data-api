@@ -61,8 +61,8 @@ public final class PnetDataApiUtils
         .optionalEnd()
         .toFormatter();
 
-    public static final String VERSION;
-    public static final String AGENT;
+    private static String version;
+    private static String agent;
 
     /**
      * A collator set to primary strength, which means 'a', 'A' and '&auml;' is the same
@@ -73,40 +73,63 @@ public final class PnetDataApiUtils
 
     static
     {
-        String version = "UNDEFINED";
-
-        try (InputStream stream = PnetDataApiUtils.class
-            .getClassLoader()
-            .getResourceAsStream("/META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
-        {
-            if (stream != null)
-            {
-                Properties properties = new Properties();
-
-                properties.load(stream);
-
-                version = properties.getProperty("version");
-            }
-            else
-            {
-                System.err.println("Failed to determine version of Pnet Data API Java client.");
-            }
-        }
-        catch (IOException e)
-        {
-            System.err.println("Failed to determine version of Pnet Data API Java client: " + e);
-        }
-
-        VERSION = version;
-        AGENT = String
-            .format("Pnet Data API Java Client %s (%s; %s) %s %s", VERSION, System.getProperty("os.name"),
-                System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
-                System.getProperty("java.runtime.version"));
-
         DICTIONARY_COLLATOR = Collator.getInstance();
 
         DICTIONARY_COLLATOR.setStrength(Collator.PRIMARY);
         DICTIONARY_COLLATOR.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
+    }
+
+    public static String getVersion()
+    {
+        String v = version;
+
+        if (v == null)
+        {
+            v = "UNDEFINED";
+
+            try (InputStream stream = PnetDataApiUtils.class
+                .getClassLoader()
+                .getResourceAsStream("/META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
+            {
+                if (stream != null)
+                {
+                    Properties properties = new Properties();
+
+                    properties.load(stream);
+
+                    v = properties.getProperty("version");
+                }
+                else
+                {
+                    System.err.println("Failed to determine version of Pnet Data API Java client.");
+                }
+            }
+            catch (IOException e)
+            {
+                System.err.println("Failed to determine version of Pnet Data API Java client: " + e);
+            }
+
+            version = v;
+        }
+
+        return v;
+    }
+
+    public static String getAgent()
+    {
+        String a = agent;
+
+        if (a == null)
+        {
+            a = String
+                .format("Pnet Data API Java Client %s (%s; %s) %s %s", getVersion(), System.getProperty("os.name"),
+                    System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
+                    System.getProperty("java.runtime.version"));
+
+            agent = a;
+        }
+
+        return a;
     }
 
     private PnetDataApiUtils()

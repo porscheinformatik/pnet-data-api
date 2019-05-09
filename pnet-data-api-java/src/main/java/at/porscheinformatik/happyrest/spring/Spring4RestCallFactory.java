@@ -33,7 +33,7 @@ public class Spring4RestCallFactory implements RestCallFactory
         REST_TEMPLATE = new RestTemplate();
 
         REST_TEMPLATE.getInterceptors().add((request, body, execution) -> {
-            request.getHeaders().add("user-agent", RestUtils.AGENT);
+            request.getHeaders().add("user-agent", RestUtils.getAgent());
 
             return execution.execute(request, body);
         });
@@ -50,7 +50,7 @@ public class Spring4RestCallFactory implements RestCallFactory
             RestTemplate restTemplate = new RestTemplate();
 
             restTemplate.getInterceptors().add((request, body, execution) -> {
-                request.getHeaders().add("user-agent", RestUtils.AGENT);
+                request.getHeaders().add("user-agent", RestUtils.getAgent());
 
                 return execution.execute(request, body);
             });

@@ -17,8 +17,8 @@ public final class RestUtils
 
     private static final Map<Integer, String> HTTP_STATUS_MESSAGES;
 
-    public static final String VERSION;
-    public static final String AGENT;
+    private static String version;
+    private static String agent;
 
     static
     {
@@ -92,47 +92,59 @@ public final class RestUtils
         httpStatusMessages.put(511, "Network Authentication Required");
 
         HTTP_STATUS_MESSAGES = Collections.unmodifiableMap(httpStatusMessages);
-
-        String version = "UNDEFINED";
-
-        try (InputStream stream = RestUtils.class
-            .getClassLoader()
-            .getResourceAsStream("/META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
-        {
-            if (stream != null)
-            {
-                Properties properties = new Properties();
-
-                properties.load(stream);
-
-                version = properties.getProperty("version");
-            }
-            else
-            {
-                System.err.println("Failed to determine version of HappyRest.");
-            }
-        }
-        catch (IOException e)
-        {
-            System.err.println("Failed to determine version of HappyRest: " + e);
-        }
-
-        VERSION = version;
-        AGENT = String
-            .format("HappyRest %s (%s; %s) %s %s", VERSION, System.getProperty("os.name"),
-                System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
-                System.getProperty("java.runtime.version"));
     }
 
-    public static void main(String[] args)
+    public static String getVersion()
     {
-        System
-            .getProperties()
-            .entrySet()
-            .stream()
-            .map(entry -> entry.getKey() + " = " + entry.getValue())
-            .sorted()
-            .forEach(System.out::println);
+        String v = version;
+
+        if (v == null)
+        {
+            v = "UNDEFINED";
+
+            try (InputStream stream = RestUtils.class
+                .getClassLoader()
+                .getResourceAsStream("/META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
+            {
+                if (stream != null)
+                {
+                    Properties properties = new Properties();
+
+                    properties.load(stream);
+
+                    v = properties.getProperty("version");
+                }
+                else
+                {
+                    System.err.println("Failed to determine version of HappyRest.");
+                }
+            }
+            catch (IOException e)
+            {
+                System.err.println("Failed to determine version of HappyRest: " + e);
+            }
+
+            version = v;
+        }
+
+        return v;
+    }
+
+    public static String getAgent()
+    {
+        String a = agent;
+
+        if (a == null)
+        {
+            a = String
+                .format("HappyRest %s (%s; %s) %s %s", getVersion(), System.getProperty("os.name"),
+                    System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
+                    System.getProperty("java.runtime.version"));
+
+            agent = a;
+        }
+
+        return a;
     }
 
     private RestUtils()
