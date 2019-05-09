@@ -70,6 +70,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The last name of the person")
     private String lastName;
 
+    @ApiModelProperty(notes = "The username of the person.")
+    private String username;
+
     @ApiModelProperty(notes = "The birthdate of the person")
     private LocalDate birthdate;
 
@@ -241,6 +244,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
+    }
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public void setUsername(String username)
+    {
+        this.username = username;
     }
 
     public LocalDate getBirthdate()
@@ -528,12 +541,12 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     {
         return String
             .format(
-                "PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, portraitAvailible=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
+                "PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, portraitAvailible=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
                 id, personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, birthdate, externalId, guid, preferredUserId, phoneNumber, mobileNumber, faxNumber,
-                email, contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea,
-                personnelDepartment, jobDescription, languages, companies, numbers, functions, activities,
-                advisorAssignments, portraitAvailible, automaticDeletion, checksum, lastUpdate);
+                firstName, lastName, username, birthdate, externalId, guid, preferredUserId, phoneNumber, mobileNumber,
+                faxNumber, email, contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber,
+                controllingArea, personnelDepartment, jobDescription, languages, companies, numbers, functions,
+                activities, advisorAssignments, portraitAvailible, automaticDeletion, checksum, lastUpdate);
     }
 
 }

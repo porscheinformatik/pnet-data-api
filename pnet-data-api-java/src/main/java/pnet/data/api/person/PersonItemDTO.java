@@ -62,6 +62,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "The last name of the person.")
     private final String lastName;
 
+    @ApiModelProperty(notes = "The username of the person.")
+    private final String username;
+
     @ApiModelProperty(notes = "The external id of the person")
     private final String externalId;
 
@@ -83,6 +86,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "The companies the person has employments at")
     private final Collection<ActivePersonCompanyLinkDTO> companies;
 
+    @ApiModelProperty(notes = "The id of the company the person is mainly busy at")
+    private final Integer contactCompanyId;
+
     @ApiModelProperty(notes = "Indicates, whether the person has a portrait availible or not")
     private final Boolean portraitAvailible;
 
@@ -95,11 +101,12 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("academicTitle") String academicTitle,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
-        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
-        @JsonProperty("preferredUserId") String preferredUserId,
+        @JsonProperty("username") String username, @JsonProperty("externalId") String externalId,
+        @JsonProperty("guid") String guid, @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
         @JsonProperty("email") String email,
         @JsonProperty("companies") Collection<ActivePersonCompanyLinkDTO> companies,
+        @JsonProperty("contactCompanyId") Integer contactCompanyId,
         @JsonProperty("portraitAvailible") Boolean portraitAvailible,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
@@ -113,6 +120,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.academicTitlePostNominal = academicTitlePostNominal;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.externalId = externalId;
         this.guid = guid;
         this.preferredUserId = preferredUserId;
@@ -120,6 +128,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.birthdate = birthdate;
         this.email = email;
         this.companies = companies;
+        this.contactCompanyId = contactCompanyId;
         this.portraitAvailible = portraitAvailible;
         this.lastUpdate = lastUpdate;
     }
@@ -166,6 +175,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return lastName;
     }
 
+    public String getUsername()
+    {
+        return username;
+    }
+
     public String getExternalId()
     {
         return externalId;
@@ -201,6 +215,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return companies;
     }
 
+    public Integer getContactCompanyId()
+    {
+        return contactCompanyId;
+    }
+
     public Boolean getPortraitAvailible()
     {
         return portraitAvailible;
@@ -217,10 +236,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     {
         return String
             .format(
-                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, companies=%s, portraitAvailible=%s, lastUpdate=%s]",
+                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, companies=%s, contactCompanyId=%s, portraitAvailible=%s, lastUpdate=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, externalId, guid, preferredUserId, personnelNumber, birthdate, email, companies,
-                portraitAvailible, lastUpdate);
+                firstName, lastName, username, externalId, guid, preferredUserId, personnelNumber, birthdate, email,
+                companies, contactCompanyId, portraitAvailible, lastUpdate);
     }
 
 }
