@@ -83,6 +83,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "The companies the person has employments at")
     private final Collection<ActivePersonCompanyLinkDTO> companies;
 
+    @ApiModelProperty(notes = "Indicates, whether the person has a portrait availible or not")
+    private final Boolean portraitAvailible;
+
     @ApiModelProperty(notes = "The time and date when the person was last changed.")
     private final LocalDateTime lastUpdate;
 
@@ -97,6 +100,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
         @JsonProperty("email") String email,
         @JsonProperty("companies") Collection<ActivePersonCompanyLinkDTO> companies,
+        @JsonProperty("portraitAvailible") Boolean portraitAvailible,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
     {
         super();
@@ -116,6 +120,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.birthdate = birthdate;
         this.email = email;
         this.companies = companies;
+        this.portraitAvailible = portraitAvailible;
         this.lastUpdate = lastUpdate;
     }
 
@@ -196,6 +201,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return companies;
     }
 
+    public Boolean getPortraitAvailible()
+    {
+        return portraitAvailible;
+    }
+
     @Override
     public LocalDateTime getLastUpdate()
     {
@@ -207,12 +217,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     {
         return String
             .format(
-                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, externalId=%s, guid=%s, preferredUserId=%s, "
-                    + "personnelNumber=%s, birthdate=%s, email=%s, companies=%s, lastUpdate=%s]",
+                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, companies=%s, portraitAvailible=%s, lastUpdate=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
                 firstName, lastName, externalId, guid, preferredUserId, personnelNumber, birthdate, email, companies,
-                lastUpdate);
+                portraitAvailible, lastUpdate);
     }
 
 }

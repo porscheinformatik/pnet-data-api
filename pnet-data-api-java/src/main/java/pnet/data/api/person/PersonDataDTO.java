@@ -133,6 +133,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The advisor assignments of the person for specific companies")
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
+    @ApiModelProperty(notes = "Indicates, whether the person has a portrait availible or not")
+    private Boolean portraitAvailible;
+
     @ApiModelProperty(notes = "Indicates, whether the person will get deleted automatically in the near future")
     private boolean automaticDeletion;
 
@@ -486,6 +489,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.automaticDeletion = automaticDeletion;
     }
 
+    public Boolean getPortraitAvailible()
+    {
+        return portraitAvailible;
+    }
+
+    public void setPortraitAvailible(Boolean portraitAvailible)
+    {
+        this.portraitAvailible = portraitAvailible;
+    }
+
     public String getChecksum()
     {
         return checksum;
@@ -514,17 +527,13 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public String toString()
     {
         return String
-            .format("PersonDataDTO [id=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, birthdate=%s, externalId=%s, guid=%s, "
-                + "preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, "
-                + "costCenter=%s, personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, "
-                + "personnelDepartment=%s, jobDescription=%s, languages=%s, companies=%s, numbers=%s, functions=%s, "
-                + "activities=%s, advisorAssignments=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]", id,
-                administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal, firstName,
-                lastName, birthdate, externalId, guid, preferredUserId, phoneNumber, mobileNumber, faxNumber, email,
-                contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea,
+            .format(
+                "PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, portraitAvailible=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
+                id, personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
+                firstName, lastName, birthdate, externalId, guid, preferredUserId, phoneNumber, mobileNumber, faxNumber,
+                email, contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea,
                 personnelDepartment, jobDescription, languages, companies, numbers, functions, activities,
-                advisorAssignments, automaticDeletion, checksum, lastUpdate);
+                advisorAssignments, portraitAvailible, automaticDeletion, checksum, lastUpdate);
     }
 
 }
