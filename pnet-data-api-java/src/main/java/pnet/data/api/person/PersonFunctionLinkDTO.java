@@ -14,18 +14,13 @@
  */
 package pnet.data.api.person;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import pnet.data.api.util.AbstractLinkDTO;
-import pnet.data.api.util.WithBrandMatchcode;
-import pnet.data.api.util.WithCompanyId;
-import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
@@ -34,23 +29,10 @@ import pnet.data.api.util.WithValidPeriod;
  * @author ham
  */
 @ApiModel(description = "Holds minimal information about a function the person has.")
-public class PersonFunctionLinkDTO extends AbstractLinkDTO
-    implements WithMatchcode, WithCompanyId, WithBrandMatchcode, WithValidPeriod, Serializable
+public class PersonFunctionLinkDTO extends ActivePersonFunctionLinkDTO implements WithValidPeriod
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
-
-    @ApiModelProperty(notes = "The id of the company the person has the function at.")
-    private final Integer companyId;
-
-    @ApiModelProperty(notes = "The matchcode of the company the person has/had an function at.")
-    private final String companyMatchcode;
-
-    @ApiModelProperty(notes = "The number of the company the person has/had an function at.")
-    private final String companyNumber;
-
-    @ApiModelProperty(notes = "The matchcode of a brand the person has the function for.")
-    private final String brandMatchcode;
 
     @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
     private final LocalDateTime validFrom;
@@ -58,61 +40,16 @@ public class PersonFunctionLinkDTO extends AbstractLinkDTO
     @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
     private final LocalDateTime validTo;
 
-    @ApiModelProperty(
-        notes = "The flag that declares, whether this function is the main function of the person at the specific company or not.")
-    private final boolean mainFunction;
-
     public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("mainFunction") boolean mainFunction)
     {
-        super(tenant, matchcode);
+        super(tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
 
-        this.companyId = companyId;
-        this.companyMatchcode = companyMatchcode;
-        this.companyNumber = companyNumber;
-        this.brandMatchcode = brandMatchcode;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.mainFunction = mainFunction;
-    }
-
-    @JsonPropertyDescription("A tenant where the function is valid")
-    @Override
-    public String getTenant()
-    {
-        return super.getTenant();
-    }
-
-    @JsonPropertyDescription("The unique matchcode of the function")
-    @Override
-    public String getMatchcode()
-    {
-        return super.getMatchcode();
-    }
-
-    @Override
-    public Integer getCompanyId()
-    {
-        return companyId;
-    }
-
-    public String getCompanyMatchcode()
-    {
-        return companyMatchcode;
-    }
-
-    public String getCompanyNumber()
-    {
-        return companyNumber;
-    }
-
-    @Override
-    public String getBrandMatchcode()
-    {
-        return brandMatchcode;
     }
 
     @Override
@@ -127,19 +64,12 @@ public class PersonFunctionLinkDTO extends AbstractLinkDTO
         return validTo;
     }
 
-    public boolean isMainFunction()
-    {
-        return mainFunction;
-    }
-
     @Override
     public int hashCode()
     {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
-        result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
-        result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
+        result = prime * result + Objects.hash(validFrom);
         return result;
     }
 
@@ -159,50 +89,17 @@ public class PersonFunctionLinkDTO extends AbstractLinkDTO
             return false;
         }
         PersonFunctionLinkDTO other = (PersonFunctionLinkDTO) obj;
-        if (brandMatchcode == null)
-        {
-            if (other.brandMatchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!brandMatchcode.equals(other.brandMatchcode))
-        {
-            return false;
-        }
-        if (companyId == null)
-        {
-            if (other.companyId != null)
-            {
-                return false;
-            }
-        }
-        else if (!companyId.equals(other.companyId))
-        {
-            return false;
-        }
-        if (validFrom == null)
-        {
-            if (other.validFrom != null)
-            {
-                return false;
-            }
-        }
-        else if (!validFrom.equals(other.validFrom))
-        {
-            return false;
-        }
-        return true;
+        return Objects.equals(validFrom, other.validFrom);
     }
 
     @Override
     public String toString()
     {
         return String
-            .format(
-                "PersonFunctionLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
-                    + "validFrom=%s, validTo=%s, mainFunction=%s]",
-                companyId, companyMatchcode, companyNumber, brandMatchcode, validFrom, validTo, mainFunction);
+            .format("PersonFunctionLinkDTO [getTenant()=%s, getMatchcode()=%s, getCompanyId()=%s, "
+                + "getCompanyMatchcode()=%s, getCompanyNumber()=%s, getBrandMatchcode()=%s, validFrom=%s, validTo=%s, "
+                + "isMainFunction()=%s]", getTenant(), getMatchcode(), getCompanyId(), getCompanyMatchcode(),
+                getCompanyNumber(), getBrandMatchcode(), validFrom, validTo, isMainFunction());
     }
 
 }

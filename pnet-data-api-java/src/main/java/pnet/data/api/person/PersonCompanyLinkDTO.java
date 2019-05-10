@@ -16,7 +16,6 @@ package pnet.data.api.person;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -45,10 +44,9 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
 
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("mainFunctionMatchcodes") List<String> mainFunctionMatchcodes)
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
     {
-        super(companyId, companyMatchcode, companyNumber, mainFunctionMatchcodes);
+        super(companyId, companyMatchcode, companyNumber);
 
         this.validFrom = validFrom;
         this.validTo = validTo;

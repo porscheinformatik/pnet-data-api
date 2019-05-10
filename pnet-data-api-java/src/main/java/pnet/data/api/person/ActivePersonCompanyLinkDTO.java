@@ -1,7 +1,7 @@
 package pnet.data.api.person;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,19 +30,14 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     @ApiModelProperty(notes = "The number of the company the person has an employment at.")
     protected final String companyNumber;
 
-    @ApiModelProperty(notes = "The matchcodes of the main functions the person has at the employment")
-    protected final List<String> mainFunctionMatchcodes;
-
     public ActivePersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
-        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("mainFunctionMatchcodes") List<String> mainFunctionMatchcodes)
+        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber)
     {
         super();
 
         this.companyId = companyId;
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
-        this.mainFunctionMatchcodes = mainFunctionMatchcodes;
     }
 
     @Override
@@ -61,19 +56,10 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
         return companyNumber;
     }
 
-    public List<String> getMainFunctionMatchcodes()
-    {
-        return mainFunctionMatchcodes;
-    }
-
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
-        result = prime * result + ((mainFunctionMatchcodes == null) ? 0 : mainFunctionMatchcodes.hashCode());
-        return result;
+        return Objects.hash(companyId);
     }
 
     @Override
@@ -92,38 +78,15 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
             return false;
         }
         ActivePersonCompanyLinkDTO other = (ActivePersonCompanyLinkDTO) obj;
-        if (companyId == null)
-        {
-            if (other.companyId != null)
-            {
-                return false;
-            }
-        }
-        else if (!companyId.equals(other.companyId))
-        {
-            return false;
-        }
-        if (mainFunctionMatchcodes == null)
-        {
-            if (other.mainFunctionMatchcodes != null)
-            {
-                return false;
-            }
-        }
-        else if (!mainFunctionMatchcodes.equals(other.mainFunctionMatchcodes))
-        {
-            return false;
-        }
-        return true;
+        return Objects.equals(companyId, other.companyId);
     }
 
     @Override
     public String toString()
     {
         return String
-            .format(
-                "ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, mainFunctionMatchcodes=%s]",
-                companyId, companyMatchcode, companyNumber, mainFunctionMatchcodes);
+            .format("ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s]", companyId,
+                companyMatchcode, companyNumber);
     }
 
 }

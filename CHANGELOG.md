@@ -1,3 +1,14 @@
+pnet-data-api 1.9.8
+===================
+
+* Add main functions directly to person items.
+
+pnet-data-api 1.9.7
+===================
+
+* Add username to person items.
+* Add contract company to persons.
+
 pnet-data-api 1.9.6
 ===================
 

@@ -100,6 +100,12 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The id of the company the person is mainly busy at")
     private Integer contactCompanyId;
 
+    @ApiModelProperty(notes = "The matchcode of the company the person is mainly busy at")
+    private String contactCompanyMatchcode;
+
+    @ApiModelProperty(notes = "The number of the company the person is mainly busy at")
+    private String contactCompanyNumber;
+
     @ApiModelProperty(notes = "The cost center of the person")
     private String costCenter;
 
@@ -136,8 +142,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The advisor assignments of the person for specific companies")
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
-    @ApiModelProperty(notes = "Indicates, whether the person has a portrait availible or not")
-    private Boolean portraitAvailible;
+    @ApiModelProperty(notes = "Indicates, whether the person has a portrait available or not")
+    private Boolean portraitAvailable;
 
     @ApiModelProperty(notes = "Indicates, whether the person will get deleted automatically in the near future")
     private boolean automaticDeletion;
@@ -346,6 +352,26 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.contactCompanyId = contactCompanyId;
     }
 
+    public String getContactCompanyMatchcode()
+    {
+        return contactCompanyMatchcode;
+    }
+
+    public void setContactCompanyMatchcode(String contactCompanyMatchcode)
+    {
+        this.contactCompanyMatchcode = contactCompanyMatchcode;
+    }
+
+    public String getContactCompanyNumber()
+    {
+        return contactCompanyNumber;
+    }
+
+    public void setContactCompanyNumber(String contactCompanyNumber)
+    {
+        this.contactCompanyNumber = contactCompanyNumber;
+    }
+
     public String getCostCenter()
     {
         return costCenter;
@@ -502,14 +528,14 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.automaticDeletion = automaticDeletion;
     }
 
-    public Boolean getPortraitAvailible()
+    public Boolean getPortraitAvailable()
     {
-        return portraitAvailible;
+        return portraitAvailable;
     }
 
-    public void setPortraitAvailible(Boolean portraitAvailible)
+    public void setPortraitAvailable(Boolean portraitAvailable)
     {
-        this.portraitAvailible = portraitAvailible;
+        this.portraitAvailable = portraitAvailable;
     }
 
     public String getChecksum()
@@ -542,17 +568,17 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         return String
             .format(
                 "PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, "
-                + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
-                + "birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
-                + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
-                + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
-                + "languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, "
-                + "portraitAvailible=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
+                    + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
+                    + "birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
+                    + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
+                    + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
+                    + "languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, "
+                    + "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
                 id, personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
                 firstName, lastName, username, birthdate, externalId, guid, preferredUserId, phoneNumber, mobileNumber,
                 faxNumber, email, contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber,
                 controllingArea, personnelDepartment, jobDescription, languages, companies, numbers, functions,
-                activities, advisorAssignments, portraitAvailible, automaticDeletion, checksum, lastUpdate);
+                activities, advisorAssignments, portraitAvailable, automaticDeletion, checksum, lastUpdate);
     }
 
 }
