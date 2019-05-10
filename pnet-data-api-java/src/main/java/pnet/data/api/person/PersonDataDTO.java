@@ -541,7 +541,13 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     {
         return String
             .format(
-                "PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, portraitAvailible=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
+                "PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, "
+                + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
+                + "birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
+                + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
+                + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
+                + "languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, "
+                + "portraitAvailible=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
                 id, personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
                 firstName, lastName, username, birthdate, externalId, guid, preferredUserId, phoneNumber, mobileNumber,
                 faxNumber, email, contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber,

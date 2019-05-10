@@ -236,7 +236,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     {
         return String
             .format(
-                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, companies=%s, contactCompanyId=%s, portraitAvailible=%s, lastUpdate=%s]",
+                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, "
+                    + "preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, companies=%s, contactCompanyId=%s, "
+                    + "portraitAvailible=%s, lastUpdate=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
                 firstName, lastName, username, externalId, guid, preferredUserId, personnelNumber, birthdate, email,
                 companies, contactCompanyId, portraitAvailible, lastUpdate);
