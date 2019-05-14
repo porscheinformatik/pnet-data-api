@@ -13,12 +13,15 @@ public class TodoGroupAggregationsDTO
 {
 
     private final List<TodoGroupCategoryAggregationDTO> categories;
+    private final List<TodoGroupStateAggregationDTO> states;
 
-    public TodoGroupAggregationsDTO(@JsonProperty("categories") List<TodoGroupCategoryAggregationDTO> categories)
+    public TodoGroupAggregationsDTO(@JsonProperty("categories") List<TodoGroupCategoryAggregationDTO> categories,
+        @JsonProperty("categories") List<TodoGroupStateAggregationDTO> states)
     {
         super();
 
         this.categories = categories;
+        this.states = states;
     }
 
     public List<TodoGroupCategoryAggregationDTO> getCategories()
@@ -26,10 +29,15 @@ public class TodoGroupAggregationsDTO
         return categories;
     }
 
+    public List<TodoGroupStateAggregationDTO> getStates()
+    {
+        return states;
+    }
+
     @Override
     public String toString()
     {
-        return String.format("TodoGroupAggregationDTO [categories=%s]", categories);
+        return String.format("TodoGroupAggregationsDTO [categories=%s, states=%s]", categories, states);
     }
 
 }

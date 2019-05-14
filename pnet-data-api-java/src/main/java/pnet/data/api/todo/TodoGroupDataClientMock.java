@@ -72,7 +72,7 @@ public class TodoGroupDataClientMock extends TodoGroupDataClient
         List<TodoGroupItemDTO> entries = findItems(restricts);
         List<TodoGroupCategoryAggregationDTO> aggregatedCategories =
             MockUtils.aggregate(entries, TodoGroupItemDTO::getCategory, TodoGroupCategoryAggregationDTO::new);
-        TodoGroupAggregationsDTO aggregations = new TodoGroupAggregationsDTO(aggregatedCategories);
+        TodoGroupAggregationsDTO aggregations = new TodoGroupAggregationsDTO(aggregatedCategories, null);
 
         return MockUtils.mockResultPageWithAggregations(entries, aggregations, pageIndex, itemsPerPage);
     }
