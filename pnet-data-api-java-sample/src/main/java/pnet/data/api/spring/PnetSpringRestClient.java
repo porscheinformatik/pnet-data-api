@@ -123,13 +123,13 @@ import pnet.data.api.todo.TodoGroupItemDTO;
 import pnet.data.api.todo.TodoGroupPersonLinkDTO;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
+import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Restrict;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
-import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictTenant;
 
@@ -290,10 +290,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search activities", format = "<QUERY>", description = "Query activities.")
-    public void searchActivities(String q) throws PnetDataClientException
+    public void searchActivities(String... qs) throws PnetDataClientException
     {
         ActivityDataSearch query = restrict(activityDataClient.search());
-        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -343,10 +343,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search advisor types", format = "<QUERY>", description = "Query advisor types.")
-    public void searchAdvisorTypes(String q) throws PnetDataClientException
+    public void searchAdvisorTypes(String... qs) throws PnetDataClientException
     {
         AdvisorTypeDataSearch query = restrict(advisorTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -393,10 +393,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search applications", format = "<QUERY>", description = "Query applications.")
-    public void searchApplications(String q) throws PnetDataClientException
+    public void searchApplications(String... qs) throws PnetDataClientException
     {
         ApplicationDataSearch query = restrict(applicationDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -445,10 +445,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search brands", format = "<QUERY>", description = "Query brands.")
-    public void searchBrands(String q) throws PnetDataClientException
+    public void searchBrands(String... qs) throws PnetDataClientException
     {
         BrandDataSearch query = restrict(brandDataClient.search());
-        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -603,7 +603,7 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search companies", format = "<QUERY>", description = "Query companies.")
-    public void searchCompanies(String q) throws PnetDataClientException
+    public void searchCompanies(String... qs) throws PnetDataClientException
     {
         CompanyDataSearch query = restrict(companyDataClient
             .search()
@@ -611,7 +611,7 @@ public final class PnetSpringRestClient
             .aggregateNumberPerBrand()
             .aggregateNumberPerType()
             .aggregateNumberPerContractType());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -786,10 +786,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search company group types", format = "<QUERY>", description = "Query company group types.")
-    public void searchCompanyGroups(String q) throws PnetDataClientException
+    public void searchCompanyGroups(String... qs) throws PnetDataClientException
     {
         CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -849,10 +849,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search company group types", format = "<QUERY>", description = "Query company group types.")
-    public void searchCompanyGroupTypes(String q) throws PnetDataClientException
+    public void searchCompanyGroupTypes(String... qs) throws PnetDataClientException
     {
         CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -901,10 +901,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search company number types", format = "<QUERY>", description = "Query company number types.")
-    public void searchCompanyNumberTypes(String q) throws PnetDataClientException
+    public void searchCompanyNumberTypes(String... qs) throws PnetDataClientException
     {
         CompanyNumberTypeDataSearch query = restrict(companyNumberTypeDataClient.search());
-        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -934,10 +934,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search company types", format = "<QUERY>", description = "Query company types.")
-    public void searchCompanyTypes(String q) throws PnetDataClientException
+    public void searchCompanyTypes(String... qs) throws PnetDataClientException
     {
         CompanyTypeDataSearch query = restrict(companyTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -986,10 +986,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search contract states", format = "<QUERY>", description = "Query contract states types.")
-    public void searchContractStates(String q) throws PnetDataClientException
+    public void searchContractStates(String... qs) throws PnetDataClientException
     {
         ContractStateDataSearch query = restrict(contractStateDataClient.search());
-        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -1040,10 +1040,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search contract types", format = "<QUERY>", description = "Query contract types.")
-    public void searchContractTypes(String q) throws PnetDataClientException
+    public void searchContractTypes(String... qs) throws PnetDataClientException
     {
         ContractTypeDataSearch query = restrict(contractTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -1091,10 +1091,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search external brands", format = "<QUERY>", description = "Query external brands.")
-    public void searchExternalBrands(String q) throws PnetDataClientException
+    public void searchExternalBrands(String... qs) throws PnetDataClientException
     {
         ExternalBrandDataSearch query = restrict(externalBrandDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -1143,10 +1143,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search functions", format = "<QUERY>", description = "Query functions.")
-    public void searchFunctions(String q) throws PnetDataClientException
+    public void searchFunctions(String... qs) throws PnetDataClientException
     {
         FunctionDataSearch query = restrict(functionDataClient.search());
-        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -1194,10 +1194,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search number types", format = "<QUERY>", description = "Query number types.")
-    public void searchNumberTypes(String q) throws PnetDataClientException
+    public void searchNumberTypes(String... qs) throws PnetDataClientException
     {
         NumberTypeDataSearch query = restrict(numberTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -1322,7 +1322,7 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
-    public void searchPerson(String q) throws PnetDataClientException
+    public void searchPerson(String... qs) throws PnetDataClientException
     {
         PersonDataSearch query = restrict(personDataClient
             .search()
@@ -1331,7 +1331,7 @@ public final class PnetSpringRestClient
             .aggregateNumberPerFunction()
             .aggregateNumberPerActivity());
         PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> result =
-            query.execute(Locale.getDefault(), q);
+            query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -1398,10 +1398,10 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
-    public void searchTodoGroups(String q) throws PnetDataClientException
+    public void searchTodoGroups(String... qs) throws PnetDataClientException
     {
         TodoGroupDataSearch query = restrict(todoGroupDataClient.search().aggregateNumberPerCategory());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), q);
+        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
     }
@@ -1875,6 +1875,16 @@ public final class PnetSpringRestClient
         }
 
         return builder.toString();
+    }
+
+    protected static String joinQuery(String... qs)
+    {
+        if (qs == null || qs.length == 0)
+        {
+            return "*";
+        }
+
+        return Arrays.stream(qs).collect(Collectors.joining(" "));
     }
 
 }
