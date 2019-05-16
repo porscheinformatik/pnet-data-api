@@ -1,3 +1,8 @@
+pnet-data-api 1.9.9
+===================
+
+* Allow search with spaces in sample client.
+
 pnet-data-api 1.9.8
 ===================
 
