@@ -2,9 +2,6 @@ package pnet.data.api.contracttype;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-
-import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
 
 /**
  * Client for ContractType.
@@ -13,7 +10,6 @@ import pnet.data.api.client.context.ContextPnetDataApiClientConfig;
  */
 @Configuration
 @ComponentScan(basePackageClasses = {ContractTypePnetDataApiClientConfig.class})
-@Import(ContextPnetDataApiClientConfig.class)
 public class ContractTypePnetDataApiClientConfig
 {
     // intentionally left blank
