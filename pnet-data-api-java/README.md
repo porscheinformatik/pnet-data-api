@@ -30,9 +30,9 @@ Checkout the [pnet-data-api-java-samle](https://github.com/porscheinformatik/pne
 
 # Using the Java client
 
-## Spring (>= 5)
+## Spring
 
-Import the `PnetDataClientConfig` to your existing configuration. You will need to provide `PnetDataClientPrefs` containing your user data.
+Import the `PnetDataClientConfig` (the `PnetDataClientSpring4Config` if you are still using Spring 4) to your existing configuration. You will need to provide `PnetDataClientPrefs` containing your user data.
 
 This is an example of a most basic configuration accsing the QA environment and getting the username/password from the application properties:
 
