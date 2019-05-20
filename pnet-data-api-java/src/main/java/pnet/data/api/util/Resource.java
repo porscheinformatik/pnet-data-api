@@ -1,8 +1,14 @@
 package pnet.data.api.util;
 
+import java.awt.Image;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 /**
  * Some binary response with data and type
- * 
+ *
  * @author HAM
  */
 public class Resource
@@ -25,5 +31,17 @@ public class Resource
     public byte[] getData()
     {
         return data;
+    }
+
+    public Image toImage()
+    {
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(data))
+        {
+            return ImageIO.read(stream);
+        }
+        catch (IOException e)
+        {
+            throw new IllegalArgumentException("Failed to read image", e);
+        }
     }
 }

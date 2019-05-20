@@ -2,7 +2,11 @@ package pnet.data.api.spring;
 
 import static pnet.data.api.util.PrettyPrint.*;
 
+import java.awt.Canvas;
 import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDateTime;
@@ -11,9 +15,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,8 +132,10 @@ import pnet.data.api.todo.TodoGroupPersonLinkDTO;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.CompanyMergable;
+import pnet.data.api.util.ImageType;
 import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
+import pnet.data.api.util.Resource;
 import pnet.data.api.util.Restrict;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
@@ -1336,6 +1346,36 @@ public final class PnetSpringRestClient
         printResults(result);
     }
 
+    @CLI.Command(name = "get portrait of person", format = "<ID>",
+        description = "Shows the portrait image of the person.")
+    public void getPersonPortraitById(Integer id) throws PnetDataClientException
+    {
+        Optional<Resource> portrait = personDataClient.portrait(id, ImageType.ORIGINAL);
+
+        if (!portrait.isPresent())
+        {
+            cli.error("Image not found.");
+            return;
+        }
+
+        showImage("Portrait of Person " + id, portrait.get().toImage());
+    }
+
+    @CLI.Command(name = "get thumbnail of person", format = "<ID>",
+        description = "Shows the thumbnail portrait image of the person.")
+    public void getPersonPortraitThumbnailById(Integer id) throws PnetDataClientException
+    {
+        Optional<Resource> portrait = personDataClient.portrait(id, ImageType.THUMBNAIL);
+
+        if (!portrait.isPresent())
+        {
+            cli.error("Image not found.");
+            return;
+        }
+
+        showImage("Portrait thumbnail of Person " + id, portrait.get().toImage());
+    }
+
     ////////////////////////////////////////////////////////////////////////////
 
     @CLI.Command(name = "export all todo groups", description = "Exports all todo groups.")
@@ -1885,6 +1925,30 @@ public final class PnetSpringRestClient
         }
 
         return Arrays.stream(qs).collect(Collectors.joining(" "));
+    }
+
+    protected static void showImage(String title, Image image)
+    {
+        Canvas canvas = new Canvas()
+        {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public void paint(Graphics g)
+            {
+                g.drawImage(image, 0, 0, this);
+            }
+        };
+
+        canvas.setPreferredSize(new Dimension(image.getWidth(canvas), image.getHeight(canvas)));
+
+        JFrame frame = new JFrame(title);
+
+        frame.add(canvas);
+        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
 }
