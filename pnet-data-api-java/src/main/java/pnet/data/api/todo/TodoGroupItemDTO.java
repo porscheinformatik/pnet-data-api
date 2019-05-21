@@ -1,5 +1,6 @@
 package pnet.data.api.todo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -15,8 +16,10 @@ import pnet.data.api.util.WithLastUpdate;
  * @author HAM
  */
 @ApiModel(description = "Holds to-dos with the same category and reference id.")
-public class TodoGroupItemDTO implements WithLastUpdate
+public class TodoGroupItemDTO implements WithLastUpdate, Serializable
 {
+
+    private static final long serialVersionUID = 725799282920048805L;
 
     @ApiModelProperty(notes = "The category of to-dos, this groups is holding.")
     private final TodoCategory category;
