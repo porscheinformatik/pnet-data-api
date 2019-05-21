@@ -16,7 +16,7 @@ public class TodoGroupAggregationsDTO
     private final List<TodoGroupStateAggregationDTO> states;
 
     public TodoGroupAggregationsDTO(@JsonProperty("categories") List<TodoGroupCategoryAggregationDTO> categories,
-        @JsonProperty("categories") List<TodoGroupStateAggregationDTO> states)
+        @JsonProperty("states") List<TodoGroupStateAggregationDTO> states)
     {
         super();
 
