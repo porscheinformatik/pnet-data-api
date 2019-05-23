@@ -49,6 +49,9 @@ public class PersonDataClientMock extends PersonDataClient
         itemStore
             .addFilter("company", withCollection(PersonItemDTO::getCompanies,
                 whenEquals(ActivePersonCompanyLinkDTO::getCompanyMatchcode)));
+        itemStore
+            .addFilter("function",
+                withCollection(PersonItemDTO::getFunctions, whenEquals(ActivePersonFunctionLinkDTO::getMatchcode)));
 
         addDefaultTenantsFilter(itemStore);
         addDefaultLastUpdateFilter(itemStore);
