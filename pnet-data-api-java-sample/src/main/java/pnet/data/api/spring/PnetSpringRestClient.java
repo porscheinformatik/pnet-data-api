@@ -1302,11 +1302,21 @@ public final class PnetSpringRestClient
                 dto.getLastUpdate()));
     }
 
-    @CLI.Command(name = "find persons by number", format = "<NUMBER...>",
+    @CLI.Command(name = "find persons by personnel number", format = "<NUMBER...>",
         description = "Find persons by personnel number.")
-    public void findPersonsByNumber(String... numbers) throws PnetDataClientException
+    public void findPersonsByPersonnelNumber(String... numbers) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().personnelNumber(numbers));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
+    }
+
+    @CLI.Command(name = "find persons by salesman number", format = "<NUMBER...>",
+        description = "Find persons by salesman number.")
+    public void findPersonsBySalesmanNumber(String... numbers) throws PnetDataClientException
+    {
+        PersonDataFind query = restrict(personDataClient.find().numbersType("NT_VERK_NR").number(numbers));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
 
         printResults(result);
