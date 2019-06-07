@@ -1,3 +1,29 @@
+pnet-data-api 1.10.4
+====================
+
+* Add valid-from/valid-to to persons' activities
+
+pnet-data-api 1.10.3
+====================
+
+* Ass daslesman number to person find
+
+pnet-data-api 1.10.2
+====================
+
+* Add function filter to client mock
+
+pnet-data-api 1.10.1
+====================
+
+* Fix wrong JSON property in TodOGroupAggregationsDTO
+* Add missing serializable in TodoGroupItemDTO
+
+pnet-data-api 1.10.0
+====================
+
+* Add state aggregations for todos
+
 pnet-data-api 1.9.9
 ===================
 
