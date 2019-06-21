@@ -1341,6 +1341,16 @@ public final class PnetSpringRestClient
         printResults(result);
     }
 
+    @CLI.Command(name = "find persons by role", format = "<ROLE-MC...>",
+        description = "Find persons by functions and activities.")
+    public void findPersonsByRole(String... matchcodes) throws PnetDataClientException
+    {
+        PersonDataFind query = restrict(personDataClient.find().role(matchcodes));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
+    }
+
     @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
     public void searchPerson(String... qs) throws PnetDataClientException
     {
@@ -1869,8 +1879,8 @@ public final class PnetSpringRestClient
         page.stream().map(PrettyPrint::prettyPrint).forEach(cli::info);
 
         cli
-            .info("\nThis is page %d of %d. Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
-                page.getPageIndex() + 1, page.getNumberOfPages());
+            .info("\nThis is page %d of %d (%d of %d results). Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
+                page.getPageIndex() + 1, page.getNumberOfPages(), page.getItems().size(), page.getTotalNumberOfItems());
     }
 
     protected PnetDataApiTokenKey key()

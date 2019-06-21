@@ -28,8 +28,8 @@ public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Seri
 
     private static final long serialVersionUID = -2028835160784471478L;
 
-    private final String tenant;
-    private final String matchcode;
+    protected final String tenant;
+    protected final String matchcode;
 
     public AbstractLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
     {

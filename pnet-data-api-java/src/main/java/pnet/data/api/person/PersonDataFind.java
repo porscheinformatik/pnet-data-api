@@ -12,6 +12,8 @@ import pnet.data.api.util.RestrictAdvisorAssignmentCompanyId;
 import pnet.data.api.util.RestrictAdvisorAssignmentCompanyNumber;
 import pnet.data.api.util.RestrictAdvisorAssignmentDivision;
 import pnet.data.api.util.RestrictAdvisorAssignmentType;
+import pnet.data.api.util.RestrictRole;
+import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
@@ -42,11 +44,12 @@ public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind>
     RestrictPersonnelNumber<PersonDataFind>, RestrictSupervisorPersonnelNumber<PersonDataFind>,
     RestrictControllingArea<PersonDataFind>, RestrictPersonnelDepartment<PersonDataFind>,
     RestrictCompanyId<PersonDataFind>, RestrictCompanyNumber<PersonDataFind>, RestrictCompany<PersonDataFind>,
-    RestrictFunction<PersonDataFind>, RestrictActivity<PersonDataFind>, RestrictNumbersType<PersonDataFind>,
-    RestrictNumber<PersonDataFind>, RestrictAdvisorAssignmentCompanyId<PersonDataFind>,
-    RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>, RestrictAdvisorAssignmentCompany<PersonDataFind>,
-    RestrictAdvisorAssignmentType<PersonDataFind>, RestrictAdvisorAssignmentDivision<PersonDataFind>,
-    RestrictUpdatedAfter<PersonDataFind>, CompanyMergable<PersonDataFind>, Scrollable<PersonDataFind>
+    RestrictBrand<PersonDataFind>, RestrictFunction<PersonDataFind>, RestrictActivity<PersonDataFind>,
+    RestrictRole<PersonDataFind>, RestrictNumbersType<PersonDataFind>, RestrictNumber<PersonDataFind>,
+    RestrictAdvisorAssignmentCompanyId<PersonDataFind>, RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>,
+    RestrictAdvisorAssignmentCompany<PersonDataFind>, RestrictAdvisorAssignmentType<PersonDataFind>,
+    RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictUpdatedAfter<PersonDataFind>,
+    CompanyMergable<PersonDataFind>, Scrollable<PersonDataFind>
 {
 
     public PersonDataFind(FindFunction<PersonItemDTO> findFunction, List<Pair<String, Object>> restrictItems)

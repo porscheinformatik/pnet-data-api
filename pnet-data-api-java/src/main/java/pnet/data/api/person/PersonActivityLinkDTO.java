@@ -105,11 +105,13 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
         return companyId;
     }
 
+    @Override
     public String getCompanyMatchcode()
     {
         return companyMatchcode;
     }
 
+    @Override
     public String getCompanyNumber()
     {
         return companyNumber;
@@ -166,7 +168,7 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
         return String
             .format(
                 "PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
-                + "validFrom=%s, validTo=%s, dueToFunction=%s]",
+                    + "validFrom=%s, validTo=%s, dueToFunction=%s]",
                 companyId, companyMatchcode, companyNumber, brandMatchcode, validFrom, validTo, dueToFunction);
     }
 

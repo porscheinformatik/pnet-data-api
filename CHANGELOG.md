@@ -1,23 +1,28 @@
 pnet-data-api 1.10.4
 ====================
 
-* Add valid-from/valid-to to persons' activities
+* Add company label where suitable.
+* Add function and activity label where suitable.
+* Add search for "roles" to enable searches for function OR activity.
+* Add valid-from/valid-to to persons' activities.
+* Add brands to person find and search methods.
+* Add search for "roles" in order to search for "functions OR activities".
 
 pnet-data-api 1.10.3
 ====================
 
-* Ass daslesman number to person find
+* Add salesman number to person find.
 
 pnet-data-api 1.10.2
 ====================
 
-* Add function filter to client mock
+* Add function filter to client mock.
 
 pnet-data-api 1.10.1
 ====================
 
-* Fix wrong JSON property in TodOGroupAggregationsDTO
-* Add missing serializable in TodoGroupItemDTO
+* Fix wrong JSON property in TodOGroupAggregationsDTO.
+* Add missing serializable in TodoGroupItemDTO.
 
 pnet-data-api 1.10.0
 ====================
