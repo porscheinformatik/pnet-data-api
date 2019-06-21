@@ -44,9 +44,10 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
 
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
+        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo)
     {
-        super(companyId, companyMatchcode, companyNumber);
+        super(companyId, companyMatchcode, companyNumber, companyLabel);
 
         this.validFrom = validFrom;
         this.validTo = validTo;

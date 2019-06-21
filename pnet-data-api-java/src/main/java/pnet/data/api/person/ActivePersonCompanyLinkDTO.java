@@ -30,14 +30,19 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     @ApiModelProperty(notes = "The number of the company the person has an employment at.")
     protected final String companyNumber;
 
+    @ApiModelProperty(notes = "The label of the company the person has an employment at.")
+    protected final String companyLabel;
+
     public ActivePersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
-        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber)
+        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("companyLabel") String companyLabel)
     {
         super();
 
         this.companyId = companyId;
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
+        this.companyLabel = companyLabel;
     }
 
     @Override
@@ -46,14 +51,21 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
         return companyId;
     }
 
+    @Override
     public String getCompanyMatchcode()
     {
         return companyMatchcode;
     }
 
+    @Override
     public String getCompanyNumber()
     {
         return companyNumber;
+    }
+
+    public String getCompanyLabel()
+    {
+        return companyLabel;
     }
 
     @Override

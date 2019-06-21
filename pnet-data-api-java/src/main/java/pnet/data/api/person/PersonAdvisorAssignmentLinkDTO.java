@@ -94,11 +94,13 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO
         return companyId;
     }
 
+    @Override
     public String getCompanyMatchcode()
     {
         return companyMatchcode;
     }
 
+    @Override
     public String getCompanyNumber()
     {
         return companyNumber;

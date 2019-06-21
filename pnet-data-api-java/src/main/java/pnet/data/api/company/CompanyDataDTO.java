@@ -188,6 +188,12 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         return matchcode;
     }
 
+    @Override
+    public String getCompanyMatchcode()
+    {
+        return matchcode;
+    }
+
     public void setMatchcode(String matchcode)
     {
         this.matchcode = matchcode;
@@ -304,6 +310,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.sapNumber = sapNumber;
     }
 
+    @Override
     public String getCompanyNumber()
     {
         return companyNumber;

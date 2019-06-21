@@ -23,8 +23,18 @@ public interface WithCompanyId
 {
 
     /**
-     * @return The id of the company. The id may vary on different environments.
+     * @return the id of the company. The id may vary on different environments.
      */
     Integer getCompanyId();
+
+    /**
+     * @return the matchcode of the company, consisting of the administrative tenant and the number, e.g. AT00500.
+     */
+    String getCompanyMatchcode();
+
+    /**
+     * @return the optional, not unique number of the company.
+     */
+    String getCompanyNumber();
 
 }

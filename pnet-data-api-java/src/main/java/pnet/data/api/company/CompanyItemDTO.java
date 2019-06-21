@@ -139,6 +139,12 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
         return matchcode;
     }
 
+    @Override
+    public String getCompanyMatchcode()
+    {
+        return matchcode;
+    }
+
     public String getAdministrativeTenant()
     {
         return administrativeTenant;
@@ -170,6 +176,7 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
         return brands;
     }
 
+    @Override
     public String getCompanyNumber()
     {
         return companyNumber;
