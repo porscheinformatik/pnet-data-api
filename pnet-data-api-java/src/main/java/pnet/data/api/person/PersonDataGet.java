@@ -9,6 +9,7 @@ import pnet.data.api.util.AbstractGet;
 import pnet.data.api.util.ById;
 import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictTenant;
 
 /**
@@ -16,7 +17,7 @@ import pnet.data.api.util.RestrictTenant;
  *
  */
 public class PersonDataGet extends AbstractGet<PersonDataDTO, PersonDataGet>
-    implements RestrictTenant<PersonDataGet>, ById<PersonDataDTO, PersonDataGet>
+    implements RestrictTenant<PersonDataGet>, RestrictDatedBackUntil<PersonDataGet>, ById<PersonDataDTO, PersonDataGet>
 {
 
     public PersonDataGet(GetFunction<PersonDataDTO> getFunction, List<Pair<String, Object>> restricts)

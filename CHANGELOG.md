@@ -3,10 +3,10 @@ pnet-data-api 1.10.4
 
 * Add company label where suitable.
 * Add function and activity label where suitable.
-* Add search for "roles" to enable searches for function OR activity.
 * Add valid-from/valid-to to persons' activities.
 * Add brands to person find and search methods.
 * Add search for "roles" in order to search for "functions OR activities".
+* Add "datedBackUntil" to request historic data.
 
 pnet-data-api 1.10.3
 ====================
