@@ -1,3 +1,8 @@
+pnet-data-api 1.10.5
+====================
+
+* Add a score to most ItemDTOs.
+
 pnet-data-api 1.10.4
 ====================
 

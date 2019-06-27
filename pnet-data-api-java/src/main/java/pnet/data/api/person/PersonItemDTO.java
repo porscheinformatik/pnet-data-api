@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithPersonId;
+import pnet.data.api.util.WithScore;
 import pnet.data.api.util.WithTenants;
 
 /**
@@ -33,7 +34,7 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about a person")
-public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate, Serializable
+public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = -481025382258675738L;
@@ -101,8 +102,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "Indicates, whether the person has a portrait available or not")
     private final Boolean portraitAvailable;
 
-    @ApiModelProperty(notes = "The time and date when the person was last changed.")
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
+
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
 
     public PersonItemDTO(@JsonProperty("personId") Integer personId,
         @JsonProperty("administrativeTenant") String administrativeTenant,
@@ -120,7 +124,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("contactCompanyMatchcode") String contactCompanyMatchcode,
         @JsonProperty("contactCompanyNumber") String contactCompanyNumber,
         @JsonProperty("portraitAvailable") Boolean portraitAvailable,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
     {
         super();
 
@@ -146,6 +150,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.contactCompanyNumber = contactCompanyNumber;
         this.portraitAvailable = portraitAvailable;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
@@ -262,6 +267,12 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
@@ -269,10 +280,12 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
                 "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
                     + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, "
                     + "preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, companies=%s, functions=%s, "
-                    + "contactCompanyId=%s, portraitAvailable=%s, lastUpdate=%s]",
+                    + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, portraitAvailable=%s, "
+                    + "lastUpdate=%s, score=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
                 firstName, lastName, username, externalId, guid, preferredUserId, personnelNumber, birthdate, email,
-                companies, functions, contactCompanyId, portraitAvailable, lastUpdate);
+                companies, functions, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber,
+                portraitAvailable, lastUpdate, score);
     }
 
 }

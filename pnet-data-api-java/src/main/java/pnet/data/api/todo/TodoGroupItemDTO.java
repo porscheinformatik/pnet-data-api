@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithScore;
 
 /**
  * A group of to-dos
@@ -16,7 +17,7 @@ import pnet.data.api.util.WithLastUpdate;
  * @author HAM
  */
 @ApiModel(description = "Holds to-dos with the same category and reference id.")
-public class TodoGroupItemDTO implements WithLastUpdate, Serializable
+public class TodoGroupItemDTO implements WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = 725799282920048805L;
@@ -42,16 +43,18 @@ public class TodoGroupItemDTO implements WithLastUpdate, Serializable
     @ApiModelProperty(notes = "All to-do entries in this group.")
     private final Collection<TodoGroupEntryLinkDTO> entries;
 
-    @ApiModelProperty(
-        notes = "The exact date and time of the last time this group or one of the to-do entries have been modified.")
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
+
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
 
     public TodoGroupItemDTO(@JsonProperty("category") TodoCategory category,
         @JsonProperty("categoryLabel") String categoryLabel, @JsonProperty("referenceId") Integer referenceId,
         @JsonProperty("referenceMatchcode") String referenceMatchcode, @JsonProperty("label") String label,
         @JsonProperty("persons") Collection<TodoGroupPersonLinkDTO> persons,
         @JsonProperty("entries") Collection<TodoGroupEntryLinkDTO> entries,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
     {
         super();
         this.category = category;
@@ -62,6 +65,7 @@ public class TodoGroupItemDTO implements WithLastUpdate, Serializable
         this.persons = persons;
         this.entries = entries;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     public TodoCategory getCategory()
@@ -106,13 +110,19 @@ public class TodoGroupItemDTO implements WithLastUpdate, Serializable
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
             .format(
                 "TodoGroupItemDTO [category=%s, categoryLabel=%s, referenceId=%s, referenceMatchcode=%s, label=%s, "
-                    + "persons=%s, entries=%s, lastUpdate=%s]",
-                category, categoryLabel, referenceId, referenceMatchcode, label, persons, entries, lastUpdate);
+                    + "persons=%s, entries=%s, lastUpdate=%s, score=%s]",
+                category, categoryLabel, referenceId, referenceMatchcode, label, persons, entries, lastUpdate, score);
     }
 
 }

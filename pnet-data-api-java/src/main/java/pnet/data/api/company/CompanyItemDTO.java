@@ -25,6 +25,7 @@ import pnet.data.api.GeoPoint;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithScore;
 import pnet.data.api.util.WithTenants;
 
 /**
@@ -33,14 +34,14 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about one company.")
-public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate
+public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate, WithScore
 {
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;
 
     @ApiModelProperty(
-        notes = "The matchcode of the company (a combination of administrative tenant and company number)")
+        notes = "The matchcode of the company (a combination of administrative tenant and company number).")
     private final String matchcode;
 
     @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
@@ -91,9 +92,11 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
     @ApiModelProperty(notes = "The logitude and latitude of the companies location.")
     private final GeoPoint location;
 
-    @ApiModelProperty(
-        notes = "The time and date of the last occasion, when the data of the this company has been modified.")
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
+
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
 
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("name") String name,
@@ -104,7 +107,8 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
         @JsonProperty("city") String city, @JsonProperty("postalCode") String postalCode,
         @JsonProperty("countryCode") String countryCode, @JsonProperty("country") String country,
         @JsonProperty("region") String region, @JsonProperty("types") Collection<CompanyTypeLinkDTO> types,
-        @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score)
     {
         super();
         this.companyId = companyId;
@@ -125,6 +129,7 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
         this.types = types;
         this.location = location;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
@@ -229,15 +234,22 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
             .format(
                 "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
                     + "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, "
-                    + "countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s]",
+                    + "countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, score=%s]",
                 companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants, brands,
-                companyNumber, street, city, postalCode, countryCode, country, region, types, location, lastUpdate);
+                companyNumber, street, city, postalCode, countryCode, country, region, types, location, lastUpdate,
+                score);
     }
 
 }

@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithScore;
 
 /**
  * Holds a company group type. The company group type is used for company groups.
@@ -31,25 +32,31 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about a company group type")
-public class CompanyGroupTypeItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, Serializable
+public class CompanyGroupTypeItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = -3404509259945335365L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the company group type")
+    @ApiModelProperty(notes = "The unique matchcode of the company group type.")
     private final String matchcode;
-    @ApiModelProperty(notes = "The label of the company group type in the requested language")
+
+    @ApiModelProperty(notes = "The label of the company group type in the requested language.")
     private final String label;
-    @ApiModelProperty(notes = "The time and date when the company group type was last changed")
+
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
 
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
+
     public CompanyGroupTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
     {
         super();
         this.matchcode = matchcode;
         this.label = label;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
@@ -71,10 +78,17 @@ public class CompanyGroupTypeItemDTO implements WithMatchcode, WithLabel, WithLa
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
-            .format("CompanyGroupTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label, lastUpdate);
+            .format("CompanyGroupTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
+                lastUpdate, score);
     }
 
 }

@@ -25,6 +25,7 @@ import pnet.data.api.util.WithDescription;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithScore;
 
 /**
  * Holds an advisor type.
@@ -32,39 +33,43 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about an advisor type")
-public class AdvisorTypeItemDTO implements WithMatchcode, WithLabel, WithDescription, WithLastUpdate, Serializable
+public class AdvisorTypeItemDTO
+    implements WithMatchcode, WithLabel, WithDescription, WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = -5385814018859561810L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the advisor type")
+    @ApiModelProperty(notes = "The unique matchcode of the advisor type.")
     private final String matchcode;
-    @ApiModelProperty(notes = "The label of the advisor type in the requested language")
+
+    @ApiModelProperty(notes = "The label of the advisor type in the requested language.")
     private final String label;
-    @ApiModelProperty(notes = "The description of the advisor type in the requested language")
+
+    @ApiModelProperty(notes = "The description of the advisor type in the requested language.")
     private final String description;
-    @ApiModelProperty(notes = "The time and date when the advisor type was last changed")
-    private LocalDateTime lastUpdate;
+
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
+    private final LocalDateTime lastUpdate;
+
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
 
     public AdvisorTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("description") String description, @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score)
     {
         super();
         this.matchcode = matchcode;
         this.label = label;
         this.description = description;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
-    }
-
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
-        this.lastUpdate = lastUpdate;
     }
 
     @Override
@@ -86,11 +91,17 @@ public class AdvisorTypeItemDTO implements WithMatchcode, WithLabel, WithDescrip
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
-            .format("AdvisorTypeItemDTO [matchcode=%s, label=%s, description=%s, lastUpdate=%s]", matchcode, label,
-                description, lastUpdate);
+            .format("AdvisorTypeItemDTO [matchcode=%s, label=%s, description=%s, lastUpdate=%s, score=%s]", matchcode,
+                label, description, lastUpdate, score);
     }
 
 }

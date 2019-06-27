@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithScore;
 
 /**
  * Holds an external brand.
@@ -31,25 +32,31 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about an external brand")
-public class ExternalBrandItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, Serializable
+public class ExternalBrandItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = -804085034175215251L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the external brand")
+    @ApiModelProperty(notes = "The unique matchcode of the external brand.")
     private final String matchcode;
-    @ApiModelProperty(notes = "The label of the external brand in the requested language")
+
+    @ApiModelProperty(notes = "The label of the external brand in the requested language.")
     private final String label;
-    @ApiModelProperty(notes = "The time and date when the external brand was last changed")
+
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
 
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
+
     public ExternalBrandItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
     {
         super();
         this.matchcode = matchcode;
         this.label = label;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
@@ -71,10 +78,17 @@ public class ExternalBrandItemDTO implements WithMatchcode, WithLabel, WithLastU
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
-            .format("ExternalBrandItemDTO [matchcode=%s, label=%s, lastUpdate=%s]", matchcode, label, lastUpdate);
+            .format("ExternalBrandItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
+                lastUpdate, score);
     }
 
 }

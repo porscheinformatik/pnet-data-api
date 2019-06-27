@@ -17,8 +17,6 @@ package pnet.data.api.activity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,6 +28,7 @@ import pnet.data.api.util.WithDescription;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithScore;
 import pnet.data.api.util.WithTenants;
 
 /**
@@ -39,37 +38,47 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about an activity")
-public class ActivityItemDTO
-    implements WithMatchcode, WithLabel, WithDescription, WithTenants, WithBrandLinks, WithLastUpdate, Serializable
+public class ActivityItemDTO implements WithMatchcode, WithLabel, WithDescription, WithTenants, WithBrandLinks,
+    WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = 156511831954172558L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the activity")
+    @ApiModelProperty(notes = "The unique matchcode of the activity.")
     private final String matchcode;
-    @ApiModelProperty(notes = "The label of the activity in the requested language")
+
+    @ApiModelProperty(notes = "The label of the activity in the requested language.")
     private final String label;
-    @ApiModelProperty(notes = "The description of the activity in the requested language")
+
+    @ApiModelProperty(notes = "The description of the activity in the requested language.")
     private final String description;
-    @ApiModelProperty(notes = "The tenants where the activity is valid")
+
+    @ApiModelProperty(notes = "The tenants where the activity is valid.")
     private final Collection<String> tenants;
-    @ApiModelProperty(notes = "The brands where the activity is valid")
+
+    @ApiModelProperty(notes = "The brands where the activity is valid.")
     private final Collection<BrandLinkDTO> brands;
-    @ApiModelProperty(notes = "The time and date when the activity was last changed")
+
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
+
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
 
     public ActivityItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
         @JsonProperty("description") String description, @JsonProperty("tenants") Collection<String> tenants,
-        @JsonProperty("brands") Collection<BrandLinkDTO> brands, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("brands") Collection<BrandLinkDTO> brands, @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score)
     {
         super();
 
-        this.matchcode = Objects.requireNonNull(matchcode, "Matchcode is null");
-        this.label = Objects.requireNonNull(label, "Label is null");
+        this.matchcode = matchcode;
+        this.label = label;
         this.description = description;
-        this.tenants = Collections.unmodifiableCollection(Objects.requireNonNull(tenants, "Tenants is null"));
-        this.brands = Collections.unmodifiableCollection(Objects.requireNonNull(brands, "Brands is null"));
+        this.tenants = tenants;
+        this.brands = brands;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
@@ -115,11 +124,17 @@ public class ActivityItemDTO
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
-            .format("ActivityItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s]",
-                matchcode, label, description, tenants, brands, lastUpdate);
+            .format("ActivityItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, "
+                + "score=%s]", matchcode, label, description, tenants, brands, lastUpdate, score);
     }
 
 }
