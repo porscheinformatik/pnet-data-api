@@ -2,6 +2,7 @@ pnet-data-api 1.10.5
 ====================
 
 * Add a score to most ItemDTOs.
+* All DTOs are Serializable, now.
 
 pnet-data-api 1.10.4
 ====================

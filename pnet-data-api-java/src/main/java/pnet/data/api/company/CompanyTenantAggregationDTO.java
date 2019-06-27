@@ -1,5 +1,7 @@
 package pnet.data.api.company;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,9 +9,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author HAM
  */
-public class CompanyTenantAggregationDTO
+public class CompanyTenantAggregationDTO implements Serializable
 {
 
+    private static final long serialVersionUID = -2289832270088868720L;
+    
     private final String tenant;
     private final long count;
 

@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -34,8 +35,11 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about one company.")
-public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate, WithScore
+public class CompanyItemDTO
+    implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate, WithScore, Serializable
 {
+
+    private static final long serialVersionUID = 8371146988245636569L;
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;

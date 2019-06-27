@@ -12,6 +12,8 @@ import pnet.data.api.util.AbstractCountAggregationDTO;
 public class CompanyTypeAggregationDTO extends AbstractCountAggregationDTO
 {
 
+    private static final long serialVersionUID = 2298705805398989182L;
+
     public CompanyTypeAggregationDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("count") long count)
     {
         super(matchcode, count);

@@ -1,5 +1,7 @@
 package pnet.data.api.person;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,9 +9,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author HAM
  */
-public class PersonCompanyAggregationDTO
+public class PersonCompanyAggregationDTO implements Serializable
 {
 
+    private static final long serialVersionUID = -2588191893345417781L;
+    
     private final Integer companyId;
     private final long count;
 

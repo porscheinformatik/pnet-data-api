@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,9 +9,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author HAM
  */
-public abstract class AbstractCountAggregationDTO
+public abstract class AbstractCountAggregationDTO implements Serializable
 {
 
+    private static final long serialVersionUID = -4778141116767126304L;
+    
     private final String matchcode;
     private final long count;
 

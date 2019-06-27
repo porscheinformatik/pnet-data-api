@@ -1,5 +1,7 @@
 package pnet.data.api.todo;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -7,8 +9,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  * @author cet
  */
-public class TodoGroupStateAggregationDTO
+public class TodoGroupStateAggregationDTO implements Serializable
 {
+    private static final long serialVersionUID = -6434116628397754095L;
+    
     private final TodoState state;
     private final long count;
 
