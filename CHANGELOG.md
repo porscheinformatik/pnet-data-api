@@ -1,3 +1,8 @@
+pnet-data-api 1.10.6
+====================
+
+* Clarifying error message, if version cannot be determined.
+
 pnet-data-api 1.10.5
 ====================
 

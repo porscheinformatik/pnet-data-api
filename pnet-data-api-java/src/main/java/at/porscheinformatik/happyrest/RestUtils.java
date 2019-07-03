@@ -116,12 +116,12 @@ public final class RestUtils
                 }
                 else
                 {
-                    System.err.println("Failed to determine version of HappyRest.");
+                    System.err.println("Failed to determine version of HappyRest. Using \"UNDEFINED\" as version.");
                 }
             }
             catch (IOException e)
             {
-                System.err.println("Failed to determine version of HappyRest: " + e);
+                System.err.println("Failed to determine version of HappyRest (using \"UNDEFINED\" as version): " + e);
             }
 
             version = v;

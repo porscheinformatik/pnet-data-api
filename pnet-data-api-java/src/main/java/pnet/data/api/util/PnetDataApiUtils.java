@@ -101,12 +101,17 @@ public final class PnetDataApiUtils
                 }
                 else
                 {
-                    System.err.println("Failed to determine version of Pnet Data API Java client.");
+                    System.err
+                        .println(
+                            "Failed to determine version of Pnet Data API Java client. Using \"UNDEFINED\" as version.");
                 }
             }
             catch (IOException e)
             {
-                System.err.println("Failed to determine version of Pnet Data API Java client: " + e);
+                System.err
+                    .println(
+                        "Failed to determine version of Pnet Data API Java client (using \"UNDEFINED\" as version): "
+                            + e);
             }
 
             version = v;
