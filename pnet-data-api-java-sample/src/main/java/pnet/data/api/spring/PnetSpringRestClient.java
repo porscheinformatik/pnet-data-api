@@ -1969,7 +1969,7 @@ public final class PnetSpringRestClient
     {
         if (qs == null || qs.length == 0)
         {
-            return "*";
+            return null;
         }
 
         return Arrays.stream(qs).collect(Collectors.joining(" "));

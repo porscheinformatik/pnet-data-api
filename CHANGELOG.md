@@ -2,6 +2,7 @@ pnet-data-api 1.10.6
 ====================
 
 * Clarifying error message, if version cannot be determined.
+* Empty queries will not be replaces with "*" (* is not supported anymore)
 
 pnet-data-api 1.10.5
 ====================
