@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithCompanyId;
 
 /**
@@ -66,6 +67,11 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     public String getCompanyLabel()
     {
         return companyLabel;
+    }
+
+    public String getCompanyLabelWithNumber()
+    {
+        return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, companyLabel);
     }
 
     @Override

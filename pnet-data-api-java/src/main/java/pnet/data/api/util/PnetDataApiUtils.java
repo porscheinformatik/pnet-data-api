@@ -432,4 +432,31 @@ public final class PnetDataApiUtils
 
         return parseISODateTime(dateAsString).toLocalDate();
     }
+
+    public static String toCompanyLabelWithNumber(String number, String label)
+    {
+        return number != null ? String.format("(%s) %s", leftPad(number, 5, '0'), label) : label;
+    }
+
+    public static String leftPad(String s, int length, char ch)
+    {
+        if (s == null)
+        {
+            return null;
+        }
+
+        if (s.length() >= length)
+        {
+            return s;
+        }
+
+        StringBuilder b = new StringBuilder();
+
+        while (b.length() + s.length() < length)
+        {
+            b.append(ch);
+        }
+
+        return b.append(s).toString();
+    }
 }
