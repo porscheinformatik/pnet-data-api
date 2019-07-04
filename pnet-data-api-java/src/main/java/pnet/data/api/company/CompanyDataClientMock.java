@@ -96,10 +96,10 @@ public class CompanyDataClientMock extends CompanyDataClient implements
             MockUtils.aggregateTenants(entries, CompanyTenantAggregationDTO::new);
         List<CompanyBrandAggregationDTO> aggregatedBrands = MockUtils
             .aggregateFlat(entries, entry -> entry.getBrands().stream().map(CompanyBrandLinkDTO::getMatchcode),
-                CompanyBrandAggregationDTO::new);
+                (matchcode, count) -> new CompanyBrandAggregationDTO(matchcode, matchcode, count));
         List<CompanyTypeAggregationDTO> aggregatedTypes = MockUtils
             .aggregateFlat(entries, entry -> entry.getTypes().stream().map(CompanyTypeLinkDTO::getMatchcode),
-                CompanyTypeAggregationDTO::new);
+                (matchcode, count) -> new CompanyTypeAggregationDTO(matchcode, matchcode, count));
 
         CompanyAggregationsDTO aggregations =
             new CompanyAggregationsDTO(aggregatedTenants, aggregatedBrands, aggregatedTypes, Collections.emptyList());

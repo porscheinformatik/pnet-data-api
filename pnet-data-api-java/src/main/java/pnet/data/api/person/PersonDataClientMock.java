@@ -99,7 +99,8 @@ public class PersonDataClientMock extends PersonDataClient
         List<PersonCompanyAggregationDTO> aggregatedCompanies = MockUtils
             .aggregateFlat(entries,
                 entry -> entry.getCompanies().stream().map(ActivePersonCompanyLinkDTO::getCompanyId),
-                PersonCompanyAggregationDTO::new);
+                (companyId, count) -> new PersonCompanyAggregationDTO(companyId, "CO_" + companyId, null,
+                    "Company " + companyId, count));
 
         PersonAggregationsDTO aggregations = new PersonAggregationsDTO(aggregatedTenants, aggregatedCompanies,
             Collections.emptyList(), Collections.emptyList());
