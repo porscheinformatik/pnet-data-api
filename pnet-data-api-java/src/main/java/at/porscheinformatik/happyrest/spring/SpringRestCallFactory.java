@@ -7,7 +7,9 @@ import org.springframework.web.client.RestTemplate;
 
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
+import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestUtils;
+import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
 
 /**
  * A factory for REST calls using spring
@@ -38,7 +40,7 @@ public class SpringRestCallFactory implements RestCallFactory
             return execution.execute(request, body);
         });
 
-        DEFAULT = new SpringRestCallFactory(REST_TEMPLATE, null);
+        DEFAULT = new SpringRestCallFactory(REST_TEMPLATE, Slf4jRestLoggerAdapter.getDefault(), null);
     }
 
     public static SpringRestCallFactory getDefault()
@@ -55,28 +57,33 @@ public class SpringRestCallFactory implements RestCallFactory
                 return execution.execute(request, body);
             });
 
-            factory = new SpringRestCallFactory(restTemplate, null);
+            factory = new SpringRestCallFactory(restTemplate, Slf4jRestLoggerAdapter.getDefault(), null);
+
+            defaultFactory = factory;
         }
 
         return factory;
     }
 
     private final RestTemplate restTemplate;
+    private final RestLoggerAdapter loggerAdapter;
     private final ConversionService conversionService;
 
     @Autowired
-    public SpringRestCallFactory(RestTemplate restTemplate, ConversionService conversionService)
+    public SpringRestCallFactory(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
+        ConversionService conversionService)
     {
         super();
 
         this.restTemplate = restTemplate;
+        this.loggerAdapter = loggerAdapter;
         this.conversionService = conversionService;
     }
 
     @Override
     public RestCall url(String url)
     {
-        return new SpringRestCall(restTemplate, conversionService, url);
+        return new SpringRestCall(restTemplate, loggerAdapter, conversionService, url);
     }
 
 }

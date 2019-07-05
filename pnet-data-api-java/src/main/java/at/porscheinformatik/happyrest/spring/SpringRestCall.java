@@ -9,8 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +27,7 @@ import at.porscheinformatik.happyrest.RestAttributeConverter;
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestHeader;
+import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestResponse;
@@ -42,36 +41,39 @@ import at.porscheinformatik.happyrest.RestVariable;
  */
 public class SpringRestCall extends AbstractRestCall
 {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SpringRestCall.class);
-
     private final RestTemplate restTemplate;
+    private final RestLoggerAdapter loggerAdapter;
 
-    protected SpringRestCall(RestTemplate restTemplate, ConversionService conversionService)
+    protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
+        ConversionService conversionService)
     {
-        this(restTemplate, null, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null, toConverter(conversionService),
-            null);
+        this(restTemplate, loggerAdapter, null, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null,
+            toConverter(conversionService), null);
     }
 
-    protected SpringRestCall(RestTemplate restTemplate, ConversionService conversionService, String url)
+    protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
+        ConversionService conversionService, String url)
     {
-        this(restTemplate, url, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null, toConverter(conversionService),
-            null);
+        this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null,
+            toConverter(conversionService), null);
     }
 
-    protected SpringRestCall(RestTemplate restTemplate, String url, List<String> acceptableMediaTypes,
-        String contentType, List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
+    protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, String url,
+        List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes,
+        RestAttributeConverter converter, Object body)
     {
         super(url, acceptableMediaTypes, contentType, attributes, converter, body);
 
         this.restTemplate = restTemplate;
+        this.loggerAdapter = loggerAdapter;
     }
 
     @Override
     protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
         List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
     {
-        return new SpringRestCall(restTemplate, url, acceptableMediaTypes, contentType, attributes, converter, body);
+        return new SpringRestCall(restTemplate, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
+            converter, body);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class SpringRestCall extends AbstractRestCall
         URI uri = processAttributes(headers, path);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
-        LOG.info(String.format("Sending %s request: %s", method, uri));
+        loggerAdapter.logRequest(method, String.valueOf(uri));
 
         try
         {
@@ -104,7 +106,7 @@ public class SpringRestCall extends AbstractRestCall
         URI uri = processAttributes(headers, path);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
-        LOG.info(String.format("Sending %s request: %s", method, uri));
+        loggerAdapter.logRequest(method, String.valueOf(uri));
 
         try
         {

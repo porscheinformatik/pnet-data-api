@@ -32,13 +32,50 @@ Checkout the [pnet-data-api-java-samle](https://github.com/porscheinformatik/pne
 
 ## Spring
 
-Import the `PnetDataClientConfig` (the `PnetDataClientSpring4Config` if you are still using Spring 4) to your existing configuration. You will need to provide `PnetDataClientPrefs` containing your user data.
+You will need the following dependencies:
+
+```
+<dependency>
+    <groupId>at.porscheinformatik.pnet</groupId>
+    <artifactId>pnet-data-api-java</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+</dependency>
+```
+
+### Spring Version >= 5
+
+Import the `PnetDataClientConfig` to your existing configuration. You will need to provide `PnetDataClientPrefs` containing your user data.
+
+### Spring Version 4
+
+Import the `PnetDataClientSpring4Config` to your existing configuration. You will need to provide `PnetDataClientPrefs` containing your user data.
+
+### Example
 
 This is an example of a most basic configuration accsing the QA environment and getting the username/password from the application properties:
 
 ```
 @Configuration
-@Import(PnetDataClientConfig.class)
+@Import(PnetDataClientConfig.class OR PnetDataClientSpring4Config.class)
 public class MyConfig
 {
     @Value("${dataApi.username}")
@@ -67,7 +104,7 @@ private PersonDataClient personDataClient;
 And perform requests using the client:
 
 ```
-personDataClient.search().tenant("AT").execute(Loclae.getDefault(), "John");
+personDataClient.search().tenant("AT").execute(Locale.getDefault(), "John");
 ```
 
 # Common information about the client

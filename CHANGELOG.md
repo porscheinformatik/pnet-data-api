@@ -1,3 +1,10 @@
+pnet-data-api 1.10.7
+====================
+
+* Updated libraries.
+* Libraries are now "provided" - you have to add them manually. See the documentation, which dependencies you may need.
+* Slf4j is now optional, too (use the Slf4jRestLoggerAdapter or implement your own RestLoggerAdapter, if necessary).
+
 pnet-data-api 1.10.6
 ====================
 
