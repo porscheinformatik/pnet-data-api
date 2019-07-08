@@ -1,3 +1,8 @@
+pnet-data-api 1.10.8
+====================
+
+* Removed unused dependency to Apache HTTP Client.
+
 pnet-data-api 1.10.7
 ====================
 

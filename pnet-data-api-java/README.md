@@ -51,11 +51,6 @@ You will need the following dependencies:
 </dependency>
 
 <dependency>
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpclient</artifactId>
-</dependency>
-
-<dependency>
     <groupId>org.slf4j</groupId>
     <artifactId>slf4j-api</artifactId>
 </dependency>
@@ -71,7 +66,7 @@ Import the `PnetDataClientSpring4Config` to your existing configuration. You wil
 
 ### Example
 
-This is an example of a most basic configuration accsing the QA environment and getting the username/password from the application properties:
+This is an example of a most basic configuration accessing the QA environment and getting the username/password from the application properties:
 
 ```
 @Configuration
