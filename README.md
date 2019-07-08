@@ -296,6 +296,8 @@ A common pitfall is, that if you are using other conditions in the same query: t
 
 This will result in a search that's more like: `(TA_ACT_1 OR TA_ACT_2) AND (FU_FUN_1 OR FU_FUN_2)`.
 
+To avoid this common pitfall, there is a search for `role`s now, searching for both, functions and activities, using an `OR` query.
+
 
 
 
