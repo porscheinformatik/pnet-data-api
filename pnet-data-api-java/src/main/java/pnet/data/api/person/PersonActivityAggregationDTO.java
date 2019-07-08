@@ -12,9 +12,12 @@ import pnet.data.api.util.AbstractCountAggregationDTO;
 public class PersonActivityAggregationDTO extends AbstractCountAggregationDTO
 {
 
-    public PersonActivityAggregationDTO(@JsonProperty("activity") String matchcode, @JsonProperty("count") long count)
+    private static final long serialVersionUID = -423997707872307217L;
+
+    public PersonActivityAggregationDTO(@JsonProperty("activity") String matchcode, @JsonProperty("label") String label,
+        @JsonProperty("count") long count)
     {
-        super(matchcode, count);
+        super(matchcode, label, count);
     }
 
 }

@@ -24,20 +24,21 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
- * Holds the function of a person for one company and brand.
+ * The assignment of a function to a person, for a specific company, tenant and brand.
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a function the person has.")
-public class PersonFunctionLinkDTO extends ActivePersonFunctionLinkDTO implements WithValidPeriod
+@ApiModel(description = "The assignment of a function to a person, for a specific company, tenant and brand.")
+public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithValidPeriod
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
 
-    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
+    @ApiModelProperty(notes = "The starting date and time of this function assignment.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
+    @ApiModelProperty(notes = "The ending date and time of this function assignment. "
+        + "A missing value indicates an ongoing assignment.")
     private final LocalDateTime validTo;
 
     public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
@@ -96,10 +97,11 @@ public class PersonFunctionLinkDTO extends ActivePersonFunctionLinkDTO implement
     public String toString()
     {
         return String
-            .format("PersonFunctionLinkDTO [getTenant()=%s, getMatchcode()=%s, getCompanyId()=%s, "
-                + "getCompanyMatchcode()=%s, getCompanyNumber()=%s, getBrandMatchcode()=%s, validFrom=%s, validTo=%s, "
-                + "isMainFunction()=%s]", getTenant(), getMatchcode(), getCompanyId(), getCompanyMatchcode(),
-                getCompanyNumber(), getBrandMatchcode(), validFrom, validTo, isMainFunction());
+            .format(
+                "PersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, "
+                    + "brandMatchcode=%s, validFrom=%s, validTo=%s, mainFunction=%s]",
+                tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, validFrom, validTo,
+                mainFunction);
     }
 
 }

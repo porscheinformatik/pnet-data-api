@@ -4,6 +4,7 @@ import java.util.List;
 
 import pnet.data.api.util.AbstractSearchWithAggregations;
 import pnet.data.api.util.AggregateNumberPerCategory;
+import pnet.data.api.util.AggregateNumberPerState;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictCategory;
 import pnet.data.api.util.RestrictPersonId;
@@ -21,10 +22,11 @@ public class TodoGroupDataSearch
     extends AbstractSearchWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO, TodoGroupDataSearch>
     implements RestrictCategory<TodoGroupDataSearch>, RestrictPersonId<TodoGroupDataSearch>,
     RestrictReferenceId<TodoGroupDataSearch>, RestrictState<TodoGroupDataSearch>, RestrictType<TodoGroupDataSearch>,
-    AggregateNumberPerCategory<TodoGroupDataSearch>
+    AggregateNumberPerCategory<TodoGroupDataSearch>, AggregateNumberPerState<TodoGroupDataSearch>
 {
 
-    public TodoGroupDataSearch(SearchWithAggregationsFunction<TodoGroupItemDTO, TodoGroupAggregationsDTO> searchFunction,
+    public TodoGroupDataSearch(
+        SearchWithAggregationsFunction<TodoGroupItemDTO, TodoGroupAggregationsDTO> searchFunction,
         List<Pair<String, Object>> restricts)
     {
         super(searchFunction, restricts);

@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -23,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.GeoPoint;
 import pnet.data.api.companygroup.CompanyGroupMemberLinkDTO;
+import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenants;
@@ -33,8 +35,10 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds all information about one company.")
-public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
+public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants, Serializable
 {
+
+    private static final long serialVersionUID = 4995140302871305715L;
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;
@@ -46,13 +50,20 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
     private String administrativeTenant;
 
-    @ApiModelProperty(notes = "The name of the company.")
+    @ApiModelProperty(
+        notes = "The label of the company (either the marketing name or a combination of name and affix).")
+    private String label;
+
+    @ApiModelProperty(notes = "The name of the company. Deprecated: use label instead.")
+    @Deprecated
     private String name;
 
-    @ApiModelProperty(notes = "The name affix of the company.")
+    @ApiModelProperty(notes = "The name affix of the company. Deprecated: use label instead.")
+    @Deprecated
     private String nameAffix;
 
-    @ApiModelProperty(notes = "The marketing name of the company.")
+    @ApiModelProperty(notes = "The marketing name of the company. Deprecated: use label instead.")
+    @Deprecated
     private String marketingName;
 
     @ApiModelProperty(notes = "Groups this company is part of.")
@@ -188,6 +199,12 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         return matchcode;
     }
 
+    @Override
+    public String getCompanyMatchcode()
+    {
+        return matchcode;
+    }
+
     public void setMatchcode(String matchcode)
     {
         this.matchcode = matchcode;
@@ -203,31 +220,64 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.administrativeTenant = administrativeTenant;
     }
 
+    public String getLabel()
+    {
+        return label;
+    }
+
+    public String getLabelWithNumber()
+    {
+        return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, label);
+    }
+
+    public void setLabel(String label)
+    {
+        this.label = label;
+    }
+
+    /**
+     * @return the name of the company
+     * @deprecated use the label instead
+     */
+    @Deprecated
     public String getName()
     {
         return name;
     }
 
+    @Deprecated
     public void setName(String name)
     {
         this.name = name;
     }
 
+    /**
+     * @return the name affix of the company
+     * @deprecated use the label instead
+     */
+    @Deprecated
     public String getNameAffix()
     {
         return nameAffix;
     }
 
+    @Deprecated
     public void setNameAffix(String nameAffix)
     {
         this.nameAffix = nameAffix;
     }
 
+    /**
+     * @return the marketing name of the company
+     * @deprecated use the label instead
+     */
+    @Deprecated
     public String getMarketingName()
     {
         return marketingName;
     }
 
+    @Deprecated
     public void setMarketingName(String marketingName)
     {
         this.marketingName = marketingName;
@@ -304,6 +354,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.sapNumber = sapNumber;
     }
 
+    @Override
     public String getCompanyNumber()
     {
         return companyNumber;

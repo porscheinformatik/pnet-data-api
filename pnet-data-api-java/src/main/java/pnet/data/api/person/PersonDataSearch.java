@@ -10,10 +10,13 @@ import pnet.data.api.util.AggregateNumberPerTenant;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
+import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
+import pnet.data.api.util.RestrictRole;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.SearchWithAggregationsFunction;
 
@@ -22,12 +25,14 @@ import pnet.data.api.util.SearchWithAggregationsFunction;
  *
  * @author ham
  */
-public class PersonDataSearch extends AbstractSearchWithAggregations<PersonItemDTO, PersonAggregationsDTO, PersonDataSearch>
+public class PersonDataSearch
+    extends AbstractSearchWithAggregations<PersonItemDTO, PersonAggregationsDTO, PersonDataSearch>
     implements RestrictTenant<PersonDataSearch>, RestrictCompanyId<PersonDataSearch>,
-    RestrictCompanyNumber<PersonDataSearch>, RestrictCompany<PersonDataSearch>, RestrictFunction<PersonDataSearch>,
-    RestrictActivity<PersonDataSearch>, CompanyMergable<PersonDataSearch>, AggregateNumberPerTenant<PersonDataSearch>,
-    AggregateNumberPerCompany<PersonDataSearch>, AggregateNumberPerFunction<PersonDataSearch>,
-    AggregateNumberPerActivity<PersonDataSearch>
+    RestrictCompanyNumber<PersonDataSearch>, RestrictCompany<PersonDataSearch>, RestrictBrand<PersonDataSearch>,
+    RestrictFunction<PersonDataSearch>, RestrictActivity<PersonDataSearch>, RestrictRole<PersonDataSearch>,
+    RestrictDatedBackUntil<PersonDataSearch>, CompanyMergable<PersonDataSearch>,
+    AggregateNumberPerTenant<PersonDataSearch>, AggregateNumberPerCompany<PersonDataSearch>,
+    AggregateNumberPerFunction<PersonDataSearch>, AggregateNumberPerActivity<PersonDataSearch>
 {
 
     public PersonDataSearch(SearchWithAggregationsFunction<PersonItemDTO, PersonAggregationsDTO> searchFunction,

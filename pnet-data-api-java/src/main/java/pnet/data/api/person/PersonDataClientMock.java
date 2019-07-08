@@ -49,6 +49,9 @@ public class PersonDataClientMock extends PersonDataClient
         itemStore
             .addFilter("company", withCollection(PersonItemDTO::getCompanies,
                 whenEquals(ActivePersonCompanyLinkDTO::getCompanyMatchcode)));
+        itemStore
+            .addFilter("function",
+                withCollection(PersonItemDTO::getFunctions, whenEquals(ActivePersonFunctionLinkDTO::getMatchcode)));
 
         addDefaultTenantsFilter(itemStore);
         addDefaultLastUpdateFilter(itemStore);
@@ -96,7 +99,8 @@ public class PersonDataClientMock extends PersonDataClient
         List<PersonCompanyAggregationDTO> aggregatedCompanies = MockUtils
             .aggregateFlat(entries,
                 entry -> entry.getCompanies().stream().map(ActivePersonCompanyLinkDTO::getCompanyId),
-                PersonCompanyAggregationDTO::new);
+                (companyId, count) -> new PersonCompanyAggregationDTO(companyId, "CO_" + companyId, null,
+                    "Company " + companyId, count));
 
         PersonAggregationsDTO aggregations = new PersonAggregationsDTO(aggregatedTenants, aggregatedCompanies,
             Collections.emptyList(), Collections.emptyList());

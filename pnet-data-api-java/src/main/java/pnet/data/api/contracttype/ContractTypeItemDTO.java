@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithScore;
 import pnet.data.api.util.WithTenants;
 
 /**
@@ -34,28 +35,37 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about a contract type")
-public class ContractTypeItemDTO implements WithMatchcode, WithTenants, WithLabel, WithLastUpdate, Serializable
+public class ContractTypeItemDTO
+    implements WithMatchcode, WithTenants, WithLabel, WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = -6345795957251172952L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the contract type")
+    @ApiModelProperty(notes = "The unique matchcode of the contract type.")
     private final String matchcode;
-    @ApiModelProperty(notes = "The label of the contract type in the requested language")
+
+    @ApiModelProperty(notes = "The label of the contract type in the requested language.")
     private final String label;
-    @ApiModelProperty(notes = "The tenants where the contract type is valid")
+
+    @ApiModelProperty(notes = "The tenants where the contract type is valid.")
     private final Collection<String> tenants;
-    @ApiModelProperty(notes = "The brands where the contract type is valid")
+
+    @ApiModelProperty(notes = "The brands where the contract type is valid.")
     private final Collection<ContractTypeBrandLinkDTO> brands;
-    @ApiModelProperty(notes = "The type of the contract")
+
+    @ApiModelProperty(notes = "The type of the contract.")
     private final String type;
-    @ApiModelProperty(notes = "The time and date when the contract type was last changed")
+
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
+
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
 
     public ContractTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
         @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<ContractTypeBrandLinkDTO> brands, @JsonProperty("type") String type,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
     {
         super();
 
@@ -65,6 +75,7 @@ public class ContractTypeItemDTO implements WithMatchcode, WithTenants, WithLabe
         this.brands = brands;
         this.type = type;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
@@ -102,11 +113,18 @@ public class ContractTypeItemDTO implements WithMatchcode, WithTenants, WithLabe
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
-            .format("ContractTypeItemDTO [matchcode=%s, label=%s, tenants=%s, brands=%s, type=%s, lastUpdate=%s]",
-                matchcode, label, tenants, brands, type, lastUpdate);
+            .format(
+                "ContractTypeItemDTO [matchcode=%s, label=%s, tenants=%s, brands=%s, type=%s, lastUpdate=%s, score=%s]",
+                matchcode, label, tenants, brands, type, lastUpdate, score);
     }
 
 }

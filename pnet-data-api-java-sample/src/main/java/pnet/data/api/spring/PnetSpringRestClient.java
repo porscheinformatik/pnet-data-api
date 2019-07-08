@@ -141,6 +141,7 @@ import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictTenant;
 
 /**
@@ -220,6 +221,7 @@ public final class PnetSpringRestClient
     private final List<String> restrictedCompanyNumbers = new ArrayList<>();
 
     private CompanyMerge companyMerge = CompanyMerge.NONE;
+    private LocalDateTime datedBackUntil = null;
 
     private PnetSpringRestClient()
     {
@@ -691,6 +693,24 @@ public final class PnetSpringRestClient
         companyMerge = CompanyMerge.NONE;
     }
 
+    @CLI.Command(name = "dated back", format = "[<DAYS>]",
+        description = "Sets the dated back parameter for the specified days")
+    public void datedBackUnitl(Integer days)
+    {
+        if (days == null)
+        {
+            datedBackUntil = null;
+
+            cli.info("Only up-to-date items will be searched and shown.");
+        }
+        else
+        {
+            datedBackUntil = LocalDateTime.now().minusDays(days.longValue());
+
+            cli.info("Items will be searched and shown, that are not older than %s.", datedBackUntil);
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////
 
     @CLI.Command(name = "get company group by leading company id", format = "<COMPANY-ID...>",
@@ -715,7 +735,7 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "get company group by leading company mc", format = "<COMPANY-MC...>",
-        description = "Returns the company groups with the specified mathcodes.")
+        description = "Returns the company groups with the specified matchcodes.")
     public void getCompanyGroupByLeadingCompanyMatchcodes(String... matchcodes) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
@@ -1302,11 +1322,21 @@ public final class PnetSpringRestClient
                 dto.getLastUpdate()));
     }
 
-    @CLI.Command(name = "find persons by number", format = "<NUMBER...>",
+    @CLI.Command(name = "find persons by personnel number", format = "<NUMBER...>",
         description = "Find persons by personnel number.")
-    public void findPersonsByNumber(String... numbers) throws PnetDataClientException
+    public void findPersonsByPersonnelNumber(String... numbers) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().personnelNumber(numbers));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
+    }
+
+    @CLI.Command(name = "find persons by salesman number", format = "<NUMBER...>",
+        description = "Find persons by salesman number.")
+    public void findPersonsBySalesmanNumber(String... numbers) throws PnetDataClientException
+    {
+        PersonDataFind query = restrict(personDataClient.find().numbersType("NT_VERK_NR").number(numbers));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
 
         printResults(result);
@@ -1326,6 +1356,16 @@ public final class PnetSpringRestClient
     public void findPersonsByCompany(String... matchcodes) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().company(matchcodes));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result);
+    }
+
+    @CLI.Command(name = "find persons by role", format = "<ROLE-MC...>",
+        description = "Find persons by functions and activities.")
+    public void findPersonsByRole(String... matchcodes) throws PnetDataClientException
+    {
+        PersonDataFind query = restrict(personDataClient.find().role(matchcodes));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
 
         printResults(result);
@@ -1590,6 +1630,13 @@ public final class PnetSpringRestClient
             restrict = ((CompanyMergable<T>) restrict).merge(companyMerge);
         }
 
+        if (restrict instanceof RestrictDatedBackUntil && datedBackUntil != null)
+        {
+            cli.info("Dating back until: " + datedBackUntil);
+
+            restrict = ((RestrictDatedBackUntil<T>) restrict).datedBackUntil(datedBackUntil);
+        }
+
         return restrict;
     }
 
@@ -1603,6 +1650,7 @@ public final class PnetSpringRestClient
         restrictedCompanyIds.clear();
         restrictedCompanyMatchcodes.clear();
         restrictedCompanyNumbers.clear();
+        datedBackUntil = null;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1859,8 +1907,8 @@ public final class PnetSpringRestClient
         page.stream().map(PrettyPrint::prettyPrint).forEach(cli::info);
 
         cli
-            .info("\nThis is page %d of %d. Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
-                page.getPageIndex() + 1, page.getNumberOfPages());
+            .info("\nThis is page %d of %d (%d of %d results). Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
+                page.getPageIndex() + 1, page.getNumberOfPages(), page.getItems().size(), page.getTotalNumberOfItems());
     }
 
     protected PnetDataApiTokenKey key()
@@ -1921,7 +1969,7 @@ public final class PnetSpringRestClient
     {
         if (qs == null || qs.length == 0)
         {
-            return "*";
+            return null;
         }
 
         return Arrays.stream(qs).collect(Collectors.joining(" "));

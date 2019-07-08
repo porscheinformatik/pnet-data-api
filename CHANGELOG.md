@@ -1,3 +1,55 @@
+pnet-data-api 1.10.7
+====================
+
+* Updated libraries.
+* Libraries are now "provided" - you have to add them manually. See the documentation, which dependencies you may need.
+* Slf4j is now optional, too (use the Slf4jRestLoggerAdapter or implement your own RestLoggerAdapter, if necessary).
+
+pnet-data-api 1.10.6
+====================
+
+* Clarifying error message, if version cannot be determined.
+* Empty queries will not be replaces with "*" (* is not supported anymore)
+* Unifying company labels, added label with number.
+* Aggregations now have labels, where appicable.
+
+pnet-data-api 1.10.5
+====================
+
+* Add a score to most ItemDTOs.
+* All DTOs are Serializable, now.
+
+pnet-data-api 1.10.4
+====================
+
+* Add company label where suitable.
+* Add function and activity label where suitable.
+* Add valid-from/valid-to to persons' activities.
+* Add brands to person find and search methods.
+* Add search for "roles" in order to search for "functions OR activities".
+* Add "datedBackUntil" to request historic data.
+
+pnet-data-api 1.10.3
+====================
+
+* Add salesman number to person find.
+
+pnet-data-api 1.10.2
+====================
+
+* Add function filter to client mock.
+
+pnet-data-api 1.10.1
+====================
+
+* Fix wrong JSON property in TodOGroupAggregationsDTO.
+* Add missing serializable in TodoGroupItemDTO.
+
+pnet-data-api 1.10.0
+====================
+
+* Add state aggregations for todos
+
 pnet-data-api 1.9.9
 ===================
 

@@ -12,10 +12,12 @@ import pnet.data.api.util.AbstractCountAggregationDTO;
 public class CompanyContractTypeAggregationDTO extends AbstractCountAggregationDTO
 {
 
+    private static final long serialVersionUID = -7503894792809235564L;
+
     public CompanyContractTypeAggregationDTO(@JsonProperty("matchcode") String matchcode,
-        @JsonProperty("count") long count)
+        @JsonProperty("label") String label, @JsonProperty("count") long count)
     {
-        super(matchcode, count);
+        super(matchcode, label, count);
     }
 
 }

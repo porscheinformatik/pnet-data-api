@@ -1,5 +1,6 @@
 package pnet.data.api.todo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -14,8 +15,10 @@ import io.swagger.annotations.ApiModelProperty;
  * @author HAM
  */
 @ApiModel(description = "One to-do within a group of to-dos.")
-public class TodoGroupEntryLinkDTO
+public class TodoGroupEntryLinkDTO implements Serializable
 {
+
+    private static final long serialVersionUID = 7738135458998397744L;
 
     @ApiModelProperty(notes = "The unique id of the to-do entry.")
     private final Integer id;

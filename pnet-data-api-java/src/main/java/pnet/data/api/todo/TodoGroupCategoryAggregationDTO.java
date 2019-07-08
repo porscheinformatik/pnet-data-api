@@ -1,15 +1,19 @@
 package pnet.data.api.todo;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The aggregation of one category
- * 
+ *
  * @author HAM
  */
-public class TodoGroupCategoryAggregationDTO
+public class TodoGroupCategoryAggregationDTO implements Serializable
 {
 
+    private static final long serialVersionUID = 2277177401669237777L;
+    
     private final TodoCategory category;
     private final long count;
 

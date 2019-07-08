@@ -7,8 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +23,7 @@ import at.porscheinformatik.happyrest.RestAttributeConverter;
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestHeader;
+import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestResponse;
@@ -38,32 +37,39 @@ import at.porscheinformatik.happyrest.RestVariable;
  */
 public class Spring4RestCall extends AbstractRestCall
 {
-    private static final Logger LOG = LoggerFactory.getLogger(Spring4RestCall.class);
     private final RestTemplate restTemplate;
+    private final RestLoggerAdapter loggerAdapter;
 
-    protected Spring4RestCall(RestTemplate restTemplate, ConversionService conversionService)
+    protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
+        ConversionService conversionService)
     {
-        this(restTemplate, MediaType.APPLICATION_JSON_VALUE, null, null, null, toConverter(conversionService), null);
+        this(restTemplate, loggerAdapter, MediaType.APPLICATION_JSON_VALUE, null, null, null,
+            toConverter(conversionService), null);
     }
 
-    protected Spring4RestCall(RestTemplate restTemplate, ConversionService conversionService, String url)
+    protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
+        ConversionService conversionService, String url)
     {
-        this(restTemplate, url, null, MediaType.APPLICATION_JSON_VALUE, null, toConverter(conversionService),
-            (Object) null);
+        this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON_VALUE, null,
+            toConverter(conversionService), (Object) null);
     }
 
-    protected Spring4RestCall(RestTemplate restTemplate, String url, List<String> acceptableMediaTypes,
-        String contentType, List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
+    protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, String url,
+        List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes,
+        RestAttributeConverter converter, Object body)
     {
         super(url, acceptableMediaTypes, contentType, attributes, converter, body);
+
         this.restTemplate = restTemplate;
+        this.loggerAdapter = loggerAdapter;
     }
 
     @Override
     protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
         List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
     {
-        return new Spring4RestCall(restTemplate, url, acceptableMediaTypes, contentType, attributes, converter, body);
+        return new Spring4RestCall(restTemplate, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
+            converter, body);
     }
 
     @Override
@@ -72,7 +78,8 @@ public class Spring4RestCall extends AbstractRestCall
         HttpHeaders headers = new HttpHeaders();
         URI uri = processAttributes(headers, path);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
-        LOG.info(String.format("Sending %s request: %s", method, uri));
+
+        loggerAdapter.logRequest(method, String.valueOf(uri));
 
         try
         {
@@ -94,7 +101,8 @@ public class Spring4RestCall extends AbstractRestCall
         HttpHeaders headers = new HttpHeaders();
         URI uri = processAttributes(headers, path);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
-        LOG.info(String.format("Sending %s request: %s", method, uri));
+
+        loggerAdapter.logRequest(method, String.valueOf(uri));
 
         try
         {

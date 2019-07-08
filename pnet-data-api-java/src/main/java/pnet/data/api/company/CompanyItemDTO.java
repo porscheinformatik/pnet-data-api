@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
@@ -22,9 +23,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.GeoPoint;
+import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithScore;
 import pnet.data.api.util.WithTenants;
 
 /**
@@ -33,26 +36,36 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about one company.")
-public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate
+public class CompanyItemDTO
+    implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate, WithScore, Serializable
 {
+
+    private static final long serialVersionUID = 8371146988245636569L;
 
     @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;
 
     @ApiModelProperty(
-        notes = "The matchcode of the company (a combination of administrative tenant and company number)")
+        notes = "The matchcode of the company (a combination of administrative tenant and company number).")
     private final String matchcode;
 
     @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
     private final String administrativeTenant;
 
-    @ApiModelProperty(notes = "The name of the company.")
+    @ApiModelProperty(
+        notes = "The label of the company (either the marketing name or a combination of name and affix).")
+    private final String label;
+
+    @ApiModelProperty(notes = "The name of the company. Deprecated: use label instead.")
+    @Deprecated
     private final String name;
 
-    @ApiModelProperty(notes = "The name affix of the company.")
+    @ApiModelProperty(notes = "The name affix of the company. Deprecated: use label instead.")
+    @Deprecated
     private final String nameAffix;
 
-    @ApiModelProperty(notes = "The marketing name of the company.")
+    @ApiModelProperty(notes = "The marketing name of the company. Deprecated: use label instead.")
+    @Deprecated
     private final String marketingName;
 
     @ApiModelProperty(notes = "Valid tenants of the company (also known as Portal-ID).")
@@ -91,25 +104,29 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
     @ApiModelProperty(notes = "The logitude and latitude of the companies location.")
     private final GeoPoint location;
 
-    @ApiModelProperty(
-        notes = "The time and date of the last occasion, when the data of the this company has been modified.")
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
 
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
+
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("name") String name,
-        @JsonProperty("nameAffix") String nameAffix, @JsonProperty("marketingName") String marketingName,
-        @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("label") String label,
+        @JsonProperty("name") String name, @JsonProperty("nameAffix") String nameAffix,
+        @JsonProperty("marketingName") String marketingName, @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<CompanyBrandLinkDTO> brands,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("street") String street,
         @JsonProperty("city") String city, @JsonProperty("postalCode") String postalCode,
         @JsonProperty("countryCode") String countryCode, @JsonProperty("country") String country,
         @JsonProperty("region") String region, @JsonProperty("types") Collection<CompanyTypeLinkDTO> types,
-        @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score)
     {
         super();
         this.companyId = companyId;
         this.matchcode = matchcode;
         this.administrativeTenant = administrativeTenant;
+        this.label = label;
         this.name = name;
         this.nameAffix = nameAffix;
         this.marketingName = marketingName;
@@ -125,6 +142,7 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
         this.types = types;
         this.location = location;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
@@ -139,21 +157,52 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
         return matchcode;
     }
 
+    @Override
+    public String getCompanyMatchcode()
+    {
+        return matchcode;
+    }
+
     public String getAdministrativeTenant()
     {
         return administrativeTenant;
     }
 
+    public String getLabel()
+    {
+        return label;
+    }
+
+    public String getLabelWithNumber()
+    {
+        return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, label);
+    }
+
+    /**
+     * @return the name of the company
+     * @deprecated use the label instead
+     */
+    @Deprecated
     public String getName()
     {
         return name;
     }
 
+    /**
+     * @return the name affix of the company
+     * @deprecated use the label instead
+     */
+    @Deprecated
     public String getNameAffix()
     {
         return nameAffix;
     }
 
+    /**
+     * @return the marketing name of the company
+     * @deprecated use the label instead
+     */
+    @Deprecated
     public String getMarketingName()
     {
         return marketingName;
@@ -170,6 +219,7 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
         return brands;
     }
 
+    @Override
     public String getCompanyNumber()
     {
         return companyNumber;
@@ -222,15 +272,22 @@ public class CompanyItemDTO implements WithCompanyId, WithTenants, WithMatchcode
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
             .format(
                 "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
                     + "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, "
-                    + "countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s]",
+                    + "countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, score=%s]",
                 companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants, brands,
-                companyNumber, street, city, postalCode, countryCode, country, region, types, location, lastUpdate);
+                companyNumber, street, city, postalCode, countryCode, country, region, types, location, lastUpdate,
+                score);
     }
 
 }

@@ -1,5 +1,6 @@
 package pnet.data.api.person;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,8 +14,10 @@ import io.swagger.annotations.ApiModelProperty;
  * @author HAM
  */
 @ApiModel(description = "Holds a language of the person.")
-public class PersonLanguageLinkDTO
+public class PersonLanguageLinkDTO implements Serializable
 {
+
+    private static final long serialVersionUID = 5456631116216468972L;
 
     @ApiModelProperty(notes = "The language as IETF language tag.")
     private final Locale language;

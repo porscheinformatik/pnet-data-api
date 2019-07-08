@@ -14,128 +14,41 @@
  */
 package pnet.data.api.person;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import pnet.data.api.util.AbstractLinkDTO;
-import pnet.data.api.util.WithBrandMatchcode;
-import pnet.data.api.util.WithCompanyId;
-import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithLabel;
 
 /**
- * Holds the function of a person for one company and brand.
+ * The assignment of a function to a person, for a specific company, tenant and brand.
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a function the person has.")
-public class ActivePersonFunctionLinkDTO extends AbstractLinkDTO
-    implements WithMatchcode, WithCompanyId, WithBrandMatchcode, Serializable
+@ApiModel(description = "The assignment of a function to a person, for a specific company, tenant and brand.")
+public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithLabel
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
 
-    @ApiModelProperty(notes = "The id of the company the person has the function at.")
-    private final Integer companyId;
-
-    @ApiModelProperty(notes = "The matchcode of the company the person has/had an function at.")
-    private final String companyMatchcode;
-
-    @ApiModelProperty(notes = "The number of the company the person has/had an function at.")
-    private final String companyNumber;
-
-    @ApiModelProperty(notes = "The matchcode of a brand the person has the function for.")
-    private final String brandMatchcode;
-
-    @ApiModelProperty(
-        notes = "The flag that declares, whether this function is the main function of the person at the specific company or not.")
-    private final boolean mainFunction;
+    @ApiModelProperty(notes = "The label of the function that is assigned to the person.")
+    private final String label;
 
     public ActivePersonFunctionLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
-        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("brandMatchcode") String brandMatchcode, @JsonProperty("mainFunction") boolean mainFunction)
+        @JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
+        @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("mainFunction") boolean mainFunction)
     {
-        super(tenant, matchcode);
+        super(tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
 
-        this.companyId = companyId;
-        this.companyMatchcode = companyMatchcode;
-        this.companyNumber = companyNumber;
-        this.brandMatchcode = brandMatchcode;
-        this.mainFunction = mainFunction;
-    }
-
-    @JsonPropertyDescription("A tenant where the function is valid")
-    @Override
-    public String getTenant()
-    {
-        return super.getTenant();
-    }
-
-    @JsonPropertyDescription("The unique matchcode of the function")
-    @Override
-    public String getMatchcode()
-    {
-        return super.getMatchcode();
+        this.label = label;
     }
 
     @Override
-    public Integer getCompanyId()
+    public String getLabel()
     {
-        return companyId;
-    }
-
-    public String getCompanyMatchcode()
-    {
-        return companyMatchcode;
-    }
-
-    public String getCompanyNumber()
-    {
-        return companyNumber;
-    }
-
-    @Override
-    public String getBrandMatchcode()
-    {
-        return brandMatchcode;
-    }
-
-    public boolean isMainFunction()
-    {
-        return mainFunction;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + Objects.hash(brandMatchcode, companyId);
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (!super.equals(obj))
-        {
-            return false;
-        }
-        if (!(obj instanceof ActivePersonFunctionLinkDTO))
-        {
-            return false;
-        }
-        ActivePersonFunctionLinkDTO other = (ActivePersonFunctionLinkDTO) obj;
-        return Objects.equals(brandMatchcode, other.brandMatchcode) && Objects.equals(companyId, other.companyId);
+        return label;
     }
 
     @Override
@@ -143,9 +56,9 @@ public class ActivePersonFunctionLinkDTO extends AbstractLinkDTO
     {
         return String
             .format(
-                "ActivePersonFunctionLinkDTO [tenant=%s, mathcode=%s, companyId=%s, companyMatchcode=%s, "
+                "ActivePersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, "
                     + "companyNumber=%s, brandMatchcode=%s, mainFunction=%s]",
-                getTenant(), getMatchcode(), companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
+                tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
     }
 
 }

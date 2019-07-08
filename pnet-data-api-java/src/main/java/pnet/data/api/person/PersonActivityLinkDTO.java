@@ -15,6 +15,8 @@
 package pnet.data.api.person;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -50,6 +52,12 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     @ApiModelProperty(notes = "A unique matchcode of the brand where the activity is valid.")
     private final String brandMatchcode;
 
+    @ApiModelProperty(notes = "The date and time from when this person has/had an actvitiy.")
+    private final LocalDateTime validFrom;
+
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an actvitiy.")
+    private final LocalDateTime validTo;
+
     @ApiModelProperty(
         notes = "The flag that declares, whether this activity is assigned to the person due to a function or not.")
     private final boolean dueToFunction;
@@ -57,6 +65,7 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     public PersonActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("dueToFunction") boolean dueToFunction)
     {
         super(tenant, matchcode);
@@ -65,6 +74,8 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
         this.brandMatchcode = brandMatchcode;
+        this.validFrom = validFrom;
+        this.validTo = validTo;
         this.dueToFunction = dueToFunction;
     }
 
@@ -94,14 +105,26 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
         return companyId;
     }
 
+    @Override
     public String getCompanyMatchcode()
     {
         return companyMatchcode;
     }
 
+    @Override
     public String getCompanyNumber()
     {
         return companyNumber;
+    }
+
+    public LocalDateTime getValidFrom()
+    {
+        return validFrom;
+    }
+
+    public LocalDateTime getValidTo()
+    {
+        return validTo;
     }
 
     public boolean isDueToFunction()
@@ -114,8 +137,7 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
-        result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
+        result = prime * result + Objects.hash(brandMatchcode, companyId, validFrom);
         return result;
     }
 
@@ -135,37 +157,19 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
             return false;
         }
         PersonActivityLinkDTO other = (PersonActivityLinkDTO) obj;
-        if (brandMatchcode == null)
-        {
-            if (other.brandMatchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!brandMatchcode.equals(other.brandMatchcode))
-        {
-            return false;
-        }
-        if (companyId == null)
-        {
-            if (other.companyId != null)
-            {
-                return false;
-            }
-        }
-        else if (!companyId.equals(other.companyId))
-        {
-            return false;
-        }
-        return true;
+        return Objects.equals(brandMatchcode, other.brandMatchcode)
+            && Objects.equals(companyId, other.companyId)
+            && Objects.equals(validFrom, other.validFrom);
     }
 
     @Override
     public String toString()
     {
         return String
-            .format("PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
-                + "dueToFunction=%s]", companyId, companyMatchcode, companyNumber, brandMatchcode, dueToFunction);
+            .format(
+                "PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
+                    + "validFrom=%s, validTo=%s, dueToFunction=%s]",
+                companyId, companyMatchcode, companyNumber, brandMatchcode, validFrom, validTo, dueToFunction);
     }
 
 }

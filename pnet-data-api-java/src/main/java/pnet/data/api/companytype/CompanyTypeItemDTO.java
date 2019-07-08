@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.util.WithScore;
 import pnet.data.api.util.WithTenants;
 
 /**
@@ -34,29 +35,37 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds basic information about a company type")
-public class CompanyTypeItemDTO implements WithMatchcode, WithLabel, WithTenants, WithLastUpdate, Serializable
+public class CompanyTypeItemDTO
+    implements WithMatchcode, WithLabel, WithTenants, WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = 1943888464506455363L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the company type")
+    @ApiModelProperty(notes = "The unique matchcode of the company type.")
     private final String matchcode;
-    @ApiModelProperty(notes = "The tenants where the company type is valid")
+
+    @ApiModelProperty(notes = "The tenants where the company type is valid.")
     private final Collection<String> tenants;
-    @ApiModelProperty(notes = "The label of the company type in the requested language")
+
+    @ApiModelProperty(notes = "The label of the company type in the requested language.")
     private final String label;
-    @ApiModelProperty(notes = "The time and date when the company type was last changed")
+
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
+
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    private final double score;
 
     public CompanyTypeItemDTO(@JsonProperty("matchcode") String matchcode,
         @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("label") String label,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate)
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
     {
         super();
         this.matchcode = matchcode;
         this.tenants = tenants;
         this.label = label;
         this.lastUpdate = lastUpdate;
+        this.score = score;
     }
 
     @Override
@@ -84,11 +93,17 @@ public class CompanyTypeItemDTO implements WithMatchcode, WithLabel, WithTenants
     }
 
     @Override
+    public double getScore()
+    {
+        return score;
+    }
+
+    @Override
     public String toString()
     {
         return String
-            .format("CompanyTypeItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s]", matchcode, tenants, label,
-                lastUpdate);
+            .format("CompanyTypeItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s, score=%s]", matchcode,
+                tenants, label, lastUpdate, score);
     }
 
 }

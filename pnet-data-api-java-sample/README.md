@@ -24,7 +24,7 @@ That's it.
 
 You can execute `pnet-data-api-java-sample-*-jar-with-dependencies.jar` in the target directory. It's a console tool for accessing the Data API. Start it with `java -jar pnet-data-api-java-sample-*-jar-with-dependencies.jar` (don't forget to set the current version instead of the '*').
 
-The sample application will present to a console interface. Type `help` and press enter. It will show you all available commands.
+The sample application will present you a console interface. Type `help` and press enter. It will show you all available commands.
 
 First, set the URL and the user creditals. Use the `url` command for this:
 
@@ -61,7 +61,7 @@ You can list stored URLs with `list` and load one with `load <KEY>`.
 Next try to search for functions. Type:
 
 ```
-> search functions *
+> search functions verkäufer
 ```
 
 It will print the first ten results. To navigate the pages, use `next` and `prev`.
@@ -81,6 +81,12 @@ Finally you can exit the application with `exit`.
 ```
 ? [q] .................................. Prints this help.
 about  ................................. Info about the Partner.Net Data API and the user.
+aggs  .................................. Prints the aggregations, if available.
+clear brand restrictions  .............. Removes all restrictions for brands.
+clear company restrictions  ............ Removes all restrictions for companies.
+clear restrictions  .................... Removes all restrictions.
+clear tenant restrictions  ............. Removes all restrictions for tenants.
+dated back [<DAYS>] .................... Sets the dated back parameter for the specified days
 exit  .................................. Exit this program.
 export all activities  ................. Exports all activities.
 export all advisor types  .............. Exports all advisor types.
@@ -131,7 +137,9 @@ find functions by mc <MC...> ........... Find functions by matchcodes.
 find number types by mc <MC...> ........ Find number types by matchcodes.
 find persons by company <COMPANY-MC...>  Find persons at a specific company.
 find persons by id <ID...> ............. Find a person by id.
-find persons by number <NUMBER...> ..... Find persons by personnel number.
+find persons by personnel number <NUMBER...>  Find persons by personnel number.
+find persons by role <ROLE-MC...> ...... Find persons by functions and activities.
+find persons by salesman number <NUMBER...>  Find persons by salesman number.
 find todo groups by category <CATEGORY...>  Find todo groups by category.
 find todo groups by mc <ID...> ......... Find todo groups by reference matchcode.
 find todo groups by person id <PERSION-ID...>  Find todo groups by person id.
@@ -151,7 +159,7 @@ get company group by company id <COMPANY-ID...>  Returns the company groups with
 get company group by company mc <COMPANY-MC...>  Returns the company groups with the specified matchcodes.
 get company group by company number <COMPANY-NUMBER...>  Returns the company groups with the specified numbers.
 get company group by leading company id <COMPANY-ID...>  Returns the company groups with the specified ids.
-get company group by leading company mc <COMPANY-MC...>  Returns the company groups with the specified mathcodes.
+get company group by leading company mc <COMPANY-MC...>  Returns the company groups with the specified matchcodes.
 get company group by leading company number <COMPANY-NUMBER...>  Returns the company groups with the specified numbers.
 get company group by type <MC...> ...... Returns the company groups with the specified matchcodes.
 get company group type by mc <MC...> ... Returns the company group types with the specified matchcodes.
@@ -167,10 +175,14 @@ get person by guid <GUID...> ........... Returns all details of persons with the
 get person by id <ID...> ............... Returns all details of persons with the specified ids.
 get person by personnelNumber <PERSNUMBER...>  Returns all details of persons with the specified personnelNumbers.
 get person by preferredUserId <PREFID...>  Returns all details of persons with the specified prefferedUserIds.
+get portrait of person <ID> ............ Shows the portrait image of the person.
+get thumbnail of person <ID> ........... Shows the thumbnail portrait image of the person.
 help [q] ............................... Prints this help.
 list  .................................. Lists all locally stored keys
 load [<KEY>] ........................... Loads the URL and username/password from your prefernces.
 logout  ................................ Invalidates the stored JSON Web Token.
+merge internet groups  ................. Merges companies according to their internet group settings.
+merge none  ............................ Do not merge companies.
 migrate all <INDEXNAME> ................ Performs a full migration for the specified index.
 migrate delta <INDEXNAME> .............. Performs a delta migration for the specified index.
 migrate explicit <INDEXNAME> [<IDS>] ... Runs an explicit migration.
@@ -179,6 +191,11 @@ next  .................................. Prints the next page of the last result
 page [<NUMBER>] ........................ Prints the page with the specified number.
 prev  .................................. Prints the previous page of the last result.
 remove [<KEY>] ......................... Remove the URL and username/password from your prefernces.
+restrict brands [<BRAND>...] ........... Places a restriction with brands for subsequent operations.
+restrict company ids <ID...> ........... Places a restriction with company numbers for subsequent operations.
+restrict company mcs <MC...> ........... Places a restriction with company matchcodes for subsequent operations.
+restrict company numbers <NUMBER...> ... Places a restriction with company numbers for subsequent operations.
+restrict tenants [<TENANT>...] ......... Places a restriction with tenants for subsequent operations.
 search activities <QUERY> .............. Query activities.
 search advisor types <QUERY> ........... Query advisor types.
 search applications <QUERY> ............ Query applications.
@@ -197,7 +214,6 @@ search persons <QUERY> ................. Search for a person.
 search todo groups <QUERY> ............. Query todo groups.
 store [<KEY>] .......................... Stores the URL and username/password to your prefernces.
 swagger  ............................... Opens the Swagger Documentation.
-tenant [<TENANT>...] ................... Sets the tenant filter.
 token  ................................. Prints the JSON Web Token of the user.
 url [<URL>] [<USERNAME>] [<PASSWORD>] .. Prints or overrides the predefined URL.
 user [<USERNAME>] [<PASSWORD>] ......... Prints or overrides the username and password.
