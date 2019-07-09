@@ -1,3 +1,10 @@
+pnet-data-api 1.10.9
+====================
+
+* Additional options for the sample client.
+* Fixed automatic login after token has expired.
+* Fixed warnings and upgraded dependencies to the newest versions.
+
 pnet-data-api 1.10.8
 ====================
 

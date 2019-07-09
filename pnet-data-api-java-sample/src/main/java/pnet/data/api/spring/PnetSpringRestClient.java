@@ -1618,59 +1618,60 @@ public final class PnetSpringRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
+    // CHECKSTYLE:OFF
     @SuppressWarnings("unchecked")
     protected <T extends Restrict<T>> T restrict(T restrict)
     {
-        if (restrict instanceof RestrictTenant && restrictedTenants.size() > 0)
+        if (restrict instanceof RestrictTenant && !restrictedTenants.isEmpty())
         {
             cli.info("A restriction for tenants is in place: %s", restrictedTenants);
 
             restrict = ((RestrictTenant<T>) restrict).tenants(restrictedTenants);
         }
 
-        if (restrict instanceof RestrictBrand && restrictedBrands.size() > 0)
+        if (restrict instanceof RestrictBrand && !restrictedBrands.isEmpty())
         {
             cli.info("A restriction for brands is in place: %s", restrictedBrands);
 
             restrict = ((RestrictBrand<T>) restrict).brands(restrictedBrands);
         }
 
-        if (restrict instanceof RestrictCompanyId && restrictedCompanyIds.size() > 0)
+        if (restrict instanceof RestrictCompanyId && !restrictedCompanyIds.isEmpty())
         {
             cli.info("A restriction for company ids is in place: %s", restrictedCompanyIds);
 
             restrict = ((RestrictCompanyId<T>) restrict).companyIds(restrictedCompanyIds);
         }
 
-        if (restrict instanceof RestrictCompany && restrictedCompanyMatchcodes.size() > 0)
+        if (restrict instanceof RestrictCompany && !restrictedCompanyMatchcodes.isEmpty())
         {
             cli.info("A restriction for company matchcodes is in place: %s", restrictedCompanyMatchcodes);
 
             restrict = ((RestrictCompany<T>) restrict).companies(restrictedCompanyMatchcodes);
         }
 
-        if (restrict instanceof RestrictCompanyNumber && restrictedCompanyNumbers.size() > 0)
+        if (restrict instanceof RestrictCompanyNumber && !restrictedCompanyNumbers.isEmpty())
         {
             cli.info("A restriction for company numbers is in place: %s", restrictedCompanyNumbers);
 
             restrict = ((RestrictCompanyNumber<T>) restrict).companyNumbers(restrictedCompanyNumbers);
         }
 
-        if (restrict instanceof RestrictFunction && restrictedFunctionMatchcodes.size() > 0)
+        if (restrict instanceof RestrictFunction && !restrictedFunctionMatchcodes.isEmpty())
         {
             cli.info("A restriction for function matchcodes is in place: %s", restrictedFunctionMatchcodes);
 
             restrict = ((RestrictFunction<T>) restrict).functions(restrictedFunctionMatchcodes);
         }
 
-        if (restrict instanceof RestrictActivity && restrictedActivityMatchcodes.size() > 0)
+        if (restrict instanceof RestrictActivity && !restrictedActivityMatchcodes.isEmpty())
         {
             cli.info("A restriction for activity matchcodes is in place: %s", restrictedActivityMatchcodes);
 
             restrict = ((RestrictActivity<T>) restrict).activities(restrictedActivityMatchcodes);
         }
 
-        if (restrict instanceof RestrictNumberType && restrictedNumberTypeMatchcodes.size() > 0)
+        if (restrict instanceof RestrictNumberType && !restrictedNumberTypeMatchcodes.isEmpty())
         {
             cli.info("A restriction for number type matchcodes is in place: %s", restrictedNumberTypeMatchcodes);
 
@@ -1738,6 +1739,7 @@ public final class PnetSpringRestClient
 
         return restrict;
     }
+    // CHECKSTYLE:ON
 
     @CLI.Command(name = "clear restrictions", description = "Removes all restrictions.")
     public void clearRestrictions()
