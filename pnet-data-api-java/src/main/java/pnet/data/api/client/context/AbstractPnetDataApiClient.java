@@ -97,6 +97,17 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
 
             throw new PnetDataClientException("REST call failed", e);
         }
+        catch (PnetDataClientException e)
+        {
+            if (e.getStatusCode() == 401 && retryOnUnauthorized)
+            {
+                context.invalidateLogin();
+
+                return invoke(fn, false);
+            }
+
+            throw new PnetDataClientException("REST call failed", e);
+        }
         catch (Exception | Error e)
         {
             throw new PnetDataClientException("REST call failed", e);
