@@ -129,6 +129,15 @@ import pnet.data.api.todo.TodoGroupDataSearch;
 import pnet.data.api.todo.TodoGroupEntryLinkDTO;
 import pnet.data.api.todo.TodoGroupItemDTO;
 import pnet.data.api.todo.TodoGroupPersonLinkDTO;
+import pnet.data.api.util.AggregateNumberPerActivity;
+import pnet.data.api.util.AggregateNumberPerBrand;
+import pnet.data.api.util.AggregateNumberPerCategory;
+import pnet.data.api.util.AggregateNumberPerCompany;
+import pnet.data.api.util.AggregateNumberPerContractType;
+import pnet.data.api.util.AggregateNumberPerFunction;
+import pnet.data.api.util.AggregateNumberPerState;
+import pnet.data.api.util.AggregateNumberPerTenant;
+import pnet.data.api.util.AggregateNumberPerType;
 import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.CompanyMergable;
@@ -137,11 +146,14 @@ import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Resource;
 import pnet.data.api.util.Restrict;
+import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictDatedBackUntil;
+import pnet.data.api.util.RestrictFunction;
+import pnet.data.api.util.RestrictNumberType;
 import pnet.data.api.util.RestrictTenant;
 
 /**
@@ -219,9 +231,13 @@ public final class PnetSpringRestClient
     private final List<Integer> restrictedCompanyIds = new ArrayList<>();
     private final List<String> restrictedCompanyMatchcodes = new ArrayList<>();
     private final List<String> restrictedCompanyNumbers = new ArrayList<>();
+    private final List<String> restrictedFunctionMatchcodes = new ArrayList<>();
+    private final List<String> restrictedActivityMatchcodes = new ArrayList<>();
+    private final List<String> restrictedNumberTypeMatchcodes = new ArrayList<>();
 
     private CompanyMerge companyMerge = CompanyMerge.NONE;
     private LocalDateTime datedBackUntil = null;
+    private boolean aggs = true;
 
     private PnetSpringRestClient()
     {
@@ -566,10 +582,8 @@ public final class PnetSpringRestClient
         CompanyDataFind query = restrict(companyDataClient.find().scroll());
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getCompanyId(), dto.getMatchcode(), dto.getName(), dto.getNameAffix(),
-                dto.getMarketingName(), dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(),
-                dto.getTypes(), dto.getLastUpdate()));
+        printAllResults(result, dto -> toCSV(dto.getCompanyId(), dto.getMatchcode(), dto.getLabel(),
+            dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(), dto.getTypes(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "export all updated companies", format = "[<DAYS>:1]",
@@ -580,10 +594,8 @@ public final class PnetSpringRestClient
         CompanyDataFind query = restrict(companyDataClient.find().updatedAfter(updatedAfter).scroll());
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getCompanyId(), dto.getMatchcode(), dto.getName(), dto.getNameAffix(),
-                dto.getMarketingName(), dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(),
-                dto.getTypes(), dto.getLastUpdate()));
+        printAllResults(result, dto -> toCSV(dto.getCompanyId(), dto.getMatchcode(), dto.getLabel(),
+            dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(), dto.getTypes(), dto.getLastUpdate()));
     }
 
     @CLI.Command(name = "find companies by id", format = "<ID...>", description = "Find companies by id.")
@@ -617,12 +629,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "search companies", format = "<QUERY>", description = "Query companies.")
     public void searchCompanies(String... qs) throws PnetDataClientException
     {
-        CompanyDataSearch query = restrict(companyDataClient
-            .search()
-            .aggregateNumberPerTenant()
-            .aggregateNumberPerBrand()
-            .aggregateNumberPerType()
-            .aggregateNumberPerContractType());
+        CompanyDataSearch query = restrict(companyDataClient.search());
         PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
@@ -662,6 +669,42 @@ public final class PnetSpringRestClient
         }
 
         cli.info("Requests are restricted to company numbers: %s", restrictedCompanyNumbers);
+    }
+
+    @CLI.Command(name = "restrict functions", format = "<MC...>",
+        description = "Places a restriction of functions for subsequent operations.")
+    public void restrictFunctionsByMatchcode(String... matchcodes)
+    {
+        if (matchcodes != null && matchcodes.length > 0)
+        {
+            Arrays.stream(matchcodes).forEach(restrictedFunctionMatchcodes::add);
+        }
+
+        cli.info("Requests are restricted to function matchcodes: %s", restrictedFunctionMatchcodes);
+    }
+
+    @CLI.Command(name = "restrict activities", format = "<MC...>",
+        description = "Places a restriction of activities for subsequent operations.")
+    public void restrictActivitiesByMatchcode(String... matchcodes)
+    {
+        if (matchcodes != null && matchcodes.length > 0)
+        {
+            Arrays.stream(matchcodes).forEach(restrictedActivityMatchcodes::add);
+        }
+
+        cli.info("Requests are restricted to activity matchcodes: %s", restrictedActivityMatchcodes);
+    }
+
+    @CLI.Command(name = "restrict number types", format = "<MC...>",
+        description = "Places a restriction of number types for subsequent operations.")
+    public void restrictNumberTypesByMatchcode(String... matchcodes)
+    {
+        if (matchcodes != null && matchcodes.length > 0)
+        {
+            Arrays.stream(matchcodes).forEach(restrictedNumberTypeMatchcodes::add);
+        }
+
+        cli.info("Requests are restricted to number type matchcodes: %s", restrictedNumberTypeMatchcodes);
     }
 
     @CLI.Command(name = "clear company restrictions", description = "Removes all restrictions for companies.")
@@ -1372,14 +1415,9 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
-    public void searchPerson(String... qs) throws PnetDataClientException
+    public void searchPersons(String... qs) throws PnetDataClientException
     {
-        PersonDataSearch query = restrict(personDataClient
-            .search()
-            .aggregateNumberPerTenant()
-            .aggregateNumberPerCompany()
-            .aggregateNumberPerFunction()
-            .aggregateNumberPerActivity());
+        PersonDataSearch query = restrict(personDataClient.search());
         PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> result =
             query.execute(Locale.getDefault(), joinQuery(qs));
 
@@ -1480,7 +1518,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
     public void searchTodoGroups(String... qs) throws PnetDataClientException
     {
-        TodoGroupDataSearch query = restrict(todoGroupDataClient.search().aggregateNumberPerCategory());
+        TodoGroupDataSearch query = restrict(todoGroupDataClient.search());
         PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result);
@@ -1587,40 +1625,56 @@ public final class PnetSpringRestClient
         {
             cli.info("A restriction for tenants is in place: %s", restrictedTenants);
 
-            restrict =
-                ((RestrictTenant<T>) restrict).tenant(restrictedTenants.toArray(new String[restrictedTenants.size()]));
+            restrict = ((RestrictTenant<T>) restrict).tenants(restrictedTenants);
         }
 
         if (restrict instanceof RestrictBrand && restrictedBrands.size() > 0)
         {
             cli.info("A restriction for brands is in place: %s", restrictedBrands);
 
-            restrict =
-                ((RestrictBrand<T>) restrict).brand(restrictedBrands.toArray(new String[restrictedBrands.size()]));
+            restrict = ((RestrictBrand<T>) restrict).brands(restrictedBrands);
         }
 
         if (restrict instanceof RestrictCompanyId && restrictedCompanyIds.size() > 0)
         {
             cli.info("A restriction for company ids is in place: %s", restrictedCompanyIds);
 
-            restrict = ((RestrictCompanyId<T>) restrict)
-                .companyId(restrictedCompanyIds.toArray(new Integer[restrictedCompanyIds.size()]));
+            restrict = ((RestrictCompanyId<T>) restrict).companyIds(restrictedCompanyIds);
         }
 
         if (restrict instanceof RestrictCompany && restrictedCompanyMatchcodes.size() > 0)
         {
             cli.info("A restriction for company matchcodes is in place: %s", restrictedCompanyMatchcodes);
 
-            restrict = ((RestrictCompany<T>) restrict)
-                .company(restrictedCompanyMatchcodes.toArray(new String[restrictedCompanyMatchcodes.size()]));
+            restrict = ((RestrictCompany<T>) restrict).companies(restrictedCompanyMatchcodes);
         }
 
         if (restrict instanceof RestrictCompanyNumber && restrictedCompanyNumbers.size() > 0)
         {
             cli.info("A restriction for company numbers is in place: %s", restrictedCompanyNumbers);
 
-            restrict = ((RestrictCompanyNumber<T>) restrict)
-                .companyNumber(restrictedCompanyNumbers.toArray(new String[restrictedCompanyNumbers.size()]));
+            restrict = ((RestrictCompanyNumber<T>) restrict).companyNumbers(restrictedCompanyNumbers);
+        }
+
+        if (restrict instanceof RestrictFunction && restrictedFunctionMatchcodes.size() > 0)
+        {
+            cli.info("A restriction for function matchcodes is in place: %s", restrictedFunctionMatchcodes);
+
+            restrict = ((RestrictFunction<T>) restrict).functions(restrictedFunctionMatchcodes);
+        }
+
+        if (restrict instanceof RestrictActivity && restrictedActivityMatchcodes.size() > 0)
+        {
+            cli.info("A restriction for activity matchcodes is in place: %s", restrictedActivityMatchcodes);
+
+            restrict = ((RestrictActivity<T>) restrict).activities(restrictedActivityMatchcodes);
+        }
+
+        if (restrict instanceof RestrictNumberType && restrictedNumberTypeMatchcodes.size() > 0)
+        {
+            cli.info("A restriction for number type matchcodes is in place: %s", restrictedNumberTypeMatchcodes);
+
+            restrict = ((RestrictNumberType<T>) restrict).numberTypes(restrictedNumberTypeMatchcodes);
         }
 
         if (restrict instanceof CompanyMergable && companyMerge != CompanyMerge.NONE)
@@ -1637,6 +1691,51 @@ public final class PnetSpringRestClient
             restrict = ((RestrictDatedBackUntil<T>) restrict).datedBackUntil(datedBackUntil);
         }
 
+        if (restrict instanceof AggregateNumberPerActivity && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerActivity<?>) restrict).aggregateNumberPerActivity();
+        }
+
+        if (restrict instanceof AggregateNumberPerBrand && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerBrand<?>) restrict).aggregateNumberPerBrand();
+        }
+
+        if (restrict instanceof AggregateNumberPerCategory && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerCategory<?>) restrict).aggregateNumberPerCategory();
+        }
+
+        if (restrict instanceof AggregateNumberPerCompany && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerCompany<?>) restrict).aggregateNumberPerCompany();
+        }
+
+        if (restrict instanceof AggregateNumberPerContractType && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerContractType<?>) restrict).aggregateNumberPerContractType();
+        }
+
+        if (restrict instanceof AggregateNumberPerFunction && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerFunction<?>) restrict).aggregateNumberPerFunction();
+        }
+
+        if (restrict instanceof AggregateNumberPerState && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerState<?>) restrict).aggregateNumberPerState();
+        }
+
+        if (restrict instanceof AggregateNumberPerTenant && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerTenant<?>) restrict).aggregateNumberPerTenant();
+        }
+
+        if (restrict instanceof AggregateNumberPerType && aggs)
+        {
+            restrict = (T) ((AggregateNumberPerType<?>) restrict).aggregateNumberPerType();
+        }
+
         return restrict;
     }
 
@@ -1650,6 +1749,9 @@ public final class PnetSpringRestClient
         restrictedCompanyIds.clear();
         restrictedCompanyMatchcodes.clear();
         restrictedCompanyNumbers.clear();
+        restrictedFunctionMatchcodes.clear();
+        restrictedActivityMatchcodes.clear();
+        restrictedNumberTypeMatchcodes.clear();
         datedBackUntil = null;
     }
 
@@ -1848,9 +1950,23 @@ public final class PnetSpringRestClient
         }
     }
 
-    @CLI.Command(description = "Prints the aggregations, if available.")
+    @CLI.Command(name = "no aggs", description = "Disables aggregations.")
+    public void noAggs() throws PnetDataClientException
+    {
+        cli.info("Aggs disabled.");
+        aggs = false;
+    }
+
+    @CLI.Command(description = "Enables aggregations or prints them, if available.")
     public void aggs() throws PnetDataClientException
     {
+        if (!aggs)
+        {
+            cli.info("Aggs enabled.");
+            aggs = true;
+            return;
+        }
+
         if (page == null)
         {
             cli.error("No result available.");

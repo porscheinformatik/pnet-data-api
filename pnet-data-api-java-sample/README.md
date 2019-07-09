@@ -81,7 +81,7 @@ Finally you can exit the application with `exit`.
 ```
 ? [q] .................................. Prints this help.
 about  ................................. Info about the Partner.Net Data API and the user.
-aggs  .................................. Prints the aggregations, if available.
+aggs  .................................. Enables aggregations or prints them, if available.
 clear brand restrictions  .............. Removes all restrictions for brands.
 clear company restrictions  ............ Removes all restrictions for companies.
 clear restrictions  .................... Removes all restrictions.
@@ -188,13 +188,17 @@ migrate delta <INDEXNAME> .............. Performs a delta migration for the spec
 migrate explicit <INDEXNAME> [<IDS>] ... Runs an explicit migration.
 migrate state <INDEXNAME> .............. Prints the state of the migration.
 next  .................................. Prints the next page of the last result.
+no aggs  ............................... Disables aggregations.
 page [<NUMBER>] ........................ Prints the page with the specified number.
 prev  .................................. Prints the previous page of the last result.
 remove [<KEY>] ......................... Remove the URL and username/password from your prefernces.
+restrict activities <MC...> ............ Places a restriction of activities for subsequent operations.
 restrict brands [<BRAND>...] ........... Places a restriction with brands for subsequent operations.
 restrict company ids <ID...> ........... Places a restriction with company numbers for subsequent operations.
 restrict company mcs <MC...> ........... Places a restriction with company matchcodes for subsequent operations.
 restrict company numbers <NUMBER...> ... Places a restriction with company numbers for subsequent operations.
+restrict functions <MC...> ............. Places a restriction of functions for subsequent operations.
+restrict number types <MC...> .......... Places a restriction of number types for subsequent operations.
 restrict tenants [<TENANT>...] ......... Places a restriction with tenants for subsequent operations.
 search activities <QUERY> .............. Query activities.
 search advisor types <QUERY> ........... Query advisor types.
