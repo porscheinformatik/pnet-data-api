@@ -1,3 +1,11 @@
+pnet-data-api 1.10.10
+=====================
+
+* Enhancements for the incredibly useful GenericType class
+    * isInstance
+    * isAssignableFrom
+    * getSimpleTypeName
+
 pnet-data-api 1.10.9
 ====================
 
