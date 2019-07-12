@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * Defines a generic, parameterized type for info at runtime. <br>
  * <br>
  * If you need <code>List&lt;String&gt;</code> as type, just type
- * <code>GenericType.of(List.class).with(String.class)</code><br>
+ * <code>GenericType.build(List.class).with(String.class)</code><br>
  * <br>
  * Or you can used an anonymous subtype: <code>new GenericType.Of&lt;List&lt;String&gt;&gt;(){}</code><br>
  * <br>
@@ -259,7 +259,7 @@ public interface GenericType<T> extends ParameterizedType
             return new Of<>(name, ownerType, rawType, arguments);
         }
 
-        public static Type[] findTypeArguments(Type rawType, Class<?> implementingType)
+        protected static Type[] findTypeArguments(Type rawType, Class<?> implementingType)
         {
             Type genericType = findGenericType(rawType, implementingType);
 
@@ -335,7 +335,7 @@ public interface GenericType<T> extends ParameterizedType
             throw new UnsupportedOperationException("Unsupported type of " + parameter.getClass());
         }
 
-        public static Type findGenericType(Type type, Class<?> implementingType)
+        protected static Type findGenericType(Type type, Class<?> implementingType)
         {
             if (implementingType == type)
             {
@@ -381,6 +381,18 @@ public interface GenericType<T> extends ParameterizedType
 
             return null;
         }
+
+        protected static String getShortName(String currentName)
+        {
+            int beginIndex = currentName.lastIndexOf('.');
+
+            if (beginIndex >= 0)
+            {
+                currentName = currentName.substring(beginIndex + 1);
+            }
+
+            return currentName;
+        }
     }
 
     String getName();
@@ -406,6 +418,73 @@ public interface GenericType<T> extends ParameterizedType
     default <U> Class<U> getArgumentClass(int index)
     {
         return (Class<U>) getArgument(index).getType();
+    }
+
+    default String getSimpleTypeName()
+    {
+        Type rawType = getRawType();
+        StringBuilder builder =
+            new StringBuilder(rawType != null ? Builder.getShortName(rawType.getTypeName()) : getName());
+
+        GenericType<?>[] arguments = getArguments();
+
+        if (arguments.length > 0)
+        {
+            builder
+                .append('<')
+                .append(Arrays.stream(arguments).map(GenericType::getSimpleTypeName).collect(Collectors.joining(", ")))
+                .append('>');
+        }
+
+        return builder.toString();
+    }
+
+    default boolean isInstance(Object obj)
+    {
+        if (obj == null)
+        {
+            return true;
+        }
+
+        if (!getType().isInstance(obj))
+        {
+            return false;
+        }
+
+        return isAssignableFrom(obj.getClass());
+    }
+
+    default boolean isAssignableFrom(Class<?> type)
+    {
+        if (!getType().isAssignableFrom(type))
+        {
+            return false;
+        }
+
+        return isAssignableFrom(build(getType()).implementedBy(type));
+    }
+
+    default boolean isAssignableFrom(GenericType<?> type)
+    {
+        Class<?> otherType = type.getType();
+
+        if (otherType != null && !getType().isAssignableFrom(otherType))
+        {
+            return false;
+        }
+
+        GenericType<?>[] arguments = getArguments();
+        GenericType<?>[] otherArguments = type.getArguments();
+
+        for (int i = 0; i < arguments.length; i++)
+        {
+            if (!arguments[i].isAssignableFrom(otherArguments[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
