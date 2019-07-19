@@ -1,3 +1,8 @@
+pnet-data-api 1.10.11
+=====================
+
+* Fixed aggregrations in mocks for testing.
+
 pnet-data-api 1.10.10
 =====================
 

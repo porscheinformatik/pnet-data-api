@@ -97,13 +97,16 @@ public class PersonDataClientMock extends PersonDataClient
         List<PersonTenantAggregationDTO> aggregatedTenants =
             MockUtils.aggregateTenants(entries, PersonTenantAggregationDTO::new);
         List<PersonCompanyAggregationDTO> aggregatedCompanies = MockUtils
-            .aggregateFlat(entries,
-                entry -> entry.getCompanies().stream().map(ActivePersonCompanyLinkDTO::getCompanyId),
-                (companyId, count) -> new PersonCompanyAggregationDTO(companyId, "CO_" + companyId, null,
-                    "Company " + companyId, count));
+            .aggregateFlat(entries, entry -> entry.getCompanies().stream(),
+                (company, count) -> new PersonCompanyAggregationDTO(company.getCompanyId(),
+                    company.getCompanyMatchcode(), company.getCompanyNumber(), company.getCompanyLabel(), count));
+        List<PersonFunctionAggregationDTO> aggregatedFunctions = MockUtils
+            .aggregateFlat(entries, entry -> entry.getFunctions().stream(), (function,
+                count) -> new PersonFunctionAggregationDTO(function.getMatchcode(), function.getLabel(), count));
+        List<PersonActivityAggregationDTO> aggregatedActivities = Collections.emptyList();
 
         PersonAggregationsDTO aggregations = new PersonAggregationsDTO(aggregatedTenants, aggregatedCompanies,
-            Collections.emptyList(), Collections.emptyList());
+            aggregatedFunctions, aggregatedActivities);
 
         return MockUtils.mockResultPageWithAggregations(entries, aggregations, pageIndex, itemsPerPage);
     }
