@@ -16,8 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import javax.swing.JFrame;
@@ -155,6 +154,7 @@ import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictNumberType;
 import pnet.data.api.util.RestrictTenant;
+import pnet.data.api.util.Table;
 
 /**
  * The client with all commands.
@@ -164,6 +164,80 @@ import pnet.data.api.util.RestrictTenant;
 @Service
 public final class PnetSpringRestClient
 {
+
+    private static class CurrentResult<T>
+    {
+        private PnetDataClientResultPage<T> page;
+        private final BiConsumer<Table, T> populateTableFn;
+
+        CurrentResult(PnetDataClientResultPage<T> page, BiConsumer<Table, T> populateTableFn)
+        {
+            super();
+
+            this.page = page;
+            this.populateTableFn = populateTableFn;
+        }
+
+        protected int getPageIndex()
+        {
+            return page.getPageIndex();
+        }
+
+        protected boolean hasNextPage()
+        {
+            return page.hasNextPage();
+        }
+
+        protected CurrentResult<T> nextPage() throws PnetDataClientException
+        {
+            page = page.nextPage();
+
+            return this;
+        }
+
+        protected CurrentResult<T> page(int index) throws PnetDataClientException
+        {
+            page = page.getPage(index);
+
+            return this;
+        }
+
+        protected void print(CLI cli, boolean asTable)
+        {
+            if (asTable && populateTableFn != null)
+            {
+                Table table = new Table();
+
+                page.stream().forEach(item -> populateTableFn.accept(table, item));
+
+                cli.info(table.toString());
+            }
+            else
+            {
+                page.stream().map(PrettyPrint::prettyPrint).forEach(cli::info);
+            }
+
+            cli
+                .info(
+                    "\nThis is page %d of %d (%d of %d results). Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
+                    page.getPageIndex() + 1, page.getNumberOfPages(), page.getItems().size(),
+                    page.getTotalNumberOfItems());
+        }
+
+        protected void printAggregations(CLI cli)
+        {
+            if (page == null || !(page instanceof PnetDataClientResultPageWithAggregations<?, ?>))
+            {
+                cli.error("No aggregations available in current page.");
+
+                return;
+            }
+
+            cli
+                .info(
+                    PrettyPrint.prettyPrint(((PnetDataClientResultPageWithAggregations<?, ?>) page).getAggregations()));
+        }
+    }
 
     private final CLI cli;
 
@@ -224,8 +298,6 @@ public final class PnetSpringRestClient
     @Autowired
     private PnetDataApiTokenRepository repository;
 
-    private PnetDataClientResultPage<?> page;
-
     private final List<String> restrictedTenants = new ArrayList<>();
     private final List<String> restrictedBrands = new ArrayList<>();
     private final List<Integer> restrictedCompanyIds = new ArrayList<>();
@@ -238,6 +310,8 @@ public final class PnetSpringRestClient
     private CompanyMerge companyMerge = CompanyMerge.NONE;
     private LocalDateTime datedBackUntil = null;
     private boolean aggs = true;
+    private boolean compact = true;
+    private CurrentResult<?> currentResult = null;
 
     private PnetSpringRestClient()
     {
@@ -283,7 +357,7 @@ public final class PnetSpringRestClient
         ActivityDataGet query = restrict(activityDataClient.get());
         PnetDataClientResultPage<ActivityDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all activities", description = "Exports all activities.")
@@ -292,8 +366,7 @@ public final class PnetSpringRestClient
         ActivityDataFind query = restrict(activityDataClient.find().scroll());
         PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(),
-            dto.getBrands(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated activities", format = "[<DAYS>:1]",
@@ -304,8 +377,7 @@ public final class PnetSpringRestClient
         ActivityDataFind query = restrict(activityDataClient.find().updatedAfter(updatedAfter).scroll());
         PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(),
-            dto.getBrands(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find activities by mc", format = "<MC...>", description = "Find activities by matchcodes.")
@@ -314,7 +386,7 @@ public final class PnetSpringRestClient
         ActivityDataFind query = restrict(activityDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search activities", format = "<QUERY>", description = "Query activities.")
@@ -323,7 +395,14 @@ public final class PnetSpringRestClient
         ActivityDataSearch query = restrict(activityDataClient.search());
         PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, ActivityItemDTO dto)
+    {
+        table
+            .addRow(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
+                dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -335,7 +414,7 @@ public final class PnetSpringRestClient
         AdvisorTypeDataGet query = restrict(advisorTypeDataClient.get());
         PnetDataClientResultPage<AdvisorTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all advisor types", description = "Exports all advisor types.")
@@ -344,8 +423,7 @@ public final class PnetSpringRestClient
         AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find());
         PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated advisor types", format = "[<DAYS>:1]",
@@ -356,8 +434,7 @@ public final class PnetSpringRestClient
         AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find advisor types by mc", format = "<MC...>",
@@ -367,16 +444,21 @@ public final class PnetSpringRestClient
         AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search advisor types", format = "<QUERY>", description = "Query advisor types.")
     public void searchAdvisorTypes(String... qs) throws PnetDataClientException
     {
         AdvisorTypeDataSearch query = restrict(advisorTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, AdvisorTypeItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -388,7 +470,7 @@ public final class PnetSpringRestClient
         ApplicationDataGet query = restrict(applicationDataClient.get());
         PnetDataClientResultPage<ApplicationDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all applications", description = "Exports all applications.")
@@ -397,7 +479,7 @@ public final class PnetSpringRestClient
         ApplicationDataFind query = restrict(applicationDataClient.find().scroll());
         PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated applications", format = "[<DAYS>:1]",
@@ -408,7 +490,7 @@ public final class PnetSpringRestClient
         ApplicationDataFind query = restrict(applicationDataClient.find().updatedAfter(updatedAfter).scroll());
         PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find applications by mc", format = "<MC...>", description = "Find applications by matchcodes.")
@@ -417,16 +499,21 @@ public final class PnetSpringRestClient
         ApplicationDataFind query = restrict(applicationDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search applications", format = "<QUERY>", description = "Query applications.")
     public void searchApplications(String... qs) throws PnetDataClientException
     {
         ApplicationDataSearch query = restrict(applicationDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, ApplicationItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -438,7 +525,7 @@ public final class PnetSpringRestClient
         BrandDataGet query = restrict(brandDataClient.get());
         PnetDataClientResultPage<BrandDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all brands", description = "Export all brands updated since yesterday.")
@@ -447,8 +534,7 @@ public final class PnetSpringRestClient
         BrandDataFind query = restrict(brandDataClient.find());
         PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated brands", format = "[<DAYS>:1]",
@@ -459,8 +545,7 @@ public final class PnetSpringRestClient
         BrandDataFind query = restrict(brandDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find brands by mc", format = "<MC...>", description = "Find brands by matchcodes.")
@@ -469,7 +554,7 @@ public final class PnetSpringRestClient
         BrandDataFind query = restrict(brandDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search brands", format = "<QUERY>", description = "Query brands.")
@@ -478,7 +563,7 @@ public final class PnetSpringRestClient
         BrandDataSearch query = restrict(brandDataClient.search());
         PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "restrict brands", format = "[<BRAND>...]",
@@ -501,6 +586,11 @@ public final class PnetSpringRestClient
         restrictedBrands.clear();
     }
 
+    protected void populateTable(Table table, BrandItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate(), dto.getScore());
+    }
+
     ////////////////////////////////////////////////////////////////////////////
 
     @CLI.Command(name = "get company by id", format = "<COMPANY-ID...>",
@@ -510,7 +600,7 @@ public final class PnetSpringRestClient
         CompanyDataGet query = restrict(companyDataClient.get());
         PnetDataClientResultPage<CompanyDataDTO> result = query.allByIds(Arrays.asList(ids), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get company by mc", format = "<COMPANY-MC...>",
@@ -520,7 +610,7 @@ public final class PnetSpringRestClient
         CompanyDataGet query = restrict(companyDataClient.get());
         PnetDataClientResultPage<CompanyDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get company by vat", format = "<COMPANY-VATIDNUMBER...>",
@@ -530,7 +620,7 @@ public final class PnetSpringRestClient
         CompanyDataGet query = restrict(companyDataClient.get());
         PnetDataClientResultPage<CompanyDataDTO> result = query.allByVatIdNumbers(Arrays.asList(vatIdNumbers), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get company by sap", format = "<COMPANY-SAPNUMBER...>",
@@ -540,28 +630,38 @@ public final class PnetSpringRestClient
         CompanyDataGet query = restrict(companyDataClient.get());
         PnetDataClientResultPage<CompanyDataDTO> result = query.allBySapNumbers(Arrays.asList(sapNumbers), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get company by number", format = "<COMPANY-NUMBER...>",
         description = "Returns the companies with the specified company numbers.")
     public void getCompaniesByCompanyNumbers(String... companyNumbers) throws PnetDataClientException
     {
-        printResults(restrict(companyDataClient.get()).allByCompanyNumbers(Arrays.asList(companyNumbers), 0, 10));
+        CompanyDataGet query = restrict(companyDataClient.get());
+        PnetDataClientResultPage<CompanyDataDTO> result =
+            query.allByCompanyNumbers(Arrays.asList(companyNumbers), 0, 10);
+
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get company by iban", format = "<COMPANY-IBAN...>",
         description = "Returns the company with the specified ibans.")
     public void getCompaniesByIbans(String... ibans) throws PnetDataClientException
     {
-        printResults(restrict(companyDataClient.get()).allByIbans(Arrays.asList(ibans), 0, 10));
+        CompanyDataGet query = restrict(companyDataClient.get());
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByIbans(Arrays.asList(ibans), 0, 10);
+
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get company by email", format = "<COMPANY-EMAIL...>",
         description = "Returns the company with the specified emails.")
     public void getCompaniesByEmails(String... emails) throws PnetDataClientException
     {
-        printResults(restrict(companyDataClient.get()).allByEmails(Arrays.asList(emails), 0, 10));
+        CompanyDataGet query = restrict(companyDataClient.get());
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByEmails(Arrays.asList(emails), 0, 10);
+
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get company by dvr", format = "<COMPANY-DPRN...>",
@@ -573,7 +673,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<CompanyDataDTO> result =
             query.allByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumbers), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all companies", description = "Exports all companies.")
@@ -582,8 +682,7 @@ public final class PnetSpringRestClient
         CompanyDataFind query = restrict(companyDataClient.find().scroll());
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getCompanyId(), dto.getMatchcode(), dto.getLabel(),
-            dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(), dto.getTypes(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated companies", format = "[<DAYS>:1]",
@@ -594,8 +693,7 @@ public final class PnetSpringRestClient
         CompanyDataFind query = restrict(companyDataClient.find().updatedAfter(updatedAfter).scroll());
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getCompanyId(), dto.getMatchcode(), dto.getLabel(),
-            dto.getAdministrativeTenant(), dto.getBrands(), dto.getTenants(), dto.getTypes(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find companies by id", format = "<ID...>", description = "Find companies by id.")
@@ -604,7 +702,7 @@ public final class PnetSpringRestClient
         CompanyDataFind query = restrict(companyDataClient.find().id(ids));
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find companies by mc", format = "<MC...>", description = "Find companies by matchcode.")
@@ -613,7 +711,7 @@ public final class PnetSpringRestClient
         CompanyDataFind query = restrict(companyDataClient.find().matchcode(mcs));
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find companies by number", format = "<NUMBER...>",
@@ -623,16 +721,16 @@ public final class PnetSpringRestClient
         CompanyDataFind query = restrict(companyDataClient.find().companyNumber(numbers));
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search companies", format = "<QUERY>", description = "Query companies.")
     public void searchCompanies(String... qs) throws PnetDataClientException
     {
         CompanyDataSearch query = restrict(companyDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "restrict company ids", format = "<ID...>",
@@ -754,6 +852,13 @@ public final class PnetSpringRestClient
         }
     }
 
+    protected void populateTable(Table table, CompanyItemDTO dto)
+    {
+        table
+            .addRow(dto.getCompanyId(), dto.getMatchcode(), dto.getLabel(), dto.getAdministrativeTenant(),
+                dto.getBrands(), dto.getTenants(), dto.getTypes(), dto.getLastUpdate(), dto.getScore());
+    }
+
     ////////////////////////////////////////////////////////////////////////////
 
     @CLI.Command(name = "get company group by leading company id", format = "<COMPANY-ID...>",
@@ -763,7 +868,7 @@ public final class PnetSpringRestClient
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
         PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByLeadingCompanyIds(Arrays.asList(ids), 0, 10);
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "get company group by leading company number", format = "<COMPANY-NUMBER...>",
@@ -774,7 +879,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<CompanyGroupDataDTO> result =
             request.allByLeadingCompanyNumbers(Arrays.asList(numbers), 0, 10);
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "get company group by leading company mc", format = "<COMPANY-MC...>",
@@ -785,14 +890,17 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<CompanyGroupDataDTO> result =
             query.allByLeadingCompanies(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "get company group by company id", format = "<COMPANY-ID...>",
         description = "Returns the company groups with the specified ids.")
     public void getCompanyGroupByCompanyIds(Integer... ids) throws PnetDataClientException
     {
-        printResults(restrict(companyGroupDataClient.get()).allByCompanyIds(Arrays.asList(ids), 0, 10));
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyIds(Arrays.asList(ids), 0, 10);
+
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "get company group by company number", format = "<COMPANY-NUMBER...>",
@@ -802,7 +910,7 @@ public final class PnetSpringRestClient
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
         PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyNumbers(Arrays.asList(numbers), 0, 10);
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "get company group by company mc", format = "<COMPANY-MC...>",
@@ -811,7 +919,8 @@ public final class PnetSpringRestClient
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
         PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanies(Arrays.asList(matchcodes), 0, 10);
-        printResults(result);
+
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all company groups", format = "[<GROUP-MC...>]",
@@ -835,7 +944,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<CompanyGroupDataDTO> result =
             query.allByCompanyGroupTypes(companyGroupTypeMatchcodes, 0, 25);
 
-        printAllResults(result, dto -> toCSV(dto.getLeadingCompanyId(), dto.getMembers()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find company groups by leader", format = "<COMPANY-ID...>",
@@ -845,7 +954,7 @@ public final class PnetSpringRestClient
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
         PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByLeadingCompanyIds(Arrays.asList(ids), 0, 10);
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find company groups by member", format = "<COMPANY-ID...>",
@@ -855,16 +964,14 @@ public final class PnetSpringRestClient
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
         PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyIds(Arrays.asList(ids), 0, 10);
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search company group types", format = "<QUERY>", description = "Query company group types.")
-    public void searchCompanyGroups(String... qs) throws PnetDataClientException
+    protected void populateTable(Table table, CompanyGroupDataDTO dto)
     {
-        CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
-
-        printResults(result);
+        table
+            .addRow(dto.getLeadingCompanyId(), dto.getLeadingCompanyMatchcode(), dto.getLeadingCompanyNumber(),
+                dto.getMembers());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -877,7 +984,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<CompanyGroupTypeDataDTO> result =
             query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get company group by type", format = "<MC...>",
@@ -888,7 +995,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<CompanyGroupDataDTO> result =
             query.allByCompanyGroupTypes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all company group types", description = "Exports all company group types.")
@@ -897,7 +1004,7 @@ public final class PnetSpringRestClient
         CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find());
         PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated company group types", format = "[<DAYS>:1]",
@@ -908,7 +1015,7 @@ public final class PnetSpringRestClient
         CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find company group types by mc", format = "<MC...>",
@@ -918,16 +1025,21 @@ public final class PnetSpringRestClient
         CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search company group types", format = "<QUERY>", description = "Query company group types.")
     public void searchCompanyGroupTypes(String... qs) throws PnetDataClientException
     {
         CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, CompanyGroupTypeItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -940,7 +1052,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<CompanyNumberTypeDataDTO> result =
             query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all company number types", description = "Exports all company number types.")
@@ -949,7 +1061,7 @@ public final class PnetSpringRestClient
         CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find());
         PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated company number types", format = "[<DAYS>:1]",
@@ -960,7 +1072,7 @@ public final class PnetSpringRestClient
         CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find company number types by mc", format = "<MC...>",
@@ -970,7 +1082,7 @@ public final class PnetSpringRestClient
         CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search company number types", format = "<QUERY>", description = "Query company number types.")
@@ -979,7 +1091,12 @@ public final class PnetSpringRestClient
         CompanyNumberTypeDataSearch query = restrict(companyNumberTypeDataClient.search());
         PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, CompanyNumberTypeItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -990,8 +1107,7 @@ public final class PnetSpringRestClient
         CompanyTypeDataFind query = restrict(companyTypeDataClient.find());
         PnetDataClientResultPage<CompanyTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated company types", format = "[<DAYS>:1]",
@@ -1002,17 +1118,21 @@ public final class PnetSpringRestClient
         CompanyTypeDataFind query = restrict(companyTypeDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<CompanyTypeItemDTO> results = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(results,
-            dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate()));
+        printAllResults(results, this::populateTable);
     }
 
     @CLI.Command(name = "search company types", format = "<QUERY>", description = "Query company types.")
     public void searchCompanyTypes(String... qs) throws PnetDataClientException
     {
         CompanyTypeDataSearch query = restrict(companyTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<CompanyTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, CompanyTypeItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getTenants(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1024,7 +1144,7 @@ public final class PnetSpringRestClient
         ContractStateDataGet query = restrict(contractStateDataClient.get());
         PnetDataClientResultPage<ContractStateDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all contract states", description = "Exports all contract states.")
@@ -1033,7 +1153,7 @@ public final class PnetSpringRestClient
         ContractStateDataFind query = restrict(contractStateDataClient.find());
         PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated contract states", format = "[<DAYS>:1]",
@@ -1045,7 +1165,7 @@ public final class PnetSpringRestClient
         ContractStateDataFind query = restrict(contractStateDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find contract states by mc", format = "<MC...>",
@@ -1055,7 +1175,7 @@ public final class PnetSpringRestClient
         ContractStateDataFind query = restrict(contractStateDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search contract states", format = "<QUERY>", description = "Query contract states types.")
@@ -1064,7 +1184,12 @@ public final class PnetSpringRestClient
         ContractStateDataSearch query = restrict(contractStateDataClient.search());
         PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, ContractStateItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1076,7 +1201,7 @@ public final class PnetSpringRestClient
         ContractTypeDataGet query = restrict(contractTypeDataClient.get());
         PnetDataClientResultPage<ContractTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all contract types", description = "Exports all contract types.")
@@ -1085,8 +1210,7 @@ public final class PnetSpringRestClient
         ContractTypeDataFind query = restrict(contractTypeDataClient.find());
         PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(),
-            dto.getBrands(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated contract types", format = "[<DAYS>:1]",
@@ -1098,8 +1222,7 @@ public final class PnetSpringRestClient
         ContractTypeDataFind query = restrict(contractTypeDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(),
-            dto.getBrands(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find contract types by mc", format = "<MC...>",
@@ -1109,16 +1232,23 @@ public final class PnetSpringRestClient
         ContractTypeDataFind query = restrict(contractTypeDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search contract types", format = "<QUERY>", description = "Query contract types.")
     public void searchContractTypes(String... qs) throws PnetDataClientException
     {
         ContractTypeDataSearch query = restrict(contractTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, ContractTypeItemDTO dto)
+    {
+        table
+            .addRow(dto.getMatchcode(), dto.getLabel(), dto.getType(), dto.getTenants(), dto.getBrands(),
+                dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1130,7 +1260,7 @@ public final class PnetSpringRestClient
         ExternalBrandDataGet query = restrict(externalBrandDataClient.get());
         PnetDataClientResultPage<ExternalBrandDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all external brands", description = "Exports all external brands.")
@@ -1139,7 +1269,7 @@ public final class PnetSpringRestClient
         ExternalBrandDataFind query = restrict(externalBrandDataClient.find());
         PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated external brands", format = "[<DAYS>:1]",
@@ -1150,7 +1280,7 @@ public final class PnetSpringRestClient
         ExternalBrandDataFind query = restrict(externalBrandDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find external brands by mc", format = "<MC...>",
@@ -1160,16 +1290,21 @@ public final class PnetSpringRestClient
         ExternalBrandDataFind query = restrict(externalBrandDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search external brands", format = "<QUERY>", description = "Query external brands.")
     public void searchExternalBrands(String... qs) throws PnetDataClientException
     {
         ExternalBrandDataSearch query = restrict(externalBrandDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, ExternalBrandItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1181,7 +1316,7 @@ public final class PnetSpringRestClient
         FunctionDataGet query = restrict(functionDataClient.get());
         PnetDataClientResultPage<FunctionDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all functions", description = "Exports all functions.")
@@ -1190,8 +1325,7 @@ public final class PnetSpringRestClient
         FunctionDataFind query = restrict(functionDataClient.find().scroll());
         PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(),
-            dto.getBrands(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated functions", format = "[<DAYS>:1]",
@@ -1202,8 +1336,7 @@ public final class PnetSpringRestClient
         FunctionDataFind query = restrict(functionDataClient.find().updatedAfter(updatedAfter).scroll());
         PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(),
-            dto.getBrands(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find functions by mc", format = "<MC...>", description = "Find functions by matchcodes.")
@@ -1212,7 +1345,7 @@ public final class PnetSpringRestClient
         FunctionDataFind query = restrict(functionDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search functions", format = "<QUERY>", description = "Query functions.")
@@ -1221,7 +1354,14 @@ public final class PnetSpringRestClient
         FunctionDataSearch query = restrict(functionDataClient.search());
         PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, FunctionItemDTO dto)
+    {
+        table
+            .addRow(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
+                dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1233,7 +1373,7 @@ public final class PnetSpringRestClient
         NumberTypeDataGet query = restrict(numberTypeDataClient.get());
         PnetDataClientResultPage<NumberTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all number types", description = "Exports all number types.")
@@ -1242,7 +1382,7 @@ public final class PnetSpringRestClient
         NumberTypeDataFind query = restrict(numberTypeDataClient.find());
         PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated number types", format = "[<DAYS>:1]",
@@ -1254,7 +1394,7 @@ public final class PnetSpringRestClient
         NumberTypeDataFind query = restrict(numberTypeDataClient.find().updatedAfter(updatedAfter));
         PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result, dto -> toCSV(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find number types by mc", format = "<MC...>", description = "Find number types by matchcodes.")
@@ -1263,16 +1403,21 @@ public final class PnetSpringRestClient
         NumberTypeDataFind query = restrict(numberTypeDataClient.find().matchcode(matchcodes));
         PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search number types", format = "<QUERY>", description = "Query number types.")
     public void searchNumberTypes(String... qs) throws PnetDataClientException
     {
         NumberTypeDataSearch query = restrict(numberTypeDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, NumberTypeItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1284,7 +1429,7 @@ public final class PnetSpringRestClient
         PersonDataGet query = restrict(personDataClient.get());
         PnetDataClientResultPage<PersonDataDTO> result = query.allByIds(Arrays.asList(ids), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get person by external id", format = "<EXTERNALID...>",
@@ -1294,7 +1439,7 @@ public final class PnetSpringRestClient
         PersonDataGet query = restrict(personDataClient.get());
         PnetDataClientResultPage<PersonDataDTO> result = query.allByExternalIds(Arrays.asList(externalIds), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get person by guid", format = "<GUID...>",
@@ -1304,7 +1449,7 @@ public final class PnetSpringRestClient
         PersonDataGet query = restrict(personDataClient.get());
         PnetDataClientResultPage<PersonDataDTO> result = query.allByGuids(Arrays.asList(guids), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get person by preferredUserId", format = "<PREFID...>",
@@ -1315,7 +1460,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<PersonDataDTO> result =
             query.allByPrefferedUserIds(Arrays.asList(preferredUserIds), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get person by email", format = "<EMAIL...>",
@@ -1325,7 +1470,7 @@ public final class PnetSpringRestClient
         PersonDataGet query = restrict(personDataClient.get());
         PnetDataClientResultPage<PersonDataDTO> result = query.allByEmails(Arrays.asList(emails), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "get person by personnelNumber", format = "<PERSNUMBER...>",
@@ -1336,7 +1481,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPage<PersonDataDTO> result =
             query.allByPersonnelNumbers(Arrays.asList(personnelNumbers), 0, 10);
 
-        printResults(result);
+        printResults(result, null);
     }
 
     @CLI.Command(name = "export all persons", description = "Exports all persons available for the current user.")
@@ -1345,10 +1490,7 @@ public final class PnetSpringRestClient
         PersonDataFind query = restrict(personDataClient.find().scroll());
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getFormOfAddress(), dto.getAcademicTitle(),
-                dto.getFirstName(), dto.getLastName(), dto.getAcademicTitlePostNominal(), dto.getAdministrativeTenant(),
-                dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated persons", format = "[<DAYS>:1]",
@@ -1359,10 +1501,7 @@ public final class PnetSpringRestClient
         PersonDataFind query = restrict(personDataClient.find().updatedAfter(updatedAfter).scroll());
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getPersonId(), dto.getPersonnelNumber(), dto.getFormOfAddress(), dto.getAcademicTitle(),
-                dto.getFirstName(), dto.getLastName(), dto.getAcademicTitlePostNominal(), dto.getAdministrativeTenant(),
-                dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find persons by personnel number", format = "<NUMBER...>",
@@ -1372,7 +1511,7 @@ public final class PnetSpringRestClient
         PersonDataFind query = restrict(personDataClient.find().personnelNumber(numbers));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find persons by salesman number", format = "<NUMBER...>",
@@ -1382,7 +1521,7 @@ public final class PnetSpringRestClient
         PersonDataFind query = restrict(personDataClient.find().numbersType("NT_VERK_NR").number(numbers));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find persons by id", format = "<ID...>", description = "Find a person by id.")
@@ -1391,7 +1530,7 @@ public final class PnetSpringRestClient
         PersonDataFind query = restrict(personDataClient.find().id(ids));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find persons by company", format = "<COMPANY-MC...>",
@@ -1401,7 +1540,7 @@ public final class PnetSpringRestClient
         PersonDataFind query = restrict(personDataClient.find().company(matchcodes));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find persons by role", format = "<ROLE-MC...>",
@@ -1411,7 +1550,7 @@ public final class PnetSpringRestClient
         PersonDataFind query = restrict(personDataClient.find().role(matchcodes));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
@@ -1421,7 +1560,7 @@ public final class PnetSpringRestClient
         PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> result =
             query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "get portrait of person", format = "<ID>",
@@ -1454,6 +1593,14 @@ public final class PnetSpringRestClient
         showImage("Portrait thumbnail of Person " + id, portrait.get().toImage());
     }
 
+    protected void populateTable(Table table, PersonItemDTO dto)
+    {
+        table
+            .addRow(dto.getPersonId(), dto.getPersonnelNumber(), dto.getFormOfAddress(), dto.getAcademicTitle(),
+                dto.getFirstName(), dto.getLastName(), dto.getAcademicTitlePostNominal(), dto.getAdministrativeTenant(),
+                dto.getLastUpdate(), dto.getScore());
+    }
+
     ////////////////////////////////////////////////////////////////////////////
 
     @CLI.Command(name = "export all todo groups", description = "Exports all todo groups.")
@@ -1462,11 +1609,7 @@ public final class PnetSpringRestClient
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().scroll());
         PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
-                dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
-                dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
-                dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "export all updated todo groups", format = "[<DAYS>:1]",
@@ -1478,11 +1621,7 @@ public final class PnetSpringRestClient
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().updatedAfter(updatedAfter).scroll());
         PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
 
-        printAllResults(result,
-            dto -> toCSV(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
-                dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
-                dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
-                dto.getLastUpdate()));
+        printAllResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find todo groups by mc", format = "<ID...>",
@@ -1492,7 +1631,7 @@ public final class PnetSpringRestClient
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().referenceMatchcode(referenceMatchcodes));
         PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find todo groups by category", format = "<CATEGORY...>",
@@ -1502,7 +1641,7 @@ public final class PnetSpringRestClient
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().category(categories));
         PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "find todo groups by person id", format = "<PERSION-ID...>",
@@ -1512,16 +1651,25 @@ public final class PnetSpringRestClient
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().personId(personIds));
         PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
 
-        printResults(result);
+        printResults(result, this::populateTable);
     }
 
     @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
     public void searchTodoGroups(String... qs) throws PnetDataClientException
     {
         TodoGroupDataSearch query = restrict(todoGroupDataClient.search());
-        PnetDataClientResultPage<?> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
-        printResults(result);
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, TodoGroupItemDTO dto)
+    {
+        table
+            .addRow(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
+                dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
+                dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
+                dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1895,34 +2043,50 @@ public final class PnetSpringRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
+    @CLI.Command(description = "Print compact results.")
+    public void compact()
+    {
+        cli.info("Printing compact results.");
+
+        compact = true;
+    }
+
+    @CLI.Command(description = "Print detailed results.")
+    public void detailed()
+    {
+        cli.info("Printing detailed results.");
+
+        compact = false;
+    }
+
     @CLI.Command(description = "Prints the next page of the last result.")
     public void next() throws PnetDataClientException
     {
-        if (page == null)
+        if (currentResult == null)
         {
             cli.error("No result available.");
             return;
         }
 
-        if (!page.hasNextPage())
+        if (!currentResult.hasNextPage())
         {
             cli.error("There is no next page.");
             return;
         }
 
-        printPage(page.nextPage());
+        currentResult.nextPage().print(cli, compact);
     }
 
     @CLI.Command(description = "Prints the previous page of the last result.")
     public void prev() throws PnetDataClientException
     {
-        if (page == null)
+        if (currentResult == null)
         {
             cli.error("No result available.");
             return;
         }
 
-        int index = page.getPageIndex();
+        int index = currentResult.getPageIndex();
 
         if (index <= 0)
         {
@@ -1930,13 +2094,13 @@ public final class PnetSpringRestClient
             return;
         }
 
-        printPage(page.getPage(index - 1));
+        currentResult.page(index - 1).print(cli, compact);
     }
 
     @CLI.Command(format = "[<NUMBER>]", description = "Prints the page with the specified number.")
     public void page(Integer number) throws PnetDataClientException
     {
-        if (page == null)
+        if (currentResult == null)
         {
             cli.error("No result available.");
             return;
@@ -1944,11 +2108,11 @@ public final class PnetSpringRestClient
 
         if (number == null)
         {
-            printPage();
+            currentResult.print(cli, compact);
         }
         else
         {
-            printPage(page.getPage(number - 1));
+            currentResult.page(number - 1).print(cli, compact);
         }
     }
 
@@ -1969,64 +2133,50 @@ public final class PnetSpringRestClient
             return;
         }
 
-        if (page == null)
+        if (currentResult == null)
         {
             cli.error("No result available.");
             return;
         }
 
-        printAggregations();
+        currentResult.printAggregations(cli);
     }
 
     ////////////////////////////////////////////////////////////////////////////
 
-    protected void printResults(PnetDataClientResultPage<?> page) throws PnetDataClientException
+    protected <T> void printResults(PnetDataClientResultPage<T> page, BiConsumer<Table, T> populateTableFn)
+        throws PnetDataClientException
     {
         cli.info("Found %d results.", page.getTotalNumberOfItems());
 
-        printPage(page);
+        printPage(page, populateTableFn);
     }
 
-    protected <Any> void printAllResults(PnetDataClientResultPage<Any> page, Function<Any, String> formatter)
+    protected <T> void printAllResults(PnetDataClientResultPage<T> page, BiConsumer<Table, T> populateTableFn)
         throws PnetDataClientException
     {
         long millis = System.currentTimeMillis();
-        AtomicInteger count = new AtomicInteger();
+        int count = 0;
 
-        page.streamAll().forEach(item -> {
-            cli.info(formatter.apply(item));
-            count.incrementAndGet();
-        });
-
-        cli.info("\nFound %d results in %,.3f seconds", count.get(), (System.currentTimeMillis() - millis) / 1000d);
-    }
-
-    protected void printPage(PnetDataClientResultPage<?> page)
-    {
-        this.page = page;
-
-        printPage();
-    }
-
-    protected void printAggregations()
-    {
-        if (page == null || !(page instanceof PnetDataClientResultPageWithAggregations<?, ?>))
+        while (page != null && page.size() > 0)
         {
-            cli.error("No aggregations available in current page.");
+            Table table = new Table();
 
-            return;
+            page.stream().forEach(item -> populateTableFn.accept(table, item));
+
+            cli.info(table.toString());
+
+            count += page.size();
+            page = page.nextPage();
         }
 
-        cli.info(PrettyPrint.prettyPrint(((PnetDataClientResultPageWithAggregations<?, ?>) page).getAggregations()));
+        cli.info("\nFound %d results in %,.3f seconds", count, (System.currentTimeMillis() - millis) / 1000d);
     }
 
-    protected void printPage()
+    protected <T> void printPage(PnetDataClientResultPage<T> page, BiConsumer<Table, T> populateTableFn)
     {
-        page.stream().map(PrettyPrint::prettyPrint).forEach(cli::info);
-
-        cli
-            .info("\nThis is page %d of %d (%d of %d results). Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
-                page.getPageIndex() + 1, page.getNumberOfPages(), page.getItems().size(), page.getTotalNumberOfItems());
+        currentResult = new CurrentResult<>(page, populateTableFn);
+        currentResult.print(cli, compact);
     }
 
     protected PnetDataApiTokenKey key()
@@ -2058,7 +2208,7 @@ public final class PnetSpringRestClient
         }
     }
 
-    protected static String toCSV(Object... args)
+    protected static String toCsv(Object... args)
     {
         StringBuilder builder = new StringBuilder();
         boolean first = true;
@@ -2067,7 +2217,7 @@ public final class PnetSpringRestClient
         {
             if (!first)
             {
-                builder.append(";");
+                builder.append(" | ");
             }
             else
             {

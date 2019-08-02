@@ -1,3 +1,8 @@
+pnet-data-api 1.10.12
+=====================
+
+* Sugar for the sample app.
+
 pnet-data-api 1.10.11
 =====================
 
