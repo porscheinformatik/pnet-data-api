@@ -1,6 +1,7 @@
 pnet-data-api 1.10.12
 =====================
 
+* Critical fix for the client, that does not restore the token when getting portraits.
 * Sugar for the sample app.
 
 pnet-data-api 1.10.11
