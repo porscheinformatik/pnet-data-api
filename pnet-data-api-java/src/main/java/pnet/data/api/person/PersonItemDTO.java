@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -81,8 +82,17 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "The birthdate of the person.")
     private final LocalDate birthdate;
 
-    @ApiModelProperty(notes = " The email of the person.")
+    @ApiModelProperty(notes = "The email of the person.")
     private final String email;
+
+    @ApiModelProperty(notes = "The phone number of the person")
+    private final String phoneNumber;
+
+    @ApiModelProperty(notes = "The mobile phone number of the person")
+    private final String mobileNumber;
+
+    @ApiModelProperty(notes = "The languages the person speaks")
+    private final Collection<Locale> languages;
 
     @ApiModelProperty(notes = "The companies the person has employments at")
     private final Collection<ActivePersonCompanyLinkDTO> companies;
@@ -117,7 +127,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("username") String username, @JsonProperty("externalId") String externalId,
         @JsonProperty("guid") String guid, @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
-        @JsonProperty("email") String email,
+        @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber,
+        @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("languages") Collection<Locale> languages,
         @JsonProperty("companies") Collection<ActivePersonCompanyLinkDTO> companies,
         @JsonProperty("functions") Collection<ActivePersonFunctionLinkDTO> functions,
         @JsonProperty("contactCompanyId") Integer contactCompanyId,
@@ -143,6 +154,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.personnelNumber = personnelNumber;
         this.birthdate = birthdate;
         this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.mobileNumber = mobileNumber;
+        this.languages = languages;
         this.companies = companies;
         this.functions = functions;
         this.contactCompanyId = contactCompanyId;
@@ -230,6 +244,21 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return email;
     }
 
+    public String getPhoneNumber()
+    {
+        return phoneNumber;
+    }
+
+    public String getMobileNumber()
+    {
+        return mobileNumber;
+    }
+
+    public Collection<Locale> getLanguages()
+    {
+        return languages;
+    }
+
     public Collection<ActivePersonCompanyLinkDTO> getCompanies()
     {
         return companies;
@@ -277,15 +306,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     {
         return String
             .format(
-                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, "
-                    + "preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, companies=%s, functions=%s, "
-                    + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, portraitAvailable=%s, "
-                    + "lastUpdate=%s, score=%s]",
+                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, functions=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
                 firstName, lastName, username, externalId, guid, preferredUserId, personnelNumber, birthdate, email,
-                companies, functions, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber,
-                portraitAvailable, lastUpdate, score);
+                phoneNumber, mobileNumber, languages, companies, functions, contactCompanyId, contactCompanyMatchcode,
+                contactCompanyNumber, portraitAvailable, lastUpdate, score);
     }
 
 }

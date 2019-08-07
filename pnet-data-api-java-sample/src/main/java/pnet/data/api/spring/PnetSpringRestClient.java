@@ -1654,6 +1654,13 @@ public final class PnetSpringRestClient
         printResults(result, this::populateTable);
     }
 
+    @CLI.Command(name = "test",
+        description = "Method to implement complex requests or test something data-api related.")
+    public void test() throws PnetDataClientException
+    {       
+        throw new UnsupportedOperationException("IMPLEMENT WHEN NEEDED!");
+    }
+
     @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
     public void searchTodoGroups(String... qs) throws PnetDataClientException
     {
