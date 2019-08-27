@@ -89,7 +89,7 @@ public final class PnetDataApiUtils
 
             try (InputStream stream = PnetDataApiUtils.class
                 .getClassLoader()
-                .getResourceAsStream("/META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
+                .getResourceAsStream("META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
             {
                 if (stream != null)
                 {

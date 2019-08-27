@@ -1,3 +1,16 @@
+pnet-data-api 1.10.14
+=====================
+
+* Fix determination of the client version.
+
+pnet-data-api 1.10.13
+=====================
+
+* Additional fields for the PersonItemDTO:
+ * phoneNumber
+ * mobileNumber
+ * languages
+
 pnet-data-api 1.10.12
 =====================
 
@@ -7,7 +20,7 @@ pnet-data-api 1.10.12
 pnet-data-api 1.10.11
 =====================
 
-* Fixed aggregrations in mocks for testing.
+* Fixed aggregations in mocks for testing.
 
 pnet-data-api 1.10.10
 =====================

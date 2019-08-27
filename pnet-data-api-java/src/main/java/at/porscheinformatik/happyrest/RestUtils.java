@@ -104,7 +104,7 @@ public final class RestUtils
 
             try (InputStream stream = RestUtils.class
                 .getClassLoader()
-                .getResourceAsStream("/META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
+                .getResourceAsStream("META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
             {
                 if (stream != null)
                 {
