@@ -11,16 +11,24 @@ import pnet.data.api.util.ByMatchcode;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictDataProcessingRegisterNumber;
 import pnet.data.api.util.RestrictDatedBackUntil;
+import pnet.data.api.util.RestrictEmail;
+import pnet.data.api.util.RestrictIban;
+import pnet.data.api.util.RestrictSapNumber;
 import pnet.data.api.util.RestrictTenant;
+import pnet.data.api.util.RestrictVatIdNumber;
 
 /**
  * @author cet
  *
  */
-public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
-    implements RestrictTenant<CompanyDataGet>, ById<CompanyDataDTO, CompanyDataGet>,
-    ByMatchcode<CompanyDataDTO, CompanyDataGet>, RestrictDatedBackUntil<CompanyDataGet>, CompanyMergable<CompanyDataGet>
+public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet> implements
+    RestrictTenant<CompanyDataGet>, ById<CompanyDataDTO, CompanyDataGet>, ByMatchcode<CompanyDataDTO, CompanyDataGet>,
+    RestrictVatIdNumber<CompanyDataGet>, RestrictSapNumber<CompanyDataGet>, RestrictCompanyNumber<CompanyDataGet>,
+    RestrictIban<CompanyDataGet>, RestrictEmail<CompanyDataGet>, RestrictDataProcessingRegisterNumber<CompanyDataGet>,
+    RestrictDatedBackUntil<CompanyDataGet>, CompanyMergable<CompanyDataGet>
 {
 
     public CompanyDataGet(GetFunction<CompanyDataDTO> getFunction, List<Pair<String, Object>> restricts)
@@ -36,7 +44,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     public PnetDataClientResultPage<CompanyDataDTO> allByVatIdNumbers(List<String> vatIdNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
-        return execute("vatIdNumber", vatIdNumbers, pageIndex, itemsPerPage);
+        return vatIdNumbers(vatIdNumbers).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyDataDTO bySapNumber(String sapNumber) throws PnetDataClientException
@@ -47,7 +55,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     public PnetDataClientResultPage<CompanyDataDTO> allBySapNumbers(List<String> sapNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
-        return execute("sapNumber", sapNumbers, pageIndex, itemsPerPage);
+        return sapNumbers(sapNumbers).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyDataDTO byCompanyNumber(String companyNumber) throws PnetDataClientException
@@ -58,7 +66,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     public PnetDataClientResultPage<CompanyDataDTO> allByCompanyNumbers(List<String> companyNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
-        return execute("companyNumber", companyNumbers, pageIndex, itemsPerPage);
+        return companyNumbers(companyNumbers).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyDataDTO byIban(String iban) throws PnetDataClientException
@@ -69,7 +77,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     public PnetDataClientResultPage<CompanyDataDTO> allByIbans(List<String> ibans, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
-        return execute("iban", ibans, pageIndex, itemsPerPage);
+        return ibans(ibans).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyDataDTO byEmail(String email) throws PnetDataClientException
@@ -80,7 +88,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     public PnetDataClientResultPage<CompanyDataDTO> allByEmails(List<String> emails, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
-        return execute("email", emails, pageIndex, itemsPerPage);
+        return emails(emails).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyDataDTO byDataProcessingRegisterNumber(String dataProcessingRegisterNumber)
@@ -92,6 +100,6 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     public PnetDataClientResultPage<CompanyDataDTO> allByDataProcessingRegisterNumbers(
         List<String> dataProcessingRegisterNumbers, int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
-        return execute("dataProcessingRegisterNumber", dataProcessingRegisterNumbers, pageIndex, itemsPerPage);
+        return dataProcessingRegisterNumbers(dataProcessingRegisterNumbers).execute(pageIndex, itemsPerPage);
     }
 }

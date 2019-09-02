@@ -1453,12 +1453,12 @@ public final class PnetSpringRestClient
     }
 
     @CLI.Command(name = "get person by preferredUserId", format = "<PREFID...>",
-        description = "Returns all details of persons with the specified prefferedUserIds.")
+        description = "Returns all details of persons with the specified preferredUserIds.")
     public void getPersonByPreferredUserId(String... preferredUserIds) throws PnetDataClientException
     {
         PersonDataGet query = restrict(personDataClient.get());
         PnetDataClientResultPage<PersonDataDTO> result =
-            query.allByPrefferedUserIds(Arrays.asList(preferredUserIds), 0, 10);
+            query.allByPreferredUserIds(Arrays.asList(preferredUserIds), 0, 10);
 
         printResults(result, null);
     }
@@ -1657,7 +1657,7 @@ public final class PnetSpringRestClient
     @CLI.Command(name = "test",
         description = "Method to implement complex requests or test something data-api related.")
     public void test() throws PnetDataClientException
-    {       
+    {
         throw new UnsupportedOperationException("IMPLEMENT WHEN NEEDED!");
     }
 
@@ -2204,15 +2204,20 @@ public final class PnetSpringRestClient
         {
             try
             {
-                Thread.sleep(500);
+                Thread.sleep(5);
 
-                cli.consumeCommand(null);
+                if (!cli.consumeCommand(null))
+                {
+                    break;
+                }
             }
             catch (Exception e)
             {
                 cli.error("Command failed", e);
             }
         }
+        
+        cli.info("Aborted.");
     }
 
     protected static String toCsv(Object... args)

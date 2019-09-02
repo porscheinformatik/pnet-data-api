@@ -1040,9 +1040,18 @@ public class CLI
         }
     }
 
-    public void consumeCommand(String prompt)
+    public boolean consumeCommand(String prompt)
     {
-        formulary.handle(consume(prompt));
+        Arguments command = consume(prompt);
+
+        if (command == null)
+        {
+            return false;
+        }
+
+        formulary.handle(command);
+
+        return true;
     }
 
     @CLI.Command(name = {"help", "?"}, format = "[q]", description = "Prints this help.")

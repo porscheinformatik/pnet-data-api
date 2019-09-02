@@ -81,4 +81,12 @@ public class CompanyGroupDataDTO implements Serializable
         this.members = members;
     }
 
+    @Override
+    public String toString()
+    {
+        return String
+            .format("CompanyGroupDataDTO [leadingCompanyId=%s, leadingCompanyMatchcode=%s, leadingCompanyNumber=%s, "
+                + "members=%s]", leadingCompanyId, leadingCompanyMatchcode, leadingCompanyNumber, members);
+    }
+
 }

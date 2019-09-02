@@ -23,7 +23,7 @@ public interface ByMatchcode<DTO, SELF extends By<DTO, SELF>> extends By<DTO, SE
     default PnetDataClientResultPage<DTO> allByMatchcodes(List<String> matchcodes, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
-        return execute("mc", matchcodes, pageIndex, itemsPerPage);
+        return restrict("mc", matchcodes).execute(pageIndex, itemsPerPage);
     }
 
 }

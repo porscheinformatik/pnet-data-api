@@ -24,7 +24,7 @@ public interface ById<DTO, SELF extends By<DTO, SELF>> extends By<DTO, SELF>
     default PnetDataClientResultPage<DTO> allByIds(List<Integer> ids, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
-        return execute("id", ids, pageIndex, itemsPerPage);
+        return restrict("id", ids).execute(pageIndex, itemsPerPage);
     }
 
 }

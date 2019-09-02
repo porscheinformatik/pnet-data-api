@@ -8,6 +8,13 @@ import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.util.AbstractGet;
 import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictCompany;
+import pnet.data.api.util.RestrictCompanyId;
+import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictLeadingCompany;
+import pnet.data.api.util.RestrictLeadingCompanyId;
+import pnet.data.api.util.RestrictLeadingCompanyNumber;
+import pnet.data.api.util.RestrictType;
 import pnet.data.api.util.Scrollable;
 
 /**
@@ -15,7 +22,10 @@ import pnet.data.api.util.Scrollable;
  *
  */
 public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, CompanyGroupDataGet>
-    implements Scrollable<CompanyGroupDataGet>
+    implements RestrictLeadingCompanyId<CompanyGroupDataGet>, RestrictLeadingCompanyNumber<CompanyGroupDataGet>,
+    RestrictLeadingCompany<CompanyGroupDataGet>, RestrictCompanyId<CompanyGroupDataGet>,
+    RestrictCompanyNumber<CompanyGroupDataGet>, RestrictCompany<CompanyGroupDataGet>, RestrictType<CompanyGroupDataGet>,
+    Scrollable<CompanyGroupDataGet>
 {
 
     public CompanyGroupDataGet(GetFunction<CompanyGroupDataDTO> getFunction, List<Pair<String, Object>> restricts)
@@ -31,7 +41,7 @@ public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, Compan
     public PnetDataClientResultPage<CompanyGroupDataDTO> allByLeadingCompanyIds(List<Integer> leadingCompanyIds,
         int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
-        return execute("leadingCompanyId", leadingCompanyIds, pageIndex, itemsPerPage);
+        return leadingCompanyIds(leadingCompanyIds).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyGroupDataDTO byCompanyId(Integer companyId) throws PnetDataClientException
@@ -39,10 +49,10 @@ public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, Compan
         return allByCompanyIds(Arrays.asList(companyId), 0, 1).first();
     }
 
-    public PnetDataClientResultPage<CompanyGroupDataDTO> allByCompanyIds(List<Integer> companyId, int pageIndex,
+    public PnetDataClientResultPage<CompanyGroupDataDTO> allByCompanyIds(List<Integer> companyIds, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
-        return execute("companyId", companyId, pageIndex, itemsPerPage);
+        return companyIds(companyIds).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyGroupDataDTO byLeadingCompanyNumber(String leadingCompanyNumber) throws PnetDataClientException
@@ -53,7 +63,7 @@ public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, Compan
     public PnetDataClientResultPage<CompanyGroupDataDTO> allByLeadingCompanyNumbers(List<String> leadingCompanyNumbers,
         int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
-        return execute("leadingCompanyNumber", leadingCompanyNumbers, pageIndex, itemsPerPage);
+        return leadingCompanyNumbers(leadingCompanyNumbers).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyGroupDataDTO byCompanyNumber(String companyNumber) throws PnetDataClientException
@@ -61,10 +71,10 @@ public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, Compan
         return allByCompanyNumbers(Arrays.asList(companyNumber), 0, 1).first();
     }
 
-    public PnetDataClientResultPage<CompanyGroupDataDTO> allByCompanyNumbers(List<String> companyNumber, int pageIndex,
+    public PnetDataClientResultPage<CompanyGroupDataDTO> allByCompanyNumbers(List<String> companyNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
-        return execute("companyNumber", companyNumber, pageIndex, itemsPerPage);
+        return companyNumbers(companyNumbers).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyGroupDataDTO byLeadingCompany(String leadingCompanyMatchcode) throws PnetDataClientException
@@ -75,7 +85,7 @@ public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, Compan
     public PnetDataClientResultPage<CompanyGroupDataDTO> allByLeadingCompanies(List<String> leadingCompanyMatchcodes,
         int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
-        return execute("leadingCompany", leadingCompanyMatchcodes, pageIndex, itemsPerPage);
+        return leadingCompanies(leadingCompanyMatchcodes).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyGroupDataDTO byCompany(String companyMatchcode) throws PnetDataClientException
@@ -86,7 +96,7 @@ public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, Compan
     public PnetDataClientResultPage<CompanyGroupDataDTO> allByCompanies(List<String> companyMatchcodes, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {
-        return execute("company", companyMatchcodes, pageIndex, itemsPerPage);
+        return companies(companyMatchcodes).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyGroupDataDTO byCompanyGroupType(String companyGroupType) throws PnetDataClientException
@@ -97,7 +107,7 @@ public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, Compan
     public PnetDataClientResultPage<CompanyGroupDataDTO> allByCompanyGroupTypes(List<String> companyGroupTypes,
         int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
-        return execute("type", companyGroupTypes, pageIndex, itemsPerPage);
+        return types(companyGroupTypes).execute(pageIndex, itemsPerPage);
     }
 
 }

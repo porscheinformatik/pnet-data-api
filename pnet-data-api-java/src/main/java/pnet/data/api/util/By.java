@@ -1,7 +1,5 @@
 package pnet.data.api.util;
 
-import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 
@@ -15,7 +13,6 @@ import pnet.data.api.client.PnetDataClientResultPage;
 public interface By<DTO, SELF extends By<DTO, SELF>> extends Restrict<SELF>
 {
 
-    PnetDataClientResultPage<DTO> execute(String parameterName, List<?> parameterValues, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException;
+    PnetDataClientResultPage<DTO> execute(int pageIndex, int itemsPerPage) throws PnetDataClientException;
 
 }

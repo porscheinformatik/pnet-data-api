@@ -306,7 +306,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     {
         return String
             .format(
-                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, functions=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
+                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, "
+                    + "preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, "
+                    + "languages=%s, companies=%s, functions=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
+                    + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
                 firstName, lastName, username, externalId, guid, preferredUserId, personnelNumber, birthdate, email,
                 phoneNumber, mobileNumber, languages, companies, functions, contactCompanyId, contactCompanyMatchcode,

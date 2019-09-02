@@ -1,3 +1,9 @@
+pnet-data-api 1.10.15
+=====================
+
+* Fix a typo with preferred user ids.
+* Added Restrict* interfaces where applicable.
+
 pnet-data-api 1.10.14
 =====================
 
