@@ -65,8 +65,8 @@ public class TodoGroupDataClientMock extends TodoGroupDataClient
     }
 
     @Override
-    protected PnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO> search(Locale language,
-        String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
+    protected PnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO> search(
+        Locale language, String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
         List<TodoGroupItemDTO> entries = findItems(restricts);

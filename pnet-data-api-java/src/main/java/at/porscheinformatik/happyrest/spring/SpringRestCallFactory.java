@@ -23,7 +23,7 @@ public class SpringRestCallFactory implements RestCallFactory
     private static final RestTemplate REST_TEMPLATE;
 
     /**
-     * Use {@link #getDefault()} instead
+     * @deprecated use {@link #getDefault()} instead
      */
     @Deprecated
     public static final SpringRestCallFactory DEFAULT;

@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TodoGroupStateAggregationDTO implements Serializable
 {
     private static final long serialVersionUID = -6434116628397754095L;
-    
+
     private final TodoState state;
     private final long count;
 

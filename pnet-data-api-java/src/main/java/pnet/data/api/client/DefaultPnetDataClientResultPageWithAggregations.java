@@ -13,12 +13,9 @@ import pnet.data.api.ResultPage;
  * @param <T> the type of items
  * @param <AggregationsT> the type of the aggregation object
  */
-public class DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT> extends DefaultPnetDataClientResultPage<T>
-    implements PnetDataClientResultPageWithAggregations<T, AggregationsT>
+public class DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT>
+    extends DefaultPnetDataClientResultPage<T> implements PnetDataClientResultPageWithAggregations<T, AggregationsT>
 {
-
-    private static final long serialVersionUID = 860019410295484359L;
-
     private final AggregationsT aggregations;
 
     public DefaultPnetDataClientResultPageWithAggregations(@JsonProperty("items") List<T> items,

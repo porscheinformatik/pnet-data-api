@@ -53,8 +53,8 @@ public class CompanyAggregationsDTO
     public String toString()
     {
         return String
-            .format("CompanyAggregationsDTO [tenants=%s, brands=%s, types=%s, contractTypes=%s]", tenants, brands, types,
-                contractTypes);
+            .format("CompanyAggregationsDTO [tenants=%s, brands=%s, types=%s, contractTypes=%s]", tenants, brands,
+                types, contractTypes);
     }
 
 }

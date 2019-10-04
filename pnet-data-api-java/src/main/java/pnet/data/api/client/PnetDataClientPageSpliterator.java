@@ -5,6 +5,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 
 import pnet.data.api.PnetDataClientException;
+import pnet.data.api.PnetDataClientTechnicalException;
 
 /**
  * A {@link Spliterator}, that's capable of loading additional pages while iterating over the items.
@@ -43,7 +44,7 @@ public class PnetDataClientPageSpliterator<T> implements Spliterator<T>
             }
             catch (PnetDataClientException e)
             {
-                throw new RuntimeException(e);
+                throw new PnetDataClientTechnicalException("Failed to scroll results", e);
             }
 
             if (page == null)

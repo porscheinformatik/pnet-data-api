@@ -95,7 +95,7 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
                 return invoke(fn, false);
             }
 
-            throw new PnetDataClientException("REST call failed", e);
+            throw new PnetDataClientException("REST response error", e);
         }
         catch (PnetDataClientException e)
         {
@@ -106,9 +106,9 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
                 return invoke(fn, false);
             }
 
-            throw new PnetDataClientException("REST call failed", e);
+            throw new PnetDataClientException("REST client error", e);
         }
-        catch (Exception | Error e)
+        catch (Exception e)
         {
             throw new PnetDataClientException("REST call failed", e);
         }

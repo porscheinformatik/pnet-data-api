@@ -9,11 +9,11 @@ import pnet.data.api.util.RestrictCategory;
 import pnet.data.api.util.RestrictPersonId;
 import pnet.data.api.util.RestrictReferenceId;
 import pnet.data.api.util.RestrictReferenceMatchcode;
-import pnet.data.api.util.Scrollable;
 import pnet.data.api.util.RestrictState;
 import pnet.data.api.util.RestrictTodoId;
 import pnet.data.api.util.RestrictType;
 import pnet.data.api.util.RestrictUpdatedAfter;
+import pnet.data.api.util.Scrollable;
 
 /**
  * Find options

@@ -1806,6 +1806,7 @@ public final class PnetSpringRestClient
 
             restrict = ((RestrictCompanyNumber<T>) restrict).companyNumbers(restrictedCompanyNumbers);
         }
+
         return restrict;
     }
 
@@ -1846,6 +1847,7 @@ public final class PnetSpringRestClient
 
             restrict = ((RestrictNumberType<T>) restrict).numberTypes(restrictedNumberTypeMatchcodes);
         }
+
         return restrict;
     }
 
@@ -1865,56 +1867,63 @@ public final class PnetSpringRestClient
 
             restrict = ((RestrictDatedBackUntil<T>) restrict).datedBackUntil(datedBackUntil);
         }
+
         return restrict;
     }
 
     @SuppressWarnings("unchecked")
     private <T extends Restrict<T>> T restrictAggregates(T restrict)
     {
-        if (restrict instanceof AggregateNumberPerActivity && aggs)
+        if (!aggs)
+        {
+            return restrict;
+        }
+
+        if (restrict instanceof AggregateNumberPerActivity)
         {
             restrict = (T) ((AggregateNumberPerActivity<?>) restrict).aggregateNumberPerActivity();
         }
 
-        if (restrict instanceof AggregateNumberPerBrand && aggs)
+        if (restrict instanceof AggregateNumberPerBrand)
         {
             restrict = (T) ((AggregateNumberPerBrand<?>) restrict).aggregateNumberPerBrand();
         }
 
-        if (restrict instanceof AggregateNumberPerCategory && aggs)
+        if (restrict instanceof AggregateNumberPerCategory)
         {
             restrict = (T) ((AggregateNumberPerCategory<?>) restrict).aggregateNumberPerCategory();
         }
 
-        if (restrict instanceof AggregateNumberPerCompany && aggs)
+        if (restrict instanceof AggregateNumberPerCompany)
         {
             restrict = (T) ((AggregateNumberPerCompany<?>) restrict).aggregateNumberPerCompany();
         }
 
-        if (restrict instanceof AggregateNumberPerContractType && aggs)
+        if (restrict instanceof AggregateNumberPerContractType)
         {
             restrict = (T) ((AggregateNumberPerContractType<?>) restrict).aggregateNumberPerContractType();
         }
 
-        if (restrict instanceof AggregateNumberPerFunction && aggs)
+        if (restrict instanceof AggregateNumberPerFunction)
         {
             restrict = (T) ((AggregateNumberPerFunction<?>) restrict).aggregateNumberPerFunction();
         }
 
-        if (restrict instanceof AggregateNumberPerState && aggs)
+        if (restrict instanceof AggregateNumberPerState)
         {
             restrict = (T) ((AggregateNumberPerState<?>) restrict).aggregateNumberPerState();
         }
 
-        if (restrict instanceof AggregateNumberPerTenant && aggs)
+        if (restrict instanceof AggregateNumberPerTenant)
         {
             restrict = (T) ((AggregateNumberPerTenant<?>) restrict).aggregateNumberPerTenant();
         }
 
-        if (restrict instanceof AggregateNumberPerType && aggs)
+        if (restrict instanceof AggregateNumberPerType)
         {
             restrict = (T) ((AggregateNumberPerType<?>) restrict).aggregateNumberPerType();
         }
+
         return restrict;
     }
 
@@ -1945,7 +1954,7 @@ public final class PnetSpringRestClient
             {
                 logout();
             }
-            catch (Exception | Error e)
+            catch (Exception e)
             {
                 // ignore
             }
@@ -2044,7 +2053,7 @@ public final class PnetSpringRestClient
             {
                 logout();
             }
-            catch (Exception | Error e)
+            catch (Exception e)
             {
                 // ignore
             }
@@ -2238,7 +2247,7 @@ public final class PnetSpringRestClient
                 cli.error("Command failed", e);
             }
         }
-        
+
         cli.info("Aborted.");
     }
 

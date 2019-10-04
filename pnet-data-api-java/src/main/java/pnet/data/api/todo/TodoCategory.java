@@ -30,25 +30,25 @@ public enum TodoCategory
     COMPANY,
 
     SYSTEMUSER,
-    
+
     NOTIFY,
 
     INVALID,
-    
+
     // Only needed for translation
-    
+
     TEXT,
-    
+
     SCOPE,
-    
+
     CONTRACTTYPE,
-    
+
     CONTACTTYPE,
-    
+
     COMPANYTYPE,
-    
+
     BRAND,
-    
+
     NUMBERSTYPE
 
 }

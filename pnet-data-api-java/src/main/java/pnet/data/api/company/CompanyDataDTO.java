@@ -54,14 +54,23 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         notes = "The label of the company (either the marketing name or a combination of name and affix).")
     private String label;
 
+    /**
+     * @deprecated use label instead
+     */
     @ApiModelProperty(notes = "The name of the company. Deprecated: use label instead.")
     @Deprecated
     private String name;
 
+    /**
+     * @deprecated use label instead
+     */
     @ApiModelProperty(notes = "The name affix of the company. Deprecated: use label instead.")
     @Deprecated
     private String nameAffix;
 
+    /**
+     * @deprecated use label instead
+     */
     @ApiModelProperty(notes = "The marketing name of the company. Deprecated: use label instead.")
     @Deprecated
     private String marketingName;
@@ -196,7 +205,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Override
     public String getMatchcode()
     {
-        return matchcode;
+        return getCompanyMatchcode();
     }
 
     @Override
@@ -245,6 +254,10 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         return name;
     }
 
+    /**
+     * @param name the name
+     * @deprecated use label instead
+     */
     @Deprecated
     public void setName(String name)
     {
@@ -261,6 +274,10 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         return nameAffix;
     }
 
+    /**
+     * @param nameAffix the name affix
+     * @deprecated use label instead
+     */
     @Deprecated
     public void setNameAffix(String nameAffix)
     {
@@ -277,6 +294,10 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         return marketingName;
     }
 
+    /**
+     * @param marketingName the marketing name
+     * @deprecated use label instead
+     */
     @Deprecated
     public void setMarketingName(String marketingName)
     {

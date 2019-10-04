@@ -15,7 +15,7 @@ import at.porscheinformatik.happyrest.GenericType;
 public class GenericParameterizedTypeReference<T> extends ParameterizedTypeReference<T>
 {
 
-    public static <T, GenericT extends GenericType<T>> GenericParameterizedTypeReference<T> of(GenericType<T> generic)
+    public static <T> GenericParameterizedTypeReference<T> of(GenericType<T> generic)
     {
         return new GenericParameterizedTypeReference<>(generic);
     }

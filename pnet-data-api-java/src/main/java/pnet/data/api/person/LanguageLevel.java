@@ -9,7 +9,7 @@ public enum LanguageLevel
 {
 
     UNDEFINED,
-    
+
     A1,
     A2,
 

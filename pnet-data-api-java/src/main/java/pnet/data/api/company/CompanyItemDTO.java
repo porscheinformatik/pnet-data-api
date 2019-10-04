@@ -56,14 +56,23 @@ public class CompanyItemDTO
         notes = "The label of the company (either the marketing name or a combination of name and affix).")
     private final String label;
 
+    /**
+     * @deprecated use label instead
+     */
     @ApiModelProperty(notes = "The name of the company. Deprecated: use label instead.")
     @Deprecated
     private final String name;
 
+    /**
+     * @deprecated use label instead
+     */
     @ApiModelProperty(notes = "The name affix of the company. Deprecated: use label instead.")
     @Deprecated
     private final String nameAffix;
 
+    /**
+     * @deprecated use label instead
+     */
     @ApiModelProperty(notes = "The marketing name of the company. Deprecated: use label instead.")
     @Deprecated
     private final String marketingName;
@@ -154,7 +163,7 @@ public class CompanyItemDTO
     @Override
     public String getMatchcode()
     {
-        return matchcode;
+        return getCompanyMatchcode();
     }
 
     @Override

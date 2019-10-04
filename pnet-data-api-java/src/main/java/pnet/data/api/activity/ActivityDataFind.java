@@ -9,9 +9,9 @@ import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompanyType;
 import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictMatchcode;
-import pnet.data.api.util.Scrollable;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictUpdatedAfter;
+import pnet.data.api.util.Scrollable;
 
 /**
  * Find for {@link ActivityDataClient}.

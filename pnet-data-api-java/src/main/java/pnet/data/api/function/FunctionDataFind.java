@@ -11,9 +11,9 @@ import pnet.data.api.util.RestrictCompanyType;
 import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictNumberType;
-import pnet.data.api.util.Scrollable;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictUpdatedAfter;
+import pnet.data.api.util.Scrollable;
 
 /**
  * Find interface for {@link FunctionItemDTO}s

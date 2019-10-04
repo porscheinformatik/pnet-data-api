@@ -5,15 +5,14 @@ package at.porscheinformatik.happyrest;
  *
  * @author HAM
  */
-public class SystemRestLoggerAdapter implements RestLoggerAdapter
+public class SystemRestLoggerAdapter extends PrintStreamLoggerAdapter
 {
 
     public static final SystemRestLoggerAdapter INSTANCE = new SystemRestLoggerAdapter();
 
-    @Override
-    public void logRequest(RestMethod method, String uri)
+    public SystemRestLoggerAdapter()
     {
-        System.out.printf("Sending %s request: %s\n", method, uri);
+        super(System.out);
     }
 
 }

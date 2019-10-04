@@ -47,7 +47,7 @@ public interface DataClientMock<DataT, SELF extends DataClientMock<DataT, SELF>>
 
         return self();
     }
-    
+
     default List<DataT> findDatas(List<Pair<String, Object>> restricts)
     {
         return getDataStore().find(restricts);

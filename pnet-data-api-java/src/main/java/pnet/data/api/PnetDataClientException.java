@@ -43,7 +43,7 @@ public class PnetDataClientException extends Exception
         return statusMessage;
     }
 
-    protected static String enhanceMessage(String message, Throwable cause)
+    public static String enhanceMessage(String message, Throwable cause)
     {
         if (cause instanceof RestResponseException)
         {

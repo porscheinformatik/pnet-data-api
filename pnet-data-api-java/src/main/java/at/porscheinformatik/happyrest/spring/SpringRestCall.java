@@ -187,65 +187,77 @@ public class SpringRestCall extends AbstractRestCall
     {
         Map<String, Object> variables = new HashMap<>();
         List<RestAttribute> attributes = getAttributes();
+
+        if (attributes == null)
+        {
+            return variables;
+        }
+
         int id = 0;
 
-        if (attributes != null)
+        for (RestAttribute attribute : attributes)
         {
-            for (RestAttribute attribute : attributes)
+            Object value = attribute.getValue();
+
+            if (value == null)
             {
-                Object value = attribute.getValue();
+                continue;
+            }
 
-                if (value == null)
-                {
-                    continue;
-                }
+            String name = attribute.getName();
 
-                String name = attribute.getName();
+            if (attribute instanceof RestHeader)
+            {
+                headers.add(name, convert(value));
 
-                if (attribute instanceof RestHeader)
-                {
-                    headers.add(name, convert(value));
+                continue;
+            }
 
-                    continue;
-                }
+            if (attribute instanceof RestParameter)
+            {
+                id = appendRestParameter(builder, variables, id, value, name);
 
-                if (attribute instanceof RestParameter)
-                {
-                    if (value.getClass().isArray())
-                    {
-                        for (int i = 0; i < Array.getLength(value); i++)
-                        {
-                            queryParam(builder, variables, name, id++, convert(Array.get(value, i)));
-                        }
-                    }
-                    else if (value instanceof Iterable<?>)
-                    {
-                        Iterator<?> iterator = ((Iterable<?>) value).iterator();
+                continue;
+            }
 
-                        while (iterator.hasNext())
-                        {
-                            queryParam(builder, variables, name, id++, convert(iterator.next()));
-                        }
-                    }
-                    else
-                    {
-                        queryParam(builder, variables, name, id++, convert(value));
-                    }
+            if (attribute instanceof RestVariable)
+            {
+                variables.put(name, convert(value));
 
-                    continue;
-                }
+                continue;
+            }
 
-                if (attribute instanceof RestVariable)
-                {
-                    variables.put(name, convert(value));
+            throw new RestException("Rest attrbiute of %s not supported", attribute.getClass());
+        }
 
-                    continue;
-                }
+        return variables;
+    }
 
-                throw new RestException("Rest attrbiute of %s not supported", attribute.getClass());
+    private int appendRestParameter(UriBuilder builder, Map<String, Object> variables, int id, Object value,
+        String name)
+    {
+        if (value.getClass().isArray())
+        {
+            for (int i = 0; i < Array.getLength(value); i++)
+            {
+                queryParam(builder, variables, name, id++, convert(Array.get(value, i)));
             }
         }
-        return variables;
+        else if (value instanceof Iterable<?>)
+        {
+            Iterator<?> iterator = ((Iterable<?>) value).iterator();
+
+            while (iterator.hasNext())
+            {
+                queryParam(builder, variables, name, id++, convert(iterator.next()));
+            }
+        }
+        else
+        {
+            queryParam(builder, variables, name, id++, convert(value));
+        }
+
+        return id;
     }
 
     private void queryParam(UriBuilder builder, Map<String, Object> variables, String name, int id, Object value)
@@ -264,15 +276,7 @@ public class SpringRestCall extends AbstractRestCall
 
     protected static String toDescription(RestMethod method, URI uri, RestClientResponseException e)
     {
-        String description = method + " " + uri;
-        String body = e.getResponseBodyAsString();
-
-        if (body != null)
-        {
-            description += ": " + body;
-        }
-
-        return description;
+        return method + " " + uri + ": " + e.getResponseBodyAsString();
     }
 
 }

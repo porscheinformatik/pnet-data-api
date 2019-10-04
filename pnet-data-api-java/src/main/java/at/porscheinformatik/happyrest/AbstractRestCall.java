@@ -68,14 +68,15 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall accept(String... mediaTypes)
     {
-        ArrayList<String> acceptableMediaTypes = new ArrayList<>(Arrays.asList(mediaTypes));
+        ArrayList<String> currentAcceptableMediaTypes = new ArrayList<>(Arrays.asList(mediaTypes));
 
-        if (this.acceptableMediaTypes != null)
+        if (acceptableMediaTypes != null)
         {
-            acceptableMediaTypes.addAll(0, this.acceptableMediaTypes);
+            currentAcceptableMediaTypes.addAll(0, acceptableMediaTypes);
         }
 
-        return copy(url, Collections.unmodifiableList(acceptableMediaTypes), contentType, attributes, converter, body);
+        return copy(url, Collections.unmodifiableList(currentAcceptableMediaTypes), contentType, attributes, converter,
+            body);
     }
 
     @Override
@@ -160,14 +161,15 @@ public abstract class AbstractRestCall implements RestCall
 
     protected RestCall attribute(RestAttribute... attributesToAdd)
     {
-        ArrayList<RestAttribute> attributes = new ArrayList<>(Arrays.asList(attributesToAdd));
+        ArrayList<RestAttribute> currentAttributes = new ArrayList<>(Arrays.asList(attributesToAdd));
 
-        if (this.attributes != null)
+        if (attributes != null)
         {
-            attributes.addAll(0, this.attributes);
+            currentAttributes.addAll(0, attributes);
         }
 
-        return copy(url, acceptableMediaTypes, contentType, Collections.unmodifiableList(attributes), converter, body);
+        return copy(url, acceptableMediaTypes, contentType, Collections.unmodifiableList(currentAttributes), converter,
+            body);
     }
 
     protected RestAttributeConverter getConverter()
@@ -181,7 +183,7 @@ public abstract class AbstractRestCall implements RestCall
         {
             return getConverter().convertAttributeToString(value);
         }
-        catch (Exception | Error e)
+        catch (Exception e)
         {
             throw new IllegalArgumentException("Failed to convert " + value + " to string", e);
         }

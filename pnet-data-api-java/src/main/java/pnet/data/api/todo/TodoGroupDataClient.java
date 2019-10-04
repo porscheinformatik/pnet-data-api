@@ -34,8 +34,8 @@ public class TodoGroupDataClient extends AbstractPnetDataApiClient<TodoGroupData
         return new TodoGroupDataSearch(this::search, null);
     }
 
-    protected PnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO> search(Locale language,
-        String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
+    protected PnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO> search(
+        Locale language, String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
         return invoke(restCall -> {

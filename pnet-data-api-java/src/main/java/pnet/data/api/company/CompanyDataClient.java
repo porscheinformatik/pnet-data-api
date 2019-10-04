@@ -63,17 +63,18 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         throws PnetDataClientException
     {
         return invoke(restCall -> {
-            DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
-                .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
-                .get("/api/v1/companies/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+            DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> resultPage =
+                restCall
+                    .parameter("l", language)
+                    .parameter("q", query)
+                    .parameters(restricts)
+                    .parameter("p", pageIndex)
+                    .parameter("pp", itemsPerPage)
+                    .get("/api/v1/companies/search",
+                        new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO>>()
+                        {
+                            // intentionally left blank
+                        });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 

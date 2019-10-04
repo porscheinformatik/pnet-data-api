@@ -397,9 +397,10 @@ public interface GenericType<T> extends ParameterizedType
 
     String getName();
 
-    default Class<?> getType()
+    @SuppressWarnings("unchecked")
+    default Class<T> getType()
     {
-        return (Class<?>) getRawType();
+        return (Class<T>) getRawType();
     }
 
     GenericType<?>[] getArguments();

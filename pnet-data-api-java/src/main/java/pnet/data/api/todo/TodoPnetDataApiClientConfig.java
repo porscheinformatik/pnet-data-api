@@ -14,5 +14,5 @@ public class TodoPnetDataApiClientConfig
 {
 
     // intentionally left blank
-    
+
 }

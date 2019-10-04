@@ -171,71 +171,82 @@ public class Spring4RestCall extends AbstractRestCall
     {
         Map<String, Object> variables = new HashMap<>();
         List<RestAttribute> attributes = this.getAttributes();
-        int id = 0;
-        
-        if (attributes != null)
+
+        if (attributes == null)
         {
-            Iterator<RestAttribute> var10 = attributes.iterator();
+            return variables;
+        }
 
-            label65: while (true)
+        int id = 0;
+
+        Iterator<RestAttribute> var10 = attributes.iterator();
+
+        label65: while (true)
+        {
+            while (true)
             {
-                while (true)
+                RestAttribute attribute;
+                Object value;
+                do
                 {
-                    RestAttribute attribute;
-                    Object value;
-                    do
+                    if (!var10.hasNext())
                     {
-                        if (!var10.hasNext())
-                        {
-                            break label65;
-                        }
-
-                        attribute = var10.next();
-                        value = attribute.getValue();
-                    } while (value == null);
-
-                    String name = attribute.getName();
-                    if (attribute instanceof RestHeader)
-                    {
-                        headers.add(name, convert(value));
+                        break label65;
                     }
-                    else if (attribute instanceof RestParameter)
-                    {
-                        if (value.getClass().isArray())
-                        {
-                            for (int i = 0; i < Array.getLength(value); ++i)
-                            {
-                                queryParam(builder, variables, name, id++, convert(Array.get(value, i)));
-                            }
-                        }
-                        else if (value instanceof Iterable)
-                        {
-                            Iterator<?> iterator = ((Iterable<?>) value).iterator();
 
-                            while (iterator.hasNext())
-                            {
-                                queryParam(builder, variables, name, id++, convert(iterator.next()));
-                            }
-                        }
-                        else
-                        {
-                            queryParam(builder, variables, name, id++, convert(value));
-                        }
-                    }
-                    else
-                    {
-                        if (!(attribute instanceof RestVariable))
-                        {
-                            throw new RestException("Rest attrbiute of %s not supported",
-                                new Object[]{attribute.getClass()});
-                        }
+                    attribute = var10.next();
+                    value = attribute.getValue();
+                } while (value == null);
 
-                        variables.put(name, convert(value));
+                String name = attribute.getName();
+                if (attribute instanceof RestHeader)
+                {
+                    headers.add(name, convert(value));
+                }
+                else if (attribute instanceof RestParameter)
+                {
+                    id = appendRestParameter(builder, variables, id, value, name);
+                }
+                else
+                {
+                    if (!(attribute instanceof RestVariable))
+                    {
+                        throw new RestException("Rest attrbiute of %s not supported",
+                            new Object[]{attribute.getClass()});
                     }
+
+                    variables.put(name, convert(value));
                 }
             }
         }
+
         return variables;
+    }
+
+    private int appendRestParameter(UriComponentsBuilder builder, Map<String, Object> variables, int id, Object value,
+        String name)
+    {
+        if (value.getClass().isArray())
+        {
+            for (int i = 0; i < Array.getLength(value); ++i)
+            {
+                queryParam(builder, variables, name, id++, convert(Array.get(value, i)));
+            }
+        }
+        else if (value instanceof Iterable)
+        {
+            Iterator<?> iterator = ((Iterable<?>) value).iterator();
+
+            while (iterator.hasNext())
+            {
+                queryParam(builder, variables, name, id++, convert(iterator.next()));
+            }
+        }
+        else
+        {
+            queryParam(builder, variables, name, id++, convert(value));
+        }
+        return id;
     }
 
     private void queryParam(UriComponentsBuilder builder, Map<String, Object> variables, String name, int id,
@@ -257,15 +268,7 @@ public class Spring4RestCall extends AbstractRestCall
 
     protected static String toDescription(RestMethod method, URI uri, RestClientResponseException e)
     {
-        String description = method + " " + uri;
-        String body = e.getResponseBodyAsString();
-
-        if (body != null)
-        {
-            description += ": " + body;
-        }
-
-        return description;
+        return method + " " + uri + ": " + e.getResponseBodyAsString();
     }
 
 }

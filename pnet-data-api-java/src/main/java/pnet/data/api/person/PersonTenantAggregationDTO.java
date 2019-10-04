@@ -13,7 +13,7 @@ public class PersonTenantAggregationDTO implements Serializable
 {
 
     private static final long serialVersionUID = -4022467263764264661L;
-    
+
     private final String tenant;
     private final long count;
 

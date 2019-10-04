@@ -122,7 +122,7 @@ public class PnetDataApiTokenRepository
                 key.getUsername(), response);
 
         }
-        catch (Exception | Error e)
+        catch (Exception e)
         {
             throw new PnetDataClientException("Login failed at \"%s\" with user \"%s\"", e, key.getUrl(),
                 key.getUsername());
