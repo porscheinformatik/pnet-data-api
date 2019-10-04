@@ -38,14 +38,19 @@ public class Table
 
     private String toString(Object value, int width)
     {
-        String s = value == null ? "" : String.valueOf(value);
+        StringBuilder builder = new StringBuilder();
 
-        while (s.length() < width)
+        if (value != null)
         {
-            s += " ";
+            builder.append(value);
         }
 
-        return s;
+        while (builder.length() < width)
+        {
+            builder.append(" ");
+        }
+
+        return builder.toString();
     }
 
     @Override

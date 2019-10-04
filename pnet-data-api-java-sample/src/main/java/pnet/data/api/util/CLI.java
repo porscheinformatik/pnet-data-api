@@ -253,38 +253,36 @@ public class CLI
 
             if (ch == '\'')
             {
-                StringBuilder builder = new StringBuilder();
-
-                while (true)
-                {
-                    ch = scanner.next();
-
-                    if (ch == '\'')
-                    {
-                        return new Token(Token.Type.STRING, line, column, builder.toString());
-                    }
-
-                    builder.append((char) ch);
-                }
+                return readString(ch, line, column, '\'');
             }
 
             if (ch == '\"')
             {
-                StringBuilder builder = new StringBuilder();
-
-                while (true)
-                {
-                    ch = scanner.next();
-
-                    if (ch == '\"')
-                    {
-                        return new Token(Token.Type.STRING, line, column, builder.toString());
-                    }
-
-                    builder.append((char) ch);
-                }
+                return readString(ch, line, column, '\"');
             }
 
+            return readCommand(ch, line, column);
+        }
+
+        private Token readString(int ch, int line, int column, char delimiter) throws IOException
+        {
+            StringBuilder builder = new StringBuilder();
+
+            while (true)
+            {
+                ch = scanner.next();
+
+                if (ch == delimiter)
+                {
+                    return new Token(Token.Type.STRING, line, column, builder.toString());
+                }
+
+                builder.append((char) ch);
+            }
+        }
+
+        private Token readCommand(int ch, int line, int column) throws IOException
+        {
             StringBuilder builder = new StringBuilder();
 
             while (true)
@@ -359,7 +357,7 @@ public class CLI
     /**
      * Accessor for arguments. The common concept is, that when consuming an argument, it will be removed.
      */
-    public static class Arguments implements Iterable<String>, Cloneable
+    public static class Arguments implements Iterable<String>
     {
 
         private final List<String> args;
@@ -376,8 +374,7 @@ public class CLI
             this.args = args;
         }
 
-        @Override
-        public Arguments clone()
+        public Arguments copy()
         {
             return new Arguments(new ArrayList<>(args));
         }

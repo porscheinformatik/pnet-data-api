@@ -1,7 +1,5 @@
 package pnet.data.api.util;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,11 +10,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @param <Left> the left value
  * @param <Right> the right value
  */
-public class Pair<Left, Right> implements Serializable
+public class Pair<Left, Right>
 {
-
-    private static final long serialVersionUID = 160174997957476433L;
-
     public static <Left, Right> Pair<Left, Right> of(Left left, Right right)
     {
         return new Pair<>(left, right);

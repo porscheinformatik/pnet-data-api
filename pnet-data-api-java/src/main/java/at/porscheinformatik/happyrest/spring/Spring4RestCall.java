@@ -153,11 +153,26 @@ public class Spring4RestCall extends AbstractRestCall
         {
             headers.setContentType(MediaType.parseMediaType(contentType));
         }
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(prepareUrl(getUrl(), path));
 
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(prepareUrl(getUrl(), path));
+        Map<String, Object> variables = buildVariables(builder, headers);
+
+        try
+        {
+            return builder.buildAndExpand(variables).toUri();
+        }
+        catch (RuntimeException ex)
+        {
+            throw new IllegalArgumentException("Failed to parse URL", ex);
+        }
+    }
+
+    private Map<String, Object> buildVariables(UriComponentsBuilder builder, HttpHeaders headers) throws RestException
+    {
         Map<String, Object> variables = new HashMap<>();
         List<RestAttribute> attributes = this.getAttributes();
         int id = 0;
+        
         if (attributes != null)
         {
             Iterator<RestAttribute> var10 = attributes.iterator();
@@ -220,15 +235,7 @@ public class Spring4RestCall extends AbstractRestCall
                 }
             }
         }
-
-        try
-        {
-            return builder.buildAndExpand(variables).toUri();
-        }
-        catch (RuntimeException ex)
-        {
-            throw new IllegalArgumentException("Failed to parse URL", ex);
-        }
+        return variables;
     }
 
     private void queryParam(UriComponentsBuilder builder, Map<String, Object> variables, String name, int id,

@@ -7,11 +7,7 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
 /**
- * <<<<<<< Updated upstream Search interface for {@link CompanyNumberTypeDataClient}. =======
- *
  * @author cet
- *
- *         >>>>>>> Stashed changes
  */
 public class CompanyNumberTypeDataSearch extends AbstractSearch<CompanyNumberTypeItemDTO, CompanyNumberTypeDataSearch>
 {

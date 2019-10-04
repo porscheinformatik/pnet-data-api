@@ -16,8 +16,6 @@ import pnet.data.api.ResultPage;
 public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultPage<T>
 {
 
-    private static final long serialVersionUID = 7087221061204249715L;
-
     public static <T> DefaultPnetDataClientResultPage<T> of(ResultPage<T> resultPage)
     {
         return new DefaultPnetDataClientResultPage<>(resultPage.getItems(), resultPage.getItemsPerPage(),

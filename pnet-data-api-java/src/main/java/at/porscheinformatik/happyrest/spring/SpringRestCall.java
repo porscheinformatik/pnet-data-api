@@ -171,6 +171,20 @@ public class SpringRestCall extends AbstractRestCall
         factory.setEncodingMode(EncodingMode.URI_COMPONENT);
 
         UriBuilder builder = factory.builder();
+        Map<String, Object> variables = buildVariables(builder, headers);
+
+        try
+        {
+            return builder.build(variables).toURL().toURI();
+        }
+        catch (MalformedURLException | URISyntaxException e)
+        {
+            throw new IllegalArgumentException("Failed to parse URL", e);
+        }
+    }
+
+    private Map<String, Object> buildVariables(UriBuilder builder, HttpHeaders headers) throws RestException
+    {
         Map<String, Object> variables = new HashMap<>();
         List<RestAttribute> attributes = getAttributes();
         int id = 0;
@@ -231,15 +245,7 @@ public class SpringRestCall extends AbstractRestCall
                 throw new RestException("Rest attrbiute of %s not supported", attribute.getClass());
             }
         }
-
-        try
-        {
-            return builder.build(variables).toURL().toURI();
-        }
-        catch (MalformedURLException | URISyntaxException e)
-        {
-            throw new IllegalArgumentException("Failed to parse URL", e);
-        }
+        return variables;
     }
 
     private void queryParam(UriBuilder builder, Map<String, Object> variables, String name, int id, Object value)

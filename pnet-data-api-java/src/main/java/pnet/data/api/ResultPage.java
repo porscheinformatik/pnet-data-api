@@ -14,7 +14,6 @@
  */
 package pnet.data.api;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +31,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @param <T> the type of item
  */
 @ApiModel(description = "Holds results of a search or find operation with paging information")
-public interface ResultPage<T> extends Iterable<T>, Serializable
+public interface ResultPage<T> extends Iterable<T>
 {
 
     static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int totalNumberOfItems, int pageIndex,
@@ -40,8 +39,6 @@ public interface ResultPage<T> extends Iterable<T>, Serializable
     {
         return new ResultPage<T>() //
         {
-            private static final long serialVersionUID = -999167833058168881L;
-
             @Override
             public List<T> getItems()
             {

@@ -7,11 +7,7 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.SearchFunction;
 
 /**
- * <<<<<<< Updated upstream Search interface for {@link NumberTypeDataClient}. =======
- *
  * @author cet
- *
- *         >>>>>>> Stashed changes
  */
 public class NumberTypeDataSearch extends AbstractSearch<NumberTypeItemDTO, NumberTypeDataSearch>
 {

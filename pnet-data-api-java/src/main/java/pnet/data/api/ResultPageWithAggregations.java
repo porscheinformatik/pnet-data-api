@@ -35,8 +35,6 @@ public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage
     {
         return new ResultPageWithAggregations<T, AggregationsT>() //
         {
-            private static final long serialVersionUID = -999167833058168881L;
-
             @Override
             public List<T> getItems()
             {

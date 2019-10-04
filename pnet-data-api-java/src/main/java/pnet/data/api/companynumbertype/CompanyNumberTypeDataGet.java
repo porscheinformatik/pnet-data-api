@@ -9,7 +9,6 @@ import pnet.data.api.util.Pair;
 
 /**
  * @author cet
- *
  */
 public class CompanyNumberTypeDataGet extends AbstractGet<CompanyNumberTypeDataDTO, CompanyNumberTypeDataGet>
     implements ByMatchcode<CompanyNumberTypeDataDTO, CompanyNumberTypeDataGet>

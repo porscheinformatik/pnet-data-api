@@ -430,7 +430,9 @@ public final class PnetDataApiUtils
             return null;
         }
 
-        return parseISODateTime(dateAsString).toLocalDate();
+        LocalDateTime dateTime = parseISODateTime(dateAsString);
+
+        return dateTime != null ? dateTime.toLocalDate() : null;
     }
 
     public static String toCompanyLabelWithNumber(String number, String label)
