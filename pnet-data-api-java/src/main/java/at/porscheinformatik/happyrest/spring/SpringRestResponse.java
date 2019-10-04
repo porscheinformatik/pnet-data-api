@@ -74,7 +74,7 @@ class SpringRestResponse<T> implements RestResponse<T>
     {
         List<String> header = getHeader(key);
 
-        return header.size() > 0 ? header.get(0) : null;
+        return header.isEmpty() ? null : header.get(0);
     }
 
     @Override

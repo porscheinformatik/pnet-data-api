@@ -125,16 +125,22 @@ public class Spring4RestCall extends AbstractRestCall
         {
             case DELETE:
                 return HttpMethod.DELETE;
+                
             case GET:
                 return HttpMethod.GET;
+                
             case OPTIONS:
                 return HttpMethod.OPTIONS;
+                
             case PATCH:
                 return HttpMethod.PATCH;
+                
             case POST:
                 return HttpMethod.POST;
+                
             case PUT:
                 return HttpMethod.PUT;
+                
             default:
                 throw new UnsupportedOperationException("Unsupported method: " + method);
         }
@@ -170,7 +176,7 @@ public class Spring4RestCall extends AbstractRestCall
     private Map<String, Object> buildVariables(UriComponentsBuilder builder, HttpHeaders headers) throws RestException
     {
         Map<String, Object> variables = new HashMap<>();
-        List<RestAttribute> attributes = this.getAttributes();
+        List<RestAttribute> attributes = getAttributes();
 
         if (attributes == null)
         {
@@ -179,45 +185,39 @@ public class Spring4RestCall extends AbstractRestCall
 
         int id = 0;
 
-        Iterator<RestAttribute> var10 = attributes.iterator();
-
-        label65: while (true)
+        for (RestAttribute attribute : attributes)
         {
-            while (true)
+            Object value = attribute.getValue();
+
+            if (value == null)
             {
-                RestAttribute attribute;
-                Object value;
-                do
-                {
-                    if (!var10.hasNext())
-                    {
-                        break label65;
-                    }
-
-                    attribute = var10.next();
-                    value = attribute.getValue();
-                } while (value == null);
-
-                String name = attribute.getName();
-                if (attribute instanceof RestHeader)
-                {
-                    headers.add(name, convert(value));
-                }
-                else if (attribute instanceof RestParameter)
-                {
-                    id = appendRestParameter(builder, variables, id, value, name);
-                }
-                else
-                {
-                    if (!(attribute instanceof RestVariable))
-                    {
-                        throw new RestException("Rest attrbiute of %s not supported",
-                            new Object[]{attribute.getClass()});
-                    }
-
-                    variables.put(name, convert(value));
-                }
+                continue;
             }
+
+            String name = attribute.getName();
+
+            if (attribute instanceof RestHeader)
+            {
+                headers.add(name, convert(value));
+
+                continue;
+            }
+
+            if (attribute instanceof RestParameter)
+            {
+                id = appendRestParameter(builder, variables, id, value, name);
+
+                continue;
+            }
+
+            if (attribute instanceof RestVariable)
+            {
+                variables.put(name, convert(value));
+
+                continue;
+            }
+
+            throw new RestException("Rest attrbiute of %s not supported", attribute.getClass());
         }
 
         return variables;
@@ -246,6 +246,7 @@ public class Spring4RestCall extends AbstractRestCall
         {
             queryParam(builder, variables, name, id++, convert(value));
         }
+        
         return id;
     }
 
@@ -253,17 +254,15 @@ public class Spring4RestCall extends AbstractRestCall
         Object value)
     {
         String key = "#" + id;
-        builder.queryParam(name, new Object[]{"{" + key + "}"});
+
+        builder.queryParam(name, "{" + key + "}");
         variables.put(key, value);
     }
 
     protected static RestAttributeConverter toConverter(ConversionService conversionService)
     {
-        return conversionService != null ? (value) -> {
-            return conversionService.convert(value, String.class);
-        } : (value) -> {
-            return String.valueOf(value);
-        };
+        return conversionService != null ? value -> conversionService.convert(value, String.class)
+            : value -> String.valueOf(value);
     }
 
     protected static String toDescription(RestMethod method, URI uri, RestClientResponseException e)

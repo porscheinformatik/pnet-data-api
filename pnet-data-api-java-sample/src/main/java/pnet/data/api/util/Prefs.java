@@ -1,6 +1,7 @@
 package pnet.data.api.util;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public final class Prefs
 {
     private static final Preferences PREFERENCES = Preferences.userNodeForPackage(Prefs.class);
     private static final SecretKey SECURITY_KEY = createBlowfishKey("wGo8e16IdulAQw8x+z5EAA==");
-    private static final Charset CHARSET = Charset.forName("UTF-8");
+    private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     public static final String DEFAULT_KEY = "default";
 

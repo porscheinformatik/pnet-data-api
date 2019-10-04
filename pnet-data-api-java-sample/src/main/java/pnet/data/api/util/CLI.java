@@ -24,6 +24,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * A command line interpreter - parses the input, creates process and executes them. Code borrowed from
  * https://github.com/thred/tiny-console
@@ -32,6 +35,8 @@ import java.util.stream.Collectors;
  */
 public class CLI
 {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CLI.class);
 
     private static final Collator DICTIONARY_COLLATOR;
 
@@ -253,24 +258,24 @@ public class CLI
 
             if (ch == '\'')
             {
-                return readString(ch, line, column, '\'');
+                return readString(line, column, '\'');
             }
 
             if (ch == '\"')
             {
-                return readString(ch, line, column, '\"');
+                return readString(line, column, '\"');
             }
 
             return readCommand(ch, line, column);
         }
 
-        private Token readString(int ch, int line, int column, char delimiter) throws IOException
+        private Token readString(int line, int column, char delimiter) throws IOException
         {
             StringBuilder builder = new StringBuilder();
 
             while (true)
             {
-                ch = scanner.next();
+                int ch = scanner.next();
 
                 if (ch == delimiter)
                 {
@@ -924,17 +929,9 @@ public class CLI
                     {
                         method.invoke(instance, args);
                     }
-                    catch (IllegalAccessException e)
+                    catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
                     {
-                        e.printStackTrace();
-                    }
-                    catch (IllegalArgumentException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    catch (InvocationTargetException e)
-                    {
-                        e.printStackTrace();
+                        LOG.error("Invocation failed", e);
                     }
                 }
             });

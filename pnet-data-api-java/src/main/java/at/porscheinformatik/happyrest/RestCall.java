@@ -1,6 +1,7 @@
 package at.porscheinformatik.happyrest;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.List;
@@ -70,7 +71,7 @@ public interface RestCall
 
     default RestCall basicAuthorization(String username, String password)
     {
-        Charset charset = Charset.forName("UTF-8");
+        Charset charset = StandardCharsets.UTF_8;
         String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes(charset));
 
         return header(AUTHORIZATION_HEADER_NAME, "Basic " + credentials);

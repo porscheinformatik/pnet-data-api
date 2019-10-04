@@ -86,15 +86,17 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public RestCall header(String name, String... value)
+    public RestCall header(String name, String... values)
     {
-        if (value == null || value.length == 0)
+        if (values == null || values.length == 0)
         {
             return this;
         }
 
-        return attribute(
-            Arrays.stream(value).map($ -> RestAttribute.header(name, $)).toArray(size -> new RestAttribute[size]));
+        return attribute(Arrays
+            .stream(values)
+            .map(value -> RestAttribute.header(name, value))
+            .toArray(size -> new RestAttribute[size]));
     }
 
     @Override
@@ -106,31 +108,35 @@ public abstract class AbstractRestCall implements RestCall
         }
 
         return attribute(
-            values.stream().map($ -> RestAttribute.header(name, $)).toArray(size -> new RestAttribute[size]));
+            values.stream().map(value -> RestAttribute.header(name, value)).toArray(size -> new RestAttribute[size]));
     }
 
     @Override
-    public RestCall variable(String name, Object... value)
+    public RestCall variable(String name, Object... values)
     {
-        if (value == null || value.length == 0)
+        if (values == null || values.length == 0)
         {
             return this;
         }
 
-        return attribute(
-            Arrays.stream(value).map($ -> RestAttribute.variable(name, $)).toArray(size -> new RestAttribute[size]));
+        return attribute(Arrays
+            .stream(values)
+            .map(value -> RestAttribute.variable(name, value))
+            .toArray(size -> new RestAttribute[size]));
     }
 
     @Override
-    public RestCall parameter(String name, Object... value)
+    public RestCall parameter(String name, Object... values)
     {
-        if (value == null || value.length == 0)
+        if (values == null || values.length == 0)
         {
             return this;
         }
 
-        return attribute(
-            Arrays.stream(value).map($ -> RestAttribute.parameter(name, $)).toArray(size -> new RestAttribute[size]));
+        return attribute(Arrays
+            .stream(values)
+            .map(value -> RestAttribute.parameter(name, value))
+            .toArray(size -> new RestAttribute[size]));
     }
 
     @Override
@@ -141,8 +147,10 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return attribute(
-            values.stream().map($ -> RestAttribute.parameter(name, $)).toArray(size -> new RestAttribute[size]));
+        return attribute(values
+            .stream()
+            .map(value -> RestAttribute.parameter(name, value))
+            .toArray(size -> new RestAttribute[size]));
     }
 
     @Override
@@ -155,7 +163,7 @@ public abstract class AbstractRestCall implements RestCall
 
         return attribute(values
             .stream()
-            .map($ -> RestAttribute.parameter($.getLeft(), $.getRight()))
+            .map(value -> RestAttribute.parameter(value.getLeft(), value.getRight()))
             .toArray(size -> new RestAttribute[size]));
     }
 

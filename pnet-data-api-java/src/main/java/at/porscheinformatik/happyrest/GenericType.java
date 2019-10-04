@@ -52,7 +52,7 @@ public interface GenericType<T> extends ParameterizedType
         {
             TypeVariable<?> typeVariable = (TypeVariable<?>) type;
 
-            return new Of<>(typeVariable.getName(), null, null, new Type[0]);
+            return new Of<>(typeVariable.getName(), null, null);
         }
 
         if (type instanceof Class<?>)
@@ -235,7 +235,7 @@ public interface GenericType<T> extends ParameterizedType
         {
             Objects.requireNonNull(rawType, "RawType is null");
 
-            if (((Class<?>) rawType).getTypeParameters().length != arguments.length)
+            if (rawType.getTypeParameters().length != arguments.length)
             {
                 throw new IllegalArgumentException("Invalid number of type arguments");
             }
