@@ -25,7 +25,8 @@ import pnet.data.api.util.WithLabel;
  *
  * @author ham
  */
-@ApiModel(description = "The assignment of a function to a person, for a specific company, tenant and brand.")
+@ApiModel(description = "The assignment of a function to a person, for a specific company, tenant and brand. "
+    + "Related to the datedBackUnitl parameter.")
 public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithLabel
 {
 
@@ -34,15 +35,19 @@ public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO i
     @ApiModelProperty(notes = "The label of the function that is assigned to the person.")
     private final String label;
 
+    @ApiModelProperty(notes = "True if currently active (ignores the datedBackUntil parameter).")
+    protected final boolean currentlyActive;
+
     public ActivePersonFunctionLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
-        @JsonProperty("mainFunction") boolean mainFunction)
+        @JsonProperty("mainFunction") boolean mainFunction, @JsonProperty("currentlyActive") boolean currentlyActive)
     {
         super(tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
 
         this.label = label;
+        this.currentlyActive = currentlyActive;
     }
 
     @Override
@@ -51,14 +56,20 @@ public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO i
         return label;
     }
 
+    public boolean isCurrentlyActive()
+    {
+        return currentlyActive;
+    }
+
     @Override
     public String toString()
     {
         return String
             .format(
                 "ActivePersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, "
-                    + "companyNumber=%s, brandMatchcode=%s, mainFunction=%s]",
-                tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
+                    + "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, currentlyActive=%s]",
+                tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction,
+                currentlyActive);
     }
 
 }

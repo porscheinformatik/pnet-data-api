@@ -16,7 +16,8 @@ import pnet.data.api.util.WithCompanyId;
  * @author HAM
  *
  */
-@ApiModel(description = "Holds minimal information about a employment the person has.")
+@ApiModel(description = "Holds minimal information about a employment the person has. "
+    + "Related to the datedBackUnitl parameter.")
 public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
 {
 
@@ -34,9 +35,12 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     @ApiModelProperty(notes = "The label of the company the person has an employment at.")
     protected final String companyLabel;
 
+    @ApiModelProperty(notes = "True if currently active (ignores the datedBackUntil parameter).")
+    protected final boolean currentlyActive;
+
     public ActivePersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("companyLabel") String companyLabel)
+        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("currentlyActive") boolean currentlyActive)
     {
         super();
 
@@ -44,6 +48,7 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
         this.companyLabel = companyLabel;
+        this.currentlyActive = currentlyActive;
     }
 
     @Override
@@ -72,6 +77,11 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     public String getCompanyLabelWithNumber()
     {
         return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, companyLabel);
+    }
+
+    public boolean isCurrentlyActive()
+    {
+        return currentlyActive;
     }
 
     @Override
@@ -103,8 +113,9 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     public String toString()
     {
         return String
-            .format("ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s]", companyId,
-                companyMatchcode, companyNumber);
+            .format(
+                "ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, currentlyActive=%s]",
+                companyId, companyMatchcode, companyNumber, currentlyActive);
     }
 
 }

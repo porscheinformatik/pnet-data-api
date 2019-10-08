@@ -44,10 +44,10 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
 
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("validFrom") LocalDateTime validFrom,
-        @JsonProperty("validTo") LocalDateTime validTo)
+        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("currentlyActive") boolean currentlyActive,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
     {
-        super(companyId, companyMatchcode, companyNumber, companyLabel);
+        super(companyId, companyMatchcode, companyNumber, companyLabel, currentlyActive);
 
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -109,8 +109,9 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
     {
         return String
             .format(
-                "PersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, validFrom=%s, validTo=%s]",
-                companyId, companyMatchcode, companyNumber, validFrom, validTo);
+                "PersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, currentlyActive=%s, "
+                    + "validFrom=%s, validTo=%s]",
+                companyId, companyMatchcode, companyNumber, currentlyActive, validFrom, validTo);
     }
 
 }
