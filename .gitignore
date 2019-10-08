@@ -4,5 +4,3 @@ target/
 .classpath
 .checkstyle
 node_modules/
-/pnet-data-api-java/
-/pnet-data-api-java-sample/
