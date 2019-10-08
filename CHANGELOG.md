@@ -1,3 +1,8 @@
+pnet-data-api 1.11.0
+====================
+
+* Add currently active to Active*LinkDTOs
+
 pnet-data-api 1.10.15
 =====================
 
