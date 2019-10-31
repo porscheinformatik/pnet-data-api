@@ -10,6 +10,8 @@ public enum CompanyMerge
 
     NONE,
 
-    INTERET_GROUP
+    @Deprecated
+    INTERET_GROUP,
 
+    INTERNET_GROUP,
 }

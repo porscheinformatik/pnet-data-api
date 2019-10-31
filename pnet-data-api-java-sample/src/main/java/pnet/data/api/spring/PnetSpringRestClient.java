@@ -823,7 +823,7 @@ public final class PnetSpringRestClient
     {
         cli.info("Companies will be merged according to their internet group settings.");
 
-        companyMerge = CompanyMerge.INTERET_GROUP;
+        companyMerge = CompanyMerge.INTERNET_GROUP;
     }
 
     @CLI.Command(name = "merge none", description = "Do not merge companies.")

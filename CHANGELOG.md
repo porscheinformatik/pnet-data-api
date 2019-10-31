@@ -1,3 +1,8 @@
+pnet-data-api 1.11.1
+====================
+
+* Fix typo in CompanyMerge.INTERET_GROUP. Both versions are available now.
+
 pnet-data-api 1.11.0
 ====================
 
