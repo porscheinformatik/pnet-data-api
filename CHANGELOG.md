@@ -1,3 +1,8 @@
+pnet-data-api 1.11.2
+====================
+
+* Added a possibility to specify the fields that will be searched by the query.
+
 pnet-data-api 1.11.1
 ====================
 

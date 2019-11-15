@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
@@ -114,6 +115,8 @@ import pnet.data.api.numbertype.NumberTypeDataFind;
 import pnet.data.api.numbertype.NumberTypeDataGet;
 import pnet.data.api.numbertype.NumberTypeDataSearch;
 import pnet.data.api.numbertype.NumberTypeItemDTO;
+import pnet.data.api.person.ActivePersonCompanyLinkDTO;
+import pnet.data.api.person.ActivePersonFunctionLinkDTO;
 import pnet.data.api.person.PersonAggregationsDTO;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.person.PersonDataDTO;
@@ -153,6 +156,7 @@ import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictNumberType;
+import pnet.data.api.util.RestrictQueryField;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.Table;
 
@@ -306,6 +310,7 @@ public final class PnetSpringRestClient
     private final List<String> restrictedFunctionMatchcodes = new ArrayList<>();
     private final List<String> restrictedActivityMatchcodes = new ArrayList<>();
     private final List<String> restrictedNumberTypeMatchcodes = new ArrayList<>();
+    private final List<String> restrictedQueryFields = new ArrayList<>();
 
     private CompanyMerge companyMerge = CompanyMerge.NONE;
     private LocalDateTime datedBackUntil = null;
@@ -1598,6 +1603,18 @@ public final class PnetSpringRestClient
         table
             .addRow(dto.getPersonId(), dto.getPersonnelNumber(), dto.getFormOfAddress(), dto.getAcademicTitle(),
                 dto.getFirstName(), dto.getLastName(), dto.getAcademicTitlePostNominal(), dto.getAdministrativeTenant(),
+                dto.getCompanies() != null ? dto
+                    .getCompanies()
+                    .stream()
+                    .filter(link -> Objects.equals(dto.getContactCompanyId(), link.getCompanyId()))
+                    .map(ActivePersonCompanyLinkDTO::getCompanyLabelWithNumber)
+                    .collect(Collectors.joining(", ")) : null,
+                dto.getFunctions() != null ? dto
+                    .getFunctions()
+                    .stream()
+                    .filter(link -> link.isMainFunction())
+                    .map(ActivePersonFunctionLinkDTO::getLabel)
+                    .collect(Collectors.joining(", ")) : null,
                 dto.getLastUpdate(), dto.getScore());
     }
 
@@ -1773,6 +1790,28 @@ public final class PnetSpringRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
+    @CLI.Command(name = "restrict query fields", format = "[<FIELDS>...]",
+        description = "Places a restriction for query fields.")
+    public void restrictQueryFields(String... queryFields)
+    {
+        if (queryFields != null && queryFields.length > 0)
+        {
+            Arrays.stream(queryFields).forEach(restrictedQueryFields::add);
+        }
+
+        cli.info("Queries are restricted to following fields: %s", restrictedQueryFields);
+    }
+
+    @CLI.Command(name = "clear query field restrictions", description = "Removes all restrictions to query fields.")
+    public void clearQueryFieldRestrictions()
+    {
+        cli.info("Removed %s query field restrictions.", restrictedQueryFields.size());
+
+        restrictedQueryFields.clear();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
     protected <T extends Restrict<T>> T restrict(T restrict)
     {
         restrict = restrictCompany(restrict);
@@ -1846,6 +1885,13 @@ public final class PnetSpringRestClient
             cli.info("A restriction for number type matchcodes is in place: %s", restrictedNumberTypeMatchcodes);
 
             restrict = ((RestrictNumberType<T>) restrict).numberTypes(restrictedNumberTypeMatchcodes);
+        }
+
+        if (restrict instanceof RestrictQueryField && !restrictedQueryFields.isEmpty())
+        {
+            cli.info("A restriction for query fields is in place: %s", restrictedQueryFields);
+
+            restrict = ((RestrictQueryField<T>) restrict).queryFields(restrictedQueryFields);
         }
 
         return restrict;
@@ -1940,6 +1986,7 @@ public final class PnetSpringRestClient
         restrictedFunctionMatchcodes.clear();
         restrictedActivityMatchcodes.clear();
         restrictedNumberTypeMatchcodes.clear();
+        restrictedQueryFields.clear();
         datedBackUntil = null;
     }
 

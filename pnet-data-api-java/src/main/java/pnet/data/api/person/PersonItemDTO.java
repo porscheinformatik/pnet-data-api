@@ -67,13 +67,13 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "The username of the person.")
     private final String username;
 
-    @ApiModelProperty(notes = "The external id of the person")
+    @ApiModelProperty(notes = "The external id of the person.")
     private final String externalId;
 
-    @ApiModelProperty(notes = "The global user id of the person")
+    @ApiModelProperty(notes = "The global user id of the person.")
     private final String guid;
 
-    @ApiModelProperty(notes = "The preferred user id of the person")
+    @ApiModelProperty(notes = "The preferred user id of the person.")
     private final String preferredUserId;
 
     @ApiModelProperty(notes = "The personnel number of the person.")
@@ -85,31 +85,31 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "The email of the person.")
     private final String email;
 
-    @ApiModelProperty(notes = "The phone number of the person")
+    @ApiModelProperty(notes = "The phone number of the person.")
     private final String phoneNumber;
 
-    @ApiModelProperty(notes = "The mobile phone number of the person")
+    @ApiModelProperty(notes = "The mobile phone number of the person.")
     private final String mobileNumber;
 
-    @ApiModelProperty(notes = "The languages the person speaks")
+    @ApiModelProperty(notes = "The languages the person speaks.")
     private final Collection<Locale> languages;
 
-    @ApiModelProperty(notes = "The companies the person has employments at")
+    @ApiModelProperty(notes = "The companies of the persons.")
     private final Collection<ActivePersonCompanyLinkDTO> companies;
 
-    @ApiModelProperty(notes = "The function the person has")
+    @ApiModelProperty(notes = "All main functions of the person.")
     private final Collection<ActivePersonFunctionLinkDTO> functions;
 
-    @ApiModelProperty(notes = "The id of the company the person is mainly busy at")
+    @ApiModelProperty(notes = "The id of the company the person is mainly busy at.")
     private final Integer contactCompanyId;
 
-    @ApiModelProperty(notes = "The matchcode of the company the person is mainly busy at")
+    @ApiModelProperty(notes = "The matchcode of the company the person is mainly busy at.")
     private final String contactCompanyMatchcode;
 
-    @ApiModelProperty(notes = "The number of the company the person is mainly busy at")
+    @ApiModelProperty(notes = "The number of the company the person is mainly busy at.")
     private final String contactCompanyNumber;
 
-    @ApiModelProperty(notes = "Indicates, whether the person has a portrait available or not")
+    @ApiModelProperty(notes = "Indicates, whether the person has a portrait available or not.")
     private final Boolean portraitAvailable;
 
     @ApiModelProperty(notes = "The time and date when this item has been changed recently.")

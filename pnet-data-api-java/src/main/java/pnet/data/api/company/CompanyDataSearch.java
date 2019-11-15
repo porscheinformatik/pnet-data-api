@@ -14,6 +14,7 @@ import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictCountryCode;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictLocation;
+import pnet.data.api.util.RestrictQueryField;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictType;
 import pnet.data.api.util.SearchWithAggregationsFunction;
@@ -29,7 +30,8 @@ public class CompanyDataSearch
     RestrictCountryCode<CompanyDataSearch>, RestrictType<CompanyDataSearch>, RestrictContractType<CompanyDataSearch>,
     RestrictLocation<CompanyDataSearch>, RestrictDatedBackUntil<CompanyDataSearch>, CompanyMergable<CompanyDataSearch>,
     AggregateNumberPerTenant<CompanyDataSearch>, AggregateNumberPerBrand<CompanyDataSearch>,
-    AggregateNumberPerType<CompanyDataSearch>, AggregateNumberPerContractType<CompanyDataSearch>
+    AggregateNumberPerType<CompanyDataSearch>, AggregateNumberPerContractType<CompanyDataSearch>,
+    RestrictQueryField<CompanyDataSearch>
 {
 
     public CompanyDataSearch(SearchWithAggregationsFunction<CompanyItemDTO, CompanyAggregationsDTO> searchFunction,
