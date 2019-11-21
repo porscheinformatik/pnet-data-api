@@ -10,6 +10,7 @@ import pnet.data.api.util.AggregateNumberPerType;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBrand;
+import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictCountryCode;
 import pnet.data.api.util.RestrictDatedBackUntil;
@@ -25,8 +26,8 @@ import pnet.data.api.util.SearchWithAggregationsFunction;
  * @author HAM
  */
 public class CompanyDataSearch
-    extends AbstractSearchWithAggregations<CompanyItemDTO, CompanyAggregationsDTO, CompanyDataSearch>
-    implements RestrictTenant<CompanyDataSearch>, RestrictBrand<CompanyDataSearch>,
+    extends AbstractSearchWithAggregations<CompanyItemDTO, CompanyAggregationsDTO, CompanyDataSearch> implements
+    RestrictTenant<CompanyDataSearch>, RestrictBrand<CompanyDataSearch>, RestrictCompanyId<CompanyDataSearch>,
     RestrictCountryCode<CompanyDataSearch>, RestrictType<CompanyDataSearch>, RestrictContractType<CompanyDataSearch>,
     RestrictLocation<CompanyDataSearch>, RestrictDatedBackUntil<CompanyDataSearch>, CompanyMergable<CompanyDataSearch>,
     AggregateNumberPerTenant<CompanyDataSearch>, AggregateNumberPerBrand<CompanyDataSearch>,
