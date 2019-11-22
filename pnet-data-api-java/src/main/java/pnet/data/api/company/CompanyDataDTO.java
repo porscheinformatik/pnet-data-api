@@ -54,25 +54,16 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         notes = "The label of the company (either the marketing name or a combination of name and affix).")
     private String label;
 
-    /**
-     * @deprecated use label instead
-     */
-    @ApiModelProperty(notes = "The name of the company. Deprecated: use label instead.")
-    @Deprecated
+    @ApiModelProperty(notes = "The name of the company.")
     private String name;
 
-    /**
-     * @deprecated use label instead
-     */
-    @ApiModelProperty(notes = "The name affix of the company. Deprecated: use label instead.")
-    @Deprecated
+    @ApiModelProperty(notes = "The name affix of the company.")
     private String nameAffix;
 
-    /**
-     * @deprecated use label instead
-     */
-    @ApiModelProperty(notes = "The marketing name of the company. Deprecated: use label instead.")
-    @Deprecated
+    @ApiModelProperty(notes = "The additional name affix of the company.")
+    private String additionalNameAffix;
+
+    @ApiModelProperty(notes = "The marketing name of the company.")
     private String marketingName;
 
     @ApiModelProperty(notes = "Groups this company is part of.")
@@ -144,7 +135,12 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "The mobile phone number of the company.")
     private String mobileNumber;
 
-    @ApiModelProperty(notes = "The speed dial of the company.")
+    /**
+     * @deprecated will be removed in future
+     */
+    @ApiModelProperty(
+        notes = "The speed dial of the company. Will be removed in future, as it is not maintained anymore.")
+    @Deprecated
     private String speedDial;
 
     @ApiModelProperty(notes = "The fax number of the company.")
@@ -159,6 +155,18 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "The postal address of the company. In contrast to the other address fields, this may "
         + "contain a simplifcation of the address, like a post office box.")
     private String postal;
+
+    @ApiModelProperty(notes = "A link to the Facebook page of the company.")
+    private String facebookLink;
+
+    @ApiModelProperty(notes = "A link to the YouTube page of the company.")
+    private String youTubeLink;
+
+    @ApiModelProperty(notes = "A link to the Instagram page of the company.")
+    private String instagramLink;
+
+    @ApiModelProperty(notes = "A link to the Vibra page of the company.")
+    private String vibraLink;
 
     @ApiModelProperty(notes = "The matchcode of the legal form.")
     private String legalFormMatchcode;
@@ -244,61 +252,41 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.label = label;
     }
 
-    /**
-     * @return the name of the company
-     * @deprecated use the label instead
-     */
-    @Deprecated
     public String getName()
     {
         return name;
     }
 
-    /**
-     * @param name the name
-     * @deprecated use label instead
-     */
-    @Deprecated
     public void setName(String name)
     {
         this.name = name;
     }
 
-    /**
-     * @return the name affix of the company
-     * @deprecated use the label instead
-     */
-    @Deprecated
     public String getNameAffix()
     {
         return nameAffix;
     }
 
-    /**
-     * @param nameAffix the name affix
-     * @deprecated use label instead
-     */
-    @Deprecated
     public void setNameAffix(String nameAffix)
     {
         this.nameAffix = nameAffix;
     }
 
-    /**
-     * @return the marketing name of the company
-     * @deprecated use the label instead
-     */
-    @Deprecated
+    public String getAdditionalNameAffix()
+    {
+        return additionalNameAffix;
+    }
+
+    public void setAdditionalNameAffix(String additionalNameAffix)
+    {
+        this.additionalNameAffix = additionalNameAffix;
+    }
+
     public String getMarketingName()
     {
         return marketingName;
     }
 
-    /**
-     * @param marketingName the marketing name
-     * @deprecated use label instead
-     */
-    @Deprecated
     public void setMarketingName(String marketingName)
     {
         this.marketingName = marketingName;
@@ -506,11 +494,23 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.mobileNumber = mobileNumber;
     }
 
+    /**
+     * @return the speed dial (unused)
+     * @deprecated will be removed in future
+     */
+    @Deprecated
     public String getSpeedDial()
     {
         return speedDial;
     }
 
+    /**
+     * Sets the speed dial (unused)
+     *
+     * @param speedDial the speed dial
+     * @deprecated will be removed in future
+     */
+    @Deprecated
     public void setSpeedDial(String speedDial)
     {
         this.speedDial = speedDial;
@@ -554,6 +554,46 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public void setPostal(String postal)
     {
         this.postal = postal;
+    }
+
+    public String getFacebookLink()
+    {
+        return facebookLink;
+    }
+
+    public void setFacebookLink(String facebookLink)
+    {
+        this.facebookLink = facebookLink;
+    }
+
+    public String getYouTubeLink()
+    {
+        return youTubeLink;
+    }
+
+    public void setYouTubeLink(String youTubeLink)
+    {
+        this.youTubeLink = youTubeLink;
+    }
+
+    public String getInstagramLink()
+    {
+        return instagramLink;
+    }
+
+    public void setInstagramLink(String instagramLink)
+    {
+        this.instagramLink = instagramLink;
+    }
+
+    public String getVibraLink()
+    {
+        return vibraLink;
+    }
+
+    public void setVibraLink(String vibraLink)
+    {
+        this.vibraLink = vibraLink;
     }
 
     public String getLegalFormMatchcode()
@@ -650,19 +690,21 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public String toString()
     {
         return String
-            .format("CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
-                + "marketingName=%s, tenants=%s, brands=%s, contractTypes=%s, contractStates=%s, vatIdNumber=%s, "
-                + "sapNumber=%s, companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, "
-                + "countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, "
-                + "speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, legalFormMatchcode=%s, "
-                + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
-                + "certificateNumber=%s, jurisdiction=%s, location=%s, externalBrands=%s, "
-                + "lastUpdate=%s]", companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants,
-                brands, contractTypes, contractStates, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street,
-                city, postalCode, countryCode, country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial,
-                faxNumber, email, homepage, postal, legalFormMatchcode, dataProcessingRegisterNumber,
-                commercialRegisterNumber, certificateType, certificateNumber, jurisdiction, location, externalBrands,
-                lastUpdate);
+            .format(
+                "CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, label=%s, name=%s, nameAffix=%s, "
+                    + "additionalNameAffix=%s, marketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, "
+                    + "contractStates=%s, vatIdNumber=%s, sapNumber=%s, companyNumber=%s, additionalNumbers=%s, street=%s, "
+                    + "city=%s, postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, "
+                    + "phoneNumber=%s, mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, "
+                    + "facebookLink=%s, youTubeLink=%s, instagramLink=%s, vibraLink=%s, legalFormMatchcode=%s, "
+                    + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
+                    + "certificateNumber=%s, jurisdiction=%s, location=%s, externalBrands=%s, lastUpdate=%s]",
+                companyId, matchcode, administrativeTenant, label, name, nameAffix, additionalNameAffix, marketingName,
+                groupMembers, tenants, brands, contractTypes, contractStates, vatIdNumber, sapNumber, companyNumber,
+                additionalNumbers, street, city, postalCode, countryCode, country, region, iban, bic, types,
+                phoneNumber, mobileNumber, speedDial, faxNumber, email, homepage, postal, facebookLink, youTubeLink,
+                instagramLink, vibraLink, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber,
+                certificateType, certificateNumber, jurisdiction, location, externalBrands, lastUpdate);
     }
 
 }

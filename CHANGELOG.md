@@ -1,3 +1,16 @@
+pnet-data-api 1.12.0
+====================
+
+* Added "additionalNameAffix" to companies.
+* Name, NameAffix and Marketingname of companies are not deprecated anymore.
+* SpeedDial of company is deprecated, as it is not maintained anymore.
+* Added "facebookLink", "youTubeLink", "instagramLink" and "vibraLink" to companies.
+
+pnet-data-api 1.11.3
+====================
+
+* Allow company searched to be restricted by company ids.
+
 pnet-data-api 1.11.2
 ====================
 

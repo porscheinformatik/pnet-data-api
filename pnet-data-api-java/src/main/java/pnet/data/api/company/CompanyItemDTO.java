@@ -56,25 +56,16 @@ public class CompanyItemDTO
         notes = "The label of the company (either the marketing name or a combination of name and affix).")
     private final String label;
 
-    /**
-     * @deprecated use label instead
-     */
-    @ApiModelProperty(notes = "The name of the company. Deprecated: use label instead.")
-    @Deprecated
+    @ApiModelProperty(notes = "The name of the company.")
     private final String name;
 
-    /**
-     * @deprecated use label instead
-     */
-    @ApiModelProperty(notes = "The name affix of the company. Deprecated: use label instead.")
-    @Deprecated
+    @ApiModelProperty(notes = "The name affix of the company.")
     private final String nameAffix;
 
-    /**
-     * @deprecated use label instead
-     */
-    @ApiModelProperty(notes = "The marketing name of the company. Deprecated: use label instead.")
-    @Deprecated
+    @ApiModelProperty(notes = "The additional name affix of the company.")
+    private final String additionalNameAffix;
+
+    @ApiModelProperty(notes = "The marketing name of the company.")
     private final String marketingName;
 
     @ApiModelProperty(notes = "Valid tenants of the company (also known as Portal-ID).")
@@ -122,6 +113,7 @@ public class CompanyItemDTO
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("label") String label,
         @JsonProperty("name") String name, @JsonProperty("nameAffix") String nameAffix,
+        @JsonProperty("additionalNameAffix") String additionalNameAffix,
         @JsonProperty("marketingName") String marketingName, @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<CompanyBrandLinkDTO> brands,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("street") String street,
@@ -138,6 +130,7 @@ public class CompanyItemDTO
         this.label = label;
         this.name = name;
         this.nameAffix = nameAffix;
+        this.additionalNameAffix = additionalNameAffix;
         this.marketingName = marketingName;
         this.tenants = tenants;
         this.brands = brands;
@@ -187,31 +180,21 @@ public class CompanyItemDTO
         return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, label);
     }
 
-    /**
-     * @return the name of the company
-     * @deprecated use the label instead
-     */
-    @Deprecated
     public String getName()
     {
         return name;
     }
 
-    /**
-     * @return the name affix of the company
-     * @deprecated use the label instead
-     */
-    @Deprecated
     public String getNameAffix()
     {
         return nameAffix;
     }
 
-    /**
-     * @return the marketing name of the company
-     * @deprecated use the label instead
-     */
-    @Deprecated
+    public String getAdditionalNameAffix()
+    {
+        return additionalNameAffix;
+    }
+
     public String getMarketingName()
     {
         return marketingName;
