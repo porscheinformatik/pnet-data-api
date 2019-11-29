@@ -1,3 +1,8 @@
+pnet-data-api 1.12.1
+====================
+
+* Added data for impressum to companies.
+
 pnet-data-api 1.12.0
 ====================
 

@@ -187,6 +187,32 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "The venue jurisdiction the company is part of because of its geographical position.")
     private String jurisdiction;
 
+    @ApiModelProperty(
+        notes = "The provision in a company's constitution stating the purpose and range of activities for which the "
+            + "company is carried on (part of the impressum).")
+    private String objectsClause;
+
+    @ApiModelProperty(notes = "The general partner of the company (part of the impressum).")
+    private String generalPartner;
+
+    @ApiModelProperty(notes = "The chamber affiliation of the company (part of the impressum).")
+    private String chamberAffiliation;
+
+    @ApiModelProperty(notes = "The commercial regulations of the company (part of the impressum).")
+    private String commercialRegulations;
+
+    @ApiModelProperty(notes = "The regulatory authorityof the company (part of the impressum).")
+    private String regulatoryAuthority;
+
+    @ApiModelProperty(notes = "The arbitration board of the company (part of the impressum).")
+    private String arbitrationBoard;
+
+    @ApiModelProperty(notes = "Some additional imprint information (part of the impressum).")
+    private String additionalImprintInfo;
+
+    @ApiModelProperty(notes = "The business information number (GISA) as used in Austria (part of the impressum).")
+    private String businessInformationNumber;
+
     @ApiModelProperty(notes = "The logitude and latitude of the companies location.")
     private GeoPoint location;
 
@@ -656,6 +682,86 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.jurisdiction = jurisdiction;
     }
 
+    public String getObjectsClause()
+    {
+        return objectsClause;
+    }
+
+    public void setObjectsClause(String objectsClause)
+    {
+        this.objectsClause = objectsClause;
+    }
+
+    public String getGeneralPartner()
+    {
+        return generalPartner;
+    }
+
+    public void setGeneralPartner(String generalPartner)
+    {
+        this.generalPartner = generalPartner;
+    }
+
+    public String getChamberAffiliation()
+    {
+        return chamberAffiliation;
+    }
+
+    public void setChamberAffiliation(String chamberAffiliation)
+    {
+        this.chamberAffiliation = chamberAffiliation;
+    }
+
+    public String getCommercialRegulations()
+    {
+        return commercialRegulations;
+    }
+
+    public void setCommercialRegulations(String commercialRegulations)
+    {
+        this.commercialRegulations = commercialRegulations;
+    }
+
+    public String getRegulatoryAuthority()
+    {
+        return regulatoryAuthority;
+    }
+
+    public void setRegulatoryAuthority(String regulatoryAuthority)
+    {
+        this.regulatoryAuthority = regulatoryAuthority;
+    }
+
+    public String getArbitrationBoard()
+    {
+        return arbitrationBoard;
+    }
+
+    public void setArbitrationBoard(String arbitrationBoard)
+    {
+        this.arbitrationBoard = arbitrationBoard;
+    }
+
+    public String getAdditionalImprintInfo()
+    {
+        return additionalImprintInfo;
+    }
+
+    public void setAdditionalImprintInfo(String additionalImprintInfo)
+    {
+        this.additionalImprintInfo = additionalImprintInfo;
+    }
+
+    public String getBusinessInformationNumber()
+    {
+        return businessInformationNumber;
+    }
+
+    public void setBusinessInformationNumber(String businessInformationNumber)
+    {
+        this.businessInformationNumber = businessInformationNumber;
+    }
+
     public GeoPoint getLocation()
     {
         return location;
@@ -698,13 +804,18 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                     + "phoneNumber=%s, mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, "
                     + "facebookLink=%s, youTubeLink=%s, instagramLink=%s, vibraLink=%s, legalFormMatchcode=%s, "
                     + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
-                    + "certificateNumber=%s, jurisdiction=%s, location=%s, externalBrands=%s, lastUpdate=%s]",
+                    + "certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
+                    + "chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, arbitrationBoard=%s, "
+                    + "additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, externalBrands=%s, "
+                    + "lastUpdate=%s]",
                 companyId, matchcode, administrativeTenant, label, name, nameAffix, additionalNameAffix, marketingName,
                 groupMembers, tenants, brands, contractTypes, contractStates, vatIdNumber, sapNumber, companyNumber,
                 additionalNumbers, street, city, postalCode, countryCode, country, region, iban, bic, types,
                 phoneNumber, mobileNumber, speedDial, faxNumber, email, homepage, postal, facebookLink, youTubeLink,
                 instagramLink, vibraLink, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber,
-                certificateType, certificateNumber, jurisdiction, location, externalBrands, lastUpdate);
+                certificateType, certificateNumber, jurisdiction, objectsClause, generalPartner, chamberAffiliation,
+                commercialRegulations, regulatoryAuthority, arbitrationBoard, additionalImprintInfo,
+                businessInformationNumber, location, externalBrands, lastUpdate);
     }
 
 }
