@@ -1,4 +1,0 @@
-[submodule "dist"]
-	path = dist
-	url = https://github.com/porscheinformatik/pnet-data-api.git
-	branch = gh-pages

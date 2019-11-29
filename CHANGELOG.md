@@ -3,6 +3,7 @@ pnet-data-api 1.12.1
 
 * Added data for impressum to companies.
 * SAP number is deprecated. Use company number instead.
+* Removed project pages.
 
 pnet-data-api 1.12.0
 ====================
