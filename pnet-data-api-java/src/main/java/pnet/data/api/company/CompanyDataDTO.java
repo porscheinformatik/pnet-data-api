@@ -90,7 +90,13 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "The vat ID of the company.")
     private String vatIdNumber;
 
-    @ApiModelProperty(notes = "The SAP number of the of the company.")
+    /**
+     * The SAP number.
+     *
+     * @deprecated use {@link #companyNumber} instead
+     */
+    @ApiModelProperty(notes = "The SAP number of the of the company. Deprecated: use company number instead.")
+    @Deprecated
     private String sapNumber;
 
     @ApiModelProperty(notes = "The company number. In most cases, this is the same as the SAP number.")
@@ -379,11 +385,23 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.vatIdNumber = vatIdNumber;
     }
 
+    /**
+     * @return the SAP number
+     * @deprecated use {@link #getCompanyNumber()} instead
+     */
+    @Deprecated
     public String getSapNumber()
     {
         return sapNumber;
     }
 
+    /**
+     * Sets the SAP number.
+     *
+     * @param sapNumber the SAP number
+     * @deprecated use {@link #setCompanyNumber(String)} instead
+     */
+    @Deprecated
     public void setSapNumber(String sapNumber)
     {
         this.sapNumber = sapNumber;

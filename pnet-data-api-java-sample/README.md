@@ -84,9 +84,12 @@ about  ................................. Info about the Partner.Net Data API and
 aggs  .................................. Enables aggregations or prints them, if available.
 clear brand restrictions  .............. Removes all restrictions for brands.
 clear company restrictions  ............ Removes all restrictions for companies.
+clear query field restrictions  ........ Removes all restrictions to query fields.
 clear restrictions  .................... Removes all restrictions.
 clear tenant restrictions  ............. Removes all restrictions for tenants.
+compact  ............................... Print compact results.
 dated back [<DAYS>] .................... Sets the dated back parameter for the specified days
+detailed  .............................. Print detailed results.
 exit  .................................. Exit this program.
 export all activities  ................. Exports all activities.
 export all advisor types  .............. Exports all advisor types.
@@ -153,7 +156,6 @@ get company by iban <COMPANY-IBAN...> .. Returns the company with the specified 
 get company by id <COMPANY-ID...> ...... Returns the companies with the specified ids.
 get company by mc <COMPANY-MC...> ...... Returns the companies with the specified matchcode.
 get company by number <COMPANY-NUMBER...>  Returns the companies with the specified company numbers.
-get company by sap <COMPANY-SAPNUMBER...>  Returns the companies with the specified sap numbers.
 get company by vat <COMPANY-VATIDNUMBER...>  Returns the companies with the specified vat id numbers.
 get company group by company id <COMPANY-ID...>  Returns the company groups with the specified ids.
 get company group by company mc <COMPANY-MC...>  Returns the company groups with the specified matchcodes.
@@ -174,7 +176,7 @@ get person by external id <EXTERNALID...>  Returns all details of persons with t
 get person by guid <GUID...> ........... Returns all details of persons with the specified guids.
 get person by id <ID...> ............... Returns all details of persons with the specified ids.
 get person by personnelNumber <PERSNUMBER...>  Returns all details of persons with the specified personnelNumbers.
-get person by preferredUserId <PREFID...>  Returns all details of persons with the specified prefferedUserIds.
+get person by preferredUserId <PREFID...>  Returns all details of persons with the specified preferredUserIds.
 get portrait of person <ID> ............ Shows the portrait image of the person.
 get thumbnail of person <ID> ........... Shows the thumbnail portrait image of the person.
 help [q] ............................... Prints this help.
@@ -199,13 +201,13 @@ restrict company mcs <MC...> ........... Places a restriction with company match
 restrict company numbers <NUMBER...> ... Places a restriction with company numbers for subsequent operations.
 restrict functions <MC...> ............. Places a restriction of functions for subsequent operations.
 restrict number types <MC...> .......... Places a restriction of number types for subsequent operations.
+restrict query fields [<FIELDS>...] .... Places a restriction for query fields.
 restrict tenants [<TENANT>...] ......... Places a restriction with tenants for subsequent operations.
 search activities <QUERY> .............. Query activities.
 search advisor types <QUERY> ........... Query advisor types.
 search applications <QUERY> ............ Query applications.
 search brands <QUERY> .................. Query brands.
 search companies <QUERY> ............... Query companies.
-search company group types <QUERY> ..... Query company group types.
 search company group types <QUERY> ..... Query company group types.
 search company number types <QUERY> .... Query company number types.
 search company types <QUERY> ........... Query company types.
@@ -216,8 +218,10 @@ search functions <QUERY> ............... Query functions.
 search number types <QUERY> ............ Query number types.
 search persons <QUERY> ................. Search for a person.
 search todo groups <QUERY> ............. Query todo groups.
+send get PATH .......................... Execute a GET request.
 store [<KEY>] .......................... Stores the URL and username/password to your prefernces.
 swagger  ............................... Opens the Swagger Documentation.
+test  .................................. Method to implement complex requests or test something data-api related.
 token  ................................. Prints the JSON Web Token of the user.
 url [<URL>] [<USERNAME>] [<PASSWORD>] .. Prints or overrides the predefined URL.
 user [<USERNAME>] [<PASSWORD>] ......... Prints or overrides the username and password.

@@ -630,16 +630,6 @@ public final class PnetSpringRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get company by sap", format = "<COMPANY-SAPNUMBER...>",
-        description = "Returns the companies with the specified sap numbers.")
-    public void getCompaniesBySapNumbers(String... sapNumbers) throws PnetDataClientException
-    {
-        CompanyDataGet query = restrict(companyDataClient.get());
-        PnetDataClientResultPage<CompanyDataDTO> result = query.allBySapNumbers(Arrays.asList(sapNumbers), 0, 10);
-
-        printResults(result, null);
-    }
-
     @CLI.Command(name = "get company by number", format = "<COMPANY-NUMBER...>",
         description = "Returns the companies with the specified company numbers.")
     public void getCompaniesByCompanyNumbers(String... companyNumbers) throws PnetDataClientException
@@ -2130,8 +2120,8 @@ public final class PnetSpringRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(format = "PATH", description = "Execute a GET request.")
-    public void get(String request) throws RestException, PnetDataClientException, URISyntaxException
+    @CLI.Command(name = "send get", format = "PATH", description = "Execute a GET request.")
+    public void getRequest(String request) throws RestException, PnetDataClientException, URISyntaxException
     {
         RestCall restCall = repository.restCall(key());
         String url = restCall.getUrl();
