@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +27,7 @@ import javax.swing.WindowConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestException;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.about.AboutDataClient;
@@ -2124,6 +2126,24 @@ public final class PnetSpringRestClient
         }
 
         cli.info("username = %s", prefs.getPnetDataApiUsername());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    @CLI.Command(format = "PATH", description = "Execute a GET request.")
+    public void get(String request) throws RestException, PnetDataClientException, URISyntaxException
+    {
+        RestCall restCall = repository.restCall(key());
+        String url = restCall.getUrl();
+
+        if (request.startsWith(url))
+        {
+            request = request.replace(url, "");
+        }
+
+        Object result = restCall.get(request, Object.class);
+
+        cli.info(PrettyPrint.prettyPrint(result));
     }
 
     ////////////////////////////////////////////////////////////////////////////
