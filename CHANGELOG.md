@@ -1,3 +1,8 @@
+pnet-data-api 1.12.2
+====================
+
+* Fixed typo: vibra -> viber
+
 pnet-data-api 1.12.1
 ====================
 

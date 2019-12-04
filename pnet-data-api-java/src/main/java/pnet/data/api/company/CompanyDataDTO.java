@@ -171,8 +171,8 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "A link to the Instagram page of the company.")
     private String instagramLink;
 
-    @ApiModelProperty(notes = "A link to the Vibra page of the company.")
-    private String vibraLink;
+    @ApiModelProperty(notes = "A link to the Viber page of the company.")
+    private String viberLink;
 
     @ApiModelProperty(notes = "The matchcode of the legal form.")
     private String legalFormMatchcode;
@@ -630,14 +630,14 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.instagramLink = instagramLink;
     }
 
-    public String getVibraLink()
+    public String getViberLink()
     {
-        return vibraLink;
+        return viberLink;
     }
 
-    public void setVibraLink(String vibraLink)
+    public void setViberLink(String viberLink)
     {
-        this.vibraLink = vibraLink;
+        this.viberLink = viberLink;
     }
 
     public String getLegalFormMatchcode()
@@ -820,7 +820,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                     + "contractStates=%s, vatIdNumber=%s, sapNumber=%s, companyNumber=%s, additionalNumbers=%s, street=%s, "
                     + "city=%s, postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, "
                     + "phoneNumber=%s, mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, "
-                    + "facebookLink=%s, youTubeLink=%s, instagramLink=%s, vibraLink=%s, legalFormMatchcode=%s, "
+                    + "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, legalFormMatchcode=%s, "
                     + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
                     + "certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
                     + "chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, arbitrationBoard=%s, "
@@ -830,7 +830,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                 groupMembers, tenants, brands, contractTypes, contractStates, vatIdNumber, sapNumber, companyNumber,
                 additionalNumbers, street, city, postalCode, countryCode, country, region, iban, bic, types,
                 phoneNumber, mobileNumber, speedDial, faxNumber, email, homepage, postal, facebookLink, youTubeLink,
-                instagramLink, vibraLink, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber,
+                instagramLink, viberLink, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber,
                 certificateType, certificateNumber, jurisdiction, objectsClause, generalPartner, chamberAffiliation,
                 commercialRegulations, regulatoryAuthority, arbitrationBoard, additionalImprintInfo,
                 businessInformationNumber, location, externalBrands, lastUpdate);
