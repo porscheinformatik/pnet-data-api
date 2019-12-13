@@ -111,6 +111,12 @@ import pnet.data.api.function.FunctionDataFind;
 import pnet.data.api.function.FunctionDataGet;
 import pnet.data.api.function.FunctionDataSearch;
 import pnet.data.api.function.FunctionItemDTO;
+import pnet.data.api.legalform.LegalFormDataClient;
+import pnet.data.api.legalform.LegalFormDataDTO;
+import pnet.data.api.legalform.LegalFormDataFind;
+import pnet.data.api.legalform.LegalFormDataGet;
+import pnet.data.api.legalform.LegalFormDataSearch;
+import pnet.data.api.legalform.LegalFormItemDTO;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.numbertype.NumberTypeDataDTO;
 import pnet.data.api.numbertype.NumberTypeDataFind;
@@ -291,6 +297,9 @@ public final class PnetSpringRestClient
 
     @Autowired
     private FunctionDataClient functionDataClient;
+
+    @Autowired
+    private LegalFormDataClient legalFormDataClient;
 
     @Autowired
     private NumberTypeDataClient numberTypeDataClient;
@@ -1359,6 +1368,62 @@ public final class PnetSpringRestClient
         table
             .addRow(dto.getMatchcode(), dto.getLabel(), dto.getDescription(), dto.getTenants(), dto.getBrands(),
                 dto.getLastUpdate(), dto.getScore());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    @CLI.Command(name = "get legal form by mc", format = "<MC...>",
+        description = "Returns the legal forms with the specified matchcodes.")
+    public void getLegalForms(String... matchcodes) throws PnetDataClientException
+    {
+        LegalFormDataGet query = restrict(legalFormDataClient.get());
+        PnetDataClientResultPage<LegalFormDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+
+        printResults(result, null);
+    }
+
+    @CLI.Command(name = "export all legal forms", description = "Exports all legal forms.")
+    public void exportAllLegalForms() throws PnetDataClientException
+    {
+        LegalFormDataFind query = restrict(legalFormDataClient.find());
+        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "export all updated legal forms", format = "[<DAYS>:1]",
+        description = "Exports all legal forms updated since yesterday.")
+    public void exportAllUpdatedLegalForms(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+        LegalFormDataFind query = restrict(legalFormDataClient.find().updatedAfter(updatedAfter));
+        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "find legal forms by mc", format = "<MC...>",
+        description = "Find comany group types by matchcodes.")
+    public void findLegalForms(String... matchcodes) throws PnetDataClientException
+    {
+        LegalFormDataFind query = restrict(legalFormDataClient.find().matchcode(matchcodes));
+        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "search legal forms", format = "<QUERY>", description = "Query legal forms.")
+    public void searchLegalForms(String... qs) throws PnetDataClientException
+    {
+        LegalFormDataSearch query = restrict(legalFormDataClient.search());
+        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, LegalFormItemDTO dto)
+    {
+        table.addRow(dto.getMatchcode(), dto.getLabel(), dto.getLastUpdate(), dto.getScore());
     }
 
     ////////////////////////////////////////////////////////////////////////////

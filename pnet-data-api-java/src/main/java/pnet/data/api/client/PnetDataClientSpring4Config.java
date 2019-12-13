@@ -18,6 +18,7 @@ import pnet.data.api.contractstate.ContractStatePnetDataApiClientConfig;
 import pnet.data.api.contracttype.ContractTypePnetDataApiClientConfig;
 import pnet.data.api.externalbrand.ExternalBrandPnetDataApiClientConfig;
 import pnet.data.api.function.FunctionPnetDataApiClientConfig;
+import pnet.data.api.legalform.LegalFormPnetDataApiClientConfig;
 import pnet.data.api.numbertype.NumberTypePnetDataApiClientConfig;
 import pnet.data.api.person.PersonPnetDataApiClientConfig;
 import pnet.data.api.todo.TodoPnetDataApiClientConfig;
@@ -41,6 +42,7 @@ import pnet.data.api.todo.TodoPnetDataApiClientConfig;
     ContractStatePnetDataApiClientConfig.class,
     ContractTypePnetDataApiClientConfig.class,
     ExternalBrandPnetDataApiClientConfig.class,
+    LegalFormPnetDataApiClientConfig.class,
     FunctionPnetDataApiClientConfig.class,
     NumberTypePnetDataApiClientConfig.class,
     PersonPnetDataApiClientConfig.class,

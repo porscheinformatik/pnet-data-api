@@ -1,3 +1,8 @@
+pnet-data-api 1.12.3
+====================
+
+* Added legal forms.
+
 pnet-data-api 1.12.2
 ====================
 
