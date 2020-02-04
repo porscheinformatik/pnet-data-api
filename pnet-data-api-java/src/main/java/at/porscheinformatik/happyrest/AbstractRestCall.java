@@ -224,6 +224,34 @@ public abstract class AbstractRestCall implements RestCall
         return copy(url, acceptableMediaTypes, contentType, attributes, converter, body);
     }
 
+    protected boolean isForm()
+    {
+        String contentType = getContentType();
+
+        return contentType != null && contentType.startsWith(MEDIA_TYPE_APPLICATION_FORM) && containsParameters();
+    }
+
+    protected boolean verify(RestMethod method) throws RestRequestException
+    {
+        if (body != null && (method == RestMethod.GET || method == RestMethod.OPTIONS))
+        {
+            throw new RestRequestException("A %s request does not allow a body.", method);
+        }
+
+        boolean form = isForm();
+
+        if (form
+            && (method == RestMethod.GET
+                || method == RestMethod.PUT
+                || method == RestMethod.DELETE
+                || method == RestMethod.OPTIONS))
+        {
+            throw new RestRequestException("A %s request does not allow form values.", method);
+        }
+
+        return form;
+    }
+
     @Override
     public <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException
     {

@@ -12,6 +12,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -73,10 +75,34 @@ public class Spring4RestCall extends AbstractRestCall
     }
 
     @Override
+    public Object getBody()
+    {
+        Object body = super.getBody();
+
+        if (body != null)
+        {
+            return body;
+        }
+
+        if (isForm())
+        {
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+
+            getAttributes().stream().forEach(attribute -> map.add(attribute.getName(), convert(attribute.getValue())));
+
+            return map;
+        }
+
+        return body;
+    }
+
+    @Override
     public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
     {
+        boolean form = verify(method);
+
         HttpHeaders headers = new HttpHeaders();
-        URI uri = processAttributes(headers, path);
+        URI uri = processAttributes(headers, path, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
@@ -89,17 +115,19 @@ public class Spring4RestCall extends AbstractRestCall
         {
             throw new RestResponseException(toDescription(method, uri, e), e.getRawStatusCode(), e.getStatusText(), e);
         }
-        catch (Exception var9)
+        catch (Exception e)
         {
-            throw new RestException(method + " " + uri, var9, new Object[0]);
+            throw new RestException(method + " " + uri, e);
         }
     }
 
     @Override
     public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException
     {
+        boolean form = verify(method);
+
         HttpHeaders headers = new HttpHeaders();
-        URI uri = processAttributes(headers, path);
+        URI uri = processAttributes(headers, path, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
@@ -113,9 +141,9 @@ public class Spring4RestCall extends AbstractRestCall
         {
             throw new RestResponseException(toDescription(method, uri, e), e.getRawStatusCode(), e.getStatusText(), e);
         }
-        catch (Exception var9)
+        catch (Exception e)
         {
-            throw new RestException(method + " " + uri, var9, new Object[0]);
+            throw new RestException(method + " " + uri, e);
         }
     }
 
@@ -125,55 +153,58 @@ public class Spring4RestCall extends AbstractRestCall
         {
             case DELETE:
                 return HttpMethod.DELETE;
-                
+
             case GET:
                 return HttpMethod.GET;
-                
+
             case OPTIONS:
                 return HttpMethod.OPTIONS;
-                
+
             case PATCH:
                 return HttpMethod.PATCH;
-                
+
             case POST:
                 return HttpMethod.POST;
-                
+
             case PUT:
                 return HttpMethod.PUT;
-                
+
             default:
                 throw new UnsupportedOperationException("Unsupported method: " + method);
         }
     }
 
-    protected URI processAttributes(HttpHeaders headers, String path) throws RestException
+    protected URI processAttributes(HttpHeaders headers, String path, boolean form) throws RestException
     {
         List<String> acceptableMediaTypes = getAcceptableMediaTypes();
+
         if (acceptableMediaTypes != null)
         {
             headers.setAccept(MediaType.parseMediaTypes(acceptableMediaTypes));
         }
 
         String contentType = getContentType();
+
         if (contentType != null)
         {
             headers.setContentType(MediaType.parseMediaType(contentType));
         }
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(prepareUrl(getUrl(), path));
-        Map<String, Object> variables = buildVariables(builder, headers);
+        Map<String, Object> variables = buildVariables(builder, headers, form);
 
         try
         {
             return builder.buildAndExpand(variables).toUri();
         }
-        catch (RuntimeException ex)
+        catch (RuntimeException e)
         {
-            throw new IllegalArgumentException("Failed to parse URL", ex);
+            throw new IllegalArgumentException("Failed to parse URL", e);
         }
     }
 
-    private Map<String, Object> buildVariables(UriComponentsBuilder builder, HttpHeaders headers) throws RestException
+    private Map<String, Object> buildVariables(UriComponentsBuilder builder, HttpHeaders headers, boolean form)
+        throws RestException
     {
         Map<String, Object> variables = new HashMap<>();
         List<RestAttribute> attributes = getAttributes();
@@ -205,7 +236,10 @@ public class Spring4RestCall extends AbstractRestCall
 
             if (attribute instanceof RestParameter)
             {
-                id = appendRestParameter(builder, variables, id, value, name);
+                if (!form)
+                {
+                    id = appendRestParameter(builder, variables, id, value, name);
+                }
 
                 continue;
             }
@@ -228,12 +262,12 @@ public class Spring4RestCall extends AbstractRestCall
     {
         if (value.getClass().isArray())
         {
-            for (int i = 0; i < Array.getLength(value); ++i)
+            for (int i = 0; i < Array.getLength(value); i++)
             {
                 queryParam(builder, variables, name, id++, convert(Array.get(value, i)));
             }
         }
-        else if (value instanceof Iterable)
+        else if (value instanceof Iterable<?>)
         {
             Iterator<?> iterator = ((Iterable<?>) value).iterator();
 
@@ -246,7 +280,7 @@ public class Spring4RestCall extends AbstractRestCall
         {
             queryParam(builder, variables, name, id++, convert(value));
         }
-        
+
         return id;
     }
 

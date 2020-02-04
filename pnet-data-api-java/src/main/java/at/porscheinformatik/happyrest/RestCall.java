@@ -21,7 +21,8 @@ public interface RestCall
 
     String AUTHORIZATION_HEADER_NAME = "Authorization";
 
-    String MEIDA_TYPE_APPLICATION_ATOM_XML = "application/atom+xml";
+    String MEDIA_TYPE_APPLICATION_ATOM_XML = "application/atom+xml";
+    String MEDIA_TYPE_APPLICATION_FORM = "application/x-www-form-urlencoded";
     String MEDIA_TYPE_APPLICATION_JSON = "application/json";
     String MEDIA_TYPE_APPLICATION_JSON_UTF8 = "application/json;charset=UTF-8";
     String MEDIA_TYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
@@ -89,6 +90,11 @@ public interface RestCall
 
     List<RestAttribute> getAttributes();
 
+    default boolean containsAttributes(Class<? extends RestAttribute> type)
+    {
+        return getAttributes().stream().anyMatch(type::isInstance);
+    }
+
     default Optional<Object> getAttribute(Class<? extends RestAttribute> type, String name)
     {
         return getAttributes()
@@ -123,6 +129,11 @@ public interface RestCall
         return contentType(MEDIA_TYPE_APPLICATION_XML);
     }
 
+    default RestCall contentTypeForm()
+    {
+        return contentType(MEDIA_TYPE_APPLICATION_FORM);
+    }
+
     RestCall header(String name, String... value);
 
     default String getHeader(String name)
@@ -132,12 +143,22 @@ public interface RestCall
 
     RestCall headers(String name, Collection<String> values);
 
+    default boolean containsHeaders()
+    {
+        return containsAttributes(RestHeader.class);
+    }
+
     default List<Object> getHeaders(String name)
     {
         return getAttributes(RestHeader.class, name);
     }
 
     RestCall variable(String name, Object... value);
+
+    default boolean containsVariables()
+    {
+        return containsAttributes(RestVariable.class);
+    }
 
     default Object getVariable(String name)
     {
@@ -154,6 +175,11 @@ public interface RestCall
     RestCall parameters(String name, Collection<?> values);
 
     RestCall parameters(Collection<? extends Pair<String, ?>> values);
+
+    default boolean containsParameters()
+    {
+        return containsAttributes(RestParameter.class);
+    }
 
     default List<Object> getParameters(String name)
     {

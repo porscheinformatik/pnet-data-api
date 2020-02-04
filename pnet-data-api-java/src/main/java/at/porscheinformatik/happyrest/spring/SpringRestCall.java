@@ -14,6 +14,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -77,10 +79,34 @@ public class SpringRestCall extends AbstractRestCall
     }
 
     @Override
+    public Object getBody()
+    {
+        Object body = super.getBody();
+
+        if (body != null)
+        {
+            return body;
+        }
+
+        if (isForm())
+        {
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+
+            getAttributes().stream().forEach(attribute -> map.add(attribute.getName(), convert(attribute.getValue())));
+
+            return map;
+        }
+
+        return body;
+    }
+
+    @Override
     public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
     {
+        boolean form = verify(method);
+
         HttpHeaders headers = new HttpHeaders();
-        URI uri = processAttributes(headers, path);
+        URI uri = processAttributes(headers, path, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
@@ -102,8 +128,10 @@ public class SpringRestCall extends AbstractRestCall
     @Override
     public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException
     {
+        boolean form = verify(method);
+
         HttpHeaders headers = new HttpHeaders();
-        URI uri = processAttributes(headers, path);
+        URI uri = processAttributes(headers, path, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
@@ -150,7 +178,7 @@ public class SpringRestCall extends AbstractRestCall
         }
     }
 
-    protected URI processAttributes(HttpHeaders headers, String path) throws RestException
+    protected URI processAttributes(HttpHeaders headers, String path, boolean form) throws RestException
     {
         List<String> acceptableMediaTypes = getAcceptableMediaTypes();
 
@@ -171,7 +199,7 @@ public class SpringRestCall extends AbstractRestCall
         factory.setEncodingMode(EncodingMode.URI_COMPONENT);
 
         UriBuilder builder = factory.builder();
-        Map<String, Object> variables = buildVariables(builder, headers);
+        Map<String, Object> variables = buildVariables(builder, headers, form);
 
         try
         {
@@ -183,7 +211,8 @@ public class SpringRestCall extends AbstractRestCall
         }
     }
 
-    private Map<String, Object> buildVariables(UriBuilder builder, HttpHeaders headers) throws RestException
+    private Map<String, Object> buildVariables(UriBuilder builder, HttpHeaders headers, boolean form)
+        throws RestException
     {
         Map<String, Object> variables = new HashMap<>();
         List<RestAttribute> attributes = getAttributes();
@@ -215,7 +244,10 @@ public class SpringRestCall extends AbstractRestCall
 
             if (attribute instanceof RestParameter)
             {
-                id = appendRestParameter(builder, variables, id, value, name);
+                if (!form)
+                {
+                    id = appendRestParameter(builder, variables, id, value, name);
+                }
 
                 continue;
             }
