@@ -115,6 +115,12 @@ public interface RestCall
             .collect(Collectors.toList());
     }
 
+    @SuppressWarnings("unchecked")
+    default <T extends RestAttribute> List<T> getAttributes(Class<T> type)
+    {
+        return (List<T>) getAttributes().stream().filter(type::isInstance).collect(Collectors.toList());
+    }
+
     RestCall body(Object body);
 
     RestCall contentType(String contentType);
@@ -153,6 +159,11 @@ public interface RestCall
         return getAttributes(RestHeader.class, name);
     }
 
+    default List<RestHeader> getHeaders()
+    {
+        return getAttributes(RestHeader.class);
+    }
+
     RestCall variable(String name, Object... value);
 
     default boolean containsVariables()
@@ -163,6 +174,11 @@ public interface RestCall
     default Object getVariable(String name)
     {
         return getAttribute(RestVariable.class, name).orElse(null);
+    }
+
+    default List<RestVariable> getVariables()
+    {
+        return getAttributes(RestVariable.class);
     }
 
     RestCall parameter(String name, Object... value);
@@ -184,6 +200,11 @@ public interface RestCall
     default List<Object> getParameters(String name)
     {
         return getAttributes(RestParameter.class, name);
+    }
+
+    default List<RestParameter> getParameters()
+    {
+        return getAttributes(RestParameter.class);
     }
 
     default <T> T get(Class<T> responseType) throws RestException

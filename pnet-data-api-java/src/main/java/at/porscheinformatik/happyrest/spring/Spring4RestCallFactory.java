@@ -83,7 +83,7 @@ public class Spring4RestCallFactory implements RestCallFactory
     @Override
     public RestCall url(String url)
     {
-        return new Spring4RestCall(restTemplate, loggerAdapter, conversionService, url);
+        return new Spring4RestCall(restTemplate, loggerAdapter, new SpringRestFormatter(conversionService), url);
     }
 
 }

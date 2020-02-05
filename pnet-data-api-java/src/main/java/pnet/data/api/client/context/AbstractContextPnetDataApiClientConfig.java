@@ -104,8 +104,6 @@ public abstract class AbstractContextPnetDataApiClientConfig
 
         ObjectMapper objectMapper = JacksonPnetDataApiModule.createObjectMapper();
 
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
         RestTemplate restTemplate = new RestTemplate();
         SimpleClientHttpRequestFactory requestFactory =
             (SimpleClientHttpRequestFactory) restTemplate.getRequestFactory();

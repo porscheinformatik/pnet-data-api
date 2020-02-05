@@ -184,6 +184,30 @@ public final class RestUtils
         return statusCode + " " + getHttpStatusMessage(statusCode, statusMessage);
     }
 
+    public static String extractContentType(String contentType)
+    {
+        if (contentType == null)
+        {
+            return null;
+        }
+
+        int delimiter = contentType.indexOf(";");
+
+        return delimiter >= 0 ? contentType.substring(0, delimiter) : contentType;
+    }
+
+    public static String extractContentTypeParameter(String contentType)
+    {
+        if (contentType == null)
+        {
+            return null;
+        }
+
+        int delimiter = contentType.indexOf(";");
+
+        return delimiter >= 0 ? contentType.substring(delimiter + 1) : null;
+    }
+
     public static String abbreviate(String s, int length)
     {
         if (s == null)

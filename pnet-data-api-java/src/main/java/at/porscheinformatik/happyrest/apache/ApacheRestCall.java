@@ -1,0 +1,269 @@
+package at.porscheinformatik.happyrest.apache;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpOptions;
+import org.apache.http.client.methods.HttpPatch;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+
+import at.porscheinformatik.happyrest.AbstractRestCall;
+import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.RestAttribute;
+import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.RestException;
+import at.porscheinformatik.happyrest.RestFormatter;
+import at.porscheinformatik.happyrest.RestLoggerAdapter;
+import at.porscheinformatik.happyrest.RestMethod;
+import at.porscheinformatik.happyrest.RestParameter;
+import at.porscheinformatik.happyrest.RestParser;
+import at.porscheinformatik.happyrest.RestRequestException;
+import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestVariable;
+
+/**
+ * A REST call. This implementation is thread-safe!
+ *
+ * @author HAM
+ */
+public class ApacheRestCall extends AbstractRestCall
+{
+
+    private final RestLoggerAdapter loggerAdapter;
+    private final RestParser parser;
+
+    public ApacheRestCall(RestLoggerAdapter loggerAdapter, String url, List<String> acceptableMediaTypes,
+        String contentType, List<RestAttribute> attributes, RestFormatter formatter, RestParser parser, Object body)
+    {
+        super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+
+        this.loggerAdapter = loggerAdapter;
+        this.parser = parser;
+    }
+
+    protected HttpEntity createEntity(String contentType) throws UnsupportedEncodingException
+    {
+        Object body = getBody();
+
+        if (body != null)
+        {
+            return new StringEntity(format(contentType, body), ContentType.parse(contentType));
+        }
+
+        if (isForm())
+        {
+            List<NameValuePair> params = new ArrayList<>();
+
+            getParameters()
+                .forEach(parameter -> params
+                    .add(new BasicNameValuePair(parameter.getName(),
+                        format(MEDIA_TYPE_TEXT_PLAIN, parameter.getValue()))));
+
+            return new UrlEncodedFormEntity(params);
+        }
+
+        return null;
+    }
+
+    @Override
+    protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
+        List<RestAttribute> attributes, RestFormatter formatter, Object body)
+    {
+        return new ApacheRestCall(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, parser,
+            body);
+    }
+
+    @Override
+    public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
+    {
+        return invoke(method, path, GenericType.build(responseType).raw());
+    }
+
+    @Override
+    public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException
+    {
+        boolean form = verify(method);
+        String url = buildUrl(path);
+
+        HttpRequestBase request = buildRequest(method, url, form);
+
+        computeHeaders(request);
+        computeEntity(method, request);
+
+        loggerAdapter.logRequest(method, request.toString());
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault())
+        {
+            try (CloseableHttpResponse response = httpClient.execute(request))
+            {
+                return ApacheRestResponse.create(parser, response, responseType);
+            }
+        }
+        catch (IOException e)
+        {
+            throw new RestRequestException("Request failed", e);
+        }
+    }
+
+    private String buildUrl(String path)
+    {
+        String url = getUrl();
+
+        if (path != null)
+        {
+            if (path.startsWith("/"))
+            {
+                path = path.substring(1);
+            }
+
+            if (url.endsWith("/"))
+            {
+                url += path;
+            }
+            else
+            {
+                url += "/" + path;
+            }
+        }
+
+        for (RestVariable variable : getVariables())
+        {
+            url = url.replace("{" + variable.getName() + "}", format(MEDIA_TYPE_TEXT_PLAIN, variable.getValue()));
+        }
+        return url;
+    }
+
+    private HttpRequestBase buildRequest(RestMethod method, String url, boolean form) throws RestRequestException
+    {
+        HttpRequestBase request;
+
+        try
+        {
+            URIBuilder builder = new URIBuilder(url);
+
+            if (!form)
+            {
+                for (RestParameter parameter : getParameters())
+                {
+                    Object value = parameter.getValue();
+
+                    if (value == null)
+                    {
+                        continue;
+                    }
+
+                    if (value.getClass().isArray())
+                    {
+                        for (int i = 0; i < Array.getLength(value); i++)
+                        {
+                            builder
+                                .addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, Array.get(value, i)));
+                        }
+
+                        continue;
+                    }
+
+                    if (value instanceof Iterable<?>)
+                    {
+                        Iterator<?> iterator = ((Iterable<?>) value).iterator();
+
+                        while (iterator.hasNext())
+                        {
+                            builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, iterator.next()));
+                        }
+
+                        continue;
+                    }
+
+                    builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, value));
+                }
+            }
+
+            switch (method)
+            {
+                case GET:
+                    request = new HttpGet(builder.build());
+                    break;
+
+                case POST:
+                    request = new HttpPost(builder.build());
+                    break;
+
+                case PUT:
+                    request = new HttpPut(builder.build());
+                    break;
+
+                case DELETE:
+                    request = new HttpDelete(builder.build());
+                    break;
+
+                case OPTIONS:
+                    request = new HttpOptions(builder.build());
+                    break;
+
+                case PATCH:
+                    request = new HttpPatch(builder.build());
+                    break;
+
+                default:
+                    throw new UnsupportedOperationException("Unsupported method: " + method);
+            }
+        }
+        catch (URISyntaxException e)
+        {
+            throw new RestRequestException("Invalid URL: %s", e, url);
+        }
+        return request;
+    }
+
+    private void computeHeaders(HttpRequestBase request)
+    {
+        getHeaders()
+            .forEach(header -> request.addHeader(header.getName(), format(MEDIA_TYPE_TEXT_PLAIN, header.getValue())));
+    }
+
+    private void computeEntity(RestMethod method, HttpRequestBase request) throws RestRequestException
+    {
+        HttpEntity requestEntity;
+
+        try
+        {
+            requestEntity = createEntity(getContentType());
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RestRequestException("Failed to encode request", e);
+        }
+
+        if (requestEntity != null)
+        {
+            if (!(request instanceof HttpEntityEnclosingRequestBase))
+            {
+                throw new UnsupportedOperationException("A body in a " + method + " request is not supported");
+            }
+
+            ((HttpEntityEnclosingRequestBase) request).setEntity(requestEntity);
+        }
+    }
+
+}

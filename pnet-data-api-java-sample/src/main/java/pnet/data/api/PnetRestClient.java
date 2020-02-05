@@ -1,4 +1,4 @@
-package pnet.data.api.spring;
+package pnet.data.api;
 
 import static pnet.data.api.util.PrettyPrint.*;
 
@@ -24,12 +24,8 @@ import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestException;
-import pnet.data.api.PnetDataClientException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
 import pnet.data.api.activity.ActivityDataClient;
@@ -173,8 +169,7 @@ import pnet.data.api.util.Table;
  *
  * @author ham
  */
-@Service
-public final class PnetSpringRestClient
+public final class PnetRestClient
 {
 
     private static class CurrentResult<T>
@@ -232,8 +227,7 @@ public final class PnetSpringRestClient
             cli
                 .info(
                     "\nThis is page %d of %d (%d of %d results). Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
-                    page.getPageIndex() + 1, page.getNumberOfPages(), page.getItems().size(),
-                    page.getTotalNumberOfItems());
+                    page.getPageIndex() + 1, page.getNumberOfPages(), page.size(), page.getTotalNumberOfItems());
         }
 
         protected void printAggregations(CLI cli)
@@ -253,65 +247,45 @@ public final class PnetSpringRestClient
 
     private final CLI cli;
 
-    @Autowired
-    private MutablePnetDataClientPrefs prefs;
+    private final MutablePnetDataClientPrefs prefs;
 
-    @Autowired
-    private AboutDataClient aboutDataClient;
+    private final AboutDataClient aboutDataClient;
 
-    @Autowired
-    private ActivityDataClient activityDataClient;
+    private final ActivityDataClient activityDataClient;
 
-    @Autowired
-    private AdvisorTypeDataClient advisorTypeDataClient;
+    private final AdvisorTypeDataClient advisorTypeDataClient;
 
-    @Autowired
-    private ApplicationDataClient applicationDataClient;
+    private final ApplicationDataClient applicationDataClient;
 
-    @Autowired
-    private BrandDataClient brandDataClient;
+    private final BrandDataClient brandDataClient;
 
-    @Autowired
-    private CompanyDataClient companyDataClient;
+    private final CompanyDataClient companyDataClient;
 
-    @Autowired
-    private CompanyGroupDataClient companyGroupDataClient;
+    private final CompanyGroupDataClient companyGroupDataClient;
 
-    @Autowired
-    private CompanyGroupTypeDataClient companyGroupTypeDataClient;
+    private final CompanyGroupTypeDataClient companyGroupTypeDataClient;
 
-    @Autowired
-    private CompanyNumberTypeDataClient companyNumberTypeDataClient;
+    private final CompanyNumberTypeDataClient companyNumberTypeDataClient;
 
-    @Autowired
-    private CompanyTypeDataClient companyTypeDataClient;
+    private final CompanyTypeDataClient companyTypeDataClient;
 
-    @Autowired
-    private ContractStateDataClient contractStateDataClient;
+    private final ContractStateDataClient contractStateDataClient;
 
-    @Autowired
-    private ContractTypeDataClient contractTypeDataClient;
+    private final ContractTypeDataClient contractTypeDataClient;
 
-    @Autowired
-    private ExternalBrandDataClient externalBrandDataClient;
+    private final ExternalBrandDataClient externalBrandDataClient;
 
-    @Autowired
-    private FunctionDataClient functionDataClient;
+    private final FunctionDataClient functionDataClient;
 
-    @Autowired
-    private LegalFormDataClient legalFormDataClient;
+    private final LegalFormDataClient legalFormDataClient;
 
-    @Autowired
-    private NumberTypeDataClient numberTypeDataClient;
+    private final NumberTypeDataClient numberTypeDataClient;
 
-    @Autowired
-    private PersonDataClient personDataClient;
+    private final PersonDataClient personDataClient;
 
-    @Autowired
-    private TodoGroupDataClient todoGroupDataClient;
+    private final TodoGroupDataClient todoGroupDataClient;
 
-    @Autowired
-    private PnetDataApiTokenRepository repository;
+    private final PnetDataApiTokenRepository repository;
 
     private final List<String> restrictedTenants = new ArrayList<>();
     private final List<String> restrictedBrands = new ArrayList<>();
@@ -329,9 +303,38 @@ public final class PnetSpringRestClient
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
 
-    private PnetSpringRestClient()
+    public PnetRestClient(MutablePnetDataClientPrefs prefs, AboutDataClient aboutDataClient,
+        ActivityDataClient activityDataClient, AdvisorTypeDataClient advisorTypeDataClient,
+        ApplicationDataClient applicationDataClient, BrandDataClient brandDataClient,
+        CompanyDataClient companyDataClient, CompanyGroupDataClient companyGroupDataClient,
+        CompanyGroupTypeDataClient companyGroupTypeDataClient, CompanyNumberTypeDataClient companyNumberTypeDataClient,
+        CompanyTypeDataClient companyTypeDataClient, ContractStateDataClient contractStateDataClient,
+        ContractTypeDataClient contractTypeDataClient, ExternalBrandDataClient externalBrandDataClient,
+        FunctionDataClient functionDataClient, LegalFormDataClient legalFormDataClient,
+        NumberTypeDataClient numberTypeDataClient, PersonDataClient personDataClient,
+        TodoGroupDataClient todoGroupDataClient, PnetDataApiTokenRepository repository)
     {
         super();
+        this.prefs = prefs;
+        this.aboutDataClient = aboutDataClient;
+        this.activityDataClient = activityDataClient;
+        this.advisorTypeDataClient = advisorTypeDataClient;
+        this.applicationDataClient = applicationDataClient;
+        this.brandDataClient = brandDataClient;
+        this.companyDataClient = companyDataClient;
+        this.companyGroupDataClient = companyGroupDataClient;
+        this.companyGroupTypeDataClient = companyGroupTypeDataClient;
+        this.companyNumberTypeDataClient = companyNumberTypeDataClient;
+        this.companyTypeDataClient = companyTypeDataClient;
+        this.contractStateDataClient = contractStateDataClient;
+        this.contractTypeDataClient = contractTypeDataClient;
+        this.externalBrandDataClient = externalBrandDataClient;
+        this.functionDataClient = functionDataClient;
+        this.legalFormDataClient = legalFormDataClient;
+        this.numberTypeDataClient = numberTypeDataClient;
+        this.personDataClient = personDataClient;
+        this.todoGroupDataClient = todoGroupDataClient;
+        this.repository = repository;
 
         cli = new CLI();
 

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import pnet.data.api.PnetRestClient;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientConfig;
 import pnet.data.api.util.Prefs;
@@ -15,7 +16,7 @@ import pnet.data.api.util.Prefs;
  * @author ham
  */
 @Configuration
-@Import(PnetDataClientConfig.class)
+@Import({PnetDataClientConfig.class, PnetRestClient.class})
 @ComponentScan(basePackageClasses = {PnetSpringRestClientConfig.class})
 public class PnetSpringRestClientConfig
 {

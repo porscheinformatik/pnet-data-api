@@ -259,6 +259,11 @@ public interface GenericType<T> extends ParameterizedType
             return new Of<>(name, ownerType, rawType, arguments);
         }
 
+        public <U extends T> GenericType<U> raw()
+        {
+            return new Of<>(name, ownerType, rawType);
+        }
+
         protected static Type[] findTypeArguments(Type rawType, Class<?> implementingType)
         {
             Type genericType = findGenericType(rawType, implementingType);

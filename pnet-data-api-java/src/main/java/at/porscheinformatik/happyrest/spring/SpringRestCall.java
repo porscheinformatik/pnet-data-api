@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,8 +24,8 @@ import org.springframework.web.util.UriBuilder;
 import at.porscheinformatik.happyrest.AbstractRestCall;
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestAttribute;
-import at.porscheinformatik.happyrest.RestAttributeConverter;
 import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestHeader;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
@@ -46,25 +45,22 @@ public class SpringRestCall extends AbstractRestCall
     private final RestTemplate restTemplate;
     private final RestLoggerAdapter loggerAdapter;
 
-    protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
-        ConversionService conversionService)
+    protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
     {
-        this(restTemplate, loggerAdapter, null, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null,
-            toConverter(conversionService), null);
+        this(restTemplate, loggerAdapter, null, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null, formatter, null);
     }
 
-    protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
-        ConversionService conversionService, String url)
+    protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter,
+        String url)
     {
-        this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null,
-            toConverter(conversionService), null);
+        this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null, formatter, null);
     }
 
     protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, String url,
-        List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes,
-        RestAttributeConverter converter, Object body)
+        List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes, RestFormatter formatter,
+        Object body)
     {
-        super(url, acceptableMediaTypes, contentType, attributes, converter, body);
+        super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
 
         this.restTemplate = restTemplate;
         this.loggerAdapter = loggerAdapter;
@@ -72,10 +68,10 @@ public class SpringRestCall extends AbstractRestCall
 
     @Override
     protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
-        List<RestAttribute> attributes, RestAttributeConverter converter, Object body)
+        List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         return new SpringRestCall(restTemplate, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
-            converter, body);
+            formatter, body);
     }
 
     @Override
@@ -92,7 +88,10 @@ public class SpringRestCall extends AbstractRestCall
         {
             MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 
-            getAttributes().stream().forEach(attribute -> map.add(attribute.getName(), convert(attribute.getValue())));
+            getParameters()
+                .stream()
+                .forEach(
+                    attribute -> map.add(attribute.getName(), format(MEDIA_TYPE_TEXT_PLAIN, attribute.getValue())));
 
             return map;
         }
@@ -237,7 +236,7 @@ public class SpringRestCall extends AbstractRestCall
 
             if (attribute instanceof RestHeader)
             {
-                headers.add(name, convert(value));
+                headers.add(name, format(MEDIA_TYPE_TEXT_PLAIN, value));
 
                 continue;
             }
@@ -254,7 +253,7 @@ public class SpringRestCall extends AbstractRestCall
 
             if (attribute instanceof RestVariable)
             {
-                variables.put(name, convert(value));
+                variables.put(name, format(MEDIA_TYPE_TEXT_PLAIN, value));
 
                 continue;
             }
@@ -272,7 +271,7 @@ public class SpringRestCall extends AbstractRestCall
         {
             for (int i = 0; i < Array.getLength(value); i++)
             {
-                queryParam(builder, variables, name, id++, convert(Array.get(value, i)));
+                queryParam(builder, variables, name, id++, format(MEDIA_TYPE_TEXT_PLAIN, Array.get(value, i)));
             }
         }
         else if (value instanceof Iterable<?>)
@@ -281,12 +280,12 @@ public class SpringRestCall extends AbstractRestCall
 
             while (iterator.hasNext())
             {
-                queryParam(builder, variables, name, id++, convert(iterator.next()));
+                queryParam(builder, variables, name, id++, format(MEDIA_TYPE_TEXT_PLAIN, iterator.next()));
             }
         }
         else
         {
-            queryParam(builder, variables, name, id++, convert(value));
+            queryParam(builder, variables, name, id++, format(MEDIA_TYPE_TEXT_PLAIN, value));
         }
 
         return id;
@@ -298,12 +297,6 @@ public class SpringRestCall extends AbstractRestCall
 
         builder.queryParam(name, "{" + key + "}");
         variables.put(key, value);
-    }
-
-    protected static RestAttributeConverter toConverter(ConversionService conversionService)
-    {
-        return conversionService != null ? value -> conversionService.convert(value, String.class)
-            : value -> String.valueOf(value);
     }
 
     protected static String toDescription(RestMethod method, URI uri, RestClientResponseException e)

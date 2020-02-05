@@ -138,7 +138,9 @@ public interface ResultPage<T> extends Iterable<T>
     @JsonIgnore
     default int size()
     {
-        return getItems().size();
+        List<T> items = getItems();
+
+        return items != null ? items.size() : 0;
     }
 
     /**
@@ -148,7 +150,9 @@ public interface ResultPage<T> extends Iterable<T>
     @JsonIgnore
     default Iterator<T> iterator()
     {
-        return getItems().iterator();
+        List<T> items = getItems();
+
+        return items != null ? items.iterator() : Collections.emptyIterator();
     }
 
     /**

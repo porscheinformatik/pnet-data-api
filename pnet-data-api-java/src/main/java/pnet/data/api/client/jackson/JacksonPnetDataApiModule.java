@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
@@ -35,6 +36,7 @@ public class JacksonPnetDataApiModule extends SimpleModule
         ObjectMapper objectMapper = new ObjectMapper();
 
         objectMapper.registerModules(new JacksonPnetDataApiModule());
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return objectMapper;
     }
