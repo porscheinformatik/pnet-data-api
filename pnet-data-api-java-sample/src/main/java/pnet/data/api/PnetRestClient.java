@@ -157,6 +157,8 @@ import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictCompanyType;
+import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictNumberType;
@@ -295,6 +297,8 @@ public final class PnetRestClient
     private final List<String> restrictedFunctionMatchcodes = new ArrayList<>();
     private final List<String> restrictedActivityMatchcodes = new ArrayList<>();
     private final List<String> restrictedNumberTypeMatchcodes = new ArrayList<>();
+    private final List<String> restrictedCompanyTypeMatchcodes = new ArrayList<>();
+    private final List<String> restrictedContractTypeMatchcodes = new ArrayList<>();
     private final List<String> restrictedQueryFields = new ArrayList<>();
 
     private CompanyMerge companyMerge = CompanyMerge.NONE;
@@ -812,6 +816,30 @@ public final class PnetRestClient
         }
 
         cli.info("Requests are restricted to number type matchcodes: %s", restrictedNumberTypeMatchcodes);
+    }
+
+    @CLI.Command(name = "restrict company types", format = "<MC...>",
+        description = "Places a restriction of company types for subsequent operations.")
+    public void restrictCompanyTypesByMatchcode(String... matchcodes)
+    {
+        if (matchcodes != null && matchcodes.length > 0)
+        {
+            Arrays.stream(matchcodes).forEach(restrictedCompanyTypeMatchcodes::add);
+        }
+
+        cli.info("Requests are restricted to company type matchcodes: %s", restrictedCompanyTypeMatchcodes);
+    }
+
+    @CLI.Command(name = "restrict contract types", format = "<MC...>",
+        description = "Places a restriction of contract types for subsequent operations.")
+    public void restrictContractTypesByMatchcode(String... matchcodes)
+    {
+        if (matchcodes != null && matchcodes.length > 0)
+        {
+            Arrays.stream(matchcodes).forEach(restrictedContractTypeMatchcodes::add);
+        }
+
+        cli.info("Requests are restricted to contract type matchcodes: %s", restrictedContractTypeMatchcodes);
     }
 
     @CLI.Command(name = "clear company restrictions", description = "Removes all restrictions for companies.")
@@ -1875,8 +1903,9 @@ public final class PnetRestClient
     protected <T extends Restrict<T>> T restrict(T restrict)
     {
         restrict = restrictCompany(restrict);
+        restrict = restrictAuthorities(restrict);
         restrict = restrictBaseData(restrict);
-        restrict = restrictCusom(restrict);
+        restrict = restrictCustom(restrict);
         restrict = restrictAggregates(restrict);
 
         return restrict;
@@ -1910,6 +1939,25 @@ public final class PnetRestClient
     }
 
     @SuppressWarnings("unchecked")
+    private <T extends Restrict<T>> T restrictAuthorities(T restrict)
+    {
+        if (restrict instanceof RestrictFunction && !restrictedFunctionMatchcodes.isEmpty())
+        {
+            cli.info("A restriction for function matchcodes is in place: %s", restrictedFunctionMatchcodes);
+
+            restrict = ((RestrictFunction<T>) restrict).functions(restrictedFunctionMatchcodes);
+        }
+
+        if (restrict instanceof RestrictActivity && !restrictedActivityMatchcodes.isEmpty())
+        {
+            cli.info("A restriction for activity matchcodes is in place: %s", restrictedActivityMatchcodes);
+
+            restrict = ((RestrictActivity<T>) restrict).activities(restrictedActivityMatchcodes);
+        }
+        return restrict;
+    }
+
+    @SuppressWarnings("unchecked")
     private <T extends Restrict<T>> T restrictBaseData(T restrict)
     {
         if (restrict instanceof RestrictTenant && !restrictedTenants.isEmpty())
@@ -1926,25 +1974,25 @@ public final class PnetRestClient
             restrict = ((RestrictBrand<T>) restrict).brands(restrictedBrands);
         }
 
-        if (restrict instanceof RestrictFunction && !restrictedFunctionMatchcodes.isEmpty())
-        {
-            cli.info("A restriction for function matchcodes is in place: %s", restrictedFunctionMatchcodes);
-
-            restrict = ((RestrictFunction<T>) restrict).functions(restrictedFunctionMatchcodes);
-        }
-
-        if (restrict instanceof RestrictActivity && !restrictedActivityMatchcodes.isEmpty())
-        {
-            cli.info("A restriction for activity matchcodes is in place: %s", restrictedActivityMatchcodes);
-
-            restrict = ((RestrictActivity<T>) restrict).activities(restrictedActivityMatchcodes);
-        }
-
         if (restrict instanceof RestrictNumberType && !restrictedNumberTypeMatchcodes.isEmpty())
         {
             cli.info("A restriction for number type matchcodes is in place: %s", restrictedNumberTypeMatchcodes);
 
             restrict = ((RestrictNumberType<T>) restrict).numberTypes(restrictedNumberTypeMatchcodes);
+        }
+
+        if (restrict instanceof RestrictCompanyType && !restrictedCompanyTypeMatchcodes.isEmpty())
+        {
+            cli.info("A restriction for company type matchcodes is in place: %s", restrictedCompanyTypeMatchcodes);
+
+            restrict = ((RestrictCompanyType<T>) restrict).companyTypes(restrictedCompanyTypeMatchcodes);
+        }
+
+        if (restrict instanceof RestrictContractType && !restrictedContractTypeMatchcodes.isEmpty())
+        {
+            cli.info("A restriction for contract type matchcodes is in place: %s", restrictedContractTypeMatchcodes);
+
+            restrict = ((RestrictContractType<T>) restrict).contractTypes(restrictedContractTypeMatchcodes);
         }
 
         if (restrict instanceof RestrictQueryField && !restrictedQueryFields.isEmpty())
@@ -1958,7 +2006,7 @@ public final class PnetRestClient
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Restrict<T>> T restrictCusom(T restrict)
+    private <T extends Restrict<T>> T restrictCustom(T restrict)
     {
         if (restrict instanceof CompanyMergable && companyMerge != CompanyMerge.NONE)
         {
@@ -2046,6 +2094,8 @@ public final class PnetRestClient
         restrictedFunctionMatchcodes.clear();
         restrictedActivityMatchcodes.clear();
         restrictedNumberTypeMatchcodes.clear();
+        restrictedCompanyTypeMatchcodes.clear();
+        restrictedContractTypeMatchcodes.clear();
         restrictedQueryFields.clear();
         datedBackUntil = null;
     }
