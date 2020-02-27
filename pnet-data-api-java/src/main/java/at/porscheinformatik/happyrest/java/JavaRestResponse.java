@@ -1,29 +1,23 @@
-package at.porscheinformatik.happyrest.apache;
+package at.porscheinformatik.happyrest.java;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
+import java.net.http.HttpHeaders;
+import java.net.http.HttpResponse;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
-import org.apache.http.StatusLine;
-import org.apache.http.entity.ContentType;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestException;
+import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
@@ -35,7 +29,7 @@ import at.porscheinformatik.happyrest.RestUtils;
  * @author HAM
  * @param <T> the type of result object
  */
-class ApacheRestResponse<T> implements RestResponse<T>
+class JavaRestResponse<T> implements RestResponse<T>
 {
 
     private static final ZoneId GMT = ZoneId.of("GMT");
@@ -46,52 +40,29 @@ class ApacheRestResponse<T> implements RestResponse<T>
         DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy", Locale.US).withZone(GMT)};
 
     @SuppressWarnings("unchecked")
-    public static <T> ApacheRestResponse<T> create(RestParser parser, HttpResponse response, GenericType<T> type)
-        throws RestException
+    public static <T> RestResponse<T> create(RestParser parser, HttpResponse<InputStream> response, GenericType<T> type,
+        RestLoggerAdapter loggerAdapter) throws RestException
     {
-        StatusLine statusLine = response.getStatusLine();
-        int statusCode = statusLine.getStatusCode();
-        String statusMessage = RestUtils.getHttpStatusMessage(statusCode, statusLine.getReasonPhrase());
-        Header[] headers = response.getAllHeaders();
-        HttpEntity entity = response.getEntity();
-        ContentType contentType = ContentType.get(entity);
-        long contentLength = entity.getContentLength();
+        int statusCode = response.statusCode();
+        String statusMessage = RestUtils.getHttpStatusMessage(statusCode);
+        HttpHeaders headers = response.headers();
+        Optional<String> optionalContentType = headers.firstValue("Content-Type");
+        OptionalLong optionalContentLength = headers.firstValueAsLong("Content-Length");
         T body = null;
 
-        if (contentLength != 0)
+        if (!type.isAssignableFrom(Void.class))
         {
-            Charset charset = null;
-
-            if (contentType != null)
+            try (InputStream stream = response.body())
             {
-                charset = contentType.getCharset();
-
-                if (charset == null)
+                if (stream != null)
                 {
-                    ContentType defaultContentType = ContentType.getByMimeType(contentType.getMimeType());
+                    String contentType = optionalContentType.orElse(null);
 
-                    charset = defaultContentType != null ? defaultContentType.getCharset() : null;
-                }
-            }
-
-            if (charset == null)
-            {
-                charset = Charset.defaultCharset();
-            }
-
-            try
-            {
-                try (InputStream in = entity.getContent())
-                {
-                    try (Reader reader = new InputStreamReader(in))
+                    try (Reader reader = new InputStreamReader(stream))
                     {
-                        body = (T) parser.parse(contentType != null ? contentType.toString() : null, type, reader);
+                        body = (T) parser.parse(contentType, type, reader);
                     }
                 }
-            }
-            catch (ParseException e)
-            {
-                throw new RestResponseException("Failed to parse response", statusCode, statusMessage, e);
             }
             catch (IOException e)
             {
@@ -99,18 +70,19 @@ class ApacheRestResponse<T> implements RestResponse<T>
             }
         }
 
-        return new ApacheRestResponse<>(statusCode, statusMessage, headers,
-            contentType != null ? contentType.toString() : null, contentLength, body);
+        return new JavaRestResponse<>(statusCode, statusMessage, headers,
+            optionalContentType != null ? optionalContentType.toString() : null, optionalContentLength.orElse(-1),
+            body);
     }
 
     private final int statusCode;
     private final String statusMessage;
-    private final Header[] headers;
+    private final HttpHeaders headers;
     private final String contentType;
     private final long contentLength;
     private final T content;
 
-    ApacheRestResponse(int statusCode, String statusMessage, Header[] headers, String contentType, long contentLength,
+    JavaRestResponse(int statusCode, String statusMessage, HttpHeaders headers, String contentType, long contentLength,
         T content)
     {
         super();
@@ -167,13 +139,13 @@ class ApacheRestResponse<T> implements RestResponse<T>
     @Override
     public List<String> getHeader(String key)
     {
-        return getHeaders(this.headers, key);
+        return this.headers.allValues(key);
     }
 
     @Override
     public String getFirstHeader(String key)
     {
-        return getFirstHeader(this.headers, key);
+        return this.headers.firstValue(key).orElse(null);
     }
 
     @Override
@@ -222,25 +194,6 @@ class ApacheRestResponse<T> implements RestResponse<T>
         return toDate(getFirstHeader("Last-Modified"));
     }
 
-    private static List<String> getHeaders(Header[] headers, Object key)
-    {
-        return Arrays
-            .stream(headers)
-            .filter(header -> Objects.equals(key, header.getName()))
-            .map(Header::getValue)
-            .collect(Collectors.toList());
-    }
-
-    private static String getFirstHeader(Header[] headers, Object key)
-    {
-        return Arrays
-            .stream(headers)
-            .filter(header -> Objects.equals(key, header.getName()))
-            .map(Header::getValue)
-            .findFirst()
-            .orElse(null);
-    }
-
     private static long toDate(String value)
     {
         if (value == null)
@@ -280,4 +233,5 @@ class ApacheRestResponse<T> implements RestResponse<T>
 
         return zonedDateTime.toInstant().toEpochMilli();
     }
+
 }

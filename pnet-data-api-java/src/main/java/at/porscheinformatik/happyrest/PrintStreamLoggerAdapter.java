@@ -25,4 +25,15 @@ public class PrintStreamLoggerAdapter implements RestLoggerAdapter
         stream.printf("Sending %s request: %s%n", method, uri);
     }
 
+    @Override
+    public void warning(String message, Exception exception)
+    {
+        stream.println(message);
+
+        if (exception != null)
+        {
+            exception.printStackTrace(stream);
+        }
+    }
+
 }

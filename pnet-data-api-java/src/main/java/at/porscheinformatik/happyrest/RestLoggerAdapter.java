@@ -10,4 +10,6 @@ public interface RestLoggerAdapter
 
     void logRequest(RestMethod method, String uri);
 
+    void warning(String message, Exception exception);
+    
 }

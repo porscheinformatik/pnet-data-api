@@ -13,6 +13,7 @@ An up-to-date version is available in the corporate Maven repository. If you do 
 The Java client has been designed to **reduce its dependencies to a minimum**. All dependencies are "provided", which means, you have to define them on your own - within your project. Currently you have the following options:
 
 -   **Just use the DTOs**: You don't need any dependencies for this. You don't need Spring for this.
+-   **Java 9 HTTP Client**: Use the Java 9 HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
 -   **Apache HTTP Client**: Use the Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
 -   **Spring 5**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication.
 -   **Spring 4**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication.
@@ -29,6 +30,43 @@ You will need the following dependencies:
 ```
 
 That's it. Now, you may implement the client on your own ...
+
+## Java 9 HTTP Client
+
+You will need the following dependencies:
+
+```
+<dependency>
+    <groupId>at.porscheinformatik.pnet</groupId>
+    <artifactId>pnet-data-api-java</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+</dependency>
+```
+
+Create the context:
+
+```
+ObjectMapper mapper = JacksonPnetDataApiModule.createObjectMapper();
+RestLoggerAdapter loggerAdapter = PrintStreamLoggerAdapter.INSTANCE;
+RestCallFactory factory = JavaRestCallFactory.create(loggerAdapter, mapper);
+PnetDataApiTokenRepository repository = new PnetDataApiTokenRepository(factory);
+MutablePnetDataClientPrefs prefs = new MutablePnetDataClientPrefs(url, username, password);
+PrefsBasedPnetDataApiContext context = new PrefsBasedPnetDataApiContext(repository, prefs);
+```
+
+And create the clients with that context:
+
+```
+PersonDataClient personDataClient = new PersonDataClient(context);
+CompanyDataClient companyDataClient = new CompanyDataClient(context);
+...
+```
+
+All classes are thread-safe, you can, and you should, reuse them as long as possible.
 
 ## Apache HTTP Client
 

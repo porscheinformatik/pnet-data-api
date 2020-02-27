@@ -64,13 +64,13 @@ class SpringRestResponse<T> implements RestResponse<T>
     }
 
     @Override
-    public List<String> getHeader(Object key)
+    public List<String> getHeader(String key)
     {
         return response.getHeaders().get(key);
     }
 
     @Override
-    public String getFirstHeader(Object key)
+    public String getFirstHeader(String key)
     {
         List<String> header = getHeader(key);
 

@@ -32,9 +32,9 @@ public interface RestResponse<T>
 
     T getBody();
 
-    List<String> getHeader(Object key);
+    List<String> getHeader(String key);
 
-    String getFirstHeader(Object key);
+    String getFirstHeader(String key);
 
     String getCacheControl();
 

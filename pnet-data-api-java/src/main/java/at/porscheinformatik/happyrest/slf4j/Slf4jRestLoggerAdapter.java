@@ -40,4 +40,9 @@ public class Slf4jRestLoggerAdapter implements RestLoggerAdapter
         logger.info("Sending {} request: {}", method, uri);
     }
 
+    @Override
+    public void warning(String message, Exception exception)
+    {
+        logger.warn(message, exception);
+    }
 }
