@@ -46,25 +46,49 @@ public final class PnetApacheRestClientLauncher
 
     public static void main(String[] args)
     {
+        String url = Prefs.getUrl(Prefs.DEFAULT_KEY);
+        String username = Prefs.getUsername(Prefs.DEFAULT_KEY);
+        String password = Prefs.getPassword(Prefs.DEFAULT_KEY);
+        PnetRestClient client = buildClient(url, username, password);
+
+        client.consume();
+    }
+
+    private static PnetRestClient buildClient(String url, String username, String password)
+    {
         ObjectMapper mapper = JacksonPnetDataApiModule.createObjectMapper();
         RestLoggerAdapter loggerAdapter = Slf4jRestLoggerAdapter.getDefault();
         RestCallFactory factory = ApacheRestCallFactory.create(loggerAdapter, mapper);
         PnetDataApiTokenRepository repository = new PnetDataApiTokenRepository(factory);
-        String url = Prefs.getUrl(Prefs.DEFAULT_KEY);
-        String username = Prefs.getUsername(Prefs.DEFAULT_KEY);
-        String password = Prefs.getPassword(Prefs.DEFAULT_KEY);
         MutablePnetDataClientPrefs prefs = new MutablePnetDataClientPrefs(url, username, password);
         PrefsBasedPnetDataApiContext context = new PrefsBasedPnetDataApiContext(repository, prefs);
-        PnetRestClient client = new PnetRestClient(prefs, new AboutDataClient(context), new ActivityDataClient(context),
-            new AdvisorTypeDataClient(context), new ApplicationDataClient(context), new BrandDataClient(context),
-            new CompanyDataClient(context), new CompanyGroupDataClient(context),
-            new CompanyGroupTypeDataClient(context), new CompanyNumberTypeDataClient(context),
-            new CompanyTypeDataClient(context), new ContractStateDataClient(context),
-            new ContractTypeDataClient(context), new ExternalBrandDataClient(context), new FunctionDataClient(context),
-            new LegalFormDataClient(context), new NumberTypeDataClient(context), new PersonDataClient(context),
-            new TodoGroupDataClient(context), repository);
 
-        client.consume();
+        AboutDataClient aboutDataClient = new AboutDataClient(context);
+        ActivityDataClient activityDataClient = new ActivityDataClient(context);
+        AdvisorTypeDataClient advisorTypeDataClient = new AdvisorTypeDataClient(context);
+        ApplicationDataClient applicationDataClient = new ApplicationDataClient(context);
+        BrandDataClient brandDataClient = new BrandDataClient(context);
+        CompanyDataClient companyDataClient = new CompanyDataClient(context);
+        CompanyGroupDataClient companyGroupDataClient = new CompanyGroupDataClient(context);
+        CompanyGroupTypeDataClient companyGroupTypeDataClient = new CompanyGroupTypeDataClient(context);
+        CompanyNumberTypeDataClient companyNumberTypeDataClient = new CompanyNumberTypeDataClient(context);
+        CompanyTypeDataClient companyTypeDataClient = new CompanyTypeDataClient(context);
+        ContractStateDataClient contractStateDataClient = new ContractStateDataClient(context);
+        ContractTypeDataClient contractTypeDataClient = new ContractTypeDataClient(context);
+        ExternalBrandDataClient externalBrandDataClient = new ExternalBrandDataClient(context);
+        FunctionDataClient functionDataClient = new FunctionDataClient(context);
+        LegalFormDataClient legalFormDataClient = new LegalFormDataClient(context);
+        NumberTypeDataClient numberTypeDataClient = new NumberTypeDataClient(context);
+        PersonDataClient personDataClient = new PersonDataClient(context);
+        TodoGroupDataClient todoGroupDataClient = new TodoGroupDataClient(context);
+
+        PnetRestClient client = new PnetRestClient(prefs, aboutDataClient, activityDataClient, advisorTypeDataClient,
+            applicationDataClient, brandDataClient, companyDataClient, companyGroupDataClient,
+            companyGroupTypeDataClient, companyNumberTypeDataClient, companyTypeDataClient, contractStateDataClient,
+            contractTypeDataClient, externalBrandDataClient, functionDataClient, legalFormDataClient,
+            numberTypeDataClient, personDataClient, todoGroupDataClient, repository);
+
+        return client;
     }
 
 }
