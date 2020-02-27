@@ -1,11 +1,13 @@
 pnet-data-api 1.13.0
 ====================
 
-* Added an JavaRestCall using the Java 9 HTTP Client.
+* Added a JavaRestCall using the Java 9 HTTP Client.
 * Added an ApacheRestCall using the Apache HTTP Client.
 * Some minor changes to the HappyRest code, e.g. RestConverter renamed to RestFormatter.
-* Added a sample, that works without Spring. It uses an Java 9 HTTP Client and builds the necessary classes manually.
+* Added a sample, that works without Spring. It uses a Java 9 HTTP Client and builds the necessary classes manually.
 * Added a sample, that works without Spring. It uses an Apache HTTP Client and builds the necessary classes manually.
+* Added a JavaClientFactory and an ApacheClientFactory for ease of use.
+* Updated documentation.
 
 pnet-data-api 1.12.3
 ====================

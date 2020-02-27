@@ -47,23 +47,21 @@ You will need the following dependencies:
 </dependency>
 ```
 
-Create the context:
+Create the client factory:
 
 ```
-ObjectMapper mapper = JacksonPnetDataApiModule.createObjectMapper();
-RestLoggerAdapter loggerAdapter = PrintStreamLoggerAdapter.INSTANCE;
-RestCallFactory factory = JavaRestCallFactory.create(loggerAdapter, mapper);
-PnetDataApiTokenRepository repository = new PnetDataApiTokenRepository(factory);
-MutablePnetDataClientPrefs prefs = new MutablePnetDataClientPrefs(url, username, password);
-PrefsBasedPnetDataApiContext context = new PrefsBasedPnetDataApiContext(repository, prefs);
+JavaClientFactory clientFactory = JavaClientFactory
+    .of("https://qa-data.auto-partner.net/data", username, password);
 ```
 
 And create the clients with that context:
 
 ```
-PersonDataClient personDataClient = new PersonDataClient(context);
-CompanyDataClient companyDataClient = new CompanyDataClient(context);
-...
+clientFactory
+    .getCompanyDataClient()
+    .search()
+    .execute(Locale.getDefault(), "Informatik")
+    .forEach(company -> System.out.println(company));
 ```
 
 All classes are thread-safe, you can, and you should, reuse them as long as possible.
@@ -89,23 +87,21 @@ You will need the following dependencies:
 </dependency>
 ```
 
-Create the context:
+Create the client factory:
 
 ```
-ObjectMapper mapper = JacksonPnetDataApiModule.createObjectMapper();
-RestLoggerAdapter loggerAdapter = PrintStreamLoggerAdapter.INSTANCE;
-RestCallFactory factory = ApacheRestCallFactory.create(loggerAdapter, mapper);
-PnetDataApiTokenRepository repository = new PnetDataApiTokenRepository(factory);
-MutablePnetDataClientPrefs prefs = new MutablePnetDataClientPrefs(url, username, password);
-PrefsBasedPnetDataApiContext context = new PrefsBasedPnetDataApiContext(repository, prefs);
+ApacheClientFactory clientFactory = ApacheClientFactory
+    .of("https://qa-data.auto-partner.net/data", username, password);
 ```
 
 And create the clients with that context:
 
 ```
-PersonDataClient personDataClient = new PersonDataClient(context);
-CompanyDataClient companyDataClient = new CompanyDataClient(context);
-...
+clientFactory
+    .getCompanyDataClient()
+    .search()
+    .execute(Locale.getDefault(), "Informatik")
+    .forEach(company -> System.out.println(company));
 ```
 
 All classes are thread-safe, you can, and you should, reuse them as long as possible.

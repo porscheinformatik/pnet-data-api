@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.charset.Charset;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -60,25 +59,6 @@ class ApacheRestResponse<T> implements RestResponse<T>
 
         if (contentLength != 0)
         {
-            Charset charset = null;
-
-            if (contentType != null)
-            {
-                charset = contentType.getCharset();
-
-                if (charset == null)
-                {
-                    ContentType defaultContentType = ContentType.getByMimeType(contentType.getMimeType());
-
-                    charset = defaultContentType != null ? defaultContentType.getCharset() : null;
-                }
-            }
-
-            if (charset == null)
-            {
-                charset = Charset.defaultCharset();
-            }
-
             try
             {
                 try (InputStream in = entity.getContent())
