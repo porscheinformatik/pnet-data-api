@@ -1,6 +1,11 @@
 pnet-data-api 1.13.0
 ====================
 
+* Upgraded Spring and Jackson (minor step).
+
+pnet-data-api 1.13.0
+====================
+
 * Added a JavaRestCall using the Java 9 HTTP Client.
 * Added an ApacheRestCall using the Apache HTTP Client.
 * Some minor changes to the HappyRest code, e.g. RestConverter renamed to RestFormatter.
