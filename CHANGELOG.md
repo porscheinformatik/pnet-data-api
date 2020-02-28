@@ -1,4 +1,9 @@
-pnet-data-api 1.13.0
+pnet-data-api 1.13.2
+====================
+
+* Fixed an NPE with Spring initializiation for default RestCallFactory.
+
+pnet-data-api 1.13.1
 ====================
 
 * Upgraded Spring and Jackson (minor step).

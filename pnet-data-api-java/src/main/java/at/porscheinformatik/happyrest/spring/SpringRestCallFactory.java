@@ -1,15 +1,16 @@
 package at.porscheinformatik.happyrest.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
+import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
+import at.porscheinformatik.happyrest.util.TextPlainFormatter;
 
 /**
  * A factory for REST calls using spring
@@ -40,7 +41,8 @@ public class SpringRestCallFactory implements RestCallFactory
             return execution.execute(request, body);
         });
 
-        DEFAULT = new SpringRestCallFactory(REST_TEMPLATE, Slf4jRestLoggerAdapter.getDefault(), null);
+        DEFAULT =
+            new SpringRestCallFactory(REST_TEMPLATE, Slf4jRestLoggerAdapter.getDefault(), new TextPlainFormatter());
     }
 
     public static SpringRestCallFactory getDefault()
@@ -57,7 +59,8 @@ public class SpringRestCallFactory implements RestCallFactory
                 return execution.execute(request, body);
             });
 
-            factory = new SpringRestCallFactory(restTemplate, Slf4jRestLoggerAdapter.getDefault(), null);
+            factory =
+                new SpringRestCallFactory(restTemplate, Slf4jRestLoggerAdapter.getDefault(), new TextPlainFormatter());
 
             defaultFactory = factory;
         }
@@ -67,23 +70,22 @@ public class SpringRestCallFactory implements RestCallFactory
 
     private final RestTemplate restTemplate;
     private final RestLoggerAdapter loggerAdapter;
-    private final ConversionService conversionService;
+    private final RestFormatter formatter;
 
     @Autowired
-    public SpringRestCallFactory(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
-        ConversionService conversionService)
+    public SpringRestCallFactory(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
     {
         super();
 
         this.restTemplate = restTemplate;
         this.loggerAdapter = loggerAdapter;
-        this.conversionService = conversionService;
+        this.formatter = formatter;
     }
 
     @Override
     public RestCall url(String url)
     {
-        return new SpringRestCall(restTemplate, loggerAdapter, new SpringRestFormatter(conversionService), url);
+        return new SpringRestCall(restTemplate, loggerAdapter, formatter, url);
     }
 
 }
