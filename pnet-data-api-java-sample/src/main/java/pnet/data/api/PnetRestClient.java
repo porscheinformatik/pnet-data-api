@@ -128,6 +128,11 @@ import pnet.data.api.person.PersonDataFind;
 import pnet.data.api.person.PersonDataGet;
 import pnet.data.api.person.PersonDataSearch;
 import pnet.data.api.person.PersonItemDTO;
+import pnet.data.api.proposal.ProposalDataClient;
+import pnet.data.api.proposal.ProposalDataFind;
+import pnet.data.api.proposal.ProposalDataSearch;
+import pnet.data.api.proposal.ProposalItemDTO;
+import pnet.data.api.proposal.ProposalState;
 import pnet.data.api.todo.TodoCategory;
 import pnet.data.api.todo.TodoGroupDataClient;
 import pnet.data.api.todo.TodoGroupDataFind;
@@ -153,6 +158,7 @@ import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Resource;
 import pnet.data.api.util.Restrict;
 import pnet.data.api.util.RestrictActivity;
+import pnet.data.api.util.RestrictArchived;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
@@ -163,6 +169,7 @@ import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictNumberType;
 import pnet.data.api.util.RestrictQueryField;
+import pnet.data.api.util.RestrictRejected;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.Table;
 
@@ -285,6 +292,8 @@ public final class PnetRestClient
 
     private final PersonDataClient personDataClient;
 
+    private final ProposalDataClient proposalDataClient;
+
     private final TodoGroupDataClient todoGroupDataClient;
 
     private final PnetDataApiTokenRepository repository;
@@ -303,6 +312,8 @@ public final class PnetRestClient
 
     private CompanyMerge companyMerge = CompanyMerge.NONE;
     private LocalDateTime datedBackUntil = null;
+    private Boolean restrictRejected = null;
+    private Boolean restrictArchived = null;
     private boolean aggs = true;
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
@@ -316,7 +327,8 @@ public final class PnetRestClient
         ContractTypeDataClient contractTypeDataClient, ExternalBrandDataClient externalBrandDataClient,
         FunctionDataClient functionDataClient, LegalFormDataClient legalFormDataClient,
         NumberTypeDataClient numberTypeDataClient, PersonDataClient personDataClient,
-        TodoGroupDataClient todoGroupDataClient, PnetDataApiTokenRepository repository)
+        ProposalDataClient proposalDataClient, TodoGroupDataClient todoGroupDataClient,
+        PnetDataApiTokenRepository repository)
     {
         super();
         this.prefs = prefs;
@@ -337,6 +349,7 @@ public final class PnetRestClient
         this.legalFormDataClient = legalFormDataClient;
         this.numberTypeDataClient = numberTypeDataClient;
         this.personDataClient = personDataClient;
+        this.proposalDataClient = proposalDataClient;
         this.todoGroupDataClient = todoGroupDataClient;
         this.repository = repository;
 
@@ -887,6 +900,54 @@ public final class PnetRestClient
 
             cli.info("Items will be searched and shown, that are not older than %s.", datedBackUntil);
         }
+    }
+
+    @CLI.Command(name = "rejected only", description = "Show only results, that have been rejected.")
+    public void rejectedOnly()
+    {
+        restrictRejected = Boolean.TRUE;
+
+        cli.info("Only rejected items will be searched and shown.");
+    }
+
+    @CLI.Command(name = "not rejected only", description = "Show only results, that are not rejected.")
+    public void notRejectedOnly()
+    {
+        restrictRejected = Boolean.FALSE;
+
+        cli.info("Only not rejected items will be searched and shown.");
+    }
+
+    @CLI.Command(name = "ignore rejected flag", description = "Ignore the rejected flag.")
+    public void clearRejected()
+    {
+        restrictRejected = null;
+
+        cli.info("The rejected state of items will be ignored.");
+    }
+
+    @CLI.Command(name = "archived only", description = "Show only results, that have been archived.")
+    public void archivedOnly()
+    {
+        restrictArchived = Boolean.TRUE;
+
+        cli.info("Only archived items will be searched and shown.");
+    }
+
+    @CLI.Command(name = "not archived only", description = "Show only results, that are not archived.")
+    public void notArchivedOnly()
+    {
+        restrictArchived = Boolean.FALSE;
+
+        cli.info("Only not archived items will be searched and shown.");
+    }
+
+    @CLI.Command(name = "ignore archived flag", description = "Ignore the archived flag.")
+    public void clearArchived()
+    {
+        restrictArchived = null;
+
+        cli.info("The archived state of items will be ignored.");
     }
 
     protected void populateTable(Table table, CompanyItemDTO dto)
@@ -1708,6 +1769,79 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
+    @CLI.Command(name = "export all proposals", description = "Exports all proposals.")
+    public void exportAllProposals() throws PnetDataClientException
+    {
+        ProposalDataFind query = restrict(proposalDataClient.find().scroll());
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "export all updated proposals", format = "[<DAYS>:1]",
+        description = "Exports all proposals updated since yesterday.")
+    public void exportAllUpdatedProposals(Integer days) throws PnetDataClientException
+    {
+        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
+
+        ProposalDataFind query = restrict(proposalDataClient.find().updatedAfter(updatedAfter).scroll());
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+
+        printAllResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "find proposals by id", format = "<ID...>", description = "Find proposals by id")
+    public void findProposalsById(Integer... ids) throws PnetDataClientException
+    {
+        ProposalDataFind query = restrict(proposalDataClient.find().id(ids));
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "find proposals by state", format = "<STATE...>", description = "Find proposals by state.")
+    public void findProposalsByCategory(ProposalState... states) throws PnetDataClientException
+    {
+        ProposalDataFind query = restrict(proposalDataClient.find().state(states));
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "find proposals by person id", format = "<PERSION-ID...>",
+        description = "Find proposals by person id.")
+    public void findProposalsByOPersonId(Integer... personIds) throws PnetDataClientException
+    {
+        ProposalDataFind query = restrict(proposalDataClient.find().personId(personIds));
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "search proposals", format = "<QUERY>", description = "Query proposals.")
+    public void searchProposals(String... qs) throws PnetDataClientException
+    {
+        ProposalDataSearch query = restrict(proposalDataClient.search());
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+
+        printResults(result, this::populateTable);
+    }
+
+    protected void populateTable(Table table, ProposalItemDTO dto)
+    {
+        table
+            .addRow(dto.getProposalId(), dto.getLabel(), dto.getDescription(), dto.getMatchcode(), dto.getType(),
+                dto.getState(), dto.isRejected(), dto.isArchived(), dto.getTargetDateType(), dto.getTargetDate(),
+                dto
+                    .getPersons()
+                    .stream()
+                    .map(link -> link.getName() + " (" + link.getType() + ")")
+                    .collect(Collectors.joining(", ")),
+                dto.getLastUpdate(), dto.getScore());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
     @CLI.Command(name = "export all todo groups", description = "Exports all todo groups.")
     public void exportAllTodoGroups() throws PnetDataClientException
     {
@@ -2020,6 +2154,20 @@ public final class PnetRestClient
             cli.info("Dating back until: " + datedBackUntil);
 
             restrict = ((RestrictDatedBackUntil<T>) restrict).datedBackUntil(datedBackUntil);
+        }
+
+        if (restrict instanceof RestrictRejected && restrictRejected != null)
+        {
+            cli.info("Rejected: " + restrictRejected);
+
+            restrict = ((RestrictRejected<T>) restrict).rejected(restrictRejected);
+        }
+
+        if (restrict instanceof RestrictArchived && restrictArchived != null)
+        {
+            cli.info("Archived: " + restrictArchived);
+
+            restrict = ((RestrictArchived<T>) restrict).archived(restrictArchived);
         }
 
         return restrict;

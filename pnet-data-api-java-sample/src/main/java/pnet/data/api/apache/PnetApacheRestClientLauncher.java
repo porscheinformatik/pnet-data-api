@@ -34,7 +34,8 @@ public final class PnetApacheRestClientLauncher
             clientFactory.getContractStateDataClient(), clientFactory.getContractTypeDataClient(),
             clientFactory.getExternalBrandDataClient(), clientFactory.getFunctionDataClient(),
             clientFactory.getLegalFormDataClient(), clientFactory.getNumberTypeDataClient(),
-            clientFactory.getPersonDataClient(), clientFactory.getTodoGroupDataClient(), clientFactory.getRepository());
+            clientFactory.getPersonDataClient(), clientFactory.getProposalDataClient(),
+            clientFactory.getTodoGroupDataClient(), clientFactory.getRepository());
 
         client.consume();
     }
