@@ -31,7 +31,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     private final String scrollId;
 
     private PnetDataClientPageSupplier<T> pageSupplier;
-    private PnetDataClientScrollSupplier<T> scrollSupplier;;
+    private PnetDataClientScrollSupplier<T> scrollSupplier;
 
     public DefaultPnetDataClientResultPage(@JsonProperty("items") List<T> items,
         @JsonProperty("itemsPerPage") int itemsPerPage, @JsonProperty("totalNumberOfItems") int totalNumberOfItems,
