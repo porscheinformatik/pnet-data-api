@@ -2,6 +2,7 @@ pnet-data-api 1.13.3
 ====================
 
 * Proposals (internal)
+* Upgraded Jackson (minor step).
 
 pnet-data-api 1.13.2
 ====================
