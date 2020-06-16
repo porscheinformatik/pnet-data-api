@@ -4,6 +4,7 @@ import java.util.List;
 
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
+import pnet.data.api.util.Orderable;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictArchived;
 import pnet.data.api.util.RestrictId;
@@ -17,7 +18,7 @@ import pnet.data.api.util.Scrollable;
 public class ProposalDataFind extends AbstractFind<ProposalItemDTO, ProposalDataFind>
     implements RestrictId<ProposalDataFind>, RestrictPersonId<ProposalDataFind>, RestrictProposalType<ProposalDataFind>,
     RestrictProposalState<ProposalDataFind>, RestrictUpdatedAfter<ProposalDataFind>, RestrictRejected<ProposalDataFind>,
-    RestrictArchived<ProposalDataFind>, Scrollable<ProposalDataFind>
+    RestrictArchived<ProposalDataFind>, Orderable<ProposalDataFind, ProposalOrderBy>, Scrollable<ProposalDataFind>
 {
 
     public ProposalDataFind(FindFunction<ProposalItemDTO> findFunction, List<Pair<String, Object>> restricts)

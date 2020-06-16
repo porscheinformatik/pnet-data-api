@@ -1,6 +1,7 @@
 pnet-data-api 1.13.4
 ====================
 
+* Ordering for proposals
 * Upgraded Jackson (minor step).
 
 pnet-data-api 1.13.3
