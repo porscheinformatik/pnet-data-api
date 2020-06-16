@@ -1,3 +1,8 @@
+pnet-data-api 1.13.4
+====================
+
+* Upgraded Jackson (minor step).
+
 pnet-data-api 1.13.3
 ====================
 
