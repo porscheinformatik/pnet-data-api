@@ -3,7 +3,6 @@ package at.porscheinformatik.happyrest.java;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
-import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -44,14 +43,17 @@ public class JavaRestCall extends AbstractRestCall
 
     private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
+    private final HttpClient httpClient;
     private final RestLoggerAdapter loggerAdapter;
     private final RestParser parser;
 
-    public JavaRestCall(RestLoggerAdapter loggerAdapter, String url, List<String> acceptableMediaTypes,
-        String contentType, List<RestAttribute> attributes, RestFormatter formatter, RestParser parser, Object body)
+    public JavaRestCall(HttpClient httpClient, RestLoggerAdapter loggerAdapter, String url,
+        List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes, RestFormatter formatter,
+        RestParser parser, Object body)
     {
         super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
 
+        this.httpClient = httpClient;
         this.loggerAdapter = loggerAdapter;
         this.parser = parser;
     }
@@ -60,8 +62,8 @@ public class JavaRestCall extends AbstractRestCall
     protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
         List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
-        return new JavaRestCall(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, parser,
-            body);
+        return new JavaRestCall(httpClient, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
+            formatter, parser, body);
     }
 
     @Override
@@ -82,11 +84,7 @@ public class JavaRestCall extends AbstractRestCall
         HttpResponse<InputStream> response;
         try
         {
-            response = HttpClient
-                .newBuilder()
-                .proxy(ProxySelector.getDefault())
-                .build()
-                .send(request, BodyHandlers.ofInputStream());
+            response = httpClient.send(request, BodyHandlers.ofInputStream());
         }
         catch (IOException | InterruptedException e)
         {

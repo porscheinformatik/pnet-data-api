@@ -1,3 +1,8 @@
+pnet-data-api 1.13.5
+====================
+
+* Reuses Java's HttpClient to prevent too many listener thread in background. 
+
 pnet-data-api 1.13.4
 ====================
 
