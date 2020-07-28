@@ -85,6 +85,24 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         });
     }
 
+    public PersonDataAutoComplete autoComplete()
+    {
+        return new PersonDataAutoComplete(this::autoComplete, null);
+    }
+
+    protected List<PersonAutoCompleteDTO> autoComplete(Locale language, String query, List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
+    {
+        return invoke(restCall -> restCall
+            .parameter("l", language)
+            .parameter("q", query)
+            .parameters(restricts)
+            .get("/api/v1/persons/autocomplete", new GenericType.Of<List<PersonAutoCompleteDTO>>()
+            {
+                // intentionally left blank
+            }));
+    }
+
     public PersonDataFind find()
     {
         return new PersonDataFind(this::find, null);

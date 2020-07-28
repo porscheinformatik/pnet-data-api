@@ -126,8 +126,10 @@ import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.person.PersonDataDTO;
 import pnet.data.api.person.PersonDataFind;
 import pnet.data.api.person.PersonDataGet;
+import pnet.data.api.person.PersonDataAutoComplete;
 import pnet.data.api.person.PersonDataSearch;
 import pnet.data.api.person.PersonItemDTO;
+import pnet.data.api.person.PersonAutoCompleteDTO;
 import pnet.data.api.proposal.ProposalDataClient;
 import pnet.data.api.proposal.ProposalDataFind;
 import pnet.data.api.proposal.ProposalDataSearch;
@@ -1707,6 +1709,15 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
+    @CLI.Command(name = "auto complete persons", format = "<QUERY>", description = "Auto complete the name of person.")
+    public void autoCompletePersons(String... qs) throws PnetDataClientException
+    {
+        PersonDataAutoComplete query = restrict(personDataClient.autoComplete());
+        List<PersonAutoCompleteDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+
+        printResults(result, this::populateTable);
+    }
+
     @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
     public void searchPersons(String... qs) throws PnetDataClientException
     {
@@ -1745,6 +1756,11 @@ public final class PnetRestClient
         }
 
         showImage("Portrait thumbnail of Person " + id, portrait.get().toImage());
+    }
+
+    protected void populateTable(Table table, PersonAutoCompleteDTO dto)
+    {
+        table.addRow(dto.getPersonId(), dto.getLabel(), dto.getDescription(), dto.getScore());
     }
 
     protected void populateTable(Table table, PersonItemDTO dto)
@@ -2513,6 +2529,13 @@ public final class PnetRestClient
         printPage(page, populateTableFn);
     }
 
+    protected <T> void printResults(List<T> list, BiConsumer<Table, T> populateTableFn) throws PnetDataClientException
+    {
+        cli.info("Found %d results.", list.size());
+
+        printList(list, populateTableFn);
+    }
+
     protected <T> void printAllResults(PnetDataClientResultPage<T> page, BiConsumer<Table, T> populateTableFn)
         throws PnetDataClientException
     {
@@ -2538,6 +2561,15 @@ public final class PnetRestClient
     {
         currentResult = new CurrentResult<>(page, populateTableFn);
         currentResult.print(cli, compact);
+    }
+
+    protected <T> void printList(List<T> list, BiConsumer<Table, T> populateTableFn)
+    {
+        Table table = new Table();
+
+        list.stream().forEach(item -> populateTableFn.accept(table, item));
+
+        cli.info(table.toString());
     }
 
     protected PnetDataApiTokenKey key()
