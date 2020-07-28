@@ -3,11 +3,12 @@ pnet-data-api 1.14.0
 
 * AutoComplete feature for:
 	* Persons
+* Better error handling in non-Spring clients.
 
 pnet-data-api 1.13.5
 ====================
 
-* Reuses Java's HttpClient to prevent too many listener thread in background. 
+* Reuses Java's HttpClient to prevent too many listener thread in background.
 
 pnet-data-api 1.13.4
 ====================

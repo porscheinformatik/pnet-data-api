@@ -57,6 +57,21 @@ class ApacheRestResponse<T> implements RestResponse<T>
         long contentLength = entity.getContentLength();
         T body = null;
 
+        if (statusCode >= 400)
+        {
+            try (InputStream in = entity.getContent())
+            {
+                try (Reader reader = new InputStreamReader(in))
+                {
+                    throw new RestResponseException(RestUtils.readFully(reader), statusCode, statusMessage, null);
+                }
+            }
+            catch (IOException e)
+            {
+                throw new RestResponseException("Failed to read response", statusCode, statusMessage, e);
+            }
+        }
+
         if (contentLength != 0)
         {
             try

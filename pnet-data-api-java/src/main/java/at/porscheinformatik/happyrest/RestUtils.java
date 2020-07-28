@@ -2,6 +2,7 @@ package at.porscheinformatik.happyrest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -221,5 +222,19 @@ public final class RestUtils
         }
 
         return s.substring(0, Math.max(length - 3, 0)) + "...";
+    }
+
+    public static String readFully(Reader reader) throws IOException
+    {
+        StringBuilder builder = new StringBuilder();
+        int length;
+        char[] buffer = new char[1024];
+
+        while ((length = reader.read(buffer)) >= 0)
+        {
+            builder.append(buffer, 0, length);
+        }
+
+        return builder.toString();
     }
 }

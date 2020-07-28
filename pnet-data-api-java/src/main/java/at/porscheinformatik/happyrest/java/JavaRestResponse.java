@@ -50,6 +50,24 @@ class JavaRestResponse<T> implements RestResponse<T>
         OptionalLong optionalContentLength = headers.firstValueAsLong("Content-Length");
         T body = null;
 
+        if (statusCode >= 400)
+        {
+            try (InputStream stream = response.body())
+            {
+                if (stream != null)
+                {
+                    try (Reader reader = new InputStreamReader(stream))
+                    {
+                        throw new RestResponseException(RestUtils.readFully(reader), statusCode, statusMessage, null);
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                throw new RestResponseException("Failed to read response", statusCode, statusMessage, e);
+            }
+        }
+
         if (!type.isAssignableFrom(Void.class))
         {
             try (InputStream stream = response.body())
