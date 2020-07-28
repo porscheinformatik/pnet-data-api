@@ -82,6 +82,24 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         });
     }
 
+    public CompanyDataAutoComplete autoComplete()
+    {
+        return new CompanyDataAutoComplete(this::autoComplete, null);
+    }
+
+    protected List<CompanyAutoCompleteDTO> autoComplete(Locale language, String query,
+        List<Pair<String, Object>> restricts) throws PnetDataClientException
+    {
+        return invoke(restCall -> restCall
+            .parameter("l", language)
+            .parameter("q", query)
+            .parameters(restricts)
+            .get("/api/v1/companies/autocomplete", new GenericType.Of<List<CompanyAutoCompleteDTO>>()
+            {
+                // intentionally left blank
+            }));
+    }
+
     public CompanyDataFind find()
     {
         return new CompanyDataFind(this::find, null);

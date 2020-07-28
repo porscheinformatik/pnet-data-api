@@ -50,7 +50,11 @@ public class Table
             builder.append(" ");
         }
 
-        return builder.toString();
+        String result = builder.toString();
+
+        result = result.replace("\n", " \\ ");
+
+        return result;
     }
 
     @Override

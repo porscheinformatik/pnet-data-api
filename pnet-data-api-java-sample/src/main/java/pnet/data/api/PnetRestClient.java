@@ -57,6 +57,8 @@ import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.context.PnetDataApiTokenKey;
 import pnet.data.api.client.context.PnetDataApiTokenRepository;
+import pnet.data.api.company.CompanyAutoCompleteDTO;
+import pnet.data.api.company.CompanyDataAutoComplete;
 import pnet.data.api.company.CompanyDataClient;
 import pnet.data.api.company.CompanyDataDTO;
 import pnet.data.api.company.CompanyDataFind;
@@ -122,14 +124,14 @@ import pnet.data.api.numbertype.NumberTypeItemDTO;
 import pnet.data.api.person.ActivePersonCompanyLinkDTO;
 import pnet.data.api.person.ActivePersonFunctionLinkDTO;
 import pnet.data.api.person.PersonAggregationsDTO;
+import pnet.data.api.person.PersonAutoCompleteDTO;
+import pnet.data.api.person.PersonDataAutoComplete;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.person.PersonDataDTO;
 import pnet.data.api.person.PersonDataFind;
 import pnet.data.api.person.PersonDataGet;
-import pnet.data.api.person.PersonDataAutoComplete;
 import pnet.data.api.person.PersonDataSearch;
 import pnet.data.api.person.PersonItemDTO;
-import pnet.data.api.person.PersonAutoCompleteDTO;
 import pnet.data.api.proposal.ProposalDataClient;
 import pnet.data.api.proposal.ProposalDataFind;
 import pnet.data.api.proposal.ProposalDataSearch;
@@ -142,6 +144,7 @@ import pnet.data.api.todo.TodoGroupDataSearch;
 import pnet.data.api.todo.TodoGroupEntryLinkDTO;
 import pnet.data.api.todo.TodoGroupItemDTO;
 import pnet.data.api.todo.TodoGroupPersonLinkDTO;
+import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.AggregateNumberPerActivity;
 import pnet.data.api.util.AggregateNumberPerBrand;
 import pnet.data.api.util.AggregateNumberPerCategory;
@@ -748,6 +751,16 @@ public final class PnetRestClient
     {
         CompanyDataFind query = restrict(companyDataClient.find().companyNumber(numbers));
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
+
+        printResults(result, this::populateTable);
+    }
+
+    @CLI.Command(name = "auto complete companies", format = "<QUERY>",
+        description = "Auto complete the name of companies.")
+    public void autoCompleteCompanies(String... qs) throws PnetDataClientException
+    {
+        CompanyDataAutoComplete query = restrict(companyDataClient.autoComplete());
+        List<CompanyAutoCompleteDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1758,9 +1771,9 @@ public final class PnetRestClient
         showImage("Portrait thumbnail of Person " + id, portrait.get().toImage());
     }
 
-    protected void populateTable(Table table, PersonAutoCompleteDTO dto)
+    protected void populateTable(Table table, AbstractAutoCompleteDTO dto)
     {
-        table.addRow(dto.getPersonId(), dto.getLabel(), dto.getDescription(), dto.getScore());
+        table.addRow(dto.getLabel(), dto.getDescription(), dto.getScore());
     }
 
     protected void populateTable(Table table, PersonItemDTO dto)
