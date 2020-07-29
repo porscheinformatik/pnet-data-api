@@ -2,9 +2,10 @@ pnet-data-api 1.14.0
 ====================
 
 * AutoComplete feature for:
-	* Persons
+    * Persons
     * Comapnies
 * Better error handling in non-Spring clients.
+* Dependency upgrades
 
 pnet-data-api 1.13.5
 ====================
