@@ -14,8 +14,8 @@ import pnet.data.api.PnetDataClientException;
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the filter itself for fluent interface
  */
-public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplete<DTO, SELF>> extends AbstractRestricable<SELF>
-    implements AutoComplete<DTO>, Restrict<SELF>, Aggregate<SELF>
+public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplete<DTO, SELF>>
+    extends AbstractRestricable<SELF> implements AutoComplete<DTO>, Restrict<SELF>, Aggregate<SELF>
 {
 
     private final AutoCompleteFunction<DTO> autoCompleteFunction;
@@ -34,7 +34,7 @@ public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplet
         Constructor<?> constructor;
         try
         {
-            constructor = getClass().getConstructor(SearchFunction.class, List.class);
+            constructor = getClass().getConstructor(AutoCompleteFunction.class, List.class);
         }
         catch (NoSuchMethodException | SecurityException e)
         {
