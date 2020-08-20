@@ -2,7 +2,8 @@ pnet-data-api 1.14.1
 ====================
 
 * "includeInactive" flag for companies and persons.
-* Quality of life enhancements in the sample client. 
+* Quality of life enhancements in the sample client.
+* Fixed company type restrictions in sample client.
 
 pnet-data-api 1.14.0
 ====================
@@ -16,7 +17,7 @@ pnet-data-api 1.14.0
 pnet-data-api 1.13.5
 ====================
 
-* Reuses Java's HttpClient to prevent too many listener thread in background.
+* Reuses Java's HttpClient to prevent too many listener threads in background.
 
 pnet-data-api 1.13.4
 ====================

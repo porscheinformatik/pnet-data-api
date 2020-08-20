@@ -158,7 +158,6 @@ import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.ImageType;
-import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Resource;
@@ -177,6 +176,7 @@ import pnet.data.api.util.RestrictNumberType;
 import pnet.data.api.util.RestrictQueryField;
 import pnet.data.api.util.RestrictRejected;
 import pnet.data.api.util.RestrictTenant;
+import pnet.data.api.util.RestrictType;
 import pnet.data.api.util.Table;
 
 /**
@@ -320,7 +320,6 @@ public final class PnetRestClient
     private LocalDateTime datedBackUntil = null;
     private Boolean restrictRejected = null;
     private Boolean restrictArchived = null;
-    private boolean includeInactive = false;
     private boolean aggs = false;
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
@@ -765,7 +764,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = {"autocomplete companies", "autocomplete company"}, format = "<QUERY>",
+    @CLI.Command(name = {"auto complete companies", "auto complete company"}, format = "<QUERY>",
         description = "Auto complete the name of companies.")
     public void autoCompleteCompanies(String... qs) throws PnetDataClientException
     {
@@ -1744,7 +1743,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = {"autocomplete persons", "autocomplete person"}, format = "<QUERY>",
+    @CLI.Command(name = {"auto complete persons", "auto complete person"}, format = "<QUERY>",
         description = "Auto complete the name of person.")
     public void autoCompletePersons(String... qs) throws PnetDataClientException
     {
@@ -2068,24 +2067,6 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "include inactive", description = "Include company/persons that are currently not active")
-    public void includeInactive()
-    {
-        cli.info("Including inactive items.", restrictedTenants.size());
-
-        includeInactive = true;
-    }
-
-    @CLI.Command(name = "exclude inactive", description = "Exclude company/persons that are currently not active")
-    public void excludeInactive()
-    {
-        cli.info("Excluding inactive items.", restrictedTenants.size());
-
-        includeInactive = false;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
     @CLI.Command(name = {"restrict query fields", "restrict query field"}, format = "[<FIELDS>...]",
         description = "Places a restriction for query fields.")
     public void restrictQueryFields(String... queryFields)
@@ -2109,206 +2090,208 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    protected <T extends Restrict<T>> T restrict(T restrict)
+    protected <T extends Restrict<T>> T restrict(T request)
     {
-        restrict = restrictCompany(restrict);
-        restrict = restrictAuthorities(restrict);
-        restrict = restrictBaseData(restrict);
-        restrict = restrictCustom(restrict);
-        restrict = restrictAggregates(restrict);
+        request = applyCompanyRestrictions(request);
+        request = applyAuthorityRestrictions(request);
+        request = applyBaseDataRestrictions(request);
+        request = applyCustomRestrictions(request);
+        request = applyAggregations(request);
 
-        return restrict;
+        return request;
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Restrict<T>> T restrictCompany(T restrict)
+    private <T extends Restrict<T>> T applyCompanyRestrictions(T request)
     {
-        if (restrict instanceof RestrictCompanyId && !restrictedCompanyIds.isEmpty())
+        if (request instanceof RestrictCompanyId && !restrictedCompanyIds.isEmpty())
         {
             cli.info("A restriction for company ids is in place: %s", restrictedCompanyIds);
 
-            restrict = ((RestrictCompanyId<T>) restrict).companyIds(restrictedCompanyIds);
+            request = ((RestrictCompanyId<T>) request).companyIds(restrictedCompanyIds);
         }
 
-        if (restrict instanceof RestrictCompany && !restrictedCompanyMatchcodes.isEmpty())
+        if (request instanceof RestrictCompany && !restrictedCompanyMatchcodes.isEmpty())
         {
             cli.info("A restriction for company matchcodes is in place: %s", restrictedCompanyMatchcodes);
 
-            restrict = ((RestrictCompany<T>) restrict).companies(restrictedCompanyMatchcodes);
+            request = ((RestrictCompany<T>) request).companies(restrictedCompanyMatchcodes);
         }
 
-        if (restrict instanceof RestrictCompanyNumber && !restrictedCompanyNumbers.isEmpty())
+        if (request instanceof RestrictCompanyNumber && !restrictedCompanyNumbers.isEmpty())
         {
             cli.info("A restriction for company numbers is in place: %s", restrictedCompanyNumbers);
 
-            restrict = ((RestrictCompanyNumber<T>) restrict).companyNumbers(restrictedCompanyNumbers);
+            request = ((RestrictCompanyNumber<T>) request).companyNumbers(restrictedCompanyNumbers);
         }
 
-        return restrict;
+        return request;
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Restrict<T>> T restrictAuthorities(T restrict)
+    private <T extends Restrict<T>> T applyAuthorityRestrictions(T request)
     {
-        if (restrict instanceof RestrictFunction && !restrictedFunctionMatchcodes.isEmpty())
+        if (request instanceof RestrictFunction && !restrictedFunctionMatchcodes.isEmpty())
         {
             cli.info("A restriction for function matchcodes is in place: %s", restrictedFunctionMatchcodes);
 
-            restrict = ((RestrictFunction<T>) restrict).functions(restrictedFunctionMatchcodes);
+            request = ((RestrictFunction<T>) request).functions(restrictedFunctionMatchcodes);
         }
 
-        if (restrict instanceof RestrictActivity && !restrictedActivityMatchcodes.isEmpty())
+        if (request instanceof RestrictActivity && !restrictedActivityMatchcodes.isEmpty())
         {
             cli.info("A restriction for activity matchcodes is in place: %s", restrictedActivityMatchcodes);
 
-            restrict = ((RestrictActivity<T>) restrict).activities(restrictedActivityMatchcodes);
+            request = ((RestrictActivity<T>) request).activities(restrictedActivityMatchcodes);
         }
-        return restrict;
+        return request;
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Restrict<T>> T restrictBaseData(T restrict)
+    private <T extends Restrict<T>> T applyBaseDataRestrictions(T request)
     {
-        if (restrict instanceof RestrictTenant && !restrictedTenants.isEmpty())
+        if (request instanceof RestrictTenant && !restrictedTenants.isEmpty())
         {
             cli.info("A restriction for tenants is in place: %s", restrictedTenants);
 
-            restrict = ((RestrictTenant<T>) restrict).tenants(restrictedTenants);
+            request = ((RestrictTenant<T>) request).tenants(restrictedTenants);
         }
 
-        if (restrict instanceof RestrictBrand && !restrictedBrands.isEmpty())
+        if (request instanceof RestrictBrand && !restrictedBrands.isEmpty())
         {
             cli.info("A restriction for brands is in place: %s", restrictedBrands);
 
-            restrict = ((RestrictBrand<T>) restrict).brands(restrictedBrands);
+            request = ((RestrictBrand<T>) request).brands(restrictedBrands);
         }
 
-        if (restrict instanceof RestrictNumberType && !restrictedNumberTypeMatchcodes.isEmpty())
+        if (request instanceof RestrictNumberType && !restrictedNumberTypeMatchcodes.isEmpty())
         {
             cli.info("A restriction for number type matchcodes is in place: %s", restrictedNumberTypeMatchcodes);
 
-            restrict = ((RestrictNumberType<T>) restrict).numberTypes(restrictedNumberTypeMatchcodes);
+            request = ((RestrictNumberType<T>) request).numberTypes(restrictedNumberTypeMatchcodes);
         }
 
-        if (restrict instanceof RestrictCompanyType && !restrictedCompanyTypeMatchcodes.isEmpty())
+        if ((request instanceof RestrictCompanyType || request instanceof RestrictType)
+            && !restrictedCompanyTypeMatchcodes.isEmpty())
         {
             cli.info("A restriction for company type matchcodes is in place: %s", restrictedCompanyTypeMatchcodes);
 
-            restrict = ((RestrictCompanyType<T>) restrict).companyTypes(restrictedCompanyTypeMatchcodes);
+            if (request instanceof RestrictCompanyType)
+            {
+                request = ((RestrictCompanyType<T>) request).companyTypes(restrictedCompanyTypeMatchcodes);
+            }
+
+            if (request instanceof RestrictType)
+            {
+                request = ((RestrictType<T>) request).types(restrictedCompanyTypeMatchcodes);
+            }
         }
 
-        if (restrict instanceof RestrictContractType && !restrictedContractTypeMatchcodes.isEmpty())
+        if (request instanceof RestrictContractType && !restrictedContractTypeMatchcodes.isEmpty())
         {
             cli.info("A restriction for contract type matchcodes is in place: %s", restrictedContractTypeMatchcodes);
 
-            restrict = ((RestrictContractType<T>) restrict).contractTypes(restrictedContractTypeMatchcodes);
+            request = ((RestrictContractType<T>) request).contractTypes(restrictedContractTypeMatchcodes);
         }
 
-        if (restrict instanceof RestrictQueryField && !restrictedQueryFields.isEmpty())
+        if (request instanceof RestrictQueryField && !restrictedQueryFields.isEmpty())
         {
             cli.info("A restriction for query fields is in place: %s", restrictedQueryFields);
 
-            restrict = ((RestrictQueryField<T>) restrict).queryFields(restrictedQueryFields);
+            request = ((RestrictQueryField<T>) request).queryFields(restrictedQueryFields);
         }
 
-        return restrict;
+        return request;
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Restrict<T>> T restrictCustom(T restrict)
+    private <T extends Restrict<T>> T applyCustomRestrictions(T request)
     {
-        if (restrict instanceof CompanyMergable && companyMerge != CompanyMerge.NONE)
+        if (request instanceof CompanyMergable && companyMerge != CompanyMerge.NONE)
         {
             cli.info("Merging companies according to: " + companyMerge);
 
-            restrict = ((CompanyMergable<T>) restrict).merge(companyMerge);
+            request = ((CompanyMergable<T>) request).merge(companyMerge);
         }
 
-        if (restrict instanceof RestrictDatedBackUntil && datedBackUntil != null)
+        if (request instanceof RestrictDatedBackUntil && datedBackUntil != null)
         {
             cli.info("Dating back until: " + datedBackUntil);
 
-            restrict = ((RestrictDatedBackUntil<T>) restrict).datedBackUntil(datedBackUntil);
+            request = ((RestrictDatedBackUntil<T>) request).datedBackUntil(datedBackUntil);
         }
 
-        if (restrict instanceof RestrictRejected && restrictRejected != null)
+        if (request instanceof RestrictRejected && restrictRejected != null)
         {
             cli.info("Rejected: " + restrictRejected);
 
-            restrict = ((RestrictRejected<T>) restrict).rejected(restrictRejected);
+            request = ((RestrictRejected<T>) request).rejected(restrictRejected);
         }
 
-        if (restrict instanceof RestrictArchived && restrictArchived != null)
+        if (request instanceof RestrictArchived && restrictArchived != null)
         {
             cli.info("Archived: " + restrictArchived);
 
-            restrict = ((RestrictArchived<T>) restrict).archived(restrictArchived);
+            request = ((RestrictArchived<T>) request).archived(restrictArchived);
         }
 
-        if (restrict instanceof IncludeInactive && includeInactive)
-        {
-            cli.info("Including inactive");
-
-            restrict = ((IncludeInactive<T>) restrict).includeInactive();
-        }
-
-        return restrict;
+        return request;
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends Restrict<T>> T restrictAggregates(T restrict)
+    private <T extends Restrict<T>> T applyAggregations(T request)
     {
         if (!aggs)
         {
-            return restrict;
+            return request;
         }
 
-        if (restrict instanceof AggregateNumberPerActivity)
+        if (request instanceof AggregateNumberPerActivity)
         {
-            restrict = (T) ((AggregateNumberPerActivity<?>) restrict).aggregateNumberPerActivity();
+            request = (T) ((AggregateNumberPerActivity<?>) request).aggregateNumberPerActivity();
         }
 
-        if (restrict instanceof AggregateNumberPerBrand)
+        if (request instanceof AggregateNumberPerBrand)
         {
-            restrict = (T) ((AggregateNumberPerBrand<?>) restrict).aggregateNumberPerBrand();
+            request = (T) ((AggregateNumberPerBrand<?>) request).aggregateNumberPerBrand();
         }
 
-        if (restrict instanceof AggregateNumberPerCategory)
+        if (request instanceof AggregateNumberPerCategory)
         {
-            restrict = (T) ((AggregateNumberPerCategory<?>) restrict).aggregateNumberPerCategory();
+            request = (T) ((AggregateNumberPerCategory<?>) request).aggregateNumberPerCategory();
         }
 
-        if (restrict instanceof AggregateNumberPerCompany)
+        if (request instanceof AggregateNumberPerCompany)
         {
-            restrict = (T) ((AggregateNumberPerCompany<?>) restrict).aggregateNumberPerCompany();
+            request = (T) ((AggregateNumberPerCompany<?>) request).aggregateNumberPerCompany();
         }
 
-        if (restrict instanceof AggregateNumberPerContractType)
+        if (request instanceof AggregateNumberPerContractType)
         {
-            restrict = (T) ((AggregateNumberPerContractType<?>) restrict).aggregateNumberPerContractType();
+            request = (T) ((AggregateNumberPerContractType<?>) request).aggregateNumberPerContractType();
         }
 
-        if (restrict instanceof AggregateNumberPerFunction)
+        if (request instanceof AggregateNumberPerFunction)
         {
-            restrict = (T) ((AggregateNumberPerFunction<?>) restrict).aggregateNumberPerFunction();
+            request = (T) ((AggregateNumberPerFunction<?>) request).aggregateNumberPerFunction();
         }
 
-        if (restrict instanceof AggregateNumberPerState)
+        if (request instanceof AggregateNumberPerState)
         {
-            restrict = (T) ((AggregateNumberPerState<?>) restrict).aggregateNumberPerState();
+            request = (T) ((AggregateNumberPerState<?>) request).aggregateNumberPerState();
         }
 
-        if (restrict instanceof AggregateNumberPerTenant)
+        if (request instanceof AggregateNumberPerTenant)
         {
-            restrict = (T) ((AggregateNumberPerTenant<?>) restrict).aggregateNumberPerTenant();
+            request = (T) ((AggregateNumberPerTenant<?>) request).aggregateNumberPerTenant();
         }
 
-        if (restrict instanceof AggregateNumberPerType)
+        if (request instanceof AggregateNumberPerType)
         {
-            restrict = (T) ((AggregateNumberPerType<?>) restrict).aggregateNumberPerType();
+            request = (T) ((AggregateNumberPerType<?>) request).aggregateNumberPerType();
         }
 
-        return restrict;
+        return request;
     }
 
     @CLI.Command(name = {"clear restrictions", "clear restriction"}, description = "Removes all restrictions.")
@@ -2592,20 +2575,14 @@ public final class PnetRestClient
     {
         cli.info("Found %d results.", page.getTotalNumberOfItems());
 
-        if (page.getTotalNumberOfItems() > 0)
-        {
-            printPage(page, populateTableFn);
-        }
+        printPage(page, populateTableFn);
     }
 
     protected <T> void printResults(List<T> list, BiConsumer<Table, T> populateTableFn) throws PnetDataClientException
     {
         cli.info("Found %d results.", list.size());
 
-        if (list.size() > 0)
-        {
-            printList(list, populateTableFn);
-        }
+        printList(list, populateTableFn);
     }
 
     protected <T> void printAllResults(PnetDataClientResultPage<T> page, BiConsumer<Table, T> populateTableFn)
@@ -2655,8 +2632,7 @@ public final class PnetRestClient
         cli.info("Partner.Net REST Client Sample application");
         cli.info("==========================================");
         cli.info("");
-        cli.info("Type \"help\" for help.");
-        cli.info("");
+        cli.info("Type \"? [q]\" for help.");
 
         while (true)
         {
