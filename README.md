@@ -59,27 +59,28 @@ The data of persons and companies contains references to some master data, that 
 * Contract Types
 * External Brands
 * Functions
+* Legal Forms
 * Number Types
 
 Most of the data interfaces provide three methods:
 
-* details - For accessing all available information about the data item (e.g. the person with the id 100).
-* search - For accessing a reduced amount of information per data item, but supporting fuzzy searches including wildcards (e.g. all persons called "Jane").
-* find - For accessing a reduced amount of information per data item, but with fast filters (e.g. all persons with a defined function).
+* details - For accessing all available information about one or more data items (e.g. the person with the id 100).
+* search - For accessing a reduced amount of information per data item, but supporting fuzzy searches
+* find - For accessing a reduced amount of information per data item, but with fast filters (e.g. all persons with a defined function or at specific companies).
 
-The person data is filtered by default. You will only be able to access persons, that are relevant for your application (gave the consent for accessing their data) and the data of each person is filtered according to the claims of your application.
+The person data is filtered by default. Persons will have to give their consent, otherwise, no personal information will be shared with your application.
 
 # Considerations
 
 ## Performance
 
-The Partner.&#78;et Data API is a scalable application hosted in a cloud environment and is based on an NoSQL-Database in the background. Requests should be fast and the data should be accurate. The data from the Partner.&#78;et gets synced every few seconds and should be up-to-date most of the time.
+The Partner.&#78;et Data API is a scalable application hosted in a cloud environment and is based on an NoSQL-Database in the background. Requests are fast and the data is accurate. The data from the Partner.&#78;et gets synced every few seconds and is up-to-date most of the time.
 
 The REST Interface provides the data as fast as it can. Currently we don't have performance issues because of too many users or too many requests. Generally, it is better to make multiple smaller requests, than fewer larger ones.
 
 Consider caching relevant information! Most of the data does not change very often. We encourage you to store results locally and reuse the information instead of performing the same request over and over again.
 
-Use scroll-queries if you want to process large result sets.
+Some of the interfaces support scrolling. This allows your application to rapidly browse though thousands of data items.
 
 ## Paging
 
@@ -87,17 +88,19 @@ The result of each request is paged, that means, that it splits the result into 
 
 You can request subsequent pages by adding a page (`p`) parameter, but the rest of the request must be exactly the same (otherwise you may miss some items).
 
-## Last Update
+## `lastUpdate`
 
 If you are syncing data with your local database, consider using the `lastUpdate` value. You can add an `up`-parameter to your find request, and the result will only contain items, that have been changed since your specified date.
 
 **When syncing person data with your application, this is a must.**
 
-## Details vs Search vs Find
+A typical implementation would sync data every other minute by using the `up`-parameter. Once per night it requests the complete set of data - this is necessary to detect deleted items (as a wise hint, don't delete your data immediatly - remember the date of the last successful sync operation and use this date to delete outdated data some days later).
+
+## `details` vs `search` vs `find`
 
 The difference between `search` and `find`, is, that the `search` aims for user interaction (e.g. like searching with a fuzzy query) and the `find` aims for technical solutions (e.g. like finding all persons with a defined function).
 
-Use `search` only, if you need a fuzzy search for a specified term other than `*`! For all other cases, use `find`!
+Use `search` only, if you need a fuzzy search for a specified term! For all other cases, use `find`!
 
 The `details` requests return more information per item, but the request is slower compared to the `find` and `search` requests.
 
@@ -117,7 +120,7 @@ Informationen und Freigaben: We need the name of the application, that will use 
 
 Additionally, we will enter your own user as manager for the system user. This means that you, and nobody else, can request a password for the user. If more users should be allowed to do this, please add a list.
 
-After the system user has been created, you can use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) for requesting a password.
+After the system user has been created, you can use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)) for requesting a password.
 
 # Available Instances
 
@@ -144,11 +147,13 @@ GET /data/api/v1/about/
 
 This will return some information about the server and your user. It's a perfect start.
 
-# Testing with cURL
+# Testing
+
+## Using cURL
 
 The simplest way to access the data, is by using the [cURL-Tool](https://curl.haxx.se/). It's available on most Linux installation, and even in Windows, it's quite common and easy to install.
 
-## Perform a login
+### Perform a login
 
 ```
 curl -i -X POST https://qa-data.auto-partner.net/data/login -d '{"username":"...","password":"..."}'
@@ -163,9 +168,15 @@ HTTP/1.1 200
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...
 ```
 
-Copy `Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...` and store the JWT somewhere temporarely - it's valid for one hour.
+Store the token in a variable, it is valid for one hour:
 
-## Access data
+```
+export JWT='Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...'
+```
+
+> In windows, you can experiment with the `set` command and `%JWT%` as placeholder.
+
+### Access data
 
 First call the `about` interface, just for testing:
 
@@ -176,22 +187,62 @@ curl -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...' -X GET h
 
 This should return some information about the version and your user.
 
-## Search data
+## Using Powershell
+
+### Perform a login
+
+```
+$body = @{
+    "username"="<USERNAME>"
+    "password"="<PASSWORD>"
+} | ConvertTo-Json
+$url = "https://qa-data.auto-partner.net/data"
+$result = Invoke-WebRequest -Uri "$url/login" -Method Post -Body $body -UseBasicParsing
+$jwt = @{ Authorization = $result.Headers.Authorization }
+
+echo $jwt
+```
+
+This should store the authorization token to `jwt` and print it. The token is valid for one hour.
+
+### Access data
+ First call the `about` interface, just for testing:
+
+ ```
+ Invoke-WebRequest -uri "$url/api/v1/about/" -Headers $jwt
+ ```
+
+> Please, pay attention to the / at the end of the URL.
+
+This should return some information about the version and your user.
+
+## Test samples
+
+# Search data
 
 The simplest call, is to search for data. Let's test it with functions:
 
 ```
-curl -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...' -X GET https://qa-data.auto-partner.net/data/api/v1/functions/search?l=en\&q=*
+curl -H 'Authorization: $JWT' -X GET https://qa-data.auto-partner.net/data/api/v1/functions/search?l=en\&q=
+```
+> You may notice the \\ before the &. In some shells, this it's necessary to escape the &, because it is a delimiter for the command.
+
+or using Powershell:
+```
+Invoke-WebRequest -uri "$url/api/v1/functions/search?l=en&q=" -Headers $jwt
 ```
 
-> You may notice the \\ before the &. In some shells, this it's necessary to escape the &, because it is a delimiter for the command.
 
 > With `search` and `find` requests, you need to specify the language with the parameter `l=en`.
 
 The command should return lot's of functions. You can copy the `matchcode` and get the details for it:
 
 ```
-curl -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...' -X GET https://qa-data.auto-partner.net/data/api/v1/functions/details/FU_ST_USER
+curl -H 'Authorization: $JWT' -X GET https://qa-data.auto-partner.net/data/api/v1/functions/details/FU_ST_USER
+```
+or using Powershell:
+```
+Invoke-WebRequest -uri "$url/api/v1/functions/details/FU_ST_USER" -Headers $jwt
 ```
 
 This will return the details of the function. You can do the same for a lot of other interfaces:
@@ -217,18 +268,6 @@ With companies and persons, you have to use the `id` instead of the `matchcode`.
 CompanyGroups only contain the `details` interface.
 
 * `companygroups`
-
-## Pro Tip
-
-When you are using bash, you can export the token and use it as a placeholder.
-
-```
-export JWT='Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...'
-```
-
-You can use the token with `$JWT`.
-
-In windows, you can experiment with the `set` command and `%JWT%` as placeholder.
 
 # Testing with Postman
 
@@ -256,13 +295,13 @@ Please check the chapter [User for Access](#user-for-access).
 
 ## Where can I get my password from?
 
-After the system user has been created, you can use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) for requesting a password. You should see the system user in the list. Click on the name and you will see the details of this user. In this form, you can request a new password.
+After the system user has been created, you can use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)) for requesting a password. You should see the system user in the list. Click on the name and you will see the details of this user. In this form, you can request a new password.
 
 If the system user is missing, you may be missing in the list of responsible persons for this system user. In such a case, please contact your contact person at the Porsche Holding.
 
 ## I'm not allowed to access the Data API, but the password is correct!
 
-Use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) to check the access log. It will contain a more detailed explanation of what went wrong. Quite often the IP is not allowed. You can add it in the Self-Service as well.
+Use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)) to check the access log. It will contain a more detailed explanation of what went wrong. Quite often the IP is not allowed. You can add it in the Self-Service as well.
 
 ## When querying data, why do I get duplicate entries while others are missing?
 
@@ -298,6 +337,9 @@ This will result in a search that's more like: `(TA_ACT_1 OR TA_ACT_2) AND (FU_F
 
 To avoid this common pitfall, there is a search for `role`s now, searching for both, functions and activities, using an `OR` query.
 
+# I Still Need Help
+
+Feel free to contact us via the inhouse "POI-Partner.Net / Data API" Teams channel or via your contact person at the Porsche Informatik. Please to not contact our development staff directly - they are very jumpy and it takes hours to calm them down.
 
 
 
