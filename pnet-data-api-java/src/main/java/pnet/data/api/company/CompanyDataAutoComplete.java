@@ -5,6 +5,7 @@ import java.util.List;
 import pnet.data.api.util.AbstractAutoComplete;
 import pnet.data.api.util.AutoCompleteFunction;
 import pnet.data.api.util.CompanyMergable;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictContractType;
@@ -22,7 +23,7 @@ public class CompanyDataAutoComplete extends AbstractAutoComplete<CompanyAutoCom
     implements RestrictTenant<CompanyDataAutoComplete>, RestrictBrand<CompanyDataAutoComplete>,
     RestrictCountryCode<CompanyDataAutoComplete>, RestrictType<CompanyDataAutoComplete>,
     RestrictContractType<CompanyDataAutoComplete>, RestrictLocation<CompanyDataAutoComplete>,
-    CompanyMergable<CompanyDataAutoComplete>
+    IncludeInactive<CompanyDataAutoComplete>, CompanyMergable<CompanyDataAutoComplete>
 {
 
     public CompanyDataAutoComplete(AutoCompleteFunction<CompanyAutoCompleteDTO> autoCompleteFunction,

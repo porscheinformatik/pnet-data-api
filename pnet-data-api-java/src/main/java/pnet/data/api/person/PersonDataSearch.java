@@ -8,6 +8,7 @@ import pnet.data.api.util.AggregateNumberPerCompany;
 import pnet.data.api.util.AggregateNumberPerFunction;
 import pnet.data.api.util.AggregateNumberPerTenant;
 import pnet.data.api.util.CompanyMergable;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictBrand;
@@ -27,13 +28,13 @@ import pnet.data.api.util.SearchWithAggregationsFunction;
  * @author ham
  */
 public class PersonDataSearch
-    extends AbstractSearchWithAggregations<PersonItemDTO, PersonAggregationsDTO, PersonDataSearch>
-    implements RestrictTenant<PersonDataSearch>, RestrictCompanyId<PersonDataSearch>,
-    RestrictCompanyNumber<PersonDataSearch>, RestrictCompany<PersonDataSearch>, RestrictBrand<PersonDataSearch>,
-    RestrictFunction<PersonDataSearch>, RestrictActivity<PersonDataSearch>, RestrictRole<PersonDataSearch>,
-    RestrictDatedBackUntil<PersonDataSearch>, CompanyMergable<PersonDataSearch>,
-    AggregateNumberPerTenant<PersonDataSearch>, AggregateNumberPerCompany<PersonDataSearch>,
-    AggregateNumberPerFunction<PersonDataSearch>, AggregateNumberPerActivity<PersonDataSearch>, RestrictQueryField<PersonDataSearch>
+    extends AbstractSearchWithAggregations<PersonItemDTO, PersonAggregationsDTO, PersonDataSearch> implements
+    RestrictTenant<PersonDataSearch>, RestrictCompanyId<PersonDataSearch>, RestrictCompanyNumber<PersonDataSearch>,
+    RestrictCompany<PersonDataSearch>, RestrictBrand<PersonDataSearch>, RestrictFunction<PersonDataSearch>,
+    RestrictActivity<PersonDataSearch>, RestrictRole<PersonDataSearch>, RestrictDatedBackUntil<PersonDataSearch>,
+    IncludeInactive<PersonDataSearch>, CompanyMergable<PersonDataSearch>, AggregateNumberPerTenant<PersonDataSearch>,
+    AggregateNumberPerCompany<PersonDataSearch>, AggregateNumberPerFunction<PersonDataSearch>,
+    AggregateNumberPerActivity<PersonDataSearch>, RestrictQueryField<PersonDataSearch>
 {
 
     public PersonDataSearch(SearchWithAggregationsFunction<PersonItemDTO, PersonAggregationsDTO> searchFunction,

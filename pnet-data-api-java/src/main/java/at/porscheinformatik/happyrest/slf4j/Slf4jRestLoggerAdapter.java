@@ -37,7 +37,7 @@ public class Slf4jRestLoggerAdapter implements RestLoggerAdapter
     @Override
     public void logRequest(RestMethod method, String uri)
     {
-        logger.info("Sending {} request: {}", method, uri);
+        logger.info("{} {}", method, uri);
     }
 
     @Override

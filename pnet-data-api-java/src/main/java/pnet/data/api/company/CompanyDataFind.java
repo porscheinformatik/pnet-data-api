@@ -5,6 +5,7 @@ import java.util.List;
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompanyNumber;
@@ -31,7 +32,8 @@ public class CompanyDataFind extends AbstractFind<CompanyItemDTO, CompanyDataFin
     RestrictBrand<CompanyDataFind>, RestrictCompanyNumber<CompanyDataFind>, RestrictPostalCode<CompanyDataFind>,
     RestrictCountryCode<CompanyDataFind>, RestrictType<CompanyDataFind>, RestrictContractType<CompanyDataFind>,
     RestrictLocation<CompanyDataFind>, RestrictExternalBrand<CompanyDataFind>, RestrictUpdatedAfter<CompanyDataFind>,
-    RestrictDatedBackUntil<CompanyDataFind>, CompanyMergable<CompanyDataFind>, Scrollable<CompanyDataFind>
+    RestrictDatedBackUntil<CompanyDataFind>, IncludeInactive<CompanyDataFind>, CompanyMergable<CompanyDataFind>,
+    Scrollable<CompanyDataFind>
 {
 
     public CompanyDataFind(FindFunction<CompanyItemDTO> findFunction, List<Pair<String, Object>> restricts)

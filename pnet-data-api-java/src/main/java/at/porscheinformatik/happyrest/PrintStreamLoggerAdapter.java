@@ -22,7 +22,7 @@ public class PrintStreamLoggerAdapter implements RestLoggerAdapter
     @Override
     public void logRequest(RestMethod method, String uri)
     {
-        stream.printf("Sending %s request: %s%n", method, uri);
+        stream.printf("%s %s%n", method, uri);
     }
 
     @Override

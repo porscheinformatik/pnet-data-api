@@ -1,3 +1,8 @@
+pnet-data-api 1.14.1
+====================
+
+* "includeInactive" flag for companies and persons.
+
 pnet-data-api 1.14.0
 ====================
 

@@ -5,6 +5,7 @@ import java.util.List;
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictAdvisorAssignmentCompany;
@@ -50,7 +51,8 @@ public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind>
     RestrictAdvisorAssignmentCompanyId<PersonDataFind>, RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompany<PersonDataFind>, RestrictAdvisorAssignmentType<PersonDataFind>,
     RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictUpdatedAfter<PersonDataFind>,
-    RestrictDatedBackUntil<PersonDataFind>, CompanyMergable<PersonDataFind>, Scrollable<PersonDataFind>
+    RestrictDatedBackUntil<PersonDataFind>, IncludeInactive<PersonDataFind>, CompanyMergable<PersonDataFind>,
+    Scrollable<PersonDataFind>
 {
 
     public PersonDataFind(FindFunction<PersonItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
