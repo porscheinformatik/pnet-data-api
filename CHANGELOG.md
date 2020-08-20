@@ -2,6 +2,7 @@ pnet-data-api 1.14.1
 ====================
 
 * "includeInactive" flag for companies and persons.
+* Quality of life enhancements in the sample client. 
 
 pnet-data-api 1.14.0
 ====================

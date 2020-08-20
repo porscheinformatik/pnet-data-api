@@ -158,6 +158,7 @@ import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.ImageType;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Resource;
@@ -319,7 +320,8 @@ public final class PnetRestClient
     private LocalDateTime datedBackUntil = null;
     private Boolean restrictRejected = null;
     private Boolean restrictArchived = null;
-    private boolean aggs = true;
+    private boolean includeInactive = false;
+    private boolean aggs = false;
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
 
@@ -391,7 +393,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get activity by mc", format = "<MC...>",
+    @CLI.Command(name = {"get activity by mc", "get activities by mc"}, format = "<MC...>",
         description = "Returns the activities with the specified matchcodes.")
     public void getActivities(String... matchcodes) throws PnetDataClientException
     {
@@ -421,7 +423,8 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find activities by mc", format = "<MC...>", description = "Find activities by matchcodes.")
+    @CLI.Command(name = {"find activities by mc", "find activity by mc"}, format = "<MC...>",
+        description = "Find activities by matchcodes.")
     public void findActivities(String... matchcodes) throws PnetDataClientException
     {
         ActivityDataFind query = restrict(activityDataClient.find().matchcode(matchcodes));
@@ -430,7 +433,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search activities", format = "<QUERY>", description = "Query activities.")
+    @CLI.Command(name = {"search activities", "search activity"}, format = "<QUERY>", description = "Query activities.")
     public void searchActivities(String... qs) throws PnetDataClientException
     {
         ActivityDataSearch query = restrict(activityDataClient.search());
@@ -448,7 +451,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get advisor type by mc", format = "<MC...>",
+    @CLI.Command(name = {"get advisor type by mc", "get advisor types by mc"}, format = "<MC...>",
         description = "Returns the advisor types with the specified matchcodes.")
     public void getAdvisorTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -478,7 +481,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find advisor types by mc", format = "<MC...>",
+    @CLI.Command(name = {"find advisor types by mc", "find advisor type by mc"}, format = "<MC...>",
         description = "Find advisor types by matchcodes.")
     public void findAdvisorTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -488,7 +491,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search advisor types", format = "<QUERY>", description = "Query advisor types.")
+    @CLI.Command(name = {"search advisor types", "search advisor type"}, format = "<QUERY>",
+        description = "Query advisor types.")
     public void searchAdvisorTypes(String... qs) throws PnetDataClientException
     {
         AdvisorTypeDataSearch query = restrict(advisorTypeDataClient.search());
@@ -504,7 +508,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get application by mc", format = "<MC...>",
+    @CLI.Command(name = {"get application by mc", "get applications by mc"}, format = "<MC...>",
         description = "Returns the applications with the specified matchcodes.")
     public void getApplications(String... matchcodes) throws PnetDataClientException
     {
@@ -534,7 +538,8 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find applications by mc", format = "<MC...>", description = "Find applications by matchcodes.")
+    @CLI.Command(name = {"find applications by mc", "find application by mc"}, format = "<MC...>",
+        description = "Find applications by matchcodes.")
     public void findApplications(String... matchcodes) throws PnetDataClientException
     {
         ApplicationDataFind query = restrict(applicationDataClient.find().matchcode(matchcodes));
@@ -543,7 +548,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search applications", format = "<QUERY>", description = "Query applications.")
+    @CLI.Command(name = {"search applications", "search application"}, format = "<QUERY>",
+        description = "Query applications.")
     public void searchApplications(String... qs) throws PnetDataClientException
     {
         ApplicationDataSearch query = restrict(applicationDataClient.search());
@@ -559,7 +565,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get brand by mc", format = "<MC...>",
+    @CLI.Command(name = {"get brand by mc", "get brands by mc"}, format = "<MC...>",
         description = "Returns the brands with the specified matchcodes.")
     public void getBrands(String... matchcodes) throws PnetDataClientException
     {
@@ -589,7 +595,8 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find brands by mc", format = "<MC...>", description = "Find brands by matchcodes.")
+    @CLI.Command(name = {"find brands by mc", "find brand by mc"}, format = "<MC...>",
+        description = "Find brands by matchcodes.")
     public void findBrands(String... matchcodes) throws PnetDataClientException
     {
         BrandDataFind query = restrict(brandDataClient.find().matchcode(matchcodes));
@@ -598,7 +605,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search brands", format = "<QUERY>", description = "Query brands.")
+    @CLI.Command(name = {"search brands", "search brand"}, format = "<QUERY>", description = "Query brands.")
     public void searchBrands(String... qs) throws PnetDataClientException
     {
         BrandDataSearch query = restrict(brandDataClient.search());
@@ -607,7 +614,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "restrict brands", format = "[<BRAND>...]",
+    @CLI.Command(name = {"restrict brands", "restrict brand"}, format = "[<BRAND>...]",
         description = "Places a restriction with brands for subsequent operations.")
     public void restrictBrands(String... brands)
     {
@@ -619,7 +626,8 @@ public final class PnetRestClient
         cli.info("Requests are restricted to brands: %s", restrictedBrands);
     }
 
-    @CLI.Command(name = "clear brand restrictions", description = "Removes all restrictions for brands.")
+    @CLI.Command(name = {"clear brand restrictions", "clear brand restriction"},
+        description = "Removes all restrictions for brands.")
     public void clearBrandRestrictions()
     {
         cli.info("Removed %s brand restrictions.", restrictedBrands.size());
@@ -634,7 +642,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get company by id", format = "<COMPANY-ID...>",
+    @CLI.Command(name = {"get company by id", "get companies by id"}, format = "<COMPANY-ID...>",
         description = "Returns the companies with the specified ids.")
     public void getCompaniesByIds(Integer... ids) throws PnetDataClientException
     {
@@ -644,7 +652,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get company by mc", format = "<COMPANY-MC...>",
+    @CLI.Command(name = {"get company by mc", "get companies by mc"}, format = "<COMPANY-MC...>",
         description = "Returns the companies with the specified matchcode.")
     public void getCompaniesByMatchcodes(String... matchcodes) throws PnetDataClientException
     {
@@ -654,7 +662,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get company by vat", format = "<COMPANY-VATIDNUMBER...>",
+    @CLI.Command(name = {"get company by vat", "get companies by vat"}, format = "<COMPANY-VATIDNUMBER...>",
         description = "Returns the companies with the specified vat id numbers.")
     public void getCompaniesByVatIdNumbers(String... vatIdNumbers) throws PnetDataClientException
     {
@@ -664,7 +672,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get company by number", format = "<COMPANY-NUMBER...>",
+    @CLI.Command(name = {"get company by number", "get companies by number"}, format = "<COMPANY-NUMBER...>",
         description = "Returns the companies with the specified company numbers.")
     public void getCompaniesByCompanyNumbers(String... companyNumbers) throws PnetDataClientException
     {
@@ -675,7 +683,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get company by iban", format = "<COMPANY-IBAN...>",
+    @CLI.Command(name = {"get company by iban", "get companies by iban"}, format = "<COMPANY-IBAN...>",
         description = "Returns the company with the specified ibans.")
     public void getCompaniesByIbans(String... ibans) throws PnetDataClientException
     {
@@ -685,7 +693,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get company by email", format = "<COMPANY-EMAIL...>",
+    @CLI.Command(name = {"get company by email", "get companies by email"}, format = "<COMPANY-EMAIL...>",
         description = "Returns the company with the specified emails.")
     public void getCompaniesByEmails(String... emails) throws PnetDataClientException
     {
@@ -695,7 +703,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get company by dvr", format = "<COMPANY-DPRN...>",
+    @CLI.Command(name = {"get company by dvr", "get companies by dvr"}, format = "<COMPANY-DPRN...>",
         description = "Returns the companies with the specified data processing register numbers.")
     public void getCompaniesByDataProcessingRegisterNumbers(String... dataProcessingRegisterNumbers)
         throws PnetDataClientException
@@ -727,7 +735,8 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find companies by id", format = "<ID...>", description = "Find companies by id.")
+    @CLI.Command(name = {"find companies by id", "find company by id"}, format = "<ID...>",
+        description = "Find companies by id.")
     public void findCompaniesByIds(Integer... ids) throws PnetDataClientException
     {
         CompanyDataFind query = restrict(companyDataClient.find().id(ids));
@@ -736,7 +745,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find companies by mc", format = "<MC...>", description = "Find companies by matchcode.")
+    @CLI.Command(name = {"find companies by mc", "find company by mc"}, format = "<MC...>",
+        description = "Find companies by matchcode.")
     public void findCompaniesByMatchcodes(String... mcs) throws PnetDataClientException
     {
         CompanyDataFind query = restrict(companyDataClient.find().matchcode(mcs));
@@ -745,7 +755,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find companies by number", format = "<NUMBER...>",
+    @CLI.Command(name = {"find companies by number", "find company by number"}, format = "<NUMBER...>",
         description = "Find companies by company number.")
     public void findCompaniesByNumbers(String... numbers) throws PnetDataClientException
     {
@@ -755,7 +765,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "auto complete companies", format = "<QUERY>",
+    @CLI.Command(name = {"autocomplete companies", "autocomplete company"}, format = "<QUERY>",
         description = "Auto complete the name of companies.")
     public void autoCompleteCompanies(String... qs) throws PnetDataClientException
     {
@@ -765,7 +775,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search companies", format = "<QUERY>", description = "Query companies.")
+    @CLI.Command(name = {"search companies", "search company"}, format = "<QUERY>", description = "Query companies.")
     public void searchCompanies(String... qs) throws PnetDataClientException
     {
         CompanyDataSearch query = restrict(companyDataClient.search());
@@ -774,7 +784,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "restrict company ids", format = "<ID...>",
+    @CLI.Command(name = {"restrict company ids", "restrict company id"}, format = "<ID...>",
         description = "Places a restriction with company numbers for subsequent operations.")
     public void restrictCompaniesById(Integer... ids)
     {
@@ -786,7 +796,7 @@ public final class PnetRestClient
         cli.info("Requests are restricted to company ids: %s", restrictedCompanyIds);
     }
 
-    @CLI.Command(name = "restrict company mcs", format = "<MC...>",
+    @CLI.Command(name = {"restrict company mcs", "restrict company mc"}, format = "<MC...>",
         description = "Places a restriction with company matchcodes for subsequent operations.")
     public void restrictCompaniesByMatchcode(String... matchcodes)
     {
@@ -798,7 +808,7 @@ public final class PnetRestClient
         cli.info("Requests are restricted to company matchcodes: %s", restrictedCompanyMatchcodes);
     }
 
-    @CLI.Command(name = "restrict company numbers", format = "<NUMBER...>",
+    @CLI.Command(name = {"restrict company numbers", "restrict company number"}, format = "<NUMBER...>",
         description = "Places a restriction with company numbers for subsequent operations.")
     public void restrictCompaniesByNumber(String... numbers)
     {
@@ -810,7 +820,7 @@ public final class PnetRestClient
         cli.info("Requests are restricted to company numbers: %s", restrictedCompanyNumbers);
     }
 
-    @CLI.Command(name = "restrict functions", format = "<MC...>",
+    @CLI.Command(name = {"restrict functions", "restrict function"}, format = "<MC...>",
         description = "Places a restriction of functions for subsequent operations.")
     public void restrictFunctionsByMatchcode(String... matchcodes)
     {
@@ -822,7 +832,7 @@ public final class PnetRestClient
         cli.info("Requests are restricted to function matchcodes: %s", restrictedFunctionMatchcodes);
     }
 
-    @CLI.Command(name = "restrict activities", format = "<MC...>",
+    @CLI.Command(name = {"restrict activities", "restrict activity"}, format = "<MC...>",
         description = "Places a restriction of activities for subsequent operations.")
     public void restrictActivitiesByMatchcode(String... matchcodes)
     {
@@ -834,7 +844,7 @@ public final class PnetRestClient
         cli.info("Requests are restricted to activity matchcodes: %s", restrictedActivityMatchcodes);
     }
 
-    @CLI.Command(name = "restrict number types", format = "<MC...>",
+    @CLI.Command(name = {"restrict number types", "restrict number type"}, format = "<MC...>",
         description = "Places a restriction of number types for subsequent operations.")
     public void restrictNumberTypesByMatchcode(String... matchcodes)
     {
@@ -846,7 +856,7 @@ public final class PnetRestClient
         cli.info("Requests are restricted to number type matchcodes: %s", restrictedNumberTypeMatchcodes);
     }
 
-    @CLI.Command(name = "restrict company types", format = "<MC...>",
+    @CLI.Command(name = {"restrict company types", "restrict company type"}, format = "<MC...>",
         description = "Places a restriction of company types for subsequent operations.")
     public void restrictCompanyTypesByMatchcode(String... matchcodes)
     {
@@ -858,7 +868,7 @@ public final class PnetRestClient
         cli.info("Requests are restricted to company type matchcodes: %s", restrictedCompanyTypeMatchcodes);
     }
 
-    @CLI.Command(name = "restrict contract types", format = "<MC...>",
+    @CLI.Command(name = {"restrict contract types", "restrict contract type"}, format = "<MC...>",
         description = "Places a restriction of contract types for subsequent operations.")
     public void restrictContractTypesByMatchcode(String... matchcodes)
     {
@@ -870,7 +880,8 @@ public final class PnetRestClient
         cli.info("Requests are restricted to contract type matchcodes: %s", restrictedContractTypeMatchcodes);
     }
 
-    @CLI.Command(name = "clear company restrictions", description = "Removes all restrictions for companies.")
+    @CLI.Command(name = {"clear company restrictions", "clear company restriction"},
+        description = "Removes all restrictions for companies.")
     public void clearCompanyRestrictions()
     {
         cli
@@ -974,8 +985,8 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get company group by leading company id", format = "<COMPANY-ID...>",
-        description = "Returns the company groups with the specified ids.")
+    @CLI.Command(name = {"get company group by leading company id", "get company groups by leading company id"},
+        format = "<COMPANY-ID...>", description = "Returns the company groups with the specified ids.")
     public void getCompanyGroupByLeadingCompanyIds(Integer... ids) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
@@ -984,8 +995,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "get company group by leading company number", format = "<COMPANY-NUMBER...>",
-        description = "Returns the company groups with the specified numbers.")
+    @CLI.Command(name = {"get company group by leading company number", "get company groups by leading company number"},
+        format = "<COMPANY-NUMBER...>", description = "Returns the company groups with the specified numbers.")
     public void getCompanyGroupByLeadingCompanyNumbers(String... numbers) throws PnetDataClientException
     {
         CompanyGroupDataGet request = restrict(companyGroupDataClient.get());
@@ -995,8 +1006,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "get company group by leading company mc", format = "<COMPANY-MC...>",
-        description = "Returns the company groups with the specified matchcodes.")
+    @CLI.Command(name = {"get company group by leading company mc", "get company groups by leading company mc"},
+        format = "<COMPANY-MC...>", description = "Returns the company groups with the specified matchcodes.")
     public void getCompanyGroupByLeadingCompanyMatchcodes(String... matchcodes) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
@@ -1006,8 +1017,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "get company group by company id", format = "<COMPANY-ID...>",
-        description = "Returns the company groups with the specified ids.")
+    @CLI.Command(name = {"get company group by company id", "get company groups by company id"},
+        format = "<COMPANY-ID...>", description = "Returns the company groups with the specified ids.")
     public void getCompanyGroupByCompanyIds(Integer... ids) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
@@ -1016,8 +1027,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "get company group by company number", format = "<COMPANY-NUMBER...>",
-        description = "Returns the company groups with the specified numbers.")
+    @CLI.Command(name = {"get company group by company number", "get company groups by company number"},
+        format = "<COMPANY-NUMBER...>", description = "Returns the company groups with the specified numbers.")
     public void getCompanyGroupByCompanyNumbers(String... numbers) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
@@ -1026,8 +1037,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "get company group by company mc", format = "<COMPANY-MC...>",
-        description = "Returns the company groups with the specified matchcodes.")
+    @CLI.Command(name = {"get company group by company mc", "get company groups by company mc"},
+        format = "<COMPANY-MC...>", description = "Returns the company groups with the specified matchcodes.")
     public void getCompanyGroupByCompanyMatchcodes(String... matchcodes) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
@@ -1060,7 +1071,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find company groups by leader", format = "<COMPANY-ID...>",
+    @CLI.Command(name = {"find company groups by leader", "find company group by leader"}, format = "<COMPANY-ID...>",
         description = "Find all company groups with the specified leader.")
     public void findCompanyGroupsByLeader(Integer... ids) throws PnetDataClientException
     {
@@ -1070,7 +1081,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find company groups by member", format = "<COMPANY-ID...>",
+    @CLI.Command(name = {"find company groups by member", "find company group by member"}, format = "<COMPANY-ID...>",
         description = "Find all company groups with the specified member.")
     public void findCompanyGroupsByMember(Integer... ids) throws PnetDataClientException
     {
@@ -1089,7 +1100,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get company group type by mc", format = "<MC...>",
+    @CLI.Command(name = {"get company group type by mc", "get company group types by mc"}, format = "<MC...>",
         description = "Returns the company group types with the specified matchcodes.")
     public void getCompanyGroupTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -1100,7 +1111,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get company group by type", format = "<MC...>",
+    @CLI.Command(name = {"get company group by type", "get company groups by type"}, format = "<MC...>",
         description = "Returns the company groups with the specified matchcodes.")
     public void getCompanyGroupTypesByType(String... matchcodes) throws PnetDataClientException
     {
@@ -1131,7 +1142,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find company group types by mc", format = "<MC...>",
+    @CLI.Command(name = {"find company group types by mc", "find company group type by mc"}, format = "<MC...>",
         description = "Find comany group types by matchcodes.")
     public void findCompanyGroupTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -1141,7 +1152,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search company group types", format = "<QUERY>", description = "Query company group types.")
+    @CLI.Command(name = {"search company group types", "search company group type"}, format = "<QUERY>",
+        description = "Query company group types.")
     public void searchCompanyGroupTypes(String... qs) throws PnetDataClientException
     {
         CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
@@ -1157,7 +1169,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get company number type by mc", format = "<MC...>",
+    @CLI.Command(name = {"get company number type by mc", "get company number types by mc"}, format = "<MC...>",
         description = "Returns the company number types with the specified matchcodes.")
     public void getCompanyNumberTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -1188,7 +1200,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find company number types by mc", format = "<MC...>",
+    @CLI.Command(name = {"find company number types by mc", "find company number type by mc"}, format = "<MC...>",
         description = "Find comany number types by matchcodes.")
     public void findCompanyNumberTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -1198,7 +1210,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search company number types", format = "<QUERY>", description = "Query company number types.")
+    @CLI.Command(name = {"search company number types", "search company number type"}, format = "<QUERY>",
+        description = "Query company number types.")
     public void searchCompanyNumberTypes(String... qs) throws PnetDataClientException
     {
         CompanyNumberTypeDataSearch query = restrict(companyNumberTypeDataClient.search());
@@ -1234,7 +1247,8 @@ public final class PnetRestClient
         printAllResults(results, this::populateTable);
     }
 
-    @CLI.Command(name = "search company types", format = "<QUERY>", description = "Query company types.")
+    @CLI.Command(name = {"search company types", "search company type"}, format = "<QUERY>",
+        description = "Query company types.")
     public void searchCompanyTypes(String... qs) throws PnetDataClientException
     {
         CompanyTypeDataSearch query = restrict(companyTypeDataClient.search());
@@ -1250,7 +1264,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get contract state by mc", format = "<MC...>",
+    @CLI.Command(name = {"get contract state by mc", "get contract states by mc"}, format = "<MC...>",
         description = "Returns the contract states with the specified matchcodes.")
     public void getContractStates(String... matchcodes) throws PnetDataClientException
     {
@@ -1281,7 +1295,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find contract states by mc", format = "<MC...>",
+    @CLI.Command(name = {"find contract states by mc", "find contract state by mc"}, format = "<MC...>",
         description = "Find contract states by matchcodes.")
     public void findContractStates(String... matchcodes) throws PnetDataClientException
     {
@@ -1291,7 +1305,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search contract states", format = "<QUERY>", description = "Query contract states types.")
+    @CLI.Command(name = {"search contract states", "search contract state"}, format = "<QUERY>",
+        description = "Query contract states types.")
     public void searchContractStates(String... qs) throws PnetDataClientException
     {
         ContractStateDataSearch query = restrict(contractStateDataClient.search());
@@ -1307,7 +1322,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get contract type by mc", format = "<MC...>",
+    @CLI.Command(name = {"get contract type by mc", "get contract types by mc"}, format = "<MC...>",
         description = "Returns the contract types with the specified matchcodes.")
     public void getContractTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -1338,7 +1353,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find contract types by mc", format = "<MC...>",
+    @CLI.Command(name = {"find contract types by mc", "find contract type by mc"}, format = "<MC...>",
         description = "Find contract types by matchcodes.")
     public void findContractTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -1348,7 +1363,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search contract types", format = "<QUERY>", description = "Query contract types.")
+    @CLI.Command(name = {"search contract types", "search contract type"}, format = "<QUERY>",
+        description = "Query contract types.")
     public void searchContractTypes(String... qs) throws PnetDataClientException
     {
         ContractTypeDataSearch query = restrict(contractTypeDataClient.search());
@@ -1366,7 +1382,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get external brand by mc", format = "<MC...>",
+    @CLI.Command(name = {"get external brand by mc", "get external brands by mc"}, format = "<MC...>",
         description = "Returns the external brands with the specified matchcodes.")
     public void getExternalBrands(String... matchcodes) throws PnetDataClientException
     {
@@ -1396,7 +1412,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find external brands by mc", format = "<MC...>",
+    @CLI.Command(name = {"find external brands by mc", "find external brand by mc"}, format = "<MC...>",
         description = "Find external brands by matchcodes.")
     public void findExternalBrands(String... matchcodes) throws PnetDataClientException
     {
@@ -1406,7 +1422,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search external brands", format = "<QUERY>", description = "Query external brands.")
+    @CLI.Command(name = {"search external brands", "search external brand"}, format = "<QUERY>",
+        description = "Query external brands.")
     public void searchExternalBrands(String... qs) throws PnetDataClientException
     {
         ExternalBrandDataSearch query = restrict(externalBrandDataClient.search());
@@ -1422,7 +1439,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get function by mc", format = "<MC...>",
+    @CLI.Command(name = {"get function by mc", "get functions by mc"}, format = "<MC...>",
         description = "Returns the functions with the specified matchcodes.")
     public void getFunctions(String... matchcodes) throws PnetDataClientException
     {
@@ -1452,7 +1469,8 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find functions by mc", format = "<MC...>", description = "Find functions by matchcodes.")
+    @CLI.Command(name = {"find functions by mc", "find function by mc"}, format = "<MC...>",
+        description = "Find functions by matchcodes.")
     public void findFunctions(String... matchcodes) throws PnetDataClientException
     {
         FunctionDataFind query = restrict(functionDataClient.find().matchcode(matchcodes));
@@ -1461,7 +1479,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search functions", format = "<QUERY>", description = "Query functions.")
+    @CLI.Command(name = {"search functions", "search function"}, format = "<QUERY>", description = "Query functions.")
     public void searchFunctions(String... qs) throws PnetDataClientException
     {
         FunctionDataSearch query = restrict(functionDataClient.search());
@@ -1479,7 +1497,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get legal form by mc", format = "<MC...>",
+    @CLI.Command(name = {"get legal form by mc", "get legal forms by mc"}, format = "<MC...>",
         description = "Returns the legal forms with the specified matchcodes.")
     public void getLegalForms(String... matchcodes) throws PnetDataClientException
     {
@@ -1509,7 +1527,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find legal forms by mc", format = "<MC...>",
+    @CLI.Command(name = {"find legal forms by mc", "find legal form by mc"}, format = "<MC...>",
         description = "Find comany group types by matchcodes.")
     public void findLegalForms(String... matchcodes) throws PnetDataClientException
     {
@@ -1519,7 +1537,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search legal forms", format = "<QUERY>", description = "Query legal forms.")
+    @CLI.Command(name = {"search legal forms", "search legal form"}, format = "<QUERY>",
+        description = "Query legal forms.")
     public void searchLegalForms(String... qs) throws PnetDataClientException
     {
         LegalFormDataSearch query = restrict(legalFormDataClient.search());
@@ -1535,7 +1554,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get number type by mc", format = "<MC...>",
+    @CLI.Command(name = {"get number type by mc", "get number types by mc"}, format = "<MC...>",
         description = "Returns the number types with the specified matchcodes.")
     public void getNumberTypes(String... matchcodes) throws PnetDataClientException
     {
@@ -1566,7 +1585,8 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find number types by mc", format = "<MC...>", description = "Find number types by matchcodes.")
+    @CLI.Command(name = {"find number types by mc", "find number type by mc"}, format = "<MC...>",
+        description = "Find number types by matchcodes.")
     public void findNumberTypes(String... matchcodes) throws PnetDataClientException
     {
         NumberTypeDataFind query = restrict(numberTypeDataClient.find().matchcode(matchcodes));
@@ -1575,7 +1595,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search number types", format = "<QUERY>", description = "Query number types.")
+    @CLI.Command(name = {"search number types", "search number type"}, format = "<QUERY>",
+        description = "Query number types.")
     public void searchNumberTypes(String... qs) throws PnetDataClientException
     {
         NumberTypeDataSearch query = restrict(numberTypeDataClient.search());
@@ -1591,7 +1612,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "get person by id", format = "<ID...>",
+    @CLI.Command(name = {"get person by id", "get persons by id"}, format = "<ID...>",
         description = "Returns all details of persons with the specified ids.")
     public void getPersonById(Integer... ids) throws PnetDataClientException
     {
@@ -1601,7 +1622,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get person by external id", format = "<EXTERNALID...>",
+    @CLI.Command(name = {"get person by external id", "get persons by external id"}, format = "<EXTERNALID...>",
         description = "Returns all details of persons with the specified external ids.")
     public void getPersonByExternalId(String... externalIds) throws PnetDataClientException
     {
@@ -1611,7 +1632,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get person by guid", format = "<GUID...>",
+    @CLI.Command(name = {"get person by guid", "get persons by guid"}, format = "<GUID...>",
         description = "Returns all details of persons with the specified guids.")
     public void getPersonByGuid(String... guids) throws PnetDataClientException
     {
@@ -1621,7 +1642,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get person by preferredUserId", format = "<PREFID...>",
+    @CLI.Command(name = {"get person by preferredUserId", "get persons by preferredUserId"}, format = "<PREFID...>",
         description = "Returns all details of persons with the specified preferredUserIds.")
     public void getPersonByPreferredUserId(String... preferredUserIds) throws PnetDataClientException
     {
@@ -1632,7 +1653,7 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get person by email", format = "<EMAIL...>",
+    @CLI.Command(name = {"get person by email", "get persons by email"}, format = "<EMAIL...>",
         description = "Returns all details of persons with the specified emails.")
     public void getPersonByEmail(String... emails) throws PnetDataClientException
     {
@@ -1642,8 +1663,8 @@ public final class PnetRestClient
         printResults(result, null);
     }
 
-    @CLI.Command(name = "get person by personnelNumber", format = "<PERSNUMBER...>",
-        description = "Returns all details of persons with the specified personnelNumbers.")
+    @CLI.Command(name = {"get person by personnel number", "get persons by personnel number"},
+        format = "<PERSNUMBER...>", description = "Returns all details of persons with the specified personnelNumbers.")
     public void getPersonByPersonnelNumber(String... personnelNumbers) throws PnetDataClientException
     {
         PersonDataGet query = restrict(personDataClient.get());
@@ -1673,7 +1694,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find persons by personnel number", format = "<NUMBER...>",
+    @CLI.Command(name = {"find persons by personnel number", "find person by personnel number"}, format = "<NUMBER...>",
         description = "Find persons by personnel number.")
     public void findPersonsByPersonnelNumber(String... numbers) throws PnetDataClientException
     {
@@ -1683,7 +1704,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find persons by salesman number", format = "<NUMBER...>",
+    @CLI.Command(name = {"find persons by salesman number", "find person by salesman number"}, format = "<NUMBER...>",
         description = "Find persons by salesman number.")
     public void findPersonsBySalesmanNumber(String... numbers) throws PnetDataClientException
     {
@@ -1693,7 +1714,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find persons by id", format = "<ID...>", description = "Find a person by id.")
+    @CLI.Command(name = {"find persons by id", "find person by id"}, format = "<ID...>",
+        description = "Find a person by id.")
     public void findPersonById(Integer... ids) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().id(ids));
@@ -1702,7 +1724,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find persons by company", format = "<COMPANY-MC...>",
+    @CLI.Command(name = {"find persons by company", "find person by company"}, format = "<COMPANY-MC...>",
         description = "Find persons at a specific company.")
     public void findPersonsByCompany(String... matchcodes) throws PnetDataClientException
     {
@@ -1712,7 +1734,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find persons by role", format = "<ROLE-MC...>",
+    @CLI.Command(name = {"find persons by role", "find person by role"}, format = "<ROLE-MC...>",
         description = "Find persons by functions and activities.")
     public void findPersonsByRole(String... matchcodes) throws PnetDataClientException
     {
@@ -1722,7 +1744,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "auto complete persons", format = "<QUERY>", description = "Auto complete the name of person.")
+    @CLI.Command(name = {"autocomplete persons", "autocomplete person"}, format = "<QUERY>",
+        description = "Auto complete the name of person.")
     public void autoCompletePersons(String... qs) throws PnetDataClientException
     {
         PersonDataAutoComplete query = restrict(personDataClient.autoComplete());
@@ -1731,7 +1754,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search persons", format = "<QUERY>", description = "Search for a person.")
+    @CLI.Command(name = {"search persons", "search person"}, format = "<QUERY>", description = "Search for a person.")
     public void searchPersons(String... qs) throws PnetDataClientException
     {
         PersonDataSearch query = restrict(personDataClient.search());
@@ -1819,7 +1842,8 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find proposals by id", format = "<ID...>", description = "Find proposals by id")
+    @CLI.Command(name = {"find proposals by id", "find proposal by id"}, format = "<ID...>",
+        description = "Find proposals by id")
     public void findProposalsById(Integer... ids) throws PnetDataClientException
     {
         ProposalDataFind query = restrict(proposalDataClient.find().id(ids));
@@ -1828,7 +1852,8 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find proposals by state", format = "<STATE...>", description = "Find proposals by state.")
+    @CLI.Command(name = {"find proposals by state", "find proposal by state"}, format = "<STATE...>",
+        description = "Find proposals by state.")
     public void findProposalsByCategory(ProposalState... states) throws PnetDataClientException
     {
         ProposalDataFind query = restrict(proposalDataClient.find().state(states));
@@ -1837,7 +1862,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find proposals by person id", format = "<PERSION-ID...>",
+    @CLI.Command(name = {"find proposals by person id", "find proposal by person id"}, format = "<PERSION-ID...>",
         description = "Find proposals by person id.")
     public void findProposalsByOPersonId(Integer... personIds) throws PnetDataClientException
     {
@@ -1847,7 +1872,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "search proposals", format = "<QUERY>", description = "Query proposals.")
+    @CLI.Command(name = {"search proposals", "search proposal"}, format = "<QUERY>", description = "Query proposals.")
     public void searchProposals(String... qs) throws PnetDataClientException
     {
         ProposalDataSearch query = restrict(proposalDataClient.search());
@@ -1892,7 +1917,7 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find todo groups by mc", format = "<ID...>",
+    @CLI.Command(name = {"find todo groups by mc", "find todo group by mc"}, format = "<ID...>",
         description = "Find todo groups by reference matchcode.")
     public void findTodoGroupsByReferenceMatchcode(String... referenceMatchcodes) throws PnetDataClientException
     {
@@ -1902,7 +1927,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find todo groups by category", format = "<CATEGORY...>",
+    @CLI.Command(name = {"find todo groups by category", "find todo group by category"}, format = "<CATEGORY...>",
         description = "Find todo groups by category.")
     public void findTodoGroupsByCategory(TodoCategory... categories) throws PnetDataClientException
     {
@@ -1912,7 +1937,7 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "find todo groups by person id", format = "<PERSION-ID...>",
+    @CLI.Command(name = {"find todo groups by person id", "find todo group by person id"}, format = "<PERSION-ID...>",
         description = "Find todo groups by person id.")
     public void findTodoGroupsByOPersonId(Integer... personIds) throws PnetDataClientException
     {
@@ -1929,7 +1954,8 @@ public final class PnetRestClient
         throw new UnsupportedOperationException("IMPLEMENT WHEN NEEDED!");
     }
 
-    @CLI.Command(name = "search todo groups", format = "<QUERY>", description = "Query todo groups.")
+    @CLI.Command(name = {"search todo groups", "search todo group"}, format = "<QUERY>",
+        description = "Query todo groups.")
     public void searchTodoGroups(String... qs) throws PnetDataClientException
     {
         TodoGroupDataSearch query = restrict(todoGroupDataClient.search());
@@ -2019,7 +2045,7 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "restrict tenants", format = "[<TENANT>...]",
+    @CLI.Command(name = {"restrict tenants", "restrict tenant"}, format = "[<TENANT>...]",
         description = "Places a restriction with tenants for subsequent operations.")
     public void restrictTenants(String... tenants)
     {
@@ -2031,7 +2057,8 @@ public final class PnetRestClient
         cli.info("Requests are restricted to tenants: %s", restrictedTenants);
     }
 
-    @CLI.Command(name = "clear tenant restrictions", description = "Removes all restrictions for tenants.")
+    @CLI.Command(name = {"clear tenant restrictions", "clear tenant restriction"},
+        description = "Removes all restrictions for tenants.")
     public void clearTenantRestrictions()
     {
         cli.info("Removed %s tenant restrictions.", restrictedTenants.size());
@@ -2041,7 +2068,25 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "restrict query fields", format = "[<FIELDS>...]",
+    @CLI.Command(name = "include inactive", description = "Include company/persons that are currently not active")
+    public void includeInactive()
+    {
+        cli.info("Including inactive items.", restrictedTenants.size());
+
+        includeInactive = true;
+    }
+
+    @CLI.Command(name = "exclude inactive", description = "Exclude company/persons that are currently not active")
+    public void excludeInactive()
+    {
+        cli.info("Excluding inactive items.", restrictedTenants.size());
+
+        includeInactive = false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    @CLI.Command(name = {"restrict query fields", "restrict query field"}, format = "[<FIELDS>...]",
         description = "Places a restriction for query fields.")
     public void restrictQueryFields(String... queryFields)
     {
@@ -2053,7 +2098,8 @@ public final class PnetRestClient
         cli.info("Queries are restricted to following fields: %s", restrictedQueryFields);
     }
 
-    @CLI.Command(name = "clear query field restrictions", description = "Removes all restrictions to query fields.")
+    @CLI.Command(name = {"clear query field restrictions", "clear query field restriction"},
+        description = "Removes all restrictions to query fields.")
     public void clearQueryFieldRestrictions()
     {
         cli.info("Removed %s query field restrictions.", restrictedQueryFields.size());
@@ -2199,6 +2245,13 @@ public final class PnetRestClient
             restrict = ((RestrictArchived<T>) restrict).archived(restrictArchived);
         }
 
+        if (restrict instanceof IncludeInactive && includeInactive)
+        {
+            cli.info("Including inactive");
+
+            restrict = ((IncludeInactive<T>) restrict).includeInactive();
+        }
+
         return restrict;
     }
 
@@ -2258,7 +2311,7 @@ public final class PnetRestClient
         return restrict;
     }
 
-    @CLI.Command(name = "clear restrictions", description = "Removes all restrictions.")
+    @CLI.Command(name = {"clear restrictions", "clear restriction"}, description = "Removes all restrictions.")
     public void clearRestrictions()
     {
         cli.info("Removed all restrictions.");
@@ -2539,14 +2592,20 @@ public final class PnetRestClient
     {
         cli.info("Found %d results.", page.getTotalNumberOfItems());
 
-        printPage(page, populateTableFn);
+        if (page.getTotalNumberOfItems() > 0)
+        {
+            printPage(page, populateTableFn);
+        }
     }
 
     protected <T> void printResults(List<T> list, BiConsumer<Table, T> populateTableFn) throws PnetDataClientException
     {
         cli.info("Found %d results.", list.size());
 
-        printList(list, populateTableFn);
+        if (list.size() > 0)
+        {
+            printList(list, populateTableFn);
+        }
     }
 
     protected <T> void printAllResults(PnetDataClientResultPage<T> page, BiConsumer<Table, T> populateTableFn)

@@ -755,21 +755,16 @@ public class CLI
         {
             StringBuilder builder = new StringBuilder(prefix);
 
-            builder.append(name).append(" ");
+            builder.append(name);
 
             if (format != null)
             {
-                builder.append(format);
                 builder.append(" ");
+                builder.append(format);
             }
 
-            while (builder.length() < 40)
-            {
-                builder.append(".");
-            }
-
-            builder.append(" ");
-            builder.append(description);
+            builder.append("\n\t");
+            builder.append(description.replace("\n", "\n\t"));
 
             return builder.toString();
         }
@@ -825,7 +820,7 @@ public class CLI
 
                 if (result.length() > 0)
                 {
-                    result.append("\n");
+                    result.append("\n\n");
                 }
 
                 result.append(help);
@@ -1100,8 +1095,8 @@ public class CLI
     {
         if (ex != null)
         {
-            err.printf("\n");
             ex.printStackTrace(err);
+            err.printf("\n");
         }
     }
 
@@ -1112,7 +1107,7 @@ public class CLI
 
     public void info(Object message, Throwable ex, Object... args)
     {
-        writeOut("\n" + message, args);
+        writeOut(message + "\n", args);
         writeOut(ex);
     }
 
@@ -1123,7 +1118,7 @@ public class CLI
 
     public void warn(Object message, Throwable ex, Object... args)
     {
-        writeErr("\n" + message, args);
+        writeErr(message + "\n", args);
         writeErr(ex);
     }
 
@@ -1134,7 +1129,7 @@ public class CLI
 
     public void error(Object message, Throwable ex, Object... args)
     {
-        writeErr("\n" + message, args);
+        writeErr(message + "\n", args);
         writeErr(ex);
     }
 

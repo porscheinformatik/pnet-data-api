@@ -79,7 +79,7 @@ public class JavaRestCall extends AbstractRestCall
         String url = buildUrl(path, form);
         HttpRequest request = buildRequest(method, url, form);
 
-        loggerAdapter.logRequest(method, request.toString());
+        loggerAdapter.logRequest(method, String.valueOf(request.uri()));
 
         HttpResponse<InputStream> response;
         try

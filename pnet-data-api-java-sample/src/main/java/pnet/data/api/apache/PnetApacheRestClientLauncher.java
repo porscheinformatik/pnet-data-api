@@ -23,7 +23,7 @@ public final class PnetApacheRestClientLauncher
         String url = Prefs.getUrl(Prefs.DEFAULT_KEY);
         String username = Prefs.getUsername(Prefs.DEFAULT_KEY);
         String password = Prefs.getPassword(Prefs.DEFAULT_KEY);
-        ApacheClientFactory clientFactory = ApacheClientFactory.of(url, username, password).loggingToSlf4J();
+        ApacheClientFactory clientFactory = ApacheClientFactory.of(url, username, password).loggingToSystemOut();
 
         PnetRestClient client = new PnetRestClient((MutablePnetDataClientPrefs) clientFactory.getPrefs(),
             clientFactory.getAboutDataClient(), clientFactory.getActivityDataClient(),

@@ -110,7 +110,7 @@ public class ApacheRestCall extends AbstractRestCall
         computeHeaders(request);
         computeEntity(method, request);
 
-        loggerAdapter.logRequest(method, request.toString());
+        loggerAdapter.logRequest(method, String.valueOf(request.getURI()));
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault())
         {
