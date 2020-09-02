@@ -14,39 +14,24 @@
  */
 package pnet.data.api.person;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import pnet.data.api.util.AbstractLinkDTO;
-import pnet.data.api.util.WithCompanyId;
-import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
- * Holds the number of a person for a company.
+ * Holds one employment dependent number of a person.
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a person.")
-public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
-    implements WithMatchcode, WithCompanyId, WithValidPeriod, Serializable
+@ApiModel(description = "Holds one employment dependent number of a person.")
+public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implements WithValidPeriod
 {
 
     private static final long serialVersionUID = -3446430282367218468L;
-
-    @ApiModelProperty(notes = "The id of the company the person has the number at.")
-    private final Integer companyId;
-
-    @ApiModelProperty(notes = "The matchcode of the company the person has the number at.")
-    private final String companyMatchcode;
-
-    @ApiModelProperty(notes = "The number of the company the person has the number at.")
-    private final String companyNumber;
 
     @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
     private final LocalDateTime validFrom;
@@ -54,54 +39,15 @@ public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
     @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
     private final LocalDateTime validTo;
 
-    @ApiModelProperty(notes = "The actual number, that fits the number type.")
-    private final String number;
-
     public PersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("validFrom") LocalDateTime validFrom,
         @JsonProperty("validTo") LocalDateTime validTo, @JsonProperty("number") String number)
     {
-        super(tenant, matchcode);
+        super(tenant, matchcode, companyId, companyMatchcode, companyNumber, number);
 
-        this.companyId = companyId;
-        this.companyMatchcode = companyMatchcode;
-        this.companyNumber = companyNumber;
         this.validFrom = validFrom;
         this.validTo = validTo;
-        this.number = number;
-    }
-
-    @JsonPropertyDescription("A tenant where the number type is valid")
-    @Override
-    public String getTenant()
-    {
-        return super.getTenant();
-    }
-
-    @JsonPropertyDescription("The unique matchcode of the number type")
-    @Override
-    public String getMatchcode()
-    {
-        return super.getMatchcode();
-    }
-
-    @Override
-    public Integer getCompanyId()
-    {
-        return companyId;
-    }
-
-    @Override
-    public String getCompanyMatchcode()
-    {
-        return companyMatchcode;
-    }
-
-    @Override
-    public String getCompanyNumber()
-    {
-        return companyNumber;
     }
 
     @Override
@@ -114,62 +60,6 @@ public class PersonNumberTypeLinkDTO extends AbstractLinkDTO
     public LocalDateTime getValidTo()
     {
         return validTo;
-    }
-
-    public String getNumber()
-    {
-        return number;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
-        result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
-            return true;
-        }
-        if (!super.equals(obj))
-        {
-            return false;
-        }
-        if (!(obj instanceof PersonNumberTypeLinkDTO))
-        {
-            return false;
-        }
-        PersonNumberTypeLinkDTO other = (PersonNumberTypeLinkDTO) obj;
-        if (companyId == null)
-        {
-            if (other.companyId != null)
-            {
-                return false;
-            }
-        }
-        else if (!companyId.equals(other.companyId))
-        {
-            return false;
-        }
-        if (validFrom == null)
-        {
-            if (other.validFrom != null)
-            {
-                return false;
-            }
-        }
-        else if (!validFrom.equals(other.validFrom))
-        {
-            return false;
-        }
-        return true;
     }
 
     @Override

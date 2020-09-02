@@ -100,6 +100,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "All main functions of the person.")
     private final Collection<ActivePersonFunctionLinkDTO> functions;
 
+    @ApiModelProperty(notes = "The number types the person has at specific companies.")
+    private final Collection<ActivePersonNumberTypeLinkDTO> numbers;
+
     @ApiModelProperty(notes = "The id of the company the person is mainly busy at.")
     private final Integer contactCompanyId;
 
@@ -131,6 +134,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("languages") Collection<Locale> languages,
         @JsonProperty("companies") Collection<ActivePersonCompanyLinkDTO> companies,
         @JsonProperty("functions") Collection<ActivePersonFunctionLinkDTO> functions,
+        @JsonProperty("numbers") Collection<ActivePersonNumberTypeLinkDTO> numbers,
         @JsonProperty("contactCompanyId") Integer contactCompanyId,
         @JsonProperty("contactCompanyMatchcode") String contactCompanyMatchcode,
         @JsonProperty("contactCompanyNumber") String contactCompanyNumber,
@@ -159,6 +163,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.languages = languages;
         this.companies = companies;
         this.functions = functions;
+        this.numbers = numbers;
         this.contactCompanyId = contactCompanyId;
         this.contactCompanyMatchcode = contactCompanyMatchcode;
         this.contactCompanyNumber = contactCompanyNumber;
@@ -269,6 +274,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return functions;
     }
 
+    public Collection<ActivePersonNumberTypeLinkDTO> getNumbers()
+    {
+        return numbers;
+    }
+
     public Integer getContactCompanyId()
     {
         return contactCompanyId;
@@ -309,12 +319,12 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
                 "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
                     + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, "
                     + "preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, "
-                    + "languages=%s, companies=%s, functions=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
+                    + "languages=%s, companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
                     + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
                 firstName, lastName, username, externalId, guid, preferredUserId, personnelNumber, birthdate, email,
-                phoneNumber, mobileNumber, languages, companies, functions, contactCompanyId, contactCompanyMatchcode,
-                contactCompanyNumber, portraitAvailable, lastUpdate, score);
+                phoneNumber, mobileNumber, languages, companies, functions, numbers, contactCompanyId,
+                contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate, score);
     }
 
 }

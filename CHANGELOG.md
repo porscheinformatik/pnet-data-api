@@ -2,6 +2,7 @@ pnet-data-api 1.14.2
 ====================
 
 * Configurable ZoneId in the JacksonPnetDataApiModule, responsible for parsing server responses.
+* Additional numbers (e.g. salesman number) in person find/search results.
 
 pnet-data-api 1.14.1
 ====================
