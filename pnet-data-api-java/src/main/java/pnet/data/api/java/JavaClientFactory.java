@@ -30,6 +30,11 @@ public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory>
             SystemRestLoggerAdapter.INSTANCE);
     }
 
+    public static JavaClientFactory of(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
+    {
+        return new JavaClientFactory(prefs, mapper, loggerAdapter);
+    }
+
     protected JavaClientFactory(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
     {
         super(prefs, mapper, loggerAdapter);

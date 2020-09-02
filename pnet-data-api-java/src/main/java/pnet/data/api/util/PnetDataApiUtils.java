@@ -18,13 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.text.Collator;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.TemporalAccessor;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -41,25 +34,6 @@ import org.springframework.util.StringUtils;
  */
 public final class PnetDataApiUtils
 {
-
-    private static final ZoneId UTC = ZoneId.of("UTC");
-    private static final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()
-        .parseCaseInsensitive()
-        .append(DateTimeFormatter.ISO_LOCAL_DATE)
-        .optionalStart()
-        .appendLiteral('T')
-        .append(DateTimeFormatter.ISO_LOCAL_TIME)
-        .optionalStart()
-        .appendOffsetId()
-        .optionalStart()
-        .appendLiteral('[')
-        .parseCaseSensitive()
-        .appendZoneRegionId()
-        .appendLiteral(']')
-        .optionalEnd()
-        .optionalEnd()
-        .optionalEnd()
-        .toFormatter();
 
     private static String version;
     private static String agent;
@@ -360,80 +334,80 @@ public final class PnetDataApiUtils
         return Collections.unmodifiableList(list);
     }
 
-    public static LocalDateTime convertDefaultToUTC(LocalDateTime dateTime)
-    {
-        if (dateTime == null)
-        {
-            return null;
-        }
-
-        return dateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(UTC).toLocalDateTime();
-    }
-
-    public static LocalDateTime convertUTCToDefault(LocalDateTime dateTime)
-    {
-        if (dateTime == null)
-        {
-            return null;
-        }
-
-        return dateTime.atZone(UTC).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
-    }
-
-    public static String formatISODateTime(LocalDateTime dateTime)
-    {
-        if (dateTime == null)
-        {
-            return null;
-        }
-
-        return convertDefaultToUTC(dateTime).format(DateTimeFormatter.ISO_DATE_TIME) + "Z";
-    }
-
-    public static String formatISODate(LocalDate date)
-    {
-        if (date == null)
-        {
-            return null;
-        }
-
-        return date.format(DateTimeFormatter.ISO_DATE);
-    }
-
-    public static LocalDateTime parseISODateTime(String dateTimeAsString)
-    {
-        if (dateTimeAsString == null || dateTimeAsString.length() == 0)
-        {
-            return null;
-        }
-
-        TemporalAccessor temporalAccessor =
-            FORMATTER.parseBest(dateTimeAsString, ZonedDateTime::from, LocalDateTime::from, LocalDate::from);
-
-        if (temporalAccessor instanceof ZonedDateTime)
-        {
-            return ((ZonedDateTime) temporalAccessor).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
-        }
-
-        if (temporalAccessor instanceof LocalDateTime)
-        {
-            return ((LocalDateTime) temporalAccessor);
-        }
-
-        return ((LocalDate) temporalAccessor).atStartOfDay(ZoneId.systemDefault()).toLocalDateTime();
-    }
-
-    public static LocalDate parseISODate(String dateAsString)
-    {
-        if (dateAsString == null || dateAsString.length() == 0)
-        {
-            return null;
-        }
-
-        LocalDateTime dateTime = parseISODateTime(dateAsString);
-
-        return dateTime != null ? dateTime.toLocalDate() : null;
-    }
+    //    public static LocalDateTime convertDefaultToUTC(LocalDateTime dateTime)
+    //    {
+    //        if (dateTime == null)
+    //        {
+    //            return null;
+    //        }
+    //
+    //        return dateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(UTC).toLocalDateTime();
+    //    }
+    //
+    //    public static LocalDateTime convertUTCToDefault(LocalDateTime dateTime)
+    //    {
+    //        if (dateTime == null)
+    //        {
+    //            return null;
+    //        }
+    //
+    //        return dateTime.atZone(UTC).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+    //    }
+    //
+    //    public static String formatISODateTime(LocalDateTime dateTime)
+    //    {
+    //        if (dateTime == null)
+    //        {
+    //            return null;
+    //        }
+    //
+    //        return convertDefaultToUTC(dateTime).format(DateTimeFormatter.ISO_DATE_TIME) + "Z";
+    //    }
+    //
+    //    public static String formatISODate(LocalDate date)
+    //    {
+    //        if (date == null)
+    //        {
+    //            return null;
+    //        }
+    //
+    //        return date.format(DateTimeFormatter.ISO_DATE);
+    //    }
+    //
+    //    public static LocalDateTime parseISODateTime(String dateTimeAsString)
+    //    {
+    //        if (dateTimeAsString == null || dateTimeAsString.length() == 0)
+    //        {
+    //            return null;
+    //        }
+    //
+    //        TemporalAccessor temporalAccessor =
+    //            FORMATTER.parseBest(dateTimeAsString, ZonedDateTime::from, LocalDateTime::from, LocalDate::from);
+    //
+    //        if (temporalAccessor instanceof ZonedDateTime)
+    //        {
+    //            return ((ZonedDateTime) temporalAccessor).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+    //        }
+    //
+    //        if (temporalAccessor instanceof LocalDateTime)
+    //        {
+    //            return ((LocalDateTime) temporalAccessor);
+    //        }
+    //
+    //        return ((LocalDate) temporalAccessor).atStartOfDay(ZoneId.systemDefault()).toLocalDateTime();
+    //    }
+    //
+    //    public static LocalDate parseISODate(String dateAsString)
+    //    {
+    //        if (dateAsString == null || dateAsString.length() == 0)
+    //        {
+    //            return null;
+    //        }
+    //
+    //        LocalDateTime dateTime = parseISODateTime(dateAsString);
+    //
+    //        return dateTime != null ? dateTime.toLocalDate() : null;
+    //    }
 
     public static String toCompanyLabelWithNumber(String number, String label)
     {

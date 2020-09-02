@@ -93,15 +93,16 @@ public abstract class AbstractContextPnetDataApiClientConfig
     public RestCallFactory restCallFactory(Optional<Set<? extends Converter<?, ?>>> attributeConverters,
         Optional<RestLoggerAdapter> loggerAdapter)
     {
-        ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
+        RestTemplate restTemplate = createRestTemplate();
+        ConversionService conversionService = createConversionService(attributeConverters);
 
-        attributeConverters.ifPresent($ -> conversionServiceFactoryBean.setConverters($));
+        return createSpringRestCallFactory(restTemplate, loggerAdapter.orElseGet(Slf4jRestLoggerAdapter::getDefault),
+            conversionService);
+    }
 
-        conversionServiceFactoryBean.afterPropertiesSet();
-
-        ConversionService conversionService = conversionServiceFactoryBean.getObject();
-
-        ObjectMapper objectMapper = JacksonPnetDataApiModule.createObjectMapper();
+    protected RestTemplate createRestTemplate()
+    {
+        ObjectMapper objectMapper = createObjectMapper();
 
         RestTemplate restTemplate = new RestTemplate();
         SimpleClientHttpRequestFactory requestFactory =
@@ -109,11 +110,6 @@ public abstract class AbstractContextPnetDataApiClientConfig
 
         requestFactory.setReadTimeout(30000);
         requestFactory.setConnectTimeout(2000);
-
-        MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
-
-        messageConverter.setPrettyPrint(false);
-        messageConverter.setObjectMapper(objectMapper);
 
         Iterator<HttpMessageConverter<?>> iterator = restTemplate.getMessageConverters().iterator();
 
@@ -133,8 +129,24 @@ public abstract class AbstractContextPnetDataApiClientConfig
             return execution.execute(request, body);
         });
 
-        return createSpringRestCallFactory(restTemplate, loggerAdapter.orElseGet(Slf4jRestLoggerAdapter::getDefault),
-            conversionService);
+        return restTemplate;
+    }
+
+    protected ObjectMapper createObjectMapper()
+    {
+        return JacksonPnetDataApiModule.createObjectMapper();
+    }
+
+    protected ConversionService createConversionService(Optional<Set<? extends Converter<?, ?>>> attributeConverters)
+    {
+        ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
+
+        attributeConverters.ifPresent($ -> conversionServiceFactoryBean.setConverters($));
+
+        conversionServiceFactoryBean.afterPropertiesSet();
+
+        ConversionService conversionService = conversionServiceFactoryBean.getObject();
+        return conversionService;
     }
 
     protected abstract RestCallFactory createSpringRestCallFactory(RestTemplate restTemplate,

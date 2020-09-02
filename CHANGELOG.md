@@ -1,3 +1,8 @@
+pnet-data-api 1.14.2
+====================
+
+* Configurable ZoneId in the JacksonPnetDataApiModule, responsible for parsing server responses.
+
 pnet-data-api 1.14.1
 ====================
 

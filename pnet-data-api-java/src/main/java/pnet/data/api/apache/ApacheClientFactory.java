@@ -26,8 +26,13 @@ public class ApacheClientFactory extends AbstractClientFactory<ApacheClientFacto
 
     public static ApacheClientFactory of(PnetDataClientPrefs prefs)
     {
-        return new ApacheClientFactory(prefs, JacksonPnetDataApiModule.createObjectMapper(),
-            SystemRestLoggerAdapter.INSTANCE);
+        return of(prefs, JacksonPnetDataApiModule.createObjectMapper(), SystemRestLoggerAdapter.INSTANCE);
+    }
+
+    public static ApacheClientFactory of(PnetDataClientPrefs prefs, ObjectMapper mapper,
+        RestLoggerAdapter loggerAdapter)
+    {
+        return new ApacheClientFactory(prefs, mapper, loggerAdapter);
     }
 
     protected ApacheClientFactory(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)

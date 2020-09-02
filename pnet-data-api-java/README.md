@@ -272,3 +272,9 @@ mvn install
 That's it.
 
 Checkout the [pnet-data-api-java-samle](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java-sample) module for a examples. The `PnetSpringRestClient` is a fully working console tool for accessing the Data API.
+
+# Troubleshooting
+
+## TimeZone
+
+The date/time values, sent by the server, contain time zone information. Since the Java client uses LocalDateTime objects, this information is not available anymore. By default, the client correctly converts the zoned timestamps by using the systems default zone (ZoneId.systemDefault). This behavior may be modified by using the JacksonPnetDataApiModule.createObjectMapper(ZoneId) method.

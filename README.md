@@ -19,7 +19,7 @@ The access conforms the General Data Protection Regulation.
 * [Considerations](#considerations)
 * [User for Access](#user-for-access)
 * [Available Instances](#available-instances)
-* [Testing with cURL](#testing-with-curl)
+* [Testing](#testing)
 * [Testing with Postman](#testing-with-postman)
 * [Java Client Library](#java-client-library)
 * [Common Problems](#common-problems)
@@ -315,7 +315,13 @@ When you are accessing the Data API, you are using a system user that is linked 
 
 Giving consent may either happen when the person first accesses the application by clicking on the link in the Partner.&#78;et Portal or automatically, if the person got a right (function or activity), that implies that she or he needs this application of the daily work (legitimate interest).
 
-All queries to personal data are check against these consents. Especially when you are testing on the QA system, remember that the only very few persons have access to this instance.
+All queries to personal data are checked against these consents. Especially when you are testing on the QA system, remember that the only very few persons have access to this instance.
+
+## When querying persons, why is some data missing?
+
+When requesting the consent for using personal data, the Partner.Net lists the fields, that will be accessible by your application. Only those fields are, in fact, transferred to your application.
+
+If some fields are missing, please create a [Partner.&#78;et Wartungsantrag](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_MAINT_PROP) and describe the missing fields. After changing those fields, all uses will be asked for their consent once more.
 
 ## How can I use multiple conditions in one query?
 
@@ -340,10 +346,3 @@ To avoid this common pitfall, there is a search for `role`s now, searching for b
 # I Still Need Help
 
 Feel free to contact us via the inhouse "POI-Partner.Net / Data API" Teams channel or via your contact person at the Porsche Informatik. Please to not contact our development staff directly - they are very jumpy and it takes hours to calm them down.
-
-
-
-
-
-
-

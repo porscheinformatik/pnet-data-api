@@ -2,6 +2,7 @@ package pnet.data.api.client.jackson;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Locale;
 
 import com.fasterxml.jackson.core.Version;
@@ -19,23 +20,29 @@ public class JacksonPnetDataApiModule extends SimpleModule
 
     private static final long serialVersionUID = 460900059584008887L;
 
-    public JacksonPnetDataApiModule()
+    public JacksonPnetDataApiModule(ZoneId zoneId)
     {
         super("pnet-data-api", new Version(1, 0, 0, null, "at.porscheinformatik.pnet", "pnet-data-api"));
 
-        addSerializer(new LocalDateTimeSerializer());
-        addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
+        addSerializer(new LocalDateTimeSerializer(zoneId));
+        addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(zoneId));
         addSerializer(new LocalDateSerializer());
-        addDeserializer(LocalDate.class, new LocalDateDeserializer());
+        addDeserializer(LocalDate.class, new LocalDateDeserializer(zoneId));
+
         addSerializer(new LocaleSerializer());
         addDeserializer(Locale.class, new LocaleDeserializer());
     }
 
     public static ObjectMapper createObjectMapper()
     {
+        return createObjectMapper(ZoneId.systemDefault());
+    }
+
+    public static ObjectMapper createObjectMapper(ZoneId zoneId)
+    {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        objectMapper.registerModules(new JacksonPnetDataApiModule());
+        objectMapper.registerModules(new JacksonPnetDataApiModule(zoneId));
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         return objectMapper;

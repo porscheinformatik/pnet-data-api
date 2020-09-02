@@ -83,7 +83,9 @@ import pnet.data.api.companynumbertype.CompanyNumberTypeDataGet;
 import pnet.data.api.companynumbertype.CompanyNumberTypeDataSearch;
 import pnet.data.api.companynumbertype.CompanyNumberTypeItemDTO;
 import pnet.data.api.companytype.CompanyTypeDataClient;
+import pnet.data.api.companytype.CompanyTypeDataDTO;
 import pnet.data.api.companytype.CompanyTypeDataFind;
+import pnet.data.api.companytype.CompanyTypeDataGet;
 import pnet.data.api.companytype.CompanyTypeDataSearch;
 import pnet.data.api.companytype.CompanyTypeItemDTO;
 import pnet.data.api.contractstate.ContractStateDataClient;
@@ -316,6 +318,7 @@ public final class PnetRestClient
     private final List<String> restrictedContractTypeMatchcodes = new ArrayList<>();
     private final List<String> restrictedQueryFields = new ArrayList<>();
 
+    private int pageSize = 10;
     private CompanyMerge companyMerge = CompanyMerge.NONE;
     private LocalDateTime datedBackUntil = null;
     private Boolean restrictRejected = null;
@@ -323,6 +326,7 @@ public final class PnetRestClient
     private boolean aggs = false;
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
+    private Locale language = Locale.getDefault();
 
     public PnetRestClient(MutablePnetDataClientPrefs prefs, AboutDataClient aboutDataClient,
         ActivityDataClient activityDataClient, AdvisorTypeDataClient advisorTypeDataClient,
@@ -397,7 +401,8 @@ public final class PnetRestClient
     public void getActivities(String... matchcodes) throws PnetDataClientException
     {
         ActivityDataGet query = restrict(activityDataClient.get());
-        PnetDataClientResultPage<ActivityDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<ActivityDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -406,7 +411,7 @@ public final class PnetRestClient
     public void exportAllActivities() throws PnetDataClientException
     {
         ActivityDataFind query = restrict(activityDataClient.find().scroll());
-        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -417,7 +422,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         ActivityDataFind query = restrict(activityDataClient.find().updatedAfter(updatedAfter).scroll());
-        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -427,7 +432,7 @@ public final class PnetRestClient
     public void findActivities(String... matchcodes) throws PnetDataClientException
     {
         ActivityDataFind query = restrict(activityDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -436,7 +441,7 @@ public final class PnetRestClient
     public void searchActivities(String... qs) throws PnetDataClientException
     {
         ActivityDataSearch query = restrict(activityDataClient.search());
-        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -455,7 +460,8 @@ public final class PnetRestClient
     public void getAdvisorTypes(String... matchcodes) throws PnetDataClientException
     {
         AdvisorTypeDataGet query = restrict(advisorTypeDataClient.get());
-        PnetDataClientResultPage<AdvisorTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<AdvisorTypeDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -464,7 +470,7 @@ public final class PnetRestClient
     public void exportAllAdvisorTypes() throws PnetDataClientException
     {
         AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find());
-        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -475,7 +481,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -485,7 +491,7 @@ public final class PnetRestClient
     public void findAdvisorTypes(String... matchcodes) throws PnetDataClientException
     {
         AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -495,7 +501,7 @@ public final class PnetRestClient
     public void searchAdvisorTypes(String... qs) throws PnetDataClientException
     {
         AdvisorTypeDataSearch query = restrict(advisorTypeDataClient.search());
-        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -512,7 +518,8 @@ public final class PnetRestClient
     public void getApplications(String... matchcodes) throws PnetDataClientException
     {
         ApplicationDataGet query = restrict(applicationDataClient.get());
-        PnetDataClientResultPage<ApplicationDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<ApplicationDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -521,7 +528,7 @@ public final class PnetRestClient
     public void exportAllApplications() throws PnetDataClientException
     {
         ApplicationDataFind query = restrict(applicationDataClient.find().scroll());
-        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -532,7 +539,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         ApplicationDataFind query = restrict(applicationDataClient.find().updatedAfter(updatedAfter).scroll());
-        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -542,7 +549,7 @@ public final class PnetRestClient
     public void findApplications(String... matchcodes) throws PnetDataClientException
     {
         ApplicationDataFind query = restrict(applicationDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -552,7 +559,7 @@ public final class PnetRestClient
     public void searchApplications(String... qs) throws PnetDataClientException
     {
         ApplicationDataSearch query = restrict(applicationDataClient.search());
-        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -569,7 +576,7 @@ public final class PnetRestClient
     public void getBrands(String... matchcodes) throws PnetDataClientException
     {
         BrandDataGet query = restrict(brandDataClient.get());
-        PnetDataClientResultPage<BrandDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<BrandDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -578,7 +585,7 @@ public final class PnetRestClient
     public void exportAllBrands() throws PnetDataClientException
     {
         BrandDataFind query = restrict(brandDataClient.find());
-        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -589,7 +596,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         BrandDataFind query = restrict(brandDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -599,7 +606,7 @@ public final class PnetRestClient
     public void findBrands(String... matchcodes) throws PnetDataClientException
     {
         BrandDataFind query = restrict(brandDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -608,7 +615,7 @@ public final class PnetRestClient
     public void searchBrands(String... qs) throws PnetDataClientException
     {
         BrandDataSearch query = restrict(brandDataClient.search());
-        PnetDataClientResultPage<BrandItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<BrandItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -646,7 +653,7 @@ public final class PnetRestClient
     public void getCompaniesByIds(Integer... ids) throws PnetDataClientException
     {
         CompanyDataGet query = restrict(companyDataClient.get());
-        PnetDataClientResultPage<CompanyDataDTO> result = query.allByIds(Arrays.asList(ids), 0, 10);
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByIds(Arrays.asList(ids), 0, pageSize);
 
         printResults(result, null);
     }
@@ -656,7 +663,7 @@ public final class PnetRestClient
     public void getCompaniesByMatchcodes(String... matchcodes) throws PnetDataClientException
     {
         CompanyDataGet query = restrict(companyDataClient.get());
-        PnetDataClientResultPage<CompanyDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -666,7 +673,8 @@ public final class PnetRestClient
     public void getCompaniesByVatIdNumbers(String... vatIdNumbers) throws PnetDataClientException
     {
         CompanyDataGet query = restrict(companyDataClient.get());
-        PnetDataClientResultPage<CompanyDataDTO> result = query.allByVatIdNumbers(Arrays.asList(vatIdNumbers), 0, 10);
+        PnetDataClientResultPage<CompanyDataDTO> result =
+            query.allByVatIdNumbers(Arrays.asList(vatIdNumbers), 0, pageSize);
 
         printResults(result, null);
     }
@@ -677,7 +685,7 @@ public final class PnetRestClient
     {
         CompanyDataGet query = restrict(companyDataClient.get());
         PnetDataClientResultPage<CompanyDataDTO> result =
-            query.allByCompanyNumbers(Arrays.asList(companyNumbers), 0, 10);
+            query.allByCompanyNumbers(Arrays.asList(companyNumbers), 0, pageSize);
 
         printResults(result, null);
     }
@@ -687,7 +695,7 @@ public final class PnetRestClient
     public void getCompaniesByIbans(String... ibans) throws PnetDataClientException
     {
         CompanyDataGet query = restrict(companyDataClient.get());
-        PnetDataClientResultPage<CompanyDataDTO> result = query.allByIbans(Arrays.asList(ibans), 0, 10);
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByIbans(Arrays.asList(ibans), 0, pageSize);
 
         printResults(result, null);
     }
@@ -697,7 +705,7 @@ public final class PnetRestClient
     public void getCompaniesByEmails(String... emails) throws PnetDataClientException
     {
         CompanyDataGet query = restrict(companyDataClient.get());
-        PnetDataClientResultPage<CompanyDataDTO> result = query.allByEmails(Arrays.asList(emails), 0, 10);
+        PnetDataClientResultPage<CompanyDataDTO> result = query.allByEmails(Arrays.asList(emails), 0, pageSize);
 
         printResults(result, null);
     }
@@ -709,7 +717,7 @@ public final class PnetRestClient
     {
         CompanyDataGet query = restrict(companyDataClient.get());
         PnetDataClientResultPage<CompanyDataDTO> result =
-            query.allByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumbers), 0, 10);
+            query.allByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumbers), 0, pageSize);
 
         printResults(result, null);
     }
@@ -718,7 +726,7 @@ public final class PnetRestClient
     public void exportAllCompanies() throws PnetDataClientException
     {
         CompanyDataFind query = restrict(companyDataClient.find().scroll());
-        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -729,7 +737,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         CompanyDataFind query = restrict(companyDataClient.find().updatedAfter(updatedAfter).scroll());
-        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -739,7 +747,7 @@ public final class PnetRestClient
     public void findCompaniesByIds(Integer... ids) throws PnetDataClientException
     {
         CompanyDataFind query = restrict(companyDataClient.find().id(ids));
-        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -749,7 +757,7 @@ public final class PnetRestClient
     public void findCompaniesByMatchcodes(String... mcs) throws PnetDataClientException
     {
         CompanyDataFind query = restrict(companyDataClient.find().matchcode(mcs));
-        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -759,7 +767,7 @@ public final class PnetRestClient
     public void findCompaniesByNumbers(String... numbers) throws PnetDataClientException
     {
         CompanyDataFind query = restrict(companyDataClient.find().companyNumber(numbers));
-        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -769,7 +777,7 @@ public final class PnetRestClient
     public void autoCompleteCompanies(String... qs) throws PnetDataClientException
     {
         CompanyDataAutoComplete query = restrict(companyDataClient.autoComplete());
-        List<CompanyAutoCompleteDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        List<CompanyAutoCompleteDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -778,7 +786,7 @@ public final class PnetRestClient
     public void searchCompanies(String... qs) throws PnetDataClientException
     {
         CompanyDataSearch query = restrict(companyDataClient.search());
-        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -989,7 +997,8 @@ public final class PnetRestClient
     public void getCompanyGroupByLeadingCompanyIds(Integer... ids) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByLeadingCompanyIds(Arrays.asList(ids), 0, 10);
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            query.allByLeadingCompanyIds(Arrays.asList(ids), 0, pageSize);
 
         printResults(result, this::populateTable);
     }
@@ -1000,7 +1009,7 @@ public final class PnetRestClient
     {
         CompanyGroupDataGet request = restrict(companyGroupDataClient.get());
         PnetDataClientResultPage<CompanyGroupDataDTO> result =
-            request.allByLeadingCompanyNumbers(Arrays.asList(numbers), 0, 10);
+            request.allByLeadingCompanyNumbers(Arrays.asList(numbers), 0, pageSize);
 
         printResults(result, this::populateTable);
     }
@@ -1011,7 +1020,7 @@ public final class PnetRestClient
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
         PnetDataClientResultPage<CompanyGroupDataDTO> result =
-            query.allByLeadingCompanies(Arrays.asList(matchcodes), 0, 10);
+            query.allByLeadingCompanies(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, this::populateTable);
     }
@@ -1021,7 +1030,7 @@ public final class PnetRestClient
     public void getCompanyGroupByCompanyIds(Integer... ids) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyIds(Arrays.asList(ids), 0, 10);
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyIds(Arrays.asList(ids), 0, pageSize);
 
         printResults(result, this::populateTable);
     }
@@ -1031,7 +1040,8 @@ public final class PnetRestClient
     public void getCompanyGroupByCompanyNumbers(String... numbers) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyNumbers(Arrays.asList(numbers), 0, 10);
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            query.allByCompanyNumbers(Arrays.asList(numbers), 0, pageSize);
 
         printResults(result, this::populateTable);
     }
@@ -1041,7 +1051,8 @@ public final class PnetRestClient
     public void getCompanyGroupByCompanyMatchcodes(String... matchcodes) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanies(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            query.allByCompanies(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, this::populateTable);
     }
@@ -1058,7 +1069,7 @@ public final class PnetRestClient
         }
 
         List<String> companyGroupTypeMatchcodes = restrict(find)
-            .execute(Locale.getDefault(), 0, 100)
+            .execute(language, 0, pageSize)
             .stream()
             .map(CompanyGroupTypeItemDTO::getMatchcode)
             .collect(Collectors.toList());
@@ -1075,7 +1086,8 @@ public final class PnetRestClient
     public void findCompanyGroupsByLeader(Integer... ids) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByLeadingCompanyIds(Arrays.asList(ids), 0, 10);
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            query.allByLeadingCompanyIds(Arrays.asList(ids), 0, pageSize);
 
         printResults(result, this::populateTable);
     }
@@ -1085,7 +1097,7 @@ public final class PnetRestClient
     public void findCompanyGroupsByMember(Integer... ids) throws PnetDataClientException
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyIds(Arrays.asList(ids), 0, 10);
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyIds(Arrays.asList(ids), 0, pageSize);
 
         printResults(result, this::populateTable);
     }
@@ -1105,7 +1117,7 @@ public final class PnetRestClient
     {
         CompanyGroupTypeDataGet query = restrict(companyGroupTypeDataClient.get());
         PnetDataClientResultPage<CompanyGroupTypeDataDTO> result =
-            query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1116,7 +1128,7 @@ public final class PnetRestClient
     {
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
         PnetDataClientResultPage<CompanyGroupDataDTO> result =
-            query.allByCompanyGroupTypes(Arrays.asList(matchcodes), 0, 10);
+            query.allByCompanyGroupTypes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1125,7 +1137,7 @@ public final class PnetRestClient
     public void exportAllCompanyGroupTypes() throws PnetDataClientException
     {
         CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find());
-        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1136,7 +1148,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1146,7 +1158,7 @@ public final class PnetRestClient
     public void findCompanyGroupTypes(String... matchcodes) throws PnetDataClientException
     {
         CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1156,7 +1168,7 @@ public final class PnetRestClient
     public void searchCompanyGroupTypes(String... qs) throws PnetDataClientException
     {
         CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
-        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1174,7 +1186,7 @@ public final class PnetRestClient
     {
         CompanyNumberTypeDataGet query = restrict(companyNumberTypeDataClient.get());
         PnetDataClientResultPage<CompanyNumberTypeDataDTO> result =
-            query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1183,7 +1195,7 @@ public final class PnetRestClient
     public void exportAllCompanyNumberTypes() throws PnetDataClientException
     {
         CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find());
-        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1194,7 +1206,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1204,7 +1216,7 @@ public final class PnetRestClient
     public void findCompanyNumberTypes(String... matchcodes) throws PnetDataClientException
     {
         CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1214,7 +1226,7 @@ public final class PnetRestClient
     public void searchCompanyNumberTypes(String... qs) throws PnetDataClientException
     {
         CompanyNumberTypeDataSearch query = restrict(companyNumberTypeDataClient.search());
-        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1226,11 +1238,22 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
+    @CLI.Command(name = {"get company type by mc", "get company types by mc"}, format = "<MC...>",
+        description = "Returns the company types with the specified matchcodes.")
+    public void getCompanyTypes(String... matchcodes) throws PnetDataClientException
+    {
+        CompanyTypeDataGet query = restrict(companyTypeDataClient.get());
+        PnetDataClientResultPage<CompanyTypeDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
+
+        printResults(result, null);
+    }
+
     @CLI.Command(name = "export all company types", description = "Exports all company types.")
     public void exportAllCompanyTypes() throws PnetDataClientException
     {
         CompanyTypeDataFind query = restrict(companyTypeDataClient.find());
-        PnetDataClientResultPage<CompanyTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<CompanyTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1241,7 +1264,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         CompanyTypeDataFind query = restrict(companyTypeDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<CompanyTypeItemDTO> results = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<CompanyTypeItemDTO> results = query.execute(language, 0, pageSize);
 
         printAllResults(results, this::populateTable);
     }
@@ -1251,7 +1274,7 @@ public final class PnetRestClient
     public void searchCompanyTypes(String... qs) throws PnetDataClientException
     {
         CompanyTypeDataSearch query = restrict(companyTypeDataClient.search());
-        PnetDataClientResultPage<CompanyTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<CompanyTypeItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1268,7 +1291,8 @@ public final class PnetRestClient
     public void getContractStates(String... matchcodes) throws PnetDataClientException
     {
         ContractStateDataGet query = restrict(contractStateDataClient.get());
-        PnetDataClientResultPage<ContractStateDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<ContractStateDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1277,7 +1301,7 @@ public final class PnetRestClient
     public void exportAllContractStates() throws PnetDataClientException
     {
         ContractStateDataFind query = restrict(contractStateDataClient.find());
-        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1289,7 +1313,7 @@ public final class PnetRestClient
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
         ContractStateDataFind query = restrict(contractStateDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1299,7 +1323,7 @@ public final class PnetRestClient
     public void findContractStates(String... matchcodes) throws PnetDataClientException
     {
         ContractStateDataFind query = restrict(contractStateDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1309,7 +1333,7 @@ public final class PnetRestClient
     public void searchContractStates(String... qs) throws PnetDataClientException
     {
         ContractStateDataSearch query = restrict(contractStateDataClient.search());
-        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1326,7 +1350,8 @@ public final class PnetRestClient
     public void getContractTypes(String... matchcodes) throws PnetDataClientException
     {
         ContractTypeDataGet query = restrict(contractTypeDataClient.get());
-        PnetDataClientResultPage<ContractTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<ContractTypeDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1335,7 +1360,7 @@ public final class PnetRestClient
     public void exportAllContractTypes() throws PnetDataClientException
     {
         ContractTypeDataFind query = restrict(contractTypeDataClient.find());
-        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1347,7 +1372,7 @@ public final class PnetRestClient
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
         ContractTypeDataFind query = restrict(contractTypeDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1357,7 +1382,7 @@ public final class PnetRestClient
     public void findContractTypes(String... matchcodes) throws PnetDataClientException
     {
         ContractTypeDataFind query = restrict(contractTypeDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1367,7 +1392,7 @@ public final class PnetRestClient
     public void searchContractTypes(String... qs) throws PnetDataClientException
     {
         ContractTypeDataSearch query = restrict(contractTypeDataClient.search());
-        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1386,7 +1411,8 @@ public final class PnetRestClient
     public void getExternalBrands(String... matchcodes) throws PnetDataClientException
     {
         ExternalBrandDataGet query = restrict(externalBrandDataClient.get());
-        PnetDataClientResultPage<ExternalBrandDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<ExternalBrandDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1395,7 +1421,7 @@ public final class PnetRestClient
     public void exportAllExternalBrands() throws PnetDataClientException
     {
         ExternalBrandDataFind query = restrict(externalBrandDataClient.find());
-        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1406,7 +1432,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         ExternalBrandDataFind query = restrict(externalBrandDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1416,7 +1442,7 @@ public final class PnetRestClient
     public void findExternalBrands(String... matchcodes) throws PnetDataClientException
     {
         ExternalBrandDataFind query = restrict(externalBrandDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1426,7 +1452,7 @@ public final class PnetRestClient
     public void searchExternalBrands(String... qs) throws PnetDataClientException
     {
         ExternalBrandDataSearch query = restrict(externalBrandDataClient.search());
-        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1443,7 +1469,8 @@ public final class PnetRestClient
     public void getFunctions(String... matchcodes) throws PnetDataClientException
     {
         FunctionDataGet query = restrict(functionDataClient.get());
-        PnetDataClientResultPage<FunctionDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<FunctionDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1452,7 +1479,7 @@ public final class PnetRestClient
     public void exportAllFunctions() throws PnetDataClientException
     {
         FunctionDataFind query = restrict(functionDataClient.find().scroll());
-        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1463,7 +1490,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         FunctionDataFind query = restrict(functionDataClient.find().updatedAfter(updatedAfter).scroll());
-        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1473,7 +1500,7 @@ public final class PnetRestClient
     public void findFunctions(String... matchcodes) throws PnetDataClientException
     {
         FunctionDataFind query = restrict(functionDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1482,7 +1509,7 @@ public final class PnetRestClient
     public void searchFunctions(String... qs) throws PnetDataClientException
     {
         FunctionDataSearch query = restrict(functionDataClient.search());
-        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1501,7 +1528,8 @@ public final class PnetRestClient
     public void getLegalForms(String... matchcodes) throws PnetDataClientException
     {
         LegalFormDataGet query = restrict(legalFormDataClient.get());
-        PnetDataClientResultPage<LegalFormDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<LegalFormDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1510,7 +1538,7 @@ public final class PnetRestClient
     public void exportAllLegalForms() throws PnetDataClientException
     {
         LegalFormDataFind query = restrict(legalFormDataClient.find());
-        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1521,7 +1549,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         LegalFormDataFind query = restrict(legalFormDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1531,7 +1559,7 @@ public final class PnetRestClient
     public void findLegalForms(String... matchcodes) throws PnetDataClientException
     {
         LegalFormDataFind query = restrict(legalFormDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1541,7 +1569,7 @@ public final class PnetRestClient
     public void searchLegalForms(String... qs) throws PnetDataClientException
     {
         LegalFormDataSearch query = restrict(legalFormDataClient.search());
-        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1558,7 +1586,8 @@ public final class PnetRestClient
     public void getNumberTypes(String... matchcodes) throws PnetDataClientException
     {
         NumberTypeDataGet query = restrict(numberTypeDataClient.get());
-        PnetDataClientResultPage<NumberTypeDataDTO> result = query.allByMatchcodes(Arrays.asList(matchcodes), 0, 10);
+        PnetDataClientResultPage<NumberTypeDataDTO> result =
+            query.allByMatchcodes(Arrays.asList(matchcodes), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1567,7 +1596,7 @@ public final class PnetRestClient
     public void exportAllNumberTypes() throws PnetDataClientException
     {
         NumberTypeDataFind query = restrict(numberTypeDataClient.find());
-        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1579,7 +1608,7 @@ public final class PnetRestClient
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
         NumberTypeDataFind query = restrict(numberTypeDataClient.find().updatedAfter(updatedAfter));
-        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1589,7 +1618,7 @@ public final class PnetRestClient
     public void findNumberTypes(String... matchcodes) throws PnetDataClientException
     {
         NumberTypeDataFind query = restrict(numberTypeDataClient.find().matchcode(matchcodes));
-        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1599,7 +1628,7 @@ public final class PnetRestClient
     public void searchNumberTypes(String... qs) throws PnetDataClientException
     {
         NumberTypeDataSearch query = restrict(numberTypeDataClient.search());
-        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1616,7 +1645,7 @@ public final class PnetRestClient
     public void getPersonById(Integer... ids) throws PnetDataClientException
     {
         PersonDataGet query = restrict(personDataClient.get());
-        PnetDataClientResultPage<PersonDataDTO> result = query.allByIds(Arrays.asList(ids), 0, 10);
+        PnetDataClientResultPage<PersonDataDTO> result = query.allByIds(Arrays.asList(ids), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1626,7 +1655,8 @@ public final class PnetRestClient
     public void getPersonByExternalId(String... externalIds) throws PnetDataClientException
     {
         PersonDataGet query = restrict(personDataClient.get());
-        PnetDataClientResultPage<PersonDataDTO> result = query.allByExternalIds(Arrays.asList(externalIds), 0, 10);
+        PnetDataClientResultPage<PersonDataDTO> result =
+            query.allByExternalIds(Arrays.asList(externalIds), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1636,7 +1666,7 @@ public final class PnetRestClient
     public void getPersonByGuid(String... guids) throws PnetDataClientException
     {
         PersonDataGet query = restrict(personDataClient.get());
-        PnetDataClientResultPage<PersonDataDTO> result = query.allByGuids(Arrays.asList(guids), 0, 10);
+        PnetDataClientResultPage<PersonDataDTO> result = query.allByGuids(Arrays.asList(guids), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1647,7 +1677,7 @@ public final class PnetRestClient
     {
         PersonDataGet query = restrict(personDataClient.get());
         PnetDataClientResultPage<PersonDataDTO> result =
-            query.allByPreferredUserIds(Arrays.asList(preferredUserIds), 0, 10);
+            query.allByPreferredUserIds(Arrays.asList(preferredUserIds), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1657,7 +1687,7 @@ public final class PnetRestClient
     public void getPersonByEmail(String... emails) throws PnetDataClientException
     {
         PersonDataGet query = restrict(personDataClient.get());
-        PnetDataClientResultPage<PersonDataDTO> result = query.allByEmails(Arrays.asList(emails), 0, 10);
+        PnetDataClientResultPage<PersonDataDTO> result = query.allByEmails(Arrays.asList(emails), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1668,7 +1698,7 @@ public final class PnetRestClient
     {
         PersonDataGet query = restrict(personDataClient.get());
         PnetDataClientResultPage<PersonDataDTO> result =
-            query.allByPersonnelNumbers(Arrays.asList(personnelNumbers), 0, 10);
+            query.allByPersonnelNumbers(Arrays.asList(personnelNumbers), 0, pageSize);
 
         printResults(result, null);
     }
@@ -1677,7 +1707,7 @@ public final class PnetRestClient
     public void exportAllPersons() throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().scroll());
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1688,7 +1718,7 @@ public final class PnetRestClient
     {
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
         PersonDataFind query = restrict(personDataClient.find().updatedAfter(updatedAfter).scroll());
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1698,7 +1728,7 @@ public final class PnetRestClient
     public void findPersonsByPersonnelNumber(String... numbers) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().personnelNumber(numbers));
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1708,7 +1738,7 @@ public final class PnetRestClient
     public void findPersonsBySalesmanNumber(String... numbers) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().numbersType("NT_VERK_NR").number(numbers));
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1718,7 +1748,7 @@ public final class PnetRestClient
     public void findPersonById(Integer... ids) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().id(ids));
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1728,7 +1758,7 @@ public final class PnetRestClient
     public void findPersonsByCompany(String... matchcodes) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().company(matchcodes));
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1738,7 +1768,7 @@ public final class PnetRestClient
     public void findPersonsByRole(String... matchcodes) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().role(matchcodes));
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1748,7 +1778,7 @@ public final class PnetRestClient
     public void autoCompletePersons(String... qs) throws PnetDataClientException
     {
         PersonDataAutoComplete query = restrict(personDataClient.autoComplete());
-        List<PersonAutoCompleteDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        List<PersonAutoCompleteDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1758,7 +1788,7 @@ public final class PnetRestClient
     {
         PersonDataSearch query = restrict(personDataClient.search());
         PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> result =
-            query.execute(Locale.getDefault(), joinQuery(qs));
+            query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1824,7 +1854,7 @@ public final class PnetRestClient
     public void exportAllProposals() throws PnetDataClientException
     {
         ProposalDataFind query = restrict(proposalDataClient.find().scroll());
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1836,7 +1866,7 @@ public final class PnetRestClient
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
         ProposalDataFind query = restrict(proposalDataClient.find().updatedAfter(updatedAfter).scroll());
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1846,7 +1876,7 @@ public final class PnetRestClient
     public void findProposalsById(Integer... ids) throws PnetDataClientException
     {
         ProposalDataFind query = restrict(proposalDataClient.find().id(ids));
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1856,7 +1886,7 @@ public final class PnetRestClient
     public void findProposalsByCategory(ProposalState... states) throws PnetDataClientException
     {
         ProposalDataFind query = restrict(proposalDataClient.find().state(states));
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1866,7 +1896,7 @@ public final class PnetRestClient
     public void findProposalsByOPersonId(Integer... personIds) throws PnetDataClientException
     {
         ProposalDataFind query = restrict(proposalDataClient.find().personId(personIds));
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1875,7 +1905,7 @@ public final class PnetRestClient
     public void searchProposals(String... qs) throws PnetDataClientException
     {
         ProposalDataSearch query = restrict(proposalDataClient.search());
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -1899,7 +1929,7 @@ public final class PnetRestClient
     public void exportAllTodoGroups() throws PnetDataClientException
     {
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().scroll());
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1911,7 +1941,7 @@ public final class PnetRestClient
         LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
 
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().updatedAfter(updatedAfter).scroll());
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault(), 0, 100);
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1921,7 +1951,7 @@ public final class PnetRestClient
     public void findTodoGroupsByReferenceMatchcode(String... referenceMatchcodes) throws PnetDataClientException
     {
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().referenceMatchcode(referenceMatchcodes));
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1931,7 +1961,7 @@ public final class PnetRestClient
     public void findTodoGroupsByCategory(TodoCategory... categories) throws PnetDataClientException
     {
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().category(categories));
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1941,7 +1971,7 @@ public final class PnetRestClient
     public void findTodoGroupsByOPersonId(Integer... personIds) throws PnetDataClientException
     {
         TodoGroupDataFind query = restrict(todoGroupDataClient.find().personId(personIds));
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault());
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
     }
@@ -1958,7 +1988,7 @@ public final class PnetRestClient
     public void searchTodoGroups(String... qs) throws PnetDataClientException
     {
         TodoGroupDataSearch query = restrict(todoGroupDataClient.search());
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(Locale.getDefault(), joinQuery(qs));
+        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language, joinQuery(qs));
 
         printResults(result, this::populateTable);
     }
@@ -2485,6 +2515,14 @@ public final class PnetRestClient
         compact = false;
     }
 
+    @CLI.Command(format = "LANGUAGE-TAG", description = "Set the language.")
+    public void language(String languageTag)
+    {
+        language = languageTag == null ? Locale.getDefault() : Locale.forLanguageTag(languageTag);
+
+        cli.info("Language set to: %s", language);
+    }
+
     @CLI.Command(description = "Prints the next page of the last result.")
     public void next() throws PnetDataClientException
     {
@@ -2540,6 +2578,18 @@ public final class PnetRestClient
         {
             currentResult.page(number - 1).print(cli, compact);
         }
+    }
+
+    @CLI.Command(name = "page size", format = "<SIZE>", description = "Sets the number of items per page.")
+    public void pageSize(Integer pageSize)
+    {
+        if (pageSize == null || pageSize < 1)
+        {
+            cli.error("Invalid size.");
+            return;
+        }
+
+        this.pageSize = pageSize;
     }
 
     @CLI.Command(name = "no aggs", description = "Disables aggregations.")
