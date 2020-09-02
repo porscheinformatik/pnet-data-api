@@ -160,6 +160,7 @@ import pnet.data.api.util.CLI;
 import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.ImageType;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Resource;
@@ -327,6 +328,7 @@ public final class PnetRestClient
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
     private Locale language = Locale.getDefault();
+    private boolean includeInactive = false;
 
     public PnetRestClient(MutablePnetDataClientPrefs prefs, AboutDataClient aboutDataClient,
         ActivityDataClient activityDataClient, AdvisorTypeDataClient advisorTypeDataClient,
@@ -2120,6 +2122,24 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
+    @CLI.Command(name = "include inactive", description = "Include inactive items.")
+    public void includeInactive()
+    {
+        includeInactive = true;
+
+        cli.info("Inactive items will be included.");
+    }
+
+    @CLI.Command(name = "exclude inactive", description = "Exclude inactive items.")
+    public void exincludeInactive()
+    {
+        includeInactive = false;
+
+        cli.info("Inactive items will be excluded.");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
     protected <T extends Restrict<T>> T restrict(T request)
     {
         request = applyCompanyRestrictions(request);
@@ -2263,6 +2283,13 @@ public final class PnetRestClient
             cli.info("Archived: " + restrictArchived);
 
             request = ((RestrictArchived<T>) request).archived(restrictArchived);
+        }
+
+        if (request instanceof IncludeInactive && includeInactive)
+        {
+            cli.info("Including inactive items.");
+
+            request = ((IncludeInactive<T>) request).includeInactive();
         }
 
         return request;
