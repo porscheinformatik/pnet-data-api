@@ -174,6 +174,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "A link to the Viber page of the company.")
     private String viberLink;
 
+    @ApiModelProperty(notes = "A link to the Telegam page of the company.")
+    private String telegramLink;
+
     @ApiModelProperty(notes = "The matchcode of the legal form.")
     private String legalFormMatchcode;
 
@@ -640,6 +643,17 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.viberLink = viberLink;
     }
 
+    
+    public String getTelegramLink()
+    {
+        return telegramLink;
+    }
+
+    public void setTelegramLink(String telegramLink)
+    {
+        this.telegramLink = telegramLink;
+    }
+
     public String getLegalFormMatchcode()
     {
         return legalFormMatchcode;
@@ -820,7 +834,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                     + "contractStates=%s, vatIdNumber=%s, sapNumber=%s, companyNumber=%s, additionalNumbers=%s, street=%s, "
                     + "city=%s, postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, "
                     + "phoneNumber=%s, mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, homepage=%s, postal=%s, "
-                    + "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, legalFormMatchcode=%s, "
+                    + "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, telegramLink=%s, legalFormMatchcode=%s, "
                     + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
                     + "certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
                     + "chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, arbitrationBoard=%s, "
@@ -830,7 +844,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                 groupMembers, tenants, brands, contractTypes, contractStates, vatIdNumber, sapNumber, companyNumber,
                 additionalNumbers, street, city, postalCode, countryCode, country, region, iban, bic, types,
                 phoneNumber, mobileNumber, speedDial, faxNumber, email, homepage, postal, facebookLink, youTubeLink,
-                instagramLink, viberLink, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber,
+                instagramLink, viberLink, telegramLink, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber,
                 certificateType, certificateNumber, jurisdiction, objectsClause, generalPartner, chamberAffiliation,
                 commercialRegulations, regulatoryAuthority, arbitrationBoard, additionalImprintInfo,
                 businessInformationNumber, location, externalBrands, lastUpdate);

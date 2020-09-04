@@ -1,7 +1,8 @@
 pnet-data-api 1.14.3
 ====================
 
-* Optimizations to the sample client
+* Support Telegram in company contacts.
+* Optimizations to the sample client.
 
 pnet-data-api 1.14.2
 ====================
