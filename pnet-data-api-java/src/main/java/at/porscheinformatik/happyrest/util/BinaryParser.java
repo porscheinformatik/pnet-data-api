@@ -2,6 +2,7 @@ package at.porscheinformatik.happyrest.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestParser;
@@ -12,7 +13,8 @@ public class BinaryParser implements RestParser
 
     public static final BinaryParser INSTANCE = new BinaryParser();
 
-    private static final GenericType<byte[]> BINARY_ARRAY_TYPE = GenericType.of(Byte.TYPE.arrayType());
+    private static final GenericType<byte[]> BINARY_ARRAY_TYPE =
+        GenericType.of(Array.newInstance(Byte.TYPE, 0).getClass());
 
     protected BinaryParser()
     {
