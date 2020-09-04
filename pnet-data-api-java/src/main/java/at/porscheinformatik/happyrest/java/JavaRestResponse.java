@@ -70,16 +70,13 @@ class JavaRestResponse<T> implements RestResponse<T>
 
         if (!type.isAssignableFrom(Void.class))
         {
-            try (InputStream stream = response.body())
+            try (InputStream in = response.body())
             {
-                if (stream != null)
+                if (in != null)
                 {
                     String contentType = optionalContentType.orElse(null);
 
-                    try (Reader reader = new InputStreamReader(stream))
-                    {
-                        body = (T) parser.parse(contentType, type, reader);
-                    }
+                    body = (T) parser.parse(contentType, type, in);
                 }
             }
             catch (IOException e)

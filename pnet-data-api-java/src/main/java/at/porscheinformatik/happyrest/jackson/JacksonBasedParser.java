@@ -1,7 +1,7 @@
 package at.porscheinformatik.happyrest.jackson;
 
 import java.io.IOException;
-import java.io.Reader;
+import java.io.InputStream;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -37,16 +37,16 @@ public class JacksonBasedParser implements RestParser
     }
 
     @Override
-    public <T> Object parse(String contentType, GenericType<?> type, Reader reader) throws RestParserException
+    public <T> Object parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException
     {
         if (!isContentTypeSupported(contentType, type))
         {
             throw new RestParserException("Cannot convert %s to %s", contentType, type);
         }
-        
+
         try
         {
-            return mapper.readValue(reader, JacksonTypeReference.of(type));
+            return mapper.readValue(in, JacksonTypeReference.of(type));
         }
         catch (JsonParseException e)
         {

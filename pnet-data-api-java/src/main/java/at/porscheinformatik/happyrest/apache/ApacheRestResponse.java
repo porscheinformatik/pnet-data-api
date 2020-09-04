@@ -78,10 +78,7 @@ class ApacheRestResponse<T> implements RestResponse<T>
             {
                 try (InputStream in = entity.getContent())
                 {
-                    try (Reader reader = new InputStreamReader(in))
-                    {
-                        body = (T) parser.parse(contentType != null ? contentType.toString() : null, type, reader);
-                    }
+                    body = (T) parser.parse(contentType != null ? contentType.toString() : null, type, in);
                 }
             }
             catch (ParseException e)

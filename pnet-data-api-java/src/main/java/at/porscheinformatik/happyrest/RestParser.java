@@ -1,6 +1,6 @@
 package at.porscheinformatik.happyrest;
 
-import java.io.Reader;
+import java.io.InputStream;
 
 /**
  * Parses a rest response
@@ -29,13 +29,13 @@ public interface RestParser
             }
 
             @Override
-            public <T> Object parse(String contentType, GenericType<?> type, Reader reader) throws RestParserException
+            public <T> Object parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException
             {
                 for (RestParser parser : parsers)
                 {
                     if (parser.isContentTypeSupported(contentType, type))
                     {
-                        return parser.<T> parse(contentType, type, reader);
+                        return parser.<T> parse(contentType, type, in);
                     }
                 }
 
@@ -46,6 +46,6 @@ public interface RestParser
 
     boolean isContentTypeSupported(String contentType, GenericType<?> type);
 
-    <T> Object parse(String contentType, GenericType<?> type, Reader reader) throws RestParserException;
+    <T> Object parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException;
 
 }

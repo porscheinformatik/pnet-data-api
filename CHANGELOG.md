@@ -2,6 +2,7 @@ pnet-data-api 1.14.3
 ====================
 
 * Support Telegram in company contacts.
+* Fix image stream conversion in Apache/Java client.
 * Optimizations to the sample client.
 
 pnet-data-api 1.14.2
