@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +23,6 @@ import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
@@ -2508,20 +2506,23 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(name = "send get", format = "PATH", description = "Execute a GET request.")
-    public void getRequest(String request) throws RestException, PnetDataClientException, URISyntaxException
+    @CLI.Command(name = "get", format = "URI", description = "Performs an GET request.")
+    public void get(String uri) throws RestException, PnetDataClientException
     {
-        RestCall restCall = repository.restCall(key());
-        String url = restCall.getUrl();
-
-        if (request.startsWith(url))
+        if (uri == null)
         {
-            request = request.replace(url, "");
+            cli.error("URI is missing.");
         }
+        else if (!uri.startsWith("/api"))
+        {
+            cli.error("URI must start with \"/api\".");
+        }
+        else
+        {
+            Object result = repository.restCall(key()).get(uri, Object.class);
 
-        Object result = restCall.get(request, Object.class);
-
-        cli.info(PrettyPrint.prettyPrint(result));
+            cli.info(PrettyPrint.prettyPrint(result));
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////

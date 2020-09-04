@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -691,142 +692,90 @@ public class CLI
         }
     }
 
-    /**
-     * A handler for a command.
-     */
-    protected interface Handler extends Comparable<Handler>
+    protected static class Handler implements Comparable<Handler>
     {
-        String getName();
-
-        String getFormat();
-
-        String getDescription();
-
-        String getHelp(String prefix, String... qs);
-
-        void handle(Arguments arguments);
-
-        @Override
-        default int compareTo(Handler o)
-        {
-            return DICTIONARY_COLLATOR.compare(getName(), o.getName());
-        }
-    }
-
-    /**
-     * Abstract implementation of an {@link Handler}
-     */
-    protected abstract static class AbstractHandler implements Handler
-    {
-
-        private final String name;
-        private final String format;
-        private final String description;
-
-        public AbstractHandler(String name, String format, String description)
-        {
-            super();
-
-            this.name = name;
-            this.format = format;
-            this.description = description;
-        }
-
-        @Override
-        public String getName()
-        {
-            return name;
-        }
-
-        @Override
-        public String getFormat()
-        {
-            return format;
-        }
-
-        @Override
-        public String getDescription()
-        {
-            return description;
-        }
-
-        @Override
-        public String getHelp(String prefix, String... qs)
-        {
-            StringBuilder builder = new StringBuilder(prefix);
-
-            builder.append(name);
-
-            if (format != null)
-            {
-                builder.append(" ");
-                builder.append(format);
-            }
-
-            builder.append("\n\t");
-            builder.append(description.replace("\n", "\n\t"));
-
-            return builder.toString();
-        }
-    }
-
-    protected static class Formulary implements Handler
-    {
-        private final List<Handler> handlers = new ArrayList<>();
+        private final List<Handler> subHandlers = new ArrayList<>();
 
         private final String name;
 
-        public Formulary(String name)
+        private String format;
+        private String description;
+        private Consumer<Arguments> consumer;
+
+        public Handler(String name)
         {
             super();
 
             this.name = name;
         }
 
-        @Override
         public String getName()
         {
             return name;
         }
 
-        @Override
         public String getFormat()
         {
             return null;
         }
 
-        @Override
         public String getDescription()
         {
             return null;
         }
 
-        @Override
         public String getHelp(String prefix, String... qs)
         {
-            StringBuilder result = new StringBuilder();
-            List<Handler> handlers = new ArrayList<>(this.handlers);
+            StringBuilder builder = new StringBuilder(getConsumerHelp(prefix, qs));
+            List<Handler> handlers = new ArrayList<>(subHandlers);
 
             Collections.sort(handlers);
 
             for (Handler handler : handlers)
             {
-                String help = handler.getHelp(prefix + (name != null ? name + " " : ""), qs);
+                String help = handler
+                    .getHelp((prefix != null && prefix.length() > 0 ? prefix + " " : "") + handler.getName(), qs);
 
-                if (!containsEach(help, qs))
+                if (help != null && help.length() > 0)
                 {
-                    continue;
-                }
+                    if (builder.length() > 0)
+                    {
+                        builder.append("\n\n");
+                    }
 
-                if (result.length() > 0)
-                {
-                    result.append("\n\n");
+                    builder.append(help);
                 }
-
-                result.append(help);
             }
 
-            return result.toString();
+            String result = builder.toString();
+
+            return containsEach(result, qs) ? result : null;
+        }
+
+        protected String getConsumerHelp(String prefix, String... qs)
+        {
+            if (consumer == null)
+            {
+                return "";
+            }
+
+            StringBuilder builder = new StringBuilder(prefix);
+
+            if (consumer != null)
+            {
+                if (format != null)
+                {
+                    builder.append(" ");
+                    builder.append(format);
+                }
+
+                builder.append("\n\t");
+                builder.append(description.replace("\n", "\n\t"));
+            }
+
+            String result = builder.toString();
+
+            return containsEach(result, qs) ? result : "";
         }
 
         public void register(Object instance)
@@ -886,33 +835,12 @@ public class CLI
         protected void register(Object instance, Method method, Class<?>[] parameterTypes, String name, String format,
             String description)
         {
-            name = name.trim();
-
-            int index = name.indexOf(' ');
-
-            if (index >= 0)
+            if (name == null)
             {
-                String command = name.substring(index);
+                this.format = format;
+                this.description = description;
 
-                name = name.substring(0, index);
-
-                Handler handler = get(name);
-
-                if (handler == null || !(handler instanceof Formulary))
-                {
-                    handler = register(new Formulary(name));
-                }
-
-                ((Formulary) handler).register(instance, method, parameterTypes, command, format, description);
-
-                return;
-            }
-
-            register(new AbstractHandler(name, format, description)
-            {
-                @Override
-                public void handle(Arguments arguments)
-                {
+                consumer = arguments -> {
                     Object[] args = new Object[parameterTypes.length];
 
                     for (int i = 0; i < parameterTypes.length; i++)
@@ -928,52 +856,93 @@ public class CLI
                     {
                         LOG.error("Invocation failed", e);
                     }
+                };
+            }
+            else
+            {
+                String command = null;
+
+                name = name.trim();
+
+                int index = name.indexOf(' ');
+
+                if (index >= 0)
+                {
+                    command = name.substring(index);
+                    name = name.substring(0, index);
                 }
-            });
+
+                Handler handler = find(name).orElse(null);
+
+                if (handler == null)
+                {
+                    handler = register(new Handler(name));
+                }
+
+                handler.register(instance, method, parameterTypes, command, format, description);
+            }
         }
 
         protected <AnyHandler extends Handler> AnyHandler register(AnyHandler handler)
         {
-            handlers.add(handler);
+            subHandlers.add(handler);
 
             return handler;
         }
 
-        protected Handler get(String name)
+        protected Optional<Handler> find(String name)
         {
             String simplifiedName = simplify(name);
 
-            return handlers
+            return subHandlers
                 .stream()
                 .filter(handler -> Objects.equals(simplifiedName, simplify(handler.getName())))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
         }
 
-        @Override
         public void handle(Arguments arguments)
         {
-            Optional<String> optionalCommand = arguments.consume(String.class);
+            Arguments argumentsCopy = arguments.copy();
+            Optional<String> optionalCommand = argumentsCopy.consume(String.class);
 
-            if (!optionalCommand.isPresent())
+            if (optionalCommand.isPresent())
             {
+                String command = optionalCommand.get().trim();
+
+                Optional<Handler> optionalHandler = find(command);
+
+                if (optionalHandler.isPresent())
+                {
+                    optionalHandler.get().handle(argumentsCopy);
+
+                    return;
+                }
+            }
+
+            if (consumer != null)
+            {
+                consumer.accept(arguments);
+
                 return;
             }
 
-            String command = optionalCommand.get().trim();
+            throw new IllegalArgumentException("Invalid command.");
+        }
 
-            Handler handler = get(command);
+        @Override
+        public String toString()
+        {
+            return simplify(name);
+        }
 
-            if (handler == null)
-            {
-                throw new IllegalArgumentException("Invalid command: " + command);
-            }
-
-            handler.handle(arguments);
+        @Override
+        public int compareTo(Handler o)
+        {
+            return DICTIONARY_COLLATOR.compare(getName(), o.getName());
         }
     }
 
-    private final Formulary formulary = new Formulary(null);
+    private final Handler handler = new Handler(null);
 
     protected final InputStream in;
     protected final PrintStream out;
@@ -1005,7 +974,7 @@ public class CLI
 
     public void register(Object instance)
     {
-        formulary.register(instance);
+        handler.register(instance);
     }
 
     public Arguments consume(String prompt)
@@ -1038,7 +1007,7 @@ public class CLI
             return false;
         }
 
-        formulary.handle(command);
+        handler.handle(command);
 
         return true;
     }
@@ -1046,7 +1015,7 @@ public class CLI
     @CLI.Command(name = {"help", "?"}, format = "[q]", description = "Prints this help.")
     public void help(String... qs)
     {
-        String help = formulary.getHelp("", qs);
+        String help = handler.getHelp("", qs);
 
         if (help.length() == 0)
         {
@@ -1135,7 +1104,8 @@ public class CLI
 
     private static String simplify(String s)
     {
-        return s.replaceAll("[^\\p{IsLatin}^\\d]", "").toLowerCase();
+        //        return s.replaceAll("[^\\p{IsLatin}^\\d]", "").toLowerCase();
+        return s.toLowerCase();
     }
 
     private static boolean containsEach(String s, String... qs)

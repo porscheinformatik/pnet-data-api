@@ -1,3 +1,8 @@
+pnet-data-api 1.14.3
+====================
+
+* Optimizations to the sample client
+
 pnet-data-api 1.14.2
 ====================
 
