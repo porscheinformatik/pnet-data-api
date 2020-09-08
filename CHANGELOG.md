@@ -1,3 +1,8 @@
+WIP: pnet-data-api 1.14.5
+====================
+
+* Fix encoding of path segments.
+
 pnet-data-api 1.14.4
 ====================
 

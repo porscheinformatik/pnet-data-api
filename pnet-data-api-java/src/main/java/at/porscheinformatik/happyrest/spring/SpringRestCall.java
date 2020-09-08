@@ -25,14 +25,15 @@ import at.porscheinformatik.happyrest.AbstractRestCall;
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestAttribute;
 import at.porscheinformatik.happyrest.RestCall;
-import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestException;
+import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestHeader;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
+import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 
 /**
@@ -193,7 +194,7 @@ public class SpringRestCall extends AbstractRestCall
             headers.setContentType(MediaType.parseMediaType(contentType));
         }
 
-        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(prepareUrl(getUrl(), path));
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(RestUtils.appendPath(getUrl(), path));
 
         factory.setEncodingMode(EncodingMode.URI_COMPONENT);
 

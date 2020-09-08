@@ -31,6 +31,7 @@ import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestRequestException;
 import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 
 /**
@@ -96,24 +97,7 @@ public class JavaRestCall extends AbstractRestCall
 
     private String buildUrl(String path, boolean form)
     {
-        String url = getUrl();
-
-        if (path != null)
-        {
-            if (path.startsWith("/"))
-            {
-                path = path.substring(1);
-            }
-
-            if (url.endsWith("/"))
-            {
-                url += path;
-            }
-            else
-            {
-                url += "/" + path;
-            }
-        }
+        String url = RestUtils.appendPath(getUrl(), path);
 
         for (RestVariable variable : getVariables())
         {

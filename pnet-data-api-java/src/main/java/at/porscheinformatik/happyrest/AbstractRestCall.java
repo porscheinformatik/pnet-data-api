@@ -53,9 +53,10 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public RestCall path(String path)
+    public RestCall pathSegment(String... pathSegments)
     {
-        return copy(prepareUrl(Objects.requireNonNull(url, "Cannot add path to missing URL"), path),
+        return copy(
+            RestUtils.appendPathSegments(Objects.requireNonNull(url, "Cannot add path to missing URL"), pathSegments),
             acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
@@ -271,29 +272,5 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public abstract <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
         throws RestException;
-
-    protected static String prepareUrl(String url, String path)
-    {
-        if (path == null || path.length() == 0)
-        {
-            return url;
-        }
-
-        if (!url.endsWith("/"))
-        {
-            url += "/";
-        }
-
-        if (path.startsWith("/"))
-        {
-            url += path.substring(1);
-        }
-        else
-        {
-            url += path;
-        }
-
-        return url;
-    }
 
 }

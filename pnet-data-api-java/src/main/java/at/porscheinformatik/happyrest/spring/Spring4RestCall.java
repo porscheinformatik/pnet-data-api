@@ -21,14 +21,15 @@ import at.porscheinformatik.happyrest.AbstractRestCall;
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestAttribute;
 import at.porscheinformatik.happyrest.RestCall;
-import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestException;
+import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestHeader;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
+import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 
 /**
@@ -189,7 +190,7 @@ public class Spring4RestCall extends AbstractRestCall
             headers.setContentType(MediaType.parseMediaType(contentType));
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(prepareUrl(getUrl(), path));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(RestUtils.appendPath(getUrl(), path));
         Map<String, Object> variables = buildVariables(builder, headers, form);
 
         try

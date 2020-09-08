@@ -1,12 +1,17 @@
 package at.porscheinformatik.happyrest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import org.springframework.util.StreamUtils;
 
 /**
  * Utilities for the framework.
@@ -151,6 +156,107 @@ public final class RestUtils
     private RestUtils()
     {
         super();
+    }
+
+    // CHECKSTYLE:OFF
+    private static boolean isAllowedInPathSegment(byte c)
+    {
+        return (c >= 'a' && c <= 'z')
+            || (c >= 'A' && c <= 'Z')
+            || (c >= '0' && c <= '9')
+            || '-' == c
+            || '.' == c
+            || '_' == c
+            || '~' == c
+            || '!' == c
+            || '$' == c
+            || '&' == c
+            || '\'' == c
+            || '(' == c
+            || ')' == c
+            || '*' == c
+            || '+' == c
+            || ',' == c
+            || ';' == c
+            || '=' == c
+            || ':' == c
+            || '@' == c;
+    }
+    // CHECKSTYLE:ON
+
+    public static String encodePathSegment(String pathSegment, Charset charset)
+    {
+        byte[] bytes = pathSegment.getBytes(charset);
+        boolean original = true;
+
+        for (byte b : bytes)
+        {
+            if (!isAllowedInPathSegment(b))
+            {
+                original = false;
+                break;
+            }
+        }
+
+        if (original)
+        {
+            return pathSegment;
+        }
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes.length);
+
+        for (byte b : bytes)
+        {
+            if (isAllowedInPathSegment(b))
+            {
+                baos.write(b);
+            }
+            else
+            {
+                baos.write('%');
+                char hex1 = Character.toUpperCase(Character.forDigit((b >> 4) & 0xF, 16));
+                char hex2 = Character.toUpperCase(Character.forDigit(b & 0xF, 16));
+                baos.write(hex1);
+                baos.write(hex2);
+            }
+        }
+
+        return StreamUtils.copyToString(baos, charset);
+    }
+
+    public static String appendPath(String url, String path)
+    {
+        if (path == null || path.length() == 0)
+        {
+            return url;
+        }
+
+        return appendPathSegments(url, path.split("/"));
+    }
+
+    public static String appendPathSegments(String url, String... pathSegments)
+    {
+        if (pathSegments == null || pathSegments.length == 0)
+        {
+            return url;
+        }
+
+        for (String pathSegment : pathSegments)
+        {
+            if (pathSegment.length() == 0)
+            {
+                continue;
+            }
+
+            if (!url.endsWith("/"))
+            {
+                url += "/";
+            }
+
+            url += RestUtils.encodePathSegment(pathSegment, StandardCharsets.UTF_8);
+        }
+
+        return url;
     }
 
     public static String getHttpStatusMessage(int code)

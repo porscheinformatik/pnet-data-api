@@ -24,7 +24,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
 import at.porscheinformatik.happyrest.AbstractRestCall;
@@ -39,6 +38,7 @@ import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestRequestException;
 import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 
 /**
@@ -49,13 +49,17 @@ import at.porscheinformatik.happyrest.RestVariable;
 public class ApacheRestCall extends AbstractRestCall
 {
 
+    private final CloseableHttpClient httpClient;
     private final RestLoggerAdapter loggerAdapter;
     private final RestParser parser;
 
-    public ApacheRestCall(RestLoggerAdapter loggerAdapter, String url, List<String> acceptableMediaTypes,
-        String contentType, List<RestAttribute> attributes, RestFormatter formatter, RestParser parser, Object body)
+    public ApacheRestCall(CloseableHttpClient httpClient, RestLoggerAdapter loggerAdapter, String url,
+        List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes, RestFormatter formatter,
+        RestParser parser, Object body)
     {
         super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+
+        this.httpClient = httpClient;
 
         this.loggerAdapter = loggerAdapter;
         this.parser = parser;
@@ -89,8 +93,8 @@ public class ApacheRestCall extends AbstractRestCall
     protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
         List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
-        return new ApacheRestCall(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, parser,
-            body);
+        return new ApacheRestCall(httpClient, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
+            formatter, parser, body);
     }
 
     @Override
@@ -112,12 +116,9 @@ public class ApacheRestCall extends AbstractRestCall
 
         loggerAdapter.logRequest(method, String.valueOf(request.getURI()));
 
-        try (CloseableHttpClient httpClient = HttpClients.createDefault())
+        try (CloseableHttpResponse response = httpClient.execute(request))
         {
-            try (CloseableHttpResponse response = httpClient.execute(request))
-            {
-                return ApacheRestResponse.create(parser, response, responseType);
-            }
+            return ApacheRestResponse.create(parser, response, responseType);
         }
         catch (IOException e)
         {
@@ -127,29 +128,13 @@ public class ApacheRestCall extends AbstractRestCall
 
     private String buildUrl(String path)
     {
-        String url = getUrl();
-
-        if (path != null)
-        {
-            if (path.startsWith("/"))
-            {
-                path = path.substring(1);
-            }
-
-            if (url.endsWith("/"))
-            {
-                url += path;
-            }
-            else
-            {
-                url += "/" + path;
-            }
-        }
+        String url = RestUtils.appendPath(getUrl(), path);
 
         for (RestVariable variable : getVariables())
         {
             url = url.replace("{" + variable.getName() + "}", format(MEDIA_TYPE_TEXT_PLAIN, variable.getValue()));
         }
+
         return url;
     }
 

@@ -2,6 +2,8 @@ package at.porscheinformatik.happyrest.java;
 
 import java.net.ProxySelector;
 import java.net.http.HttpClient;
+import java.net.http.HttpClient.Builder;
+import java.time.Duration;
 
 import org.springframework.http.MediaType;
 
@@ -27,40 +29,90 @@ public class JavaRestCallFactory implements RestCallFactory
 
     public static JavaRestCallFactory create(RestLoggerAdapter loggerAdapter, ObjectMapper mapper)
     {
-        HttpClient httpClient = HttpClient.newBuilder().proxy(ProxySelector.getDefault()).build();
-
         RestFormatter formatter = RestFormatter.of(new JacksonBasedFormatter(mapper), new TextPlainFormatter());
         RestParser parser = RestParser.of(new JacksonBasedParser(mapper), BinaryParser.INSTANCE);
 
-        return new JavaRestCallFactory(httpClient, loggerAdapter, formatter, parser);
+        return new JavaRestCallFactory(loggerAdapter, formatter, parser);
     }
 
-    private final HttpClient httpClient;
     private final RestLoggerAdapter loggerAdapter;
     private final RestFormatter formatter;
     private final RestParser parser;
+    private final ProxySelector proxySelector;
+    private final Duration timeout;
+
+    private HttpClient httpClient;
 
     public JavaRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser)
     {
-        this(HttpClient.newBuilder().proxy(ProxySelector.getDefault()).build(), loggerAdapter, formatter, parser);
+        this(loggerAdapter, formatter, parser, ProxySelector.getDefault(), null);
     }
 
-    public JavaRestCallFactory(HttpClient httpClient, RestLoggerAdapter loggerAdapter, RestFormatter formatter,
-        RestParser parser)
+    public JavaRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser,
+        ProxySelector proxySelector, Duration timeout)
     {
         super();
 
-        this.httpClient = httpClient;
         this.loggerAdapter = loggerAdapter;
         this.formatter = formatter;
         this.parser = parser;
+        this.proxySelector = proxySelector;
+        this.timeout = timeout;
+    }
+
+    protected JavaRestCallFactory copy(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser,
+        ProxySelector proxySelector, Duration timeout)
+    {
+        return new JavaRestCallFactory(loggerAdapter, formatter, parser, proxySelector, timeout);
+    }
+
+    public JavaRestCallFactory withLoggerAdapter(RestLoggerAdapter loggerAdapter)
+    {
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+    }
+
+    public JavaRestCallFactory withFormatter(RestFormatter formatter)
+    {
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+    }
+
+    public JavaRestCallFactory withParser(RestParser parser)
+    {
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+    }
+
+    public JavaRestCallFactory withProxy(ProxySelector proxySelector)
+    {
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+    }
+
+    public JavaRestCallFactory withTimeout(Duration timeout)
+    {
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
     }
 
     @Override
     public RestCall url(String url)
     {
-        return new JavaRestCall(httpClient, loggerAdapter, url, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null,
-            formatter, parser, null);
+        if (httpClient == null)
+        {
+            Builder builder = HttpClient.newBuilder();
+
+            if (proxySelector != null)
+            {
+                builder = builder.proxy(proxySelector);
+            }
+
+            if (timeout != null)
+            {
+                builder = builder.connectTimeout(timeout);
+            }
+
+            httpClient = builder.build();
+        }
+
+        return new JavaRestCall(httpClient, loggerAdapter, url, null, MediaType.APPLICATION_JSON_VALUE, null, formatter,
+            parser, null);
     }
 
 }
