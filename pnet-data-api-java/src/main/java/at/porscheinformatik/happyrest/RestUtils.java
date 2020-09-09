@@ -24,7 +24,6 @@ public final class RestUtils
     private static final Map<Integer, String> HTTP_STATUS_MESSAGES;
 
     private static String version;
-    private static String agent;
 
     static
     {
@@ -102,11 +101,11 @@ public final class RestUtils
 
     public static String getVersion()
     {
-        String v = version;
+        String version = RestUtils.version;
 
-        if (v == null)
+        if (version == null)
         {
-            v = "UNDEFINED";
+            version = "UNDEFINED";
 
             try (InputStream stream = RestUtils.class
                 .getClassLoader()
@@ -118,7 +117,7 @@ public final class RestUtils
 
                     properties.load(stream);
 
-                    v = properties.getProperty("version");
+                    version = properties.getProperty("version");
                 }
                 else
                 {
@@ -130,27 +129,18 @@ public final class RestUtils
                 System.err.println("Failed to determine version of HappyRest (using \"UNDEFINED\" as version): " + e);
             }
 
-            version = v;
+            RestUtils.version = version;
         }
 
-        return v;
+        return version;
     }
 
-    public static String getAgent()
+    public static String getUserAgent(String technology)
     {
-        String a = agent;
-
-        if (a == null)
-        {
-            a = String
-                .format("HappyRest %s (%s; %s) %s %s", getVersion(), System.getProperty("os.name"),
-                    System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
-                    System.getProperty("java.runtime.version"));
-
-            agent = a;
-        }
-
-        return a;
+        return String
+            .format("HappyRest %s using %s (%s; %s) %s %s", getVersion(), technology, System.getProperty("os.name"),
+                System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
+                System.getProperty("java.runtime.version"));
     }
 
     private RestUtils()
@@ -184,7 +174,7 @@ public final class RestUtils
     }
     // CHECKSTYLE:ON
 
-    public static String encodePathSegment(String pathSegment, Charset charset)
+    public static String encodePathSegment(String pathSegment, Charset charset, boolean ignorePlaceholders)
     {
         byte[] bytes = pathSegment.getBytes(charset);
         boolean original = true;
@@ -203,11 +193,26 @@ public final class RestUtils
             return pathSegment;
         }
 
+        boolean inPlaceholder = false;
         ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes.length);
 
         for (byte b : bytes)
         {
             if (isAllowedInPathSegment(b))
+            {
+                baos.write(b);
+            }
+            else if (ignorePlaceholders && '{' == b)
+            {
+                inPlaceholder = true;
+                baos.write(b);
+            }
+            else if (ignorePlaceholders && inPlaceholder && '}' == b)
+            {
+                inPlaceholder = false;
+                baos.write(b);
+            }
+            else if (ignorePlaceholders && inPlaceholder)
             {
                 baos.write(b);
             }
@@ -224,17 +229,43 @@ public final class RestUtils
         return StreamUtils.copyToString(baos, charset);
     }
 
+    public static String appendPathWithPlaceholders(String url, String path)
+    {
+        return appendPath(url, true, true, path);
+    }
+
     public static String appendPath(String url, String path)
+    {
+        return appendPath(url, true, false, path);
+    }
+
+    private static String appendPath(String url, boolean encode, boolean ignorePlaceholders, String path)
     {
         if (path == null || path.length() == 0)
         {
             return url;
         }
 
-        return appendPathSegments(url, path.split("/"));
+        return appendPathSegments(url, encode, ignorePlaceholders, path.split("/"));
+    }
+
+    public static String appendPathSegmentsWithPlaceholders(String url, String... pathSegments)
+    {
+        return appendPathSegments(url, true, true, pathSegments);
     }
 
     public static String appendPathSegments(String url, String... pathSegments)
+    {
+        return appendPathSegments(url, true, false, pathSegments);
+    }
+
+    public static String appendEncodedPathSegments(String url, String... pathSegments)
+    {
+        return appendPathSegments(url, false, true, pathSegments);
+    }
+
+    private static String appendPathSegments(String url, boolean encode, boolean ignorePlaceholders,
+        String... pathSegments)
     {
         if (pathSegments == null || pathSegments.length == 0)
         {
@@ -253,7 +284,17 @@ public final class RestUtils
                 url += "/";
             }
 
-            url += RestUtils.encodePathSegment(pathSegment, StandardCharsets.UTF_8);
+            if (pathSegment.startsWith("/"))
+            {
+                pathSegment = pathSegment.substring(1);
+            }
+
+            if (encode)
+            {
+                pathSegment = RestUtils.encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePlaceholders);
+            }
+
+            url += pathSegment;
         }
 
         return url;

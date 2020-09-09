@@ -44,7 +44,7 @@ public class Spring4RestCall extends AbstractRestCall
 
     protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
     {
-        this(restTemplate, loggerAdapter, MediaType.APPLICATION_JSON_VALUE, null, null, null, formatter, null);
+        this(restTemplate, loggerAdapter, null, null, MediaType.APPLICATION_JSON_VALUE, null, formatter, null);
     }
 
     protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter,
@@ -190,7 +190,8 @@ public class Spring4RestCall extends AbstractRestCall
             headers.setContentType(MediaType.parseMediaType(contentType));
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(RestUtils.appendPath(getUrl(), path));
+        UriComponentsBuilder builder =
+            UriComponentsBuilder.fromUriString(RestUtils.appendPathWithPlaceholders(getUrl(), path));
         Map<String, Object> variables = buildVariables(builder, headers, form);
 
         try

@@ -10,6 +10,7 @@ import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientPrefs;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.AbstractClientFactory;
+import pnet.data.api.util.PnetDataApiUtils;
 
 /**
  * A factory for clients using Java 9. This class is intended to be used without Spring.
@@ -43,7 +44,9 @@ public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory>
     @Override
     protected RestCallFactory createRestCallFactory(ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
     {
-        return JavaRestCallFactory.create(loggerAdapter, mapper);
+        return JavaRestCallFactory
+            .create(loggerAdapter, mapper)
+            .withUserAgent(PnetDataApiUtils.getUserAgent("Java's HttpClient"));
     }
 
     @Override

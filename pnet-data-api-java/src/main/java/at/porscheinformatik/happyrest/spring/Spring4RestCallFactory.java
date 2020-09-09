@@ -20,28 +20,7 @@ import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
 public class Spring4RestCallFactory implements RestCallFactory
 {
 
-    private static final RestTemplate REST_TEMPLATE;
-
-    /**
-     * @deprecated use {@link #getDefault()} instead
-     */
-    @Deprecated
-    public static final Spring4RestCallFactory DEFAULT;
-
     private static Spring4RestCallFactory defaultFactory = null;
-
-    static
-    {
-        REST_TEMPLATE = new RestTemplate();
-
-        REST_TEMPLATE.getInterceptors().add((request, body, execution) -> {
-            request.getHeaders().add("user-agent", RestUtils.getAgent());
-
-            return execution.execute(request, body);
-        });
-
-        DEFAULT = new Spring4RestCallFactory(REST_TEMPLATE, Slf4jRestLoggerAdapter.getDefault(), null);
-    }
 
     public static Spring4RestCallFactory getDefault()
     {
@@ -52,7 +31,7 @@ public class Spring4RestCallFactory implements RestCallFactory
             RestTemplate restTemplate = new RestTemplate();
 
             restTemplate.getInterceptors().add((request, body, execution) -> {
-                request.getHeaders().add("user-agent", RestUtils.getAgent());
+                request.getHeaders().add("user-agent", RestUtils.getUserAgent("Spring 4's RestTemplate"));
 
                 return execution.execute(request, body);
             });

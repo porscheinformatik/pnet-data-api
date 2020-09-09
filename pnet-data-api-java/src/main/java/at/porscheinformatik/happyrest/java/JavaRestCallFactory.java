@@ -5,8 +5,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpClient.Builder;
 import java.time.Duration;
 
-import org.springframework.http.MediaType;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.RestCall;
@@ -14,6 +12,7 @@ import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestParser;
+import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedFormatter;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedParser;
 import at.porscheinformatik.happyrest.util.BinaryParser;
@@ -40,16 +39,17 @@ public class JavaRestCallFactory implements RestCallFactory
     private final RestParser parser;
     private final ProxySelector proxySelector;
     private final Duration timeout;
+    private final String userAgent;
 
     private HttpClient httpClient;
 
     public JavaRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser)
     {
-        this(loggerAdapter, formatter, parser, ProxySelector.getDefault(), null);
+        this(loggerAdapter, formatter, parser, ProxySelector.getDefault(), null, RestUtils.getUserAgent("Java's HttpClient"));
     }
 
     public JavaRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser,
-        ProxySelector proxySelector, Duration timeout)
+        ProxySelector proxySelector, Duration timeout, String userAgent)
     {
         super();
 
@@ -58,37 +58,43 @@ public class JavaRestCallFactory implements RestCallFactory
         this.parser = parser;
         this.proxySelector = proxySelector;
         this.timeout = timeout;
+        this.userAgent = userAgent;
     }
 
     protected JavaRestCallFactory copy(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser,
-        ProxySelector proxySelector, Duration timeout)
+        ProxySelector proxySelector, Duration timeout, String userAgent)
     {
-        return new JavaRestCallFactory(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return new JavaRestCallFactory(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public JavaRestCallFactory withLoggerAdapter(RestLoggerAdapter loggerAdapter)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public JavaRestCallFactory withFormatter(RestFormatter formatter)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public JavaRestCallFactory withParser(RestParser parser)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public JavaRestCallFactory withProxy(ProxySelector proxySelector)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public JavaRestCallFactory withTimeout(Duration timeout)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
+    }
+
+    public JavaRestCallFactory withUserAgent(String userAgent)
+    {
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     @Override
@@ -111,7 +117,7 @@ public class JavaRestCallFactory implements RestCallFactory
             httpClient = builder.build();
         }
 
-        return new JavaRestCall(httpClient, loggerAdapter, url, null, MediaType.APPLICATION_JSON_VALUE, null, formatter,
+        return new JavaRestCall(httpClient, userAgent, loggerAdapter, url, null, "application/json", null, formatter,
             parser, null);
     }
 

@@ -36,7 +36,6 @@ public final class PnetDataApiUtils
 {
 
     private static String version;
-    private static String agent;
 
     /**
      * A collator set to primary strength, which means 'a', 'A' and '&auml;' is the same
@@ -55,11 +54,11 @@ public final class PnetDataApiUtils
 
     public static String getVersion()
     {
-        String v = version;
+        String version = PnetDataApiUtils.version;
 
-        if (v == null)
+        if (version == null)
         {
-            v = "UNDEFINED";
+            version = "UNDEFINED";
 
             try (InputStream stream = PnetDataApiUtils.class
                 .getClassLoader()
@@ -71,7 +70,7 @@ public final class PnetDataApiUtils
 
                     properties.load(stream);
 
-                    v = properties.getProperty("version");
+                    version = properties.getProperty("version");
                 }
                 else
                 {
@@ -88,27 +87,18 @@ public final class PnetDataApiUtils
                             + e);
             }
 
-            version = v;
+            PnetDataApiUtils.version = version;
         }
 
-        return v;
+        return version;
     }
 
-    public static String getAgent()
+    public static String getUserAgent(String technology)
     {
-        String a = agent;
-
-        if (a == null)
-        {
-            a = String
-                .format("Pnet Data API Java Client %s (%s; %s) %s %s", getVersion(), System.getProperty("os.name"),
-                    System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
-                    System.getProperty("java.runtime.version"));
-
-            agent = a;
-        }
-
-        return a;
+        return String
+            .format("Pnet Data API Java Client %s using %s (%s; %s) %s %s", getVersion(), System.getProperty("os.name"),
+                technology, System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
+                System.getProperty("java.runtime.version"));
     }
 
     private PnetDataApiUtils()

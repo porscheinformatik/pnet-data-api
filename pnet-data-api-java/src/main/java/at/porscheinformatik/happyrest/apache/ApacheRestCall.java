@@ -128,7 +128,7 @@ public class ApacheRestCall extends AbstractRestCall
 
     private String buildUrl(String path)
     {
-        String url = RestUtils.appendPath(getUrl(), path);
+        String url = RestUtils.appendPathWithPlaceholders(getUrl(), path);
 
         for (RestVariable variable : getVariables())
         {

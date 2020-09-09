@@ -21,29 +21,7 @@ import at.porscheinformatik.happyrest.util.TextPlainFormatter;
 public class SpringRestCallFactory implements RestCallFactory
 {
 
-    private static final RestTemplate REST_TEMPLATE;
-
-    /**
-     * @deprecated use {@link #getDefault()} instead
-     */
-    @Deprecated
-    public static final SpringRestCallFactory DEFAULT;
-
     private static SpringRestCallFactory defaultFactory = null;
-
-    static
-    {
-        REST_TEMPLATE = new RestTemplate();
-
-        REST_TEMPLATE.getInterceptors().add((request, body, execution) -> {
-            request.getHeaders().add("user-agent", RestUtils.getAgent());
-
-            return execution.execute(request, body);
-        });
-
-        DEFAULT =
-            new SpringRestCallFactory(REST_TEMPLATE, Slf4jRestLoggerAdapter.getDefault(), new TextPlainFormatter());
-    }
 
     public static SpringRestCallFactory getDefault()
     {
@@ -54,7 +32,7 @@ public class SpringRestCallFactory implements RestCallFactory
             RestTemplate restTemplate = new RestTemplate();
 
             restTemplate.getInterceptors().add((request, body, execution) -> {
-                request.getHeaders().add("user-agent", RestUtils.getAgent());
+                request.getHeaders().add("user-agent", RestUtils.getUserAgent("Spring's RestTemplate"));
 
                 return execution.execute(request, body);
             });

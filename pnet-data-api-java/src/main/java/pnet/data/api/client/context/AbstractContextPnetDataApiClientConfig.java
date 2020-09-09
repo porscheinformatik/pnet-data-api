@@ -44,7 +44,7 @@ public abstract class AbstractContextPnetDataApiClientConfig
     @Bean
     public Converter<LocalDateTime, String> localDateTimeToStringConverter()
     {
-        // do not convert this to a Lamdba operation, otherwise Spring get's confused!
+        // do not convert this to a Lambda operation, otherwise Spring get's confused!
         return new Converter<LocalDateTime, String>()
         {
             private final ZoneId systemDefault = ZoneId.systemDefault();
@@ -69,7 +69,7 @@ public abstract class AbstractContextPnetDataApiClientConfig
     @Bean
     public Converter<GeoDistance, String> geoDistanceToStringConverter()
     {
-        // do not convert this to a Lamdba operation, otherwise Spring get's confused!
+        // do not convert this to a Lambda operation, otherwise Spring get's confused!
         return new Converter<GeoDistance, String>()
         {
             private final Locale locale = Locale.ENGLISH;
@@ -124,7 +124,7 @@ public abstract class AbstractContextPnetDataApiClientConfig
         }
 
         restTemplate.getInterceptors().add((request, body, execution) -> {
-            request.getHeaders().add("user-agent", PnetDataApiUtils.getAgent());
+            request.getHeaders().add("user-agent", PnetDataApiUtils.getUserAgent("Spring's RestTemplate"));
 
             return execution.execute(request, body);
         });

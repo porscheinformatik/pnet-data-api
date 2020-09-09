@@ -48,13 +48,13 @@ public class SpringRestCall extends AbstractRestCall
 
     protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
     {
-        this(restTemplate, loggerAdapter, null, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null, formatter, null);
+        this(restTemplate, loggerAdapter, null, null, MediaType.APPLICATION_JSON_VALUE, null, formatter, null);
     }
 
     protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter,
         String url)
     {
-        this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON_UTF8_VALUE, null, formatter, null);
+        this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON_VALUE, null, formatter, null);
     }
 
     protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, String url,
@@ -194,7 +194,8 @@ public class SpringRestCall extends AbstractRestCall
             headers.setContentType(MediaType.parseMediaType(contentType));
         }
 
-        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(RestUtils.appendPath(getUrl(), path));
+        DefaultUriBuilderFactory factory =
+            new DefaultUriBuilderFactory(RestUtils.appendPathWithPlaceholders(getUrl(), path));
 
         factory.setEncodingMode(EncodingMode.URI_COMPONENT);
 

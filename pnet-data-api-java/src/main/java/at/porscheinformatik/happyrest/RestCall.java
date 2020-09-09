@@ -50,8 +50,8 @@ public interface RestCall
     RestCall url(String url);
 
     /**
-     * Returns a new instance of a {@link RestCall} and adds the path to the URL. The path may contain "/", which won't
-     * be encoded. The segments themself will be encoded.
+     * Returns a new instance of a {@link RestCall} and adds the path to the URL. The path may contain "/", "{" and "}",
+     * which won't get encoded. The segments themselves will be encoded.
      *
      * @param path the path
      * @return a new instance
@@ -62,12 +62,22 @@ public interface RestCall
     }
 
     /**
-     * Returns a new instance of a {@link RestCall} and adds the path segments to the URL. The segments will be encoded.
+     * Returns a new instance of a {@link RestCall} and adds the path segments to the URL. The segments will get
+     * encoded.
      *
      * @param pathSegments the segments to add
      * @return a new instance
      */
     RestCall pathSegment(String... pathSegments);
+
+    /**
+     * Returns a new instance of a {@link RestCall} and adds the path segments to the URL. The segments won't get
+     * encoded.
+     *
+     * @param pathSegments the segments to add
+     * @return a new instance
+     */
+    RestCall encodedPathSegment(String... pathSegments);
 
     List<String> getAcceptableMediaTypes();
 

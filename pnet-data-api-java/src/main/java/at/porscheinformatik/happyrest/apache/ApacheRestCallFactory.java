@@ -8,7 +8,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
-import org.springframework.http.MediaType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -17,6 +16,7 @@ import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestParser;
+import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedFormatter;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedParser;
 import at.porscheinformatik.happyrest.util.BinaryParser;
@@ -43,16 +43,17 @@ public class ApacheRestCallFactory implements RestCallFactory
     private final RestParser parser;
     private final ProxySelector proxySelector;
     private final Duration timeout;
+    private final String userAgent;
 
     private CloseableHttpClient httpClient;
 
     public ApacheRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser)
     {
-        this(loggerAdapter, formatter, parser, ProxySelector.getDefault(), null);
+        this(loggerAdapter, formatter, parser, ProxySelector.getDefault(), null, RestUtils.getUserAgent("Apache's HttpClient"));
     }
 
     public ApacheRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser,
-        ProxySelector proxySelector, Duration timeout)
+        ProxySelector proxySelector, Duration timeout, String userAgent)
     {
         super();
         this.loggerAdapter = loggerAdapter;
@@ -60,37 +61,43 @@ public class ApacheRestCallFactory implements RestCallFactory
         this.parser = parser;
         this.proxySelector = proxySelector;
         this.timeout = timeout;
+        this.userAgent = userAgent;
     }
 
     protected ApacheRestCallFactory copy(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser,
-        ProxySelector proxySelector, Duration timeout)
+        ProxySelector proxySelector, Duration timeout, String userAgent)
     {
-        return new ApacheRestCallFactory(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return new ApacheRestCallFactory(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public ApacheRestCallFactory withLoggerAdapter(RestLoggerAdapter loggerAdapter)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public ApacheRestCallFactory withFormatter(RestFormatter formatter)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public ApacheRestCallFactory withParser(RestParser parser)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public ApacheRestCallFactory withProxy(ProxySelector proxySelector)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     public ApacheRestCallFactory withTimeout(Duration timeout)
     {
-        return copy(loggerAdapter, formatter, parser, proxySelector, timeout);
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
+    }
+
+    public ApacheRestCallFactory withUserAgent(String userAgent)
+    {
+        return copy(loggerAdapter, formatter, parser, proxySelector, timeout, userAgent);
     }
 
     @Override
@@ -115,11 +122,16 @@ public class ApacheRestCallFactory implements RestCallFactory
                         .build());
             }
 
+            if (userAgent != null)
+            {
+                builder.setUserAgent(userAgent);
+            }
+
             httpClient = builder.build();
         }
 
-        return new ApacheRestCall(httpClient, loggerAdapter, url, null, MediaType.APPLICATION_JSON_VALUE, null,
-            formatter, parser, null);
+        return new ApacheRestCall(httpClient, loggerAdapter, url, null, "application/json", null, formatter, parser,
+            null);
     }
 
 }

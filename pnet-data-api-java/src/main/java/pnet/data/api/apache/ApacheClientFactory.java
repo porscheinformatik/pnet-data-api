@@ -10,6 +10,7 @@ import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientPrefs;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.AbstractClientFactory;
+import pnet.data.api.util.PnetDataApiUtils;
 
 /**
  * A factory for clients using Apache HTTP client. This class is intended to be used without Spring.
@@ -43,7 +44,9 @@ public class ApacheClientFactory extends AbstractClientFactory<ApacheClientFacto
     @Override
     protected RestCallFactory createRestCallFactory(ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
     {
-        return ApacheRestCallFactory.create(loggerAdapter, mapper);
+        return ApacheRestCallFactory
+            .create(loggerAdapter, mapper)
+            .withUserAgent(PnetDataApiUtils.getUserAgent("Apache's HttpClient"));
     }
 
     @Override

@@ -1,7 +1,12 @@
-WIP: pnet-data-api 1.14.5
+pnet-data-api 1.14.5
 ====================
 
 * Fix encoding of path segments.
+* Timeout, proxy and user agent settings for Java and Apache client.
+    - In Spring, you have to customize the RestTemplate.
+* User agent for Java and Apache clients now match Spring client.
+* User agent now contains technology hint.
+* Removed some deprecated code.
 
 pnet-data-api 1.14.4
 ====================

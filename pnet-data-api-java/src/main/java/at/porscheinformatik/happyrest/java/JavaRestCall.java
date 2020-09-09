@@ -45,16 +45,18 @@ public class JavaRestCall extends AbstractRestCall
     private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
     private final HttpClient httpClient;
+    private final String userAgent;
     private final RestLoggerAdapter loggerAdapter;
     private final RestParser parser;
 
-    public JavaRestCall(HttpClient httpClient, RestLoggerAdapter loggerAdapter, String url,
+    public JavaRestCall(HttpClient httpClient, String userAgent, RestLoggerAdapter loggerAdapter, String url,
         List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes, RestFormatter formatter,
         RestParser parser, Object body)
     {
         super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
 
         this.httpClient = httpClient;
+        this.userAgent = userAgent;
         this.loggerAdapter = loggerAdapter;
         this.parser = parser;
     }
@@ -63,8 +65,8 @@ public class JavaRestCall extends AbstractRestCall
     protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
         List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
-        return new JavaRestCall(httpClient, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
-            formatter, parser, body);
+        return new JavaRestCall(httpClient, userAgent, loggerAdapter, url, acceptableMediaTypes, contentType,
+            attributes, formatter, parser, body);
     }
 
     @Override
@@ -97,7 +99,7 @@ public class JavaRestCall extends AbstractRestCall
 
     private String buildUrl(String path, boolean form)
     {
-        String url = RestUtils.appendPath(getUrl(), path);
+        String url = RestUtils.appendPathWithPlaceholders(getUrl(), path);
 
         for (RestVariable variable : getVariables())
         {
@@ -147,6 +149,11 @@ public class JavaRestCall extends AbstractRestCall
 
             default:
                 throw new UnsupportedOperationException("Unsupported method: " + method);
+        }
+
+        if (userAgent != null)
+        {
+            builder.setHeader("User-Agent", userAgent);
         }
 
         return builder.build();
