@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestParserException;
+import at.porscheinformatik.happyrest.RestUtils;
 
 public class BinaryParser implements RestParser
 {
@@ -33,7 +34,7 @@ public class BinaryParser implements RestParser
     {
         try
         {
-            return in.readAllBytes();
+            return RestUtils.readAllBytes(in);
         }
         catch (IOException e)
         {

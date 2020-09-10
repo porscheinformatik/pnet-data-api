@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.spring.Spring4RestCallFactory;
+import at.porscheinformatik.happyrest.spring.SpringRestFormatter;
 
 /**
  * <pre>
@@ -25,7 +26,7 @@ public class ContextPnetDataApiClientSpring4Config extends AbstractContextPnetDa
     protected RestCallFactory createSpringRestCallFactory(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
         ConversionService conversionService)
     {
-        return new Spring4RestCallFactory(restTemplate, loggerAdapter, conversionService);
+        return new Spring4RestCallFactory(restTemplate, loggerAdapter, new SpringRestFormatter(conversionService));
     }
 
 }

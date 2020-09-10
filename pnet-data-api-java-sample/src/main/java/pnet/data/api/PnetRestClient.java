@@ -2519,7 +2519,7 @@ public final class PnetRestClient
         }
         else
         {
-            Object result = repository.restCall(key()).get(uri, Object.class);
+            Object result = repository.restCall(key()).encodedPathSegment(uri).get(Object.class);
 
             cli.info(PrettyPrint.prettyPrint(result));
         }

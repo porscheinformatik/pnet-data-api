@@ -6,6 +6,8 @@ pnet-data-api 1.14.5
     - In Spring, you have to customize the RestTemplate.
 * User agent for Java and Apache clients now match Spring client.
 * User agent now contains technology hint.
+* Fixed Spring 4 client to use SpringRestFormatter instead of ConversionService directly.
+* Fixed portrait parsing in Java client.
 * Removed some deprecated code.
 
 pnet-data-api 1.14.4

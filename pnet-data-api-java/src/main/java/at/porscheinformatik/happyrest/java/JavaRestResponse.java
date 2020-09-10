@@ -85,9 +85,8 @@ class JavaRestResponse<T> implements RestResponse<T>
             }
         }
 
-        return new JavaRestResponse<>(statusCode, statusMessage, headers,
-            optionalContentType != null ? optionalContentType.toString() : null, optionalContentLength.orElse(-1),
-            body);
+        return new JavaRestResponse<>(statusCode, statusMessage, headers, optionalContentType.orElse(null),
+            optionalContentLength.orElse(-1), body);
     }
 
     private final int statusCode;

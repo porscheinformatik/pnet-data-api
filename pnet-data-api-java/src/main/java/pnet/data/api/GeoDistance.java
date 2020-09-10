@@ -14,6 +14,8 @@
  */
 package pnet.data.api;
 
+import java.util.Locale;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -54,7 +56,10 @@ public class GeoDistance extends GeoPoint
     @Override
     public String toString()
     {
-        return String.format(String.format("%s [%.0f m]", super.toString(), distance));
+        return String
+            .format(String
+                .format(Locale.ENGLISH, "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}", getLat(), getLon(),
+                    getDistance()));
     }
 
 }

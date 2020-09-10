@@ -1017,7 +1017,7 @@ public class CLI
     {
         String help = handler.getHelp("", qs);
 
-        if (help.length() == 0)
+        if (help == null || help.length() == 0)
         {
             info("No help found for: %s", Arrays.stream(qs).collect(Collectors.joining(" ")));
         }

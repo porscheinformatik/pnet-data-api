@@ -15,6 +15,7 @@
 package pnet.data.api;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -39,6 +40,7 @@ public class GeoPoint implements Serializable
 
     @ApiModelProperty(notes = "The latitude of the geographical point")
     private final double lat;
+
     @ApiModelProperty(notes = "The longitude of the geographical point")
     private final double lon;
 
@@ -67,7 +69,7 @@ public class GeoPoint implements Serializable
     @Override
     public String toString()
     {
-        return String.format(String.format("(%.6f, %.6f)", lat, lon));
+        return String.format(String.format(Locale.ENGLISH, "{\"lat\":%.6f,\"lon\":%.6f}", getLat(), getLon()));
     }
 
     /**

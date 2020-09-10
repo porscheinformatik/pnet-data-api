@@ -384,4 +384,23 @@ public final class RestUtils
 
         return builder.toString();
     }
+
+    public static byte[] readAllBytes(InputStream in) throws IOException
+    {
+        byte[] buffer = new byte[8192];
+        int length;
+
+        try (ByteArrayOutputStream result = new ByteArrayOutputStream())
+        {
+            while ((length = in.read(buffer)) >= 0)
+            {
+                result.write(buffer, 0, length);
+            }
+
+            return result.toByteArray();
+        }
+
+        // seems to be buggy, it causes the pnet.data.webapp.person.PersonDataImageIT.getPortrait(ClientTechnology) to fail
+        // return in.readAllBytes();
+    }
 }

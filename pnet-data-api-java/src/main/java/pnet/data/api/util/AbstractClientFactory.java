@@ -36,7 +36,7 @@ import pnet.data.api.todo.TodoGroupDataClient;
  * @author HAM
  * @param <T> the type itself
  */
-public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
+public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> implements ClientProvider
 {
     private final PnetDataClientPrefs prefs;
     private final ObjectMapper mapper;
@@ -138,6 +138,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return context;
     }
 
+    @Override
     public synchronized AboutDataClient getAboutDataClient()
     {
         if (aboutDataClient == null)
@@ -148,6 +149,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return aboutDataClient;
     }
 
+    @Override
     public synchronized ActivityDataClient getActivityDataClient()
     {
         if (activityDataClient == null)
@@ -158,6 +160,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return activityDataClient;
     }
 
+    @Override
     public synchronized AdvisorTypeDataClient getAdvisorTypeDataClient()
     {
         if (advisorTypeDataClient == null)
@@ -168,6 +171,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return advisorTypeDataClient;
     }
 
+    @Override
     public synchronized ApplicationDataClient getApplicationDataClient()
     {
         if (applicationDataClient == null)
@@ -178,6 +182,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return applicationDataClient;
     }
 
+    @Override
     public synchronized BrandDataClient getBrandDataClient()
     {
         if (brandDataClient == null)
@@ -188,6 +193,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return brandDataClient;
     }
 
+    @Override
     public synchronized CompanyDataClient getCompanyDataClient()
     {
         if (companyDataClient == null)
@@ -198,6 +204,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return companyDataClient;
     }
 
+    @Override
     public synchronized CompanyGroupDataClient getCompanyGroupDataClient()
     {
         if (companyGroupDataClient == null)
@@ -208,6 +215,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return companyGroupDataClient;
     }
 
+    @Override
     public synchronized CompanyGroupTypeDataClient getCompanyGroupTypeDataClient()
     {
         if (companyGroupTypeDataClient == null)
@@ -218,6 +226,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return companyGroupTypeDataClient;
     }
 
+    @Override
     public synchronized CompanyNumberTypeDataClient getCompanyNumberTypeDataClient()
     {
         if (companyNumberTypeDataClient == null)
@@ -228,6 +237,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return companyNumberTypeDataClient;
     }
 
+    @Override
     public synchronized CompanyTypeDataClient getCompanyTypeDataClient()
     {
         if (companyTypeDataClient == null)
@@ -238,6 +248,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return companyTypeDataClient;
     }
 
+    @Override
     public synchronized ContractStateDataClient getContractStateDataClient()
     {
         if (contractStateDataClient == null)
@@ -248,6 +259,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return contractStateDataClient;
     }
 
+    @Override
     public synchronized ContractTypeDataClient getContractTypeDataClient()
     {
         if (contractTypeDataClient == null)
@@ -258,6 +270,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return contractTypeDataClient;
     }
 
+    @Override
     public synchronized ExternalBrandDataClient getExternalBrandDataClient()
     {
         if (externalBrandDataClient == null)
@@ -268,6 +281,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return externalBrandDataClient;
     }
 
+    @Override
     public synchronized FunctionDataClient getFunctionDataClient()
     {
         if (functionDataClient == null)
@@ -278,6 +292,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return functionDataClient;
     }
 
+    @Override
     public synchronized LegalFormDataClient getLegalFormDataClient()
     {
         if (legalFormDataClient == null)
@@ -288,6 +303,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return legalFormDataClient;
     }
 
+    @Override
     public synchronized NumberTypeDataClient getNumberTypeDataClient()
     {
         if (numberTypeDataClient == null)
@@ -298,6 +314,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return numberTypeDataClient;
     }
 
+    @Override
     public synchronized PersonDataClient getPersonDataClient()
     {
         if (personDataClient == null)
@@ -308,6 +325,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return personDataClient;
     }
 
+    @Override
     public synchronized ProposalDataClient getProposalDataClient()
     {
         if (proposalDataClient == null)
@@ -318,6 +336,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>>
         return proposalDataClient;
     }
 
+    @Override
     public synchronized TodoGroupDataClient getTodoGroupDataClient()
     {
         if (todoGroupDataClient == null)
