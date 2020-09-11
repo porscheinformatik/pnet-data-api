@@ -1,3 +1,9 @@
+pnet-data-api 1.14.6
+====================
+
+* Fix missing content type in Java and Apache client.
+* Removed UTF-8 from JSON content type, as it is the default.
+
 pnet-data-api 1.14.5
 ====================
 

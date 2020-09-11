@@ -225,6 +225,13 @@ public class ApacheRestCall extends AbstractRestCall
     {
         getHeaders()
             .forEach(header -> request.addHeader(header.getName(), format(MEDIA_TYPE_TEXT_PLAIN, header.getValue())));
+
+        String contentType = getContentType();
+
+        if (contentType != null)
+        {
+            request.addHeader("Content-Type", contentType);
+        }
     }
 
     private void computeEntity(RestMethod method, HttpRequestBase request) throws RestRequestException

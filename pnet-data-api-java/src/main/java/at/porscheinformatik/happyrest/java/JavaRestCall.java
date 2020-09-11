@@ -156,6 +156,13 @@ public class JavaRestCall extends AbstractRestCall
             builder.setHeader("User-Agent", userAgent);
         }
 
+        String contentType = getContentType();
+
+        if (contentType != null)
+        {
+            builder.setHeader("Content-Type", contentType);
+        }
+
         return builder.build();
 
     }

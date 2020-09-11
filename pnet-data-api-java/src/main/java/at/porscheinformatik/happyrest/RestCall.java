@@ -150,7 +150,7 @@ public interface RestCall
 
     default RestCall contentTypeJson()
     {
-        return contentType(MEDIA_TYPE_APPLICATION_JSON_UTF8);
+        return contentType(MEDIA_TYPE_APPLICATION_JSON);
     }
 
     default RestCall contentTypeXML()
