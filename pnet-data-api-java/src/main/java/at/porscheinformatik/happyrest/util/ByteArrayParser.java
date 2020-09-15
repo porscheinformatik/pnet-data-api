@@ -9,15 +9,15 @@ import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestParserException;
 import at.porscheinformatik.happyrest.RestUtils;
 
-public class BinaryParser implements RestParser
+public class ByteArrayParser implements RestParser
 {
 
-    public static final BinaryParser INSTANCE = new BinaryParser();
+    public static final ByteArrayParser INSTANCE = new ByteArrayParser();
 
-    private static final GenericType<byte[]> BINARY_ARRAY_TYPE =
+    private static final GenericType<byte[]> BYTE_ARRAY_TYPE =
         GenericType.of(Array.newInstance(Byte.TYPE, 0).getClass());
 
-    protected BinaryParser()
+    protected ByteArrayParser()
     {
         super();
     }
@@ -26,11 +26,11 @@ public class BinaryParser implements RestParser
     public boolean isContentTypeSupported(String contentType, GenericType<?> type)
     {
 
-        return type.isAssignableFrom(BINARY_ARRAY_TYPE);
+        return type.isAssignableFrom(BYTE_ARRAY_TYPE);
     }
 
     @Override
-    public <T> Object parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException
+    public <T> byte[] parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException
     {
         try
         {

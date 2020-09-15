@@ -15,7 +15,8 @@ import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedFormatter;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedParser;
-import at.porscheinformatik.happyrest.util.BinaryParser;
+import at.porscheinformatik.happyrest.util.ByteArrayParser;
+import at.porscheinformatik.happyrest.util.StringParser;
 import at.porscheinformatik.happyrest.util.TextPlainFormatter;
 
 /**
@@ -29,7 +30,7 @@ public class JavaRestCallFactory implements RestCallFactory
     public static JavaRestCallFactory create(RestLoggerAdapter loggerAdapter, ObjectMapper mapper)
     {
         RestFormatter formatter = RestFormatter.of(new JacksonBasedFormatter(mapper), new TextPlainFormatter());
-        RestParser parser = RestParser.of(new JacksonBasedParser(mapper), BinaryParser.INSTANCE);
+        RestParser parser = RestParser.of(new JacksonBasedParser(mapper), StringParser.INSTANCE, ByteArrayParser.INSTANCE);
 
         return new JavaRestCallFactory(loggerAdapter, formatter, parser);
     }
@@ -45,7 +46,8 @@ public class JavaRestCallFactory implements RestCallFactory
 
     public JavaRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser)
     {
-        this(loggerAdapter, formatter, parser, ProxySelector.getDefault(), null, RestUtils.getUserAgent("Java's HttpClient"));
+        this(loggerAdapter, formatter, parser, ProxySelector.getDefault(), null,
+            RestUtils.getUserAgent("Java's HttpClient"));
     }
 
     public JavaRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser,

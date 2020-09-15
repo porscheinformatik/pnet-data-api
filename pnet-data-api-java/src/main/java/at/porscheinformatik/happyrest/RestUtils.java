@@ -1,6 +1,7 @@
 package at.porscheinformatik.happyrest;
 
 import java.io.ByteArrayOutputStream;
+import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -356,6 +357,60 @@ public final class RestUtils
         return delimiter >= 0 ? contentType.substring(delimiter + 1) : null;
     }
 
+    public static Charset extractContentTypeCharset(String contentType)
+    {
+        if (contentType == null)
+        {
+            return null;
+        }
+
+        String[] parts = contentType.split(";");
+
+        for (String part : parts)
+        {
+            if ("charset".equals(getKey(part)))
+            {
+                return Charset.forName(getValue(part));
+            }
+        }
+
+        return StandardCharsets.UTF_8;
+    }
+
+    public static String getKey(String s)
+    {
+        if (s == null)
+        {
+            return null;
+        }
+
+        int index = s.indexOf("=");
+
+        if (index < 0)
+        {
+            return s;
+        }
+
+        return s.substring(0, index).trim();
+    }
+
+    public static String getValue(String s)
+    {
+        if (s == null)
+        {
+            return null;
+        }
+
+        int index = s.indexOf("=");
+
+        if (index < 0)
+        {
+            return null;
+        }
+
+        return s.substring(index + 1).trim();
+    }
+
     public static String abbreviate(String s, int length)
     {
         if (s == null)
@@ -373,16 +428,7 @@ public final class RestUtils
 
     public static String readFully(Reader reader) throws IOException
     {
-        StringBuilder builder = new StringBuilder();
-        int length;
-        char[] buffer = new char[1024];
-
-        while ((length = reader.read(buffer)) >= 0)
-        {
-            builder.append(buffer, 0, length);
-        }
-
-        return builder.toString();
+        return String.valueOf(readAllChars(reader));
     }
 
     public static byte[] readAllBytes(InputStream in) throws IOException
@@ -403,4 +449,21 @@ public final class RestUtils
         // seems to be buggy, it causes the pnet.data.webapp.person.PersonDataImageIT.getPortrait(ClientTechnology) to fail
         // return in.readAllBytes();
     }
+
+    public static char[] readAllChars(Reader reader) throws IOException
+    {
+        char[] buffer = new char[8192];
+        int length;
+
+        try (CharArrayWriter result = new CharArrayWriter())
+        {
+            while ((length = reader.read(buffer)) >= 0)
+            {
+                result.write(buffer, 0, length);
+            }
+
+            return result.toCharArray();
+        }
+    }
+
 }
