@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.RestParser;
@@ -35,7 +36,7 @@ public class CharArrayParser implements RestParser
     @Override
     public <T> char[] parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException
     {
-        Charset charset = RestUtils.extractContentTypeCharset(contentType);
+        Charset charset = RestUtils.extractContentTypeCharset(contentType, StandardCharsets.UTF_8);
 
         try (Reader reader = new InputStreamReader(in, charset))
         {

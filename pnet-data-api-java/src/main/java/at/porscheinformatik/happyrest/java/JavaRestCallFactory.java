@@ -16,6 +16,7 @@ import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedFormatter;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedParser;
 import at.porscheinformatik.happyrest.util.ByteArrayParser;
+import at.porscheinformatik.happyrest.util.CharArrayParser;
 import at.porscheinformatik.happyrest.util.StringParser;
 import at.porscheinformatik.happyrest.util.TextPlainFormatter;
 
@@ -30,7 +31,9 @@ public class JavaRestCallFactory implements RestCallFactory
     public static JavaRestCallFactory create(RestLoggerAdapter loggerAdapter, ObjectMapper mapper)
     {
         RestFormatter formatter = RestFormatter.of(new JacksonBasedFormatter(mapper), new TextPlainFormatter());
-        RestParser parser = RestParser.of(new JacksonBasedParser(mapper), StringParser.INSTANCE, ByteArrayParser.INSTANCE);
+        RestParser parser = RestParser
+            .of(new JacksonBasedParser(mapper), StringParser.INSTANCE, CharArrayParser.INSTANCE,
+                ByteArrayParser.INSTANCE);
 
         return new JavaRestCallFactory(loggerAdapter, formatter, parser);
     }

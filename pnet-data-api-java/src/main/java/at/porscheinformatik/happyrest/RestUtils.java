@@ -345,36 +345,29 @@ public final class RestUtils
         return delimiter >= 0 ? contentType.substring(0, delimiter) : contentType;
     }
 
-    public static String extractContentTypeParameter(String contentType)
+    public static Charset extractContentTypeCharset(String contentType, Charset defaultCharset)
     {
-        if (contentType == null)
+        if (contentType != null)
         {
-            return null;
-        }
+            String[] parts = contentType.split(";");
 
-        int delimiter = contentType.indexOf(";");
-
-        return delimiter >= 0 ? contentType.substring(delimiter + 1) : null;
-    }
-
-    public static Charset extractContentTypeCharset(String contentType)
-    {
-        if (contentType == null)
-        {
-            return null;
-        }
-
-        String[] parts = contentType.split(";");
-
-        for (String part : parts)
-        {
-            if ("charset".equals(getKey(part)))
+            for (String part : parts)
             {
-                return Charset.forName(getValue(part));
+                if ("charset".equals(getKey(part)))
+                {
+                    try
+                    {
+                        return Charset.forName(getValue(part));
+                    }
+                    catch (IllegalArgumentException e)
+                    {
+                        // ignore
+                    }
+                }
             }
         }
 
-        return StandardCharsets.UTF_8;
+        return defaultCharset;
     }
 
     public static String getKey(String s)

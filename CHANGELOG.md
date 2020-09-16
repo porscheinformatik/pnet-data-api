@@ -1,3 +1,8 @@
+pnet-data-api 1.14.7
+====================
+
+* Fix possible NPE in StringParser (REST adapter).
+
 pnet-data-api 1.14.6
 ====================
 
