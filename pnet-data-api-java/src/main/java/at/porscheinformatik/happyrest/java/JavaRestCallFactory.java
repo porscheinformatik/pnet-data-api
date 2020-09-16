@@ -3,6 +3,7 @@ package at.porscheinformatik.happyrest.java;
 import java.net.ProxySelector;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Builder;
+import java.net.http.HttpClient.Redirect;
 import java.time.Duration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -119,7 +120,7 @@ public class JavaRestCallFactory implements RestCallFactory
                 builder = builder.connectTimeout(timeout);
             }
 
-            httpClient = builder.build();
+            httpClient = builder.followRedirects(Redirect.NORMAL).build();
         }
 
         return new JavaRestCall(httpClient, userAgent, loggerAdapter, url, null, "application/json", null, formatter,

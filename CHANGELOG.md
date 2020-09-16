@@ -2,6 +2,7 @@ pnet-data-api 1.14.7
 ====================
 
 * Fix possible NPE in StringParser (REST adapter).
+* Allow Java-Client to follow redirects.
 
 pnet-data-api 1.14.6
 ====================

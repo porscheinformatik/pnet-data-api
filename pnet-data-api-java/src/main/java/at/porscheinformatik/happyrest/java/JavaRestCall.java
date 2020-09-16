@@ -162,9 +162,8 @@ public class JavaRestCall extends AbstractRestCall
         {
             builder.setHeader("Content-Type", contentType);
         }
-
+        
         return builder.build();
-
     }
 
     protected BodyPublisher createBodyPublisher()
