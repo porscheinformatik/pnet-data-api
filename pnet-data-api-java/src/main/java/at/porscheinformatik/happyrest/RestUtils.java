@@ -295,13 +295,17 @@ public final class RestUtils
                 url += "/";
             }
 
-            if (encode)
+            if (pathSegment != null)
             {
-                pathSegment = RestUtils
-                    .encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePathSeparator, ignorePlaceholders);
-            }
+                if (encode)
+                {
+                    pathSegment = RestUtils
+                        .encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePathSeparator,
+                            ignorePlaceholders);
+                }
 
-            url += pathSegment;
+                url += pathSegment;
+            }
         }
 
         return url;

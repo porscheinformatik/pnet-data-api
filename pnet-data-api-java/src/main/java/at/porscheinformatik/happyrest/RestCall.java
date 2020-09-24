@@ -56,10 +56,7 @@ public interface RestCall
      * @param path the path
      * @return a new instance
      */
-    default RestCall path(String path)
-    {
-        return pathSegment(path.split("/"));
-    }
+    RestCall path(String path);
 
     /**
      * Returns a new instance of a {@link RestCall} and adds the path segments to the URL. The segments will get

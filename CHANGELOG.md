@@ -1,3 +1,8 @@
+pnet-data-api 1.14.9
+====================
+
+* Fix truncation of slash at the end of URLs, part II.
+
 pnet-data-api 1.14.8
 ====================
 

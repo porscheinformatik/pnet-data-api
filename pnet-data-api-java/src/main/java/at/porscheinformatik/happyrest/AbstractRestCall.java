@@ -53,6 +53,14 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
+    public RestCall path(String path)
+    {
+        return copy(
+            RestUtils.appendPathWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"), path),
+            acceptableMediaTypes, contentType, attributes, formatter, body);
+    }
+
+    @Override
     public RestCall pathSegment(String... pathSegments)
     {
         return copy(RestUtils
