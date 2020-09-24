@@ -100,6 +100,11 @@ public final class RestUtils
         HTTP_STATUS_MESSAGES = Collections.unmodifiableMap(httpStatusMessages);
     }
 
+    private RestUtils()
+    {
+        super();
+    }
+
     public static String getVersion()
     {
         String version = RestUtils.version;
@@ -144,11 +149,6 @@ public final class RestUtils
                 System.getProperty("java.runtime.version"));
     }
 
-    private RestUtils()
-    {
-        super();
-    }
-
     // CHECKSTYLE:OFF
     private static boolean isAllowedInPathSegment(byte c)
     {
@@ -175,8 +175,14 @@ public final class RestUtils
     }
     // CHECKSTYLE:ON
 
-    public static String encodePathSegment(String pathSegment, Charset charset, boolean ignorePlaceholders)
+    public static String encodePathSegment(String pathSegment, Charset charset, boolean ignorePathSeparator,
+        boolean ignorePlaceholders)
     {
+        if (pathSegment == null)
+        {
+            return null;
+        }
+
         byte[] bytes = pathSegment.getBytes(charset);
         boolean original = true;
 
@@ -217,6 +223,10 @@ public final class RestUtils
             {
                 baos.write(b);
             }
+            else if (ignorePathSeparator && '/' == b)
+            {
+                baos.write(b);
+            }
             else
             {
                 baos.write('%');
@@ -230,43 +240,48 @@ public final class RestUtils
         return StreamUtils.copyToString(baos, charset);
     }
 
-    public static String appendPathWithPlaceholders(String url, String path)
+    public static String appendPathWithPlaceholders(String uri, String path)
     {
-        return appendPath(url, true, true, path);
+        return appendPath(uri, true, true, path);
     }
 
-    public static String appendPath(String url, String path)
+    public static String appendPath(String uri, String path)
     {
-        return appendPath(url, true, false, path);
+        return appendPath(uri, true, false, path);
     }
 
-    private static String appendPath(String url, boolean encode, boolean ignorePlaceholders, String path)
+    private static String appendPath(String uri, boolean encode, boolean ignorePlaceholders, String path)
     {
         if (path == null || path.length() == 0)
         {
-            return url;
+            return uri;
         }
 
-        return appendPathSegments(url, encode, ignorePlaceholders, path.split("/"));
+        if (path.startsWith("/"))
+        {
+            path = path.substring(1);
+        }
+
+        return appendPathSegments(uri, encode, true, ignorePlaceholders, path);
     }
 
-    public static String appendPathSegmentsWithPlaceholders(String url, String... pathSegments)
+    public static String appendPathSegmentsWithPlaceholders(String uri, String... pathSegments)
     {
-        return appendPathSegments(url, true, true, pathSegments);
+        return appendPathSegments(uri, true, false, true, pathSegments);
     }
 
-    public static String appendPathSegments(String url, String... pathSegments)
+    public static String appendPathSegments(String uri, String... pathSegments)
     {
-        return appendPathSegments(url, true, false, pathSegments);
+        return appendPathSegments(uri, true, false, false, pathSegments);
     }
 
-    public static String appendEncodedPathSegments(String url, String... pathSegments)
+    public static String appendEncodedPathSegments(String uri, String... pathSegments)
     {
-        return appendPathSegments(url, false, true, pathSegments);
+        return appendPathSegments(uri, false, false, true, pathSegments);
     }
 
-    private static String appendPathSegments(String url, boolean encode, boolean ignorePlaceholders,
-        String... pathSegments)
+    private static String appendPathSegments(String url, boolean encode, boolean ignorePathSeparator,
+        boolean ignorePlaceholders, String... pathSegments)
     {
         if (pathSegments == null || pathSegments.length == 0)
         {
@@ -275,24 +290,15 @@ public final class RestUtils
 
         for (String pathSegment : pathSegments)
         {
-            if (pathSegment.length() == 0)
-            {
-                continue;
-            }
-
             if (!url.endsWith("/"))
             {
                 url += "/";
             }
 
-            if (pathSegment.startsWith("/"))
-            {
-                pathSegment = pathSegment.substring(1);
-            }
-
             if (encode)
             {
-                pathSegment = RestUtils.encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePlaceholders);
+                pathSegment = RestUtils
+                    .encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePathSeparator, ignorePlaceholders);
             }
 
             url += pathSegment;
