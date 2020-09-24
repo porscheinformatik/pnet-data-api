@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParser;

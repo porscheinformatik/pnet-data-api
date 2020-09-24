@@ -5,7 +5,7 @@ import static org.mockito.Mockito.*;
 import java.io.IOException;
 import java.time.LocalDate;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonGenerator;
