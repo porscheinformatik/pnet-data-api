@@ -184,6 +184,7 @@ public interface ResultPage<T> extends Iterable<T>
      *
      * @return the scroll id
      */
+    @ApiModelProperty(notes = "The id for scrolling results (scroll=true). Can be used together with /next requests.")
     String getScrollId();
 
     /**
