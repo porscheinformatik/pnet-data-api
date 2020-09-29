@@ -7,6 +7,7 @@ import pnet.data.api.java.JavaClientFactory;
 /**
  * A template for a simple query using the {@link JavaClientFactory}.
  *
+ * @author KRC
  * @author HAM
  */
 public final class PnetRestClientTemplate
