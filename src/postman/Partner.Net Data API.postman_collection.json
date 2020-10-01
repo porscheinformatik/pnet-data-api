@@ -1,12 +1,25 @@
 {
 	"info": {
-		"_postman_id": "94601745-0580-4afe-b037-15b22eb56daf",
+		"_postman_id": "639e9372-d8c7-4eb9-97ff-bf5ed7c79e08",
 		"name": "Partner.Net Data API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2119176e-97af-4f15-af8d-8fb525de7eba",
+						"exec": [
+							"pm.collectionVariables.set(\"token\", pm.response.headers.get(\"Authorization\").substring(7));\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "noauth"
@@ -15,21 +28,23 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"username\":\"{{username}}\", \"password\":\"{{password}}\"}\n"
+					"raw": "{\"username\":\"{{username}}\", \"password\":\"{{password}}\"}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/login",
-					"protocol": "https",
+					"raw": "{{url}}/login",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"login"
 					]
-				}
+				},
+				"description": "Performs a login.\r\n\r\nTo specify the URL, username and password, please use the collection variables `url`, `username` and `password`. You can find these when you edit the `Partner.Net Data API` Collection.\r\nIf the request succeeds, it will set the authentication token to a collection variable called `token`."
 			},
 			"response": []
 		},
@@ -48,24 +63,15 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/about/",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/about",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
-						"about",
-						""
+						"about"
 					]
 				}
 			},
@@ -86,20 +92,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/activities/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/activities/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"activities",
@@ -121,7 +119,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -144,20 +142,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/activities/find?l=de&p=0&pp=10&mc=TA_STD_MENPKT&mc=TA_GH_DEFAULT",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/activities/find?l=de&p=0&pp=10&mc=TA_STD_MENPKT&mc=TA_GH_DEFAULT",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"activities",
@@ -204,20 +194,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/activities/find?l=de&p=0&pp=10&companyType=CT_DEV",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/activities/find?l=de&p=0&pp=10&companyType=CT_DEV",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"activities",
@@ -260,20 +242,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/activities/details/TA_STD_MENPKT",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/activities/details/TA_STD_MENPKT",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"activities",
@@ -299,20 +273,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/activities/details/?mc=TA_STD_MENPKT&mc=TA_GH_DEFAULT",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/activities/details/?mc=TA_STD_MENPKT&mc=TA_GH_DEFAULT",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"activities",
@@ -348,20 +314,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/advisortypes/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/advisortypes/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"advisortypes",
@@ -383,7 +341,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -406,20 +364,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/advisortypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=AT_MARKETING",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/advisortypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=AT_MARKETING",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"advisortypes",
@@ -466,20 +416,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/advisortypes/details/AT_DISPO",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/advisortypes/details/AT_DISPO",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"advisortypes",
@@ -505,20 +447,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/advisortypes/details/?mc=AT_DISPO&mc=AT_MARKETING",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/advisortypes/details/?mc=AT_DISPO&mc=AT_MARKETING",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"advisortypes",
@@ -554,20 +488,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/applications/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/applications/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"applications",
@@ -589,7 +515,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -612,20 +538,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/applications/find?l=de&p=0&pp=10&mc=AP_PORTAL&mc=AP_SVP",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/applications/find?l=de&p=0&pp=10&mc=AP_PORTAL&mc=AP_SVP",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"applications",
@@ -672,20 +590,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/applications/details/AP_PORTAL",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/applications/details/AP_PORTAL",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"applications",
@@ -711,20 +621,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/applications/details/?mc=AP_PORTAL&mc=AP_SVP",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/applications/details/?mc=AP_PORTAL&mc=AP_SVP",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"applications",
@@ -760,20 +662,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/brands/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/brands/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"brands",
@@ -795,7 +689,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -818,20 +712,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/brands/find?l=de&p=0&pp=10&mc=V&mc=L",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/brands/find?l=de&p=0&pp=10&mc=V&mc=L",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"brands",
@@ -878,20 +764,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/brands/details/V",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/brands/details/V",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"brands",
@@ -917,20 +795,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/brands/details/?mc=V&mc=L",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/brands/details/?mc=V&mc=L",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"brands",
@@ -966,20 +836,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companies/search?l=de&p=0&pp=10&q=Porsche",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companies/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companies",
@@ -1001,7 +863,7 @@
 						},
 						{
 							"key": "q",
-							"value": "Porsche"
+							"value": ""
 						}
 					]
 				},
@@ -1024,20 +886,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companies/find?l=de&p=0&pp=10&id=11367",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companies/find?l=de&p=0&pp=10&id=11367",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companies",
@@ -1080,20 +934,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companies/find?l=de&p=0&pp=10&type=CT_DEV",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companies/find?l=de&p=0&pp=10&type=CT_DEV",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companies",
@@ -1136,20 +982,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companies/details/11367",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companies/details/11367",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companies",
@@ -1176,20 +1014,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companies/details/?id=11367",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companies/details/?id=11367",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companies",
@@ -1222,20 +1052,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companygroups/details/?leadingCompanyId=12415",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companygroups/details/?leadingCompanyId=12415",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companygroups",
@@ -1267,20 +1089,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companygrouptypes/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companygrouptypes/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companygrouptypes",
@@ -1302,7 +1116,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -1325,20 +1139,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companygrouptypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CG_STANDORT",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companygrouptypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CG_STANDORT",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companygrouptypes",
@@ -1385,20 +1191,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companygrouptypes/details/CG_STANDORT",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companygrouptypes/details/CG_STANDORT",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companygrouptypes",
@@ -1425,20 +1223,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companynumbertypes/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companynumbertypes/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companynumbertypes",
@@ -1460,7 +1250,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -1483,20 +1273,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companynumbertypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CN_KVPS_BNR",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companynumbertypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CN_KVPS_BNR",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companynumbertypes",
@@ -1543,20 +1325,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companynumbertypes/details/CN_KVPS_BNR",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companynumbertypes/details/CN_KVPS_BNR",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companynumbertypes",
@@ -1583,20 +1357,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companytypes/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companytypes/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companytypes",
@@ -1618,7 +1384,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -1641,20 +1407,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companytypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CT_DEAL",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companytypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CT_DEAL",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companytypes",
@@ -1701,20 +1459,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/companytypes/details/CT_DEAL",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/companytypes/details/CT_DEAL",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"companytypes",
@@ -1741,20 +1491,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/contractstates/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/contractstates/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"contractstates",
@@ -1776,7 +1518,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -1799,20 +1541,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/contractstates/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=1",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/contractstates/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=1",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"contractstates",
@@ -1859,20 +1593,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/contractstates/details/1",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/contractstates/details/1",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"contractstates",
@@ -1899,20 +1625,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/contracttypes/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/contracttypes/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"contracttypes",
@@ -1934,7 +1652,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -1957,20 +1675,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/contracttypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CR_HDL",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/contracttypes/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=CR_HDL",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"contracttypes",
@@ -2017,20 +1727,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/contracttypes/details/CR_HDL",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/contracttypes/details/CR_HDL",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"contracttypes",
@@ -2057,20 +1759,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/externalbrands/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/externalbrands/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"externalbrands",
@@ -2092,7 +1786,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -2115,20 +1809,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/externalbrands/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=BU",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/externalbrands/find?l=de&p=0&pp=10&mc=AT_DISPO&mc=BU",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"externalbrands",
@@ -2175,20 +1861,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/externalbrands/details/BU",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/externalbrands/details/BU",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"externalbrands",
@@ -2215,20 +1893,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/functions/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/functions/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"functions",
@@ -2250,7 +1920,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -2273,20 +1943,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/functions/find?l=de&p=0&pp=10&mc=TA_STD_MENPKT&mc=FU_ST_USER",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/functions/find?l=de&p=0&pp=10&mc=TA_STD_MENPKT&mc=FU_ST_USER",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"functions",
@@ -2333,20 +1995,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/functions/find?l=de&p=0&pp=10&companyType=CT_DEV",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/functions/find?l=de&p=0&pp=10&companyType=CT_DEV",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"functions",
@@ -2389,20 +2043,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/functions/details/FU_ST_USER",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/functions/details/FU_ST_USER",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"functions",
@@ -2429,20 +2075,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/functions/details/?mc=FU_ST_USER&mc=FU_GH_STD_GI_U",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/functions/details/?mc=FU_ST_USER&mc=FU_GH_STD_GI_U",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"functions",
@@ -2479,20 +2117,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/numbertypes/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/numbertypes/search?l=de&p=0&pp=10&q=*",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"numbertypes",
@@ -2537,20 +2167,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/numbertypes/find?l=de&p=0&pp=10&mc=NT_VERK_NR",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/numbertypes/find?l=de&p=0&pp=10&mc=NT_VERK_NR",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"numbertypes",
@@ -2593,20 +2215,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/numbertypes/details/NT_VERK_NR",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/numbertypes/details/NT_VERK_NR",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"numbertypes",
@@ -2633,20 +2247,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/persons/search?l=de&p=0&pp=10&q=*",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/persons/search?l=de&p=0&pp=10&q=",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"persons",
@@ -2668,7 +2274,7 @@
 						},
 						{
 							"key": "q",
-							"value": "*"
+							"value": ""
 						}
 					]
 				},
@@ -2691,20 +2297,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/persons/find?l=de&p=0&pp=10&id=39997",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/persons/find?l=de&p=0&pp=10&id=39997",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"persons",
@@ -2748,20 +2346,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/persons/find?l=de&p=0&pp=10&function=FU_PNET_ENTW",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/persons/find?l=de&p=0&pp=10&function=FU_PNET_ENTW",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"persons",
@@ -2805,20 +2395,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/persons/details/39997",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/persons/details/39997",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"persons",
@@ -2845,20 +2427,12 @@
 				},
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "https://qa-data.auto-partner.net/data/api/v1/persons/details/?id=39997",
-					"protocol": "https",
+					"raw": "{{url}}/api/v1/persons/details/?id=39997",
 					"host": [
-						"data",
-						"auto-partner",
-						"net"
+						"{{url}}"
 					],
 					"path": [
-						"data",
 						"api",
 						"v1",
 						"persons",
@@ -2876,5 +2450,50 @@
 			},
 			"response": []
 		}
-	]
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "540ca877-2ceb-4b52-9629-f335ef3930a4",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "f3a8841d-9b29-43e4-a518-6a4aacb6f5dc",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "54938b0b-3f96-4e1f-9544-a3436acd6fd1",
+			"key": "url",
+			"value": "https://qa-data.auto-partner.net/data"
+		},
+		{
+			"id": "1dd2c72a-9643-4607-9b11-c8724f2a40e1",
+			"key": "username",
+			"value": ""
+		},
+		{
+			"id": "99fa869c-6d1d-4f6b-9e77-614f0d212362",
+			"key": "password",
+			"value": ""
+		},
+		{
+			"id": "c3da7ada-0eb7-48c9-8ba7-0cf23ea2e3d3",
+			"key": "token",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
 }

@@ -3,6 +3,7 @@ pnet-data-api 1.14.10
 
 * Documented scroll id.
 * Added code template to Sample application.
+* Updated Postman collection and documentation accordingly.
 
 pnet-data-api 1.14.9
 ====================

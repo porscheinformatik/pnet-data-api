@@ -133,7 +133,7 @@ QA: https://qa-data.auto-partner.net/data
 First, perform a login:
 
 ```
-POST /data/login/ {
+POST /data/login {
 	"username": "...",
 	"password": "..."
 }
@@ -142,7 +142,7 @@ POST /data/login/ {
 You will receive a response with a [JSON Web Token](https://jwt.io/) as "Authorization" header field. The token is valid for one hour. Add the header field to all your requests!
 
 ```
-GET /data/api/v1/about/
+GET /data/api/v1/about
 ```
 
 This will return some information about the server and your user. It's a perfect start.
@@ -181,10 +181,8 @@ export JWT='Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...'
 First call the `about` interface, just for testing:
 
 ```
-curl -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...' -X GET https://qa-data.auto-partner.net/data/api/v1/about/
+curl -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...' -X GET https://qa-data.auto-partner.net/data/api/v1/about
 ```
-> Please, pay attention to the / at the end of the URL and the ' around the authorization header.
-
 This should return some information about the version and your user.
 
 ## Using Powershell
@@ -209,10 +207,8 @@ This should store the authorization token to `jwt` and print it. The token is va
  First call the `about` interface, just for testing:
 
  ```
- Invoke-WebRequest -uri "$url/api/v1/about/" -Headers $jwt
+ Invoke-WebRequest -uri "$url/api/v1/about" -Headers $jwt
  ```
-
-> Please, pay attention to the / at the end of the URL.
 
 This should return some information about the version and your user.
 
@@ -269,17 +265,19 @@ CompanyGroups only contain the `details` interface.
 
 * `companygroups`
 
-# Testing with Postman
+## Testing with Postman
 
 [Postman](https://www.getpostman.com/) is a free tool for accessing REST interfaces. Download the tool and install it. Finally, you can import the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/postman/Partner.&#78;et%20Data%20API.postman_collection.json) collection with a lot of samples.
 
-## Perform a login
+### Perform a login
 
-First, execute the "Login" request. Set the username and the password in the "Body" tab (alternatively, you can specify global variables). The request should return with `200 OK`. Select the "Headers" tab and copy the token from the `Authorization` header field.
+First, execute the "Login" request. In order to do so, edit the collection in the sidebar, open the variables tab and enter the credentials at the appropriate variables. Execute the Login request afterwards. It should return with `200 OK`. The "Headers" tab contains the `Authorization` header field. The Login request will automatically copy this bearer code to the appropriate collection variable. The token is valid for one hour.
 
-## Access data
+### Access data
 
-Next, execute the "About" request. Paste the token in the "Authorization" tab (alternatively, you can specify a global variable). Be aware, that the token is only valid for one hour after the login! The request should return with `200 OK` and the "Body" tab should contain some information about versions an the user.
+Next, execute the "About" request (the collection variables should contain the necessary token after you have executed the login request). The request should return with `200 OK` and the "Body" tab should contain some information about versions an the user.
+
+All the other GET request work likewise.
 
 # Java Client Library
 
