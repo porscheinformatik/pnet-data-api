@@ -25,9 +25,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * A command line interpreter - parses the input, creates process and executes them. Code borrowed from
  * https://github.com/thred/tiny-console
@@ -36,8 +33,6 @@ import org.slf4j.LoggerFactory;
  */
 public class CLI
 {
-
-    private static final Logger LOG = LoggerFactory.getLogger(CLI.class);
 
     private static final Collator DICTIONARY_COLLATOR;
 
@@ -854,7 +849,7 @@ public class CLI
                     }
                     catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
                     {
-                        LOG.error("Invocation failed", e);
+                        throw new RuntimeException("Invocation failed", e);
                     }
                 };
             }

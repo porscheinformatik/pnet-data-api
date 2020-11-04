@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
+import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
 import pnet.data.api.GeoDistance;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
@@ -91,13 +92,21 @@ public abstract class AbstractContextPnetDataApiClientConfig
 
     @Bean
     public RestCallFactory restCallFactory(Optional<Set<? extends Converter<?, ?>>> attributeConverters,
-        Optional<RestLoggerAdapter> loggerAdapter)
+        Optional<RestLoggerAdapter> optionalLoggerAdapter)
     {
         RestTemplate restTemplate = createRestTemplate();
         ConversionService conversionService = createConversionService(attributeConverters);
 
-        return createSpringRestCallFactory(restTemplate, loggerAdapter.orElseGet(Slf4jRestLoggerAdapter::getDefault),
-            conversionService);
+        RestLoggerAdapter loggerAdapter = optionalLoggerAdapter.orElseGet(() -> {
+            if (Slf4jRestLoggerAdapter.isSlf4jAvailable())
+            {
+                return Slf4jRestLoggerAdapter.getDefault();
+            }
+
+            return SystemRestLoggerAdapter.INSTANCE;
+        });
+
+        return createSpringRestCallFactory(restTemplate, loggerAdapter, conversionService);
     }
 
     protected RestTemplate createRestTemplate()

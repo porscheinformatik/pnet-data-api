@@ -5,6 +5,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import at.porscheinformatik.happyrest.RestLoggerAdapter;
+import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import pnet.data.api.PnetRestClient;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientConfig;
@@ -32,5 +34,11 @@ public class PnetSpringRestClientConfig
         String password = Prefs.getPassword(Prefs.DEFAULT_KEY);
 
         return new MutablePnetDataClientPrefs(url, username, password);
+    }
+
+    @Bean
+    public RestLoggerAdapter restLoggerAdapter()
+    {
+        return SystemRestLoggerAdapter.INSTANCE;
     }
 }

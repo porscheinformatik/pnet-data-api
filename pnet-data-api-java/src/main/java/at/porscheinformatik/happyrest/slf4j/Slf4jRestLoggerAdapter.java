@@ -11,7 +11,6 @@ import at.porscheinformatik.happyrest.RestMethod;
  * Logger adapter for SLF4J
  *
  * @author HAM
- *
  */
 public class Slf4jRestLoggerAdapter implements RestLoggerAdapter
 {
@@ -30,6 +29,19 @@ public class Slf4jRestLoggerAdapter implements RestLoggerAdapter
         }
 
         return loggerAdapter;
+    }
+
+    public static boolean isSlf4jAvailable()
+    {
+        try
+        {
+            Class.forName("org.slf4j.LoggerFactory");
+            return true;
+        }
+        catch (ClassNotFoundException e)
+        {
+            return false;
+        }
     }
 
     private final Logger logger = LoggerFactory.getLogger(RestCall.class);

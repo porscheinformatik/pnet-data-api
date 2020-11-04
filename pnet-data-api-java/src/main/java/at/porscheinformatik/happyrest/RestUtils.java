@@ -5,14 +5,13 @@ import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import org.springframework.util.StreamUtils;
 
 /**
  * Utilities for the framework.
@@ -205,39 +204,53 @@ public final class RestUtils
 
         for (byte b : bytes)
         {
-            if (isAllowedInPathSegment(b))
-            {
-                baos.write(b);
-            }
-            else if (ignorePlaceholders && '{' == b)
-            {
-                inPlaceholder = true;
-                baos.write(b);
-            }
-            else if (ignorePlaceholders && inPlaceholder && '}' == b)
-            {
-                inPlaceholder = false;
-                baos.write(b);
-            }
-            else if (ignorePlaceholders && inPlaceholder)
-            {
-                baos.write(b);
-            }
-            else if (ignorePathSeparator && '/' == b)
-            {
-                baos.write(b);
-            }
-            else
-            {
-                baos.write('%');
-                char hex1 = Character.toUpperCase(Character.forDigit((b >> 4) & 0xF, 16));
-                char hex2 = Character.toUpperCase(Character.forDigit(b & 0xF, 16));
-                baos.write(hex1);
-                baos.write(hex2);
-            }
+            inPlaceholder = encodeByte(baos, b, ignorePathSeparator, ignorePlaceholders, inPlaceholder);
         }
 
-        return StreamUtils.copyToString(baos, charset);
+        try
+        {
+            return baos.toString(charset.name());
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RuntimeException("Failed to copy contents of ByteArrayOutputStream into a String", e);
+        }
+    }
+
+    private static boolean encodeByte(ByteArrayOutputStream baos, byte b, boolean ignorePathSeparator,
+        boolean ignorePlaceholders, boolean inPlaceholder)
+    {
+        if (isAllowedInPathSegment(b))
+        {
+            baos.write(b);
+        }
+        else if (ignorePlaceholders && '{' == b)
+        {
+            inPlaceholder = true;
+            baos.write(b);
+        }
+        else if (ignorePlaceholders && inPlaceholder && '}' == b)
+        {
+            inPlaceholder = false;
+            baos.write(b);
+        }
+        else if (ignorePlaceholders && inPlaceholder)
+        {
+            baos.write(b);
+        }
+        else if (ignorePathSeparator && '/' == b)
+        {
+            baos.write(b);
+        }
+        else
+        {
+            baos.write('%');
+            char hex1 = Character.toUpperCase(Character.forDigit((b >> 4) & 0xF, 16));
+            char hex2 = Character.toUpperCase(Character.forDigit(b & 0xF, 16));
+            baos.write(hex1);
+            baos.write(hex2);
+        }
+        return inPlaceholder;
     }
 
     public static String appendPathWithPlaceholders(String uri, String path)
