@@ -8,6 +8,7 @@ import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.util.AbstractGet;
 import pnet.data.api.util.ById;
 import pnet.data.api.util.GetFunction;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictEmail;
@@ -19,12 +20,11 @@ import pnet.data.api.util.RestrictTenant;
 
 /**
  * @author cet
- *
  */
 public class PersonDataGet extends AbstractGet<PersonDataDTO, PersonDataGet>
     implements RestrictTenant<PersonDataGet>, RestrictExternalId<PersonDataGet>, RestrictGuid<PersonDataGet>,
     RestrictPreferredUserId<PersonDataGet>, RestrictEmail<PersonDataGet>, RestrictDatedBackUntil<PersonDataGet>,
-    RestrictPersonnelNumber<PersonDataGet>, ById<PersonDataDTO, PersonDataGet>
+    RestrictPersonnelNumber<PersonDataGet>, IncludeInactive<PersonDataGet>, ById<PersonDataDTO, PersonDataGet>
 {
 
     public PersonDataGet(GetFunction<PersonDataDTO> getFunction, List<Pair<String, Object>> restricts)

@@ -1,6 +1,7 @@
 pnet-data-api 1.15.0
 ====================
 
+* Adds "includeInactive" for Company/Person "get" calls (needs Partner.Net 6.27)
 * Fixes some references, to ensure, that the Java and Apache clients can be executed without Spring.
 * Adds various assemblies for the sample client.
 

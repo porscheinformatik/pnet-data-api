@@ -10,6 +10,7 @@ import pnet.data.api.util.ById;
 import pnet.data.api.util.ByMatchcode;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.GetFunction;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictDataProcessingRegisterNumber;
@@ -22,13 +23,12 @@ import pnet.data.api.util.RestrictVatIdNumber;
 
 /**
  * @author cet
- *
  */
 public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet> implements
     RestrictTenant<CompanyDataGet>, ById<CompanyDataDTO, CompanyDataGet>, ByMatchcode<CompanyDataDTO, CompanyDataGet>,
     RestrictVatIdNumber<CompanyDataGet>, RestrictSapNumber<CompanyDataGet>, RestrictCompanyNumber<CompanyDataGet>,
     RestrictIban<CompanyDataGet>, RestrictEmail<CompanyDataGet>, RestrictDataProcessingRegisterNumber<CompanyDataGet>,
-    RestrictDatedBackUntil<CompanyDataGet>, CompanyMergable<CompanyDataGet>
+    RestrictDatedBackUntil<CompanyDataGet>, IncludeInactive<CompanyDataGet>, CompanyMergable<CompanyDataGet>
 {
 
     public CompanyDataGet(GetFunction<CompanyDataDTO> getFunction, List<Pair<String, Object>> restricts)
