@@ -4,25 +4,25 @@ This project contains the definition of the API for accessing the data stock of 
 
 The Partner.&#78;et Data API provides access to the data of the Partner.&#78;et. This data contains:
 
-* persons and companies
-* employments (the link between persons and companies)
-* roles (the area of activity of a person)
-* hosted applications
-* and all necessary base data needed by the above items
+-   persons and companies
+-   employments (the link between persons and companies)
+-   roles (the area of activity of a person)
+-   hosted applications
+-   and all necessary base data needed by the above items
 
 The access conforms the General Data Protection Regulation.
 
 # Contents
 
-* [REST Interface](#rest-interface)
-* [Available Data](#available-data)
-* [Considerations](#considerations)
-* [User for Access](#user-for-access)
-* [Available Instances](#available-instances)
-* [Testing](#testing)
-* [Testing with Postman](#testing-with-postman)
-* [Java Client Library](#java-client-library)
-* [Common Problems](#common-problems)
+-   [REST Interface](#rest-interface)
+-   [Available Data](#available-data)
+-   [Considerations](#considerations)
+-   [User for Access](#user-for-access)
+-   [Available Instances](#available-instances)
+-   [Testing](#testing)
+-   [Testing with Postman](#testing-with-postman)
+-   [Java Client Library](#java-client-library)
+-   [Common Problems](#common-problems)
 
 # REST Interface
 
@@ -34,51 +34,53 @@ a little bit.
 
 The available data consists of:
 
-* Persons
-    * Ids and the name
-    * Contact information (email, phone, ...)
-    * Employments (companies, personnel number, department, ...)
-    * Roles (functions and activities)
-* Companies
-    * Ids and the name
-    * Contract information (email, phone, ...)
-    * Address
-    * Bands, company types and contracts
-* Company Groups
+-   Persons
+    -   Ids and the name
+    -   Contact information (email, phone, ...)
+    -   Employments (companies, personnel number, department, ...)
+    -   Roles (functions and activities)
+-   Companies
+    -   Ids and the name
+    -   Contract information (email, phone, ...)
+    -   Address
+    -   Bands, company types and contracts
+-   Company Groups
 
 The data of persons and companies contains references to some master data, that can be access, too:
 
-* Activities
-* Advisor Types
-* Applications
-* Brands
-* Company Group Types
-* Company Number Types
-* Company Types
-* Contract States
-* Contract Types
-* External Brands
-* Functions
-* Legal Forms
-* Number Types
+-   Activities
+-   Advisor Types
+-   Applications
+-   Brands
+-   Company Group Types
+-   Company Number Types
+-   Company Types
+-   Contract States
+-   Contract Types
+-   External Brands
+-   Functions
+-   Legal Forms
+-   Number Types
 
 Most of the data interfaces provide three methods:
 
-* details - For accessing all available information about one or more data items (e.g. the person with the id 100).
-* search - For accessing a reduced amount of information per data item, but supporting fuzzy searches
-* find - For accessing a reduced amount of information per data item, but with fast filters (e.g. all persons with a defined function or at specific companies).
+-   details - For accessing all available information about one or more data items (e.g. the person with the id 100).
+-   search - For accessing a reduced amount of information per data item, but supporting fuzzy searches
+-   find - For accessing a reduced amount of information per data item, but with fast filters (e.g. all persons with a defined function or at specific companies).
 
 The person data is filtered by default. Persons will have to give their consent, otherwise, no personal information will be shared with your application.
 
 # Considerations
 
+**When using the Data API, please consider following important aspects.**
+
 ## Performance
 
 The Partner.&#78;et Data API is a scalable application hosted in a cloud environment and is based on an NoSQL-Database in the background. Requests are fast and the data is accurate. The data from the Partner.&#78;et gets synced every few seconds and is up-to-date most of the time.
 
-The REST Interface provides the data as fast as it can. Currently we don't have performance issues because of too many users or too many requests. Generally, it is better to make multiple smaller requests, than fewer larger ones.
+The REST Interface provides the data as fast as it can. Currently we don't have performance issues because of too many users or too many requests. **Generally, it is better to make multiple smaller requests, than fewer larger ones.**
 
-Consider caching relevant information! Most of the data does not change very often. We encourage you to store results locally and reuse the information instead of performing the same request over and over again.
+**Consider caching relevant information!** Most of the data does not change very often. We encourage you to store results locally and reuse the information instead of performing the same request over and over again.
 
 Some of the interfaces support scrolling. This allows your application to rapidly browse though thousands of data items.
 
@@ -86,7 +88,13 @@ Some of the interfaces support scrolling. This allows your application to rapidl
 
 The result of each request is paged, that means, that it splits the result into multiple pages. You can add the desired page size to each request (`pp` parameter), but the server may reduce it, if it is too large. Currently, each page is limited to, at most, 100 items.
 
-You can request subsequent pages by adding a page (`p`) parameter, but the rest of the request must be exactly the same (otherwise you may miss some items).
+You can request subsequent pages by adding a page (`p`) parameter, but the rest of the request must be exactly the same.
+
+## Scroll Queries
+
+Some `find`-queries support scrolling (applications, activities, companies, company groups, functions and persons). Use scrolling queries (only) if you expect and process large result sets (that won't fit on one page). Pass `scroll=true` to the request. The first response will contain a `scrollId`. Call the the `next` interface with the `scrollId` as last path segment to get the next result set.
+
+**Be aware, that the `scrollId` is only valid for a few seconds after each request (it's like a session timeout)! If you don't have enough time to process the data on your side, choose a smaller page size.**
 
 ## `lastUpdate`
 
@@ -96,6 +104,20 @@ If you are syncing data with your local database, consider using the `lastUpdate
 
 A typical implementation would sync data every other minute by using the `up`-parameter. Once per night it requests the complete set of data - this is necessary to detect deleted items (as a wise hint, don't delete your data immediatly - remember the date of the last successful sync operation and use this date to delete outdated data some days later).
 
+## ValidFrom/ValidTo
+
+All validity ranges contain date and time information, even those, that would normally considered to be date only, like contracts. The reason for this is, that all dates are used for validity checks based on "Wolfsburg-Time", which is CET. When transferred, these dates will be converted to UTC. This means, that a contract, that starts to be valid at 2000-01-01 (00:00 CET) will be transferred as 1999-12-31 23:00 UTC.
+
+In order to know at which "day" this contract starts to be valid, you have to convert the valid-from field to CET.
+
+If you are using the Java client, it will automatically convert the timestamp to your server time.
+
+The valid-to date points to the next day and is exclusive. When a contract ends at 1999-12-31, this date is meant to be inclusive. For this reason, it is stored as 2020-01-01 00:00 CET and you will get 1999-12-31 23:00 UTC (converted to your server timezone, if you are using the Java client).
+
+When you show this end date to the user you have to convert it to "Wolfsburg-Time" (CET) and subtract one day, that the day you are looking for. If you need it for validity checks, just use it as it is, even it this means, that the contract ends during the working hours.
+
+**Tip for the Java client:** you may instantiate the `pnet.data.api.client.jackson.JacksonPnetDataApiModule` with a specific timezone in order to affect the way, how the client parses the UTC date in the server response.
+
 ## `details` vs `search` vs `find`
 
 The difference between `search` and `find`, is, that the `search` aims for user interaction (e.g. like searching with a fuzzy query) and the `find` aims for technical solutions (e.g. like finding all persons with a defined function).
@@ -103,12 +125,6 @@ The difference between `search` and `find`, is, that the `search` aims for user 
 Use `search` only, if you need a fuzzy search for a specified term! For all other cases, use `find`!
 
 The `details` requests return more information per item, but the request is slower compared to the `find` and `search` requests.
-
-## Scroll Queries
-
-Some `find`-queries support scrolling (applications, activities, companies, company groups, functions and persons). Use scrolling queries (only) if you expect and process large result sets (that won't find on one page). Pass `scroll=true` to the request. The first response will contain a `scrollId`. Call the the `next` interface with the `scrollId` as last path segment to get the next result set.
-
-**Be aware, that the `scrollId` is only valid for a few seconds after each request (it's like a session timeout)! If you don't have enough time to process the data on your side, choose a smaller page size.**
 
 # User for Access
 
@@ -183,6 +199,7 @@ First call the `about` interface, just for testing:
 ```
 curl -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...' -X GET https://qa-data.auto-partner.net/data/api/v1/about
 ```
+
 This should return some information about the version and your user.
 
 ## Using Powershell
@@ -204,11 +221,12 @@ echo $jwt
 This should store the authorization token to `jwt` and print it. The token is valid for one hour.
 
 ### Access data
- First call the `about` interface, just for testing:
 
- ```
- Invoke-WebRequest -uri "$url/api/v1/about" -Headers $jwt
- ```
+First call the `about` interface, just for testing:
+
+```
+Invoke-WebRequest -uri "$url/api/v1/about" -Headers $jwt
+```
 
 This should return some information about the version and your user.
 
@@ -221,13 +239,14 @@ The simplest call, is to search for data. Let's test it with functions:
 ```
 curl -H 'Authorization: $JWT' -X GET https://qa-data.auto-partner.net/data/api/v1/functions/search?l=en\&q=
 ```
+
 > You may notice the \\ before the &. In some shells, this it's necessary to escape the &, because it is a delimiter for the command.
 
 or using Powershell:
+
 ```
 Invoke-WebRequest -uri "$url/api/v1/functions/search?l=en&q=" -Headers $jwt
 ```
-
 
 > With `search` and `find` requests, you need to specify the language with the parameter `l=en`.
 
@@ -236,38 +255,40 @@ The command should return lot's of functions. You can copy the `matchcode` and g
 ```
 curl -H 'Authorization: $JWT' -X GET https://qa-data.auto-partner.net/data/api/v1/functions/details/FU_ST_USER
 ```
+
 or using Powershell:
+
 ```
 Invoke-WebRequest -uri "$url/api/v1/functions/details/FU_ST_USER" -Headers $jwt
 ```
 
 This will return the details of the function. You can do the same for a lot of other interfaces:
 
-* `activities`
-* `advisortypes`
-* `applications`
-* `brands`
-* `companygrouptypes`
-* `companynumbertypes`
-* `companytypes`
-* `contractstates`
-* `contracttypes`
-* `externalbrands`
-* `functions`
-* `numbertypes`
+-   `activities`
+-   `advisortypes`
+-   `applications`
+-   `brands`
+-   `companygrouptypes`
+-   `companynumbertypes`
+-   `companytypes`
+-   `contractstates`
+-   `contracttypes`
+-   `externalbrands`
+-   `functions`
+-   `numbertypes`
 
 With companies and persons, you have to use the `id` instead of the `matchcode`.
 
-* `companies`
-* `persons`
+-   `companies`
+-   `persons`
 
 CompanyGroups only contain the `details` interface.
 
-* `companygroups`
+-   `companygroups`
 
 ## Testing with Postman
 
-[Postman](https://www.getpostman.com/) is a free tool for accessing REST interfaces. Download the tool and install it. Finally, you can import the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/postman/Partner.&#78;et%20Data%20API.postman_collection.json) collection with a lot of samples.
+[Postman](https://www.getpostman.com/) is a free tool for accessing REST interfaces. Download the tool and install it. Finally, you can import the [Partner.&#78;et Data API.postman_collection.json](https://raw.githubusercontent.com/porscheinformatik/pnet-data-api/master/src/postman/Partner.Net%20Data%20API.postman_collection.json) collection with a lot of samples.
 
 ### Perform a login
 
