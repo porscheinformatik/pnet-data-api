@@ -34,11 +34,13 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
 
     private static final long serialVersionUID = -5572016715722241376L;
 
-    @ApiModelProperty(notes = "The starting date and time of this function assignment.")
+    @ApiModelProperty(notes = "The starting date and time of this function assignment. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
     @ApiModelProperty(notes = "The ending date and time of this function assignment. "
-        + "A missing value indicates an ongoing assignment.")
+        + "A missing value indicates an ongoing assignment. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
     public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,

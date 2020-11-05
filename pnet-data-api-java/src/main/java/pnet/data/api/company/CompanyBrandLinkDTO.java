@@ -36,10 +36,12 @@ public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPer
 
     private static final long serialVersionUID = 7506202638418892087L;
 
-    @ApiModelProperty(notes = "The date and time from when this brand is/was valid for the company.")
+    @ApiModelProperty(notes = "The date and time from when this brand is/was valid for the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this brand is/was valid for the company.")
+    @ApiModelProperty(notes = "The date and time till when this brand is/was valid for the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
     public CompanyBrandLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,

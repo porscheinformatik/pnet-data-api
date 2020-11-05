@@ -41,10 +41,12 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
     @ApiModelProperty(notes = "The matchcode of the brand this contract type is assigned to.")
     private final String brandMatchcode;
 
-    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid for the company.")
+    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid for the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this contract type is/was valid for the company.")
+    @ApiModelProperty(notes = "The date and time till when this contract type is/was valid for the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
     @ApiModelProperty(notes = "The date and time from when this contract type is/was valid to a limited extent.")

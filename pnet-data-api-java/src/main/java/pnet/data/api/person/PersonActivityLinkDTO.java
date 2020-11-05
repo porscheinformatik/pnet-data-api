@@ -52,10 +52,12 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     @ApiModelProperty(notes = "A unique matchcode of the brand where the activity is valid.")
     private final String brandMatchcode;
 
-    @ApiModelProperty(notes = "The date and time from when this person has/had an actvitiy.")
+    @ApiModelProperty(notes = "The date and time from when this person has/had an actvitiy. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an actvitiy.")
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an actvitiy. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
     @ApiModelProperty(

@@ -33,10 +33,12 @@ public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implement
 
     private static final long serialVersionUID = -3446430282367218468L;
 
-    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
+    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
     public PersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,

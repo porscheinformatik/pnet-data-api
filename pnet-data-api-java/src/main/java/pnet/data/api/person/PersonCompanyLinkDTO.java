@@ -36,10 +36,12 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
 
     private static final long serialVersionUID = 7199829304360405636L;
 
-    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company.")
+    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company.")
+    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,

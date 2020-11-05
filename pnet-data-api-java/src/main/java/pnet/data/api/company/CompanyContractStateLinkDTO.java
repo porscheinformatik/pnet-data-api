@@ -45,10 +45,12 @@ public class CompanyContractStateLinkDTO extends AbstractLinkDTO
     @ApiModelProperty(notes = "The matchcode of the contract type this contract state is assigned to.")
     private final String contractTypeMatchcode;
 
-    @ApiModelProperty(notes = "The date and time from when this contract state is/was valid for the company.")
+    @ApiModelProperty(notes = "The date and time from when this contract state is/was valid for the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this contract state is/was valid for the company.")
+    @ApiModelProperty(notes = "The date and time till when this contract state is/was valid for the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
     public CompanyContractStateLinkDTO(@JsonProperty("tenant") String tenant,

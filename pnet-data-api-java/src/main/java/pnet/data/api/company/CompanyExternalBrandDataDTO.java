@@ -40,10 +40,12 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeri
         notes = "The matchcode of the external brand (fits the matchcodes of the external brand interface.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The date and time from when this external brand is/was valid for the company.")
+    @ApiModelProperty(notes = "The date and time from when this external brand is/was valid for the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this external brand is/was valid for the company.")
+    @ApiModelProperty(notes = "The date and time till when this external brand is/was valid for the company. "
+        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
     @ApiModelProperty(notes = "This flag declares, whether this external brand is sold by the company.")
