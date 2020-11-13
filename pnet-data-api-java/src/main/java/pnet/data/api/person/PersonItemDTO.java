@@ -40,85 +40,88 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     private static final long serialVersionUID = -481025382258675738L;
 
-    @ApiModelProperty(notes = "The unique id of the person.")
+    @ApiModelProperty(notes = "The unique id of the person (needed scope: SC_IDENTIFIER).")
     private final Integer personId;
 
-    @ApiModelProperty(notes = "The tenant, in which this person is administrated.")
+    @ApiModelProperty(notes = "The tenant, in which this person is administrated (no scope needed).")
     private final String administrativeTenant;
 
-    @ApiModelProperty(notes = "The tenants where the person is valid.")
+    @ApiModelProperty(notes = "The tenants where the person is valid (no scope needed).")
     private final Collection<String> tenants;
 
-    @ApiModelProperty(notes = "The form of the adress the person prefers.")
+    @ApiModelProperty(notes = "The form of the adress the person prefers (needed scope: SC_GENDER).")
     private final FormOfAddress formOfAddress;
 
-    @ApiModelProperty(notes = "The academic title of the person.")
+    @ApiModelProperty(notes = "The academic title of the person (needed scope: SC_NAME).")
     private final String academicTitle;
 
-    @ApiModelProperty(notes = "The academic title of the person, placed after the name.")
+    @ApiModelProperty(notes = "The academic title of the person, placed after the name (needed scope: SC_NAME).")
     private final String academicTitlePostNominal;
 
-    @ApiModelProperty(notes = "The first name of the person.")
+    @ApiModelProperty(notes = "The first name of the person (needed scope: SC_NAME).")
     private final String firstName;
 
-    @ApiModelProperty(notes = "The last name of the person.")
+    @ApiModelProperty(notes = "The last name of the person (needed scope: SC_NAME).")
     private final String lastName;
 
-    @ApiModelProperty(notes = "The username of the person.")
+    @ApiModelProperty(notes = "The username of the person (needed scope: SC_IDENTIFIER).")
     private final String username;
 
-    @ApiModelProperty(notes = "The external id of the person.")
+    @ApiModelProperty(notes = "The external id of the person (needed scope: SC_IDENTIFIER).")
     private final String externalId;
 
-    @ApiModelProperty(notes = "The global user id of the person.")
+    @ApiModelProperty(notes = "The global user id of the person (needed scope: SC_IDENTIFIER).")
     private final String guid;
 
-    @ApiModelProperty(notes = "The preferred user id of the person.")
+    @ApiModelProperty(notes = "The preferred user id of the person (needed scope: SC_IDENTIFIER).")
     private final String preferredUserId;
 
-    @ApiModelProperty(notes = "The personnel number of the person.")
+    @ApiModelProperty(notes = "The personnel number of the person (needed scope: SC_IDENTIFIER).")
     private final String personnelNumber;
 
-    @ApiModelProperty(notes = "The birthdate of the person.")
+    @ApiModelProperty(notes = "The birthdate of the person (needed scope: SC_BIRTHDATE).")
     private final LocalDate birthdate;
 
-    @ApiModelProperty(notes = "The email of the person.")
+    @ApiModelProperty(notes = "The email of the person (needed scope: SC_EMAIL).")
     private final String email;
 
-    @ApiModelProperty(notes = "The phone number of the person.")
+    @ApiModelProperty(notes = "The phone number of the person (needed scope: SC_PHONE_NUMBER).")
     private final String phoneNumber;
 
-    @ApiModelProperty(notes = "The mobile phone number of the person.")
+    @ApiModelProperty(notes = "The mobile phone number of the person (needed scope: SC_PHONE_NUMBER).")
     private final String mobileNumber;
 
-    @ApiModelProperty(notes = "The languages the person speaks.")
+    @ApiModelProperty(notes = "The languages the person speaks (needed scope: SC_LANGUAGE).")
     private final Collection<Locale> languages;
 
-    @ApiModelProperty(notes = "The companies of the persons.")
+    @ApiModelProperty(notes = "The companies of the persons (needed scope: SC_EMPLOYMENT).")
     private final Collection<ActivePersonCompanyLinkDTO> companies;
 
-    @ApiModelProperty(notes = "All main functions of the person.")
+    @ApiModelProperty(notes = "All main functions of the person (needed scope: SC_ROLE).")
     private final Collection<ActivePersonFunctionLinkDTO> functions;
 
-    @ApiModelProperty(notes = "The number types the person has at specific companies.")
+    @ApiModelProperty(notes = "The number types the person has at specific companies (needed scope: SC_IDENTIFIER).")
     private final Collection<ActivePersonNumberTypeLinkDTO> numbers;
 
-    @ApiModelProperty(notes = "The id of the company the person is mainly busy at.")
+    @ApiModelProperty(
+        notes = "The id of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private final Integer contactCompanyId;
 
-    @ApiModelProperty(notes = "The matchcode of the company the person is mainly busy at.")
+    @ApiModelProperty(
+        notes = "The matchcode of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private final String contactCompanyMatchcode;
 
-    @ApiModelProperty(notes = "The number of the company the person is mainly busy at.")
+    @ApiModelProperty(
+        notes = "The number of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private final String contactCompanyNumber;
 
-    @ApiModelProperty(notes = "Indicates, whether the person has a portrait available or not.")
+    @ApiModelProperty(notes = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
     private final Boolean portraitAvailable;
 
-    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
+    @ApiModelProperty(notes = "The time and date when this item has been changed recently (no scope needed).")
     private final LocalDateTime lastUpdate;
 
-    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    @ApiModelProperty(notes = "The score this item accomplished in the search operation (no scope needed).")
     private final double score;
 
     public PersonItemDTO(@JsonProperty("personId") Integer personId,
