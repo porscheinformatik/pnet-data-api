@@ -15,6 +15,7 @@ import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictQueryField;
@@ -28,10 +29,11 @@ import pnet.data.api.util.SearchWithAggregationsFunction;
  * @author ham
  */
 public class PersonDataSearch
-    extends AbstractSearchWithAggregations<PersonItemDTO, PersonAggregationsDTO, PersonDataSearch> implements
-    RestrictTenant<PersonDataSearch>, RestrictCompanyId<PersonDataSearch>, RestrictCompanyNumber<PersonDataSearch>,
-    RestrictCompany<PersonDataSearch>, RestrictBrand<PersonDataSearch>, RestrictFunction<PersonDataSearch>,
-    RestrictActivity<PersonDataSearch>, RestrictRole<PersonDataSearch>, RestrictDatedBackUntil<PersonDataSearch>,
+    extends AbstractSearchWithAggregations<PersonItemDTO, PersonAggregationsDTO, PersonDataSearch>
+    implements RestrictTenant<PersonDataSearch>, RestrictCompanyId<PersonDataSearch>,
+    RestrictCompanyNumber<PersonDataSearch>, RestrictCompany<PersonDataSearch>, RestrictBrand<PersonDataSearch>,
+    RestrictFunction<PersonDataSearch>, RestrictActivity<PersonDataSearch>, RestrictRole<PersonDataSearch>,
+    RestrictCredentialsAvailable<PersonDataSearch>, RestrictDatedBackUntil<PersonDataSearch>,
     IncludeInactive<PersonDataSearch>, CompanyMergable<PersonDataSearch>, AggregateNumberPerTenant<PersonDataSearch>,
     AggregateNumberPerCompany<PersonDataSearch>, AggregateNumberPerFunction<PersonDataSearch>,
     AggregateNumberPerActivity<PersonDataSearch>, RestrictQueryField<PersonDataSearch>

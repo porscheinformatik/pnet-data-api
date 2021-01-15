@@ -73,6 +73,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The username of the person (needed scope: SC_IDENTIFIER).")
     private String username;
 
+    @ApiModelProperty(notes = "The person is able to access the Partner.Net (needed scope: SC_IDENTIFIER).")
+    private Boolean credentialsAvailable;
+
     @ApiModelProperty(notes = "The birthdate of the person (needed scope: SC_BIRTHDATE).")
     private LocalDate birthdate;
 
@@ -268,6 +271,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public void setUsername(String username)
     {
         this.username = username;
+    }
+
+    public Boolean getCredentialsAvailable()
+    {
+        return credentialsAvailable;
+    }
+
+    public void setCredentialsAvailable(Boolean credentialsAvailable)
+    {
+        this.credentialsAvailable = credentialsAvailable;
     }
 
     public LocalDate getBirthdate()
@@ -575,18 +588,19 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     {
         return String
             .format(
-                "PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, "
+                "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, "
                     + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
-                    + "birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, "
-                    + "faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, personnelNumber=%s, "
-                    + "supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, jobDescription=%s, "
-                    + "languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, "
-                    + "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
-                id, personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, username, birthdate, externalId, guid, preferredUserId, phoneNumber, mobileNumber,
-                faxNumber, email, contactCompanyId, costCenter, personnelNumber, supervisorPersonnelNumber,
-                controllingArea, personnelDepartment, jobDescription, languages, companies, numbers, functions,
-                activities, advisorAssignments, portraitAvailable, automaticDeletion, checksum, lastUpdate);
+                    + "credentialsAvailable=%s, birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, "
+                    + "phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, "
+                    + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
+                    + "jobDescription=%s, languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, "
+                    + "advisorAssignments=%s, portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
+                personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
+                firstName, lastName, username, credentialsAvailable, birthdate, externalId, guid, preferredUserId,
+                phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter, personnelNumber,
+                supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, languages, companies,
+                numbers, functions, activities, advisorAssignments, portraitAvailable, automaticDeletion, checksum,
+                lastUpdate);
     }
 
 }

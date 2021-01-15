@@ -171,6 +171,7 @@ import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictCompanyType;
 import pnet.data.api.util.RestrictContractType;
+import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictNumberType;
@@ -322,6 +323,7 @@ public final class PnetRestClient
     private LocalDateTime datedBackUntil = null;
     private Boolean restrictRejected = null;
     private Boolean restrictArchived = null;
+    private Boolean restrictCredentialsAvailable = null;
     private boolean aggs = false;
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
@@ -957,6 +959,30 @@ public final class PnetRestClient
         restrictRejected = null;
 
         cli.info("The rejected state of items will be ignored.");
+    }
+
+    @CLI.Command(name = "credentials available only", description = "Show only persons with login credentials")
+    public void credentialsAvailableOnly()
+    {
+        restrictCredentialsAvailable = Boolean.TRUE;
+
+        cli.info("Only persons with login credentials will be searched and shown.");
+    }
+
+    @CLI.Command(name = "no credentials available only", description = "Show only persons without login credentials")
+    public void noCredentialsAvailableOnly()
+    {
+        restrictCredentialsAvailable = Boolean.FALSE;
+
+        cli.info("Only persons without login credentials will be searched and shown.");
+    }
+
+    @CLI.Command(name = "ignore credentials available", description = "Ignore the archived flag.")
+    public void clearCredentialsAvailable()
+    {
+        restrictCredentialsAvailable = null;
+
+        cli.info("The credentials available state of persons will be ignored.");
     }
 
     @CLI.Command(name = "archived only", description = "Show only results, that have been archived.")
@@ -2269,6 +2295,13 @@ public final class PnetRestClient
             request = ((RestrictDatedBackUntil<T>) request).datedBackUntil(datedBackUntil);
         }
 
+        if (request instanceof RestrictCredentialsAvailable && restrictCredentialsAvailable != null)
+        {
+            cli.info("Credentials available: " + restrictCredentialsAvailable);
+
+            request = ((RestrictCredentialsAvailable<T>) request).credentialsAvailable(restrictCredentialsAvailable);
+        }
+
         if (request instanceof RestrictRejected && restrictRejected != null)
         {
             cli.info("Rejected: " + restrictRejected);
@@ -2365,6 +2398,9 @@ public final class PnetRestClient
         restrictedCompanyTypeMatchcodes.clear();
         restrictedContractTypeMatchcodes.clear();
         restrictedQueryFields.clear();
+        restrictArchived = null;
+        restrictRejected = null;
+        restrictCredentialsAvailable = null;
         datedBackUntil = null;
     }
 

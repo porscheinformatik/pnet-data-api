@@ -19,6 +19,7 @@ import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictControllingArea;
 import pnet.data.api.util.RestrictCostCenter;
+import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictEmail;
 import pnet.data.api.util.RestrictFunction;
@@ -50,9 +51,9 @@ public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind>
     RestrictRole<PersonDataFind>, RestrictNumbersType<PersonDataFind>, RestrictNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompanyId<PersonDataFind>, RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompany<PersonDataFind>, RestrictAdvisorAssignmentType<PersonDataFind>,
-    RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictUpdatedAfter<PersonDataFind>,
-    RestrictDatedBackUntil<PersonDataFind>, IncludeInactive<PersonDataFind>, CompanyMergable<PersonDataFind>,
-    Scrollable<PersonDataFind>
+    RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictCredentialsAvailable<PersonDataFind>,
+    RestrictUpdatedAfter<PersonDataFind>, RestrictDatedBackUntil<PersonDataFind>, IncludeInactive<PersonDataFind>,
+    CompanyMergable<PersonDataFind>, Scrollable<PersonDataFind>
 {
 
     public PersonDataFind(FindFunction<PersonItemDTO> findFunction, List<Pair<String, Object>> restrictItems)

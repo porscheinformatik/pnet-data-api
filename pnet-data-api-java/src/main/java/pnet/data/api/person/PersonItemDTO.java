@@ -67,6 +67,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "The username of the person (needed scope: SC_IDENTIFIER).")
     private final String username;
 
+    @ApiModelProperty(notes = "The username of the person (needed scope: SC_IDENTIFIER).")
+    private final Boolean credentialsAvailable;
+
     @ApiModelProperty(notes = "The external id of the person (needed scope: SC_IDENTIFIER).")
     private final String externalId;
 
@@ -130,8 +133,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("academicTitle") String academicTitle,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
-        @JsonProperty("username") String username, @JsonProperty("externalId") String externalId,
-        @JsonProperty("guid") String guid, @JsonProperty("preferredUserId") String preferredUserId,
+        @JsonProperty("username") String username, @JsonProperty("credentialsAvailable") Boolean credentialsAvailable,
+        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
+        @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
         @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber,
         @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("languages") Collection<Locale> languages,
@@ -155,6 +159,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
+        this.credentialsAvailable = credentialsAvailable;
         this.externalId = externalId;
         this.guid = guid;
         this.preferredUserId = preferredUserId;
@@ -220,6 +225,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     public String getUsername()
     {
         return username;
+    }
+
+    public Boolean getCredentialsAvailable()
+    {
+        return credentialsAvailable;
     }
 
     public String getExternalId()
@@ -320,13 +330,14 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return String
             .format(
                 "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, externalId=%s, guid=%s, "
-                    + "preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, "
-                    + "languages=%s, companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
-                    + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
+                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, credentialsAvailable=%s, "
+                    + "externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, "
+                    + "phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, functions=%s, numbers=%s, "
+                    + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, portraitAvailable=%s, "
+                    + "lastUpdate=%s, score=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, username, externalId, guid, preferredUserId, personnelNumber, birthdate, email,
-                phoneNumber, mobileNumber, languages, companies, functions, numbers, contactCompanyId,
+                firstName, lastName, username, credentialsAvailable, externalId, guid, preferredUserId, personnelNumber,
+                birthdate, email, phoneNumber, mobileNumber, languages, companies, functions, numbers, contactCompanyId,
                 contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate, score);
     }
 
