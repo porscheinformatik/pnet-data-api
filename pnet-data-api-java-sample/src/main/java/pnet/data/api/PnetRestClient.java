@@ -170,6 +170,7 @@ import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictCompanyType;
+import pnet.data.api.util.RestrictContractState;
 import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
@@ -316,6 +317,7 @@ public final class PnetRestClient
     private final List<String> restrictedNumberTypeMatchcodes = new ArrayList<>();
     private final List<String> restrictedCompanyTypeMatchcodes = new ArrayList<>();
     private final List<String> restrictedContractTypeMatchcodes = new ArrayList<>();
+    private final List<String> restrictedContractStateMatchcodes = new ArrayList<>();
     private final List<String> restrictedQueryFields = new ArrayList<>();
 
     private int pageSize = 10;
@@ -887,6 +889,18 @@ public final class PnetRestClient
         }
 
         cli.info("Requests are restricted to contract type matchcodes: %s", restrictedContractTypeMatchcodes);
+    }
+
+    @CLI.Command(name = {"restrict contract states", "restrict contract state"}, format = "<MC...>",
+        description = "Places a restriction of contract states for subsequent operations.")
+    public void restrictContractStatesByMatchcode(String... matchcodes)
+    {
+        if (matchcodes != null && matchcodes.length > 0)
+        {
+            Arrays.stream(matchcodes).forEach(restrictedContractStateMatchcodes::add);
+        }
+
+        cli.info("Requests are restricted to contract state matchcodes: %s", restrictedContractStateMatchcodes);
     }
 
     @CLI.Command(name = {"clear company restrictions", "clear company restriction"},
@@ -2268,6 +2282,13 @@ public final class PnetRestClient
             request = ((RestrictContractType<T>) request).contractTypes(restrictedContractTypeMatchcodes);
         }
 
+        if (request instanceof RestrictContractState && !restrictedContractStateMatchcodes.isEmpty())
+        {
+            cli.info("A restriction for contract state matchcodes is in place: %s", restrictedContractStateMatchcodes);
+
+            request = ((RestrictContractState<T>) request).contractStates(restrictedContractStateMatchcodes);
+        }
+
         if (request instanceof RestrictQueryField && !restrictedQueryFields.isEmpty())
         {
             cli.info("A restriction for query fields is in place: %s", restrictedQueryFields);
@@ -2397,6 +2418,7 @@ public final class PnetRestClient
         restrictedNumberTypeMatchcodes.clear();
         restrictedCompanyTypeMatchcodes.clear();
         restrictedContractTypeMatchcodes.clear();
+        restrictedContractStateMatchcodes.clear();
         restrictedQueryFields.clear();
         restrictArchived = null;
         restrictRejected = null;

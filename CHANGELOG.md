@@ -1,4 +1,9 @@
-pnet-data-api 1.15.0
+pnet-data-api 1.15.2
+====================
+
+* Allow filtering for contract states with companies (needs Partner.Net 6.28)
+
+pnet-data-api 1.15.1
 ====================
 
 * Adds the "credentialsAvailable" flag to persons and apicable searches  (needs Partner.Net 6.28)

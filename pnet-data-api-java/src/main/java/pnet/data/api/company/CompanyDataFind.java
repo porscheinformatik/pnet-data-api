@@ -9,6 +9,7 @@ import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictContractState;
 import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictCountryCode;
 import pnet.data.api.util.RestrictDatedBackUntil;
@@ -31,9 +32,9 @@ public class CompanyDataFind extends AbstractFind<CompanyItemDTO, CompanyDataFin
     implements RestrictId<CompanyDataFind>, RestrictMatchcode<CompanyDataFind>, RestrictTenant<CompanyDataFind>,
     RestrictBrand<CompanyDataFind>, RestrictCompanyNumber<CompanyDataFind>, RestrictPostalCode<CompanyDataFind>,
     RestrictCountryCode<CompanyDataFind>, RestrictType<CompanyDataFind>, RestrictContractType<CompanyDataFind>,
-    RestrictLocation<CompanyDataFind>, RestrictExternalBrand<CompanyDataFind>, RestrictUpdatedAfter<CompanyDataFind>,
-    RestrictDatedBackUntil<CompanyDataFind>, IncludeInactive<CompanyDataFind>, CompanyMergable<CompanyDataFind>,
-    Scrollable<CompanyDataFind>
+    RestrictContractState<CompanyDataFind>, RestrictLocation<CompanyDataFind>, RestrictExternalBrand<CompanyDataFind>,
+    RestrictUpdatedAfter<CompanyDataFind>, RestrictDatedBackUntil<CompanyDataFind>, IncludeInactive<CompanyDataFind>,
+    CompanyMergable<CompanyDataFind>, Scrollable<CompanyDataFind>
 {
 
     public CompanyDataFind(FindFunction<CompanyItemDTO> findFunction, List<Pair<String, Object>> restricts)

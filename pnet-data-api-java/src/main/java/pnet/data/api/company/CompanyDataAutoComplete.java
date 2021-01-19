@@ -8,6 +8,7 @@ import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBrand;
+import pnet.data.api.util.RestrictContractState;
 import pnet.data.api.util.RestrictContractType;
 import pnet.data.api.util.RestrictCountryCode;
 import pnet.data.api.util.RestrictLocation;
@@ -22,8 +23,9 @@ import pnet.data.api.util.RestrictType;
 public class CompanyDataAutoComplete extends AbstractAutoComplete<CompanyAutoCompleteDTO, CompanyDataAutoComplete>
     implements RestrictTenant<CompanyDataAutoComplete>, RestrictBrand<CompanyDataAutoComplete>,
     RestrictCountryCode<CompanyDataAutoComplete>, RestrictType<CompanyDataAutoComplete>,
-    RestrictContractType<CompanyDataAutoComplete>, RestrictLocation<CompanyDataAutoComplete>,
-    IncludeInactive<CompanyDataAutoComplete>, CompanyMergable<CompanyDataAutoComplete>
+    RestrictContractType<CompanyDataAutoComplete>, RestrictContractState<CompanyDataAutoComplete>,
+    RestrictLocation<CompanyDataAutoComplete>, IncludeInactive<CompanyDataAutoComplete>,
+    CompanyMergable<CompanyDataAutoComplete>
 {
 
     public CompanyDataAutoComplete(AutoCompleteFunction<CompanyAutoCompleteDTO> autoCompleteFunction,

@@ -11,6 +11,7 @@ import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictCompany;
 import pnet.data.api.util.RestrictCompanyId;
 import pnet.data.api.util.RestrictCompanyNumber;
+import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictTenant;
 
@@ -23,7 +24,8 @@ public class PersonDataAutoComplete extends AbstractAutoComplete<PersonAutoCompl
     implements RestrictTenant<PersonDataAutoComplete>, RestrictCompanyId<PersonDataAutoComplete>,
     RestrictCompanyNumber<PersonDataAutoComplete>, RestrictCompany<PersonDataAutoComplete>,
     RestrictFunction<PersonDataAutoComplete>, RestrictActivity<PersonDataAutoComplete>,
-    IncludeInactive<PersonDataAutoComplete>, CompanyMergable<PersonDataAutoComplete>
+    RestrictCredentialsAvailable<PersonDataAutoComplete>, IncludeInactive<PersonDataAutoComplete>,
+    CompanyMergable<PersonDataAutoComplete>
 {
 
     public PersonDataAutoComplete(AutoCompleteFunction<PersonAutoCompleteDTO> autoCompleteFunction,
