@@ -1,3 +1,9 @@
+pnet-data-api 1.15.3
+====================
+
+* Simplified Swagger dependencies.
+* Add find by email to sample client.
+
 pnet-data-api 1.15.2
 ====================
 
