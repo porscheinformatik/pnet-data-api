@@ -1773,6 +1773,16 @@ public final class PnetRestClient
         printResults(result, this::populateTable);
     }
 
+    @CLI.Command(name = {"find persons by email", "find person by email"}, format = "<EMAIL...>",
+        description = "Find persons by email.")
+    public void findPersonsByEmail(String... emails) throws PnetDataClientException
+    {
+        PersonDataFind query = restrict(personDataClient.find().email(emails));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language);
+
+        printResults(result, this::populateTable);
+    }
+
     @CLI.Command(name = {"find persons by salesman number", "find person by salesman number"}, format = "<NUMBER...>",
         description = "Find persons by salesman number.")
     public void findPersonsBySalesmanNumber(String... numbers) throws PnetDataClientException
