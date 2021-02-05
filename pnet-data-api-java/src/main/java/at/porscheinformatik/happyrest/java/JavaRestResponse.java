@@ -54,12 +54,9 @@ class JavaRestResponse<T> implements RestResponse<T>
         {
             try (InputStream stream = response.body())
             {
-                if (stream != null)
+                try (Reader reader = new InputStreamReader(stream))
                 {
-                    try (Reader reader = new InputStreamReader(stream))
-                    {
-                        throw new RestResponseException(RestUtils.readFully(reader), statusCode, statusMessage, null);
-                    }
+                    throw new RestResponseException(RestUtils.readFully(reader), statusCode, statusMessage, null);
                 }
             }
             catch (IOException e)

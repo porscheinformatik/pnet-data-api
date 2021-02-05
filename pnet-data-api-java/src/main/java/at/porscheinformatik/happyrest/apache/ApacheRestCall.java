@@ -148,40 +148,7 @@ public class ApacheRestCall extends AbstractRestCall
 
             if (!form)
             {
-                for (RestParameter parameter : getParameters())
-                {
-                    Object value = parameter.getValue();
-
-                    if (value == null)
-                    {
-                        continue;
-                    }
-
-                    if (value.getClass().isArray())
-                    {
-                        for (int i = 0; i < Array.getLength(value); i++)
-                        {
-                            builder
-                                .addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, Array.get(value, i)));
-                        }
-
-                        continue;
-                    }
-
-                    if (value instanceof Iterable<?>)
-                    {
-                        Iterator<?> iterator = ((Iterable<?>) value).iterator();
-
-                        while (iterator.hasNext())
-                        {
-                            builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, iterator.next()));
-                        }
-
-                        continue;
-                    }
-
-                    builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, value));
-                }
+                populateWithParameters(builder);
             }
 
             switch (method)
@@ -219,6 +186,43 @@ public class ApacheRestCall extends AbstractRestCall
             throw new RestRequestException("Invalid URL: %s", e, url);
         }
         return request;
+    }
+
+    private void populateWithParameters(URIBuilder builder)
+    {
+        for (RestParameter parameter : getParameters())
+        {
+            Object value = parameter.getValue();
+
+            if (value == null)
+            {
+                continue;
+            }
+
+            if (value.getClass().isArray())
+            {
+                for (int i = 0; i < Array.getLength(value); i++)
+                {
+                    builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, Array.get(value, i)));
+                }
+
+                continue;
+            }
+
+            if (value instanceof Iterable<?>)
+            {
+                Iterator<?> iterator = ((Iterable<?>) value).iterator();
+
+                while (iterator.hasNext())
+                {
+                    builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, iterator.next()));
+                }
+
+                continue;
+            }
+
+            builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, value));
+        }
     }
 
     private void computeHeaders(HttpRequestBase request)

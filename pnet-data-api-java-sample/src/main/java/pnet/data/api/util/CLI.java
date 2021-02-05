@@ -687,7 +687,7 @@ public class CLI
         }
     }
 
-    protected static class Handler implements Comparable<Handler>
+    protected static class Handler
     {
         private final List<Handler> subHandlers = new ArrayList<>();
 
@@ -724,7 +724,7 @@ public class CLI
             StringBuilder builder = new StringBuilder(getConsumerHelp(prefix, qs));
             List<Handler> handlers = new ArrayList<>(subHandlers);
 
-            Collections.sort(handlers);
+            Collections.sort(handlers, (a, b) -> DICTIONARY_COLLATOR.compare(a.getName(), b.getName()));
 
             for (Handler handler : handlers)
             {
@@ -756,17 +756,14 @@ public class CLI
 
             StringBuilder builder = new StringBuilder(prefix);
 
-            if (consumer != null)
+            if (format != null)
             {
-                if (format != null)
-                {
-                    builder.append(" ");
-                    builder.append(format);
-                }
-
-                builder.append("\n\t");
-                builder.append(description.replace("\n", "\n\t"));
+                builder.append(" ");
+                builder.append(format);
             }
+
+            builder.append("\n\t");
+            builder.append(description.replace("\n", "\n\t"));
 
             String result = builder.toString();
 
@@ -928,12 +925,6 @@ public class CLI
         public String toString()
         {
             return simplify(name);
-        }
-
-        @Override
-        public int compareTo(Handler o)
-        {
-            return DICTIONARY_COLLATOR.compare(getName(), o.getName());
         }
     }
 

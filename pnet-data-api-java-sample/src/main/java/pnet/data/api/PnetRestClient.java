@@ -9,7 +9,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 import java.net.URI;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -420,12 +425,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated activities", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated activities", format = "[updatedAfter]",
         description = "Exports all activities updated since yesterday.")
-    public void exportAllUpdatedActivities(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedActivities(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        ActivityDataFind query = restrict(activityDataClient.find().updatedAfter(updatedAfter).scroll());
+        ActivityDataFind query =
+            restrict(activityDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
         PnetDataClientResultPage<ActivityItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -479,12 +484,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated advisor types", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated advisor types", format = "[updatedAfter]",
         description = "Exports all advisor types updated since yesterday.")
-    public void exportAllUpdatedAdvisorTypes(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedAdvisorTypes(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        AdvisorTypeDataFind query = restrict(advisorTypeDataClient.find().updatedAfter(updatedAfter));
+        AdvisorTypeDataFind query =
+            restrict(advisorTypeDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<AdvisorTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -537,12 +542,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated applications", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated applications", format = "[updatedAfter]",
         description = "Exports all applications updated since yesterday.")
-    public void exportAllUpdatedApplications(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedApplications(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        ApplicationDataFind query = restrict(applicationDataClient.find().updatedAfter(updatedAfter).scroll());
+        ApplicationDataFind query =
+            restrict(applicationDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
         PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -594,12 +599,11 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated brands", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated brands", format = "[updatedAfter]",
         description = "Export all brands updated since yesterday.")
-    public void exportAllUpdatedBrands(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedBrands(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        BrandDataFind query = restrict(brandDataClient.find().updatedAfter(updatedAfter));
+        BrandDataFind query = restrict(brandDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<BrandItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -735,12 +739,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated companies", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated companies", format = "[updatedAfter]",
         description = "Exports all companies updated since yesterday.")
-    public void exportAllUpdatedCompanies(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedCompanies(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        CompanyDataFind query = restrict(companyDataClient.find().updatedAfter(updatedAfter).scroll());
+        CompanyDataFind query =
+            restrict(companyDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
         PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -933,11 +937,11 @@ public final class PnetRestClient
         companyMerge = CompanyMerge.NONE;
     }
 
-    @CLI.Command(name = "dated back", format = "[<DAYS>]",
+    @CLI.Command(name = "dated back", format = "[updatedAfter]",
         description = "Sets the dated back parameter for the specified days")
-    public void datedBackUnitl(Integer days)
+    public void datedBackUnitl(String updatedAfter)
     {
-        if (days == null)
+        if (updatedAfter == null)
         {
             datedBackUntil = null;
 
@@ -945,7 +949,7 @@ public final class PnetRestClient
         }
         else
         {
-            datedBackUntil = LocalDateTime.now().minusDays(days.longValue());
+            datedBackUntil = parseUpdatedAfter(updatedAfter);
 
             cli.info("Items will be searched and shown, that are not older than %s.", datedBackUntil);
         }
@@ -1182,12 +1186,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated company group types", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated company group types", format = "[updatedAfter]",
         description = "Exports all company group types updated since yesterday.")
-    public void exportAllUpdatedCompanyGroupTypes(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedCompanyGroupTypes(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        CompanyGroupTypeDataFind query = restrict(companyGroupTypeDataClient.find().updatedAfter(updatedAfter));
+        CompanyGroupTypeDataFind query =
+            restrict(companyGroupTypeDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1240,12 +1244,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated company number types", format = "[<DAYS>:1]",
-        description = "Exports all updated company number types.")
-    public void exportAllUpdatedCompanyNumberTypes(Integer days) throws PnetDataClientException
+    @CLI.Command(name = "export updated company number types", format = "[updatedAfter]",
+        description = "Exports updated company number types.")
+    public void exportAllUpdatedCompanyNumberTypes(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        CompanyNumberTypeDataFind query = restrict(companyNumberTypeDataClient.find().updatedAfter(updatedAfter));
+        CompanyNumberTypeDataFind query =
+            restrict(companyNumberTypeDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1298,12 +1302,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated company types", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated company types", format = "[updatedAfter]",
         description = "Exports all company types updated since yesterday.")
-    public void exportAllUpdatedCompanyTypes(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedCompanyTypes(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        CompanyTypeDataFind query = restrict(companyTypeDataClient.find().updatedAfter(updatedAfter));
+        CompanyTypeDataFind query =
+            restrict(companyTypeDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<CompanyTypeItemDTO> results = query.execute(language, 0, pageSize);
 
         printAllResults(results, this::populateTable);
@@ -1346,13 +1350,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated contract states", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated contract states", format = "[updatedAfter]",
         description = "Exports all contract states updated since yesterday.")
-    public void exportAllUpdatedContractStates(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedContractStates(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-
-        ContractStateDataFind query = restrict(contractStateDataClient.find().updatedAfter(updatedAfter));
+        ContractStateDataFind query =
+            restrict(contractStateDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<ContractStateItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1405,13 +1408,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated contract types", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated contract types", format = "[updatedAfter]",
         description = "Exports all contract types updated since yesterday.")
-    public void exportAllUpdatedContractTypes(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedContractTypes(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-
-        ContractTypeDataFind query = restrict(contractTypeDataClient.find().updatedAfter(updatedAfter));
+        ContractTypeDataFind query =
+            restrict(contractTypeDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<ContractTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1466,12 +1468,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated external brands", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated external brands", format = "[updatedAfter]",
         description = "Exports all external brands updated since yesterday.")
-    public void exportAllUpdatedExternalBrands(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedExternalBrands(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        ExternalBrandDataFind query = restrict(externalBrandDataClient.find().updatedAfter(updatedAfter));
+        ExternalBrandDataFind query =
+            restrict(externalBrandDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<ExternalBrandItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1524,12 +1526,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated functions", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated functions", format = "[updatedAfter]",
         description = "Exports all functions updated since yesterday.")
-    public void exportAllUpdatedFunctions(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedFunctions(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        FunctionDataFind query = restrict(functionDataClient.find().updatedAfter(updatedAfter).scroll());
+        FunctionDataFind query =
+            restrict(functionDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
         PnetDataClientResultPage<FunctionItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1583,12 +1585,11 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated legal forms", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated legal forms", format = "[updatedAfter]",
         description = "Exports all legal forms updated since yesterday.")
-    public void exportAllUpdatedLegalForms(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedLegalForms(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        LegalFormDataFind query = restrict(legalFormDataClient.find().updatedAfter(updatedAfter));
+        LegalFormDataFind query = restrict(legalFormDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1641,13 +1642,11 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated number types", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated number types", format = "[updatedAfter]",
         description = "Exports all number types updated since yesterday.")
-    public void exportAllUpdatedNumberTypes(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedNumberTypes(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-
-        NumberTypeDataFind query = restrict(numberTypeDataClient.find().updatedAfter(updatedAfter));
+        NumberTypeDataFind query = restrict(numberTypeDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
         PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1752,12 +1751,11 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated persons", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated persons", format = "[updatedAfter]",
         description = "Exports all persons available for the current user, that have been updated since yesterday.")
-    public void exportAllUpdatedPersons(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedPersons(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-        PersonDataFind query = restrict(personDataClient.find().updatedAfter(updatedAfter).scroll());
+        PersonDataFind query = restrict(personDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1909,13 +1907,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated proposals", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated proposals", format = "[updatedAfter]",
         description = "Exports all proposals updated since yesterday.")
-    public void exportAllUpdatedProposals(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedProposals(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-
-        ProposalDataFind query = restrict(proposalDataClient.find().updatedAfter(updatedAfter).scroll());
+        ProposalDataFind query =
+            restrict(proposalDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
         PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1984,13 +1981,12 @@ public final class PnetRestClient
         printAllResults(result, this::populateTable);
     }
 
-    @CLI.Command(name = "export all updated todo groups", format = "[<DAYS>:1]",
+    @CLI.Command(name = "export updated todo groups", format = "[updatedAfter]",
         description = "Exports all todo groups updated since yesterday.")
-    public void exportAllUpdatedTodoGroups(Integer days) throws PnetDataClientException
+    public void exportAllUpdatedTodoGroups(String updatedAfter) throws PnetDataClientException
     {
-        LocalDateTime updatedAfter = LocalDateTime.now().minusDays(days != null ? days : 1);
-
-        TodoGroupDataFind query = restrict(todoGroupDataClient.find().updatedAfter(updatedAfter).scroll());
+        TodoGroupDataFind query =
+            restrict(todoGroupDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
         PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -2193,6 +2189,7 @@ public final class PnetRestClient
         request = applyCompanyRestrictions(request);
         request = applyAuthorityRestrictions(request);
         request = applyBaseDataRestrictions(request);
+        request = applyBaseTypeRestrictions(request);
         request = applyCustomRestrictions(request);
         request = applyAggregations(request);
 
@@ -2262,6 +2259,19 @@ public final class PnetRestClient
             request = ((RestrictBrand<T>) request).brands(restrictedBrands);
         }
 
+        if (request instanceof RestrictQueryField && !restrictedQueryFields.isEmpty())
+        {
+            cli.info("A restriction for query fields is in place: %s", restrictedQueryFields);
+
+            request = ((RestrictQueryField<T>) request).queryFields(restrictedQueryFields);
+        }
+
+        return request;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends Restrict<T>> T applyBaseTypeRestrictions(T request)
+    {
         if (request instanceof RestrictNumberType && !restrictedNumberTypeMatchcodes.isEmpty())
         {
             cli.info("A restriction for number type matchcodes is in place: %s", restrictedNumberTypeMatchcodes);
@@ -2297,13 +2307,6 @@ public final class PnetRestClient
             cli.info("A restriction for contract state matchcodes is in place: %s", restrictedContractStateMatchcodes);
 
             request = ((RestrictContractState<T>) request).contractStates(restrictedContractStateMatchcodes);
-        }
-
-        if (request instanceof RestrictQueryField && !restrictedQueryFields.isEmpty())
-        {
-            cli.info("A restriction for query fields is in place: %s", restrictedQueryFields);
-
-            request = ((RestrictQueryField<T>) request).queryFields(restrictedQueryFields);
         }
 
         return request;
@@ -2859,4 +2862,36 @@ public final class PnetRestClient
         frame.setVisible(true);
     }
 
+    protected static LocalDateTime parseUpdatedAfter(String updatedAfter)
+    {
+        if (updatedAfter == null)
+        {
+            return LocalDateTime.now().minusDays(1);
+        }
+
+        try
+        {
+            return LocalDateTime.now().minus(Duration.parse("PT" + updatedAfter));
+        }
+        catch (DateTimeParseException e)
+        {
+            try
+            {
+                LocalDateTime timestamp =
+                    LocalDate.now().atTime(LocalTime.parse(updatedAfter, DateTimeFormatter.ofPattern("HH:mm:ss")));
+
+                while (timestamp.isAfter(LocalDateTime.now()))
+                {
+                    timestamp = timestamp.minusDays(1);
+                }
+
+                return timestamp;
+            }
+            catch (DateTimeParseException e2)
+            {
+                throw new IllegalArgumentException(
+                    "Failed to parse " + updatedAfter + ". Try using a time like 13:22:10 or a duration like 10M.");
+            }
+        }
+    }
 }

@@ -301,11 +301,13 @@ public final class RestUtils
             return url;
         }
 
+        StringBuilder builder = new StringBuilder(url);
+
         for (String pathSegment : pathSegments)
         {
-            if (!url.endsWith("/"))
+            if (builder.length() > 0 && builder.charAt(builder.length() - 1) != '/')
             {
-                url += "/";
+                builder.append("/");
             }
 
             if (pathSegment != null)
@@ -317,11 +319,11 @@ public final class RestUtils
                             ignorePlaceholders);
                 }
 
-                url += pathSegment;
+                builder.append(pathSegment);
             }
         }
 
-        return url;
+        return builder.toString();
     }
 
     public static String getHttpStatusMessage(int code)
