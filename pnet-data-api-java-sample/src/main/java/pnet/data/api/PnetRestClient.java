@@ -2889,8 +2889,23 @@ public final class PnetRestClient
             }
             catch (DateTimeParseException e2)
             {
-                throw new IllegalArgumentException(
-                    "Failed to parse " + updatedAfter + ". Try using a time like 13:22:10 or a duration like 10M.");
+                try
+                {
+                    LocalDateTime timestamp =
+                        LocalDate.parse(updatedAfter, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay();
+
+                    while (timestamp.isAfter(LocalDateTime.now()))
+                    {
+                        timestamp = timestamp.minusDays(1);
+                    }
+
+                    return timestamp;
+                }
+                catch (DateTimeParseException e3)
+                {
+                    throw new IllegalArgumentException(
+                        "Failed to parse " + updatedAfter + ". Try using a time like 13:22:10, a date like 2020-03-21 or a duration like 10M.");
+                }
             }
         }
     }
