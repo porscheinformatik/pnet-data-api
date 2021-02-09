@@ -1,23 +1,11 @@
 package pnet.data.api.util;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Preferences for storing things on the local machine
@@ -27,24 +15,18 @@ import javax.crypto.spec.SecretKeySpec;
 public final class Prefs
 {
     private static final Preferences PREFERENCES = Preferences.userNodeForPackage(Prefs.class);
-    private static final SecretKey SECURITY_KEY = createBlowfishKey("wGo8e16IdulAQw8x+z5EAA==");
-    private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     public static final String DEFAULT_KEY = "default";
+
+    private static final CipherHelper AES_CIPHER =
+        CipherHelper.ofAesKey("Y3p80YhT50y+QidV3ghpe0EWgal4XUKeNkWBwl3weII=");
+
+    @Deprecated
+    private static final CipherHelper BLOWFISH_CIPHER = CipherHelper.ofBlowfishKey("wGo8e16IdulAQw8x+z5EAA==");
 
     private Prefs()
     {
         super();
-    }
-
-    public static SecretKey createBlowfishKey(String base64EncodedKey)
-    {
-        return createBlowfishKey(Base64.getDecoder().decode(base64EncodedKey));
-    }
-
-    public static SecretKey createBlowfishKey(byte[] key)
-    {
-        return new SecretKeySpec(key, "Blowfish");
     }
 
     public static String getUrl(String key)
@@ -109,7 +91,20 @@ public final class Prefs
 
     protected static String decodeAndGet(String key)
     {
-        return blowfishDecode(PREFERENCES.get(key, null));
+        String value = PREFERENCES.get(key, null);
+
+        try
+        {
+            return AES_CIPHER.decode(value);
+        }
+        catch (IllegalArgumentException e)
+        {
+            value = BLOWFISH_CIPHER.decode(value);
+
+            encodeAndSet(key, value);
+
+            return value;
+        }
     }
 
     protected static void set(String key, String value)
@@ -119,99 +114,7 @@ public final class Prefs
 
     protected static void encodeAndSet(String key, String value)
     {
-        PREFERENCES.put(key, blowfishEncode(value));
-    }
-
-    protected static String blowfishEncode(String s)
-    {
-        return Base64.getEncoder().encodeToString(blowfishEncode(s.getBytes(CHARSET), SECURITY_KEY));
-    }
-
-    protected static String blowfishDecode(String base64EncodedBytes)
-    {
-        if (base64EncodedBytes == null || base64EncodedBytes.length() == 0)
-        {
-            return null;
-        }
-
-        try
-        {
-            return new String(blowfishDecode(Base64.getDecoder().decode(base64EncodedBytes), SECURITY_KEY));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace(System.err);
-            return "";
-        }
-    }
-
-    private static byte[] blowfishEncode(byte[] bytes, SecretKey key)
-    {
-        Cipher cipher;
-
-        try
-        {
-            cipher = Cipher.getInstance("Blowfish");
-        }
-        catch (NoSuchAlgorithmException | NoSuchPaddingException e)
-        {
-            throw new IllegalArgumentException("Hardcoded blowfishes do exist", e);
-        }
-
-        try
-        {
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-        }
-        catch (InvalidKeyException e)
-        {
-            throw new IllegalArgumentException("Invalid key", e);
-        }
-
-        try
-        {
-            return cipher.doFinal(bytes);
-        }
-        catch (IllegalBlockSizeException | BadPaddingException e)
-        {
-            throw new IllegalArgumentException("Invalid input", e);
-        }
-    }
-
-    private static byte[] blowfishDecode(byte[] bytes, SecretKey key)
-    {
-        if (bytes == null)
-        {
-            return null;
-        }
-
-        Cipher cipher;
-
-        try
-        {
-            cipher = Cipher.getInstance("Blowfish");
-        }
-        catch (NoSuchAlgorithmException | NoSuchPaddingException e)
-        {
-            throw new IllegalArgumentException("Hardcoded blowfishes do exist", e);
-        }
-
-        try
-        {
-            cipher.init(Cipher.DECRYPT_MODE, key);
-        }
-        catch (InvalidKeyException e)
-        {
-            throw new IllegalArgumentException("Invalid key", e);
-        }
-
-        try
-        {
-            return cipher.doFinal(bytes);
-        }
-        catch (IllegalBlockSizeException | BadPaddingException e)
-        {
-            throw new IllegalArgumentException("Invalid input", e);
-        }
+        PREFERENCES.put(key, AES_CIPHER.encode(value));
     }
 
 }
