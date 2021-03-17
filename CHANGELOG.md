@@ -3,6 +3,7 @@ pnet-data-api 1.15.3
 
 * Simplified Swagger dependencies.
 * Add find by email to sample client.
+* Fix a bug in GenericType, that did not detect extended types of subclasses.
 
 pnet-data-api 1.15.2
 ====================

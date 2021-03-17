@@ -307,7 +307,6 @@ public interface GenericType<T> extends ParameterizedType
 
             if (parameter instanceof TypeVariable<?>)
             {
-
                 TypeVariable<?> typeVariable = (TypeVariable<?>) parameter;
                 Class<?> genericDeclaration = (Class<?>) typeVariable.getGenericDeclaration();
 
@@ -333,8 +332,14 @@ public interface GenericType<T> extends ParameterizedType
 
             if (parameter instanceof ParameterizedType)
             {
-                return build((Class<?>) ((ParameterizedType) parameter).getRawType())
-                    .with(((ParameterizedType) parameter).getActualTypeArguments());
+                Type[] actualTypeArguments = ((ParameterizedType) parameter).getActualTypeArguments();
+
+                for (int i = 0; i < actualTypeArguments.length; ++i)
+                {
+                    actualTypeArguments[i] = findTypeArgument(actualTypeArguments[i], implementingType);
+                }
+
+                return build((Class<?>) ((ParameterizedType) parameter).getRawType()).with(actualTypeArguments);
             }
 
             throw new UnsupportedOperationException("Unsupported type of " + parameter.getClass());
@@ -424,6 +429,45 @@ public interface GenericType<T> extends ParameterizedType
     default <U> Class<U> getArgumentClass(int index)
     {
         return (Class<U>) getArgument(index).getType();
+    }
+
+    @SuppressWarnings("unchecked")
+    default <U> GenericType<U> findArgument(Type type)
+    {
+        if (type instanceof Of<?>)
+        {
+            return (GenericType<U>) type;
+        }
+
+        if (type instanceof Class<?>)
+        {
+            return GenericType.of(type);
+        }
+
+        if (type instanceof TypeVariable<?>)
+        {
+            return findArgument(((TypeVariable<?>) type).getName());
+        }
+
+        throw new UnsupportedOperationException("Unsupported type of " + type.getClass());
+    }
+
+    default <U> GenericType<U> findArgument(String name)
+    {
+        TypeVariable<Class<T>>[] typeParameters = getType().getTypeParameters();
+
+        for (int i = 0; i < typeParameters.length; ++i)
+        {
+            if (name.equals(typeParameters[i].getName()))
+            {
+                return getArgument(i);
+            }
+        }
+
+        throw new IllegalArgumentException("Type parameter "
+            + name
+            + " not found. Known type prameters: "
+            + Arrays.stream(typeParameters).map(TypeVariable::getName).collect(Collectors.joining(", ")));
     }
 
     default String getSimpleTypeName()

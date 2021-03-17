@@ -3,6 +3,8 @@ package at.porscheinformatik.happyrest;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,27 +17,71 @@ import at.porscheinformatik.happyrest.GenericType.Of;
 public class GenericTypeTest
 {
 
-    private interface A<U>
+    public interface A<V>
+    {
+        V getValue();
+    }
+
+    public interface B<K, V> extends A<V>
+    {
+        K getKey();
+    }
+
+    public static class C<V> implements B<Integer, V>
+    {
+        private final Integer key;
+        private final V value;
+
+        public C(Integer key, V value)
+        {
+            super();
+
+            this.key = key;
+            this.value = value;
+        }
+
+        @Override
+        public Integer getKey()
+        {
+            return key;
+        }
+
+        @Override
+        public V getValue()
+        {
+            return value;
+        }
+    }
+
+    public static class D extends C<String>
+    {
+        public D(Integer key, String value)
+        {
+            super(key, value);
+        }
+
+        public String getDescription()
+        {
+            return null;
+        }
+    }
+
+    public interface E extends A<List<String>>
     {
         // intentionally left blank
     }
 
-    private interface B<S, T> extends A<T>
+    public abstract class AbstractF<K, V>
     {
         // intentionally left blank
     }
 
-    private class C<U> implements B<Integer, U>
+    public abstract class AbstractG<T> extends AbstractF<Integer, A<T>>
     {
         // intentionally left blank
     }
 
-    private class D extends C<String>
-    {
-        // intentionally left blank
-    }
-
-    private interface E extends A<List<String>>
+    public class H extends AbstractG<String>
     {
         // intentionally left blank
     }
@@ -100,7 +146,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testImplementedBy()
+    public void testImplementedBy() throws NoSuchFieldException, SecurityException
     {
         GenericType<A<?>> genericType = GenericType.build(A.class).implementedBy(D.class);
 
@@ -126,9 +172,54 @@ public class GenericTypeTest
     }
 
     @Test
+    public void testTypes() throws NoSuchFieldException, SecurityException, NoSuchMethodException
+    {
+        GenericType<Object> cClass = GenericType.build(C.class).implementedBy(D.class);
+        GenericType<Object> dClass = GenericType.of(D.class);
+
+        Field valueField = C.class.getDeclaredField("value");
+
+        assertThat(GenericType
+            .build(valueField.getDeclaringClass())
+            .implementedBy(D.class)
+            .findArgument(valueField.getGenericType()), is(GenericType.of(String.class)));
+
+        assertThat(cClass.findArgument(valueField.getGenericType()), is(GenericType.of(String.class)));
+
+        Method keyMethod = D.class.getMethod("getKey");
+
+        assertThat(GenericType
+            .build(keyMethod.getDeclaringClass())
+            .implementedBy(D.class)
+            .findArgument(keyMethod.getGenericReturnType()), is(GenericType.of(Integer.class)));
+
+        assertThat(cClass.findArgument(keyMethod.getGenericReturnType()), is(GenericType.of(Integer.class)));
+
+        assertThat(dClass.findArgument(keyMethod.getGenericReturnType()), is(GenericType.of(Integer.class)));
+
+        Method valueMethod = D.class.getMethod("getValue");
+
+        assertThat(GenericType
+            .build(valueMethod.getDeclaringClass())
+            .implementedBy(D.class)
+            .findArgument(valueMethod.getGenericReturnType()), is(GenericType.of(String.class)));
+
+        assertThat(cClass.findArgument(valueMethod.getGenericReturnType()), is(GenericType.of(String.class)));
+
+        Method descriptionMethod = D.class.getMethod("getDescription");
+
+        assertThat(GenericType
+            .build(descriptionMethod.getDeclaringClass())
+            .implementedBy(D.class)
+            .findArgument(descriptionMethod.getGenericReturnType()), is(GenericType.of(String.class)));
+
+        assertThat(dClass.findArgument(descriptionMethod.getGenericReturnType()), is(GenericType.of(String.class)));
+    }
+
+    @Test
     public void testInstanceBy()
     {
-        D d = new D();
+        D d = new D(1, "value");
         GenericType<D> genericType = GenericType.build(B.class).instancedBy(d);
 
         assertThat(genericType.getType(), equalTo(B.class));
@@ -158,21 +249,21 @@ public class GenericTypeTest
     @Test
     public void testMissingType()
     {
-        C<Double> c = new C<>();
+        C<Double> c = new C<>(1, Math.PI);
         GenericType<A<?>> genericType = GenericType.build(A.class).instancedBy(c);
 
         assertThat(genericType.getType(), equalTo(A.class));
         assertThat(genericType.getNumberOfArguments(), is(1));
         assertThat(genericType.getArgumentClass(0), nullValue()); // the type information is not available
-        assertThat(genericType.getTypeName(), is("at.porscheinformatik.happyrest.GenericTypeTest$A<U>"));
-        assertThat(genericType.getSimpleTypeName(), is("GenericTypeTest$A<U>"));
+        assertThat(genericType.getTypeName(), is("at.porscheinformatik.happyrest.GenericTypeTest$A<V>"));
+        assertThat(genericType.getSimpleTypeName(), is("GenericTypeTest$A<V>"));
 
         GenericType<Object> innerGenericType = genericType.getArgument(0);
 
         assertThat(innerGenericType.getType(), nullValue());
         assertThat(innerGenericType.getNumberOfArguments(), is(0));
-        assertThat(innerGenericType.getTypeName(), is("U"));
-        assertThat(innerGenericType.getSimpleTypeName(), is("U"));
+        assertThat(innerGenericType.getTypeName(), is("V"));
+        assertThat(innerGenericType.getSimpleTypeName(), is("V"));
     }
 
     @Test
@@ -353,6 +444,24 @@ public class GenericTypeTest
         assertThat(type.isInstance(stringList), is(true)); // type info gets lost during compilation
         assertThat(type.isInstance(typedListWithIntegers), is(true));
         assertThat(type.isInstance(typedListWithStrings), is(false));
+    }
+
+    @Test
+    public void testDoubleInstancedBy()
+    {
+        GenericType<Object> type = GenericType.build(AbstractF.class).instancedBy(new H());
+
+        assertThat(type.getArgument(0), is(GenericType.of(Integer.class)));
+        assertThat(type.getArgument(1), is(GenericType.build(A.class).with(String.class)));
+    }
+
+    @Test
+    public void testDoubleImplementedBy()
+    {
+        GenericType<Object> type = GenericType.build(AbstractF.class).implementedBy(H.class);
+
+        assertThat(type.getArgument(0), is(GenericType.of(Integer.class)));
+        assertThat(type.getArgument(1), is(GenericType.build(A.class).with(String.class)));
     }
 
 }
