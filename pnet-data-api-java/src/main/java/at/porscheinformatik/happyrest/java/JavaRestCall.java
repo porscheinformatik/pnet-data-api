@@ -91,7 +91,7 @@ public class JavaRestCall extends AbstractRestCall
         }
         catch (IOException | InterruptedException e)
         {
-            throw new RestRequestException("Request failed: %s", url, e);
+            throw new RestRequestException("Request failed: %s", e, url);
         }
 
         return JavaRestResponse.create(parser, response, responseType, loggerAdapter);
