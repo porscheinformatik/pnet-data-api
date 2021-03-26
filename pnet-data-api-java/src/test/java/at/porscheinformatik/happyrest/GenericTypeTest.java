@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,7 @@ public class GenericTypeTest
 
     public interface A<V>
     {
-        V getValue();
+        Optional<V> getValue();
     }
 
     public interface B<K, V> extends A<V>
@@ -30,9 +31,9 @@ public class GenericTypeTest
     public static class C<V> implements B<Integer, V>
     {
         private final Integer key;
-        private final V value;
+        private final Optional<V> value;
 
-        public C(Integer key, V value)
+        public C(Integer key, Optional<V> value)
         {
             super();
 
@@ -47,7 +48,7 @@ public class GenericTypeTest
         }
 
         @Override
-        public V getValue()
+        public Optional<V> getValue()
         {
             return value;
         }
@@ -55,7 +56,7 @@ public class GenericTypeTest
 
     public static class D extends C<String>
     {
-        public D(Integer key, String value)
+        public D(Integer key, Optional<String> value)
         {
             super(key, value);
         }
@@ -182,9 +183,10 @@ public class GenericTypeTest
         assertThat(GenericType
             .build(valueField.getDeclaringClass())
             .implementedBy(D.class)
-            .findArgument(valueField.getGenericType()), is(GenericType.of(String.class)));
+            .findArgument(valueField.getGenericType()), is(GenericType.build(Optional.class).with(String.class)));
 
-        assertThat(cClass.findArgument(valueField.getGenericType()), is(GenericType.of(String.class)));
+        assertThat(cClass.findArgument(valueField.getGenericType()),
+            is(GenericType.build(Optional.class).with(String.class)));
 
         Method keyMethod = D.class.getMethod("getKey");
 
@@ -199,12 +201,15 @@ public class GenericTypeTest
 
         Method valueMethod = D.class.getMethod("getValue");
 
-        assertThat(GenericType
-            .build(valueMethod.getDeclaringClass())
-            .implementedBy(D.class)
-            .findArgument(valueMethod.getGenericReturnType()), is(GenericType.of(String.class)));
+        assertThat(
+            GenericType
+                .build(valueMethod.getDeclaringClass())
+                .implementedBy(D.class)
+                .findArgument(valueMethod.getGenericReturnType()),
+            is(GenericType.build(Optional.class).with(String.class)));
 
-        assertThat(cClass.findArgument(valueMethod.getGenericReturnType()), is(GenericType.of(String.class)));
+        assertThat(cClass.findArgument(valueMethod.getGenericReturnType()),
+            is(GenericType.build(Optional.class).with(String.class)));
 
         Method descriptionMethod = D.class.getMethod("getDescription");
 
@@ -219,7 +224,7 @@ public class GenericTypeTest
     @Test
     public void testInstanceBy()
     {
-        D d = new D(1, "value");
+        D d = new D(1, Optional.of("value"));
         GenericType<D> genericType = GenericType.build(B.class).instancedBy(d);
 
         assertThat(genericType.getType(), equalTo(B.class));
@@ -249,7 +254,7 @@ public class GenericTypeTest
     @Test
     public void testMissingType()
     {
-        C<Double> c = new C<>(1, Math.PI);
+        C<Double> c = new C<>(1, Optional.of(Math.PI));
         GenericType<A<?>> genericType = GenericType.build(A.class).instancedBy(c);
 
         assertThat(genericType.getType(), equalTo(A.class));
@@ -462,6 +467,23 @@ public class GenericTypeTest
 
         assertThat(type.getArgument(0), is(GenericType.of(Integer.class)));
         assertThat(type.getArgument(1), is(GenericType.build(A.class).with(String.class)));
+    }
+
+    @Test
+    public void testImplementedByGenericType()
+    {
+        GenericType<Object> type = GenericType.build(A.class).implementedBy(GenericType.of(E.class));
+
+        assertThat(type.getArgument(0), is(GenericType.build(List.class).with(String.class)));
+    }
+
+    @Test
+    public void testImplementedBySelfGenericType()
+    {
+        GenericType<Object> type =
+            GenericType.build(A.class).implementedBy(GenericType.build(A.class).with(String.class));
+
+        assertThat(type.getArgument(0), is(GenericType.of(String.class)));
     }
 
 }

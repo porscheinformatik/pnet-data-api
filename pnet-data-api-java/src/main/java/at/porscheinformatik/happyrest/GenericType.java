@@ -143,24 +143,35 @@ public interface GenericType<T> extends ParameterizedType
         }
 
         @Override
-        public boolean equals(Object other)
+        public int hashCode()
         {
-            if (!(other instanceof ParameterizedType))
+            final int prime = 31;
+            int result = 1;
+
+            result = prime * result + Arrays.hashCode(arguments);
+            result = prime * result + Objects.hash(ownerType, rawType);
+
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (this == obj)
+            {
+                return true;
+            }
+
+            if (!(obj instanceof Of))
             {
                 return false;
             }
 
-            ParameterizedType that = (ParameterizedType) other;
+            Of<?> other = (Of<?>) obj;
 
-            return getRawType().equals(that.getRawType())
-                && Objects.equals(getOwnerType(), that.getOwnerType())
-                && Arrays.equals(getActualTypeArguments(), that.getActualTypeArguments());
-        }
-
-        @Override
-        public int hashCode()
-        {
-            return (ownerType == null ? 0 : ownerType.hashCode()) ^ Arrays.hashCode(arguments) ^ rawType.hashCode();
+            return Arrays.equals(arguments, other.arguments)
+                && Objects.equals(ownerType, other.ownerType)
+                && Objects.equals(rawType, other.rawType);
         }
 
         @Override
@@ -226,6 +237,11 @@ public interface GenericType<T> extends ParameterizedType
             return implementedBy(Objects.requireNonNull(instance, "Instance is null").getClass());
         }
 
+        public <U extends T> GenericType<U> implementedBy(GenericType<?> implementingType)
+        {
+            return with(findTypeArguments(rawType, implementingType));
+        }
+
         public <U extends T> GenericType<U> implementedBy(Class<?> implementingType)
         {
             return with(findTypeArguments(rawType, implementingType));
@@ -262,6 +278,11 @@ public interface GenericType<T> extends ParameterizedType
         public <U extends T> GenericType<U> raw()
         {
             return new Of<>(name, ownerType, rawType);
+        }
+
+        protected static Type[] findTypeArguments(Type rawType, GenericType<?> implementingType)
+        {
+            return implementingType.findArguments(findTypeArguments(rawType, (Class<?>) implementingType.getRawType()));
         }
 
         protected static Type[] findTypeArguments(Type rawType, Class<?> implementingType)
@@ -431,6 +452,18 @@ public interface GenericType<T> extends ParameterizedType
         return (Class<U>) getArgument(index).getType();
     }
 
+    default GenericType<?>[] findArguments(Type[] types)
+    {
+        GenericType<?>[] results = new GenericType<?>[types.length];
+
+        for (int i = 0; i < types.length; i++)
+        {
+            results[i] = findArgument(types[i]);
+        }
+
+        return results;
+    }
+
     @SuppressWarnings("unchecked")
     default <U> GenericType<U> findArgument(Type type)
     {
@@ -442,6 +475,13 @@ public interface GenericType<T> extends ParameterizedType
         if (type instanceof Class<?>)
         {
             return GenericType.of(type);
+        }
+
+        if (type instanceof ParameterizedType)
+        {
+            return GenericType
+                .build((Class<?>) ((ParameterizedType) type).getRawType())
+                .with(findArguments(((ParameterizedType) type).getActualTypeArguments()));
         }
 
         if (type instanceof TypeVariable<?>)
@@ -536,5 +576,4 @@ public interface GenericType<T> extends ParameterizedType
 
         return true;
     }
-
 }
