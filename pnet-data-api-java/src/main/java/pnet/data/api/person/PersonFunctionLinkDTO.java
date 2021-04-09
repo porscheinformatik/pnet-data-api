@@ -34,6 +34,9 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
 
     private static final long serialVersionUID = -5572016715722241376L;
 
+    @ApiModelProperty(notes = "True, if the function has been approved already, false otherwise.")
+    protected final boolean approved;
+
     @ApiModelProperty(notes = "The starting date and time of this function assignment. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
@@ -46,13 +49,19 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("mainFunction") boolean mainFunction)
+        @JsonProperty("approved") boolean approved, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo, @JsonProperty("mainFunction") boolean mainFunction)
     {
         super(tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
 
+        this.approved = approved;
         this.validFrom = validFrom;
         this.validTo = validTo;
+    }
+
+    public boolean isApproved()
+    {
+        return approved;
     }
 
     @Override
@@ -100,10 +109,10 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     {
         return String
             .format(
-                "PersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, "
-                    + "brandMatchcode=%s, validFrom=%s, validTo=%s, mainFunction=%s]",
-                tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, validFrom, validTo,
-                mainFunction);
+                "PersonFunctionLinkDTO [approved=%s, validFrom=%s, validTo=%s, companyId=%s, companyMatchcode=%s, "
+                    + "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, tenant=%s, matchcode=%s]",
+                approved, validFrom, validTo, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction,
+                tenant, matchcode);
     }
 
 }

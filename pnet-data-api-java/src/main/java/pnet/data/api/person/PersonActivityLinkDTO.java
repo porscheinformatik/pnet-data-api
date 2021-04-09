@@ -52,6 +52,9 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     @ApiModelProperty(notes = "A unique matchcode of the brand where the activity is valid.")
     private final String brandMatchcode;
 
+    @ApiModelProperty(notes = "True, if the employment has been approved already, false otherwise.")
+    protected final boolean approved;
+
     @ApiModelProperty(notes = "The date and time from when this person has/had an actvitiy. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
@@ -67,8 +70,8 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     public PersonActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("dueToFunction") boolean dueToFunction)
+        @JsonProperty("approved") boolean approved, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo, @JsonProperty("dueToFunction") boolean dueToFunction)
     {
         super(tenant, matchcode);
 
@@ -76,6 +79,7 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
         this.brandMatchcode = brandMatchcode;
+        this.approved = approved;
         this.validFrom = validFrom;
         this.validTo = validTo;
         this.dueToFunction = dueToFunction;
@@ -117,6 +121,11 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
     public String getCompanyNumber()
     {
         return companyNumber;
+    }
+
+    public boolean isApproved()
+    {
+        return approved;
     }
 
     public LocalDateTime getValidFrom()
@@ -170,8 +179,9 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
         return String
             .format(
                 "PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
-                    + "validFrom=%s, validTo=%s, dueToFunction=%s]",
-                companyId, companyMatchcode, companyNumber, brandMatchcode, validFrom, validTo, dueToFunction);
+                    + "approved=%s, validFrom=%s, validTo=%s, dueToFunction=%s, tenant=%s, matchcode=%s]",
+                companyId, companyMatchcode, companyNumber, brandMatchcode, approved, validFrom, validTo, dueToFunction,
+                tenant, matchcode);
     }
 
 }

@@ -3,6 +3,8 @@ package pnet.data.api.todo;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -98,9 +100,19 @@ public class TodoGroupItemDTO implements WithLastUpdate, WithScore, Serializable
         return persons;
     }
 
+    public Optional<TodoGroupPersonLinkDTO> findPerson(Predicate<? super TodoGroupPersonLinkDTO> predicate)
+    {
+        return persons == null ? Optional.empty() : persons.stream().filter(predicate).findFirst();
+    }
+
     public Collection<TodoGroupEntryLinkDTO> getEntries()
     {
         return entries;
+    }
+
+    public Optional<TodoGroupEntryLinkDTO> findEntry(Predicate<? super TodoGroupEntryLinkDTO> predicate)
+    {
+        return entries == null ? Optional.empty() : entries.stream().filter(predicate).findFirst();
     }
 
     @Override

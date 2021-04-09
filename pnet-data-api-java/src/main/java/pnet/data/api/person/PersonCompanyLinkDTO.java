@@ -46,10 +46,11 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
 
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("currentlyActive") boolean currentlyActive,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
+        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("approved") boolean approved,
+        @JsonProperty("currentlyActive") boolean currentlyActive, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo)
     {
-        super(companyId, companyMatchcode, companyNumber, companyLabel, currentlyActive);
+        super(companyId, companyMatchcode, companyNumber, companyLabel, approved, currentlyActive);
 
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -111,9 +112,10 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
     {
         return String
             .format(
-                "PersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, currentlyActive=%s, "
-                    + "validFrom=%s, validTo=%s]",
-                companyId, companyMatchcode, companyNumber, currentlyActive, validFrom, validTo);
+                "PersonCompanyLinkDTO [validFrom=%s, validTo=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, "
+                    + "companyLabel=%s, approved=%s, currentlyActive=%s]",
+                validFrom, validTo, companyId, companyMatchcode, companyNumber, companyLabel, approved,
+                currentlyActive);
     }
 
 }

@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -69,6 +71,12 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @ApiModelProperty(notes = "The username of the person (needed scope: SC_IDENTIFIER).")
     private final Boolean credentialsAvailable;
+
+    @ApiModelProperty(
+        notes = "True, if the person has been fully approved by authorities, false if the approval process is still "
+            + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
+            + "only approved persons will be available.")
+    private final boolean approved;
 
     @ApiModelProperty(notes = "The external id of the person (needed scope: SC_IDENTIFIER).")
     private final String externalId;
@@ -134,8 +142,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
         @JsonProperty("username") String username, @JsonProperty("credentialsAvailable") Boolean credentialsAvailable,
-        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
-        @JsonProperty("preferredUserId") String preferredUserId,
+        @JsonProperty("approved") boolean approved, @JsonProperty("externalId") String externalId,
+        @JsonProperty("guid") String guid, @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
         @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber,
         @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("languages") Collection<Locale> languages,
@@ -160,6 +168,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.lastName = lastName;
         this.username = username;
         this.credentialsAvailable = credentialsAvailable;
+        this.approved = approved;
         this.externalId = externalId;
         this.guid = guid;
         this.preferredUserId = preferredUserId;
@@ -232,6 +241,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return credentialsAvailable;
     }
 
+    public boolean isApproved()
+    {
+        return approved;
+    }
+
     public String getExternalId()
     {
         return externalId;
@@ -282,14 +296,30 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return companies;
     }
 
+    public Optional<ActivePersonCompanyLinkDTO> findCompany(Predicate<? super ActivePersonCompanyLinkDTO> predicate)
+    {
+        return companies == null ? Optional.empty() : companies.stream().filter(predicate).findFirst();
+    }
+
     public Collection<ActivePersonFunctionLinkDTO> getFunctions()
     {
         return functions;
     }
 
+    public Optional<ActivePersonFunctionLinkDTO> findFunction(Predicate<? super ActivePersonFunctionLinkDTO> predicate)
+    {
+        return functions == null ? Optional.empty() : functions.stream().filter(predicate).findFirst();
+    }
+
     public Collection<ActivePersonNumberTypeLinkDTO> getNumbers()
     {
         return numbers;
+    }
+
+    public Optional<ActivePersonNumberTypeLinkDTO> findNumber(
+        Predicate<? super ActivePersonNumberTypeLinkDTO> predicate)
+    {
+        return numbers == null ? Optional.empty() : numbers.stream().filter(predicate).findFirst();
     }
 
     public Integer getContactCompanyId()
@@ -331,14 +361,14 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             .format(
                 "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
                     + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, credentialsAvailable=%s, "
-                    + "externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, "
+                    + "approved=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, "
                     + "phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, functions=%s, numbers=%s, "
                     + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, portraitAvailable=%s, "
                     + "lastUpdate=%s, score=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, username, credentialsAvailable, externalId, guid, preferredUserId, personnelNumber,
-                birthdate, email, phoneNumber, mobileNumber, languages, companies, functions, numbers, contactCompanyId,
-                contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate, score);
+                firstName, lastName, username, credentialsAvailable, approved, externalId, guid, preferredUserId,
+                personnelNumber, birthdate, email, phoneNumber, mobileNumber, languages, companies, functions, numbers,
+                contactCompanyId, contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate, score);
     }
 
 }

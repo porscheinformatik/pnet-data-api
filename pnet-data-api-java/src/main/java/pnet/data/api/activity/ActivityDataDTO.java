@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -118,6 +120,11 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
         return brands;
     }
 
+    public Optional<BrandLinkDTO> findBrand(Predicate<? super BrandLinkDTO> predicate)
+    {
+        return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
+    }
+
     public void setBrands(Collection<BrandLinkDTO> brands)
     {
         this.brands = brands;
@@ -127,6 +134,11 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
     public Collection<CompanyTypeLinkDTO> getCompanyTypes()
     {
         return companyTypes;
+    }
+
+    public Optional<CompanyTypeLinkDTO> findCompanyType(Predicate<? super CompanyTypeLinkDTO> predicate)
+    {
+        return companyTypes == null ? Optional.empty() : companyTypes.stream().filter(predicate).findFirst();
     }
 
     public void setCompanyTypes(Collection<CompanyTypeLinkDTO> companyTypes)
@@ -142,6 +154,11 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
     public Collection<ContractTypeLinkDTO> getContractTypes()
     {
         return contractTypes;
+    }
+
+    public Optional<ContractTypeLinkDTO> findContractType(Predicate<? super ContractTypeLinkDTO> predicate)
+    {
+        return contractTypes == null ? Optional.empty() : contractTypes.stream().filter(predicate).findFirst();
     }
 
     public void setContractTypes(Collection<ContractTypeLinkDTO> contractTypes)

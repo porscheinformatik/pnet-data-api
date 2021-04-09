@@ -169,6 +169,7 @@ import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Resource;
 import pnet.data.api.util.Restrict;
 import pnet.data.api.util.RestrictActivity;
+import pnet.data.api.util.RestrictApproved;
 import pnet.data.api.util.RestrictArchived;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompany;
@@ -331,6 +332,7 @@ public final class PnetRestClient
     private Boolean restrictRejected = null;
     private Boolean restrictArchived = null;
     private Boolean restrictCredentialsAvailable = null;
+    private Boolean restrictApproved = null;
     private boolean aggs = false;
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
@@ -995,12 +997,36 @@ public final class PnetRestClient
         cli.info("Only persons without login credentials will be searched and shown.");
     }
 
-    @CLI.Command(name = "ignore credentials available", description = "Ignore the archived flag.")
+    @CLI.Command(name = "ignore credentials available", description = "Ignore the crdentials available flag.")
     public void clearCredentialsAvailable()
     {
         restrictCredentialsAvailable = null;
 
         cli.info("The credentials available state of persons will be ignored.");
+    }
+
+    @CLI.Command(name = "approved only", description = "Show only persons, that have been approved.")
+    public void approvedOnly()
+    {
+        restrictApproved = Boolean.TRUE;
+
+        cli.info("Only persons that have been approved will be searched and shown.");
+    }
+
+    @CLI.Command(name = "approval pending only", description = "Show only persons, that have not been approved, yet.")
+    public void notApprovedOnly()
+    {
+        restrictApproved = Boolean.FALSE;
+
+        cli.info("Only persons, that have not been approved, yet, will be searched and shown.");
+    }
+
+    @CLI.Command(name = "ignore approved", description = "Ignore the approved flag.")
+    public void clearApproved()
+    {
+        restrictApproved = null;
+
+        cli.info("The approval state of persons will be ignored.");
     }
 
     @CLI.Command(name = "archived only", description = "Show only results, that have been archived.")
@@ -2336,6 +2362,13 @@ public final class PnetRestClient
             request = ((RestrictCredentialsAvailable<T>) request).credentialsAvailable(restrictCredentialsAvailable);
         }
 
+        if (request instanceof RestrictApproved && restrictApproved != null)
+        {
+            cli.info("Approved: " + restrictApproved);
+
+            request = ((RestrictApproved<T>) request).approved(restrictApproved);
+        }
+
         if (request instanceof RestrictRejected && restrictRejected != null)
         {
             cli.info("Rejected: " + restrictRejected);
@@ -2436,6 +2469,7 @@ public final class PnetRestClient
         restrictArchived = null;
         restrictRejected = null;
         restrictCredentialsAvailable = null;
+        restrictApproved = null;
         datedBackUntil = null;
     }
 

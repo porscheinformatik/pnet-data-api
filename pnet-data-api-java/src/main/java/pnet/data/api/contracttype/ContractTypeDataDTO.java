@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -48,12 +50,16 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
 
     @ApiModelProperty(notes = "The label of the contract type with all existing translations")
     private Map<Locale, String> labels;
+
     @ApiModelProperty(notes = "The tenants where the contract type is valid")
     private Collection<String> tenants;
+
     @ApiModelProperty(notes = "The brands where the contract type is valid")
     private Collection<ContractTypeBrandLinkDTO> brands;
+
     @ApiModelProperty(notes = "The type of the contract")
     private String type;
+
     @ApiModelProperty(notes = "The time and date when the contract type was last changed")
     private LocalDateTime lastUpdate;
 
@@ -95,6 +101,11 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
     public Collection<ContractTypeBrandLinkDTO> getBrands()
     {
         return brands;
+    }
+
+    public Optional<ContractTypeBrandLinkDTO> findBrand(Predicate<? super ContractTypeBrandLinkDTO> predicate)
+    {
+        return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
     public Collection<ContractTypeBrandLinkDTO> getBrandsOfTenant(String tenant)

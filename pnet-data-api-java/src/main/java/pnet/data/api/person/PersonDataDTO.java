@@ -76,6 +76,12 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The person is able to access the Partner.Net (needed scope: SC_IDENTIFIER).")
     private Boolean credentialsAvailable;
 
+    @ApiModelProperty(
+        notes = "True, if the person has been fully approved by authorities, false if the approval process is still "
+            + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
+            + "only approved persons will be available.")
+    private boolean approved;
+
     @ApiModelProperty(notes = "The birthdate of the person (needed scope: SC_BIRTHDATE).")
     private LocalDate birthdate;
 
@@ -283,6 +289,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.credentialsAvailable = credentialsAvailable;
     }
 
+    public boolean isApproved()
+    {
+        return approved;
+    }
+
+    public void setApproved(boolean approved)
+    {
+        this.approved = approved;
+    }
+
     public LocalDate getBirthdate()
     {
         return birthdate;
@@ -458,6 +474,11 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         return languages;
     }
 
+    public Optional<PersonLanguageLinkDTO> findLanguage(Predicate<? super PersonLanguageLinkDTO> predicate)
+    {
+        return languages == null ? Optional.empty() : languages.stream().filter(predicate).findFirst();
+    }
+
     public void setLanguages(List<PersonLanguageLinkDTO> languages)
     {
         this.languages = languages;
@@ -470,7 +491,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     public Optional<PersonCompanyLinkDTO> findCompany(Predicate<? super PersonCompanyLinkDTO> predicate)
     {
-        return companies.stream().filter(predicate).findFirst();
+        return companies == null ? Optional.empty() : companies.stream().filter(predicate).findFirst();
     }
 
     public void setCompanies(Collection<PersonCompanyLinkDTO> companies)
@@ -485,7 +506,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     public Optional<PersonNumberTypeLinkDTO> findNumber(Predicate<? super PersonNumberTypeLinkDTO> predicate)
     {
-        return numbers.stream().filter(predicate).findFirst();
+        return numbers == null ? Optional.empty() : numbers.stream().filter(predicate).findFirst();
     }
 
     public void setNumbers(Collection<PersonNumberTypeLinkDTO> numbers)
@@ -500,7 +521,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     public Optional<PersonFunctionLinkDTO> findFunction(Predicate<? super PersonFunctionLinkDTO> predicate)
     {
-        return functions.stream().filter(predicate).findFirst();
+        return functions == null ? Optional.empty() : functions.stream().filter(predicate).findFirst();
     }
 
     public void setFunctions(Collection<PersonFunctionLinkDTO> functions)
@@ -515,7 +536,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     public Optional<PersonActivityLinkDTO> findActivity(Predicate<? super PersonActivityLinkDTO> predicate)
     {
-        return activities.stream().filter(predicate).findFirst();
+        return activities == null ? Optional.empty() : activities.stream().filter(predicate).findFirst();
     }
 
     public void setActivities(Collection<PersonActivityLinkDTO> activities)
@@ -531,7 +552,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public Optional<PersonAdvisorAssignmentLinkDTO> findAdvisorAssignment(
         Predicate<? super PersonAdvisorAssignmentLinkDTO> predicate)
     {
-        return advisorAssignments.stream().filter(predicate).findFirst();
+        return advisorAssignments == null ? Optional.empty()
+            : advisorAssignments.stream().filter(predicate).findFirst();
     }
 
     public void setAdvisorAssignments(Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments)
@@ -590,17 +612,17 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
             .format(
                 "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, "
                     + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
-                    + "credentialsAvailable=%s, birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, "
+                    + "credentialsAvailable=%s, approved=%s, birthdate=%s, externalId=%s, guid=%s, preferredUserId=%s, "
                     + "phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, contactCompanyId=%s, costCenter=%s, "
                     + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
                     + "jobDescription=%s, languages=%s, companies=%s, numbers=%s, functions=%s, activities=%s, "
                     + "advisorAssignments=%s, portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, username, credentialsAvailable, birthdate, externalId, guid, preferredUserId,
-                phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter, personnelNumber,
-                supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, languages, companies,
-                numbers, functions, activities, advisorAssignments, portraitAvailable, automaticDeletion, checksum,
-                lastUpdate);
+                firstName, lastName, username, credentialsAvailable, approved, birthdate, externalId, guid,
+                preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter,
+                personnelNumber, supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription,
+                languages, companies, numbers, functions, activities, advisorAssignments, portraitAvailable,
+                automaticDeletion, checksum, lastUpdate);
     }
 
 }

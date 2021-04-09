@@ -51,6 +51,13 @@ public abstract class AbstractGet<DTO, SELF extends AbstractGet<DTO, SELF>> exte
         }
     }
 
+    @Override
+    public DTO firstOnly() throws PnetDataClientException
+    {
+        return execute(0, 1).first();
+    }
+
+    @Override
     public PnetDataClientResultPage<DTO> execute(int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return getFunction.get(getRestricts(), pageIndex, itemsPerPage);

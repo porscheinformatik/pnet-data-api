@@ -19,6 +19,8 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -56,20 +58,28 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
 
     @ApiModelProperty(notes = "The label of the function with all existing translations")
     private Map<Locale, String> labels;
+
     @ApiModelProperty(notes = "The description of the function with all existing translations")
     private Map<Locale, String> descriptions;
+
     @ApiModelProperty(notes = "The tenants where the function is valid")
     private Collection<String> tenants;
+
     @ApiModelProperty(notes = "The brands where the function is valid")
     private Collection<BrandLinkDTO> brands;
+
     @ApiModelProperty(notes = "The company types where the function is valid")
     private Collection<CompanyTypeLinkDTO> companyTypes;
+
     @ApiModelProperty(notes = "The contract types where the function is valid")
     private Collection<ContractTypeLinkDTO> contractTypes;
+
     @ApiModelProperty(notes = "The contract number where the function is valid")
     private Collection<NumberTypeLinkDTO> numberTypes;
+
     @ApiModelProperty(notes = "The activities the function has")
     private Collection<ActivityLinkDTO> activities;
+
     @ApiModelProperty(notes = "The time and date when the function was last changed")
     private LocalDateTime lastUpdate;
 
@@ -114,6 +124,16 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
         return brands;
     }
 
+    public Optional<BrandLinkDTO> findBrand(Predicate<? super BrandLinkDTO> predicate)
+    {
+        return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
+    }
+
+    public void setBrands(Collection<BrandLinkDTO> brands)
+    {
+        this.brands = brands;
+    }
+
     @Override
     public Collection<String> getTenants()
     {
@@ -125,15 +145,15 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
         this.tenants = tenants;
     }
 
-    public void setBrands(Collection<BrandLinkDTO> brands)
-    {
-        this.brands = brands;
-    }
-
     @Override
     public Collection<CompanyTypeLinkDTO> getCompanyTypes()
     {
         return companyTypes;
+    }
+
+    public Optional<CompanyTypeLinkDTO> findCompanyType(Predicate<? super CompanyTypeLinkDTO> predicate)
+    {
+        return companyTypes == null ? Optional.empty() : companyTypes.stream().filter(predicate).findFirst();
     }
 
     public void setCompanyTypes(Collection<CompanyTypeLinkDTO> companyTypes)
@@ -141,14 +161,15 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
         this.companyTypes = companyTypes;
     }
 
-    /**
-     * @return This function is only available, if the company has one of these contracts. This collection is only
-     *         relevant, if the company type of the company says so.
-     */
     @Override
     public Collection<ContractTypeLinkDTO> getContractTypes()
     {
         return contractTypes;
+    }
+
+    public Optional<ContractTypeLinkDTO> findContractType(Predicate<? super ContractTypeLinkDTO> predicate)
+    {
+        return contractTypes == null ? Optional.empty() : contractTypes.stream().filter(predicate).findFirst();
     }
 
     public void setContractTypes(Collection<ContractTypeLinkDTO> contractTypes)
@@ -165,6 +186,11 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
         return numberTypes;
     }
 
+    public Optional<NumberTypeLinkDTO> findNumberType(Predicate<? super NumberTypeLinkDTO> predicate)
+    {
+        return numberTypes == null ? Optional.empty() : numberTypes.stream().filter(predicate).findFirst();
+    }
+
     public void setNumberTypes(Collection<NumberTypeLinkDTO> numberTypes)
     {
         this.numberTypes = numberTypes;
@@ -176,6 +202,11 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
     public Collection<ActivityLinkDTO> getActivities()
     {
         return activities;
+    }
+
+    public Optional<ActivityLinkDTO> findActivity(Predicate<? super ActivityLinkDTO> predicate)
+    {
+        return activities == null ? Optional.empty() : activities.stream().filter(predicate).findFirst();
     }
 
     public void setActivities(Collection<ActivityLinkDTO> activities)
@@ -199,7 +230,8 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
     {
         return String
             .format(
-                "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, contractTypes=%s, numberTypes=%s, activities=%s, lastUpdate=%s]",
+                "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
+                    + "contractTypes=%s, numberTypes=%s, activities=%s, lastUpdate=%s]",
                 matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, numberTypes, activities,
                 lastUpdate);
     }

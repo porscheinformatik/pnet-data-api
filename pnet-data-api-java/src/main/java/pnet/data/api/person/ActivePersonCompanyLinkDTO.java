@@ -14,7 +14,6 @@ import pnet.data.api.util.WithCompanyId;
  * Holds one employment of a person
  *
  * @author HAM
- *
  */
 @ApiModel(description = "Holds minimal information about a employment the person has. "
     + "Related to the datedBackUnitl parameter.")
@@ -35,12 +34,16 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     @ApiModelProperty(notes = "The label of the company the person has an employment at.")
     protected final String companyLabel;
 
+    @ApiModelProperty(notes = "True, if the employment has been approved already, false otherwise.")
+    protected final boolean approved;
+
     @ApiModelProperty(notes = "True if currently active (ignores the datedBackUntil parameter).")
     protected final boolean currentlyActive;
 
     public ActivePersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("currentlyActive") boolean currentlyActive)
+        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("approved") boolean approved,
+        @JsonProperty("currentlyActive") boolean currentlyActive)
     {
         super();
 
@@ -48,6 +51,7 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
         this.companyLabel = companyLabel;
+        this.approved = approved;
         this.currentlyActive = currentlyActive;
     }
 
@@ -77,6 +81,11 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     public String getCompanyLabelWithNumber()
     {
         return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, companyLabel);
+    }
+
+    public boolean isApproved()
+    {
+        return approved;
     }
 
     public boolean isCurrentlyActive()
@@ -114,8 +123,9 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     {
         return String
             .format(
-                "ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, currentlyActive=%s]",
-                companyId, companyMatchcode, companyNumber, currentlyActive);
+                "ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, companyLabel=%s, "
+                    + "approved=%s, currentlyActive=%s]",
+                companyId, companyMatchcode, companyNumber, companyLabel, approved, currentlyActive);
     }
 
 }

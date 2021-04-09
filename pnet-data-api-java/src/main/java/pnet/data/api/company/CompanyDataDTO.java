@@ -17,6 +17,8 @@ package pnet.data.api.company;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -353,6 +355,11 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         return brands;
     }
 
+    public Optional<CompanyBrandLinkDTO> findBrand(Predicate<? super CompanyBrandLinkDTO> predicate)
+    {
+        return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
+    }
+
     public void setBrands(Collection<CompanyBrandLinkDTO> brands)
     {
         this.brands = brands;
@@ -363,6 +370,12 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         return contractTypes;
     }
 
+    public Optional<CompanyContractTypeLinkDTO> findContractType(
+        Predicate<? super CompanyContractTypeLinkDTO> predicate)
+    {
+        return contractTypes == null ? Optional.empty() : contractTypes.stream().filter(predicate).findFirst();
+    }
+
     public void setContractTypes(Collection<CompanyContractTypeLinkDTO> contractTypes)
     {
         this.contractTypes = contractTypes;
@@ -371,6 +384,12 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public Collection<CompanyContractStateLinkDTO> getContractStates()
     {
         return contractStates;
+    }
+
+    public Optional<CompanyContractStateLinkDTO> findContractState(
+        Predicate<? super CompanyContractStateLinkDTO> predicate)
+    {
+        return contractStates == null ? Optional.empty() : contractStates.stream().filter(predicate).findFirst();
     }
 
     public void setContractStates(Collection<CompanyContractStateLinkDTO> contractStates)
@@ -424,6 +443,11 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public Collection<CompanyNumberLinkDTO> getAdditionalNumbers()
     {
         return additionalNumbers;
+    }
+
+    public Optional<CompanyNumberLinkDTO> findAdditionalNumber(Predicate<? super CompanyNumberLinkDTO> predicate)
+    {
+        return additionalNumbers == null ? Optional.empty() : additionalNumbers.stream().filter(predicate).findFirst();
     }
 
     public void setAdditionalNumbers(Collection<CompanyNumberLinkDTO> additionalNumbers)
@@ -514,6 +538,11 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public Collection<CompanyTypeLinkDTO> getTypes()
     {
         return types;
+    }
+
+    public Optional<CompanyTypeLinkDTO> findType(Predicate<? super CompanyTypeLinkDTO> predicate)
+    {
+        return types == null ? Optional.empty() : types.stream().filter(predicate).findFirst();
     }
 
     public void setTypes(Collection<CompanyTypeLinkDTO> types)
@@ -643,7 +672,6 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.viberLink = viberLink;
     }
 
-    
     public String getTelegramLink()
     {
         return telegramLink;
@@ -809,6 +837,12 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         return externalBrands;
     }
 
+    public Optional<CompanyExternalBrandDataDTO> findExternalBrand(
+        Predicate<? super CompanyExternalBrandDataDTO> predicate)
+    {
+        return externalBrands == null ? Optional.empty() : externalBrands.stream().filter(predicate).findFirst();
+    }
+
     public void setExternalBrands(Collection<CompanyExternalBrandDataDTO> externalBrands)
     {
         this.externalBrands = externalBrands;
@@ -844,10 +878,10 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                 groupMembers, tenants, brands, contractTypes, contractStates, vatIdNumber, sapNumber, companyNumber,
                 additionalNumbers, street, city, postalCode, countryCode, country, region, iban, bic, types,
                 phoneNumber, mobileNumber, speedDial, faxNumber, email, homepage, postal, facebookLink, youTubeLink,
-                instagramLink, viberLink, telegramLink, legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber,
-                certificateType, certificateNumber, jurisdiction, objectsClause, generalPartner, chamberAffiliation,
-                commercialRegulations, regulatoryAuthority, arbitrationBoard, additionalImprintInfo,
-                businessInformationNumber, location, externalBrands, lastUpdate);
+                instagramLink, viberLink, telegramLink, legalFormMatchcode, dataProcessingRegisterNumber,
+                commercialRegisterNumber, certificateType, certificateNumber, jurisdiction, objectsClause,
+                generalPartner, chamberAffiliation, commercialRegulations, regulatoryAuthority, arbitrationBoard,
+                additionalImprintInfo, businessInformationNumber, location, externalBrands, lastUpdate);
     }
 
 }

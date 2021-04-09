@@ -17,6 +17,8 @@ package pnet.data.api.function;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -115,6 +117,11 @@ public class FunctionItemDTO implements WithMatchcode, WithTenants, WithLabel, W
     public Collection<BrandLinkDTO> getBrands()
     {
         return brands;
+    }
+
+    public Optional<BrandLinkDTO> findBrand(Predicate<? super BrandLinkDTO> predicate)
+    {
+        return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
     @Override

@@ -1,3 +1,9 @@
+pnet-data-api 1.16.0
+====================
+
+* Upcoming approval information
+* Convenience methods in DTOs
+
 pnet-data-api 1.15.3
 ====================
 

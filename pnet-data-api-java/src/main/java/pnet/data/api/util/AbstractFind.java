@@ -51,7 +51,7 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> ex
             throw new IllegalArgumentException("Failed to invoke constructor", e);
         }
     }
-
+    
     @Override
     public PnetDataClientResultPage<DTO> execute(Locale language, int pageIndex, int itemsPerPage)
         throws PnetDataClientException

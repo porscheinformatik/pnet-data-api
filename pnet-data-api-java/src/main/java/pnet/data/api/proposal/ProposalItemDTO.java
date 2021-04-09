@@ -3,6 +3,8 @@ package pnet.data.api.proposal;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -159,6 +161,11 @@ public class ProposalItemDTO
     public List<ProposalPersonLinkDTO> getPersons()
     {
         return persons;
+    }
+
+    public Optional<ProposalPersonLinkDTO> findPerson(Predicate<? super ProposalPersonLinkDTO> predicate)
+    {
+        return persons == null ? Optional.empty() : persons.stream().filter(predicate).findFirst();
     }
 
     @Override

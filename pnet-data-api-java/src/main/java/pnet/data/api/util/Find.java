@@ -13,6 +13,10 @@ import pnet.data.api.client.PnetDataClientResultPage;
  */
 public interface Find<DTO>
 {
+    default DTO firstOnly(Locale language) throws PnetDataClientException
+    {
+        return execute(language, 0, 1).first();
+    }
 
     default PnetDataClientResultPage<DTO> execute(Locale language) throws PnetDataClientException
     {
@@ -21,5 +25,4 @@ public interface Find<DTO>
 
     PnetDataClientResultPage<DTO> execute(Locale language, int pageIndex, int itemsPerPage)
         throws PnetDataClientException;
-
 }

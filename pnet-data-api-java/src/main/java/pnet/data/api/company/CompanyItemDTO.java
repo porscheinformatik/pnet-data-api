@@ -17,6 +17,8 @@ package pnet.data.api.company;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -211,6 +213,11 @@ public class CompanyItemDTO
         return brands;
     }
 
+    public Optional<CompanyBrandLinkDTO> findBrand(Predicate<? super CompanyBrandLinkDTO> predicate)
+    {
+        return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
+    }
+
     @Override
     public String getCompanyNumber()
     {
@@ -250,6 +257,11 @@ public class CompanyItemDTO
     public Collection<CompanyTypeLinkDTO> getTypes()
     {
         return types;
+    }
+
+    public Optional<CompanyTypeLinkDTO> findType(Predicate<? super CompanyTypeLinkDTO> predicate)
+    {
+        return types == null ? Optional.empty() : types.stream().filter(predicate).findFirst();
     }
 
     public GeoPoint getLocation()

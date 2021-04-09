@@ -17,6 +17,8 @@ package pnet.data.api.contracttype;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -99,6 +101,11 @@ public class ContractTypeItemDTO
     public Collection<ContractTypeBrandLinkDTO> getBrands()
     {
         return brands;
+    }
+
+    public Optional<ContractTypeBrandLinkDTO> findBrand(Predicate<? super ContractTypeBrandLinkDTO> predicate)
+    {
+        return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
     public String getType()

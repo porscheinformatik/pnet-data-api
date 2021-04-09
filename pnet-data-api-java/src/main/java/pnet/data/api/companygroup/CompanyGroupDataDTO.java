@@ -16,6 +16,8 @@ package pnet.data.api.companygroup;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -74,6 +76,11 @@ public class CompanyGroupDataDTO implements Serializable
     public Collection<CompanyGroupMemberLinkDTO> getMembers()
     {
         return members;
+    }
+
+    public Optional<CompanyGroupMemberLinkDTO> findMember(Predicate<? super CompanyGroupMemberLinkDTO> predicate)
+    {
+        return members == null ? Optional.empty() : members.stream().filter(predicate).findFirst();
     }
 
     public void setMembers(Collection<CompanyGroupMemberLinkDTO> members)
