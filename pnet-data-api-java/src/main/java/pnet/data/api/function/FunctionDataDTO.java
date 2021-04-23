@@ -80,6 +80,9 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
     @ApiModelProperty(notes = "The activities the function has")
     private Collection<ActivityLinkDTO> activities;
 
+    @ApiModelProperty(notes = "The settings for this function")
+    private Collection<FunctionSettingsLinkDTO> settings;
+
     @ApiModelProperty(notes = "The time and date when the function was last changed")
     private LocalDateTime lastUpdate;
 
@@ -214,6 +217,21 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
         this.activities = activities;
     }
 
+    public Collection<FunctionSettingsLinkDTO> getSettings()
+    {
+        return settings;
+    }
+
+    public Optional<FunctionSettingsLinkDTO> findSettings(Predicate<? super FunctionSettingsLinkDTO> predicate)
+    {
+        return settings == null ? Optional.empty() : settings.stream().filter(predicate).findFirst();
+    }
+
+    public void setSettings(Collection<FunctionSettingsLinkDTO> settings)
+    {
+        this.settings = settings;
+    }
+
     @Override
     public LocalDateTime getLastUpdate()
     {
@@ -231,9 +249,9 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
         return String
             .format(
                 "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
-                    + "contractTypes=%s, numberTypes=%s, activities=%s, lastUpdate=%s]",
+                    + "contractTypes=%s, numberTypes=%s, activities=%s, settings=%s, lastUpdate=%s]",
                 matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, numberTypes, activities,
-                lastUpdate);
+                settings, lastUpdate);
     }
 
 }

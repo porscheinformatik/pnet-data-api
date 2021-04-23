@@ -142,6 +142,7 @@ import pnet.data.api.proposal.ProposalDataFind;
 import pnet.data.api.proposal.ProposalDataSearch;
 import pnet.data.api.proposal.ProposalItemDTO;
 import pnet.data.api.proposal.ProposalState;
+import pnet.data.api.settings.Visibility;
 import pnet.data.api.todo.TodoCategory;
 import pnet.data.api.todo.TodoGroupDataClient;
 import pnet.data.api.todo.TodoGroupDataFind;
@@ -169,6 +170,7 @@ import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Resource;
 import pnet.data.api.util.Restrict;
 import pnet.data.api.util.RestrictActivity;
+import pnet.data.api.util.RestrictApprovalNeeded;
 import pnet.data.api.util.RestrictApproved;
 import pnet.data.api.util.RestrictArchived;
 import pnet.data.api.util.RestrictBrand;
@@ -186,6 +188,7 @@ import pnet.data.api.util.RestrictQueryField;
 import pnet.data.api.util.RestrictRejected;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictType;
+import pnet.data.api.util.RestrictVisibility;
 import pnet.data.api.util.Table;
 
 /**
@@ -324,6 +327,7 @@ public final class PnetRestClient
     private final List<String> restrictedCompanyTypeMatchcodes = new ArrayList<>();
     private final List<String> restrictedContractTypeMatchcodes = new ArrayList<>();
     private final List<String> restrictedContractStateMatchcodes = new ArrayList<>();
+    private final List<Visibility> restrictedVisibilities = new ArrayList<>();
     private final List<String> restrictedQueryFields = new ArrayList<>();
 
     private int pageSize = 10;
@@ -333,6 +337,7 @@ public final class PnetRestClient
     private Boolean restrictArchived = null;
     private Boolean restrictCredentialsAvailable = null;
     private Boolean restrictApproved = null;
+    private Boolean restrictApprovalNeeded = null;
     private boolean aggs = false;
     private boolean compact = true;
     private CurrentResult<?> currentResult = null;
@@ -1916,7 +1921,7 @@ public final class PnetRestClient
                 dto.getFunctions() != null ? dto
                     .getFunctions()
                     .stream()
-                    .filter(link -> link.isMainFunction())
+                    .filter(ActivePersonFunctionLinkDTO::isMainFunction)
                     .map(ActivePersonFunctionLinkDTO::getLabel)
                     .collect(Collectors.joining(", ")) : null,
                 dto.getLastUpdate(), dto.getScore());
@@ -2192,6 +2197,58 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
+    @CLI.Command(name = "visible items", description = "Restrict to visible items.")
+    public void restrictVisibleOnly()
+    {
+        restrictedVisibilities.add(Visibility.VISIBLE);
+
+        cli.info("Restrict to visible items.");
+    }
+
+    @CLI.Command(name = "hidden items", description = "Restrict to hidden items.")
+    public void restrictHiddenOnly()
+    {
+        restrictedVisibilities.add(Visibility.HIDDEN);
+
+        cli.info("Restrict to hidden items.");
+    }
+
+    @CLI.Command(name = "clear visibility restriction", description = "Removes all restrictions to query fields.")
+    public void clearVisibilityRestrictions()
+    {
+        cli.info("Remove visibility restrictions.");
+
+        restrictedVisibilities.clear();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    @CLI.Command(name = "approval needed", description = "Include only items, that need approval.")
+    public void approvalNeededOnly()
+    {
+        restrictApprovalNeeded = true;
+
+        cli.info("Include only items, that need approval.");
+    }
+
+    @CLI.Command(name = "no approval needed", description = "Include only items, that do not need approval.")
+    public void noApprovalNeededOnly()
+    {
+        restrictApprovalNeeded = false;
+
+        cli.info("Include only items, that do not need approval.");
+    }
+
+    @CLI.Command(name = "ignore approval needed inactive", description = "Ignore the approval needed flag.")
+    public void createApprovalNeededRestriction()
+    {
+        restrictApprovalNeeded = null;
+
+        cli.info("Ignore the approval needed flag.");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
     @CLI.Command(name = "include inactive", description = "Include inactive items.")
     public void includeInactive()
     {
@@ -2335,6 +2392,13 @@ public final class PnetRestClient
             request = ((RestrictContractState<T>) request).contractStates(restrictedContractStateMatchcodes);
         }
 
+        if (request instanceof RestrictVisibility && !restrictedVisibilities.isEmpty())
+        {
+            cli.info("A restriction for visibilities is in place: %s", restrictedVisibilities);
+
+            request = ((RestrictVisibility<T>) request).visibilities(restrictedVisibilities);
+        }
+
         return request;
     }
 
@@ -2381,6 +2445,13 @@ public final class PnetRestClient
             cli.info("Archived: " + restrictArchived);
 
             request = ((RestrictArchived<T>) request).archived(restrictArchived);
+        }
+
+        if (request instanceof RestrictApprovalNeeded && restrictApprovalNeeded != null)
+        {
+            cli.info("Approval needed: " + restrictApprovalNeeded);
+
+            request = ((RestrictApprovalNeeded<T>) request).approvalNeeded(restrictApprovalNeeded);
         }
 
         if (request instanceof IncludeInactive && includeInactive)
@@ -2465,11 +2536,13 @@ public final class PnetRestClient
         restrictedCompanyTypeMatchcodes.clear();
         restrictedContractTypeMatchcodes.clear();
         restrictedContractStateMatchcodes.clear();
+        restrictedVisibilities.clear();
         restrictedQueryFields.clear();
         restrictArchived = null;
         restrictRejected = null;
         restrictCredentialsAvailable = null;
         restrictApproved = null;
+        restrictApprovalNeeded = null;
         datedBackUntil = null;
     }
 
@@ -2937,8 +3010,9 @@ public final class PnetRestClient
                 }
                 catch (DateTimeParseException e3)
                 {
-                    throw new IllegalArgumentException(
-                        "Failed to parse " + updatedAfter + ". Try using a time like 13:22:10, a date like 2020-03-21 or a duration like 10M.");
+                    throw new IllegalArgumentException("Failed to parse "
+                        + updatedAfter
+                        + ". Try using a time like 13:22:10, a date like 2020-03-21 or a duration like 10M.");
                 }
             }
         }

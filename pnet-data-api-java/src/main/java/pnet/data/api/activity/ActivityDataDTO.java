@@ -55,16 +55,25 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
 
     @ApiModelProperty(notes = "The label of the activity with all existing translations")
     private Map<Locale, String> labels;
+
     @ApiModelProperty(notes = "The description of the activity with all existing translations")
     private Map<Locale, String> descriptions;
+
     @ApiModelProperty(notes = "The tenants where the activity is valid")
     private Collection<String> tenants;
+
     @ApiModelProperty(notes = "The brands where the activity is valid")
     private Collection<BrandLinkDTO> brands;
+
     @ApiModelProperty(notes = "The company types where the activity is valid")
     private Collection<CompanyTypeLinkDTO> companyTypes;
+
     @ApiModelProperty(notes = "The contract types where the activity is valid")
     private Collection<ContractTypeLinkDTO> contractTypes;
+
+    @ApiModelProperty(notes = "The settings for this activity")
+    private Collection<ActivitySettingsLinkDTO> settings;
+
     @ApiModelProperty(notes = "The time and date when the activity was last changed")
     private LocalDateTime lastUpdate;
 
@@ -166,6 +175,21 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
         this.contractTypes = contractTypes;
     }
 
+    public Collection<ActivitySettingsLinkDTO> getSettings()
+    {
+        return settings;
+    }
+
+    public Optional<ActivitySettingsLinkDTO> findSettings(Predicate<? super ActivitySettingsLinkDTO> predicate)
+    {
+        return settings == null ? Optional.empty() : settings.stream().filter(predicate).findFirst();
+    }
+
+    public void setSettings(Collection<ActivitySettingsLinkDTO> settings)
+    {
+        this.settings = settings;
+    }
+
     @Override
     public LocalDateTime getLastUpdate()
     {
@@ -183,8 +207,8 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
         return String
             .format(
                 "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
-                    + "contractTypes=%s, lastUpdate=%s]",
-                matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, lastUpdate);
+                    + "contractTypes=%s, settings=%s, lastUpdate=%s]",
+                matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, settings, lastUpdate);
     }
 
 }

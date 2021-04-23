@@ -1,3 +1,8 @@
+pnet-data-api 1.16.1
+====================
+
+* Upcoming approval needed and visibility information
+
 pnet-data-api 1.16.0
 ====================
 
