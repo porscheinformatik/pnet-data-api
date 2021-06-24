@@ -2,6 +2,7 @@ pnet-data-api 1.17.0
 ====================
 
 * Renamed approval in todos to submit (to avoid confusion)
+* Added ApprovalState to items (improves "approved")
 
 pnet-data-api 1.16.1
 ====================

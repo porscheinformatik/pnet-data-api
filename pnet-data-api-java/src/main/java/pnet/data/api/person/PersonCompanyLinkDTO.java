@@ -16,11 +16,13 @@ package pnet.data.api.person;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithValidPeriod;
 
@@ -47,10 +49,11 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("companyLabel") String companyLabel, @JsonProperty("approved") boolean approved,
+        @JsonProperty("approvalState") ApprovalState approvalState,
         @JsonProperty("currentlyActive") boolean currentlyActive, @JsonProperty("validFrom") LocalDateTime validFrom,
         @JsonProperty("validTo") LocalDateTime validTo)
     {
-        super(companyId, companyMatchcode, companyNumber, companyLabel, approved, currentlyActive);
+        super(companyId, companyMatchcode, companyNumber, companyLabel, approved, approvalState, currentlyActive);
 
         this.validFrom = validFrom;
         this.validTo = validTo;
@@ -93,14 +96,7 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
             return false;
         }
         PersonCompanyLinkDTO other = (PersonCompanyLinkDTO) obj;
-        if (validFrom == null)
-        {
-            if (other.validFrom != null)
-            {
-                return false;
-            }
-        }
-        else if (!validFrom.equals(other.validFrom))
+        if (!Objects.equals(validFrom, other.validFrom))
         {
             return false;
         }
@@ -113,8 +109,8 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
         return String
             .format(
                 "PersonCompanyLinkDTO [validFrom=%s, validTo=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, "
-                    + "companyLabel=%s, approved=%s, currentlyActive=%s]",
-                validFrom, validTo, companyId, companyMatchcode, companyNumber, companyLabel, approved,
+                    + "companyLabel=%s, approved=%s, approvalState=%s, currentlyActive=%s]",
+                validFrom, validTo, companyId, companyMatchcode, companyNumber, companyLabel, approved, approvalState,
                 currentlyActive);
     }
 

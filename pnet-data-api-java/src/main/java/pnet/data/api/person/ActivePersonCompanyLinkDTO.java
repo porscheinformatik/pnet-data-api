@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithCompanyId;
 
@@ -37,12 +38,16 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     @ApiModelProperty(notes = "True, if the employment has been approved already, false otherwise.")
     protected final boolean approved;
 
+    @ApiModelProperty(notes = "The current state of the audit process.")
+    protected final ApprovalState approvalState;
+
     @ApiModelProperty(notes = "True if currently active (ignores the datedBackUntil parameter).")
     protected final boolean currentlyActive;
 
     public ActivePersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("companyLabel") String companyLabel, @JsonProperty("approved") boolean approved,
+        @JsonProperty("approvalState") ApprovalState approvalState,
         @JsonProperty("currentlyActive") boolean currentlyActive)
     {
         super();
@@ -52,6 +57,7 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
         this.companyNumber = companyNumber;
         this.companyLabel = companyLabel;
         this.approved = approved;
+        this.approvalState = approvalState;
         this.currentlyActive = currentlyActive;
     }
 
@@ -86,6 +92,11 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     public boolean isApproved()
     {
         return approved;
+    }
+
+    public ApprovalState getApprovalState()
+    {
+        return approvalState;
     }
 
     public boolean isCurrentlyActive()
@@ -124,8 +135,8 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
         return String
             .format(
                 "ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, companyLabel=%s, "
-                    + "approved=%s, currentlyActive=%s]",
-                companyId, companyMatchcode, companyNumber, companyLabel, approved, currentlyActive);
+                    + "approved=%s, approvalState=%s,currentlyActive=%s]",
+                companyId, companyMatchcode, companyNumber, companyLabel, approved, approvalState, currentlyActive);
     }
 
 }

@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithPersonId;
 import pnet.data.api.util.WithScore;
@@ -77,6 +78,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
             + "only approved persons will be available.")
     private final boolean approved;
+
+    @ApiModelProperty(notes = "The current state of the audit process.")
+    private final ApprovalState approvalState;
 
     @ApiModelProperty(notes = "The external id of the person (needed scope: SC_IDENTIFIER).")
     private final String externalId;
@@ -142,8 +146,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
         @JsonProperty("username") String username, @JsonProperty("credentialsAvailable") Boolean credentialsAvailable,
-        @JsonProperty("approved") boolean approved, @JsonProperty("externalId") String externalId,
-        @JsonProperty("guid") String guid, @JsonProperty("preferredUserId") String preferredUserId,
+        @JsonProperty("approved") boolean approved, @JsonProperty("approvalState") ApprovalState approvalState,
+        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
+        @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
         @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber,
         @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("languages") Collection<Locale> languages,
@@ -169,6 +174,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.username = username;
         this.credentialsAvailable = credentialsAvailable;
         this.approved = approved;
+        this.approvalState = approvalState;
         this.externalId = externalId;
         this.guid = guid;
         this.preferredUserId = preferredUserId;
@@ -244,6 +250,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     public boolean isApproved()
     {
         return approved;
+    }
+
+    public ApprovalState getApprovalState()
+    {
+        return approvalState;
     }
 
     public String getExternalId()
@@ -361,14 +372,15 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             .format(
                 "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
                     + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, credentialsAvailable=%s, "
-                    + "approved=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, birthdate=%s, email=%s, "
-                    + "phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, functions=%s, numbers=%s, "
-                    + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, portraitAvailable=%s, "
-                    + "lastUpdate=%s, score=%s]",
+                    + "approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, "
+                    + "birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, "
+                    + "functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
+                    + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
                 personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, username, credentialsAvailable, approved, externalId, guid, preferredUserId,
-                personnelNumber, birthdate, email, phoneNumber, mobileNumber, languages, companies, functions, numbers,
-                contactCompanyId, contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate, score);
+                firstName, lastName, username, credentialsAvailable, approved, approvalState, externalId, guid,
+                preferredUserId, personnelNumber, birthdate, email, phoneNumber, mobileNumber, languages, companies,
+                functions, numbers, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber, portraitAvailable,
+                lastUpdate, score);
     }
 
 }

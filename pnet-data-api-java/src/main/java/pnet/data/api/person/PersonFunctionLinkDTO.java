@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
@@ -37,6 +38,9 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     @ApiModelProperty(notes = "True, if the function has been approved already, false otherwise.")
     protected final boolean approved;
 
+    @ApiModelProperty(notes = "The current state of the audit process.")
+    protected final ApprovalState approvalState;
+
     @ApiModelProperty(notes = "The starting date and time of this function assignment. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
@@ -49,12 +53,14 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
-        @JsonProperty("approved") boolean approved, @JsonProperty("validFrom") LocalDateTime validFrom,
-        @JsonProperty("validTo") LocalDateTime validTo, @JsonProperty("mainFunction") boolean mainFunction)
+        @JsonProperty("approved") boolean approved, @JsonProperty("approvalState") ApprovalState approvalState,
+        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("mainFunction") boolean mainFunction)
     {
         super(tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
 
         this.approved = approved;
+        this.approvalState = approvalState;
         this.validFrom = validFrom;
         this.validTo = validTo;
     }
@@ -62,6 +68,11 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     public boolean isApproved()
     {
         return approved;
+    }
+
+    public ApprovalState getApprovalState()
+    {
+        return approvalState;
     }
 
     @Override
@@ -108,11 +119,10 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     public String toString()
     {
         return String
-            .format(
-                "PersonFunctionLinkDTO [approved=%s, validFrom=%s, validTo=%s, companyId=%s, companyMatchcode=%s, "
-                    + "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, tenant=%s, matchcode=%s]",
-                approved, validFrom, validTo, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction,
-                tenant, matchcode);
+            .format("PersonFunctionLinkDTO [approved=%s, approvalState=%s, validFrom=%s, validTo=%s, companyId=%s, "
+                + "companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, mainFunction=%s, tenant=%s, matchcode=%s]",
+                approved, approvalState, validFrom, validTo, companyId, companyMatchcode, companyNumber, brandMatchcode,
+                mainFunction, tenant, matchcode);
     }
 
 }
