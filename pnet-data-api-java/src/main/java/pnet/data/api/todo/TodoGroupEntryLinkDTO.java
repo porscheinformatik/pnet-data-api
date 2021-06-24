@@ -41,14 +41,15 @@ public class TodoGroupEntryLinkDTO implements Serializable
     @ApiModelProperty(notes = "The name of the person, that did the approval.")
     private final Collection<Integer> assignedToPersonIds;
 
-    @ApiModelProperty(notes = "The date and time, this entry was approved. Null, if it has not been approved, yet..")
-    private final LocalDateTime approved;
+    @ApiModelProperty(
+        notes = "The date and time, this entry was processed and submitted. Null, if it has not been approved, yet..")
+    private final LocalDateTime submitted;
 
-    @ApiModelProperty(notes = "The id of the person, that did the approval.")
-    private final Integer approvedByPersonId;
+    @ApiModelProperty(notes = "The id of the person, that did the processing and submittion.")
+    private final Integer submittedByPersonId;
 
-    @ApiModelProperty(notes = "The name of the person, that did the approval.")
-    private final String approvedByPersonName;
+    @ApiModelProperty(notes = "The name of the person, that did the processing ans submittion.")
+    private final String submittedByPersonName;
 
     @ApiModelProperty(notes = "The earliest date and time, the execution of this entry may start.")
     private final LocalDateTime scheduled;
@@ -71,9 +72,9 @@ public class TodoGroupEntryLinkDTO implements Serializable
         @JsonProperty("source") TodoSource source, @JsonProperty("state") TodoState state,
         @JsonProperty("phase") TodoPhase phase, @JsonProperty("created") LocalDateTime created,
         @JsonProperty("assignedToPersonIds") Collection<Integer> assignedToPersonIds,
-        @JsonProperty("approved") LocalDateTime approved,
-        @JsonProperty("approvedByPersonId") Integer approvedByPersonId,
-        @JsonProperty("approvedByPersonName") String approvedByPersonName,
+        @JsonProperty("submitted") LocalDateTime submitted,
+        @JsonProperty("submittedByPersonId") Integer submittedByPersonId,
+        @JsonProperty("submittedByPersonName") String submittedByPersonName,
         @JsonProperty("scheduled") LocalDateTime scheduled, @JsonProperty("started") LocalDateTime started,
         @JsonProperty("finished") LocalDateTime finished, @JsonProperty("headline") String headline,
         @JsonProperty("description") String description)
@@ -86,9 +87,9 @@ public class TodoGroupEntryLinkDTO implements Serializable
         this.state = state;
         this.phase = phase;
         this.created = created;
-        this.approved = approved;
-        this.approvedByPersonId = approvedByPersonId;
-        this.approvedByPersonName = approvedByPersonName;
+        this.submitted = submitted;
+        this.submittedByPersonId = submittedByPersonId;
+        this.submittedByPersonName = submittedByPersonName;
         this.started = started;
         this.finished = finished;
         this.assignedToPersonIds = assignedToPersonIds;
@@ -132,19 +133,19 @@ public class TodoGroupEntryLinkDTO implements Serializable
         return assignedToPersonIds;
     }
 
-    public LocalDateTime getApproved()
+    public LocalDateTime getSubmitted()
     {
-        return approved;
+        return submitted;
     }
 
-    public Integer getApprovedByPersonId()
+    public Integer getSubmittedByPersonId()
     {
-        return approvedByPersonId;
+        return submittedByPersonId;
     }
 
-    public String getApprovedByPersonName()
+    public String getSubmittedByPersonName()
     {
-        return approvedByPersonName;
+        return submittedByPersonName;
     }
 
     public LocalDateTime getScheduled()
@@ -178,10 +179,10 @@ public class TodoGroupEntryLinkDTO implements Serializable
         return String
             .format(
                 "TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, assignedToPersonIds=%s, "
-                    + "approved=%s, approvedByPersonId=%s, approvedByPersonName=%s, scheduled=%s, started=%s, "
+                    + "submitted=%s, submittedByPersonId=%s, approvedByPersonName=%s, scheduled=%s, started=%s, "
                     + "finished=%s, headline=%s, description=%s]",
-                id, type, source, state, created, assignedToPersonIds, approved, approvedByPersonId,
-                approvedByPersonName, scheduled, started, finished, headline, description);
+                id, type, source, state, created, assignedToPersonIds, submitted, submittedByPersonId,
+                submittedByPersonName, scheduled, started, finished, headline, description);
     }
 
 }

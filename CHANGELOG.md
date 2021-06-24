@@ -1,3 +1,8 @@
+pnet-data-api 1.17.0
+====================
+
+* Renamed approval in todos to submit (to avoid confusion)
+
 pnet-data-api 1.16.1
 ====================
 
