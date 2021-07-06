@@ -143,22 +143,22 @@ public class CLI
 
         protected int read() throws IOException
         {
-            int ch = reader.read();
+            int c = reader.read();
 
-            if ((ch == '\n') && (skipLF))
+            if ((c == '\n') && (skipLF))
             {
-                ch = reader.read();
+                c = reader.read();
             }
 
             skipLF = false;
 
-            if (ch == '\r')
+            if (c == '\r')
             {
-                ch = '\n';
+                c = '\n';
                 skipLF = true;
             }
 
-            return ch;
+            return c;
         }
     }
 
@@ -247,19 +247,17 @@ public class CLI
                 return new Token(Token.Type.END_OF_FILE, line, column, null);
             }
 
-            if ((ch == '\n') || (ch == ';'))
+            switch (ch)
             {
-                return new Token(Token.Type.END_OF_LINE, line, column, String.valueOf((char) ch));
-            }
-
-            if (ch == '\'')
-            {
-                return readString(line, column, '\'');
-            }
-
-            if (ch == '\"')
-            {
-                return readString(line, column, '\"');
+                case '\n':
+                case ';':
+                    return new Token(Token.Type.END_OF_LINE, line, column, String.valueOf((char) ch));
+                case '\'':
+                    return readString(line, column, '\'');
+                case '\"':
+                    return readString(line, column, '\"');
+                default:
+                    break;
             }
 
             return readCommand(ch, line, column);
@@ -799,14 +797,9 @@ public class CLI
 
                 String format = command.format();
 
-                if (format == null || format.length() == 0)
+                if ((format == null || format.length() == 0) && (parameterTypes.length > 0))
                 {
-
-                    if (parameterTypes.length > 0)
-                    {
-                        format =
-                            Arrays.stream(parameterTypes).map(Class::getSimpleName).collect(Collectors.joining(" "));
-                    }
+                    format = Arrays.stream(parameterTypes).map(Class::getSimpleName).collect(Collectors.joining(" "));
                 }
 
                 String description = command.description();

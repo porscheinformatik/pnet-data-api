@@ -1,6 +1,5 @@
 package pnet.data.api.apache;
 
-import pnet.data.api.PnetDataClientException;
 import pnet.data.api.PnetRestClient;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.util.Prefs;
@@ -18,7 +17,7 @@ public final class PnetApacheRestClientLauncher
         super();
     }
 
-    public static void main(String[] args) throws PnetDataClientException
+    public static void main(String[] args)
     {
         String url = Prefs.getUrl(Prefs.DEFAULT_KEY);
         String username = Prefs.getUsername(Prefs.DEFAULT_KEY);

@@ -33,8 +33,8 @@ public abstract class AbstractQualificationSettingsLinkDTO extends AbstractSetti
     public String toString()
     {
         return String
-            .format("AbstractQualificationSettingsLinkDTO [tenant=%s, visibility=%s, approvalNeeded=%s]", visibility,
-                approvalNeeded);
+            .format("AbstractQualificationSettingsLinkDTO [tenant=%s, visibility=%s, approvalNeeded=%s]", tenant,
+                visibility, approvalNeeded);
     }
 
 }

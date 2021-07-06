@@ -89,7 +89,13 @@ public class JavaRestCall extends AbstractRestCall
         {
             response = httpClient.send(request, BodyHandlers.ofInputStream());
         }
-        catch (IOException | InterruptedException e)
+        catch (InterruptedException e)
+        {
+            Thread.currentThread().interrupt();
+
+            throw new RestRequestException("Request got interrupted: %s", e, url);
+        }
+        catch (IOException e)
         {
             throw new RestRequestException("Request failed: %s", e, url);
         }
@@ -162,7 +168,7 @@ public class JavaRestCall extends AbstractRestCall
         {
             builder.setHeader("Content-Type", contentType);
         }
-        
+
         return builder.build();
     }
 

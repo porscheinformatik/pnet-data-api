@@ -2901,6 +2901,9 @@ public final class PnetRestClient
                     break;
                 }
             }
+            catch (InterruptedException e) {
+                break;
+            }
             catch (Exception e)
             {
                 cli.error("Command failed", e);
