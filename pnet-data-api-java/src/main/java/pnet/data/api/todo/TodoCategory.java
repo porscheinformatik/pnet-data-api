@@ -31,6 +31,8 @@ public enum TodoCategory
 
     SYSTEMUSER,
 
+    AUDITOR,
+
     NOTIFY,
 
     INVALID,

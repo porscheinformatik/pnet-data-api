@@ -1,3 +1,8 @@
+pnet-data-api 1.17.1
+====================
+
+* Added new TodoCategory.
+
 pnet-data-api 1.17.0
 ====================
 
