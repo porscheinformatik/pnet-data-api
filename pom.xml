@@ -9,8 +9,8 @@
     <name>Partner.Net Data API</name>
 
     <scm>
-        <connection>scm:git:https://github.com/porscheinformatik/pnet-data-api.git</connection>
-        <developerConnection>scm:git:https://github.com/porscheinformatik/pnet-data-api.git</developerConnection>
+        <connection>scm:git:git@github.com:porscheinformatik/pnet-data-api.git</connection>
+        <developerConnection>scm:git:git@github.com:porscheinformatik/pnet-data-api.git</developerConnection>
         <url>https://github.com/porscheinformatik/pnet-data-api</url>
         <tag>HEAD</tag>
     </scm>
@@ -159,7 +159,7 @@
                     <version>2.4.418</version>
                 </plugin>
 
-                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven
                     build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
