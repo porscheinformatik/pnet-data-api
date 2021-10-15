@@ -1,3 +1,8 @@
+pnet-data-api 1.17.2
+====================
+
+* Optimized TodoCategory.
+
 pnet-data-api 1.17.1
 ====================
 

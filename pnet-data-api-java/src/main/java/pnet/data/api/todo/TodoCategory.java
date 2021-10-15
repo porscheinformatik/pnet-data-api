@@ -31,7 +31,9 @@ public enum TodoCategory
 
     SYSTEMUSER,
 
-    AUDITOR,
+    AUDITOR_FUNCTION,
+
+    AUDITOR_ACTIVITY,
 
     NOTIFY,
 
