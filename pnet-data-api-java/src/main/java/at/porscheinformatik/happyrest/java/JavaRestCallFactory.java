@@ -8,6 +8,7 @@ import java.time.Duration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestFormatter;
@@ -123,8 +124,8 @@ public class JavaRestCallFactory implements RestCallFactory
             httpClient = builder.followRedirects(Redirect.NORMAL).build();
         }
 
-        return new JavaRestCall(httpClient, userAgent, loggerAdapter, url, null, "application/json", null, formatter,
-            parser, null);
+        return new JavaRestCall(httpClient, userAgent, loggerAdapter, url, null, MediaType.APPLICATION_JSON, null,
+            formatter, parser, null);
     }
 
 }

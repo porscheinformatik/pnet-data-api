@@ -3,10 +3,9 @@ package at.porscheinformatik.happyrest.jackson;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestFormatterException;
-import at.porscheinformatik.happyrest.RestUtils;
 
 /**
  * Formats JSON using Jackson
@@ -26,13 +25,14 @@ public class JacksonBasedFormatter implements RestFormatter
     }
 
     @Override
-    public boolean isContentTypeSupported(String contentType)
+    public boolean isContentTypeSupported(MediaType contentType)
     {
-        return RestCall.MEDIA_TYPE_APPLICATION_JSON.equals(RestUtils.extractContentType(contentType));
+        return MediaType.APPLICATION_JSON.isCompatible(contentType)
+            || MediaType.APPLICATION_ANY_JSON.isCompatible(contentType);
     }
 
     @Override
-    public String format(String contentType, Object value) throws RestFormatterException
+    public String format(MediaType contentType, Object value) throws RestFormatterException
     {
         if (!isContentTypeSupported(contentType))
         {

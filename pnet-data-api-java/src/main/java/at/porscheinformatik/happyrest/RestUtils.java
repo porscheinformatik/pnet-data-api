@@ -20,7 +20,6 @@ import java.util.Properties;
  */
 public final class RestUtils
 {
-
     private static final Map<Integer, String> HTTP_STATUS_MESSAGES;
 
     private static String version;
@@ -305,11 +304,6 @@ public final class RestUtils
 
         for (String pathSegment : pathSegments)
         {
-            if (builder.length() > 0 && builder.charAt(builder.length() - 1) != '/')
-            {
-                builder.append("/");
-            }
-
             if (pathSegment != null)
             {
                 if (encode)
@@ -317,6 +311,11 @@ public final class RestUtils
                     pathSegment = RestUtils
                         .encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePathSeparator,
                             ignorePlaceholders);
+                }
+
+                if (!pathSegment.startsWith("/") && builder.length() > 0 && builder.charAt(builder.length() - 1) != '/')
+                {
+                    builder.append("/");
                 }
 
                 builder.append(pathSegment);
@@ -356,77 +355,6 @@ public final class RestUtils
     public static String getHttpStatus(int statusCode, String statusMessage)
     {
         return statusCode + " " + getHttpStatusMessage(statusCode, statusMessage);
-    }
-
-    public static String extractContentType(String contentType)
-    {
-        if (contentType == null)
-        {
-            return null;
-        }
-
-        int delimiter = contentType.indexOf(";");
-
-        return delimiter >= 0 ? contentType.substring(0, delimiter) : contentType;
-    }
-
-    public static Charset extractContentTypeCharset(String contentType, Charset defaultCharset)
-    {
-        if (contentType != null)
-        {
-            String[] parts = contentType.split(";");
-
-            for (String part : parts)
-            {
-                if ("charset".equals(getKey(part)))
-                {
-                    try
-                    {
-                        return Charset.forName(getValue(part));
-                    }
-                    catch (IllegalArgumentException e)
-                    {
-                        // ignore
-                    }
-                }
-            }
-        }
-
-        return defaultCharset;
-    }
-
-    public static String getKey(String s)
-    {
-        if (s == null)
-        {
-            return null;
-        }
-
-        int index = s.indexOf("=");
-
-        if (index < 0)
-        {
-            return s;
-        }
-
-        return s.substring(0, index).trim();
-    }
-
-    public static String getValue(String s)
-    {
-        if (s == null)
-        {
-            return null;
-        }
-
-        int index = s.indexOf("=");
-
-        if (index < 0)
-        {
-            return null;
-        }
-
-        return s.substring(index + 1).trim();
     }
 
     public static String abbreviate(String s, int length)
@@ -483,5 +411,4 @@ public final class RestUtils
             return result.toCharArray();
         }
     }
-
 }

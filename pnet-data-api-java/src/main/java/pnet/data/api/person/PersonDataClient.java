@@ -90,8 +90,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         return new PersonDataAutoComplete(this::autoComplete, null);
     }
 
-    protected List<PersonAutoCompleteDTO> autoComplete(Locale language, String query, List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
+    protected List<PersonAutoCompleteDTO> autoComplete(Locale language, String query,
+        List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         return invoke(restCall -> restCall
             .parameter("l", language)
@@ -156,7 +156,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                     .parameter("type", imageType)
                     .invoke(RestMethod.GET, "api/v1/persons/portrait/{id}", byte[].class);
 
-                return Optional.of(new Resource(response.getContentType(), response.getBody()));
+                return Optional.of(new Resource(response.getContentType().toString(), response.getBody()));
             }
             catch (RestResponseException e)
             {

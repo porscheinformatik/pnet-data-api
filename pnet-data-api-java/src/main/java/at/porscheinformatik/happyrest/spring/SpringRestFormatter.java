@@ -2,10 +2,9 @@ package at.porscheinformatik.happyrest.spring;
 
 import org.springframework.core.convert.ConversionService;
 
-import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestFormatterException;
-import at.porscheinformatik.happyrest.RestUtils;
 
 /**
  * A formatter using Spring's {@link ConversionService}.
@@ -25,13 +24,13 @@ public class SpringRestFormatter implements RestFormatter
     }
 
     @Override
-    public boolean isContentTypeSupported(String contentType)
+    public boolean isContentTypeSupported(MediaType contentType)
     {
-        return RestCall.MEDIA_TYPE_TEXT_PLAIN.equals(RestUtils.extractContentType(contentType));
+        return MediaType.ANY.isCompatible(contentType);
     }
 
     @Override
-    public String format(String contentType, Object value) throws RestFormatterException
+    public String format(MediaType contentType, Object value) throws RestFormatterException
     {
         if (!isContentTypeSupported(contentType))
         {

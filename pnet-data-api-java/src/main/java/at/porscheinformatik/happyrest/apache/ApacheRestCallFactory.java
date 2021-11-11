@@ -11,6 +11,7 @@ import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestFormatter;
@@ -135,8 +136,8 @@ public class ApacheRestCallFactory implements RestCallFactory
             httpClient = builder.build();
         }
 
-        return new ApacheRestCall(httpClient, loggerAdapter, url, null, "application/json", null, formatter, parser,
-            null);
+        return new ApacheRestCall(httpClient, loggerAdapter, url, null, MediaType.APPLICATION_JSON, null, formatter,
+            parser, null);
     }
 
 }

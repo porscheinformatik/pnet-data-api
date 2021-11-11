@@ -38,7 +38,7 @@ public interface RestResponse<T>
 
     String getCacheControl();
 
-    String getContentType();
+    MediaType getContentType();
 
     Locale getContentLanguage();
 

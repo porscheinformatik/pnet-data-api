@@ -21,23 +21,6 @@ public interface RestCall
 
     String AUTHORIZATION_HEADER_NAME = "Authorization";
 
-    String MEDIA_TYPE_APPLICATION_ATOM_XML = "application/atom+xml";
-    String MEDIA_TYPE_APPLICATION_FORM = "application/x-www-form-urlencoded";
-    String MEDIA_TYPE_APPLICATION_JSON = "application/json";
-    String MEDIA_TYPE_APPLICATION_JSON_UTF8 = "application/json;charset=UTF-8";
-    String MEDIA_TYPE_APPLICATION_OCTET_STREAM = "application/octet-stream";
-    String MEDIA_TYPE_APPLICATION_PDF = "application/pdf";
-    String MEDIA_TYPE_APPLICATION_RSS_XML = "application/rss+xml";
-    String MEDIA_TYPE_APPLICATION_XHTML_XML = "application/xhtml+xml";
-    String MEDIA_TYPE_APPLICATION_XML = "application/xml";
-    String MEDIA_TYPE_IMAGE_GIF = "image/gif";
-    String MEDIA_TYPE_IMAGE_JPEG = "image/jpeg";
-    String MEDIA_TYPE_IMAGE_PNG = "image/png";
-    String MEDIA_TYPE_TEXT_HTML = "text/html";
-    String MEDIA_TYPE_TEXT_MARKDOWN = "text/markdown";
-    String MEDIA_TYPE_TEXT_PLAIN = "text/plain";
-    String MEDIA_TYPE_TEXT_XML = "text/xml";
-
     String getUrl();
 
     /**
@@ -76,18 +59,18 @@ public interface RestCall
      */
     RestCall encodedPathSegment(String... pathSegments);
 
-    List<String> getAcceptableMediaTypes();
+    List<MediaType> getAcceptableMediaTypes();
 
-    RestCall accept(String... mediaTypes);
+    RestCall accept(MediaType... mediaTypes);
 
     default RestCall acceptJson()
     {
-        return accept(MEDIA_TYPE_APPLICATION_JSON_UTF8);
+        return accept(MediaType.APPLICATION_JSON_UTF8);
     }
 
     default RestCall acceptXML()
     {
-        return accept(MEDIA_TYPE_APPLICATION_XML);
+        return accept(MediaType.APPLICATION_XML);
     }
 
     default RestCall basicAuthorization(String username, String password)
@@ -143,21 +126,21 @@ public interface RestCall
 
     RestCall body(Object body);
 
-    RestCall contentType(String contentType);
+    RestCall contentType(MediaType contentType);
 
     default RestCall contentTypeJson()
     {
-        return contentType(MEDIA_TYPE_APPLICATION_JSON);
+        return contentType(MediaType.APPLICATION_JSON);
     }
 
     default RestCall contentTypeXML()
     {
-        return contentType(MEDIA_TYPE_APPLICATION_XML);
+        return contentType(MediaType.APPLICATION_XML);
     }
 
     default RestCall contentTypeForm()
     {
-        return contentType(MEDIA_TYPE_APPLICATION_FORM);
+        return contentType(MediaType.APPLICATION_FORM);
     }
 
     RestCall header(String name, String... value);

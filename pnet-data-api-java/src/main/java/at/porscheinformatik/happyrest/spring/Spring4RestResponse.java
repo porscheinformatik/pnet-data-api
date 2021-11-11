@@ -6,8 +6,10 @@ import java.util.Map.Entry;
 
 import org.springframework.http.ResponseEntity;
 
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestUtils;
+import static at.porscheinformatik.happyrest.spring.SpringRestUtils.*;
 
 class Spring4RestResponse<T> implements RestResponse<T>
 {
@@ -84,9 +86,9 @@ class Spring4RestResponse<T> implements RestResponse<T>
     }
 
     @Override
-    public String getContentType()
+    public MediaType getContentType()
     {
-        return String.valueOf(response.getHeaders().getContentType());
+        return convert(response.getHeaders().getContentType());
     }
 
     @Override

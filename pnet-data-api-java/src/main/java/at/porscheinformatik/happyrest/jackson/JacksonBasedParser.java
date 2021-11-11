@@ -8,10 +8,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.GenericType;
-import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestParserException;
-import at.porscheinformatik.happyrest.RestUtils;
 
 /**
  * Parses a JSON response using the Jackson mapper
@@ -31,13 +30,14 @@ public class JacksonBasedParser implements RestParser
     }
 
     @Override
-    public boolean isContentTypeSupported(String contentType, GenericType<?> type)
+    public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
     {
-        return RestCall.MEDIA_TYPE_APPLICATION_JSON.equals(RestUtils.extractContentType(contentType));
+        return MediaType.APPLICATION_JSON.isCompatible(contentType)
+            || MediaType.APPLICATION_ANY_JSON.isCompatible(contentType);
     }
 
     @Override
-    public <T> Object parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException
+    public <T> Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
     {
         if (!isContentTypeSupported(contentType, type))
         {

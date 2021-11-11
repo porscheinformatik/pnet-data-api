@@ -15,7 +15,7 @@ public interface RestParser
         return new RestParser()
         {
             @Override
-            public boolean isContentTypeSupported(String contentType, GenericType<?> type)
+            public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
             {
                 for (RestParser parser : parsers)
                 {
@@ -29,7 +29,7 @@ public interface RestParser
             }
 
             @Override
-            public <T> Object parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException
+            public <T> Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
             {
                 for (RestParser parser : parsers)
                 {
@@ -44,8 +44,8 @@ public interface RestParser
         };
     }
 
-    boolean isContentTypeSupported(String contentType, GenericType<?> type);
+    boolean isContentTypeSupported(MediaType contentType, GenericType<?> type);
 
-    <T> Object parse(String contentType, GenericType<?> type, InputStream in) throws RestParserException;
+    <T> Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException;
 
 }

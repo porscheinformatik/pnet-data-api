@@ -1,5 +1,7 @@
 package at.porscheinformatik.happyrest.spring;
 
+import static at.porscheinformatik.happyrest.spring.SpringRestUtils.*;
+
 import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.HashMap;
@@ -10,7 +12,6 @@ import java.util.Map;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientResponseException;
@@ -19,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import at.porscheinformatik.happyrest.AbstractRestCall;
 import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestAttribute;
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestException;
@@ -44,18 +46,18 @@ public class Spring4RestCall extends AbstractRestCall
 
     protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
     {
-        this(restTemplate, loggerAdapter, null, null, MediaType.APPLICATION_JSON_VALUE, null, formatter, null);
+        this(restTemplate, loggerAdapter, null, null, MediaType.APPLICATION_JSON, null, formatter, null);
     }
 
     protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter,
         String url)
     {
-        this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON_VALUE, null, formatter, (Object) null);
+        this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON, null, formatter, (Object) null);
     }
 
     protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, String url,
-        List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes, RestFormatter formatter,
-        Object body)
+        List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
+        RestFormatter formatter, Object body)
     {
         super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
 
@@ -64,7 +66,7 @@ public class Spring4RestCall extends AbstractRestCall
     }
 
     @Override
-    protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
+    protected RestCall copy(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
         List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         return new Spring4RestCall(restTemplate, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
@@ -87,8 +89,7 @@ public class Spring4RestCall extends AbstractRestCall
 
             getParameters()
                 .stream()
-                .forEach(
-                    attribute -> map.add(attribute.getName(), format(MEDIA_TYPE_TEXT_PLAIN, attribute.getValue())));
+                .forEach(attribute -> map.add(attribute.getName(), format(MediaType.TEXT_PLAIN, attribute.getValue())));
 
             return map;
         }
@@ -176,18 +177,18 @@ public class Spring4RestCall extends AbstractRestCall
 
     protected URI processAttributes(HttpHeaders headers, String path, boolean form) throws RestException
     {
-        List<String> acceptableMediaTypes = getAcceptableMediaTypes();
+        List<MediaType> acceptableMediaTypes = getAcceptableMediaTypes();
 
         if (acceptableMediaTypes != null)
         {
-            headers.setAccept(MediaType.parseMediaTypes(acceptableMediaTypes));
+            headers.setAccept(convert(acceptableMediaTypes));
         }
 
-        String contentType = getContentType();
+        MediaType contentType = getContentType();
 
         if (contentType != null)
         {
-            headers.setContentType(MediaType.parseMediaType(contentType));
+            headers.setContentType(convert(contentType));
         }
 
         UriComponentsBuilder builder =
@@ -230,7 +231,7 @@ public class Spring4RestCall extends AbstractRestCall
 
             if (attribute instanceof RestHeader)
             {
-                headers.add(name, format(MEDIA_TYPE_TEXT_PLAIN, value));
+                headers.add(name, format(MediaType.TEXT_PLAIN, value));
 
                 continue;
             }
@@ -247,7 +248,7 @@ public class Spring4RestCall extends AbstractRestCall
 
             if (attribute instanceof RestVariable)
             {
-                variables.put(name, format(MEDIA_TYPE_TEXT_PLAIN, value));
+                variables.put(name, format(MediaType.TEXT_PLAIN, value));
 
                 continue;
             }
@@ -265,7 +266,7 @@ public class Spring4RestCall extends AbstractRestCall
         {
             for (int i = 0; i < Array.getLength(value); i++)
             {
-                queryParam(builder, variables, name, id++, format(MEDIA_TYPE_TEXT_PLAIN, Array.get(value, i)));
+                queryParam(builder, variables, name, id++, format(MediaType.TEXT_PLAIN, Array.get(value, i)));
             }
         }
         else if (value instanceof Iterable<?>)
@@ -274,12 +275,12 @@ public class Spring4RestCall extends AbstractRestCall
 
             while (iterator.hasNext())
             {
-                queryParam(builder, variables, name, id++, format(MEDIA_TYPE_TEXT_PLAIN, iterator.next()));
+                queryParam(builder, variables, name, id++, format(MediaType.TEXT_PLAIN, iterator.next()));
             }
         }
         else
         {
-            queryParam(builder, variables, name, id++, format(MEDIA_TYPE_TEXT_PLAIN, value));
+            queryParam(builder, variables, name, id++, format(MediaType.TEXT_PLAIN, value));
         }
 
         return id;
@@ -298,5 +299,4 @@ public class Spring4RestCall extends AbstractRestCall
     {
         return method + " " + uri + ": " + e.getResponseBodyAsString();
     }
-
 }

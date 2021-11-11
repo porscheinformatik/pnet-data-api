@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.OptionalLong;
 
 import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestParser;
@@ -46,7 +47,7 @@ class JavaRestResponse<T> implements RestResponse<T>
         int statusCode = response.statusCode();
         String statusMessage = RestUtils.getHttpStatusMessage(statusCode);
         HttpHeaders headers = response.headers();
-        Optional<String> optionalContentType = headers.firstValue("Content-Type");
+        Optional<MediaType> optionalContentType = headers.firstValue("Content-Type").map(MediaType::parse);
         OptionalLong optionalContentLength = headers.firstValueAsLong("Content-Length");
         T body = null;
 
@@ -71,7 +72,7 @@ class JavaRestResponse<T> implements RestResponse<T>
             {
                 if (in != null)
                 {
-                    String contentType = optionalContentType.orElse(null);
+                    MediaType contentType = optionalContentType.orElse(null);
 
                     body = (T) parser.parse(contentType, type, in);
                 }
@@ -89,12 +90,12 @@ class JavaRestResponse<T> implements RestResponse<T>
     private final int statusCode;
     private final String statusMessage;
     private final HttpHeaders headers;
-    private final String contentType;
+    private final MediaType contentType;
     private final long contentLength;
     private final T content;
 
-    JavaRestResponse(int statusCode, String statusMessage, HttpHeaders headers, String contentType, long contentLength,
-        T content)
+    JavaRestResponse(int statusCode, String statusMessage, HttpHeaders headers, MediaType contentType,
+        long contentLength, T content)
     {
         super();
         this.statusCode = statusCode;
@@ -166,7 +167,7 @@ class JavaRestResponse<T> implements RestResponse<T>
     }
 
     @Override
-    public String getContentType()
+    public MediaType getContentType()
     {
         return contentType;
     }

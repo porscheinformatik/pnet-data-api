@@ -1,11 +1,16 @@
 package at.porscheinformatik.happyrest;
 
+import java.lang.reflect.Array;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import pnet.data.api.util.Pair;
 
@@ -17,14 +22,16 @@ import pnet.data.api.util.Pair;
 public abstract class AbstractRestCall implements RestCall
 {
 
+    private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+
     private final String url;
-    private final List<String> acceptableMediaTypes;
-    private final String contentType;
+    private final List<MediaType> acceptableMediaTypes;
+    private final MediaType contentType;
     private final List<RestAttribute> attributes;
     private final RestFormatter formatter;
     private final Object body;
 
-    protected AbstractRestCall(String url, List<String> acceptableMediaTypes, String contentType,
+    protected AbstractRestCall(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
         List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         super();
@@ -37,7 +44,7 @@ public abstract class AbstractRestCall implements RestCall
         this.body = body;
     }
 
-    protected abstract RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
+    protected abstract RestCall copy(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
         List<RestAttribute> attributes, RestFormatter formatter, Object body);
 
     @Override
@@ -79,15 +86,15 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public List<String> getAcceptableMediaTypes()
+    public List<MediaType> getAcceptableMediaTypes()
     {
         return acceptableMediaTypes;
     }
 
     @Override
-    public RestCall accept(String... mediaTypes)
+    public RestCall accept(MediaType... mediaTypes)
     {
-        ArrayList<String> currentAcceptableMediaTypes = new ArrayList<>(Arrays.asList(mediaTypes));
+        ArrayList<MediaType> currentAcceptableMediaTypes = new ArrayList<>(Arrays.asList(mediaTypes));
 
         if (acceptableMediaTypes != null)
         {
@@ -204,7 +211,7 @@ public abstract class AbstractRestCall implements RestCall
         return formatter;
     }
 
-    protected String format(String contentType, Object value)
+    protected String format(MediaType contentType, Object value)
     {
         try
         {
@@ -221,13 +228,13 @@ public abstract class AbstractRestCall implements RestCall
         return copy(url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
-    public String getContentType()
+    public MediaType getContentType()
     {
         return contentType;
     }
 
     @Override
-    public RestCall contentType(String contentType)
+    public RestCall contentType(MediaType contentType)
     {
         return copy(url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
@@ -245,9 +252,7 @@ public abstract class AbstractRestCall implements RestCall
 
     protected boolean isForm()
     {
-        String contentType = getContentType();
-
-        return contentType != null && contentType.startsWith(MEDIA_TYPE_APPLICATION_FORM) && containsParameters();
+        return MediaType.APPLICATION_FORM.isCompatible(getContentType()) && containsParameters();
     }
 
     protected boolean verify(RestMethod method) throws RestRequestException
@@ -291,4 +296,87 @@ public abstract class AbstractRestCall implements RestCall
     public abstract <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
         throws RestException;
 
+    protected Charset getCharset()
+    {
+        return DEFAULT_CHARSET;
+    }
+
+    protected List<String> collectParameters()
+    {
+        List<String> parameters = new ArrayList<>();
+        Charset charset = getCharset();
+
+        for (RestParameter parameter : getParameters())
+        {
+            Object value = parameter.getValue();
+
+            if (value == null)
+            {
+                continue;
+            }
+
+            if (value.getClass().isArray())
+            {
+                for (int i = 0; i < Array.getLength(value); i++)
+                {
+                    parameters
+                        .add(URLEncoder.encode(parameter.getName(), charset)
+                            + "="
+                            + URLEncoder.encode(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset));
+                }
+
+                continue;
+            }
+
+            if (value instanceof Iterable<?>)
+            {
+                Iterator<?> iterator = ((Iterable<?>) value).iterator();
+
+                while (iterator.hasNext())
+                {
+                    parameters
+                        .add(URLEncoder.encode(parameter.getName(), charset)
+                            + "="
+                            + URLEncoder.encode(format(MediaType.TEXT_PLAIN, iterator.next()), charset));
+                }
+
+                continue;
+            }
+
+            parameters
+                .add(URLEncoder.encode(parameter.getName(), charset)
+                    + "="
+                    + URLEncoder.encode(format(MediaType.TEXT_PLAIN, value), charset));
+        }
+
+        return parameters;
+    }
+
+    protected String buildUrl(String path, boolean form)
+    {
+        String url = RestUtils.appendPathWithPlaceholders(getUrl(), path);
+
+        for (RestVariable variable : getVariables())
+        {
+            url = url.replace("{" + variable.getName() + "}", format(MediaType.TEXT_PLAIN, variable.getValue()));
+        }
+
+        if (!form)
+        {
+            List<String> parameters = collectParameters();
+
+            if (!parameters.isEmpty())
+            {
+                url += "?" + parameters.stream().collect(Collectors.joining("&"));
+            }
+        }
+
+        return url;
+    }
+
+    @Override
+    public String toString()
+    {
+        return buildUrl(null, false);
+    }
 }

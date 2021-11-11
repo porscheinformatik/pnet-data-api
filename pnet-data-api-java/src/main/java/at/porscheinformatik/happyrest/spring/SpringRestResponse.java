@@ -1,11 +1,14 @@
 package at.porscheinformatik.happyrest.spring;
 
+import static at.porscheinformatik.happyrest.spring.SpringRestUtils.*;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 
 import org.springframework.http.ResponseEntity;
 
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestUtils;
 
@@ -84,9 +87,9 @@ class SpringRestResponse<T> implements RestResponse<T>
     }
 
     @Override
-    public String getContentType()
+    public MediaType getContentType()
     {
-        return String.valueOf(response.getHeaders().getContentType());
+        return convert(response.getHeaders().getContentType());
     }
 
     @Override

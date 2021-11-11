@@ -14,7 +14,7 @@ public interface RestFormatter
         {
 
             @Override
-            public boolean isContentTypeSupported(String contentType)
+            public boolean isContentTypeSupported(MediaType contentType)
             {
                 for (RestFormatter formatter : formatters)
                 {
@@ -28,7 +28,7 @@ public interface RestFormatter
             }
 
             @Override
-            public String format(String contentType, Object value) throws RestFormatterException
+            public String format(MediaType contentType, Object value) throws RestFormatterException
             {
                 for (RestFormatter formatter : formatters)
                 {
@@ -44,8 +44,8 @@ public interface RestFormatter
         };
     }
 
-    boolean isContentTypeSupported(String contentType);
+    boolean isContentTypeSupported(MediaType contentType);
 
-    String format(String contentType, Object value) throws RestFormatterException;
+    String format(MediaType contentType, Object value) throws RestFormatterException;
 
 }

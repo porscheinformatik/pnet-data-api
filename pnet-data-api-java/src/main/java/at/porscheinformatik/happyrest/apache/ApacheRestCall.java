@@ -28,6 +28,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import at.porscheinformatik.happyrest.AbstractRestCall;
 import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestAttribute;
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestException;
@@ -54,8 +55,8 @@ public class ApacheRestCall extends AbstractRestCall
     private final RestParser parser;
 
     public ApacheRestCall(CloseableHttpClient httpClient, RestLoggerAdapter loggerAdapter, String url,
-        List<String> acceptableMediaTypes, String contentType, List<RestAttribute> attributes, RestFormatter formatter,
-        RestParser parser, Object body)
+        List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
+        RestFormatter formatter, RestParser parser, Object body)
     {
         super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
 
@@ -65,13 +66,13 @@ public class ApacheRestCall extends AbstractRestCall
         this.parser = parser;
     }
 
-    protected HttpEntity createEntity(String contentType) throws UnsupportedEncodingException
+    protected HttpEntity createEntity(MediaType contentType) throws UnsupportedEncodingException
     {
         Object body = getBody();
 
         if (body != null)
         {
-            return new StringEntity(format(contentType, body), ContentType.parse(contentType));
+            return new StringEntity(format(contentType, body), ContentType.parse(contentType.toString()));
         }
 
         if (isForm())
@@ -81,7 +82,7 @@ public class ApacheRestCall extends AbstractRestCall
             getParameters()
                 .forEach(parameter -> params
                     .add(new BasicNameValuePair(parameter.getName(),
-                        format(MEDIA_TYPE_TEXT_PLAIN, parameter.getValue()))));
+                        format(MediaType.TEXT_PLAIN, parameter.getValue()))));
 
             return new UrlEncodedFormEntity(params);
         }
@@ -90,7 +91,7 @@ public class ApacheRestCall extends AbstractRestCall
     }
 
     @Override
-    protected RestCall copy(String url, List<String> acceptableMediaTypes, String contentType,
+    protected RestCall copy(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
         List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         return new ApacheRestCall(httpClient, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
@@ -132,7 +133,7 @@ public class ApacheRestCall extends AbstractRestCall
 
         for (RestVariable variable : getVariables())
         {
-            url = url.replace("{" + variable.getName() + "}", format(MEDIA_TYPE_TEXT_PLAIN, variable.getValue()));
+            url = url.replace("{" + variable.getName() + "}", format(MediaType.TEXT_PLAIN, variable.getValue()));
         }
 
         return url;
@@ -203,7 +204,7 @@ public class ApacheRestCall extends AbstractRestCall
             {
                 for (int i = 0; i < Array.getLength(value); i++)
                 {
-                    builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, Array.get(value, i)));
+                    builder.addParameter(parameter.getName(), format(MediaType.TEXT_PLAIN, Array.get(value, i)));
                 }
 
                 continue;
@@ -215,26 +216,26 @@ public class ApacheRestCall extends AbstractRestCall
 
                 while (iterator.hasNext())
                 {
-                    builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, iterator.next()));
+                    builder.addParameter(parameter.getName(), format(MediaType.TEXT_PLAIN, iterator.next()));
                 }
 
                 continue;
             }
 
-            builder.addParameter(parameter.getName(), format(MEDIA_TYPE_TEXT_PLAIN, value));
+            builder.addParameter(parameter.getName(), format(MediaType.TEXT_PLAIN, value));
         }
     }
 
     private void computeHeaders(HttpRequestBase request)
     {
         getHeaders()
-            .forEach(header -> request.addHeader(header.getName(), format(MEDIA_TYPE_TEXT_PLAIN, header.getValue())));
+            .forEach(header -> request.addHeader(header.getName(), format(MediaType.TEXT_PLAIN, header.getValue())));
 
-        String contentType = getContentType();
+        MediaType contentType = getContentType();
 
         if (contentType != null)
         {
-            request.addHeader("Content-Type", contentType);
+            request.addHeader("Content-Type", contentType.toString());
         }
     }
 
@@ -261,5 +262,4 @@ public class ApacheRestCall extends AbstractRestCall
             ((HttpEntityEnclosingRequestBase) request).setEntity(requestEntity);
         }
     }
-
 }

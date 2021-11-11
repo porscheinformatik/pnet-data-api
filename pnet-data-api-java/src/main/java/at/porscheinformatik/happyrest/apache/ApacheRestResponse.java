@@ -22,6 +22,7 @@ import org.apache.http.StatusLine;
 import org.apache.http.entity.ContentType;
 
 import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestResponse;
@@ -78,7 +79,8 @@ class ApacheRestResponse<T> implements RestResponse<T>
             {
                 try (InputStream in = entity.getContent())
                 {
-                    body = (T) parser.parse(contentType != null ? contentType.toString() : null, type, in);
+                    body = (T) parser
+                        .parse(contentType != null ? MediaType.parse(contentType.toString()) : null, type, in);
                 }
             }
             catch (ParseException e)
@@ -92,18 +94,18 @@ class ApacheRestResponse<T> implements RestResponse<T>
         }
 
         return new ApacheRestResponse<>(statusCode, statusMessage, headers,
-            contentType != null ? contentType.toString() : null, contentLength, body);
+            contentType != null ? MediaType.parse(contentType.toString()) : null, contentLength, body);
     }
 
     private final int statusCode;
     private final String statusMessage;
     private final Header[] headers;
-    private final String contentType;
+    private final MediaType contentType;
     private final long contentLength;
     private final T content;
 
-    ApacheRestResponse(int statusCode, String statusMessage, Header[] headers, String contentType, long contentLength,
-        T content)
+    ApacheRestResponse(int statusCode, String statusMessage, Header[] headers, MediaType contentType,
+        long contentLength, T content)
     {
         super();
         this.statusCode = statusCode;
@@ -175,7 +177,7 @@ class ApacheRestResponse<T> implements RestResponse<T>
     }
 
     @Override
-    public String getContentType()
+    public MediaType getContentType()
     {
         return contentType;
     }
