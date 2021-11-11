@@ -4,6 +4,7 @@ pnet-data-api 1.18.0
 * Replaced any "String contentType" with a "MediaType contentType". This is a breaking change. It should be rarely used by any application
   and it is an internal change, basically. In case, you did you the contentType, just use the at.porscheinformatik.happyrest.MediaType
   class instead.
+* Add a NumberParser to the Rest framework to improve interoparability between technologies.
 
 
 pnet-data-api 1.17.2
