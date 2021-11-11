@@ -72,7 +72,7 @@ class JavaRestResponse<T> implements RestResponse<T>
             {
                 if (in != null)
                 {
-                    MediaType contentType = optionalContentType.orElse(null);
+                    MediaType contentType = optionalContentType.orElse(MediaType.TEXT_PLAIN_UTF8);
 
                     body = (T) parser.parse(contentType, type, in);
                 }

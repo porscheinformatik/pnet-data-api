@@ -2,6 +2,7 @@ pnet-data-api 1.18.1
 ====================
 
 * Fix conversion of multiple content types
+* Fix handling of default MediaType
 
 pnet-data-api 1.18.0
 ====================

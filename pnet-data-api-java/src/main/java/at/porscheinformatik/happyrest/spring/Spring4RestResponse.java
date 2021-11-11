@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestUtils;
-import static at.porscheinformatik.happyrest.spring.SpringRestUtils.*;
 
 class Spring4RestResponse<T> implements RestResponse<T>
 {
@@ -88,7 +87,7 @@ class Spring4RestResponse<T> implements RestResponse<T>
     @Override
     public MediaType getContentType()
     {
-        return convert(response.getHeaders().getContentType());
+        return SpringRestUtils.convertMediaType(response.getHeaders().getContentType(), MediaType.TEXT_PLAIN_UTF8);
     }
 
     @Override

@@ -181,14 +181,14 @@ public class Spring4RestCall extends AbstractRestCall
 
         if (acceptableMediaTypes != null)
         {
-            headers.setAccept(convert(acceptableMediaTypes));
+            headers.setAccept(convertMediaTypes(acceptableMediaTypes));
         }
 
         MediaType contentType = getContentType();
 
         if (contentType != null)
         {
-            headers.setContentType(convert(contentType));
+            headers.setContentType(SpringRestUtils.convertMediaType(contentType, null));
         }
 
         UriComponentsBuilder builder =

@@ -2,7 +2,6 @@ package at.porscheinformatik.happyrest.spring;
 
 import static at.porscheinformatik.happyrest.spring.SpringRestUtils.*;
 
-
 import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -186,14 +185,14 @@ public class SpringRestCall extends AbstractRestCall
 
         if (acceptableMediaTypes != null)
         {
-            headers.setAccept(convert(acceptableMediaTypes));
+            headers.setAccept(convertMediaTypes(acceptableMediaTypes));
         }
 
         MediaType contentType = getContentType();
 
         if (contentType != null)
         {
-            headers.setContentType(convert(contentType));
+            headers.setContentType(SpringRestUtils.convertMediaType(contentType, null));
         }
 
         DefaultUriBuilderFactory factory =

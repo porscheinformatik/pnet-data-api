@@ -32,6 +32,7 @@ public class MediaType
     public static MediaType TEXT_HTML = parse("text/html");
     public static MediaType TEXT_MARKDOWN = parse("text/markdown");
     public static MediaType TEXT_PLAIN = parse("text/plain");
+    public static MediaType TEXT_PLAIN_UTF8 = parse("text/plain;charset=UTF-8");
     public static MediaType TEXT_XML = parse("text/xml");
 
     public static MediaType parse(String mediaType)

@@ -21,7 +21,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -72,7 +71,7 @@ public class ApacheRestCall extends AbstractRestCall
 
         if (body != null)
         {
-            return new StringEntity(format(contentType, body), ContentType.parse(contentType.toString()));
+            return new StringEntity(format(contentType, body), ApacheRestUtils.convertMediaType(contentType, null));
         }
 
         if (isForm())
