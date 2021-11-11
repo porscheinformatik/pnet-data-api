@@ -1,6 +1,7 @@
 package at.porscheinformatik.happyrest.spring;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import at.porscheinformatik.happyrest.MediaType;
 
@@ -13,8 +14,12 @@ public class SpringRestUtils
 
     public static List<org.springframework.http.MediaType> convert(List<MediaType> contentTypes)
     {
-        return contentTypes != null ? org.springframework.http.MediaType.parseMediaTypes(contentTypes.toString())
-            : null;
+        if (contentTypes == null)
+        {
+            return null;
+        }
+
+        return contentTypes.stream().map(SpringRestUtils::convert).collect(Collectors.toList());
     }
 
     public static MediaType convert(org.springframework.http.MediaType contentType)

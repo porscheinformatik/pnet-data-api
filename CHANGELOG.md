@@ -1,3 +1,8 @@
+pnet-data-api 1.18.1
+====================
+
+* Fix conversion of multiple content types
+
 pnet-data-api 1.18.0
 ====================
 
