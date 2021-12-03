@@ -11,7 +11,7 @@ public enum ApprovalState
      * Temporal state after the creation of an item, until the Caretaker (or whoever) sets the corrent state. Can be
      * used when creating items directly in the database.
      */
-    DRAFT(true, false),
+    DRAFT(true, true),
 
     /**
      * Waits for approval. The auditors may be determined by looking into the FPNFA_AUDITORs table. If an entity enters

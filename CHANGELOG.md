@@ -1,6 +1,11 @@
 pnet-data-api 1.18.1
 ====================
 
+* Added ApprovalState.DRAFT to the open ones.
+
+pnet-data-api 1.18.1
+====================
+
 * Fix conversion of multiple content types
 * Fix handling of default MediaType
 
