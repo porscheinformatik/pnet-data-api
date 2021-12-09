@@ -86,4 +86,24 @@ public enum ApprovalState
 
         return ordinal() > otherState.ordinal();
     }
+
+    public boolean isCovering(ApprovalState otherState)
+    {
+        if (otherState == null)
+        {
+            return false;
+        }
+
+        if (otherState == this)
+        {
+            return true;
+        }
+
+        if (this == REJECTED || otherState == REJECTED)
+        {
+            return false;
+        }
+
+        return isHigherThan(otherState);
+    }
 }

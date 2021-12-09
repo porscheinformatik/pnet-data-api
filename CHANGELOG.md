@@ -2,6 +2,7 @@ pnet-data-api 1.18.3
 ====================
 
 * Added ZonedDateTime to Jackson definition.
+* Added a "isCovering" method to the ApprovalState.
 
 pnet-data-api 1.18.2
 ====================
