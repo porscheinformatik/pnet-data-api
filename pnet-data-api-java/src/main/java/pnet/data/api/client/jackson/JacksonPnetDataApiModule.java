@@ -3,6 +3,7 @@ package pnet.data.api.client.jackson;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 
 import com.fasterxml.jackson.core.Version;
@@ -24,6 +25,8 @@ public class JacksonPnetDataApiModule extends SimpleModule
     {
         super("pnet-data-api", new Version(1, 0, 0, null, "at.porscheinformatik.pnet", "pnet-data-api"));
 
+        addSerializer(new ZonedDateTimeSerializer());
+        addDeserializer(ZonedDateTime.class, new ZonedDateTimeDeserializer(zoneId));
         addSerializer(new LocalDateTimeSerializer(zoneId));
         addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(zoneId));
         addSerializer(new LocalDateSerializer());

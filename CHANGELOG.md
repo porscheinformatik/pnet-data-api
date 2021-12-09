@@ -1,7 +1,12 @@
-pnet-data-api 1.18.1
+pnet-data-api 1.18.3
 ====================
 
-* Added ApprovalState.DRAFT to the open ones.
+* Added ZonedDateTime to Jackson definition.
+
+pnet-data-api 1.18.2
+====================
+
+* Added ApprovalState.DRAFT to the "inWork" ones.
 
 pnet-data-api 1.18.1
 ====================
