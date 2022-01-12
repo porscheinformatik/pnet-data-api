@@ -1,3 +1,8 @@
+pnet-data-api 1.18.4
+====================
+
+* Fix case-insensitive headers for Apache client
+
 pnet-data-api 1.18.3
 ====================
 

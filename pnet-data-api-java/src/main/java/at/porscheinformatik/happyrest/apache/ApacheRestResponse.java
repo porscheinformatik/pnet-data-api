@@ -11,7 +11,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.apache.http.Header;
@@ -216,20 +215,20 @@ class ApacheRestResponse<T> implements RestResponse<T>
         return toDate(getFirstHeader("Last-Modified"));
     }
 
-    private static List<String> getHeaders(Header[] headers, Object key)
+    private static List<String> getHeaders(Header[] headers, String key)
     {
         return Arrays
             .stream(headers)
-            .filter(header -> Objects.equals(key, header.getName()))
+            .filter(header -> key.equalsIgnoreCase(header.getName()))
             .map(Header::getValue)
             .collect(Collectors.toList());
     }
 
-    private static String getFirstHeader(Header[] headers, Object key)
+    private static String getFirstHeader(Header[] headers, String key)
     {
         return Arrays
             .stream(headers)
-            .filter(header -> Objects.equals(key, header.getName()))
+            .filter(header -> key.equalsIgnoreCase(header.getName()))
             .map(Header::getValue)
             .findFirst()
             .orElse(null);
