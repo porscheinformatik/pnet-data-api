@@ -3,6 +3,7 @@ pnet-data-api 1.18.5
 
 * Fix media type detection for RestCalls.
 * Remove path option from RestCall methods.
+* Prefer raw parsing over JSON in Apache and JavaRestCalls
 
 pnet-data-api 1.18.4
 ====================
