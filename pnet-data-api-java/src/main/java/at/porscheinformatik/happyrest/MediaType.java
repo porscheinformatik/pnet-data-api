@@ -157,18 +157,17 @@ public class MediaType
 
     public boolean isCompatible(MediaType other)
     {
-        if ((other == null)
-            || (!type.equals(WILDCARD) && !other.type.equals(WILDCARD) && !type.equalsIgnoreCase(other.type)))
+        if ((other == null) || (!type.equals(WILDCARD) && !type.equalsIgnoreCase(other.type)))
         {
             return false;
         }
 
-        if (!subtype.equals(WILDCARD) && !other.subtype.equals(WILDCARD) && !subtype.equalsIgnoreCase(other.subtype))
+        if (!subtype.equals(WILDCARD) && !subtype.equalsIgnoreCase(other.subtype))
         {
             return false;
         }
 
-        if (!suffix.equals(WILDCARD) && !other.suffix.equals(WILDCARD) && !suffix.equalsIgnoreCase(other.suffix))
+        if (!suffix.equals(WILDCARD) && !suffix.equalsIgnoreCase(other.suffix))
         {
             return false;
         }

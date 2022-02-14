@@ -46,7 +46,7 @@ public class MediaTypeTest
         assertThat(MediaType.ANY.isCompatible(MediaType.APPLICATION_JSON_UTF8), is(true));
         assertThat(MediaType.ANY.isCompatible(MediaType.APPLICATION_ANY_JSON), is(true));
 
-        assertThat(MediaType.APPLICATION.isCompatible(MediaType.ANY), is(true));
+        assertThat(MediaType.APPLICATION.isCompatible(MediaType.ANY), is(false));
         assertThat(MediaType.APPLICATION.isCompatible(MediaType.APPLICATION), is(true));
         assertThat(MediaType.APPLICATION.isCompatible(MediaType.APPLICATION_JSON), is(true));
         assertThat(MediaType.APPLICATION.isCompatible(MediaType.APPLICATION_JSON_UTF8), is(true));
@@ -60,8 +60,8 @@ public class MediaTypeTest
         assertThat(MediaType.APPLICATION_JSON.isCompatible(MediaType.APPLICATION_JSON_UTF8), is(true));
         assertThat(MediaType.APPLICATION_JSON_UTF8.isCompatible(MediaType.APPLICATION_JSON), is(true));
 
-        assertThat(MediaType.APPLICATION_ANY_JSON.isCompatible(MediaType.APPLICATION_JSON), is(true));
-        assertThat(MediaType.APPLICATION_ANY_JSON.isCompatible(MediaType.APPLICATION_JSON_UTF8), is(true));
+        assertThat(MediaType.APPLICATION_ANY_JSON.isCompatible(MediaType.APPLICATION_JSON), is(false));
+        assertThat(MediaType.APPLICATION_ANY_JSON.isCompatible(MediaType.APPLICATION_JSON_UTF8), is(false));
         assertThat(MediaType.APPLICATION_JSON.isCompatible(MediaType.APPLICATION_JSON_UTF8), is(true));
         assertThat(MediaType.APPLICATION_JSON_UTF8.isCompatible(MediaType.APPLICATION_JSON_UTF8), is(true));
     }

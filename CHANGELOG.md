@@ -1,3 +1,8 @@
+pnet-data-api 1.18.5
+====================
+
+* Fix media type detection for RestCalls.
+
 pnet-data-api 1.18.4
 ====================
 
