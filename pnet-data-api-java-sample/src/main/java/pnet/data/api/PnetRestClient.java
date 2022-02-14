@@ -2107,7 +2107,8 @@ public final class PnetRestClient
         repository
             .restCall(key())
             .variable("indexName", indexName)
-            .post("/api/v1/migrator/full/{indexName}", Void.class);
+            .path("/api/v1/migrator/full/{indexName}")
+            .post(Void.class);
 
         cli.info("Performing a full migration on index: %s.", indexName);
     }
@@ -2119,7 +2120,8 @@ public final class PnetRestClient
         repository
             .restCall(key())
             .variable("indexName", indexName)
-            .post("/api/v1/migrator/delta/{indexName}", Void.class);
+            .path("/api/v1/migrator/delta/{indexName}")
+            .post(Void.class);
 
         cli.info("Performing a delta migration on index: %s.", indexName);
     }
@@ -2130,7 +2132,8 @@ public final class PnetRestClient
         HashMap<?, ?> state = repository
             .restCall(key())
             .variable("indexName", indexName)
-            .get("/api/v1/migrator/states/{indexName}", HashMap.class);
+            .path("/api/v1/migrator/states/{indexName}")
+            .get(HashMap.class);
 
         cli.info("Migration state of index: %s", indexName);
         cli.info(PrettyPrint.prettyPrint(state));
@@ -2143,7 +2146,8 @@ public final class PnetRestClient
             .restCall(key())
             .variable("indexName", indexName)
             .parameter("id", (Object[]) ids)
-            .post("/api/v1/migrator/explicit/{indexName}", HashMap.class);
+            .path("/api/v1/migrator/explicit/{indexName}")
+            .post(HashMap.class);
 
         cli.info("Explicit migration state of index: %s", indexName);
         cli.info(PrettyPrint.prettyPrint(state));
@@ -2901,7 +2905,8 @@ public final class PnetRestClient
                     break;
                 }
             }
-            catch (InterruptedException e) {
+            catch (InterruptedException e)
+            {
                 break;
             }
             catch (Exception e)

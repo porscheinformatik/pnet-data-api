@@ -42,11 +42,11 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/externalbrands/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/externalbrands/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -69,11 +69,11 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/externalbrands/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/externalbrands/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 
@@ -95,11 +95,11 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/externalbrands/find",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/externalbrands/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
 

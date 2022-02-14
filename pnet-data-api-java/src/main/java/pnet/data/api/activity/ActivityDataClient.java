@@ -42,11 +42,11 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/activities/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/activities/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -69,7 +69,8 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/activities/search", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
+                .path("/api/v1/activities/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -94,7 +95,8 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/activities/find", new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
+                .path("/api/v1/activities/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -111,11 +113,11 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ActivityItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/activities/next/{scrollId}",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/activities/next/{scrollId}")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setScrollSupplier(this::next);
 

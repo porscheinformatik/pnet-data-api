@@ -42,11 +42,11 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/contractstates/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/contractstates/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -69,11 +69,11 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/contractstates/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/contractstates/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 
@@ -95,11 +95,11 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/contractstates/find",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/contractstates/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
 

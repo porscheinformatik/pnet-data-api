@@ -62,6 +62,11 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall path(String path)
     {
+        if (path == null || path.isEmpty())
+        {
+            return this;
+        }
+
         return copy(
             RestUtils.appendPathWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"), path),
             acceptableMediaTypes, contentType, attributes, formatter, body);
@@ -70,6 +75,11 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall pathSegment(String... pathSegments)
     {
+        if (pathSegments == null || pathSegments.length == 0)
+        {
+            return this;
+        }
+
         return copy(RestUtils
             .appendPathSegmentsWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"),
                 pathSegments),
@@ -79,6 +89,11 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall encodedPathSegment(String... pathSegments)
     {
+        if (pathSegments == null || pathSegments.length == 0)
+        {
+            return this;
+        }
+
         return copy(
             RestUtils
                 .appendEncodedPathSegments(Objects.requireNonNull(url, "Cannot add path to missing URL"), pathSegments),
@@ -277,24 +292,23 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException
+    public abstract <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException;
+
+    @Override
+    public abstract <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException;
+
+    @Override
+    public final <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
     {
-        return invoke(method, null, responseType);
+        return path(path).invoke(method, responseType);
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException
+    public final <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
+        throws RestException
     {
-        return invoke(method, null, responseType);
+        return path(path).invoke(method, responseType);
     }
-
-    @Override
-    public abstract <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType)
-        throws RestException;
-
-    @Override
-    public abstract <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
-        throws RestException;
 
     protected Charset getCharset()
     {
@@ -352,9 +366,9 @@ public abstract class AbstractRestCall implements RestCall
         return parameters;
     }
 
-    protected String buildUrl(String path, boolean form)
+    protected String buildUrl(boolean form)
     {
-        String url = RestUtils.appendPathWithPlaceholders(getUrl(), path);
+        String url = getUrl();
 
         for (RestVariable variable : getVariables())
         {
@@ -377,6 +391,6 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public String toString()
     {
-        return buildUrl(null, false);
+        return buildUrl(false);
     }
 }

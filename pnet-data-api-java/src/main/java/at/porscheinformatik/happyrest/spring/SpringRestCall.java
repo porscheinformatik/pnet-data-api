@@ -35,7 +35,6 @@ import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
-import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 
 /**
@@ -102,12 +101,12 @@ public class SpringRestCall extends AbstractRestCall
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
+    public <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException
     {
         boolean form = verify(method);
 
         HttpHeaders headers = new HttpHeaders();
-        URI uri = processAttributes(headers, path, form);
+        URI uri = processAttributes(headers, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
@@ -127,12 +126,12 @@ public class SpringRestCall extends AbstractRestCall
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException
+    public <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException
     {
         boolean form = verify(method);
 
         HttpHeaders headers = new HttpHeaders();
-        URI uri = processAttributes(headers, path, form);
+        URI uri = processAttributes(headers, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
@@ -179,7 +178,7 @@ public class SpringRestCall extends AbstractRestCall
         }
     }
 
-    protected URI processAttributes(HttpHeaders headers, String path, boolean form) throws RestException
+    protected URI processAttributes(HttpHeaders headers, boolean form) throws RestException
     {
         List<MediaType> acceptableMediaTypes = getAcceptableMediaTypes();
 
@@ -195,8 +194,7 @@ public class SpringRestCall extends AbstractRestCall
             headers.setContentType(SpringRestUtils.convertMediaType(contentType, null));
         }
 
-        DefaultUriBuilderFactory factory =
-            new DefaultUriBuilderFactory(RestUtils.appendPathWithPlaceholders(getUrl(), path));
+        DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(getUrl());
 
         factory.setEncodingMode(EncodingMode.URI_COMPONENT);
 

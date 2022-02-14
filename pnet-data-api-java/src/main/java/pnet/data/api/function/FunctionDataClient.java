@@ -40,7 +40,8 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/functions/details", new GenericType.Of<DefaultPnetDataClientResultPage<FunctionDataDTO>>()
+                .path("/api/v1/functions/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionDataDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -66,7 +67,8 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/functions/search", new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
+                .path("/api/v1/functions/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -93,7 +95,8 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/functions/find", new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
+                .path("/api/v1/functions/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -110,11 +113,11 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<FunctionItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/functions/next/{scrollId}",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/functions/next/{scrollId}")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setScrollSupplier(this::next);
 

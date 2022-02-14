@@ -42,7 +42,8 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/brands/details", new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>()
+                .path("/api/v1/brands/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -70,7 +71,8 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/brands/search", new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
+                .path("/api/v1/brands/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -95,7 +97,8 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/brands/find", new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
+                .path("/api/v1/brands/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
                 {
                     // intentionally left blank
                 });

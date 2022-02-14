@@ -46,7 +46,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/persons/details", new GenericType.Of<DefaultPnetDataClientResultPage<PersonDataDTO>>()
+                .path("/api/v1/persons/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<PersonDataDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -73,7 +74,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/persons/search",
+                .path("/api/v1/persons/search")
+                .get(
                     new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO>>()
                     {
                         // intentionally left blank
@@ -97,7 +99,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
             .parameter("l", language)
             .parameter("q", query)
             .parameters(restricts)
-            .get("/api/v1/persons/autocomplete", new GenericType.Of<List<PersonAutoCompleteDTO>>()
+            .path("/api/v1/persons/autocomplete")
+            .get(new GenericType.Of<List<PersonAutoCompleteDTO>>()
             {
                 // intentionally left blank
             }));
@@ -117,7 +120,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/persons/find", new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
+                .path("/api/v1/persons/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -134,11 +138,11 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/persons/next/{scrollId}",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/persons/next/{scrollId}")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setScrollSupplier(this::next);
 

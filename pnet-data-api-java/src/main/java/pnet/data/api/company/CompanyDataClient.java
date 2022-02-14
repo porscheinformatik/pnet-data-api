@@ -42,7 +42,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/companies/details", new GenericType.Of<DefaultPnetDataClientResultPage<CompanyDataDTO>>()
+                .path("/api/v1/companies/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyDataDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -70,7 +71,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                     .parameters(restricts)
                     .parameter("p", pageIndex)
                     .parameter("pp", itemsPerPage)
-                    .get("/api/v1/companies/search",
+                    .path("/api/v1/companies/search")
+                    .get(
                         new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO>>()
                         {
                             // intentionally left blank
@@ -94,7 +96,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
             .parameter("l", language)
             .parameter("q", query)
             .parameters(restricts)
-            .get("/api/v1/companies/autocomplete", new GenericType.Of<List<CompanyAutoCompleteDTO>>()
+            .path("/api/v1/companies/autocomplete")
+            .get(new GenericType.Of<List<CompanyAutoCompleteDTO>>()
             {
                 // intentionally left blank
             }));
@@ -114,7 +117,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/companies/find", new GenericType.Of<DefaultPnetDataClientResultPage<CompanyItemDTO>>()
+                .path("/api/v1/companies/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -131,11 +135,11 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/companies/next/{scrollId}",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/companies/next/{scrollId}")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setScrollSupplier(this::next);
 

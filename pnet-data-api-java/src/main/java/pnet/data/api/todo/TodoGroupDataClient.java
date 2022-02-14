@@ -46,7 +46,8 @@ public class TodoGroupDataClient extends AbstractPnetDataApiClient<TodoGroupData
                     .parameters(restricts)
                     .parameter("p", pageIndex)
                     .parameter("pp", itemsPerPage)
-                    .get("/api/v1/todogroups/search",
+                    .path("/api/v1/todogroups/search")
+                    .get(
                         new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<TodoGroupItemDTO, TodoGroupAggregationsDTO>>()
                         {
                             // intentionally left blank
@@ -72,7 +73,8 @@ public class TodoGroupDataClient extends AbstractPnetDataApiClient<TodoGroupData
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/todogroups/find", new GenericType.Of<DefaultPnetDataClientResultPage<TodoGroupItemDTO>>()
+                .path("/api/v1/todogroups/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<TodoGroupItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -89,11 +91,11 @@ public class TodoGroupDataClient extends AbstractPnetDataApiClient<TodoGroupData
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<TodoGroupItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/todogroups/next/{scrollId}",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<TodoGroupItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/todogroups/next/{scrollId}")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<TodoGroupItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setScrollSupplier(this::next);
 

@@ -42,11 +42,11 @@ public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDa
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/numbertypes/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/numbertypes/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -69,11 +69,11 @@ public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDa
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/numbertypes/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/numbertypes/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 
@@ -95,11 +95,11 @@ public class NumberTypeDataClient extends AbstractPnetDataApiClient<NumberTypeDa
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/numbertypes/find",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/numbertypes/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<NumberTypeItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
 

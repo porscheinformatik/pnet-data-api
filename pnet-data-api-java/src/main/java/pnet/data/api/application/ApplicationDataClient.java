@@ -40,11 +40,11 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/applications/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/applications/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -67,11 +67,11 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/applications/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/applications/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 
@@ -93,11 +93,11 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/applications/find",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/applications/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
             resultPage.setScrollSupplier(this::next);
@@ -111,11 +111,11 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ApplicationItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/applications/next/{scrollId}",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/applications/next/{scrollId}")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ApplicationItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setScrollSupplier(this::next);
 

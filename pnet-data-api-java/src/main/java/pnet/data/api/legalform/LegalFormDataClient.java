@@ -41,11 +41,11 @@ public class LegalFormDataClient extends AbstractPnetDataApiClient<LegalFormData
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/legalforms/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/legalforms/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -68,11 +68,11 @@ public class LegalFormDataClient extends AbstractPnetDataApiClient<LegalFormData
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/legalforms/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/legalforms/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 
@@ -85,8 +85,8 @@ public class LegalFormDataClient extends AbstractPnetDataApiClient<LegalFormData
         return new LegalFormDataFind(this::find, null);
     }
 
-    protected PnetDataClientResultPage<LegalFormItemDTO> find(Locale language,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<LegalFormItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<LegalFormItemDTO> resultPage = restCall
@@ -94,11 +94,11 @@ public class LegalFormDataClient extends AbstractPnetDataApiClient<LegalFormData
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/legalforms/find",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/legalforms/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
 

@@ -39,11 +39,11 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/companygroups/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/companygroups/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
             resultPage.setScrollSupplier(this::next);
@@ -57,11 +57,11 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/companygroups/next/{scrollId}",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/companygroups/next/{scrollId}")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setScrollSupplier(this::next);
 

@@ -42,7 +42,8 @@ public class ProposalDataClient extends AbstractPnetDataApiClient<ProposalDataCl
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/proposals/search", new GenericType.Of<DefaultPnetDataClientResultPage<ProposalItemDTO>>()
+                .path("/api/v1/proposals/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ProposalItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -67,7 +68,8 @@ public class ProposalDataClient extends AbstractPnetDataApiClient<ProposalDataCl
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/proposals/find", new GenericType.Of<DefaultPnetDataClientResultPage<ProposalItemDTO>>()
+                .path("/api/v1/proposals/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ProposalItemDTO>>()
                 {
                     // intentionally left blank
                 });
@@ -84,11 +86,11 @@ public class ProposalDataClient extends AbstractPnetDataApiClient<ProposalDataCl
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ProposalItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
-                .get("/api/v1/proposals/next/{scrollId}",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<ProposalItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/proposals/next/{scrollId}")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ProposalItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setScrollSupplier(this::next);
 

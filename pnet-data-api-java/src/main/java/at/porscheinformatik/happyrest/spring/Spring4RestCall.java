@@ -31,7 +31,6 @@ import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
-import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 
 /**
@@ -98,12 +97,12 @@ public class Spring4RestCall extends AbstractRestCall
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
+    public <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException
     {
         boolean form = verify(method);
 
         HttpHeaders headers = new HttpHeaders();
-        URI uri = processAttributes(headers, path, form);
+        URI uri = processAttributes(headers, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
@@ -123,12 +122,12 @@ public class Spring4RestCall extends AbstractRestCall
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException
+    public <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException
     {
         boolean form = verify(method);
 
         HttpHeaders headers = new HttpHeaders();
-        URI uri = processAttributes(headers, path, form);
+        URI uri = processAttributes(headers, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
@@ -175,7 +174,7 @@ public class Spring4RestCall extends AbstractRestCall
         }
     }
 
-    protected URI processAttributes(HttpHeaders headers, String path, boolean form) throws RestException
+    protected URI processAttributes(HttpHeaders headers, boolean form) throws RestException
     {
         List<MediaType> acceptableMediaTypes = getAcceptableMediaTypes();
 
@@ -191,8 +190,7 @@ public class Spring4RestCall extends AbstractRestCall
             headers.setContentType(SpringRestUtils.convertMediaType(contentType, null));
         }
 
-        UriComponentsBuilder builder =
-            UriComponentsBuilder.fromUriString(RestUtils.appendPathWithPlaceholders(getUrl(), path));
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(getUrl());
         Map<String, Object> variables = buildVariables(builder, headers, form);
 
         try

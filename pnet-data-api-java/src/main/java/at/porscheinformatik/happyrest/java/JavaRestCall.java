@@ -61,16 +61,16 @@ public class JavaRestCall extends AbstractRestCall
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
+    public <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException
     {
-        return invoke(method, path, GenericType.build(responseType).raw());
+        return invoke(method, GenericType.build(responseType).raw());
     }
 
     @Override
-    public <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException
+    public <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException
     {
         boolean form = verify(method);
-        String url = buildUrl(path, form);
+        String url = buildUrl(form);
         HttpRequest request = buildRequest(method, url, form);
 
         loggerAdapter.logRequest(method, String.valueOf(request.uri()));

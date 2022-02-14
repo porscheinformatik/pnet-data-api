@@ -42,11 +42,11 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/advisortypes/details",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeDataDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/advisortypes/details")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeDataDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
 
@@ -69,11 +69,11 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
                 .parameters(restricts)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/advisortypes/search",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/advisortypes/search")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
 
@@ -97,11 +97,11 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
                 .parameter("l", language)
                 .parameter("p", pageIndex)
                 .parameter("pp", itemsPerPage)
-                .get("/api/v1/advisortypes/find",
-                    new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
-                    {
-                        // intentionally left blank
-                    });
+                .path("/api/v1/advisortypes/find")
+                .get(new GenericType.Of<DefaultPnetDataClientResultPage<AdvisorTypeItemDTO>>()
+                {
+                    // intentionally left blank
+                });
 
             resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
 
