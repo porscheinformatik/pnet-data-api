@@ -27,7 +27,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.ApprovalState;
-import pnet.data.api.util.WithId;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithPersonId;
 import pnet.data.api.util.WithTenants;
@@ -38,7 +37,7 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @ApiModel(description = "Holds all information about a person")
-public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLastUpdate, Serializable
+public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -2096202204327773391L;
@@ -181,19 +180,6 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
         this.id = id != null ? id : personId;
         this.personId = personId != null ? personId : id;
-    }
-
-    /**
-     * Returns the person id
-     *
-     * @return person id
-     * @deprecated use {@link #getPersonId()} instead
-     */
-    @Override
-    @Deprecated
-    public Integer getId()
-    {
-        return id;
     }
 
     @Override

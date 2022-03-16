@@ -13,7 +13,7 @@ public interface CompanyMergable<SELF extends Restrict<SELF>> extends Restrict<S
 
     default SELF mergeInternetGroups()
     {
-        return merge(CompanyMerge.INTERET_GROUP);
+        return merge(CompanyMerge.INTERNET_GROUP);
     }
 
     default SELF merge(CompanyMerge companyMerge)

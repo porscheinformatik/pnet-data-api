@@ -158,7 +158,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 RestResponse<byte[]> response = restCall
                     .variable("id", personId)
                     .parameter("type", imageType)
-                    .invoke(RestMethod.GET, "api/v1/persons/portrait/{id}", byte[].class);
+                    .path("api/v1/persons/portrait/{id}")
+                    .invoke(RestMethod.GET, byte[].class);
 
                 return Optional.of(new Resource(response.getContentType().toString(), response.getBody()));
             }

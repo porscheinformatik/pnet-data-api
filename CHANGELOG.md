@@ -2,6 +2,7 @@ pnet-data-api 1.18.5
 ====================
 
 * Remove String.format from exceptions to prevent formatting errors.
+* Removed some old deprecated code.
 
 pnet-data-api 1.18.5
 ====================
