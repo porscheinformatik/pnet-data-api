@@ -36,7 +36,7 @@ public class JacksonBasedFormatter implements RestFormatter
     {
         if (!isContentTypeSupported(contentType))
         {
-            throw new RestFormatterException("Content type not supported: %s", contentType);
+            throw new RestFormatterException("Content type not supported: " + contentType);
         }
 
         try

@@ -41,7 +41,7 @@ public class JacksonBasedParser implements RestParser
     {
         if (!isContentTypeSupported(contentType, type))
         {
-            throw new RestParserException("Cannot convert %s to %s", contentType, type);
+            throw new RestParserException("Cannot convert " + contentType + " to " + type);
         }
 
         try

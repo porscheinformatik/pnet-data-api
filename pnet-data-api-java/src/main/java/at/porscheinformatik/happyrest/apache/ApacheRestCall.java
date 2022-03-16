@@ -182,7 +182,7 @@ public class ApacheRestCall extends AbstractRestCall
         }
         catch (URISyntaxException e)
         {
-            throw new RestRequestException("Invalid URL: %s", e, url);
+            throw new RestRequestException("Invalid URL: " + url, e);
         }
         return request;
     }

@@ -1,6 +1,11 @@
 pnet-data-api 1.18.5
 ====================
 
+* Remove String.format from exceptions to prevent formatting errors.
+
+pnet-data-api 1.18.5
+====================
+
 * Fix media type detection for RestCalls.
 * Remove path option from RestCall methods.
 * Prefer raw parsing over JSON in Apache and JavaRestCalls

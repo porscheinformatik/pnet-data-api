@@ -16,7 +16,7 @@ public class RestResponseException extends RestException
 
     public RestResponseException(String description, int statusCode, String statusMessage, Throwable cause)
     {
-        super("%s - %s", cause, RestUtils.getHttpStatus(statusCode, statusMessage), description);
+        super(RestUtils.getHttpStatus(statusCode, statusMessage) + " - " + description, cause);
 
         this.description = description;
         this.statusCode = statusCode;

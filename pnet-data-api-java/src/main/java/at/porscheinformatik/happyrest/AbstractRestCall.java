@@ -274,7 +274,7 @@ public abstract class AbstractRestCall implements RestCall
     {
         if (body != null && (method == RestMethod.GET || method == RestMethod.OPTIONS))
         {
-            throw new RestRequestException("A %s request does not allow a body.", method);
+            throw new RestRequestException("A " + method + " request does not allow a body.");
         }
 
         boolean form = isForm();
@@ -285,7 +285,7 @@ public abstract class AbstractRestCall implements RestCall
                 || method == RestMethod.DELETE
                 || method == RestMethod.OPTIONS))
         {
-            throw new RestRequestException("A %s request does not allow form values.", method);
+            throw new RestRequestException("A " + method + " request does not allow form values.");
         }
 
         return form;

@@ -84,11 +84,11 @@ public class JavaRestCall extends AbstractRestCall
         {
             Thread.currentThread().interrupt();
 
-            throw new RestRequestException("Request got interrupted: %s", e, url);
+            throw new RestRequestException("Request got interrupted: " + url, e);
         }
         catch (IOException e)
         {
-            throw new RestRequestException("Request failed: %s", e, url);
+            throw new RestRequestException("Request failed: " + url, e);
         }
 
         return JavaRestResponse.create(parser, response, responseType, loggerAdapter);

@@ -259,7 +259,7 @@ public class SpringRestCall extends AbstractRestCall
                 continue;
             }
 
-            throw new RestException("Rest attrbiute of %s not supported", attribute.getClass());
+            throw new RestException("Rest attrbiute of " + attribute.getClass() + " not supported");
         }
 
         return variables;
