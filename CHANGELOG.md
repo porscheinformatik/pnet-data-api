@@ -1,8 +1,11 @@
-pnet-data-api 1.18.5
+pnet-data-api 1.19.0
 ====================
 
 * Remove String.format from exceptions to prevent formatting errors.
 * Removed some old deprecated code.
+* Fixed unencoded variables in REST calls using the Java Client.
+* Fixed unencoded variables in REST calls using the Apache Client.
+* Fixed invalid charset in form parameters when using Apache Client.
 
 pnet-data-api 1.18.5
 ====================

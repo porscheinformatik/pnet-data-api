@@ -35,10 +35,10 @@ import at.porscheinformatik.happyrest.RestResponse;
 public class JavaRestCall extends AbstractRestCall
 {
 
-    private final HttpClient httpClient;
-    private final String userAgent;
-    private final RestLoggerAdapter loggerAdapter;
-    private final RestParser parser;
+    protected final HttpClient httpClient;
+    protected final String userAgent;
+    protected final RestLoggerAdapter loggerAdapter;
+    protected final RestParser parser;
 
     public JavaRestCall(HttpClient httpClient, String userAgent, RestLoggerAdapter loggerAdapter, String url,
         List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
@@ -75,7 +75,14 @@ public class JavaRestCall extends AbstractRestCall
 
         loggerAdapter.logRequest(method, String.valueOf(request.uri()));
 
+        return invoke(request, responseType);
+    }
+
+    protected <T> RestResponse<T> invoke(HttpRequest request, GenericType<T> responseType)
+        throws RestRequestException, RestException
+    {
         HttpResponse<InputStream> response;
+
         try
         {
             response = httpClient.send(request, BodyHandlers.ofInputStream());
@@ -84,11 +91,11 @@ public class JavaRestCall extends AbstractRestCall
         {
             Thread.currentThread().interrupt();
 
-            throw new RestRequestException("Request got interrupted: " + url, e);
+            throw new RestRequestException("Request got interrupted: " + String.valueOf(request.uri()), e);
         }
         catch (IOException e)
         {
-            throw new RestRequestException("Request failed: " + url, e);
+            throw new RestRequestException("Request failed: " + String.valueOf(request.uri()), e);
         }
 
         return JavaRestResponse.create(parser, response, responseType, loggerAdapter);
@@ -96,7 +103,17 @@ public class JavaRestCall extends AbstractRestCall
 
     private HttpRequest buildRequest(RestMethod method, String url, boolean form) throws RestRequestException
     {
-        Builder builder = HttpRequest.newBuilder().uri(URI.create(url));
+        Builder builder;
+
+        try
+        {
+            builder = HttpRequest.newBuilder().uri(URI.create(url));
+        }
+        catch (Exception e)
+        {
+            throw new RestRequestException("Failed to build URL: " + url, e);
+        }
+
         List<RestHeader> headers = getHeaders();
 
         for (RestHeader header : headers)

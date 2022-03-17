@@ -46,9 +46,9 @@ public class Spring4RestCallFactory implements RestCallFactory
         return factory;
     }
 
-    private final RestTemplate restTemplate;
-    private final RestLoggerAdapter loggerAdapter;
-    private final RestFormatter formatter;
+    protected final RestTemplate restTemplate;
+    protected final RestLoggerAdapter loggerAdapter;
+    protected final RestFormatter formatter;
 
     @Autowired
     public Spring4RestCallFactory(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
@@ -63,7 +63,7 @@ public class Spring4RestCallFactory implements RestCallFactory
     @Override
     public RestCall url(String url)
     {
-        return new SpringRestCall(restTemplate, loggerAdapter, formatter, url);
+        return new Spring4RestCall(restTemplate, loggerAdapter, formatter, url);
     }
 
 }

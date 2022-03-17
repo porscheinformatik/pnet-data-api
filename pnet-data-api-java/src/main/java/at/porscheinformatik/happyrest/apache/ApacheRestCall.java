@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -38,6 +39,7 @@ import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestRequestException;
 import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 
 /**
@@ -48,9 +50,9 @@ import at.porscheinformatik.happyrest.RestVariable;
 public class ApacheRestCall extends AbstractRestCall
 {
 
-    private final CloseableHttpClient httpClient;
-    private final RestLoggerAdapter loggerAdapter;
-    private final RestParser parser;
+    protected final CloseableHttpClient httpClient;
+    protected final RestLoggerAdapter loggerAdapter;
+    protected final RestParser parser;
 
     public ApacheRestCall(CloseableHttpClient httpClient, RestLoggerAdapter loggerAdapter, String url,
         List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
@@ -82,7 +84,7 @@ public class ApacheRestCall extends AbstractRestCall
                     .add(new BasicNameValuePair(parameter.getName(),
                         format(MediaType.TEXT_PLAIN, parameter.getValue()))));
 
-            return new UrlEncodedFormEntity(params);
+            return new UrlEncodedFormEntity(params, getCharset());
         }
 
         return null;
@@ -115,6 +117,12 @@ public class ApacheRestCall extends AbstractRestCall
 
         loggerAdapter.logRequest(method, String.valueOf(request.getURI()));
 
+        return invoke(method, responseType, request);
+    }
+
+    protected <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType, HttpRequestBase request)
+        throws RestException, RestRequestException
+    {
         try (CloseableHttpResponse response = httpClient.execute(request))
         {
             return ApacheRestResponse.create(parser, response, responseType);
@@ -128,10 +136,13 @@ public class ApacheRestCall extends AbstractRestCall
     private String buildUrl()
     {
         String url = getUrl();
+        Charset charset = getCharset();
 
         for (RestVariable variable : getVariables())
         {
-            url = url.replace("{" + variable.getName() + "}", format(MediaType.TEXT_PLAIN, variable.getValue()));
+            url = url
+                .replace("{" + variable.getName() + "}", RestUtils
+                    .encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
         }
 
         return url;

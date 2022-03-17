@@ -40,8 +40,8 @@ import at.porscheinformatik.happyrest.RestVariable;
  */
 public class Spring4RestCall extends AbstractRestCall
 {
-    private final RestTemplate restTemplate;
-    private final RestLoggerAdapter loggerAdapter;
+    protected final RestTemplate restTemplate;
+    protected final RestLoggerAdapter loggerAdapter;
 
     protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
     {
@@ -107,6 +107,12 @@ public class Spring4RestCall extends AbstractRestCall
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
 
+        return invoke(method, responseType, uri, entity);
+    }
+
+    protected <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType, URI uri, HttpEntity<Object> entity)
+        throws RestResponseException, RestException
+    {
         try
         {
             return new Spring4RestResponse<>(restTemplate.exchange(uri, toHttpMethod(method), entity, responseType));
@@ -132,6 +138,12 @@ public class Spring4RestCall extends AbstractRestCall
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
 
+        return invoke(method, responseType, uri, entity);
+    }
+
+    protected <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType, URI uri,
+        HttpEntity<Object> entity) throws RestResponseException, RestException
+    {
         try
         {
             return new Spring4RestResponse<>(restTemplate

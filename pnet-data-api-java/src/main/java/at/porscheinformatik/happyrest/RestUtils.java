@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -216,6 +217,11 @@ public final class RestUtils
         }
     }
 
+    public static String encodeString(String s, Charset charset)
+    {
+        return URLEncoder.encode(s, charset);
+    }
+
     private static boolean encodeByte(ByteArrayOutputStream baos, byte b, boolean ignorePathSeparator,
         boolean ignorePlaceholders, boolean inPlaceholder)
     {
@@ -249,6 +255,7 @@ public final class RestUtils
             baos.write(hex1);
             baos.write(hex2);
         }
+
         return inPlaceholder;
     }
 

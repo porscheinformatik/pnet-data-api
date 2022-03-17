@@ -41,14 +41,14 @@ public class JavaRestCallFactory implements RestCallFactory
         return new JavaRestCallFactory(loggerAdapter, formatter, parser);
     }
 
-    private final RestLoggerAdapter loggerAdapter;
-    private final RestFormatter formatter;
-    private final RestParser parser;
-    private final ProxySelector proxySelector;
-    private final Duration timeout;
-    private final String userAgent;
+    protected final RestLoggerAdapter loggerAdapter;
+    protected final RestFormatter formatter;
+    protected final RestParser parser;
+    protected final ProxySelector proxySelector;
+    protected final Duration timeout;
+    protected final String userAgent;
 
-    private HttpClient httpClient;
+    protected HttpClient httpClient;
 
     public JavaRestCallFactory(RestLoggerAdapter loggerAdapter, RestFormatter formatter, RestParser parser)
     {
@@ -128,5 +128,4 @@ public class JavaRestCallFactory implements RestCallFactory
         return new JavaRestCall(httpClient, userAgent, loggerAdapter, url, null, MediaType.APPLICATION_JSON, null,
             formatter, parser, null);
     }
-
 }

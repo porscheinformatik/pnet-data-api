@@ -7,8 +7,11 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class RestUtilsTest
 {
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Test
     public void encodePathSegmentTest()

@@ -3,9 +3,7 @@ package at.porscheinformatik.happyrest.spring;
 import static at.porscheinformatik.happyrest.spring.SpringRestUtils.*;
 
 import java.lang.reflect.Array;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +31,7 @@ import at.porscheinformatik.happyrest.RestHeader;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParameter;
+import at.porscheinformatik.happyrest.RestRequestException;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
 import at.porscheinformatik.happyrest.RestVariable;
@@ -44,8 +43,8 @@ import at.porscheinformatik.happyrest.RestVariable;
  */
 public class SpringRestCall extends AbstractRestCall
 {
-    private final RestTemplate restTemplate;
-    private final RestLoggerAdapter loggerAdapter;
+    protected final RestTemplate restTemplate;
+    protected final RestLoggerAdapter loggerAdapter;
 
     protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
     {
@@ -111,6 +110,12 @@ public class SpringRestCall extends AbstractRestCall
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
 
+        return invoke(method, responseType, uri, entity);
+    }
+
+    protected <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType, URI uri, HttpEntity<Object> entity)
+        throws RestResponseException, RestException
+    {
         try
         {
             return new SpringRestResponse<>(restTemplate.exchange(uri, toHttpMethod(method), entity, responseType));
@@ -136,6 +141,12 @@ public class SpringRestCall extends AbstractRestCall
 
         loggerAdapter.logRequest(method, String.valueOf(uri));
 
+        return invoke(method, responseType, uri, entity);
+    }
+
+    protected <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType, URI uri,
+        HttpEntity<Object> entity) throws RestResponseException, RestException
+    {
         try
         {
             return new SpringRestResponse<>(restTemplate
@@ -205,9 +216,9 @@ public class SpringRestCall extends AbstractRestCall
         {
             return builder.build(variables).toURL().toURI();
         }
-        catch (MalformedURLException | URISyntaxException e)
+        catch (Exception e)
         {
-            throw new IllegalArgumentException("Failed to parse URL", e);
+            throw new RestRequestException("Failed to build URL", e);
         }
     }
 

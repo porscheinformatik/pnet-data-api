@@ -1,7 +1,6 @@
 package at.porscheinformatik.happyrest;
 
 import java.lang.reflect.Array;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -334,9 +333,9 @@ public abstract class AbstractRestCall implements RestCall
                 for (int i = 0; i < Array.getLength(value); i++)
                 {
                     parameters
-                        .add(URLEncoder.encode(parameter.getName(), charset)
+                        .add(RestUtils.encodeString(parameter.getName(), charset)
                             + "="
-                            + URLEncoder.encode(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset));
+                            + RestUtils.encodeString(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset));
                 }
 
                 continue;
@@ -349,18 +348,18 @@ public abstract class AbstractRestCall implements RestCall
                 while (iterator.hasNext())
                 {
                     parameters
-                        .add(URLEncoder.encode(parameter.getName(), charset)
+                        .add(RestUtils.encodeString(parameter.getName(), charset)
                             + "="
-                            + URLEncoder.encode(format(MediaType.TEXT_PLAIN, iterator.next()), charset));
+                            + RestUtils.encodeString(format(MediaType.TEXT_PLAIN, iterator.next()), charset));
                 }
 
                 continue;
             }
 
             parameters
-                .add(URLEncoder.encode(parameter.getName(), charset)
+                .add(RestUtils.encodeString(parameter.getName(), charset)
                     + "="
-                    + URLEncoder.encode(format(MediaType.TEXT_PLAIN, value), charset));
+                    + RestUtils.encodeString(format(MediaType.TEXT_PLAIN, value), charset));
         }
 
         return parameters;
@@ -369,10 +368,13 @@ public abstract class AbstractRestCall implements RestCall
     protected String buildUrl(boolean form)
     {
         String url = getUrl();
+        Charset charset = getCharset();
 
         for (RestVariable variable : getVariables())
         {
-            url = url.replace("{" + variable.getName() + "}", format(MediaType.TEXT_PLAIN, variable.getValue()));
+            url = url
+                .replace("{" + variable.getName() + "}", RestUtils
+                    .encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
         }
 
         if (!form)
@@ -381,7 +383,16 @@ public abstract class AbstractRestCall implements RestCall
 
             if (!parameters.isEmpty())
             {
-                url += "?" + parameters.stream().collect(Collectors.joining("&"));
+                if (url.contains("?"))
+                {
+                    url += "&";
+                }
+                else
+                {
+                    url += "?";
+                }
+
+                url += parameters.stream().collect(Collectors.joining("&"));
             }
         }
 
