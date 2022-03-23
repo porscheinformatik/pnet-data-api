@@ -21,4 +21,14 @@ public interface RestrictFunction<SELF extends Restrict<SELF>> extends Restrict<
         return function(functionMatchcodes.toArray(new String[functionMatchcodes.size()]));
     }
 
+    /**
+     * Can be used to find "active" users without a specific function, but with at least one active function.
+     *
+     * @return a new instance with this restriction
+     */
+    default SELF anyFunction()
+    {
+        return function(PnetDataApiUtils.WILDCARD);
+    }
+
 }

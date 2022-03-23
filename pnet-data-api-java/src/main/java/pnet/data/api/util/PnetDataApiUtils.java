@@ -42,7 +42,9 @@ public final class PnetDataApiUtils
      */
     public static final Collator DICTIONARY_COLLATOR;
 
-    public static final Comparator<String> DICTIONARY_COMPARATOR = (left, right) -> dictionaryCompare(left, right);
+    public static final Comparator<String> DICTIONARY_COMPARATOR = PnetDataApiUtils::dictionaryCompare;
+
+    public static String WILDCARD = "*";
 
     static
     {
@@ -128,14 +130,7 @@ public final class PnetDataApiUtils
      */
     public static <TYPE extends Comparable<TYPE>> int compare(final TYPE left, final TYPE right)
     {
-        if (left == null)
-        {
-            if (right != null)
-            {
-                return 1;
-            }
-        }
-        else
+        if (left != null)
         {
             if (right != null)
             {
@@ -143,6 +138,10 @@ public final class PnetDataApiUtils
             }
 
             return -1;
+        }
+        if (right != null)
+        {
+            return 1;
         }
 
         return 0;
@@ -160,14 +159,7 @@ public final class PnetDataApiUtils
      */
     public static <TYPE> int compare(final Comparator<TYPE> comparator, final TYPE left, final TYPE right)
     {
-        if (left == null)
-        {
-            if (right != null)
-            {
-                return 1;
-            }
-        }
-        else
+        if (left != null)
         {
             if (right != null)
             {
@@ -175,6 +167,10 @@ public final class PnetDataApiUtils
             }
 
             return -1;
+        }
+        if (right != null)
+        {
+            return 1;
         }
 
         return 0;

@@ -1,3 +1,12 @@
+pnet-data-api 1.19.1
+====================
+
+* DatedBackUntil feature for auto-complete.
+* Added datedBackByDays(int) as comfort function.
+* anyFunction() to filter persons with any active function
+* anyActivity() to filter persons with any active activity
+* anyBrand() to filter persons, companies, functions, ... with any active brand
+
 pnet-data-api 1.19.0
 ====================
 

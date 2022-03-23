@@ -21,4 +21,14 @@ public interface RestrictActivity<SELF extends Restrict<SELF>> extends Restrict<
         return activity(activityMatchcodes.toArray(new String[activityMatchcodes.size()]));
     }
 
+    /**
+     * Can be used to find "active" users without a specific activity, but with at least one active activity.
+     *
+     * @return a new instance with this restriction
+     */
+    default SELF anyActivity()
+    {
+        return activity(PnetDataApiUtils.WILDCARD);
+    }
+
 }

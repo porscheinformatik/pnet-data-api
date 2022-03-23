@@ -21,4 +21,14 @@ public interface RestrictBrand<SELF extends Restrict<SELF>> extends Restrict<SEL
         return brand(brandMatchcodes.toArray(new String[brandMatchcodes.size()]));
     }
 
+    /**
+     * Can be used to find "active" entries without a specific brand, but with at least one active brand.
+     *
+     * @return a new instance with this restriction
+     */
+    default SELF anyBrand()
+    {
+        return brand(PnetDataApiUtils.WILDCARD);
+    }
+
 }

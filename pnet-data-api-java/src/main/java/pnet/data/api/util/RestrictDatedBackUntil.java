@@ -16,4 +16,9 @@ public interface RestrictDatedBackUntil<SELF extends Restrict<SELF>> extends Res
         return restrict("datedBackUntil", datedBackUntil);
     }
 
+    default SELF datedBackByDays(int days)
+    {
+        return datedBackUntil(LocalDateTime.now().minusDays(days));
+    }
+
 }
