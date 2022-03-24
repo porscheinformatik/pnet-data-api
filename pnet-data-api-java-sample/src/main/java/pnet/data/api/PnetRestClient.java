@@ -2701,7 +2701,7 @@ public final class PnetRestClient
         }
         else
         {
-            Object result = repository.restCall(key()).encodedPathSegment(uri).get(Object.class);
+            HashMap<?, ?> result = repository.restCall(key()).encodedPathSegment(uri).get(HashMap.class);
 
             cli.info(PrettyPrint.prettyPrint(result));
         }
