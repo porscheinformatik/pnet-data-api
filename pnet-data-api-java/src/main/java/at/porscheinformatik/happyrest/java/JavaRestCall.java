@@ -37,24 +37,22 @@ public class JavaRestCall extends AbstractRestCall
 
     protected final HttpClient httpClient;
     protected final String userAgent;
-    protected final RestLoggerAdapter loggerAdapter;
     protected final RestParser parser;
 
     public JavaRestCall(HttpClient httpClient, String userAgent, RestLoggerAdapter loggerAdapter, String url,
         List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
         RestFormatter formatter, RestParser parser, Object body)
     {
-        super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+        super(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
 
         this.httpClient = httpClient;
         this.userAgent = userAgent;
-        this.loggerAdapter = loggerAdapter;
         this.parser = parser;
     }
 
     @Override
-    protected RestCall copy(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
-        List<RestAttribute> attributes, RestFormatter formatter, Object body)
+    protected RestCall copy(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
+        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         return new JavaRestCall(httpClient, userAgent, loggerAdapter, url, acceptableMediaTypes, contentType,
             attributes, formatter, parser, body);
@@ -73,7 +71,7 @@ public class JavaRestCall extends AbstractRestCall
         String url = buildUrl(form);
         HttpRequest request = buildRequest(method, url, form);
 
-        loggerAdapter.logRequest(method, String.valueOf(request.uri()));
+        getLoggerAdapter().logRequest(method, String.valueOf(request.uri()));
 
         return invoke(request, responseType);
     }
@@ -98,7 +96,7 @@ public class JavaRestCall extends AbstractRestCall
             throw new RestRequestException("Request failed: " + String.valueOf(request.uri()), e);
         }
 
-        return JavaRestResponse.create(parser, response, responseType, loggerAdapter);
+        return JavaRestResponse.create(parser, response, responseType, getLoggerAdapter());
     }
 
     private HttpRequest buildRequest(RestMethod method, String url, boolean form) throws RestRequestException

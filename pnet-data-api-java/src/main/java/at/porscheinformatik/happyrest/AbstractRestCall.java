@@ -23,6 +23,7 @@ public abstract class AbstractRestCall implements RestCall
 
     private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 
+    private final RestLoggerAdapter loggerAdapter;
     private final String url;
     private final List<MediaType> acceptableMediaTypes;
     private final MediaType contentType;
@@ -30,11 +31,12 @@ public abstract class AbstractRestCall implements RestCall
     private final RestFormatter formatter;
     private final Object body;
 
-    protected AbstractRestCall(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
-        List<RestAttribute> attributes, RestFormatter formatter, Object body)
+    protected AbstractRestCall(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
+        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         super();
 
+        this.loggerAdapter = loggerAdapter;
         this.url = url;
         this.acceptableMediaTypes = acceptableMediaTypes;
         this.contentType = contentType;
@@ -43,8 +45,13 @@ public abstract class AbstractRestCall implements RestCall
         this.body = body;
     }
 
-    protected abstract RestCall copy(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
-        List<RestAttribute> attributes, RestFormatter formatter, Object body);
+    protected abstract RestCall copy(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
+        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body);
+
+    protected RestLoggerAdapter getLoggerAdapter()
+    {
+        return loggerAdapter;
+    }
 
     @Override
     public String getUrl()
@@ -55,7 +62,7 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall url(String url)
     {
-        return copy(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+        return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
     @Override
@@ -66,7 +73,7 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return copy(
+        return copy(loggerAdapter,
             RestUtils.appendPathWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"), path),
             acceptableMediaTypes, contentType, attributes, formatter, body);
     }
@@ -79,9 +86,10 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return copy(RestUtils
-            .appendPathSegmentsWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"),
-                pathSegments),
+        return copy(loggerAdapter,
+            RestUtils
+                .appendPathSegmentsWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"),
+                    pathSegments),
             acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
@@ -93,7 +101,7 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return copy(
+        return copy(loggerAdapter,
             RestUtils
                 .appendEncodedPathSegments(Objects.requireNonNull(url, "Cannot add path to missing URL"), pathSegments),
             acceptableMediaTypes, contentType, attributes, formatter, body);
@@ -115,8 +123,8 @@ public abstract class AbstractRestCall implements RestCall
             currentAcceptableMediaTypes.addAll(0, acceptableMediaTypes);
         }
 
-        return copy(url, Collections.unmodifiableList(currentAcceptableMediaTypes), contentType, attributes, formatter,
-            body);
+        return copy(loggerAdapter, url, Collections.unmodifiableList(currentAcceptableMediaTypes), contentType,
+            attributes, formatter, body);
     }
 
     @Override
@@ -216,8 +224,8 @@ public abstract class AbstractRestCall implements RestCall
             currentAttributes.addAll(0, attributes);
         }
 
-        return copy(url, acceptableMediaTypes, contentType, Collections.unmodifiableList(currentAttributes), formatter,
-            body);
+        return copy(loggerAdapter, url, acceptableMediaTypes, contentType,
+            Collections.unmodifiableList(currentAttributes), formatter, body);
     }
 
     protected RestFormatter getFormatter()
@@ -239,7 +247,7 @@ public abstract class AbstractRestCall implements RestCall
 
     public RestCall formatter(RestFormatter formatter)
     {
-        return copy(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+        return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
     public MediaType getContentType()
@@ -250,7 +258,7 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall contentType(MediaType contentType)
     {
-        return copy(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+        return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
     public Object getBody()
@@ -261,7 +269,7 @@ public abstract class AbstractRestCall implements RestCall
     @Override
     public RestCall body(Object body)
     {
-        return copy(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+        return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
     protected boolean isForm()

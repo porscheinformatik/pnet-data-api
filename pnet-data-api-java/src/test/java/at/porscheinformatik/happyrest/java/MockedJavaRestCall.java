@@ -27,8 +27,8 @@ public class MockedJavaRestCall extends JavaRestCall
     }
 
     @Override
-    protected MockedJavaRestCall copy(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
-        List<RestAttribute> attributes, RestFormatter formatter, Object body)
+    protected MockedJavaRestCall copy(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
+        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         return new MockedJavaRestCall(httpClient, userAgent, loggerAdapter, url, acceptableMediaTypes, contentType,
             attributes, formatter, parser, body);

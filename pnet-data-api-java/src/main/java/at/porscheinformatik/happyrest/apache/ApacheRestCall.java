@@ -51,18 +51,15 @@ public class ApacheRestCall extends AbstractRestCall
 {
 
     protected final CloseableHttpClient httpClient;
-    protected final RestLoggerAdapter loggerAdapter;
     protected final RestParser parser;
 
     public ApacheRestCall(CloseableHttpClient httpClient, RestLoggerAdapter loggerAdapter, String url,
         List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
         RestFormatter formatter, RestParser parser, Object body)
     {
-        super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+        super(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
 
         this.httpClient = httpClient;
-
-        this.loggerAdapter = loggerAdapter;
         this.parser = parser;
     }
 
@@ -91,8 +88,8 @@ public class ApacheRestCall extends AbstractRestCall
     }
 
     @Override
-    protected RestCall copy(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
-        List<RestAttribute> attributes, RestFormatter formatter, Object body)
+    protected RestCall copy(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
+        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         return new ApacheRestCall(httpClient, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
             formatter, parser, body);
@@ -115,7 +112,7 @@ public class ApacheRestCall extends AbstractRestCall
         computeHeaders(request);
         computeEntity(method, request);
 
-        loggerAdapter.logRequest(method, String.valueOf(request.getURI()));
+        getLoggerAdapter().logRequest(method, String.valueOf(request.getURI()));
 
         return invoke(method, responseType, request);
     }

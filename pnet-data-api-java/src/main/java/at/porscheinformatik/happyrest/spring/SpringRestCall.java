@@ -44,7 +44,6 @@ import at.porscheinformatik.happyrest.RestVariable;
 public class SpringRestCall extends AbstractRestCall
 {
     protected final RestTemplate restTemplate;
-    protected final RestLoggerAdapter loggerAdapter;
 
     protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter)
     {
@@ -61,15 +60,14 @@ public class SpringRestCall extends AbstractRestCall
         List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
         RestFormatter formatter, Object body)
     {
-        super(url, acceptableMediaTypes, contentType, attributes, formatter, body);
+        super(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
 
         this.restTemplate = restTemplate;
-        this.loggerAdapter = loggerAdapter;
     }
 
     @Override
-    protected RestCall copy(String url, List<MediaType> acceptableMediaTypes, MediaType contentType,
-        List<RestAttribute> attributes, RestFormatter formatter, Object body)
+    protected RestCall copy(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
+        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body)
     {
         return new SpringRestCall(restTemplate, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
             formatter, body);
@@ -108,7 +106,7 @@ public class SpringRestCall extends AbstractRestCall
         URI uri = processAttributes(headers, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
-        loggerAdapter.logRequest(method, String.valueOf(uri));
+        getLoggerAdapter().logRequest(method, String.valueOf(uri));
 
         return invoke(method, responseType, uri, entity);
     }
@@ -139,7 +137,7 @@ public class SpringRestCall extends AbstractRestCall
         URI uri = processAttributes(headers, form);
         HttpEntity<Object> entity = new HttpEntity<>(getBody(), headers);
 
-        loggerAdapter.logRequest(method, String.valueOf(uri));
+        getLoggerAdapter().logRequest(method, String.valueOf(uri));
 
         return invoke(method, responseType, uri, entity);
     }
