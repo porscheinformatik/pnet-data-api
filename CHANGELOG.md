@@ -1,3 +1,9 @@
+pnet-data-api 1.19.2
+====================
+
+* Optimize RestCall implementations.
+* Restore the deprecated id in PersonDataDto to prevent interface change.
+
 pnet-data-api 1.19.1
 ====================
 
