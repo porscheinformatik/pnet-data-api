@@ -1,3 +1,8 @@
+pnet-data-api 1.19.3
+====================
+
+* Add enums ProposalAction and ProposalGroup.
+
 pnet-data-api 1.19.2
 ====================
 

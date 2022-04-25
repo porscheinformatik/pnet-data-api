@@ -4,26 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum ProposalType
 {
+    MENU_ITEM_CREATE(ProposalGroup.MENU_ITEM),
 
-    MENU_ITEM_CREATE(ProposalGroup.MENUITEMS),
+    MENU_ITEM_UPDATE(ProposalGroup.MENU_ITEM),
 
-    MENU_ITEM_UPDATE(ProposalGroup.MENUITEMS),
+    MENU_ITEM_DELETE(ProposalGroup.MENU_ITEM),
 
-    MENU_ITEM_DELETE(ProposalGroup.MENUITEMS),
+    ACTIVITY_CREATE(ProposalGroup.ACTIVITY),
 
-    ACTIVITY_CREATE(ProposalGroup.ACTIVITIES),
+    ACTIVITY_UPDATE(ProposalGroup.ACTIVITY),
 
-    ACTIVITY_UPDATE(ProposalGroup.ACTIVITIES),
+    ACTIVITY_DELETE(ProposalGroup.ACTIVITY),
 
-    ACTIVITY_DELETE(ProposalGroup.ACTIVITIES),
+    FUNCTION_CREATE(ProposalGroup.FUNCTION),
 
-    FUNCTION_CREATE(ProposalGroup.FUNCTIONS),
+    FUNCTION_UPDATE(ProposalGroup.FUNCTION),
 
-    FUNCTION_UPDATE(ProposalGroup.FUNCTIONS),
+    FUNCTION_DELETE(ProposalGroup.FUNCTION),
 
-    FUNCTION_DELETE(ProposalGroup.FUNCTIONS),
-
-    OTHER(ProposalGroup.OTHERS);
+    OTHER(ProposalGroup.OTHER);
 
     private final ProposalGroup group;
 
@@ -42,5 +41,4 @@ public enum ProposalType
     {
         return group.name();
     }
-
 }
