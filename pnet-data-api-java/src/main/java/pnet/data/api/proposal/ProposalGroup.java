@@ -1,5 +1,9 @@
 package pnet.data.api.proposal;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Defines the group of a maintenance proposal
  *
@@ -7,23 +11,16 @@ package pnet.data.api.proposal;
  */
 public enum ProposalGroup
 {
-    MENU_ITEM(ProposalType.MENU_ITEM_CREATE, ProposalType.MENU_ITEM_UPDATE, ProposalType.MENU_ITEM_DELETE),
+    MENU_ITEM,
+    FUNCTION,
+    ACTIVITY,
+    OTHER;
 
-    FUNCTION(ProposalType.FUNCTION_CREATE, ProposalType.FUNCTION_UPDATE, ProposalType.FUNCTION_DELETE),
-
-    ACTIVITY(ProposalType.ACTIVITY_CREATE, ProposalType.ACTIVITY_UPDATE, ProposalType.ACTIVITY_DELETE),
-
-    OTHER(ProposalType.OTHER);
-
-    private final ProposalType[] types;
-
-    ProposalGroup(ProposalType... types)
+    public List<ProposalType> getTypes()
     {
-        this.types = types;
-    }
-
-    public ProposalType[] getTypes()
-    {
-        return types;
+        return Arrays
+            .stream(ProposalType.values())
+            .filter(type -> type.getGroup() == this)
+            .collect(Collectors.toList());
     }
 }

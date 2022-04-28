@@ -1,5 +1,9 @@
 package pnet.data.api.proposal;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Defines the action of a maintenance proposal
  * 
@@ -7,21 +11,16 @@ package pnet.data.api.proposal;
  */
 public enum ProposalAction
 {
-    CREATE(ProposalType.MENU_ITEM_CREATE, ProposalType.FUNCTION_CREATE, ProposalType.ACTIVITY_CREATE),
+    CREATE,
+    UPDATE,
+    DELETE,
+    OTHER;
 
-    UPDATE(ProposalType.MENU_ITEM_UPDATE, ProposalType.FUNCTION_UPDATE, ProposalType.ACTIVITY_UPDATE),
-
-    DELETE(ProposalType.MENU_ITEM_DELETE, ProposalType.FUNCTION_DELETE, ProposalType.ACTIVITY_DELETE);
-
-    private final ProposalType[] types;
-
-    ProposalAction(ProposalType... types)
+    public List<ProposalType> getTypes()
     {
-        this.types = types;
-    }
-
-    public ProposalType[] getTypes()
-    {
-        return types;
+        return Arrays
+            .stream(ProposalType.values())
+            .filter(type -> type.getAction() == this)
+            .collect(Collectors.toList());
     }
 }
