@@ -1,3 +1,8 @@
+pnet-data-api 1.19.5
+====================
+
+* Add the distribution network to companies.
+
 pnet-data-api 1.19.3
 ====================
 
