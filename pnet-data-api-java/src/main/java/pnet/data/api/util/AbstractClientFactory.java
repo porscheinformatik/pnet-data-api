@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.function.Supplier;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.RestCallFactory;
@@ -11,10 +13,14 @@ import pnet.data.api.activity.ActivityDataClient;
 import pnet.data.api.advisortype.AdvisorTypeDataClient;
 import pnet.data.api.application.ApplicationDataClient;
 import pnet.data.api.brand.BrandDataClient;
-import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientPrefs;
+import pnet.data.api.client.context.DefaultPnetDataApiContext;
+import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
+import pnet.data.api.client.context.PnetDataApiContext;
+import pnet.data.api.client.context.PnetDataApiLoginMethod;
 import pnet.data.api.client.context.PnetDataApiTokenRepository;
-import pnet.data.api.client.context.PrefsBasedPnetDataApiContext;
+import pnet.data.api.client.context.UsernamePasswordCredentials;
+import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
 import pnet.data.api.company.CompanyDataClient;
 import pnet.data.api.companygroup.CompanyGroupDataClient;
 import pnet.data.api.companygrouptype.CompanyGroupTypeDataClient;
@@ -38,13 +44,12 @@ import pnet.data.api.todo.TodoGroupDataClient;
  */
 public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> implements ClientProvider
 {
-    private final PnetDataClientPrefs prefs;
+    private final PnetDataApiLoginMethod loginMethod;
     private final ObjectMapper mapper;
     private final RestLoggerAdapter loggerAdapter;
     private final RestCallFactory restCallFactory;
-
     private final PnetDataApiTokenRepository repository;
-    private final PrefsBasedPnetDataApiContext context;
+    private final PnetDataApiContext context;
 
     private AboutDataClient aboutDataClient = null;
     private ActivityDataClient activityDataClient = null;
@@ -66,41 +71,58 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
     private ProposalDataClient proposalDataClient = null;
     private TodoGroupDataClient todoGroupDataClient = null;
 
-    public AbstractClientFactory(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
+    //    public AbstractClientFactory(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
+
+    public AbstractClientFactory(PnetDataApiLoginMethod loginMethod, ObjectMapper mapper,
+        RestLoggerAdapter loggerAdapter)
     {
         super();
 
-        this.prefs = prefs;
+        this.loginMethod = loginMethod;
         this.mapper = mapper;
         this.loggerAdapter = loggerAdapter;
 
         restCallFactory = createRestCallFactory(mapper, loggerAdapter);
         repository = new PnetDataApiTokenRepository(restCallFactory);
-        context = new PrefsBasedPnetDataApiContext(repository, prefs);
+        context = new DefaultPnetDataApiContext(repository, loginMethod);
     }
 
     protected abstract RestCallFactory createRestCallFactory(ObjectMapper mapper, RestLoggerAdapter loggerAdapter);
 
-    protected abstract T copy(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter);
+    protected abstract T copy(PnetDataApiLoginMethod loginMethod, ObjectMapper mapper, RestLoggerAdapter loggerAdapter);
 
+    @Deprecated
     public T withPrefs(PnetDataClientPrefs prefs)
     {
-        return copy(prefs, mapper, loggerAdapter);
+        return withUsernamePassword(prefs.getPnetDataApiUrl(),
+            () -> new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword()));
     }
 
+    @Deprecated
     public T withPrefs(String url, String username, String password)
     {
-        return withPrefs(new MutablePnetDataClientPrefs(url, username, password));
+        return withUsernamePassword(url, () -> new UsernamePasswordCredentials(username, password));
+    }
+
+    public T withAuthenticationToken(String url, Supplier<String> authenticationTokenSupplier)
+    {
+        return copy(new AuthenticationTokenPnetDataApiLoginMethod(url, authenticationTokenSupplier), mapper,
+            loggerAdapter);
+    }
+
+    public T withUsernamePassword(String url, Supplier<UsernamePasswordCredentials> usernamePasswordSupplier)
+    {
+        return copy(new UsernamePasswordPnetDataApiLoginMethod(url, usernamePasswordSupplier), mapper, loggerAdapter);
     }
 
     public T withMapper(ObjectMapper mapper)
     {
-        return copy(prefs, mapper, loggerAdapter);
+        return copy(loginMethod, mapper, loggerAdapter);
     }
 
     public T loggingTo(RestLoggerAdapter loggerAdapter)
     {
-        return copy(prefs, mapper, loggerAdapter);
+        return copy(loginMethod, mapper, loggerAdapter);
     }
 
     public T loggingToSlf4J()
@@ -113,11 +135,6 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
         return loggingTo(new SystemRestLoggerAdapter());
     }
 
-    public PnetDataClientPrefs getPrefs()
-    {
-        return prefs;
-    }
-
     public ObjectMapper getMapper()
     {
         return mapper;
@@ -128,12 +145,17 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
         return loggerAdapter;
     }
 
+    public RestCallFactory getRestCallFactory()
+    {
+        return restCallFactory;
+    }
+
     public PnetDataApiTokenRepository getRepository()
     {
         return repository;
     }
 
-    public PrefsBasedPnetDataApiContext getContext()
+    public PnetDataApiContext getContext()
     {
         return context;
     }

@@ -2,6 +2,9 @@ package pnet.data.api;
 
 import java.util.Locale;
 
+import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
+import pnet.data.api.client.context.UsernamePasswordCredentials;
+import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
 import pnet.data.api.java.JavaClientFactory;
 
 /**
@@ -12,7 +15,6 @@ import pnet.data.api.java.JavaClientFactory;
  */
 public final class PnetRestClientTemplate
 {
-
     private PnetRestClientTemplate()
     {
         super();
@@ -24,13 +26,34 @@ public final class PnetRestClientTemplate
      */
     public static void main(String[] args) throws PnetDataClientException
     {
-        if (args.length != 2)
-        {
-            System.out.println("Usage: java pnet.data.api.PnetRestClientTemplate <USERNAME> <PASSWORD>");
-            System.exit(-1);
-        }
+        String url = "https://entw-data.auto-partner.net/data";
+        //String url = "https://qa-data.auto-partner.net/data";
 
-        JavaClientFactory clientFactory = JavaClientFactory.of("https://data.auto-partner.net/data", args[0], args[1]);
+        JavaClientFactory clientFactory;
+
+        if (args.length == 1)
+        {
+            String token = args[0];
+            AuthenticationTokenPnetDataApiLoginMethod loginMethod =
+                new AuthenticationTokenPnetDataApiLoginMethod(url, () -> token);
+
+            clientFactory = JavaClientFactory.of(loginMethod);
+        }
+        else if (args.length == 2)
+        {
+            String username = args[0];
+            String password = args[1];
+            UsernamePasswordPnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url,
+                () -> new UsernamePasswordCredentials(username, password));
+
+            clientFactory = JavaClientFactory.of(loginMethod);
+        }
+        else
+        {
+            System.out.println("Usage: java pnet.data.api.PnetRestClientTemplate <TOKEN> | (<USERNAME> <PASSWORD>)");
+            System.exit(-1);
+            return;
+        }
 
         clientFactory
             .getCompanyDataClient()

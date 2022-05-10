@@ -8,6 +8,9 @@ import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.java.JavaRestCallFactory;
 import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientPrefs;
+import pnet.data.api.client.context.PnetDataApiLoginMethod;
+import pnet.data.api.client.context.UsernamePasswordCredentials;
+import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.AbstractClientFactory;
 import pnet.data.api.util.PnetDataApiUtils;
@@ -19,26 +22,42 @@ import pnet.data.api.util.PnetDataApiUtils;
  */
 public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory>
 {
-
+    @Deprecated
     public static JavaClientFactory of(String url, String username, String password)
     {
         return of(new MutablePnetDataClientPrefs(url, username, password));
     }
 
+    @Deprecated
     public static JavaClientFactory of(PnetDataClientPrefs prefs)
     {
-        return new JavaClientFactory(prefs, JacksonPnetDataApiModule.createObjectMapper(),
-            SystemRestLoggerAdapter.INSTANCE);
+        return of(prefs, JacksonPnetDataApiModule.createObjectMapper(), SystemRestLoggerAdapter.INSTANCE);
     }
 
+    @Deprecated
     public static JavaClientFactory of(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
     {
-        return new JavaClientFactory(prefs, mapper, loggerAdapter);
+        return new JavaClientFactory(
+            new UsernamePasswordPnetDataApiLoginMethod(prefs.getPnetDataApiUrl(),
+                () -> new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword())),
+            mapper, loggerAdapter);
     }
 
-    protected JavaClientFactory(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
+    public static JavaClientFactory of(PnetDataApiLoginMethod loginMethod)
     {
-        super(prefs, mapper, loggerAdapter);
+        return of(loginMethod, JacksonPnetDataApiModule.createObjectMapper(), SystemRestLoggerAdapter.INSTANCE);
+    }
+
+    public static JavaClientFactory of(PnetDataApiLoginMethod loginMethod, ObjectMapper mapper,
+        RestLoggerAdapter loggerAdapter)
+    {
+        return new JavaClientFactory(loginMethod, mapper, loggerAdapter);
+    }
+
+    protected JavaClientFactory(PnetDataApiLoginMethod loginMethod, ObjectMapper mapper,
+        RestLoggerAdapter loggerAdapter)
+    {
+        super(loginMethod, mapper, loggerAdapter);
     }
 
     @Override
@@ -50,9 +69,9 @@ public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory>
     }
 
     @Override
-    protected JavaClientFactory copy(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
+    protected JavaClientFactory copy(PnetDataApiLoginMethod loginMethod, ObjectMapper mapper,
+        RestLoggerAdapter loggerAdapter)
     {
-        return new JavaClientFactory(prefs, mapper, loggerAdapter);
+        return new JavaClientFactory(loginMethod, mapper, loggerAdapter);
     }
-
 }

@@ -27,6 +27,7 @@ import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
 import pnet.data.api.GeoDistance;
+import pnet.data.api.client.PnetDataClientPrefs;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.PnetDataApiUtils;
 
@@ -41,6 +42,24 @@ import pnet.data.api.util.PnetDataApiUtils;
 @ComponentScan(basePackageClasses = {AbstractContextPnetDataApiClientConfig.class})
 public abstract class AbstractContextPnetDataApiClientConfig
 {
+    @Bean
+    public PnetDataApiContext pnetDataApiContext(PnetDataApiTokenRepository tokenRepository,
+        Optional<PnetDataApiLoginMethod> loginMethod, Optional<PnetDataClientPrefs> prefs)
+    {
+        if (loginMethod.isPresent())
+        {
+            return new DefaultPnetDataApiContext(tokenRepository, loginMethod.get());
+        }
+
+        if (prefs.isPresent())
+        {
+            return new PrefsBasedPnetDataApiContext(tokenRepository, prefs.get());
+        }
+
+        throw new IllegalArgumentException("Please provide a PnetDataApiLoginMethod bean. "
+            + "See https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java#readme "
+            + "for more inforation.");
+    }
 
     @Bean
     public Converter<LocalDateTime, String> localDateTimeToStringConverter()

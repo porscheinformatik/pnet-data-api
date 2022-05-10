@@ -59,11 +59,22 @@ public final class Prefs
         Prefs.encodeAndSet(key + ".password", password);
     }
 
+    public static String getToken(String key)
+    {
+        return Prefs.decodeAndGet(key + ".token");
+    }
+
+    public static void setToken(String key, String token)
+    {
+        Prefs.encodeAndSet(key + ".token", token);
+    }
+
     public static void remove(String key)
     {
         PREFERENCES.remove(key + ".url");
         PREFERENCES.remove(key + ".username");
         PREFERENCES.remove(key + ".password");
+        PREFERENCES.remove(key + ".token");
     }
 
     public static List<String> keys()
@@ -93,6 +104,11 @@ public final class Prefs
     {
         String value = PREFERENCES.get(key, null);
 
+        if (value == null)
+        {
+            return null;
+        }
+
         try
         {
             return AES_CIPHER.decode(value);
@@ -109,12 +125,25 @@ public final class Prefs
 
     protected static void set(String key, String value)
     {
-        PREFERENCES.put(key, value);
+        if (value == null || value.isBlank())
+        {
+            PREFERENCES.remove(key);
+        }
+        else
+        {
+            PREFERENCES.put(key, value);
+        }
     }
 
     protected static void encodeAndSet(String key, String value)
     {
-        PREFERENCES.put(key, AES_CIPHER.encode(value));
+        if (value == null || value.isBlank())
+        {
+            PREFERENCES.remove(key);
+        }
+        else
+        {
+            PREFERENCES.put(key, AES_CIPHER.encode(value));
+        }
     }
-
 }

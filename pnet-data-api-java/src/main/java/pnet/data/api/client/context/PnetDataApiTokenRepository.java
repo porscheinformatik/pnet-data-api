@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
-import at.porscheinformatik.happyrest.RestMethod;
-import at.porscheinformatik.happyrest.RestResponse;
 import pnet.data.api.PnetDataClientException;
-import pnet.data.api.util.PnetDataApiUtils;
 
 /**
  * Repository for holding creating and caching RestCall objects.
@@ -20,10 +17,7 @@ import pnet.data.api.util.PnetDataApiUtils;
 @Service
 public class PnetDataApiTokenRepository
 {
-
-    private static final String TOKEN_PREFIX = "Bearer";
-
-    private final Map<PnetDataApiTokenKey, RestCall> restCalls = new HashMap<>();
+    private final Map<String, RestCall> restCalls = new HashMap<>();
     private final RestCallFactory factory;
 
     public PnetDataApiTokenRepository(RestCallFactory factory)
@@ -33,26 +27,27 @@ public class PnetDataApiTokenRepository
         this.factory = factory;
     }
 
-    public void invalidate(PnetDataApiTokenKey key)
+    public void invalidate(PnetDataApiLoginMethod loginMethod)
     {
-        restCalls.remove(key);
+        restCalls.remove(loginMethod.getKey());
     }
 
     /**
      * Creates a rest call. Performs a login, if necessary. Caches the {@link RestCall} object.
      *
-     * @param key the key
+     * @param loginMethod the login method
      * @return the rest call, never null
      * @throws PnetDataClientException on occasion
      */
-    public RestCall restCall(PnetDataApiTokenKey key) throws PnetDataClientException
+    public RestCall restCall(PnetDataApiLoginMethod loginMethod) throws PnetDataClientException
     {
+        String key = loginMethod.getKey();
         RestCall restCall = restCalls.get(key);
 
         if (restCall == null)
         {
-            String token = performLogin(key);
-            String url = key.getUrl();
+            String token = loginMethod.performLogin(factory);
+            String url = loginMethod.getUrl();
 
             restCall = createRestCall(url, token);
 
@@ -80,53 +75,8 @@ public class PnetDataApiTokenRepository
      * @param key the key
      * @param restCall the rest call object
      */
-    protected void cacheRestCall(PnetDataApiTokenKey key, RestCall restCall)
+    protected void cacheRestCall(String key, RestCall restCall)
     {
         restCalls.put(key, restCall);
     }
-
-    /**
-     * Performs a login with the specified key and returns the token.
-     *
-     * @param key the key
-     * @return the token, never null, never empty
-     * @throws PnetDataClientException on any login error
-     */
-    protected String performLogin(PnetDataApiTokenKey key) throws PnetDataClientException
-    {
-        String url = key.getUrl();
-
-        try
-        {
-            RestResponse<Void> response = factory.url(url).body(key).path("login").invoke(RestMethod.POST, Void.class);
-
-            if (response.isSuccessful())
-            {
-                String token = response.getFirstHeader("Authorization");
-
-                if (PnetDataApiUtils.isEmpty(token))
-                {
-                    throw new PnetDataClientException("Authorization header is missing", url, key.getUsername(),
-                        response);
-                }
-
-                if (token.startsWith(TOKEN_PREFIX))
-                {
-                    token = token.substring(TOKEN_PREFIX.length()).trim();
-                }
-
-                return token;
-            }
-
-            throw new PnetDataClientException("Login failed at \"%s\" with user \"%s\": %s", key.getUrl(),
-                key.getUsername(), response);
-
-        }
-        catch (Exception e)
-        {
-            throw new PnetDataClientException("Login failed at \"%s\" with user \"%s\"", e, key.getUrl(),
-                key.getUsername());
-        }
-    }
-
 }

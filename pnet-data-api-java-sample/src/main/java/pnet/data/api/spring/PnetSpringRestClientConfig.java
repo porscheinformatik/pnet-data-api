@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Import;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import pnet.data.api.PnetRestClient;
-import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientConfig;
+import pnet.data.api.util.MutablePnetDataApiLoginMethod;
 import pnet.data.api.util.Prefs;
 
 /**
@@ -22,18 +22,10 @@ import pnet.data.api.util.Prefs;
 @ComponentScan(basePackageClasses = {PnetSpringRestClientConfig.class})
 public class PnetSpringRestClientConfig
 {
-
-    /**
-     * @return the default preferences for connecting to the Partner.Net DATA API.
-     */
     @Bean
-    public MutablePnetDataClientPrefs pnetDataClientPrefs()
+    public MutablePnetDataApiLoginMethod pnetDataClientPrefs()
     {
-        String url = Prefs.getUrl(Prefs.DEFAULT_KEY);
-        String username = Prefs.getUsername(Prefs.DEFAULT_KEY);
-        String password = Prefs.getPassword(Prefs.DEFAULT_KEY);
-
-        return new MutablePnetDataClientPrefs(url, username, password);
+        return MutablePnetDataApiLoginMethod.createFromPrefs(Prefs.DEFAULT_KEY);
     }
 
     @Bean

@@ -1,10 +1,14 @@
 package pnet.data.api.client;
 
+import pnet.data.api.client.context.PnetDataApiLoginMethod;
+
 /**
  * The preferences for all request to the Partner.Net Data API.
  *
  * @author ham
+ * @deprecated provide a {@link PnetDataApiLoginMethod} instead of this Prefs
  */
+@Deprecated
 public interface PnetDataClientPrefs
 {
 

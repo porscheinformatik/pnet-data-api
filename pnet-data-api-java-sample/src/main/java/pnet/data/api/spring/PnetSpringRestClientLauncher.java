@@ -11,7 +11,6 @@ import pnet.data.api.PnetRestClient;
  */
 public final class PnetSpringRestClientLauncher
 {
-
     private PnetSpringRestClientLauncher()
     {
         super();
@@ -25,5 +24,4 @@ public final class PnetSpringRestClientLauncher
             context.getBean(PnetRestClient.class).consume();
         }
     }
-
 }

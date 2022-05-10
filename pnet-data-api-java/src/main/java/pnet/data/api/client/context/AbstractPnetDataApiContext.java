@@ -10,8 +10,7 @@ import pnet.data.api.PnetDataClientException;
  */
 public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
 {
-
-    private final PnetDataApiTokenRepository repository;
+    protected final PnetDataApiTokenRepository repository;
 
     protected AbstractPnetDataApiContext(PnetDataApiTokenRepository repository)
     {
@@ -20,35 +19,17 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
         this.repository = repository;
     }
 
-    protected abstract PnetDataApiTokenKey getKey();
-
-    @Override
-    public PnetDataApiContext withUrl(String url)
-    {
-        PnetDataApiTokenKey key = getKey();
-
-        return new DefaultPnetDataApiContext(repository,
-            new PnetDataApiTokenKey(url, key.getUsername(), key.getPassword()));
-    }
-
-    @Override
-    public PnetDataApiContext withCredentials(String username, String password)
-    {
-        PnetDataApiTokenKey key = getKey();
-
-        return new DefaultPnetDataApiContext(repository, new PnetDataApiTokenKey(key.getUrl(), username, password));
-    }
+    protected abstract PnetDataApiLoginMethod getLoginMethod();
 
     @Override
     public RestCall restCall() throws PnetDataClientException
     {
-        return repository.restCall(getKey());
+        return repository.restCall(getLoginMethod());
     }
 
     @Override
     public void invalidateLogin() throws PnetDataClientException
     {
-        repository.invalidate(getKey());
+        repository.invalidate(getLoginMethod());
     }
-
 }

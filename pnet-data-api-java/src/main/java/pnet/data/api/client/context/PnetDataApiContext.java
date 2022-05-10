@@ -10,13 +10,13 @@ import pnet.data.api.PnetDataClientException;
  */
 public interface PnetDataApiContext
 {
-
+    @Deprecated
     PnetDataApiContext withUrl(String url);
 
+    @Deprecated
     PnetDataApiContext withCredentials(String username, String password);
 
     RestCall restCall() throws PnetDataClientException;
 
     void invalidateLogin() throws PnetDataClientException;
-
 }

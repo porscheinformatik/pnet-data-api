@@ -7,20 +7,33 @@ package pnet.data.api.client.context;
  */
 public class DefaultPnetDataApiContext extends AbstractPnetDataApiContext
 {
+    private final PnetDataApiLoginMethod loginMethod;
 
-    private final PnetDataApiTokenKey key;
-
-    protected DefaultPnetDataApiContext(PnetDataApiTokenRepository repository, PnetDataApiTokenKey key)
+    public DefaultPnetDataApiContext(PnetDataApiTokenRepository repository, PnetDataApiLoginMethod loginMethod)
     {
         super(repository);
 
-        this.key = key;
+        this.loginMethod = loginMethod;
     }
 
     @Override
-    protected PnetDataApiTokenKey getKey()
+    protected PnetDataApiLoginMethod getLoginMethod()
     {
-        return key;
+        return loginMethod;
     }
 
+    @Override
+    @Deprecated
+    public PnetDataApiContext withUrl(String url)
+    {
+        return new DefaultPnetDataApiContext(repository, loginMethod.withUrl(url));
+    }
+
+    @Override
+    @Deprecated
+    public PnetDataApiContext withCredentials(String username, String password)
+    {
+        return new DefaultPnetDataApiContext(repository, new UsernamePasswordPnetDataApiLoginMethod(
+            loginMethod.getUrl(), () -> new UsernamePasswordCredentials(username, password)));
+    }
 }

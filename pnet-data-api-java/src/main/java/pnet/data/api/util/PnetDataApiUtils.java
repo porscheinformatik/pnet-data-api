@@ -17,7 +17,11 @@ package pnet.data.api.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.Collator;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,6 +30,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.util.StringUtils;
+
+import pnet.data.api.PnetDataClientTechnicalException;
 
 /**
  * Utilities for the pnet-data-api.
@@ -320,81 +326,6 @@ public final class PnetDataApiUtils
         return Collections.unmodifiableList(list);
     }
 
-    //    public static LocalDateTime convertDefaultToUTC(LocalDateTime dateTime)
-    //    {
-    //        if (dateTime == null)
-    //        {
-    //            return null;
-    //        }
-    //
-    //        return dateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(UTC).toLocalDateTime();
-    //    }
-    //
-    //    public static LocalDateTime convertUTCToDefault(LocalDateTime dateTime)
-    //    {
-    //        if (dateTime == null)
-    //        {
-    //            return null;
-    //        }
-    //
-    //        return dateTime.atZone(UTC).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
-    //    }
-    //
-    //    public static String formatISODateTime(LocalDateTime dateTime)
-    //    {
-    //        if (dateTime == null)
-    //        {
-    //            return null;
-    //        }
-    //
-    //        return convertDefaultToUTC(dateTime).format(DateTimeFormatter.ISO_DATE_TIME) + "Z";
-    //    }
-    //
-    //    public static String formatISODate(LocalDate date)
-    //    {
-    //        if (date == null)
-    //        {
-    //            return null;
-    //        }
-    //
-    //        return date.format(DateTimeFormatter.ISO_DATE);
-    //    }
-    //
-    //    public static LocalDateTime parseISODateTime(String dateTimeAsString)
-    //    {
-    //        if (dateTimeAsString == null || dateTimeAsString.length() == 0)
-    //        {
-    //            return null;
-    //        }
-    //
-    //        TemporalAccessor temporalAccessor =
-    //            FORMATTER.parseBest(dateTimeAsString, ZonedDateTime::from, LocalDateTime::from, LocalDate::from);
-    //
-    //        if (temporalAccessor instanceof ZonedDateTime)
-    //        {
-    //            return ((ZonedDateTime) temporalAccessor).withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
-    //        }
-    //
-    //        if (temporalAccessor instanceof LocalDateTime)
-    //        {
-    //            return ((LocalDateTime) temporalAccessor);
-    //        }
-    //
-    //        return ((LocalDate) temporalAccessor).atStartOfDay(ZoneId.systemDefault()).toLocalDateTime();
-    //    }
-    //
-    //    public static LocalDate parseISODate(String dateAsString)
-    //    {
-    //        if (dateAsString == null || dateAsString.length() == 0)
-    //        {
-    //            return null;
-    //        }
-    //
-    //        LocalDateTime dateTime = parseISODateTime(dateAsString);
-    //
-    //        return dateTime != null ? dateTime.toLocalDate() : null;
-    //    }
-
     public static String toCompanyLabelWithNumber(String number, String label)
     {
         return number != null ? String.format("(%s) %s", leftPad(number, 5, '0'), label) : label;
@@ -420,5 +351,21 @@ public final class PnetDataApiUtils
         }
 
         return b.append(s).toString();
+    }
+
+    public static String checksum(String s)
+    {
+        MessageDigest digest;
+
+        try
+        {
+            digest = MessageDigest.getInstance("SHA-256");
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            throw new PnetDataClientTechnicalException("Standard digest is unexpectedly missing");
+        }
+
+        return Base64.getEncoder().encodeToString(digest.digest(s.getBytes(StandardCharsets.UTF_8)));
     }
 }

@@ -4,17 +4,28 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import at.porscheinformatik.happyrest.RestCallFactory;
+import at.porscheinformatik.happyrest.RestMethod;
+import at.porscheinformatik.happyrest.RestResponse;
+import pnet.data.api.PnetDataClientException;
+import pnet.data.api.util.PnetDataApiUtils;
+
 /**
  * Context for accessing the Partner.Net Data API
  *
  * @author ham
+ * @deprecated replace the token with an appropriate {@link PnetDataApiLoginMethod}, e.g.
+ *             {@link UsernamePasswordPnetDataApiLoginMethod}.
  */
-public class PnetDataApiTokenKey
+@Deprecated
+public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
 {
+    private static final String TOKEN_PREFIX = "Bearer";
 
     private final String url;
     private final String username;
     private final String password;
+    private final String key;
 
     public PnetDataApiTokenKey(String url, String username, String password)
     {
@@ -23,12 +34,21 @@ public class PnetDataApiTokenKey
         this.url = Objects.requireNonNull(url, "Url is null");
         this.username = Objects.requireNonNull(username, "Username is null");
         this.password = Objects.requireNonNull(password, "Password is null");
+
+        key = PnetDataApiUtils.checksum(url + username + password);
     }
 
+    @Override
     @JsonIgnore
     public String getUrl()
     {
         return url;
+    }
+
+    @Override
+    public PnetDataApiLoginMethod withUrl(String url)
+    {
+        return new PnetDataApiTokenKey(url, username, password);
     }
 
     public String getUsername()
@@ -42,16 +62,50 @@ public class PnetDataApiTokenKey
     }
 
     @Override
+    @JsonIgnore
+    public String getKey()
+    {
+        return key;
+    }
+
+    @Override
+    public String performLogin(RestCallFactory factory) throws PnetDataClientException
+    {
+        String url = getUrl();
+
+        try
+        {
+            RestResponse<Void> response = factory.url(url).body(this).path("login").invoke(RestMethod.POST, Void.class);
+
+            if (response.isSuccessful())
+            {
+                String token = response.getFirstHeader("Authorization");
+
+                if (PnetDataApiUtils.isEmpty(token))
+                {
+                    throw new PnetDataClientException("Authorization header is missing");
+                }
+
+                if (token.startsWith(TOKEN_PREFIX))
+                {
+                    token = token.substring(TOKEN_PREFIX.length()).trim();
+                }
+
+                return token;
+            }
+
+            throw new PnetDataClientException("Login failed at \"%s\": %s", getUrl(), response);
+        }
+        catch (Exception e)
+        {
+            throw new PnetDataClientException("Login failed at \"%s\"", e, getUrl());
+        }
+    }
+
+    @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((url == null) ? 0 : url.hashCode());
-        result = prime * result + ((username == null) ? 0 : username.hashCode());
-
-        return result;
+        return Objects.hash(password, url, username);
     }
 
     @Override
@@ -74,38 +128,17 @@ public class PnetDataApiTokenKey
 
         PnetDataApiTokenKey other = (PnetDataApiTokenKey) obj;
 
-        if (password == null)
-        {
-            if (other.password != null)
-            {
-                return false;
-            }
-        }
-        else if (!password.equals(other.password))
+        if (!Objects.equals(password, other.password))
         {
             return false;
         }
 
-        if (url == null)
-        {
-            if (other.url != null)
-            {
-                return false;
-            }
-        }
-        else if (!url.equals(other.url))
+        if (!Objects.equals(url, other.url))
         {
             return false;
         }
 
-        if (username == null)
-        {
-            if (other.username != null)
-            {
-                return false;
-            }
-        }
-        else if (!username.equals(other.username))
+        if (!Objects.equals(username, other.username))
         {
             return false;
         }

@@ -10,14 +10,15 @@ import pnet.data.api.PnetDataClientException;
  */
 public class PnetDataApiContextMock implements PnetDataApiContext
 {
-
     @Override
+    @Deprecated
     public PnetDataApiContext withUrl(String url)
     {
         throw new UnsupportedOperationException("Method \"withUrl(..)\" not implemented");
     }
 
     @Override
+    @Deprecated
     public PnetDataApiContext withCredentials(String username, String password)
     {
         throw new UnsupportedOperationException("Method \"withCredentials(..)\" not implemented");
@@ -34,5 +35,4 @@ public class PnetDataApiContextMock implements PnetDataApiContext
     {
         throw new UnsupportedOperationException("Method \"invalidateLogin(..)\" not implemented");
     }
-
 }

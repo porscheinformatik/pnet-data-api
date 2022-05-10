@@ -16,7 +16,6 @@ import pnet.data.api.PnetDataClientException;
 public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApiClient<SELF>>
     implements PnetDataApiContextAware<SELF>
 {
-
     /**
      * Function for a rest call
      *
@@ -60,14 +59,16 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
             throw new IllegalArgumentException("Failed to invoke constructor", e);
         }
     }
-
+    
     @Override
+    @Deprecated
     public SELF withUrl(String url)
     {
         return newInstance(context.withUrl(url));
     }
 
     @Override
+    @Deprecated
     public SELF withCredentials(String username, String password)
     {
         return newInstance(context.withCredentials(username, password));
@@ -113,5 +114,4 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
             throw new PnetDataClientException("REST call failed", e);
         }
     }
-
 }

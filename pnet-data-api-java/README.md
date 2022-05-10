@@ -29,7 +29,9 @@ You will need the following dependencies:
 </dependency>
 ```
 
-That's it. Now, you may implement the client on your own ...
+That's it. Now, you may implement the client on your own.
+
+The project contains an adapter that utilizes different kinds of HTTP clients. You may wish to use this adapter while adapting to your own preferred HTTP client. This holds the advantage, that you can use the rest of the infrastructure provided by this library. Have a look at the implementations of the `at.porscheinformatik.happyrest.java.JavaRestCall` (using the Java HTTP client), the `at.porscheinformatik.happyrest.apache.ApacheRestCall` (using the Apache HTTP Client) or the `at.porscheinformatik.happyrest.spring.SpringRestCall` (using Spring's REST Template).
 
 ## Java 9 HTTP Client
 
@@ -47,14 +49,26 @@ You will need the following dependencies:
 </dependency>
 ```
 
+Create the preferred login method:
+
+```
+AuthenticationTokenPnetDataApiLoginMethod loginMethod =
+    new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+```
+
+Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
+area of your application. The method will be called around once per hour thus aquiring
+the token must not be very performant.
+
+Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`.
+
 Create the client factory:
 
 ```
-JavaClientFactory clientFactory = JavaClientFactory
-    .of("https://qa-data.auto-partner.net/data", username, password);
+JavaClientFactory clientFactory = JavaClientFactory.of(loginMethod);
 ```
 
-And create the clients with that context:
+And create the clients with that factory:
 
 ```
 clientFactory
@@ -64,7 +78,9 @@ clientFactory
     .forEach(company -> System.out.println(company));
 ```
 
-All classes are thread-safe, you can, and you should, reuse them as long as possible.
+All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
+
+Be warned that the first login will usually fail, because your IP is missing. Have a look at the Partner.Net Self-Service to fix this issue.
 
 ## Apache HTTP Client
 
@@ -87,14 +103,26 @@ You will need the following dependencies:
 </dependency>
 ```
 
+Create the preferred login method:
+
+```
+AuthenticationTokenPnetDataApiLoginMethod loginMethod =
+    new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+```
+
+Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
+area of your application. The method will be called around once per hour thus aquiring
+the token must not be very performant.
+
+Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`.
+
 Create the client factory:
 
 ```
-ApacheClientFactory clientFactory = ApacheClientFactory
-    .of("https://qa-data.auto-partner.net/data", username, password);
+ApacheClientFactory clientFactory = ApacheClientFactory.of(loginMethod);
 ```
 
-And create the clients with that context:
+And create the clients with that factory:
 
 ```
 clientFactory
@@ -104,7 +132,9 @@ clientFactory
     .forEach(company -> System.out.println(company));
 ```
 
-All classes are thread-safe, you can, and you should, reuse them as long as possible.
+All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
+
+Be warned that the first login will usually fail, because your IP is missing. Have a look at the Partner.Net Self-Service to fix this issue.
 
 ## Spring
 

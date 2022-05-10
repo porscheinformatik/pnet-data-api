@@ -1,10 +1,14 @@
 package pnet.data.api.client;
 
+import pnet.data.api.client.context.PnetDataApiLoginMethod;
+
 /**
  * Modifiable {@link PnetDataClientPrefs}.
  *
  * @author ham
+ * @deprecated provide a {@link PnetDataApiLoginMethod} instead of this Prefs
  */
+@Deprecated
 public class MutablePnetDataClientPrefs implements PnetDataClientPrefs
 {
 

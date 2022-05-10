@@ -55,10 +55,8 @@ import pnet.data.api.brand.BrandDataFind;
 import pnet.data.api.brand.BrandDataGet;
 import pnet.data.api.brand.BrandDataSearch;
 import pnet.data.api.brand.BrandItemDTO;
-import pnet.data.api.client.MutablePnetDataClientPrefs;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
-import pnet.data.api.client.context.PnetDataApiTokenKey;
 import pnet.data.api.client.context.PnetDataApiTokenRepository;
 import pnet.data.api.company.CompanyAutoCompleteDTO;
 import pnet.data.api.company.CompanyDataAutoComplete;
@@ -165,6 +163,7 @@ import pnet.data.api.util.CLI.Arguments;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.ImageType;
 import pnet.data.api.util.IncludeInactive;
+import pnet.data.api.util.MutablePnetDataApiLoginMethod;
 import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Resource;
@@ -274,7 +273,7 @@ public final class PnetRestClient
 
     private final CLI cli;
 
-    private final MutablePnetDataClientPrefs prefs;
+    private final MutablePnetDataApiLoginMethod loginMethod;
 
     private final AboutDataClient aboutDataClient;
 
@@ -344,7 +343,7 @@ public final class PnetRestClient
     private Locale language = Locale.getDefault();
     private boolean includeInactive = false;
 
-    public PnetRestClient(MutablePnetDataClientPrefs prefs, AboutDataClient aboutDataClient,
+    public PnetRestClient(MutablePnetDataApiLoginMethod loginMethod, AboutDataClient aboutDataClient,
         ActivityDataClient activityDataClient, AdvisorTypeDataClient advisorTypeDataClient,
         ApplicationDataClient applicationDataClient, BrandDataClient brandDataClient,
         CompanyDataClient companyDataClient, CompanyGroupDataClient companyGroupDataClient,
@@ -357,7 +356,7 @@ public final class PnetRestClient
         PnetDataApiTokenRepository repository)
     {
         super();
-        this.prefs = prefs;
+        this.loginMethod = loginMethod;
         this.aboutDataClient = aboutDataClient;
         this.activityDataClient = activityDataClient;
         this.advisorTypeDataClient = advisorTypeDataClient;
@@ -393,19 +392,15 @@ public final class PnetRestClient
     }
 
     @CLI.Command(description = "Prints the JSON Web Token of the user.")
-    public void token() throws PnetDataClientException
+    public void jwt() throws PnetDataClientException
     {
-        PnetDataApiTokenKey key = key();
-
-        cli.info("token = %s", repository.restCall(key).getHeader("Authorization"));
+        cli.info("jwt = %s", repository.restCall(loginMethod).getHeader("Authorization"));
     }
 
     @CLI.Command(description = "Invalidates the stored JSON Web Token.")
     public void logout() throws PnetDataClientException
     {
-        PnetDataApiTokenKey key = key();
-
-        repository.invalidate(key);
+        repository.invalidate(loginMethod);
 
         cli.info("Logged out.");
     }
@@ -2084,7 +2079,7 @@ public final class PnetRestClient
     @CLI.Command(description = "Opens the Swagger Documentation.")
     public void swagger() throws IOException
     {
-        String url = prefs.getPnetDataApiUrl();
+        String url = loginMethod.getUrl();
 
         if (!url.endsWith("/"))
         {
@@ -2105,7 +2100,7 @@ public final class PnetRestClient
     public void migrateFull(String indexName) throws RestException, PnetDataClientException
     {
         repository
-            .restCall(key())
+            .restCall(loginMethod)
             .variable("indexName", indexName)
             .path("/api/v1/migrator/full/{indexName}")
             .post(Void.class);
@@ -2118,7 +2113,7 @@ public final class PnetRestClient
     public void migrateDelta(String indexName) throws RestException, PnetDataClientException
     {
         repository
-            .restCall(key())
+            .restCall(loginMethod)
             .variable("indexName", indexName)
             .path("/api/v1/migrator/delta/{indexName}")
             .post(Void.class);
@@ -2130,7 +2125,7 @@ public final class PnetRestClient
     public void migrateState(String indexName) throws RestException, PnetDataClientException
     {
         HashMap<?, ?> state = repository
-            .restCall(key())
+            .restCall(loginMethod)
             .variable("indexName", indexName)
             .path("/api/v1/migrator/states/{indexName}")
             .get(HashMap.class);
@@ -2143,7 +2138,7 @@ public final class PnetRestClient
     public void migrateExplicit(String indexName, String... ids) throws RestException, PnetDataClientException
     {
         HashMap<?, ?> state = repository
-            .restCall(key())
+            .restCall(loginMethod)
             .variable("indexName", indexName)
             .parameter("id", (Object[]) ids)
             .path("/api/v1/migrator/explicit/{indexName}")
@@ -2552,8 +2547,8 @@ public final class PnetRestClient
 
     ////////////////////////////////////////////////////////////////////////////
 
-    @CLI.Command(format = "[<URL>] [<USERNAME>] [<PASSWORD>]", description = "Prints or overrides the predefined URL.")
-    public void url(String url, String username, String password) throws PnetDataClientException
+    @CLI.Command(format = "[<URL>]", description = "Prints or overrides the predefined URL.")
+    public void url(String url) throws PnetDataClientException
     {
         if (url != null)
         {
@@ -2566,21 +2561,10 @@ public final class PnetRestClient
                 // ignore
             }
 
-            prefs.setPnetDataApiUrl(url);
+            loginMethod.setUrl(url);
         }
 
-        if (username != null)
-        {
-            prefs.setPnetDataApiUsername(username);
-        }
-
-        if (password != null)
-        {
-            prefs.setPnetDataApiPassword(password);
-        }
-
-        cli.info("url = %s", prefs.getPnetDataApiUrl());
-        cli.info("username = %s", prefs.getPnetDataApiUsername());
+        cli.info("url = %s", loginMethod.getUrl());
         cli.info("\nTip: Type \"store\" to set this as default.");
     }
 
@@ -2594,11 +2578,12 @@ public final class PnetRestClient
             key = Prefs.DEFAULT_KEY;
         }
 
-        Prefs.setUrl(key, prefs.getPnetDataApiUrl());
-        Prefs.setUsername(key, prefs.getPnetDataApiUsername());
-        Prefs.setPassword(key, prefs.getPnetDataApiPassword());
+        Prefs.setUrl(key, loginMethod.getUrl());
+        Prefs.setUsername(key, loginMethod.getUsername());
+        Prefs.setPassword(key, loginMethod.getPassword());
+        Prefs.setToken(key, loginMethod.getToken());
 
-        cli.info("URL, username and (encoded) password have been stored locally with key: %s", key);
+        cli.info("URL and (encoded) credentials have been stored locally with key: %s", key);
     }
 
     @CLI.Command(format = "[<KEY>]", description = "Loads the URL and username/password from your prefernces.")
@@ -2617,10 +2602,20 @@ public final class PnetRestClient
             return;
         }
 
+        url(url);
+
         String username = Prefs.getUsername(key);
         String password = Prefs.getPassword(key);
+        String token = Prefs.getToken(key);
 
-        url(url, username, password);
+        if (token != null)
+        {
+            loginMethod.setToken(token);
+        }
+        else
+        {
+            loginMethod.setUsernamePassword(username, password);
+        }
     }
 
     @CLI.Command(format = "[<KEY>]", description = "Remove the URL and username/password from your prefernces.")
@@ -2646,7 +2641,9 @@ public final class PnetRestClient
             .stream()
             .filter(key -> key.endsWith(".url"))
             .map(key -> key.substring(0, key.length() - 4))
-            .forEach(key -> cli.info("%s: %s (%s)", key, Prefs.getUrl(key), Prefs.getUsername(key)));
+            .forEach(key -> cli
+                .info("%s: %s (%s)", key, Prefs.getUrl(key),
+                    Prefs.getUsername(key) != null ? Prefs.getUsername(key) : "authentication token"));
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -2674,8 +2671,7 @@ public final class PnetRestClient
 
             if (password != null)
             {
-                prefs.setPnetDataApiUsername(username);
-                prefs.setPnetDataApiPassword(password);
+                loginMethod.setUsernamePassword(username, password);
             }
             else
             {
@@ -2683,7 +2679,38 @@ public final class PnetRestClient
             }
         }
 
-        cli.info("username = %s", prefs.getPnetDataApiUsername());
+        cli.info("username = %s", loginMethod.getUsername());
+    }
+
+    @CLI.Command(format = "<TOKEN>", description = "Sets the authentication token.")
+    public void token(String token) throws IOException, PnetDataClientException
+    {
+        if (token == null)
+        {
+            Arguments arguments = cli.consume("token: ");
+
+            token = arguments.consume(String.class).orElse(null);
+        }
+
+        if (token != null)
+        {
+            try
+            {
+                logout();
+            }
+            catch (Exception e)
+            {
+                // ignore
+            }
+
+            loginMethod.setToken(token);
+
+            cli.info("Token set.");
+        }
+        else
+        {
+            cli.warn("Aborted.");
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -2701,7 +2728,7 @@ public final class PnetRestClient
         }
         else
         {
-            HashMap<?, ?> result = repository.restCall(key()).encodedPathSegment(uri).get(HashMap.class);
+            HashMap<?, ?> result = repository.restCall(loginMethod).encodedPathSegment(uri).get(HashMap.class);
 
             cli.info(PrettyPrint.prettyPrint(result));
         }
@@ -2879,12 +2906,6 @@ public final class PnetRestClient
         list.stream().forEach(item -> populateTableFn.accept(table, item));
 
         cli.info(table.toString());
-    }
-
-    protected PnetDataApiTokenKey key()
-    {
-        return new PnetDataApiTokenKey(prefs.getPnetDataApiUrl(), prefs.getPnetDataApiUsername(),
-            prefs.getPnetDataApiPassword());
     }
 
     public void consume()
