@@ -243,6 +243,13 @@ public class ApacheRestCall extends AbstractRestCall
         {
             request.addHeader("Content-Type", contentType.toString());
         }
+
+        List<MediaType> acceptableMediaTypes = getAcceptableMediaTypes();
+
+        if (acceptableMediaTypes != null)
+        {
+            request.addHeader("Accept", MediaType.format(acceptableMediaTypes));
+        }
     }
 
     private void computeEntity(RestMethod method, HttpRequestBase request) throws RestRequestException

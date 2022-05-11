@@ -1,5 +1,7 @@
 package at.porscheinformatik.happyrest.apache;
 
+import java.util.Optional;
+
 import org.apache.http.entity.ContentType;
 
 import at.porscheinformatik.happyrest.MediaType;
@@ -11,8 +13,8 @@ public class ApacheRestUtils
         return contentType != null ? ContentType.parse(contentType.toString()) : defaultType;
     }
 
-    public static MediaType convertMediaType(ContentType contentType, MediaType defaultType)
+    public static Optional<MediaType> convertMediaType(ContentType contentType)
     {
-        return contentType != null ? MediaType.parse(contentType.toString()) : defaultType;
+        return contentType == null ? Optional.empty() : Optional.of(MediaType.parse(contentType.toString()));
     }
 }

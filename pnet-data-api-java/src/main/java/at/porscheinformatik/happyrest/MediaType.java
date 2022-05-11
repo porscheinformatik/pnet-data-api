@@ -2,6 +2,7 @@ package at.porscheinformatik.happyrest;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MediaType
@@ -85,6 +86,24 @@ public class MediaType
         }
 
         return new MediaType(mediaType, subtype, suffix, parameters.toArray(new String[parameters.size()]));
+    }
+
+    public static String format(Iterable<MediaType> mediaTypes)
+    {
+        StringBuilder builder = new StringBuilder();
+        Iterator<MediaType> iterator = mediaTypes.iterator();
+
+        while (iterator.hasNext())
+        {
+            builder.append(iterator.next().toString());
+
+            if (iterator.hasNext())
+            {
+                builder.append(", ");
+            }
+        }
+
+        return builder.toString();
     }
 
     private final String type;

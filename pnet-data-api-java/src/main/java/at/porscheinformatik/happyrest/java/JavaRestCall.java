@@ -119,6 +119,13 @@ public class JavaRestCall extends AbstractRestCall
             builder.header(header.getName(), format(MediaType.TEXT_PLAIN, header.getValue()));
         }
 
+        List<MediaType> acceptableMediaTypes = getAcceptableMediaTypes();
+
+        if (acceptableMediaTypes != null)
+        {
+            builder.header("Accept", MediaType.format(acceptableMediaTypes));
+        }
+
         switch (method)
         {
             case GET:

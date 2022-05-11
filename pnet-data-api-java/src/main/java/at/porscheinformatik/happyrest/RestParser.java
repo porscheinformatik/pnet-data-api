@@ -1,6 +1,7 @@
 package at.porscheinformatik.happyrest;
 
 import java.io.InputStream;
+import java.util.Optional;
 
 /**
  * Parses a rest response
@@ -15,7 +16,7 @@ public interface RestParser
         return new RestParser()
         {
             @Override
-            public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
+            public boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type)
             {
                 for (RestParser parser : parsers)
                 {
@@ -29,7 +30,8 @@ public interface RestParser
             }
 
             @Override
-            public <T> Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
+            public <T> Object parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in)
+                throws RestParserException
             {
                 for (RestParser parser : parsers)
                 {
@@ -44,8 +46,8 @@ public interface RestParser
         };
     }
 
-    boolean isContentTypeSupported(MediaType contentType, GenericType<?> type);
+    boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type);
 
-    <T> Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException;
+    <T> Object parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in) throws RestParserException;
 
 }

@@ -78,8 +78,7 @@ class ApacheRestResponse<T> implements RestResponse<T>
             {
                 try (InputStream in = entity.getContent())
                 {
-                    body = (T) parser
-                        .parse(ApacheRestUtils.convertMediaType(contentType, MediaType.TEXT_PLAIN_UTF8), type, in);
+                    body = (T) parser.parse(ApacheRestUtils.convertMediaType(contentType), type, in);
                 }
             }
             catch (ParseException e)

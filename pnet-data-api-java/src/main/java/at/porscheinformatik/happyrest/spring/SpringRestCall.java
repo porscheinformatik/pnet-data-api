@@ -131,6 +131,14 @@ public class SpringRestCall extends AbstractRestCall
     @Override
     public <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException
     {
+        if (responseType.getArguments().length == 0)
+        {
+            // If the rest template is called with a GenericParameterizedTypeReference,
+            // it will always assume, that the response is application/json. This
+            // breaks stuff, if it should parse a String from a text/plain response.
+            return invoke(method, responseType.getType());
+        }
+
         boolean form = verify(method);
 
         HttpHeaders headers = new HttpHeaders();

@@ -3,6 +3,7 @@ package at.porscheinformatik.happyrest.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
+import java.util.Optional;
 
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.MediaType;
@@ -24,14 +25,13 @@ public class ByteArrayParser implements RestParser
     }
 
     @Override
-    public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
+    public boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type)
     {
-
         return type.isAssignableFrom(BYTE_ARRAY_TYPE);
     }
 
     @Override
-    public <T> byte[] parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
+    public <T> byte[] parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in) throws RestParserException
     {
         try
         {

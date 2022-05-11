@@ -418,4 +418,54 @@ public final class RestUtils
             return result.toCharArray();
         }
     }
+
+    public static Class<?> cultivate(Class<?> type)
+    {
+        if (type == null)
+        {
+            return null;
+        }
+
+        if (type == Void.TYPE)
+        {
+            return Void.class;
+        }
+
+        if (type == Byte.TYPE)
+        {
+            return Byte.class;
+        }
+
+        if (type == Short.TYPE)
+        {
+            return Short.class;
+        }
+
+        if (type == Integer.TYPE)
+        {
+            return Integer.class;
+        }
+
+        if (type == Long.TYPE)
+        {
+            return Long.class;
+        }
+
+        if (type == Float.TYPE)
+        {
+            return Float.class;
+        }
+
+        if (type == Double.TYPE)
+        {
+            return Double.class;
+        }
+
+        if (type == Character.TYPE)
+        {
+            return Character.class;
+        }
+
+        return type;
+    }
 }
