@@ -16,6 +16,7 @@ package pnet.data.api.application;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -34,7 +35,6 @@ import pnet.data.api.util.WithScore;
 @ApiModel(description = "Holds basic information about an application")
 public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
-
     private static final long serialVersionUID = 1943888464506455363L;
 
     @ApiModelProperty(notes = "The unique matchcode of the application.")
@@ -43,6 +43,9 @@ public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithLastUpd
     @ApiModelProperty(notes = "The label of the application in the requested language.")
     private final String label;
 
+    @ApiModelProperty(notes = "The matchcodes of all scopes this application is permitted to use.")
+    private final Collection<String> scopeMatchcodes;
+
     @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
 
@@ -50,11 +53,13 @@ public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithLastUpd
     private final double score;
 
     public ApplicationItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
+        @JsonProperty("scopeMatchcodes") Collection<String> scopeMatchcodes,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
     {
         super();
         this.matchcode = matchcode;
         this.label = label;
+        this.scopeMatchcodes = scopeMatchcodes;
         this.lastUpdate = lastUpdate;
         this.score = score;
     }
@@ -69,6 +74,11 @@ public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithLastUpd
     public String getLabel()
     {
         return label;
+    }
+
+    public Collection<String> getScopeMatchcodes()
+    {
+        return scopeMatchcodes;
     }
 
     @Override
@@ -87,8 +97,7 @@ public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithLastUpd
     public String toString()
     {
         return String
-            .format("ApplicationItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
-                lastUpdate, score);
+            .format("ApplicationItemDTO [matchcode=%s, label=%s, scopeMatchcodes=%s, lastUpdate=%s, score=%s]",
+                matchcode, label, scopeMatchcodes, lastUpdate, score);
     }
-
 }

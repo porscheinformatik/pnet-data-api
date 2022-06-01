@@ -14,10 +14,8 @@ import pnet.data.api.util.Pair;
 public class ApplicationDataGet extends AbstractGet<ApplicationDataDTO, ApplicationDataGet>
     implements ByMatchcode<ApplicationDataDTO, ApplicationDataGet>
 {
-
     public ApplicationDataGet(GetFunction<ApplicationDataDTO> getFunction, List<Pair<String, Object>> restricts)
     {
         super(getFunction, restricts);
     }
-
 }

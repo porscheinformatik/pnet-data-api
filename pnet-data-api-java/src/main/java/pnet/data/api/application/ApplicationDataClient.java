@@ -21,7 +21,6 @@ import pnet.data.api.util.Pair;
 @Service
 public class ApplicationDataClient extends AbstractPnetDataApiClient<ApplicationDataClient>
 {
-
     public ApplicationDataClient(PnetDataApiContext context)
     {
         super(context);

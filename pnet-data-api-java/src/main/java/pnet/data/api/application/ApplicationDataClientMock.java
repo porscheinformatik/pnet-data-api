@@ -23,7 +23,6 @@ public class ApplicationDataClientMock extends ApplicationDataClient
     implements ItemClientMock<ApplicationItemDTO, ApplicationDataClientMock>,
     DataClientMock<ApplicationDataDTO, ApplicationDataClientMock>
 {
-
     public ApplicationDataClientMock(PnetDataApiContext context)
     {
         super(context);

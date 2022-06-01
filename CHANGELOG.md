@@ -3,6 +3,7 @@ pnet-data-api 1.20.0
 
 * Added possibility to use authentication tokens for Systemusers. Have a look at https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java#readme for detailed instructions. Some code has been deprecated, notably the PnetDataApiPrefs were replaced by PnetDataApiLoginMethod.
 * Fix compatibility issues with different types of RestCall implementations.
+* Add Scopes to Application
 
 pnet-data-api 1.19.5
 ====================

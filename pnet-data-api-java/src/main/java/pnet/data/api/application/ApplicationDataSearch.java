@@ -12,11 +12,9 @@ import pnet.data.api.util.SearchFunction;
  */
 public class ApplicationDataSearch extends AbstractSearch<ApplicationItemDTO, ApplicationDataSearch>
 {
-
     protected ApplicationDataSearch(SearchFunction<ApplicationItemDTO> searchFunction,
         List<Pair<String, Object>> restricts)
     {
         super(searchFunction, restricts);
     }
-
 }

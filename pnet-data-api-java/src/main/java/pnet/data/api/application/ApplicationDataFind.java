@@ -15,10 +15,8 @@ import pnet.data.api.util.Scrollable;
 public class ApplicationDataFind extends AbstractFind<ApplicationItemDTO, ApplicationDataFind> implements
     RestrictMatchcode<ApplicationDataFind>, RestrictUpdatedAfter<ApplicationDataFind>, Scrollable<ApplicationDataFind>
 {
-
     public ApplicationDataFind(FindFunction<ApplicationItemDTO> searchFunction, List<Pair<String, Object>> restricts)
     {
         super(searchFunction, restricts);
     }
-
 }

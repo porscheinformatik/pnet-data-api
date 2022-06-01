@@ -14,7 +14,6 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.GenericType.Of;
 
 public class GenericTypeTest

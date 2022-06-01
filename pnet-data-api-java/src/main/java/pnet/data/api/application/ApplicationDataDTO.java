@@ -16,8 +16,11 @@ package pnet.data.api.application;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -36,17 +39,21 @@ import pnet.data.api.util.WithMatchcode;
 @ApiModel(description = "Holds all information about an application")
 public class ApplicationDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithLastUpdate, Serializable
 {
-
     private static final long serialVersionUID = -8043695004224267387L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the application")
+    @ApiModelProperty(notes = "The unique matchcode of the application.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The label of the application with all existing translations")
+    @ApiModelProperty(notes = "The label of the application with all existing translations.")
     private Map<Locale, String> labels;
-    @ApiModelProperty(notes = "The description of the application with all existing translations")
+
+    @ApiModelProperty(notes = "The description of the application with all existing translations.")
     private Map<Locale, String> descriptions;
-    @ApiModelProperty(notes = "The time and date when the application was last changed")
+
+    @ApiModelProperty(notes = "The list of all scopes this application is permitted to use.")
+    private Collection<ApplicationScopeLinkDTO> scopes;
+
+    @ApiModelProperty(notes = "The time and date when the application was last changed.")
     private LocalDateTime lastUpdate;
 
     public ApplicationDataDTO(@JsonProperty("matchcode") String matchcode)
@@ -84,6 +91,21 @@ public class ApplicationDataDTO implements WithMatchcode, WithLabels, WithDescri
         this.descriptions = descriptions;
     }
 
+    public Collection<ApplicationScopeLinkDTO> getScopes()
+    {
+        return scopes;
+    }
+
+    public Optional<ApplicationScopeLinkDTO> findScope(Predicate<? super ApplicationScopeLinkDTO> predicate)
+    {
+        return scopes == null ? Optional.empty() : scopes.stream().filter(predicate).findFirst();
+    }
+
+    public void setScopes(Collection<ApplicationScopeLinkDTO> scopes)
+    {
+        this.scopes = scopes;
+    }
+
     @Override
     public LocalDateTime getLastUpdate()
     {
@@ -99,8 +121,7 @@ public class ApplicationDataDTO implements WithMatchcode, WithLabels, WithDescri
     public String toString()
     {
         return String
-            .format("ApplicationDataDTO [matchcode=%s, labels=%s, descriptions=%s, lastUpdate=%s]", matchcode, labels,
-                descriptions, lastUpdate);
+            .format("ApplicationDataDTO [matchcode=%s, labels=%s, descriptions=%s, scopes=%s, lastUpdate=%s]",
+                matchcode, labels, descriptions, scopes, lastUpdate);
     }
-
 }
