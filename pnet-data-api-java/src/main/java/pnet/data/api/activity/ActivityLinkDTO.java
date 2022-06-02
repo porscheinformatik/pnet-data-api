@@ -15,6 +15,7 @@
 package pnet.data.api.activity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -62,13 +63,7 @@ public class ActivityLinkDTO implements WithTenant, WithMatchcode, Serializable
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
-
-        return result;
+        return Objects.hash(matchcode, tenant);
     }
 
     @Override
@@ -91,26 +86,12 @@ public class ActivityLinkDTO implements WithTenant, WithMatchcode, Serializable
 
         ActivityLinkDTO other = (ActivityLinkDTO) obj;
 
-        if (matchcode == null)
-        {
-            if (other.matchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!matchcode.equals(other.matchcode))
+        if (!Objects.equals(matchcode, other.matchcode))
         {
             return false;
         }
 
-        if (tenant == null)
-        {
-            if (other.tenant != null)
-            {
-                return false;
-            }
-        }
-        else if (!tenant.equals(other.tenant))
+        if (!Objects.equals(tenant, other.tenant))
         {
             return false;
         }

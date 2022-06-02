@@ -15,8 +15,7 @@ public class LegalFormDataFind extends AbstractFind<LegalFormItemDTO, LegalFormD
     implements RestrictMatchcode<LegalFormDataFind>, RestrictUpdatedAfter<LegalFormDataFind>
 {
 
-    public LegalFormDataFind(FindFunction<LegalFormItemDTO> findFunction,
-        List<Pair<String, Object>> restricts)
+    public LegalFormDataFind(FindFunction<LegalFormItemDTO> findFunction, List<Pair<String, Object>> restricts)
     {
         super(findFunction, restricts);
     }

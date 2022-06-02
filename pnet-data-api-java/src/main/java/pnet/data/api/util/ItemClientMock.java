@@ -9,7 +9,6 @@ import at.porscheinformatik.happyrest.GenericType;
  * A client mock that handles items
  *
  * @author HAM
- *
  * @param <ItemT> the type of item
  * @param <SELF> the class for self-references
  */

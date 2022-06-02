@@ -1,6 +1,7 @@
 package pnet.data.api.companygroup;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,7 +13,6 @@ import pnet.data.api.util.WithCompanyId;
  * Holds minimal information about a company group member.
  *
  * @author cet
- *
  */
 @ApiModel(description = "Holds minimal information about a company group member")
 public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
@@ -95,25 +95,11 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
 
         CompanyGroupMemberLinkDTO other = (CompanyGroupMemberLinkDTO) obj;
 
-        if (groupType == null)
-        {
-            if (other.groupType != null)
-            {
-                return false;
-            }
-        }
-        else if (!groupType.equals(other.groupType))
+        if (!Objects.equals(groupType, other.groupType))
         {
             return false;
         }
-        if (companyId == null)
-        {
-            if (other.companyId != null)
-            {
-                return false;
-            }
-        }
-        else if (!companyId.equals(other.companyId))
+        if (!Objects.equals(companyId, other.companyId))
         {
             return false;
         }

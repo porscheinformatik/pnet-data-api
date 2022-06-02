@@ -19,9 +19,8 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class LegalFormDataClientMock extends LegalFormDataClient
-    implements ItemClientMock<LegalFormItemDTO, LegalFormDataClientMock>,
-    DataClientMock<LegalFormDataDTO, LegalFormDataClientMock>
+public class LegalFormDataClientMock extends LegalFormDataClient implements
+    ItemClientMock<LegalFormItemDTO, LegalFormDataClientMock>, DataClientMock<LegalFormDataDTO, LegalFormDataClientMock>
 {
 
     public LegalFormDataClientMock()
@@ -48,8 +47,8 @@ public class LegalFormDataClientMock extends LegalFormDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<LegalFormItemDTO> find(Locale language,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<LegalFormItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         List<LegalFormItemDTO> entries = findItems(restricts);
 

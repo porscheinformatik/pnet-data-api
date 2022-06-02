@@ -15,6 +15,7 @@
 package pnet.data.api.contracttype;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -70,14 +71,7 @@ public class ContractTypeBrandLinkDTO extends AbstractLinkDTO
             return false;
         }
         ContractTypeBrandLinkDTO other = (ContractTypeBrandLinkDTO) obj;
-        if (states == null)
-        {
-            if (other.states != null)
-            {
-                return false;
-            }
-        }
-        else if (!states.equals(other.states))
+        if (!Objects.equals(states, other.states))
         {
             return false;
         }

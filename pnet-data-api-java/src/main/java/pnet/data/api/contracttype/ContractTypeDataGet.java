@@ -10,7 +10,6 @@ import pnet.data.api.util.RestrictTenant;
 
 /**
  * @author cet
- *
  */
 public class ContractTypeDataGet extends AbstractGet<ContractTypeDataDTO, ContractTypeDataGet>
     implements RestrictTenant<ContractTypeDataGet>, ByMatchcode<ContractTypeDataDTO, ContractTypeDataGet>

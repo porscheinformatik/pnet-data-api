@@ -9,7 +9,6 @@ import pnet.data.api.util.Pair;
 
 /**
  * @author cet
- *
  */
 public class AdvisorTypeDataGet extends AbstractGet<AdvisorTypeDataDTO, AdvisorTypeDataGet>
     implements ByMatchcode<AdvisorTypeDataDTO, AdvisorTypeDataGet>

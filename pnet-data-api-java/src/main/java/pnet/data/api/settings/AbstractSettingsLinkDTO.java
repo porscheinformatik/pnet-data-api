@@ -10,7 +10,7 @@ import pnet.data.api.util.WithTenant;
 public abstract class AbstractSettingsLinkDTO implements WithTenant, Serializable
 {
     private static final long serialVersionUID = 9065998075301387296L;
-    
+
     protected final String tenant;
 
     public AbstractSettingsLinkDTO(@JsonProperty("tenant") String tenant)

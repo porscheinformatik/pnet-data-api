@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -41,13 +43,7 @@ public class Pair<Left, Right>
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((left == null) ? 0 : left.hashCode());
-        result = prime * result + ((right == null) ? 0 : right.hashCode());
-
-        return result;
+        return Objects.hash(left, right);
     }
 
     @Override
@@ -70,26 +66,12 @@ public class Pair<Left, Right>
 
         Pair<?, ?> other = (Pair<?, ?>) obj;
 
-        if (left == null)
-        {
-            if (other.left != null)
-            {
-                return false;
-            }
-        }
-        else if (!left.equals(other.left))
+        if (!Objects.equals(left, other.left))
         {
             return false;
         }
 
-        if (right == null)
-        {
-            if (other.right != null)
-            {
-                return false;
-            }
-        }
-        else if (!right.equals(other.right))
+        if (!Objects.equals(right, other.right))
         {
             return false;
         }

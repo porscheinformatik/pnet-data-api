@@ -9,7 +9,6 @@ import pnet.data.api.util.Pair;
 
 /**
  * @author cet
- *
  */
 public class ExternalBrandDataGet extends AbstractGet<ExternalBrandDataDTO, ExternalBrandDataGet>
     implements ByMatchcode<ExternalBrandDataDTO, ExternalBrandDataGet>

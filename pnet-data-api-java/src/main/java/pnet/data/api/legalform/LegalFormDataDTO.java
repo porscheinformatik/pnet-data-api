@@ -43,7 +43,7 @@ public class LegalFormDataDTO implements WithMatchcode, WithLabels, WithLastUpda
 
     @ApiModelProperty(notes = "The label of the legal form with all existing translations.")
     private Map<Locale, String> labels;
-    
+
     @ApiModelProperty(notes = "The time and date when the legal form was last changed.")
     private LocalDateTime lastUpdate;
 

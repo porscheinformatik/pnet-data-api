@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 /**
  * Defines the action of a maintenance proposal
- * 
+ *
  * @author scar
  */
 public enum ProposalAction

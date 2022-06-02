@@ -15,6 +15,7 @@
 package pnet.data.api.company;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -64,10 +65,7 @@ public class CompanyNumberLinkDTO implements WithMatchcode, Serializable
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        return result;
+        return Objects.hash(matchcode);
     }
 
     @Override
@@ -86,14 +84,7 @@ public class CompanyNumberLinkDTO implements WithMatchcode, Serializable
             return false;
         }
         CompanyNumberLinkDTO other = (CompanyNumberLinkDTO) obj;
-        if (matchcode == null)
-        {
-            if (other.matchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!matchcode.equals(other.matchcode))
+        if (!Objects.equals(matchcode, other.matchcode))
         {
             return false;
         }

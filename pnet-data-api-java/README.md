@@ -82,6 +82,8 @@ All classes are unmodifyalbe and thread-safe. You can and you should reuse them 
 
 Be warned that the first login will usually fail, because your IP is missing. Have a look at the Partner.Net Self-Service to fix this issue.
 
+Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/java/PnetJavaRestClientTemplate.java for some super simple sample code.
+
 ## Apache HTTP Client
 
 You will need the following dependencies:
@@ -135,6 +137,8 @@ clientFactory
 All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
 
 Be warned that the first login will usually fail, because your IP is missing. Have a look at the Partner.Net Self-Service to fix this issue.
+
+Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache/PnetApacheRestClientTemplate.java for some super simple sample code.
 
 ## Spring
 
@@ -210,6 +214,8 @@ private PersonDataClient personDataClient;
 @Autowired
 private CompanyDataClient companyDataClient;
 ```
+
+Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/spring/PnetSpringRestClientTemplate.java for some super simple sample code.
 
 # Common information about the client
 

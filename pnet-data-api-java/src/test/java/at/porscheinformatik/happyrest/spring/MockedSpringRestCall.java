@@ -39,8 +39,9 @@ public class MockedSpringRestCall extends SpringRestCall
     }
 
     @Override
-    protected MockedSpringRestCall copy(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
-        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body)
+    protected MockedSpringRestCall copy(RestLoggerAdapter loggerAdapter, String url,
+        List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
+        RestFormatter formatter, Object body)
     {
         return new MockedSpringRestCall(restTemplate, loggerAdapter, url, acceptableMediaTypes, contentType, attributes,
             formatter, body);

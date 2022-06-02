@@ -19,7 +19,6 @@ import pnet.data.api.util.Scrollable;
 
 /**
  * @author cet
- *
  */
 public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, CompanyGroupDataGet>
     implements RestrictLeadingCompanyId<CompanyGroupDataGet>, RestrictLeadingCompanyNumber<CompanyGroupDataGet>,

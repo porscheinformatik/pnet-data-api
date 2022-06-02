@@ -10,7 +10,6 @@ import pnet.data.api.util.SearchFunction;
 
 /**
  * @author cet
- *
  */
 public class ContractTypeDataSearch extends AbstractSearch<ContractTypeItemDTO, ContractTypeDataSearch>
     implements RestrictTenant<ContractTypeDataSearch>, RestrictBrand<ContractTypeDataSearch>

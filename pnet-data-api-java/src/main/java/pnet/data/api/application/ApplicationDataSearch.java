@@ -8,7 +8,6 @@ import pnet.data.api.util.SearchFunction;
 
 /**
  * @author cet
- *
  */
 public class ApplicationDataSearch extends AbstractSearch<ApplicationItemDTO, ApplicationDataSearch>
 {

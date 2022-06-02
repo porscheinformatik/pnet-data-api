@@ -31,7 +31,8 @@ public class ByteArrayParser implements RestParser
     }
 
     @Override
-    public <T> byte[] parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in) throws RestParserException
+    public <T> byte[] parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in)
+        throws RestParserException
     {
         try
         {

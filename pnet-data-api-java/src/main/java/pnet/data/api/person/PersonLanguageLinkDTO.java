@@ -2,6 +2,7 @@ package pnet.data.api.person;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -45,11 +46,7 @@ public class PersonLanguageLinkDTO implements Serializable
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((language == null) ? 0 : language.hashCode());
-        result = prime * result + ((level == null) ? 0 : level.hashCode());
-        return result;
+        return Objects.hash(language, level);
     }
 
     @Override
@@ -68,14 +65,7 @@ public class PersonLanguageLinkDTO implements Serializable
             return false;
         }
         PersonLanguageLinkDTO other = (PersonLanguageLinkDTO) obj;
-        if (language == null)
-        {
-            if (other.language != null)
-            {
-                return false;
-            }
-        }
-        else if (!language.equals(other.language))
+        if (!Objects.equals(language, other.language))
         {
             return false;
         }

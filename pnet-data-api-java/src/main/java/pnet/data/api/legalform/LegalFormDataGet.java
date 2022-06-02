@@ -14,8 +14,7 @@ public class LegalFormDataGet extends AbstractGet<LegalFormDataDTO, LegalFormDat
     implements ByMatchcode<LegalFormDataDTO, LegalFormDataGet>
 {
 
-    public LegalFormDataGet(GetFunction<LegalFormDataDTO> getFunction,
-        List<Pair<String, Object>> restricts)
+    public LegalFormDataGet(GetFunction<LegalFormDataDTO> getFunction, List<Pair<String, Object>> restricts)
     {
         super(getFunction, restricts);
     }

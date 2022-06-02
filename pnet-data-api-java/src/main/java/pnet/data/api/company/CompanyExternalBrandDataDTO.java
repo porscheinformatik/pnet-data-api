@@ -16,6 +16,7 @@ package pnet.data.api.company;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -109,13 +110,7 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeri
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-
-        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
-        result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
-
-        return result;
+        return Objects.hash(matchcode, validFrom);
     }
 
     @Override
@@ -138,26 +133,12 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeri
 
         CompanyExternalBrandDataDTO other = (CompanyExternalBrandDataDTO) obj;
 
-        if (matchcode == null)
-        {
-            if (other.matchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!matchcode.equals(other.matchcode))
+        if (!Objects.equals(matchcode, other.matchcode))
         {
             return false;
         }
 
-        if (validFrom == null)
-        {
-            if (other.validFrom != null)
-            {
-                return false;
-            }
-        }
-        else if (!validFrom.equals(other.validFrom))
+        if (!Objects.equals(validFrom, other.validFrom))
         {
             return false;
         }

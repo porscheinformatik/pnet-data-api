@@ -9,7 +9,6 @@ import pnet.data.api.util.Pair;
 
 /**
  * @author cet
- *
  */
 public class ApplicationDataGet extends AbstractGet<ApplicationDataDTO, ApplicationDataGet>
     implements ByMatchcode<ApplicationDataDTO, ApplicationDataGet>

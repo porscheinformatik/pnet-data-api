@@ -9,7 +9,6 @@ import pnet.data.api.util.Pair;
 
 /**
  * @author cet
- *
  */
 public class ContractStateDataGet extends AbstractGet<ContractStateDataDTO, ContractStateDataGet>
     implements ByMatchcode<ContractStateDataDTO, ContractStateDataGet>

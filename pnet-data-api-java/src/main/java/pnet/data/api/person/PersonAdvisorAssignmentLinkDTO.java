@@ -15,6 +15,7 @@
 package pnet.data.api.person;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
@@ -137,25 +138,11 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO
             return false;
         }
         PersonAdvisorAssignmentLinkDTO other = (PersonAdvisorAssignmentLinkDTO) obj;
-        if (brandMatchcode == null)
-        {
-            if (other.brandMatchcode != null)
-            {
-                return false;
-            }
-        }
-        else if (!brandMatchcode.equals(other.brandMatchcode))
+        if (!Objects.equals(brandMatchcode, other.brandMatchcode))
         {
             return false;
         }
-        if (companyId == null)
-        {
-            if (other.companyId != null)
-            {
-                return false;
-            }
-        }
-        else if (!companyId.equals(other.companyId))
+        if (!Objects.equals(companyId, other.companyId))
         {
             return false;
         }

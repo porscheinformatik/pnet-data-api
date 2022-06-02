@@ -7,7 +7,6 @@ import java.util.List;
  * Abstract implementation of a restrictable query.
  *
  * @author HAM
- *
  * @param <SELF> the type of the filter itself for fluent interface
  */
 public abstract class AbstractRestricable<SELF extends AbstractRestricable<SELF>>

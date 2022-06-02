@@ -10,7 +10,6 @@ import pnet.data.api.util.RestrictTenant;
 
 /**
  * @author cet
- *
  */
 public class BrandDataGet extends AbstractGet<BrandDataDTO, BrandDataGet>
     implements RestrictTenant<BrandDataGet>, ByMatchcode<BrandDataDTO, BrandDataGet>

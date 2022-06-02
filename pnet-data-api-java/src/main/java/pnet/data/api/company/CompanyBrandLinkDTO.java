@@ -16,6 +16,7 @@ package pnet.data.api.company;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -104,14 +105,7 @@ public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPer
             return false;
         }
         CompanyBrandLinkDTO other = (CompanyBrandLinkDTO) obj;
-        if (validFrom == null)
-        {
-            if (other.validFrom != null)
-            {
-                return false;
-            }
-        }
-        else if (!validFrom.equals(other.validFrom))
+        if (!Objects.equals(validFrom, other.validFrom))
         {
             return false;
         }

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Client for proposals.
- * 
+ *
  * @author HAM
  */
 @Configuration

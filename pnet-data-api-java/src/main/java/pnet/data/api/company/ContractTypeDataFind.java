@@ -12,7 +12,6 @@ import pnet.data.api.util.RestrictUpdatedAfter;
 
 /**
  * @author cet
- *
  */
 public class ContractTypeDataFind extends AbstractFind<ContractTypeItemDTO, ContractTypeDataFind>
     implements RestrictMatchcode<ContractTypeDataFind>, RestrictBrand<ContractTypeDataFind>,

@@ -1,6 +1,7 @@
 package pnet.data.api.todo;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -57,12 +58,7 @@ public class TodoGroupPersonLinkDTO implements WithPersonId, Serializable
     @Override
     public int hashCode()
     {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + (assigned ? 1231 : 1237);
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        result = prime * result + ((personId == null) ? 0 : personId.hashCode());
-        return result;
+        return Objects.hash(assigned, name, personId);
     }
 
     @Override
@@ -85,25 +81,11 @@ public class TodoGroupPersonLinkDTO implements WithPersonId, Serializable
         {
             return false;
         }
-        if (name == null)
-        {
-            if (other.name != null)
-            {
-                return false;
-            }
-        }
-        else if (!name.equals(other.name))
+        if (!Objects.equals(name, other.name))
         {
             return false;
         }
-        if (personId == null)
-        {
-            if (other.personId != null)
-            {
-                return false;
-            }
-        }
-        else if (!personId.equals(other.personId))
+        if (!Objects.equals(personId, other.personId))
         {
             return false;
         }
