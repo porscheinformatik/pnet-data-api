@@ -2,7 +2,6 @@ package pnet.data.api.client.jackson;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -12,13 +11,11 @@ import java.time.ZoneId;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
-@SuppressWarnings("resource")
 public class LocalDateDeserializerTest
 {
-
     private static final ZoneId UTC = ZoneId.of("UTC");
     private static final ZoneId CET = ZoneId.of("CET");
     private static final ZoneId SGT = ZoneId.of("UTC-6");
@@ -26,25 +23,21 @@ public class LocalDateDeserializerTest
     @Test
     public void testNull() throws JsonGenerationException, IOException
     {
-        LocalDateDeserializer deserializer = new LocalDateDeserializer(CET);
-        JsonParser jp = mock(JsonParser.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(LocalDate.class, new LocalDateDeserializer(CET)));
 
-        when(jp.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
-        when(jp.getText()).thenReturn(null);
+        LocalDate result = objectMapper.readValue("null", LocalDate.class);
 
-        assertThat(deserializer.deserialize(jp, null), nullValue());
+        assertThat(result, nullValue());
     }
 
     @Test
     public void testDateUtc() throws JsonGenerationException, IOException
     {
-        LocalDateDeserializer deserializer = new LocalDateDeserializer(UTC);
-        JsonParser jp = mock(JsonParser.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(LocalDate.class, new LocalDateDeserializer(UTC)));
 
-        when(jp.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
-        when(jp.getText()).thenReturn("2000-01-01");
-
-        LocalDate result = deserializer.deserialize(jp, null);
+        LocalDate result = objectMapper.readValue("\"2000-01-01\"", LocalDate.class);
 
         assertThat(result, notNullValue());
         assertThat(result.getYear(), is(2000));
@@ -55,13 +48,10 @@ public class LocalDateDeserializerTest
     @Test
     public void testDateCet() throws JsonGenerationException, IOException
     {
-        LocalDateDeserializer deserializer = new LocalDateDeserializer(CET);
-        JsonParser jp = mock(JsonParser.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(LocalDate.class, new LocalDateDeserializer(CET)));
 
-        when(jp.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
-        when(jp.getText()).thenReturn("2000-01-01");
-
-        LocalDate result = deserializer.deserialize(jp, null);
+        LocalDate result = objectMapper.readValue("\"2000-01-01\"", LocalDate.class);
 
         assertThat(result, notNullValue());
         assertThat(result.getYear(), is(2000));
@@ -72,13 +62,10 @@ public class LocalDateDeserializerTest
     @Test
     public void testDateTimeUtc() throws JsonGenerationException, IOException
     {
-        LocalDateDeserializer deserializer = new LocalDateDeserializer(UTC);
-        JsonParser jp = mock(JsonParser.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(LocalDate.class, new LocalDateDeserializer(UTC)));
 
-        when(jp.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
-        when(jp.getText()).thenReturn("2000-01-01T00:00:00");
-
-        LocalDate result = deserializer.deserialize(jp, null);
+        LocalDate result = objectMapper.readValue("\"2000-01-01T00:00:00\"", LocalDate.class);
 
         assertThat(result, notNullValue());
         assertThat(result.getYear(), is(2000));
@@ -89,13 +76,10 @@ public class LocalDateDeserializerTest
     @Test
     public void testDateTimeCet() throws JsonGenerationException, IOException
     {
-        LocalDateDeserializer deserializer = new LocalDateDeserializer(CET);
-        JsonParser jp = mock(JsonParser.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(LocalDate.class, new LocalDateDeserializer(CET)));
 
-        when(jp.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
-        when(jp.getText()).thenReturn("2000-01-01T00:00:00");
-
-        LocalDate result = deserializer.deserialize(jp, null);
+        LocalDate result = objectMapper.readValue("\"2000-01-01T00:00:00\"", LocalDate.class);
 
         assertThat(result, notNullValue());
         assertThat(result.getYear(), is(2000));
@@ -106,13 +90,10 @@ public class LocalDateDeserializerTest
     @Test
     public void testZonedDateTimeUtc() throws JsonGenerationException, IOException
     {
-        LocalDateDeserializer deserializer = new LocalDateDeserializer(UTC);
-        JsonParser jp = mock(JsonParser.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(LocalDate.class, new LocalDateDeserializer(UTC)));
 
-        when(jp.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
-        when(jp.getText()).thenReturn("2000-01-01T00:00:00Z");
-
-        LocalDate result = deserializer.deserialize(jp, null);
+        LocalDate result = objectMapper.readValue("\"2000-01-01T00:00:00Z\"", LocalDate.class);
 
         assertThat(result, notNullValue());
         assertThat(result.getYear(), is(2000));
@@ -123,13 +104,10 @@ public class LocalDateDeserializerTest
     @Test
     public void testZonedDateTimeCet() throws JsonGenerationException, IOException
     {
-        LocalDateDeserializer deserializer = new LocalDateDeserializer(CET);
-        JsonParser jp = mock(JsonParser.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(LocalDate.class, new LocalDateDeserializer(CET)));
 
-        when(jp.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
-        when(jp.getText()).thenReturn("2000-01-01T00:00:00Z");
-
-        LocalDate result = deserializer.deserialize(jp, null);
+        LocalDate result = objectMapper.readValue("\"2000-01-01T00:00:00Z\"", LocalDate.class);
 
         assertThat(result, notNullValue());
         assertThat(result.getYear(), is(2000));
@@ -140,13 +118,10 @@ public class LocalDateDeserializerTest
     @Test
     public void testZonedDateTimeSgt() throws JsonGenerationException, IOException
     {
-        LocalDateDeserializer deserializer = new LocalDateDeserializer(SGT);
-        JsonParser jp = mock(JsonParser.class);
+        ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new SimpleModule().addDeserializer(LocalDate.class, new LocalDateDeserializer(SGT)));
 
-        when(jp.getCurrentToken()).thenReturn(JsonToken.VALUE_STRING);
-        when(jp.getText()).thenReturn("2000-01-01T00:00:00Z");
-
-        LocalDate result = deserializer.deserialize(jp, null);
+        LocalDate result = objectMapper.readValue("\"2000-01-01T00:00:00Z\"", LocalDate.class);
 
         assertThat(result, notNullValue());
         assertThat(result.getYear(), is(1999));

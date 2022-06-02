@@ -1,6 +1,7 @@
 package pnet.data.api.client.jackson;
 
-import static org.mockito.Mockito.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -9,7 +10,8 @@ import java.time.ZoneId;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 @SuppressWarnings("resource")
 public class LocalDateTimeSerializerTest
@@ -21,33 +23,33 @@ public class LocalDateTimeSerializerTest
     @Test
     public void testNull() throws JsonGenerationException, IOException
     {
-        LocalDateTimeSerializer serializer = new LocalDateTimeSerializer(UTC);
-        JsonGenerator jgen = mock(JsonGenerator.class);
+        ObjectMapper objectMapper =
+            new ObjectMapper().registerModule(new SimpleModule().addSerializer(new LocalDateTimeSerializer(UTC)));
 
-        serializer.serialize(null, jgen, null);
+        String json = objectMapper.writeValueAsString((LocalDateTime) null);
 
-        verify(jgen).writeNull();
+        assertThat(json, equalTo("null"));
     }
 
     @Test
     public void testUtc() throws JsonGenerationException, IOException
     {
-        LocalDateTimeSerializer serializer = new LocalDateTimeSerializer(UTC);
-        JsonGenerator jgen = mock(JsonGenerator.class);
+        ObjectMapper objectMapper =
+            new ObjectMapper().registerModule(new SimpleModule().addSerializer(new LocalDateTimeSerializer(UTC)));
 
-        serializer.serialize(LocalDateTime.of(2000, 01, 01, 12, 00), jgen, null);
+        String json = objectMapper.writeValueAsString(LocalDateTime.of(2000, 01, 01, 12, 00));
 
-        verify(jgen).writeString("2000-01-01T12:00:00Z");
+        assertThat(json, equalTo("\"2000-01-01T12:00:00Z\""));
     }
 
     @Test
     public void testCet() throws JsonGenerationException, IOException
     {
-        LocalDateTimeSerializer serializer = new LocalDateTimeSerializer(CET);
-        JsonGenerator jgen = mock(JsonGenerator.class);
+        ObjectMapper objectMapper =
+            new ObjectMapper().registerModule(new SimpleModule().addSerializer(new LocalDateTimeSerializer(CET)));
 
-        serializer.serialize(LocalDateTime.of(2000, 01, 01, 12, 00), jgen, null);
+        String json = objectMapper.writeValueAsString(LocalDateTime.of(2000, 01, 01, 12, 00));
 
-        verify(jgen).writeString("2000-01-01T11:00:00Z");
+        assertThat(json, equalTo("\"2000-01-01T11:00:00Z\""));
     }
 }

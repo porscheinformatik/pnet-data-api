@@ -1,6 +1,7 @@
 package pnet.data.api.client.jackson;
 
-import static org.mockito.Mockito.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -8,31 +9,30 @@ import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
-@SuppressWarnings("resource")
 public class LocalDateSerializerTest
 {
-
     @Test
     public void testNull() throws JsonGenerationException, IOException
     {
-        LocalDateSerializer serializer = new LocalDateSerializer();
-        JsonGenerator jgen = mock(JsonGenerator.class);
+        ObjectMapper objectMapper =
+            new ObjectMapper().registerModule(new SimpleModule().addSerializer(new LocalDateSerializer()));
 
-        serializer.serialize(null, jgen, null);
+        String json = objectMapper.writeValueAsString((LocalDate) null);
 
-        verify(jgen).writeNull();
+        assertThat(json, equalTo("null"));
     }
 
     @Test
     public void testUtc() throws JsonGenerationException, IOException
     {
-        LocalDateSerializer serializer = new LocalDateSerializer();
-        JsonGenerator jgen = mock(JsonGenerator.class);
+        ObjectMapper objectMapper =
+            new ObjectMapper().registerModule(new SimpleModule().addSerializer(new LocalDateSerializer()));
 
-        serializer.serialize(LocalDate.of(2000, 01, 01), jgen, null);
+        String json = objectMapper.writeValueAsString(LocalDate.of(2000, 01, 01));
 
-        verify(jgen).writeString("2000-01-01");
+        assertThat(json, equalTo("\"2000-01-01\""));
     }
 }
