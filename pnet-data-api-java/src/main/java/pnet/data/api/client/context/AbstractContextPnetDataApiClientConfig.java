@@ -31,29 +31,34 @@ import pnet.data.api.client.PnetDataClientPrefs;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.PnetDataApiUtils;
 
-/**
- * <pre>
- *           ___
- *         O(o o)O
- *           (_)     - Ook!
- * </pre>
- */
 @Configuration
 @ComponentScan(basePackageClasses = {AbstractContextPnetDataApiClientConfig.class})
+@SuppressWarnings("deprecation")
 public abstract class AbstractContextPnetDataApiClientConfig
 {
     @Bean
-    public PnetDataApiContext pnetDataApiContext(PnetDataApiTokenRepository tokenRepository,
-        Optional<PnetDataApiLoginMethod> loginMethod, Optional<PnetDataClientPrefs> prefs)
+    public PnetDataApiContext pnetDataApiContext(RestCallFactory restCallFactory,
+        Optional<PnetDataApiLoginMethod> loginMethod, Optional<PnetDataApiTokenRepository> tokenRepository,
+        Optional<PnetDataClientPrefs> prefs)
     {
         if (loginMethod.isPresent())
         {
-            return new DefaultPnetDataApiContext(tokenRepository, loginMethod.get());
+            return new SimplePnetDataApiContext(restCallFactory, loginMethod.get());
         }
 
         if (prefs.isPresent())
         {
-            return new PrefsBasedPnetDataApiContext(tokenRepository, prefs.get());
+            // both variants are deprecated
+
+            if (tokenRepository.isPresent())
+            {
+                return new PrefsBasedPnetDataApiContext(tokenRepository.get(), prefs.get());
+            }
+
+            return new SimplePnetDataApiContext(restCallFactory,
+                new UsernamePasswordPnetDataApiLoginMethod(prefs.get().getPnetDataApiUrl(),
+                    () -> new UsernamePasswordCredentials(prefs.get().getPnetDataApiUsername(),
+                        prefs.get().getPnetDataApiPassword())));
         }
 
         throw new IllegalArgumentException("Please provide a PnetDataApiLoginMethod bean. "

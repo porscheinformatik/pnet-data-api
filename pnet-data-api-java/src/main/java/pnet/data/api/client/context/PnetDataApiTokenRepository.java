@@ -13,7 +13,9 @@ import pnet.data.api.PnetDataClientException;
  * Repository for holding creating and caching RestCall objects.
  *
  * @author ham
+ * @deprecated not needed anymore, since the {@link SimplePnetDataApiContext} is now doing the of caching calls.
  */
+@Deprecated
 @Service
 public class PnetDataApiTokenRepository
 {
@@ -29,7 +31,7 @@ public class PnetDataApiTokenRepository
 
     public void invalidate(PnetDataApiLoginMethod loginMethod)
     {
-        restCalls.remove(loginMethod.getKey());
+        restCalls.remove(String.valueOf(loginMethod.hashCode()));
     }
 
     /**
@@ -41,32 +43,17 @@ public class PnetDataApiTokenRepository
      */
     public RestCall restCall(PnetDataApiLoginMethod loginMethod) throws PnetDataClientException
     {
-        String key = loginMethod.getKey();
+        String key = String.valueOf(loginMethod.hashCode());
         RestCall restCall = restCalls.get(key);
 
         if (restCall == null)
         {
-            String token = loginMethod.performLogin(factory);
-            String url = loginMethod.getUrl();
-
-            restCall = createRestCall(url, token);
+            restCall = loginMethod.performLogin(factory);
 
             cacheRestCall(key, restCall);
         }
 
         return restCall;
-    }
-
-    /**
-     * Creates a new rest call with the specified url and the specified token.
-     *
-     * @param url the url
-     * @param token the token
-     * @return the rest call
-     */
-    protected RestCall createRestCall(String url, String token)
-    {
-        return factory.url(url).bearerAuthorization(token);
     }
 
     /**

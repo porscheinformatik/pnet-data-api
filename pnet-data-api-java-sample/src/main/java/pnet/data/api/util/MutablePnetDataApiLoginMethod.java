@@ -1,5 +1,8 @@
 package pnet.data.api.util;
 
+import java.util.Objects;
+
+import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
@@ -49,13 +52,11 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod
 
     private PnetDataApiLoginMethod loginMethod;
 
-    @Override
     public String getUrl()
     {
         return url;
     }
 
-    @Override
     public PnetDataApiLoginMethod withUrl(String url)
     {
         setUrl(url);
@@ -114,18 +115,7 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod
     }
 
     @Override
-    public String getKey()
-    {
-        if (loginMethod == null)
-        {
-            throw new IllegalStateException("LoginMethod not initialized, yet");
-        }
-
-        return loginMethod.getKey();
-    }
-
-    @Override
-    public String performLogin(RestCallFactory factory) throws PnetDataClientException
+    public RestCall performLogin(RestCallFactory factory) throws PnetDataClientException
     {
         if (loginMethod == null)
         {
@@ -133,5 +123,34 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod
         }
 
         return loginMethod.performLogin(factory);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(password, token, type, url, username);
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        MutablePnetDataApiLoginMethod other = (MutablePnetDataApiLoginMethod) obj;
+        return Objects.equals(password, other.password)
+            && Objects.equals(token, other.token)
+            && type == other.type
+            && Objects.equals(url, other.url)
+            && Objects.equals(username, other.username);
     }
 }

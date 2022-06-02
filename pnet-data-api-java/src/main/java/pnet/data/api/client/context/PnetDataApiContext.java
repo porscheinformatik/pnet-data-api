@@ -8,15 +8,21 @@ import pnet.data.api.PnetDataClientException;
  *
  * @author ham
  */
-public interface PnetDataApiContext
+public interface PnetDataApiContext extends PnetDataApiContextAware<PnetDataApiContext>
 {
-    @Deprecated
-    PnetDataApiContext withUrl(String url);
-
-    @Deprecated
-    PnetDataApiContext withCredentials(String username, String password);
-
+    /**
+     * Create a REST call by either using an existing short-lived authentication token or by getting a new one using the
+     * {@link PnetDataApiLoginMethod} of this context.
+     *
+     * @return a restCall object
+     * @throws PnetDataClientException on occasion
+     */
     RestCall restCall() throws PnetDataClientException;
 
+    /**
+     * Removes the short-lived authentication token from the repository.
+     *
+     * @throws PnetDataClientException on occasion
+     */
     void invalidateLogin() throws PnetDataClientException;
 }

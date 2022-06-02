@@ -4,7 +4,9 @@ package pnet.data.api.client.context;
  * Default implementation of the {@link PnetDataApiContext}.
  *
  * @author ham
+ * @deprecated use the {@link SimplePnetDataApiContext} instead. It does not need a repository.
  */
+@Deprecated
 public class DefaultPnetDataApiContext extends AbstractPnetDataApiContext
 {
     private final PnetDataApiLoginMethod loginMethod;
@@ -23,17 +25,8 @@ public class DefaultPnetDataApiContext extends AbstractPnetDataApiContext
     }
 
     @Override
-    @Deprecated
-    public PnetDataApiContext withUrl(String url)
+    public PnetDataApiContext withLoginMethod(PnetDataApiLoginMethod loginMethod)
     {
-        return new DefaultPnetDataApiContext(repository, loginMethod.withUrl(url));
-    }
-
-    @Override
-    @Deprecated
-    public PnetDataApiContext withCredentials(String username, String password)
-    {
-        return new DefaultPnetDataApiContext(repository, new UsernamePasswordPnetDataApiLoginMethod(
-            loginMethod.getUrl(), () -> new UsernamePasswordCredentials(username, password)));
+        return new DefaultPnetDataApiContext(repository, loginMethod);
     }
 }

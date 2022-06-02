@@ -59,7 +59,13 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
             throw new IllegalArgumentException("Failed to invoke constructor", e);
         }
     }
-    
+
+    @Override
+    public SELF withLoginMethod(PnetDataApiLoginMethod loginMethod)
+    {
+        return newInstance(context.withLoginMethod(loginMethod));
+    }
+
     @Override
     @Deprecated
     public SELF withUrl(String url)

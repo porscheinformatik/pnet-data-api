@@ -43,6 +43,7 @@ import pnet.data.api.advisortype.AdvisorTypeDataFind;
 import pnet.data.api.advisortype.AdvisorTypeDataGet;
 import pnet.data.api.advisortype.AdvisorTypeDataSearch;
 import pnet.data.api.advisortype.AdvisorTypeItemDTO;
+import pnet.data.api.apache.PnetApacheRestClientLauncher;
 import pnet.data.api.application.ApplicationDataClient;
 import pnet.data.api.application.ApplicationDataDTO;
 import pnet.data.api.application.ApplicationDataFind;
@@ -57,7 +58,7 @@ import pnet.data.api.brand.BrandDataSearch;
 import pnet.data.api.brand.BrandItemDTO;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
-import pnet.data.api.client.context.PnetDataApiTokenRepository;
+import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.company.CompanyAutoCompleteDTO;
 import pnet.data.api.company.CompanyDataAutoComplete;
 import pnet.data.api.company.CompanyDataClient;
@@ -112,6 +113,7 @@ import pnet.data.api.function.FunctionDataFind;
 import pnet.data.api.function.FunctionDataGet;
 import pnet.data.api.function.FunctionDataSearch;
 import pnet.data.api.function.FunctionItemDTO;
+import pnet.data.api.java.PnetJavaRestClientLauncher;
 import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.legalform.LegalFormDataDTO;
 import pnet.data.api.legalform.LegalFormDataFind;
@@ -141,6 +143,7 @@ import pnet.data.api.proposal.ProposalDataSearch;
 import pnet.data.api.proposal.ProposalItemDTO;
 import pnet.data.api.proposal.ProposalState;
 import pnet.data.api.settings.Visibility;
+import pnet.data.api.spring.PnetSpringRestClientLauncher;
 import pnet.data.api.todo.TodoCategory;
 import pnet.data.api.todo.TodoGroupDataClient;
 import pnet.data.api.todo.TodoGroupDataFind;
@@ -191,7 +194,8 @@ import pnet.data.api.util.RestrictVisibility;
 import pnet.data.api.util.Table;
 
 /**
- * The client with all commands.
+ * The client with all commands. See {@link PnetApacheRestClientLauncher}, {@link PnetJavaRestClientLauncher} or
+ * {@link PnetSpringRestClientLauncher} on how to launch this client.
  *
  * @author ham
  */
@@ -313,7 +317,7 @@ public final class PnetRestClient
 
     private final TodoGroupDataClient todoGroupDataClient;
 
-    private final PnetDataApiTokenRepository repository;
+    private final PnetDataApiContext context;
 
     private final List<String> restrictedTenants = new ArrayList<>();
     private final List<String> restrictedBrands = new ArrayList<>();
@@ -352,8 +356,7 @@ public final class PnetRestClient
         ContractTypeDataClient contractTypeDataClient, ExternalBrandDataClient externalBrandDataClient,
         FunctionDataClient functionDataClient, LegalFormDataClient legalFormDataClient,
         NumberTypeDataClient numberTypeDataClient, PersonDataClient personDataClient,
-        ProposalDataClient proposalDataClient, TodoGroupDataClient todoGroupDataClient,
-        PnetDataApiTokenRepository repository)
+        ProposalDataClient proposalDataClient, TodoGroupDataClient todoGroupDataClient, PnetDataApiContext context)
     {
         super();
         this.loginMethod = loginMethod;
@@ -376,7 +379,7 @@ public final class PnetRestClient
         this.personDataClient = personDataClient;
         this.proposalDataClient = proposalDataClient;
         this.todoGroupDataClient = todoGroupDataClient;
-        this.repository = repository;
+        this.context = context;
 
         cli = new CLI();
 
@@ -394,13 +397,13 @@ public final class PnetRestClient
     @CLI.Command(description = "Prints the JSON Web Token of the user.")
     public void jwt() throws PnetDataClientException
     {
-        cli.info("jwt = %s", repository.restCall(loginMethod).getHeader("Authorization"));
+        cli.info("jwt = %s", context.restCall().getHeader("Authorization"));
     }
 
     @CLI.Command(description = "Invalidates the stored JSON Web Token.")
     public void logout() throws PnetDataClientException
     {
-        repository.invalidate(loginMethod);
+        context.invalidateLogin();
 
         cli.info("Logged out.");
     }
@@ -2099,11 +2102,7 @@ public final class PnetRestClient
         description = "Performs a full migration for the specified index.")
     public void migrateFull(String indexName) throws RestException, PnetDataClientException
     {
-        repository
-            .restCall(loginMethod)
-            .variable("indexName", indexName)
-            .path("/api/v1/migrator/full/{indexName}")
-            .post(Void.class);
+        context.restCall().variable("indexName", indexName).path("/api/v1/migrator/full/{indexName}").post(Void.class);
 
         cli.info("Performing a full migration on index: %s.", indexName);
     }
@@ -2112,11 +2111,7 @@ public final class PnetRestClient
         description = "Performs a delta migration for the specified index.")
     public void migrateDelta(String indexName) throws RestException, PnetDataClientException
     {
-        repository
-            .restCall(loginMethod)
-            .variable("indexName", indexName)
-            .path("/api/v1/migrator/delta/{indexName}")
-            .post(Void.class);
+        context.restCall().variable("indexName", indexName).path("/api/v1/migrator/delta/{indexName}").post(Void.class);
 
         cli.info("Performing a delta migration on index: %s.", indexName);
     }
@@ -2124,8 +2119,8 @@ public final class PnetRestClient
     @CLI.Command(name = "migrate state", format = "<INDEXNAME>", description = "Prints the state of the migration.")
     public void migrateState(String indexName) throws RestException, PnetDataClientException
     {
-        HashMap<?, ?> state = repository
-            .restCall(loginMethod)
+        HashMap<?, ?> state = context
+            .restCall()
             .variable("indexName", indexName)
             .path("/api/v1/migrator/states/{indexName}")
             .get(HashMap.class);
@@ -2137,8 +2132,8 @@ public final class PnetRestClient
     @CLI.Command(name = "migrate explicit", format = "<INDEXNAME> [<IDS>]", description = "Runs an explicit migration.")
     public void migrateExplicit(String indexName, String... ids) throws RestException, PnetDataClientException
     {
-        HashMap<?, ?> state = repository
-            .restCall(loginMethod)
+        HashMap<?, ?> state = context
+            .restCall()
             .variable("indexName", indexName)
             .parameter("id", (Object[]) ids)
             .path("/api/v1/migrator/explicit/{indexName}")
@@ -2728,7 +2723,7 @@ public final class PnetRestClient
         }
         else
         {
-            HashMap<?, ?> result = repository.restCall(loginMethod).encodedPathSegment(uri).get(HashMap.class);
+            HashMap<?, ?> result = context.restCall().encodedPathSegment(uri).get(HashMap.class);
 
             cli.info(PrettyPrint.prettyPrint(result));
         }

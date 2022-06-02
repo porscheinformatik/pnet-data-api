@@ -9,7 +9,6 @@ import java.util.Objects;
  */
 public class UsernamePasswordCredentials
 {
-
     private final String username;
     private final String password;
 
@@ -50,11 +49,5 @@ public class UsernamePasswordCredentials
         }
         UsernamePasswordCredentials other = (UsernamePasswordCredentials) obj;
         return Objects.equals(password, other.password) && Objects.equals(username, other.username);
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("PnetDataApiUsernamePassword [username=%s]", username);
     }
 }

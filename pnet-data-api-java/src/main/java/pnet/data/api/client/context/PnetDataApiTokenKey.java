@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestResponse;
@@ -15,7 +16,7 @@ import pnet.data.api.util.PnetDataApiUtils;
  *
  * @author ham
  * @deprecated replace the token with an appropriate {@link PnetDataApiLoginMethod}, e.g.
- *             {@link UsernamePasswordPnetDataApiLoginMethod}.
+ *             {@link AuthenticationTokenPnetDataApiLoginMethod} or {@link UsernamePasswordPnetDataApiLoginMethod}.
  */
 @Deprecated
 public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
@@ -25,7 +26,6 @@ public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
     private final String url;
     private final String username;
     private final String password;
-    private final String key;
 
     public PnetDataApiTokenKey(String url, String username, String password)
     {
@@ -34,19 +34,20 @@ public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
         this.url = Objects.requireNonNull(url, "Url is null");
         this.username = Objects.requireNonNull(username, "Username is null");
         this.password = Objects.requireNonNull(password, "Password is null");
-
-        key = PnetDataApiUtils.checksum(url + username + password);
     }
 
-    @Override
     @JsonIgnore
     public String getUrl()
     {
         return url;
     }
 
-    @Override
-    public PnetDataApiLoginMethod withUrl(String url)
+    public PnetDataApiTokenKey withUrl(String url)
+    {
+        return new PnetDataApiTokenKey(url, username, password);
+    }
+
+    public PnetDataApiTokenKey withCredentials(String username, String password)
     {
         return new PnetDataApiTokenKey(url, username, password);
     }
@@ -62,20 +63,14 @@ public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
     }
 
     @Override
-    @JsonIgnore
-    public String getKey()
-    {
-        return key;
-    }
-
-    @Override
-    public String performLogin(RestCallFactory factory) throws PnetDataClientException
+    public RestCall performLogin(RestCallFactory factory) throws PnetDataClientException
     {
         String url = getUrl();
 
         try
         {
-            RestResponse<Void> response = factory.url(url).body(this).path("login").invoke(RestMethod.POST, Void.class);
+            RestCall restCall = factory.url(url);
+            RestResponse<Void> response = restCall.body(this).path("login").invoke(RestMethod.POST, Void.class);
 
             if (response.isSuccessful())
             {
@@ -91,7 +86,7 @@ public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
                     token = token.substring(TOKEN_PREFIX.length()).trim();
                 }
 
-                return token;
+                return restCall.bearerAuthorization(token);
             }
 
             throw new PnetDataClientException("Login failed at \"%s\": %s", getUrl(), response);
@@ -151,5 +146,4 @@ public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
     {
         return String.format("PnetDataApiClientTokenKey [url=%s, username=%s]", url, username);
     }
-
 }

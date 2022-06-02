@@ -10,23 +10,14 @@ import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.spring.SpringRestCallFactory;
 import at.porscheinformatik.happyrest.spring.SpringRestFormatter;
 
-/**
- * <pre>
- *           ___
- *         O(o o)O
- *           (_)     - Ook!
- * </pre>
- */
 @Configuration
 @ComponentScan(basePackageClasses = {ContextPnetDataApiClientConfig.class})
 public class ContextPnetDataApiClientConfig extends AbstractContextPnetDataApiClientConfig
 {
-
     @Override
     protected RestCallFactory createSpringRestCallFactory(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter,
         ConversionService conversionService)
     {
         return new SpringRestCallFactory(restTemplate, loggerAdapter, new SpringRestFormatter(conversionService));
     }
-
 }

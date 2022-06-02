@@ -32,7 +32,6 @@ import pnet.data.api.util.ClientProvider;
 @Service
 public class PnetDataApiClientProvider implements ClientProvider
 {
-
     private final AboutDataClient aboutDataClient;
     private final ActivityDataClient activityDataClient;
     private final AdvisorTypeDataClient advisorTypeDataClient;

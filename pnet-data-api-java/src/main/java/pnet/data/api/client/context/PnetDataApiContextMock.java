@@ -11,6 +11,12 @@ import pnet.data.api.PnetDataClientException;
 public class PnetDataApiContextMock implements PnetDataApiContext
 {
     @Override
+    public PnetDataApiContext withLoginMethod(PnetDataApiLoginMethod loginMethod)
+    {
+        throw new UnsupportedOperationException("Method \"withLoginMethod(..)\" not implemented");
+    }
+
+    @Override
     @Deprecated
     public PnetDataApiContext withUrl(String url)
     {

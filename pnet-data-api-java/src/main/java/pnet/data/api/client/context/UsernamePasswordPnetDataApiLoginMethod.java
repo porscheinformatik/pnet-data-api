@@ -2,6 +2,7 @@ package pnet.data.api.client.context;
 
 import java.util.function.Supplier;
 
+import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestResponse;
@@ -13,7 +14,6 @@ public class UsernamePasswordPnetDataApiLoginMethod implements PnetDataApiLoginM
     private static final String TOKEN_PREFIX = "Bearer";
 
     private final String url;
-    private final String key;
     private final Supplier<UsernamePasswordCredentials> usernamePasswordSupplier;
 
     public UsernamePasswordPnetDataApiLoginMethod(String url,
@@ -22,39 +22,27 @@ public class UsernamePasswordPnetDataApiLoginMethod implements PnetDataApiLoginM
         super();
         this.url = url;
         this.usernamePasswordSupplier = usernamePasswordSupplier;
-
-        UsernamePasswordCredentials usernamePassword = usernamePasswordSupplier.get();
-
-        key = PnetDataApiUtils.checksum(url + usernamePassword.getUsername() + usernamePassword.getPassword());
     }
 
-    @Override
-    public String getUrl()
+    public UsernamePasswordPnetDataApiLoginMethod withUrl(String url)
     {
-        return url;
+        return new UsernamePasswordPnetDataApiLoginMethod(url, usernamePasswordSupplier);
     }
 
-    @Override
-    public PnetDataApiLoginMethod withUrl(String url)
+    public UsernamePasswordPnetDataApiLoginMethod withUsernamePasswordSupplier(
+        Supplier<UsernamePasswordCredentials> usernamePasswordSupplier)
     {
         return new UsernamePasswordPnetDataApiLoginMethod(url, usernamePasswordSupplier);
     }
 
     @Override
-    public String getKey()
+    public RestCall performLogin(RestCallFactory factory) throws PnetDataClientException
     {
-        return key;
-    }
-
-    @Override
-    public String performLogin(RestCallFactory factory) throws PnetDataClientException
-    {
-        String url = getUrl();
-
         try
         {
+            RestCall restCall = factory.url(url);
             RestResponse<Void> response =
-                factory.url(url).body(usernamePasswordSupplier.get()).path("login").invoke(RestMethod.POST, Void.class);
+                restCall.body(usernamePasswordSupplier.get()).path("login").invoke(RestMethod.POST, Void.class);
 
             if (response.isSuccessful())
             {
@@ -70,14 +58,14 @@ public class UsernamePasswordPnetDataApiLoginMethod implements PnetDataApiLoginM
                     token = token.substring(TOKEN_PREFIX.length()).trim();
                 }
 
-                return token;
+                return restCall.bearerAuthorization(token);
             }
 
-            throw new PnetDataClientException("Login failed at \"%s\": %s", getUrl(), response);
+            throw new PnetDataClientException("Login failed at \"%s\": %s", url, response);
         }
         catch (Exception e)
         {
-            throw new PnetDataClientException("Login failed at \"%s\"", e, getUrl());
+            throw new PnetDataClientException("Login failed at \"%s\"", e, url);
         }
     }
 }

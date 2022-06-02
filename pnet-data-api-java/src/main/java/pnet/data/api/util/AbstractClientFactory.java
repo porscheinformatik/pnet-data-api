@@ -14,11 +14,9 @@ import pnet.data.api.advisortype.AdvisorTypeDataClient;
 import pnet.data.api.application.ApplicationDataClient;
 import pnet.data.api.brand.BrandDataClient;
 import pnet.data.api.client.PnetDataClientPrefs;
-import pnet.data.api.client.context.DefaultPnetDataApiContext;
-import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
 import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.client.context.PnetDataApiLoginMethod;
-import pnet.data.api.client.context.PnetDataApiTokenRepository;
+import pnet.data.api.client.context.SimplePnetDataApiContext;
 import pnet.data.api.client.context.UsernamePasswordCredentials;
 import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
 import pnet.data.api.company.CompanyDataClient;
@@ -42,13 +40,13 @@ import pnet.data.api.todo.TodoGroupDataClient;
  * @author HAM
  * @param <T> the type itself
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> implements ClientProvider
 {
     private final PnetDataApiLoginMethod loginMethod;
     private final ObjectMapper mapper;
     private final RestLoggerAdapter loggerAdapter;
     private final RestCallFactory restCallFactory;
-    private final PnetDataApiTokenRepository repository;
     private final PnetDataApiContext context;
 
     private AboutDataClient aboutDataClient = null;
@@ -83,31 +81,50 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
         this.loggerAdapter = loggerAdapter;
 
         restCallFactory = createRestCallFactory(mapper, loggerAdapter);
-        repository = new PnetDataApiTokenRepository(restCallFactory);
-        context = new DefaultPnetDataApiContext(repository, loginMethod);
+        context = new SimplePnetDataApiContext(restCallFactory, loginMethod);
     }
 
     protected abstract RestCallFactory createRestCallFactory(ObjectMapper mapper, RestLoggerAdapter loggerAdapter);
 
     protected abstract T copy(PnetDataApiLoginMethod loginMethod, ObjectMapper mapper, RestLoggerAdapter loggerAdapter);
 
+    public T withLoginMethod(PnetDataApiLoginMethod loginMethod)
+    {
+        return copy(loginMethod, mapper, loggerAdapter);
+    }
+
+    /**
+     * Creates a new instance of this factory using the specified preferences.
+     *
+     * @param prefs the preferences
+     * @return a new instance
+     * @deprecated since {@link PnetDataClientPrefs} are deprecated, use the
+     *             {@link #withLoginMethod(PnetDataApiLoginMethod)} method instead
+     */
     @Deprecated
     public T withPrefs(PnetDataClientPrefs prefs)
     {
-        return withUsernamePassword(prefs.getPnetDataApiUrl(),
-            () -> new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword()));
+        return copy(
+            new UsernamePasswordPnetDataApiLoginMethod(prefs.getPnetDataApiUrl(),
+                () -> new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword())),
+            mapper, loggerAdapter);
     }
 
+    /**
+     * Creates a new instance of this factory using the specified properties.
+     *
+     * @param url the URL to the Data API
+     * @param username the username
+     * @param password the password
+     * @return a new instance
+     * @deprecated use the {@link #withLoginMethod(PnetDataApiLoginMethod)} method instead
+     */
     @Deprecated
     public T withPrefs(String url, String username, String password)
     {
-        return withUsernamePassword(url, () -> new UsernamePasswordCredentials(username, password));
-    }
-
-    public T withAuthenticationToken(String url, Supplier<String> authenticationTokenSupplier)
-    {
-        return copy(new AuthenticationTokenPnetDataApiLoginMethod(url, authenticationTokenSupplier), mapper,
-            loggerAdapter);
+        return copy(
+            new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(username, password)),
+            mapper, loggerAdapter);
     }
 
     public T withUsernamePassword(String url, Supplier<UsernamePasswordCredentials> usernamePasswordSupplier)
@@ -148,11 +165,6 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
     public RestCallFactory getRestCallFactory()
     {
         return restCallFactory;
-    }
-
-    public PnetDataApiTokenRepository getRepository()
-    {
-        return repository;
     }
 
     public PnetDataApiContext getContext()
