@@ -37,10 +37,10 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
+@SuppressWarnings("deprecation")
 @ApiModel(description = "Holds all information about a person")
 public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLastUpdate, Serializable
 {
-
     private static final long serialVersionUID = -2096202204327773391L;
 
     @ApiModelProperty(notes = "The unique id of the person (needed scope: SC_IDENTIFIER).")
@@ -76,6 +76,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     @ApiModelProperty(notes = "The person is able to access the Partner.Net (needed scope: SC_IDENTIFIER).")
     private Boolean credentialsAvailable;
+
+    @ApiModelProperty(notes = "True, if the user has (or had) additional authentication factors enabled.")
+    private Boolean multifactorEnabled;
 
     @ApiModelProperty(
         notes = "True, if the person has been fully approved by authorities, false if the approval process is still "
@@ -291,6 +294,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public void setCredentialsAvailable(Boolean credentialsAvailable)
     {
         this.credentialsAvailable = credentialsAvailable;
+    }
+
+    public Boolean getMultifactorEnabled()
+    {
+        return multifactorEnabled;
+    }
+
+    public void setMultifactorEnabled(Boolean multifactorEnabled)
+    {
+        this.multifactorEnabled = multifactorEnabled;
     }
 
     public boolean isApproved()

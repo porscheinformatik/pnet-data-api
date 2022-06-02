@@ -73,6 +73,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @ApiModelProperty(notes = "The username of the person (needed scope: SC_IDENTIFIER).")
     private final Boolean credentialsAvailable;
 
+    @ApiModelProperty(notes = "True, if the user has (or had) additional authentication factors enabled.")
+    private final Boolean multifactorEnabled;
+
     @ApiModelProperty(
         notes = "True, if the person has been fully approved by authorities, false if the approval process is still "
             + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
@@ -146,9 +149,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
         @JsonProperty("username") String username, @JsonProperty("credentialsAvailable") Boolean credentialsAvailable,
-        @JsonProperty("approved") boolean approved, @JsonProperty("approvalState") ApprovalState approvalState,
-        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
-        @JsonProperty("preferredUserId") String preferredUserId,
+        @JsonProperty("multifactorEnabled") Boolean multifactorEnabled, @JsonProperty("approved") boolean approved,
+        @JsonProperty("approvalState") ApprovalState approvalState, @JsonProperty("externalId") String externalId,
+        @JsonProperty("guid") String guid, @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
         @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber,
         @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("languages") Collection<Locale> languages,
@@ -173,6 +176,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.lastName = lastName;
         this.username = username;
         this.credentialsAvailable = credentialsAvailable;
+        this.multifactorEnabled = multifactorEnabled;
         this.approved = approved;
         this.approvalState = approvalState;
         this.externalId = externalId;
@@ -245,6 +249,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     public Boolean getCredentialsAvailable()
     {
         return credentialsAvailable;
+    }
+
+    public Boolean getMultifactorEnabled()
+    {
+        return multifactorEnabled;
     }
 
     public boolean isApproved()
