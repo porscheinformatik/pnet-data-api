@@ -148,6 +148,12 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The description of the job the person mainly does (needed scope: SC_ORGANIZATION_UNIT).")
     private String jobDescription;
 
+    @ApiModelProperty(notes = "The matchcode of the team the person is part of (needed scope: SC_ORGANIZATION_UNIT).")
+    private String teamMatchcode;
+
+    @ApiModelProperty(notes = "The name of the team the person is part of (needed scope: SC_ORGANIZATION_UNIT).")
+    private String teamLabel;
+
     @ApiModelProperty(notes = "The languages known to the user, ordered by preference (needed scope: SC_LANGUAGE).")
     private List<PersonLanguageLinkDTO> languages;
 
@@ -509,6 +515,26 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.jobDescription = jobDescription;
     }
 
+    public String getTeamMatchcode()
+    {
+        return teamMatchcode;
+    }
+
+    public void setTeamMatchcode(String teamMatchcode)
+    {
+        this.teamMatchcode = teamMatchcode;
+    }
+
+    public String getTeamLabel()
+    {
+        return teamLabel;
+    }
+
+    public void setTeamLabel(String teamLabel)
+    {
+        this.teamLabel = teamLabel;
+    }
+
     public List<PersonLanguageLinkDTO> getLanguages()
     {
         return languages;
@@ -649,21 +675,20 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public String toString()
     {
         return String
-            .format(
-                "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, "
-                    + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
-                    + "credentialsAvailable=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, "
-                    + "preferredUserId=%s, phoneNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, "
-                    + "contactCompanyId=%s, costCenter=%s, personnelNumber=%s, supervisorPersonnelNumber=%s, "
-                    + "controllingArea=%s, personnelDepartment=%s, jobDescription=%s, languages=%s, companies=%s, "
-                    + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, portraitAvailable=%s, "
-                    + "automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
-                personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, username, credentialsAvailable, approved, approvalState, birthdate, externalId,
-                guid, preferredUserId, phoneNumber, mobileNumber, faxNumber, email, contactCompanyId, costCenter,
-                personnelNumber, supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription,
-                languages, companies, numbers, functions, activities, advisorAssignments, portraitAvailable,
-                automaticDeletion, checksum, lastUpdate);
+            .format("PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, "
+                + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, "
+                + "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, "
+                + "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, "
+                + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, "
+                + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
+                + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, languages=%s, companies=%s, numbers=%s, "
+                + "functions=%s, activities=%s, advisorAssignments=%s, portraitAvailable=%s, automaticDeletion=%s, "
+                + "checksum=%s, lastUpdate=%s]", id, personId, administrativeTenant, tenants, formOfAddress,
+                academicTitle, academicTitlePostNominal, firstName, lastName, credentialsAvailable, multifactorEnabled,
+                approved, approvalState, birthdate, externalId, guid, preferredUserId, phoneNumber, extensionNumber,
+                mobileNumber, faxNumber, email, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber,
+                costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea, personnelDepartment,
+                jobDescription, teamMatchcode, teamLabel, languages, companies, numbers, functions, activities,
+                advisorAssignments, portraitAvailable, automaticDeletion, checksum, lastUpdate);
     }
-
 }

@@ -6,6 +6,7 @@ pnet-data-api 1.20.0
 * Add Scopes to Application
 * Add multifactorEnabled to persons.
 * Add extensionNumber to persons.
+* Add team to persons.
 
 pnet-data-api 1.19.5
 ====================
