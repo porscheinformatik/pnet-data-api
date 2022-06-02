@@ -5,6 +5,7 @@ pnet-data-api 1.20.0
 * Fix compatibility issues with different types of RestCall implementations.
 * Add Scopes to Application
 * Add multifactorEnabled to persons.
+* Add extensionNumber to persons.
 
 pnet-data-api 1.19.5
 ====================

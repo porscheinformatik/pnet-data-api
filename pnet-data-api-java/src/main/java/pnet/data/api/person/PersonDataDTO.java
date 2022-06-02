@@ -104,6 +104,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The phone number of the person at work (needed scope: SC_PHONE_NUMBER).")
     private String phoneNumber;
 
+    @ApiModelProperty(notes = "The extension number of the person at work (needed scope: SC_PHONE_NUMBER).")
+    private String extensionNumber;
+
     @ApiModelProperty(
         notes = "The mobile phone number of the person regarding business (needed scope: SC_PHONE_NUMBER).")
     private String mobileNumber;
@@ -374,6 +377,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public void setPhoneNumber(String phoneNumber)
     {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getExtensionNumber()
+    {
+        return extensionNumber;
+    }
+
+    public void setExtensionNumber(String extensionNumber)
+    {
+        this.extensionNumber = extensionNumber;
     }
 
     public String getMobileNumber()
