@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
@@ -33,6 +34,12 @@ public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implement
 
     private static final long serialVersionUID = -3446430282367218468L;
 
+    @ApiModelProperty(notes = "True, if the number has been approved already, false otherwise.")
+    protected final boolean approved;
+
+    @ApiModelProperty(notes = "The current state of the audit process.")
+    protected final ApprovalState approvalState;
+
     @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
@@ -43,13 +50,26 @@ public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implement
 
     public PersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
-        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("approved") boolean approved,
+        @JsonProperty("approvalState") ApprovalState approvalState, @JsonProperty("validFrom") LocalDateTime validFrom,
         @JsonProperty("validTo") LocalDateTime validTo, @JsonProperty("number") String number)
     {
         super(tenant, matchcode, companyId, companyMatchcode, companyNumber, number);
 
+        this.approved = approved;
+        this.approvalState = approvalState;
         this.validFrom = validFrom;
         this.validTo = validTo;
+    }
+
+    public boolean isApproved()
+    {
+        return approved;
+    }
+
+    public ApprovalState getApprovalState()
+    {
+        return approvalState;
     }
 
     @Override
@@ -68,8 +88,10 @@ public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implement
     public String toString()
     {
         return String
-            .format("PersonNumberTypeLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, validFrom=%s, "
-                + "validTo=%s, number=%s]", companyId, companyMatchcode, companyNumber, validFrom, validTo, number);
+            .format(
+                "PersonNumberTypeLinkDTO [approved=%s, approvalState=%s, companyId=%s, companyMatchcode=%s, "
+                    + "companyNumber=%s, validFrom=%s, validTo=%s, number=%s]",
+                approved, approvalState, companyId, companyMatchcode, companyNumber, validFrom, validTo, number);
     }
 
 }

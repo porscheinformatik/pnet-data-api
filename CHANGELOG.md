@@ -7,6 +7,7 @@ pnet-data-api 1.20.0
 * Add multifactorEnabled to persons.
 * Add extensionNumber to persons.
 * Add team to persons.
+* Add approval state to number types.
 
 pnet-data-api 1.19.5
 ====================
