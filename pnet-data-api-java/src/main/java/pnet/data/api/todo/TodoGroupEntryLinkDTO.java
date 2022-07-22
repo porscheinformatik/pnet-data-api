@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "One to-do within a group of to-dos.")
 public class TodoGroupEntryLinkDTO implements Serializable
 {
-
     private static final long serialVersionUID = 7738135458998397744L;
 
     @ApiModelProperty(notes = "The unique id of the to-do entry.")
@@ -37,6 +36,10 @@ public class TodoGroupEntryLinkDTO implements Serializable
 
     @ApiModelProperty(notes = "The date and time this to-do entry has been created.")
     private final LocalDateTime created;
+
+    @ApiModelProperty(
+        notes = "The date and time this to-do entry has been redetected (created again) and possibly updated.")
+    private final LocalDateTime refreshed;
 
     @ApiModelProperty(notes = "The name of the person, that did the approval.")
     private final Collection<Integer> assignedToPersonIds;
@@ -71,6 +74,7 @@ public class TodoGroupEntryLinkDTO implements Serializable
     public TodoGroupEntryLinkDTO(@JsonProperty("id") Integer id, @JsonProperty("type") String type,
         @JsonProperty("source") TodoSource source, @JsonProperty("state") TodoState state,
         @JsonProperty("phase") TodoPhase phase, @JsonProperty("created") LocalDateTime created,
+        @JsonProperty("refreshed") LocalDateTime refreshed,
         @JsonProperty("assignedToPersonIds") Collection<Integer> assignedToPersonIds,
         @JsonProperty("submitted") LocalDateTime submitted,
         @JsonProperty("submittedByPersonId") Integer submittedByPersonId,
@@ -87,6 +91,7 @@ public class TodoGroupEntryLinkDTO implements Serializable
         this.state = state;
         this.phase = phase;
         this.created = created;
+        this.refreshed = refreshed;
         this.submitted = submitted;
         this.submittedByPersonId = submittedByPersonId;
         this.submittedByPersonName = submittedByPersonName;
@@ -126,6 +131,11 @@ public class TodoGroupEntryLinkDTO implements Serializable
     public LocalDateTime getCreated()
     {
         return created;
+    }
+
+    public LocalDateTime getRefreshed()
+    {
+        return refreshed;
     }
 
     public Collection<Integer> getAssignedToPersonIds()
@@ -178,11 +188,10 @@ public class TodoGroupEntryLinkDTO implements Serializable
     {
         return String
             .format(
-                "TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, created=%s, assignedToPersonIds=%s, "
-                    + "submitted=%s, submittedByPersonId=%s, approvedByPersonName=%s, scheduled=%s, started=%s, "
-                    + "finished=%s, headline=%s, description=%s]",
-                id, type, source, state, created, assignedToPersonIds, submitted, submittedByPersonId,
+                "TodoGroupEntryLinkDTO [id=%s, type=%s, source=%s, state=%s, phase=%s, created=%s, refreshed=%s, "
+                    + "assignedToPersonIds=%s, submitted=%s, submittedByPersonId=%s, submittedByPersonName=%s, "
+                    + "scheduled=%s, started=%s, finished=%s, headline=%s, description=%s]",
+                id, type, source, state, phase, created, refreshed, assignedToPersonIds, submitted, submittedByPersonId,
                 submittedByPersonName, scheduled, started, finished, headline, description);
     }
-
 }
