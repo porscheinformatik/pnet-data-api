@@ -1,0 +1,63 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-client (Apache)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.apache.PnetApacheRestClientLauncher",
+            "projectName": "pnet-data-api-java-sample"
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Apache)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.apache.PnetApacheRestClientTemplate",
+            "projectName": "pnet-data-api-java-sample"
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-client (Java)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.java.PnetJavaRestClientLauncher",
+            "projectName": "pnet-data-api-java-sample"
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Java)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.java.PnetJavaRestClientTemplate",
+            "projectName": "pnet-data-api-java-sample"
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-client (Spring)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.spring.PnetSpringRestClientLauncher",
+            "projectName": "pnet-data-api-java-sample"
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Spring)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.spring.PnetSpringRestClientTemplate",
+            "projectName": "pnet-data-api-java-sample"
+        },
+        {
+            "type": "java",
+            "name": "Launch CipherHelper",
+            "request": "launch",
+            "mainClass": "pnet.data.api.util.CipherHelper",
+            "projectName": "pnet-data-api-java-sample"
+        }
+    ]
+}
