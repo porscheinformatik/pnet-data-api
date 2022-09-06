@@ -125,7 +125,7 @@ public final class Prefs
 
     protected static void set(String key, String value)
     {
-        if (value == null || value.isBlank())
+        if (value == null || value.trim().isEmpty())
         {
             PREFERENCES.remove(key);
         }
@@ -137,7 +137,7 @@ public final class Prefs
 
     protected static void encodeAndSet(String key, String value)
     {
-        if (value == null || value.isBlank())
+        if (value == null || value.trim().isEmpty())
         {
             PREFERENCES.remove(key);
         }

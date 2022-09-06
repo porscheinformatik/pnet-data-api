@@ -34,7 +34,7 @@ public class JacksonBasedParser implements RestParser
     @Override
     public boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type)
     {
-        if (contentType.isEmpty())
+        if (!contentType.isPresent())
         {
             return true;
         }

@@ -219,7 +219,14 @@ public final class RestUtils
 
     public static String encodeString(String s, Charset charset)
     {
-        return URLEncoder.encode(s, charset);
+        try
+        {
+            return URLEncoder.encode(s, charset.name());
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new IllegalArgumentException("Invalid charset: " + charset);
+        }
     }
 
     private static boolean encodeByte(ByteArrayOutputStream baos, byte b, boolean ignorePathSeparator,

@@ -43,7 +43,7 @@ public class MediaType
             return null;
         }
 
-        if (mediaType.isBlank())
+        if (mediaType.trim().isEmpty())
         {
             return ANY;
         }
@@ -159,7 +159,7 @@ public class MediaType
     {
         String charset = getParameter("charset");
 
-        if (charset == null || charset.isBlank())
+        if (charset == null || charset.trim().isEmpty())
         {
             return defaultCharset;
         }

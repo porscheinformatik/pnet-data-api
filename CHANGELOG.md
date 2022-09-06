@@ -1,3 +1,8 @@
+pnet-data-api 1.20.2
+====================
+
+* Some fixes to make the client compatible with Java 1.8
+
 pnet-data-api 1.20.1
 ====================
 
