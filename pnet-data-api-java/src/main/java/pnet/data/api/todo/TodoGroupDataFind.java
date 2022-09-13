@@ -5,6 +5,7 @@ import java.util.List;
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictAssignedToPersonId;
 import pnet.data.api.util.RestrictCategory;
 import pnet.data.api.util.RestrictPersonId;
 import pnet.data.api.util.RestrictReferenceId;
@@ -20,9 +21,10 @@ import pnet.data.api.util.Scrollable;
  *
  * @author HAM
  */
-public class TodoGroupDataFind extends AbstractFind<TodoGroupItemDTO, TodoGroupDataFind> implements
-    RestrictCategory<TodoGroupDataFind>, RestrictPersonId<TodoGroupDataFind>, RestrictReferenceId<TodoGroupDataFind>,
-    RestrictReferenceMatchcode<TodoGroupDataFind>, RestrictState<TodoGroupDataFind>, RestrictType<TodoGroupDataFind>,
+public class TodoGroupDataFind extends AbstractFind<TodoGroupItemDTO, TodoGroupDataFind>
+    implements RestrictCategory<TodoGroupDataFind>, RestrictPersonId<TodoGroupDataFind>,
+    RestrictReferenceId<TodoGroupDataFind>, RestrictReferenceMatchcode<TodoGroupDataFind>,
+    RestrictState<TodoGroupDataFind>, RestrictType<TodoGroupDataFind>, RestrictAssignedToPersonId<TodoGroupDataFind>,
     RestrictTodoId<TodoGroupDataFind>, RestrictUpdatedAfter<TodoGroupDataFind>, Scrollable<TodoGroupDataFind>
 {
 

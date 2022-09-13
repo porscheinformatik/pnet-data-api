@@ -1,3 +1,8 @@
+pnet-data-api 1.20.3
+====================
+
+* Add the ability to search and find todos by assigned persons.
+
 pnet-data-api 1.20.2
 ====================
 
