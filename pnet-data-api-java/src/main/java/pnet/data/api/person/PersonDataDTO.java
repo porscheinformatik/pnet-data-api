@@ -154,6 +154,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @ApiModelProperty(notes = "The name of the team the person is part of (needed scope: SC_ORGANIZATION_UNIT).")
     private String teamLabel;
 
+    @ApiModelProperty(notes = "The tenant specific settings of the user (needed scope: SC_PREFERRED_COMPANY).")
+    private Collection<PersonSettingsLinkDTO> settings;
+
     @ApiModelProperty(notes = "The languages known to the user, ordered by preference (needed scope: SC_LANGUAGE).")
     private List<PersonLanguageLinkDTO> languages;
 
@@ -535,6 +538,21 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.teamLabel = teamLabel;
     }
 
+    public Collection<PersonSettingsLinkDTO> getSettings()
+    {
+        return settings;
+    }
+
+    public Optional<PersonSettingsLinkDTO> findSettings(Predicate<? super PersonSettingsLinkDTO> predicate)
+    {
+        return settings == null ? Optional.empty() : settings.stream().filter(predicate).findFirst();
+    }
+
+    public void setSettings(Collection<PersonSettingsLinkDTO> settings)
+    {
+        this.settings = settings;
+    }
+
     public List<PersonLanguageLinkDTO> getLanguages()
     {
         return languages;
@@ -675,20 +693,22 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public String toString()
     {
         return String
-            .format("PersonDataDTO [id=%s, personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, "
-                + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, "
-                + "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, "
-                + "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, "
-                + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, "
-                + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
-                + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, languages=%s, companies=%s, numbers=%s, "
-                + "functions=%s, activities=%s, advisorAssignments=%s, portraitAvailable=%s, automaticDeletion=%s, "
-                + "checksum=%s, lastUpdate=%s]", id, personId, administrativeTenant, tenants, formOfAddress,
-                academicTitle, academicTitlePostNominal, firstName, lastName, credentialsAvailable, multifactorEnabled,
-                approved, approvalState, birthdate, externalId, guid, preferredUserId, phoneNumber, extensionNumber,
-                mobileNumber, faxNumber, email, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber,
-                costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea, personnelDepartment,
-                jobDescription, teamMatchcode, teamLabel, languages, companies, numbers, functions, activities,
-                advisorAssignments, portraitAvailable, automaticDeletion, checksum, lastUpdate);
+            .format(
+                "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, "
+                    + "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, "
+                    + "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, "
+                    + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, "
+                    + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
+                    + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, settings=%s, languages=%s, companies=%s, "
+                    + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, portraitAvailable=%s, "
+                    + "automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
+                personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
+                firstName, lastName, credentialsAvailable, multifactorEnabled, approved, approvalState, birthdate,
+                externalId, guid, preferredUserId, phoneNumber, extensionNumber, mobileNumber, faxNumber, email,
+                contactCompanyId, contactCompanyMatchcode, contactCompanyNumber, costCenter, personnelNumber,
+                supervisorPersonnelNumber, controllingArea, personnelDepartment, jobDescription, teamMatchcode,
+                teamLabel, settings, languages, companies, numbers, functions, activities, advisorAssignments,
+                portraitAvailable, automaticDeletion, checksum, lastUpdate);
     }
 }

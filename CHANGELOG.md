@@ -2,6 +2,7 @@ pnet-data-api 1.20.4
 ====================
 
 * Date values should be checked for equality by using a compare operation.
+* Add settings to the PersonDataDTO.
 
 pnet-data-api 1.20.3
 ====================
