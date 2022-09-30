@@ -14,7 +14,6 @@
  */
 package pnet.data.api.person;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,7 +22,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.PnetDataApiUtils;
-import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
@@ -32,8 +30,7 @@ import pnet.data.api.util.WithValidPeriod;
  * @author ham
  */
 @ApiModel(description = "Holds minimal information about a employment the person has/had.")
-public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO
-    implements WithCompanyId, WithValidPeriod, Serializable
+public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO implements WithValidPeriod
 {
 
     private static final long serialVersionUID = 7199829304360405636L;

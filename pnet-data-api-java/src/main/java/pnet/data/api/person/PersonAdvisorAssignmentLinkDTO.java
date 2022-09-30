@@ -14,7 +14,6 @@
  */
 package pnet.data.api.person;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,7 +24,6 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
-import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds the advisor assignment of a person for one company, one brand and one advisor type.
@@ -33,8 +31,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds an advisor assignment of the person.")
-public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO
-    implements WithMatchcode, WithCompanyId, WithBrandMatchcode, Serializable
+public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
 {
 
     private static final long serialVersionUID = 4247336068734009775L;

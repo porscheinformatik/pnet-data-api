@@ -56,19 +56,22 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
 
             StringBuilder builder = new StringBuilder();
 
-            for (Entry<String, List<String>> entries : map.entrySet())
+            if (map != null)
             {
-                if (builder.length() > 0)
+                for (Entry<String, List<String>> entries : map.entrySet())
                 {
-                    builder.append("&");
-                }
+                    if (builder.length() > 0)
+                    {
+                        builder.append("&");
+                    }
 
-                for (String value : entries.getValue())
-                {
-                    builder
-                        .append(RestUtils.encodeString(entries.getKey(), StandardCharsets.UTF_8))
-                        .append("=")
-                        .append(RestUtils.encodeString(value, StandardCharsets.UTF_8));
+                    for (String value : entries.getValue())
+                    {
+                        builder
+                            .append(RestUtils.encodeString(entries.getKey(), StandardCharsets.UTF_8))
+                            .append("=")
+                            .append(RestUtils.encodeString(value, StandardCharsets.UTF_8));
+                    }
                 }
             }
 

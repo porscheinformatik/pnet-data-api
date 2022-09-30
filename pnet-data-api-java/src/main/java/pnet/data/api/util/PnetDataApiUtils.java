@@ -29,8 +29,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
-import org.springframework.util.StringUtils;
-
 import pnet.data.api.PnetDataClientTechnicalException;
 
 /**
@@ -289,12 +287,12 @@ public final class PnetDataApiUtils
             return new Locale(language.getLanguage(), language.getCountry());
         }
 
-        if (!StringUtils.isEmpty(language.getCountry()))
+        if (!isEmpty(language.getCountry()))
         {
             return new Locale(language.getLanguage());
         }
 
-        if (!StringUtils.isEmpty(language.getLanguage()))
+        if (!isEmpty(language.getLanguage()))
         {
             return Locale.ROOT;
         }

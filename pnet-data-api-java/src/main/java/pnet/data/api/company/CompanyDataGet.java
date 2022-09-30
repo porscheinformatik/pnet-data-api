@@ -52,6 +52,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet> 
         return allBySapNumbers(Arrays.asList(sapNumber), 0, 1).first();
     }
 
+    @SuppressWarnings("deprecation")
     public PnetDataClientResultPage<CompanyDataDTO> allBySapNumbers(List<String> sapNumbers, int pageIndex,
         int itemsPerPage) throws PnetDataClientException
     {

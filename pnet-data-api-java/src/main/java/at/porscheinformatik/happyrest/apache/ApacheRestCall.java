@@ -6,7 +6,6 @@ import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -218,11 +217,9 @@ public class ApacheRestCall extends AbstractRestCall
 
             if (value instanceof Iterable<?>)
             {
-                Iterator<?> iterator = ((Iterable<?>) value).iterator();
-
-                while (iterator.hasNext())
+                for (Object element : ((Iterable<?>) value))
                 {
-                    builder.addParameter(parameter.getName(), format(MediaType.TEXT_PLAIN, iterator.next()));
+                    builder.addParameter(parameter.getName(), format(MediaType.TEXT_PLAIN, element));
                 }
 
                 continue;

@@ -5,7 +5,6 @@ import static at.porscheinformatik.happyrest.spring.SpringRestUtils.*;
 import java.lang.reflect.Array;
 import java.net.URI;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -279,11 +278,9 @@ public class Spring4RestCall extends AbstractRestCall
         }
         else if (value instanceof Iterable<?>)
         {
-            Iterator<?> iterator = ((Iterable<?>) value).iterator();
-
-            while (iterator.hasNext())
+            for (Object element : ((Iterable<?>) value))
             {
-                queryParam(builder, variables, name, id++, format(MediaType.TEXT_PLAIN, iterator.next()));
+                queryParam(builder, variables, name, id++, format(MediaType.TEXT_PLAIN, element));
             }
         }
         else

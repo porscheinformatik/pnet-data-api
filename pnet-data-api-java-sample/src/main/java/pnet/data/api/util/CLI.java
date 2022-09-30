@@ -1083,7 +1083,7 @@ public class CLI
 
     private static String simplify(String s)
     {
-        //        return s.replaceAll("[^\\p{IsLatin}^\\d]", "").toLowerCase();
+        // return s.replaceAll("[^\\p{IsLatin}^\\d]", "").toLowerCase();
         return s.toLowerCase();
     }
 

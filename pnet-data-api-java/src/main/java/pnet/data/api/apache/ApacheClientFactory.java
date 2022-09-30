@@ -20,6 +20,7 @@ import pnet.data.api.util.PnetDataApiUtils;
  *
  * @author HAM
  */
+@SuppressWarnings("deprecation")
 public class ApacheClientFactory extends AbstractClientFactory<ApacheClientFactory>
 {
     @Deprecated

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -144,11 +143,8 @@ public abstract class AbstractContextPnetDataApiClientConfig
         requestFactory.setReadTimeout(30000);
         requestFactory.setConnectTimeout(2000);
 
-        Iterator<HttpMessageConverter<?>> iterator = restTemplate.getMessageConverters().iterator();
-
-        while (iterator.hasNext())
+        for (HttpMessageConverter<?> elem : restTemplate.getMessageConverters())
         {
-            HttpMessageConverter<?> elem = iterator.next();
             if (elem.getClass().equals(MappingJackson2HttpMessageConverter.class))
             {
                 ((MappingJackson2HttpMessageConverter) elem).setObjectMapper(objectMapper);

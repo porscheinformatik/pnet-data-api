@@ -3,6 +3,7 @@ package at.porscheinformatik.happyrest.spring;
 import java.lang.reflect.Type;
 
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.lang.Nullable;
 
 import at.porscheinformatik.happyrest.GenericType;
 
@@ -36,7 +37,7 @@ public class GenericParameterizedTypeReference<T> extends ParameterizedTypeRefer
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(@Nullable Object obj)
     {
         return (this == obj
             || (obj instanceof ParameterizedTypeReference

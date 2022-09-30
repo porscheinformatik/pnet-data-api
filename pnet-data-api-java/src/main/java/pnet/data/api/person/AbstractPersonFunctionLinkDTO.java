@@ -1,6 +1,5 @@
 package pnet.data.api.person;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,15 +8,13 @@ import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
-import pnet.data.api.util.WithMatchcode;
 
 /**
  * Abstract base class for function references.
  *
  * @author HAM
  */
-public abstract class AbstractPersonFunctionLinkDTO extends AbstractLinkDTO
-    implements WithMatchcode, WithCompanyId, WithBrandMatchcode, Serializable
+public abstract class AbstractPersonFunctionLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
 {
 
     private static final long serialVersionUID = -7454296829315458948L;

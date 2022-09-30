@@ -14,7 +14,6 @@
  */
 package pnet.data.api.company;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,7 +31,7 @@ import pnet.data.api.util.WithValidPeriod;
  */
 @ApiModel(description = "Holds minimal information about the brand of a company. The matchcode fits the matchcodes of "
     + "the brands interface.")
-public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPeriod, Serializable
+public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPeriod
 {
 
     private static final long serialVersionUID = 7506202638418892087L;

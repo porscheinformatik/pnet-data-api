@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -351,14 +350,12 @@ public abstract class AbstractRestCall implements RestCall
 
             if (value instanceof Iterable<?>)
             {
-                Iterator<?> iterator = ((Iterable<?>) value).iterator();
-
-                while (iterator.hasNext())
+                for (Object element : ((Iterable<?>) value))
                 {
                     parameters
                         .add(RestUtils.encodeString(parameter.getName(), charset)
                             + "="
-                            + RestUtils.encodeString(format(MediaType.TEXT_PLAIN, iterator.next()), charset));
+                            + RestUtils.encodeString(format(MediaType.TEXT_PLAIN, element), charset));
                 }
 
                 continue;

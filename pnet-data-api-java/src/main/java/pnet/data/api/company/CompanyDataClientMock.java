@@ -22,6 +22,7 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
+@SuppressWarnings("deprecation")
 public class CompanyDataClientMock extends CompanyDataClient implements
     ItemClientMock<CompanyItemDTO, CompanyDataClientMock>, DataClientMock<CompanyDataDTO, CompanyDataClientMock>
 {

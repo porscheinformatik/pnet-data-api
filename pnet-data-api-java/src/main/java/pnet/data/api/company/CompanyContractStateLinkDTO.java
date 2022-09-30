@@ -14,7 +14,6 @@
  */
 package pnet.data.api.company;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -36,7 +35,7 @@ import pnet.data.api.util.WithValidPeriod;
 @ApiModel(description = "Holds minimal information about the contract state of a company. The matchcode fits to the "
     + "matchcodes of the contract state interface.")
 public class CompanyContractStateLinkDTO extends AbstractLinkDTO
-    implements WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod, Serializable
+    implements WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod
 {
 
     private static final long serialVersionUID = 8013176883992921779L;

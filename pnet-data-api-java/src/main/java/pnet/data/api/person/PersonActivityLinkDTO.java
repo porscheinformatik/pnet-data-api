@@ -14,7 +14,6 @@
  */
 package pnet.data.api.person;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -28,7 +27,6 @@ import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
-import pnet.data.api.util.WithMatchcode;
 
 /**
  * Holds the activity of a person for one company and brand.
@@ -36,8 +34,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @ApiModel(description = "Holds minimal information about a activity of the person.")
-public class PersonActivityLinkDTO extends AbstractLinkDTO
-    implements WithMatchcode, WithCompanyId, WithBrandMatchcode, Serializable
+public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
 {
 
     private static final long serialVersionUID = 4247336068734009775L;
