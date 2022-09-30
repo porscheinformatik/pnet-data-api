@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.AbstractLinkDTO;
+import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
@@ -143,7 +144,7 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO
         {
             return false;
         }
-        if (!Objects.equals(validFrom, other.validFrom))
+        if (!PnetDataApiUtils.equals(validFrom, other.validFrom))
         {
             return false;
         }

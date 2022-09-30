@@ -126,6 +126,35 @@ public final class PnetDataApiUtils
     }
 
     /**
+     * An equals operation that is type-safe and falls back to a compare operation if possible
+     *
+     * @param <Any> the type of values
+     * @param left the left value
+     * @param right the right value
+     * @return true if compares to 0 or if equal.
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static <Any> boolean equals(Any left, Any right)
+    {
+        if (left == right)
+        {
+            return true;
+        }
+
+        if (left == null || right == null)
+        {
+            return false;
+        }
+
+        if (left instanceof Comparable && right instanceof Comparable)
+        {
+            return ((Comparable) left).compareTo(right) == 0;
+        }
+
+        return left.equals(right);
+    }
+
+    /**
      * Compares the two objects. If one of the objects is null, it will always be greater than the other object. If both
      * objects are null, they are equal.
      *

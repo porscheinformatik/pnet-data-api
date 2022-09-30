@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithContractTypeMatchcode;
@@ -153,8 +154,8 @@ public class CompanyContractDistributionStructureLinkDTO
             && Objects.equals(companyNumber, other.companyNumber)
             && Objects.equals(contractTypeMatchcode, other.contractTypeMatchcode)
             && Objects.equals(tenant, other.tenant)
-            && Objects.equals(validFrom, other.validFrom)
-            && Objects.equals(validTo, other.validTo);
+            && PnetDataApiUtils.equals(validFrom, other.validFrom)
+            && PnetDataApiUtils.equals(validTo, other.validTo);
     }
 
     @Override

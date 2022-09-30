@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.ApprovalState;
+import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithValidPeriod;
 
 /**
@@ -112,7 +113,7 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
             return false;
         }
         PersonFunctionLinkDTO other = (PersonFunctionLinkDTO) obj;
-        return Objects.equals(validFrom, other.validFrom);
+        return PnetDataApiUtils.equals(validFrom, other.validFrom);
     }
 
     @Override

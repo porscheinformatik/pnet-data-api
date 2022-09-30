@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithValidPeriod;
 
@@ -138,7 +139,7 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeri
             return false;
         }
 
-        if (!Objects.equals(validFrom, other.validFrom))
+        if (!PnetDataApiUtils.equals(validFrom, other.validFrom))
         {
             return false;
         }

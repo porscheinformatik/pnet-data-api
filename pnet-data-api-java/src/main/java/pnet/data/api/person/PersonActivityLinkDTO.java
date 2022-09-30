@@ -25,6 +25,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.ApprovalState;
+import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
 import pnet.data.api.util.WithMatchcode;
@@ -181,7 +182,7 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO
         PersonActivityLinkDTO other = (PersonActivityLinkDTO) obj;
         return Objects.equals(brandMatchcode, other.brandMatchcode)
             && Objects.equals(companyId, other.companyId)
-            && Objects.equals(validFrom, other.validFrom);
+            && PnetDataApiUtils.equals(validFrom, other.validFrom);
     }
 
     @Override

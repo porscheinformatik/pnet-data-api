@@ -66,12 +66,12 @@ public class Pair<Left, Right>
 
         Pair<?, ?> other = (Pair<?, ?>) obj;
 
-        if (!Objects.equals(left, other.left))
+        if (!PnetDataApiUtils.equals(left, other.left))
         {
             return false;
         }
 
-        if (!Objects.equals(right, other.right))
+        if (!PnetDataApiUtils.equals(right, other.right))
         {
             return false;
         }

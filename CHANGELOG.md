@@ -1,3 +1,8 @@
+pnet-data-api 1.20.4
+====================
+
+* Date values should be checked for equality by using a compare operation.
+
 pnet-data-api 1.20.3
 ====================
 
