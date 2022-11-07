@@ -1,5 +1,6 @@
 package pnet.data.api.application;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
@@ -7,9 +8,14 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
+import pnet.data.api.util.WithDescriptions;
+import pnet.data.api.util.WithLabels;
+import pnet.data.api.util.WithMatchcode;
 
-public class ApplicationScopeLinkDTO
+public class ApplicationScopeLinkDTO implements WithMatchcode, WithLabels, WithDescriptions, Serializable
 {
+    private static final long serialVersionUID = -8772509501184236662L;
+
     @ApiModelProperty(notes = "The unique matchcode of the scope.")
     private final String matchcode;
 
@@ -34,16 +40,19 @@ public class ApplicationScopeLinkDTO
         this.categoryMatchcodes = categoryMatchcodes;
     }
 
+    @Override
     public String getMatchcode()
     {
         return matchcode;
     }
 
+    @Override
     public Map<Locale, String> getLabels()
     {
         return labels;
     }
 
+    @Override
     public Map<Locale, String> getDescriptions()
     {
         return descriptions;
