@@ -1,3 +1,13 @@
+pnet-data-api 1.20.6
+====================
+
+* Fix the impementation of the isCovering method of the ApprovalState.
+
+pnet-data-api 1.20.5
+====================
+
+* Add registeredOffice to CompanyDataDTO.
+
 pnet-data-api 1.20.4
 ====================
 

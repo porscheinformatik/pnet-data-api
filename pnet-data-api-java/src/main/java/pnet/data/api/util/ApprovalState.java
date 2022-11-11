@@ -87,6 +87,33 @@ public enum ApprovalState
         return ordinal() > otherState.ordinal();
     }
 
+    public boolean isSameOrHigherThan(ApprovalState otherState)
+    {
+        if (otherState == null)
+        {
+            return false;
+        }
+
+        return ordinal() >= otherState.ordinal();
+    }
+
+    public ApprovalState covering(ApprovalState otherState)
+    {
+        if (otherState == null)
+        {
+            return this;
+        }
+
+        return isCovering(otherState) ? this : otherState;
+    }
+
+    /**
+     * A state covers another state when it's ordinal is the same or higher than the other ones ordinal.
+     * {@link ApprovalState#REJECTED} never covers any other state unless it's REJECTED, too.
+     *
+     * @param otherState the other state, may be null
+     * @return true if this state is covering the other state
+     */
     public boolean isCovering(ApprovalState otherState)
     {
         if (otherState == null)
@@ -99,11 +126,16 @@ public enum ApprovalState
             return true;
         }
 
-        if (this == REJECTED || otherState == REJECTED)
+        if (this == REJECTED)
         {
-            return false;
+            return otherState == REJECTED;
         }
 
-        return isHigherThan(otherState);
+        if (otherState == REJECTED)
+        {
+            return true;
+        }
+
+        return isSameOrHigherThan(otherState);
     }
 }
