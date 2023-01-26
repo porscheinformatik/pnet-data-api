@@ -1,5 +1,6 @@
 package at.porscheinformatik.happyrest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ public abstract class MockedRestResponse<T> implements RestResponse<T>
     private boolean redirection;
     private boolean error;
     private T body;
-    private List<Pair<String, String>> headers;
+    private final List<Pair<String, String>> headers = new ArrayList<>();
     private String cacheControl;
     private MediaType contentType;
     private Locale contentLanguage;

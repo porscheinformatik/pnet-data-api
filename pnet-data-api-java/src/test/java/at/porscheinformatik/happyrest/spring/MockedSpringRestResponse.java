@@ -38,7 +38,7 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
         requestContentType = entity.getHeaders().getFirst("Content-Type");
 
         // we have to fake Spring's content building
-        if (requestContentType.contains("application/json"))
+        if (requestContentType != null && requestContentType.contains("application/json"))
         {
             try
             {
@@ -49,7 +49,7 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
                 throw new RuntimeException("Failed to format JSON", e);
             }
         }
-        else if (requestContentType.contains("application/x-www-form-urlencoded"))
+        else if (requestContentType != null && requestContentType.contains("application/x-www-form-urlencoded"))
         {
             @SuppressWarnings("unchecked")
             LinkedMultiValueMap<String, String> map = (LinkedMultiValueMap<String, String>) entity.getBody();

@@ -98,13 +98,11 @@ public class GenericTypeTest
 
     public static class AbstractClassWithInnerType<T>
     {
-        T t;
-
         public class InnerType
         {
             public T getT()
             {
-                return t;
+                return null;
             }
         }
     }

@@ -17,12 +17,12 @@ public class CompanyTenantAggregationDTO implements Serializable
     private final String tenant;
     private final long count;
 
-    public CompanyTenantAggregationDTO(@JsonProperty("tenant") String tenant, @JsonProperty("count") long count)
+    public CompanyTenantAggregationDTO(@JsonProperty("tenant") String tenant, @JsonProperty("count") Long count)
     {
         super();
 
         this.tenant = tenant;
-        this.count = count;
+        this.count = count != null ? count.longValue() : 0;
     }
 
     public String getTenant()

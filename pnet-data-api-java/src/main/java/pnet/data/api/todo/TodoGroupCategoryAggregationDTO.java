@@ -18,12 +18,12 @@ public class TodoGroupCategoryAggregationDTO implements Serializable
     private final long count;
 
     public TodoGroupCategoryAggregationDTO(@JsonProperty("category") TodoCategory category,
-        @JsonProperty("count") long count)
+        @JsonProperty("count") Long count)
     {
         super();
 
         this.category = category;
-        this.count = count;
+        this.count = count != null ? count.longValue() : 0;
     }
 
     public TodoCategory getCategory()
