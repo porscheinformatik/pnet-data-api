@@ -6,20 +6,24 @@
     <parent>
         <groupId>at.porscheinformatik.pnet</groupId>
         <artifactId>pnet-data-api</artifactId>
-        <version>1.20.7-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pnet-data-api-java-spring-boot-sample</artifactId>
 
     <name>Partner.Net Data API Spring Boot Client Sample</name>
     <description>Sample for using Pnet Data API with Spring Boot</description>
+    
+    <properties>
+		<spring-boot.version>3.0.2</spring-boot.version>
+	</properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.7.8</version>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -71,6 +75,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
             </plugin>
         </plugins>
     </build>

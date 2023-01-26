@@ -1,3 +1,13 @@
+pnet-data-api 2.0.0
+===================
+
+* Raised compiler compatibility level to Java 17.
+
+* Compatibility with Spring Boot 3, but there weren't any changes, that may prevent you from using this version with an
+  older Spring Boot version (since the Data API does not depend on it, nor does is use any Jakarta packages). You still
+  have to use up-to-date libraries like Jackson 2.14 or greater, Spring-Web 6.0 or greater (if using the Spring
+  connector) and Java 17 or greater.
+
 pnet-data-api 1.21.0
 ====================
 

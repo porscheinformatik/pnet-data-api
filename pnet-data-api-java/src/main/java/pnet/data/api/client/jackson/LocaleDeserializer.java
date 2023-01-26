@@ -6,6 +6,7 @@ import java.util.Locale;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.impl.NullsConstantProvider;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 /**
@@ -23,7 +24,7 @@ public class LocaleDeserializer extends StdDeserializer<Locale>
     @Override
     public Locale deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException
     {
-        String localeAsString = _parseString(jp, ctxt);
+        String localeAsString = _parseString(jp, ctxt, NullsConstantProvider.nuller());
 
         return localeAsString == null ? null : Locale.forLanguageTag(localeAsString);
     }

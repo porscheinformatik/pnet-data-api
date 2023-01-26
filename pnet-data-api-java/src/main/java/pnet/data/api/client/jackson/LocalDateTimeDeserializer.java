@@ -12,6 +12,7 @@ import java.time.temporal.TemporalAccessor;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.impl.NullsConstantProvider;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 /**
@@ -59,7 +60,7 @@ public class LocalDateTimeDeserializer extends StdDeserializer<LocalDateTime>
     public LocalDateTime deserialize(JsonParser jp, DeserializationContext ctxt)
         throws IOException, JsonProcessingException
     {
-        String dateTimeAsString = _parseString(jp, ctxt);
+        String dateTimeAsString = _parseString(jp, ctxt, NullsConstantProvider.nuller());
 
         if (dateTimeAsString == null || dateTimeAsString.length() == 0)
         {

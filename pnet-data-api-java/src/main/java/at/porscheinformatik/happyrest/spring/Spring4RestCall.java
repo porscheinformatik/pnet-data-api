@@ -116,7 +116,8 @@ public class Spring4RestCall extends AbstractRestCall
         }
         catch (RestClientResponseException e)
         {
-            throw new RestResponseException(toDescription(method, uri, e), e.getRawStatusCode(), e.getStatusText(), e);
+            throw new RestResponseException(toDescription(method, uri, e), e.getStatusCode().value(), e.getStatusText(),
+                e);
         }
         catch (Exception e)
         {
@@ -148,7 +149,8 @@ public class Spring4RestCall extends AbstractRestCall
         }
         catch (RestClientResponseException e)
         {
-            throw new RestResponseException(toDescription(method, uri, e), e.getRawStatusCode(), e.getStatusText(), e);
+            throw new RestResponseException(toDescription(method, uri, e), e.getStatusCode().value(), e.getStatusText(),
+                e);
         }
         catch (Exception e)
         {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import at.porscheinformatik.happyrest.MediaType;
@@ -25,13 +26,13 @@ class Spring4RestResponse<T> implements RestResponse<T>
     @Override
     public int getStatusCode()
     {
-        return response.getStatusCodeValue();
+        return response.getStatusCode().value();
     }
 
     @Override
     public String getStatusMessage()
     {
-        return RestUtils.getHttpStatusMessage(getStatusCode(), response.getStatusCode().getReasonPhrase());
+        return RestUtils.getHttpStatusMessage(getStatusCode(), HttpStatus.valueOf(getStatusCode()).getReasonPhrase());
     }
 
     @Override
