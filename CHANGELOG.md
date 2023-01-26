@@ -1,3 +1,9 @@
+pnet-data-api 1.21.0
+====================
+
+* Add a Spring Boot sample.
+* Upgrade dependencies.
+
 pnet-data-api 1.20.6
 ====================
 
