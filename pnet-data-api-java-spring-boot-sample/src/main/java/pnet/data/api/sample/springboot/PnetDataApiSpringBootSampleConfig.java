@@ -1,5 +1,7 @@
 package pnet.data.api.sample.springboot;
 
+import java.util.Objects;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -17,8 +19,13 @@ public class PnetDataApiSpringBootSampleConfig
     @Bean
     public AuthenticationTokenPnetDataApiLoginMethod pnetDataClientPrefs(Environment environment)
     {
-        String url = environment.getProperty("pnet-data-api.url");
-        String token = environment.getProperty("pnet-data-api.token");
+        String url = Objects
+            .requireNonNull(environment.getProperty("pnet-data-api.url"),
+                "The parameter \"pnet-data-api.url\" is missing");
+
+        String token = Objects
+            .requireNonNull(environment.getProperty("pnet-data-api.token"),
+                "The parameter \"pnet-data-api.token\" is missing");
 
         return new AuthenticationTokenPnetDataApiLoginMethod(url, () -> token);
     }
