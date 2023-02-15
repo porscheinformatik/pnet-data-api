@@ -1,3 +1,8 @@
+pnet-data-api 1.21.1
+====================
+
+* Add sort option for Person find operation.
+
 pnet-data-api 1.21.0
 ====================
 
