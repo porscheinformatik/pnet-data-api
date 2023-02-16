@@ -8,6 +8,7 @@ import pnet.data.api.util.AggregateNumberPerCompany;
 import pnet.data.api.util.AggregateNumberPerFunction;
 import pnet.data.api.util.AggregateNumberPerTenant;
 import pnet.data.api.util.CompanyMergable;
+import pnet.data.api.util.IncludeAllFunctions;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
@@ -30,20 +31,19 @@ import pnet.data.api.util.SearchWithAggregationsFunction;
  * @author ham
  */
 public class PersonDataSearch
-    extends AbstractSearchWithAggregations<PersonItemDTO, PersonAggregationsDTO, PersonDataSearch> implements
-    RestrictTenant<PersonDataSearch>, RestrictCompanyId<PersonDataSearch>, RestrictCompanyNumber<PersonDataSearch>,
-    RestrictCompany<PersonDataSearch>, RestrictBrand<PersonDataSearch>, RestrictFunction<PersonDataSearch>,
-    RestrictActivity<PersonDataSearch>, RestrictRole<PersonDataSearch>, RestrictCredentialsAvailable<PersonDataSearch>,
-    RestrictApproved<PersonDataSearch>, RestrictDatedBackUntil<PersonDataSearch>, IncludeInactive<PersonDataSearch>,
+    extends AbstractSearchWithAggregations<PersonItemDTO, PersonAggregationsDTO, PersonDataSearch>
+    implements RestrictTenant<PersonDataSearch>, RestrictCompanyId<PersonDataSearch>,
+    RestrictCompanyNumber<PersonDataSearch>, RestrictCompany<PersonDataSearch>, RestrictBrand<PersonDataSearch>,
+    RestrictFunction<PersonDataSearch>, RestrictActivity<PersonDataSearch>, RestrictRole<PersonDataSearch>,
+    RestrictCredentialsAvailable<PersonDataSearch>, RestrictApproved<PersonDataSearch>,
+    RestrictDatedBackUntil<PersonDataSearch>, IncludeInactive<PersonDataSearch>, IncludeAllFunctions<PersonDataSearch>,
     CompanyMergable<PersonDataSearch>, AggregateNumberPerTenant<PersonDataSearch>,
     AggregateNumberPerCompany<PersonDataSearch>, AggregateNumberPerFunction<PersonDataSearch>,
     AggregateNumberPerActivity<PersonDataSearch>, RestrictQueryField<PersonDataSearch>
 {
-
     public PersonDataSearch(SearchWithAggregationsFunction<PersonItemDTO, PersonAggregationsDTO> searchFunction,
         List<Pair<String, Object>> restrictItems)
     {
         super(searchFunction, restrictItems);
     }
-
 }
