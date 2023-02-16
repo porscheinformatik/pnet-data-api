@@ -1,3 +1,8 @@
+pnet-data-api 1.21.2
+====================
+
+* Add includeAllFunctions option to PersonDataSearch & -Find.
+
 pnet-data-api 1.21.1
 ====================
 
