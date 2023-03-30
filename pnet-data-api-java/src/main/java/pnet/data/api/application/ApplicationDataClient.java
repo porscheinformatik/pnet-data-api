@@ -78,6 +78,25 @@ public class ApplicationDataClient extends AbstractPnetDataApiClient<Application
         });
     }
 
+    public ApplicationDataAutoComplete autoComplete()
+    {
+        return new ApplicationDataAutoComplete(this::autoComplete, null);
+    }
+
+    protected List<ApplicationAutoCompleteDTO> autoComplete(Locale language, String query,
+        List<Pair<String, Object>> restricts) throws PnetDataClientException
+    {
+        return invoke(restCall -> restCall
+            .parameter("l", language)
+            .parameter("q", query)
+            .parameters(restricts)
+            .path("/api/v1/applications/autocomplete")
+            .get(new GenericType.Of<List<ApplicationAutoCompleteDTO>>()
+            {
+                // intentionally left blank
+            }));
+    }
+
     public ApplicationDataFind find()
     {
         return new ApplicationDataFind(this::find, null);
