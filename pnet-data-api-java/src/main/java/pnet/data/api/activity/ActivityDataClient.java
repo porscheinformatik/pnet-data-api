@@ -81,6 +81,25 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
         });
     }
 
+    public ActivityDataAutoComplete autoComplete()
+    {
+        return new ActivityDataAutoComplete(this::autoComplete, null);
+    }
+
+    protected List<ActivityAutoCompleteDTO> autoComplete(Locale language, String query,
+        List<Pair<String, Object>> restricts) throws PnetDataClientException
+    {
+        return invoke(restCall -> restCall
+            .parameter("l", language)
+            .parameter("q", query)
+            .parameters(restricts)
+            .path("/api/v1/activities/autocomplete")
+            .get(new GenericType.Of<List<ActivityAutoCompleteDTO>>()
+            {
+                // intentionally left blank
+            }));
+    }
+
     public ActivityDataFind find()
     {
         return new ActivityDataFind(this::find, null);
