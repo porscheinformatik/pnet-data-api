@@ -79,6 +79,25 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
         });
     }
 
+    public FunctionDataAutoComplete autoComplete()
+    {
+        return new FunctionDataAutoComplete(this::autoComplete, null);
+    }
+
+    protected List<FunctionAutoCompleteDTO> autoComplete(Locale language, String query,
+        List<Pair<String, Object>> restricts) throws PnetDataClientException
+    {
+        return invoke(restCall -> restCall
+            .parameter("l", language)
+            .parameter("q", query)
+            .parameters(restricts)
+            .path("/api/v1/functions/autocomplete")
+            .get(new GenericType.Of<List<FunctionAutoCompleteDTO>>()
+            {
+                // intentionally left blank
+            }));
+    }
+
     public FunctionDataFind find()
     {
         return new FunctionDataFind(this::find, null);
