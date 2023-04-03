@@ -3,6 +3,7 @@ pnet-data-api 1.21.3
 
 * Add autoComplete to applications.
 * Add autoComplete to activities.
+* Add autoComplete to functions.
 
 pnet-data-api 1.21.2
 ====================
