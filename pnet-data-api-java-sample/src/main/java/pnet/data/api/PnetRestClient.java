@@ -2915,15 +2915,19 @@ public final class PnetRestClient
             try
             {
                 Thread.sleep(5);
+            }
+            catch (InterruptedException e)
+            {
+                Thread.interrupted();
+                break;
+            }
 
+            try
+            {
                 if (!cli.consumeCommand(null))
                 {
                     break;
                 }
-            }
-            catch (InterruptedException e)
-            {
-                break;
             }
             catch (Exception e)
             {
