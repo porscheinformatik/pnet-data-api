@@ -160,6 +160,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @ApiModelProperty(notes = "The email address of the company.")
     private String email;
 
+    @ApiModelProperty(notes = "The lead email address of the company.")
+    private String leadEmail;
+
     @ApiModelProperty(notes = "The homepage of the company.")
     private String homepage;
 
@@ -636,6 +639,16 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.email = email;
     }
 
+    public String getLeadEmail()
+    {
+        return leadEmail;
+    }
+
+    public void setLeadEmail(String leadEmail)
+    {
+        this.leadEmail = leadEmail;
+    }
+
     public String getHomepage()
     {
         return homepage;
@@ -902,17 +915,18 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                     + "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, "
                     + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, "
                     + "country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, speedDial=%s, "
-                    + "faxNumber=%s, email=%s, homepage=%s, postal=%s, facebookLink=%s, youTubeLink=%s, instagramLink=%s, "
-                    + "viberLink=%s, telegramLink=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, "
-                    + "commercialRegisterNumber=%s, certificateType=%s, certificateNumber=%s, jurisdiction=%s, "
-                    + "objectsClause=%s, generalPartner=%s, registeredOffice=%s, chamberAffiliation=%s, "
-                    + "commercialRegulations=%s, regulatoryAuthority=%s, arbitrationBoard=%s, additionalImprintInfo=%s, "
-                    + "businessInformationNumber=%s, location=%s, externalBrands=%s, lastUpdate=%s]",
+                    + "faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, facebookLink=%s, youTubeLink=%s, "
+                    + "instagramLink=%s, viberLink=%s, telegramLink=%s, legalFormMatchcode=%s, "
+                    + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
+                    + "certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
+                    + "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, "
+                    + "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, "
+                    + "externalBrands=%s, lastUpdate=%s]",
                 companyId, matchcode, administrativeTenant, label, name, nameAffix, additionalNameAffix, marketingName,
                 groupMembers, tenants, brands, contractTypes, contractStates, contractDistributionStructure,
                 vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city, postalCode, countryCode,
-                country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial, faxNumber, email, homepage,
-                postal, facebookLink, youTubeLink, instagramLink, viberLink, telegramLink, legalFormMatchcode,
+                country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial, faxNumber, email, leadEmail,
+                homepage, postal, facebookLink, youTubeLink, instagramLink, viberLink, telegramLink, legalFormMatchcode,
                 dataProcessingRegisterNumber, commercialRegisterNumber, certificateType, certificateNumber,
                 jurisdiction, objectsClause, generalPartner, registeredOffice, chamberAffiliation,
                 commercialRegulations, regulatoryAuthority, arbitrationBoard, additionalImprintInfo,
