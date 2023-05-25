@@ -19,8 +19,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithBrandMatchcode;
@@ -32,7 +31,7 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about the contract state of a company. The matchcode fits to the "
+@Schema(description = "Holds minimal information about the contract state of a company. The matchcode fits to the "
     + "matchcodes of the contract state interface.")
 public class CompanyContractStateLinkDTO extends AbstractLinkDTO
     implements WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod
@@ -40,17 +39,17 @@ public class CompanyContractStateLinkDTO extends AbstractLinkDTO
 
     private static final long serialVersionUID = 8013176883992921779L;
 
-    @ApiModelProperty(notes = "The matchcode of the brand this contract state is assigned to.")
+    @Schema(description = "The matchcode of the brand this contract state is assigned to.")
     private final String brandMatchcode;
 
-    @ApiModelProperty(notes = "The matchcode of the contract type this contract state is assigned to.")
+    @Schema(description = "The matchcode of the contract type this contract state is assigned to.")
     private final String contractTypeMatchcode;
 
-    @ApiModelProperty(notes = "The date and time from when this contract state is/was valid for the company. "
+    @Schema(description = "The date and time from when this contract state is/was valid for the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this contract state is/was valid for the company. "
+    @Schema(description = "The date and time till when this contract state is/was valid for the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
@@ -67,15 +66,14 @@ public class CompanyContractStateLinkDTO extends AbstractLinkDTO
         this.validTo = validTo;
     }
 
-    @ApiModelProperty(notes = "The tenant (Portal-ID) where this contract state is valid.")
+    @Schema(description = "The tenant (Portal-ID) where this contract state is valid.")
     @Override
     public String getTenant()
     {
         return super.getTenant();
     }
 
-    @ApiModelProperty(
-        notes = "The matchcode of the contract state (fits the matchcodes of the contract state interface)")
+    @Schema(description = "The matchcode of the contract state (fits the matchcodes of the contract state interface)")
     @Override
     public String getMatchcode()
     {

@@ -8,8 +8,7 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithDescription;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
@@ -19,7 +18,7 @@ import pnet.data.api.util.WithScore;
 /**
  * Proposals.
  */
-@ApiModel(description = "Holds all information about a proposal")
+@Schema(description = "Holds all information about a proposal")
 public class ProposalItemDTO
     implements WithMatchcode, WithLabel, WithDescription, WithLastUpdate, WithScore, Serializable
 {
@@ -44,7 +43,7 @@ public class ProposalItemDTO
     private final List<ProposalPersonLinkDTO> persons;
     private final LocalDateTime lastUpdate;
 
-    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
     public ProposalItemDTO(@JsonProperty("proposalId") Integer proposalId,

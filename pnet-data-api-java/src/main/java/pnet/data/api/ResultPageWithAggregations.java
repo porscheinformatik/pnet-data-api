@@ -16,7 +16,7 @@ package pnet.data.api;
 
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithAggregations;
 
 /**
@@ -26,7 +26,7 @@ import pnet.data.api.util.WithAggregations;
  * @param <T> the type of item
  * @param <AggregationsT> the type of aggregations
  */
-@ApiModel(description = "Holds results of a search or find operation with paging information and aggregations.")
+@Schema(description = "Holds results of a search or find operation with paging information and aggregations.")
 public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage<T>, WithAggregations<AggregationsT>
 {
 

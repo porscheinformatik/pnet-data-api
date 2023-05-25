@@ -22,8 +22,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -34,24 +33,24 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-@ApiModel(description = "Holds all information about a brand")
+@Schema(description = "Holds all information about a brand")
 public class BrandDataDTO implements WithMatchcode, WithLabels, WithTenants, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -5392033900534170882L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the brand")
+    @Schema(description = "The unique matchcode of the brand")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The tenants where the brand is valid")
+    @Schema(description = "The tenants where the brand is valid")
     private Collection<String> tenants;
-    @ApiModelProperty(notes = "The label of the brand with all existing translations")
+    @Schema(description = "The label of the brand with all existing translations")
     private Map<Locale, String> labels;
-    @ApiModelProperty(notes = "The ordinal of the brand for sorting")
+    @Schema(description = "The ordinal of the brand for sorting")
     private int ordinal;
-    @ApiModelProperty(notes = "The simplified name of the brand when used as path, e.g. 'vw', 'audi', 'vwlnf'")
+    @Schema(description = "The simplified name of the brand when used as path, e.g. 'vw', 'audi', 'vwlnf'")
     private String path;
-    @ApiModelProperty(notes = "The time and date when the brand was last changed")
+    @Schema(description = "The time and date when the brand was last changed")
     private LocalDateTime lastUpdate;
 
     public BrandDataDTO(@JsonProperty("matchcode") String matchcode)

@@ -19,8 +19,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithBrandMatchcode;
@@ -31,28 +30,28 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about the contract type of a company. The matchcode fits to the "
+@Schema(description = "Holds minimal information about the contract type of a company. The matchcode fits to the "
     + "matchcodes of the contract types interface.")
 public class CompanyContractTypeLinkDTO extends AbstractLinkDTO implements WithBrandMatchcode, WithValidPeriod
 {
 
     private static final long serialVersionUID = 5617472922439542723L;
 
-    @ApiModelProperty(notes = "The matchcode of the brand this contract type is assigned to.")
+    @Schema(description = "The matchcode of the brand this contract type is assigned to.")
     private final String brandMatchcode;
 
-    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid for the company. "
+    @Schema(description = "The date and time from when this contract type is/was valid for the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this contract type is/was valid for the company. "
+    @Schema(description = "The date and time till when this contract type is/was valid for the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
-    @ApiModelProperty(notes = "The date and time from when this contract type is/was valid to a limited extent.")
+    @Schema(description = "The date and time from when this contract type is/was valid to a limited extent.")
     private final LocalDateTime limitedExtentFrom;
 
-    @ApiModelProperty(notes = "If this flag is set to true, the contract takes part in the KVPS.")
+    @Schema(description = "If this flag is set to true, the contract takes part in the KVPS.")
     private final boolean kvps;
 
     public CompanyContractTypeLinkDTO(@JsonProperty("tenant") String tenant,
@@ -69,15 +68,14 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO implements WithB
         this.kvps = kvps;
     }
 
-    @ApiModelProperty(notes = "The tenant (Portal-ID) where this contract type reference is valid.")
+    @Schema(description = "The tenant (Portal-ID) where this contract type reference is valid.")
     @Override
     public String getTenant()
     {
         return super.getTenant();
     }
 
-    @ApiModelProperty(
-        notes = "The matchcode of the contract type (fits the matchcodes of the contract types interface)")
+    @Schema(description = "The matchcode of the contract type (fits the matchcodes of the contract types interface)")
     @Override
     public String getMatchcode()
     {

@@ -22,8 +22,7 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithDescription;
@@ -39,32 +38,32 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-@ApiModel(description = "Holds basic information about a function")
+@Schema(description = "Holds basic information about a function")
 public class FunctionItemDTO implements WithMatchcode, WithTenants, WithLabel, WithDescription, WithBrandLinks,
     WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = 8278014048912826651L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the function.")
+    @Schema(description = "The unique matchcode of the function.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The label of the function in the requested language.")
+    @Schema(description = "The label of the function in the requested language.")
     private final String label;
 
-    @ApiModelProperty(notes = "The description of the function in the requested language.")
+    @Schema(description = "The description of the function in the requested language.")
     private final String description;
 
-    @ApiModelProperty(notes = "The tenants where the function is valid.")
+    @Schema(description = "The tenants where the function is valid.")
     private final Collection<String> tenants;
 
-    @ApiModelProperty(notes = "The brands where the function is valid.")
+    @Schema(description = "The brands where the function is valid.")
     private final Collection<BrandLinkDTO> brands;
 
-    @ApiModelProperty(notes = "The time and date when the function has been changed recently.")
+    @Schema(description = "The time and date when the function has been changed recently.")
     private final LocalDateTime lastUpdate;
 
-    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
     public FunctionItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,

@@ -2,7 +2,7 @@ package pnet.data.api.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 
 /**
@@ -15,25 +15,25 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
 
     private static final long serialVersionUID = -6275336068143194073L;
 
-    @ApiModelProperty(notes = "The unique id of the person.")
+    @Schema(description = "The unique id of the person.")
     private final Integer personId;
 
-    @ApiModelProperty(notes = "The tenant, in which this person is administrated.")
+    @Schema(description = "The tenant, in which this person is administrated.")
     private final String administrativeTenant;
 
-    @ApiModelProperty(notes = "The external id of the person.")
+    @Schema(description = "The external id of the person.")
     private final String externalId;
 
-    @ApiModelProperty(notes = "The global user id of the person.")
+    @Schema(description = "The global user id of the person.")
     private final String guid;
 
-    @ApiModelProperty(notes = "The preferred user id of the person.")
+    @Schema(description = "The preferred user id of the person.")
     private final String preferredUserId;
 
-    @ApiModelProperty(notes = "The personnel number of the person.")
+    @Schema(description = "The personnel number of the person.")
     private final String personnelNumber;
 
-    @ApiModelProperty(notes = "The email of the person.")
+    @Schema(description = "The email of the person.")
     private final String email;
 
     public PersonAutoCompleteDTO(@JsonProperty("personId") Integer personId,

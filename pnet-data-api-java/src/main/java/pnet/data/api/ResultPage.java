@@ -21,8 +21,7 @@ import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Holding results of a search or find operation with paging information.
@@ -30,7 +29,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @author ham
  * @param <T> the type of item
  */
-@ApiModel(description = "Holds results of a search or find operation with paging information")
+@Schema(description = "Holds results of a search or find operation with paging information")
 public interface ResultPage<T> extends Iterable<T>
 {
 
@@ -158,25 +157,25 @@ public interface ResultPage<T> extends Iterable<T>
     /**
      * @return the number of items per page, which must not be the same a the number of items in this page.
      */
-    @ApiModelProperty(notes = "The amount of items that each page can hold")
+    @Schema(description = "The amount of items that each page can hold")
     int getItemsPerPage();
 
     /**
      * @return the total number of items.
      */
-    @ApiModelProperty(notes = "The total amount of items that the search/find operation found")
+    @Schema(description = "The total amount of items that the search/find operation found")
     int getTotalNumberOfItems();
 
     /**
      * @return the index of this page, 0-based.
      */
-    @ApiModelProperty(notes = "The index of the current page (the index is 0-based)")
+    @Schema(description = "The index of the current page (the index is 0-based)")
     int getPageIndex();
 
     /**
      * @return the total number of pages.
      */
-    @ApiModelProperty(notes = "The total amount of pages, that the search/find operation found")
+    @Schema(description = "The total amount of pages, that the search/find operation found")
     int getNumberOfPages();
 
     /**
@@ -184,7 +183,7 @@ public interface ResultPage<T> extends Iterable<T>
      *
      * @return the scroll id
      */
-    @ApiModelProperty(notes = "The id for scrolling results (scroll=true). Can be used together with /next requests.")
+    @Schema(description = "The id for scrolling results (scroll=true). Can be used together with /next requests.")
     String getScrollId();
 
     /**

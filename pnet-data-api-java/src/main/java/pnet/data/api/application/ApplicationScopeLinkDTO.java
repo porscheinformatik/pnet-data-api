@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithMatchcode;
@@ -16,16 +16,16 @@ public class ApplicationScopeLinkDTO implements WithMatchcode, WithLabels, WithD
 {
     private static final long serialVersionUID = -8772509501184236662L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the scope.")
+    @Schema(description = "The unique matchcode of the scope.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The label of the scope.")
+    @Schema(description = "The label of the scope.")
     private final Map<Locale, String> labels;
 
-    @ApiModelProperty(notes = "The description of the scope.")
+    @Schema(description = "The description of the scope.")
     private final Map<Locale, String> descriptions;
 
-    @ApiModelProperty(notes = "The matchcodes of all categories, this scope belongs to.")
+    @Schema(description = "The matchcodes of all categories, this scope belongs to.")
     private final Collection<String> categoryMatchcodes;
 
     public ApplicationScopeLinkDTO(@JsonProperty("matchcode") String matchcode,

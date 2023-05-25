@@ -8,8 +8,7 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithScore;
 
@@ -18,37 +17,37 @@ import pnet.data.api.util.WithScore;
  *
  * @author HAM
  */
-@ApiModel(description = "Holds to-dos with the same category and reference id.")
+@Schema(description = "Holds to-dos with the same category and reference id.")
 public class TodoGroupItemDTO implements WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = 725799282920048805L;
 
-    @ApiModelProperty(notes = "The category of to-dos, this groups is holding.")
+    @Schema(description = "The category of to-dos, this groups is holding.")
     private final TodoCategory category;
 
-    @ApiModelProperty(notes = "The label of the category.")
+    @Schema(description = "The label of the category.")
     private final String categoryLabel;
 
-    @ApiModelProperty(notes = "The reference ID of all to-dos in this group.")
+    @Schema(description = "The reference ID of all to-dos in this group.")
     private final Integer referenceId;
 
-    @ApiModelProperty(notes = "The reference matchcode of all to-dos in this group.")
+    @Schema(description = "The reference matchcode of all to-dos in this group.")
     private final String referenceMatchcode;
 
-    @ApiModelProperty(notes = "The label of the group, decribing the referenced item.")
+    @Schema(description = "The label of the group, decribing the referenced item.")
     private final String label;
 
-    @ApiModelProperty(notes = "The persons that are references in the various to-do entries.")
+    @Schema(description = "The persons that are references in the various to-do entries.")
     private final Collection<TodoGroupPersonLinkDTO> persons;
 
-    @ApiModelProperty(notes = "All to-do entries in this group.")
+    @Schema(description = "All to-do entries in this group.")
     private final Collection<TodoGroupEntryLinkDTO> entries;
 
-    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
+    @Schema(description = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
 
-    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
     public TodoGroupItemDTO(@JsonProperty("category") TodoCategory category,

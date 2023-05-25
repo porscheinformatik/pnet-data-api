@@ -19,8 +19,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -31,22 +30,22 @@ import pnet.data.api.util.WithScore;
  *
  * @author ham
  */
-@ApiModel(description = "Holds basic information about an external brand")
+@Schema(description = "Holds basic information about an external brand")
 public class ExternalBrandItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = -804085034175215251L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the external brand.")
+    @Schema(description = "The unique matchcode of the external brand.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The label of the external brand in the requested language.")
+    @Schema(description = "The label of the external brand in the requested language.")
     private final String label;
 
-    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
+    @Schema(description = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
 
-    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
     public ExternalBrandItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,

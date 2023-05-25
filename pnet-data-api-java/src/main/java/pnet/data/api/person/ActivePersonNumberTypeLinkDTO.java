@@ -16,21 +16,20 @@ package pnet.data.api.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Holds one employment dependent number of a person.
  *
  * @author ham
  */
-@ApiModel(description = "Holds one employment dependent number of a person.")
+@Schema(description = "Holds one employment dependent number of a person.")
 public class ActivePersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO
 {
 
     private static final long serialVersionUID = -3446430282367218468L;
 
-    @ApiModelProperty(notes = "True if currently active (ignores future settings).")
+    @Schema(description = "True if currently active (ignores future settings).")
     protected final boolean currentlyActive;
 
     public ActivePersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant,

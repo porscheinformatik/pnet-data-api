@@ -19,8 +19,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithMatchcode;
 
 /**
@@ -28,19 +27,18 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-@ApiModel(
-    description = "Holds minimal information about an additional company number of the company. The matchode fits "
-        + "the matchcodes of the company number type interface.")
+@Schema(description = "Holds minimal information about an additional company number of the company. The matchode fits "
+    + "the matchcodes of the company number type interface.")
 public class CompanyNumberLinkDTO implements WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = 2495670532285085314L;
 
-    @ApiModelProperty(notes = "The matchcode of the additional company number (fits the matchcodes of the company "
+    @Schema(description = "The matchcode of the additional company number (fits the matchcodes of the company "
         + "number type interface.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The actual additional company number.")
+    @Schema(description = "The actual additional company number.")
     private final String number;
 
     public CompanyNumberLinkDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("number") String number)

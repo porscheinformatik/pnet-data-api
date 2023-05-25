@@ -20,8 +20,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithValidPeriod;
@@ -31,32 +30,31 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about an external brand of the company. The matchcode fits the "
+@Schema(description = "Holds minimal information about an external brand of the company. The matchcode fits the "
     + "matchcodes of the external brand interface.")
 public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeriod, Serializable
 {
 
     private static final long serialVersionUID = -1049613870676274132L;
 
-    @ApiModelProperty(
-        notes = "The matchcode of the external brand (fits the matchcodes of the external brand interface.")
+    @Schema(description = "The matchcode of the external brand (fits the matchcodes of the external brand interface.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The date and time from when this external brand is/was valid for the company. "
+    @Schema(description = "The date and time from when this external brand is/was valid for the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this external brand is/was valid for the company. "
+    @Schema(description = "The date and time till when this external brand is/was valid for the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
-    @ApiModelProperty(notes = "This flag declares, whether this external brand is sold by the company.")
+    @Schema(description = "This flag declares, whether this external brand is sold by the company.")
     private final boolean sales;
 
-    @ApiModelProperty(notes = "This flag declares, whether this external brand is serviced by the company.")
+    @Schema(description = "This flag declares, whether this external brand is serviced by the company.")
     private final boolean service;
 
-    @ApiModelProperty(notes = "The local flag. Does local things unknown to most people, especially those writing this "
+    @Schema(description = "The local flag. Does local things unknown to most people, especially those writing this "
         + "documentation.")
     private final boolean local;
 

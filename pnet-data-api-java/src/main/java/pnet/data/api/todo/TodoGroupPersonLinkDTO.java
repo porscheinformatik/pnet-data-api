@@ -5,8 +5,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithPersonId;
 
 /**
@@ -14,19 +13,19 @@ import pnet.data.api.util.WithPersonId;
  *
  * @author HAM
  */
-@ApiModel(description = "One referenced person of a to-do group.")
+@Schema(description = "One referenced person of a to-do group.")
 public class TodoGroupPersonLinkDTO implements WithPersonId, Serializable
 {
 
     private static final long serialVersionUID = -4823204025294192488L;
 
-    @ApiModelProperty(notes = "The id of the person.")
+    @Schema(description = "The id of the person.")
     private final Integer personId;
 
-    @ApiModelProperty(notes = "The name of the person.")
+    @Schema(description = "The name of the person.")
     private final String name;
 
-    @ApiModelProperty(notes = "True, if the person has some open work to do in this group.")
+    @Schema(description = "True, if the person has some open work to do in this group.")
     private final boolean assigned;
 
     public TodoGroupPersonLinkDTO(@JsonProperty("personId") Integer personId, @JsonProperty("name") String name,

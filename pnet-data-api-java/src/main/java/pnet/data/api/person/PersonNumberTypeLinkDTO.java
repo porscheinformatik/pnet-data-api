@@ -18,8 +18,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.WithValidPeriod;
 
@@ -28,23 +27,23 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds one employment dependent number of a person.")
+@Schema(description = "Holds one employment dependent number of a person.")
 public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implements WithValidPeriod
 {
 
     private static final long serialVersionUID = -3446430282367218468L;
 
-    @ApiModelProperty(notes = "True, if the number has been approved already, false otherwise.")
+    @Schema(description = "True, if the number has been approved already, false otherwise.")
     protected final boolean approved;
 
-    @ApiModelProperty(notes = "The current state of the audit process.")
+    @Schema(description = "The current state of the audit process.")
     protected final ApprovalState approvalState;
 
-    @ApiModelProperty(notes = "The date and time from when this person has/had an employment at the company. "
+    @Schema(description = "The date and time from when this person has/had an employment at the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an employment at the company. "
+    @Schema(description = "The date and time till when this brand has/had an employment at the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 

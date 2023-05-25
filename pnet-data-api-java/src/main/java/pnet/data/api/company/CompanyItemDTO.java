@@ -22,8 +22,7 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.GeoPoint;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithCompanyId;
@@ -37,79 +36,77 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-@ApiModel(description = "Holds basic information about one company.")
+@Schema(description = "Holds basic information about one company.")
 public class CompanyItemDTO
     implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate, WithScore, Serializable
 {
 
     private static final long serialVersionUID = 8371146988245636569L;
 
-    @ApiModelProperty(notes = "The unique id of the company (also known as GP-ID).")
+    @Schema(description = "The unique id of the company (also known as GP-ID).")
     private final Integer companyId;
 
-    @ApiModelProperty(
-        notes = "The matchcode of the company (a combination of administrative tenant and company number).")
+    @Schema(description = "The matchcode of the company (a combination of administrative tenant and company number).")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
+    @Schema(description = "The tenant (Portal-ID), in which this company gets administrated.")
     private final String administrativeTenant;
 
-    @ApiModelProperty(
-        notes = "The label of the company (either the marketing name or a combination of name and affix).")
+    @Schema(description = "The label of the company (either the marketing name or a combination of name and affix).")
     private final String label;
 
-    @ApiModelProperty(notes = "The name of the company.")
+    @Schema(description = "The name of the company.")
     private final String name;
 
-    @ApiModelProperty(notes = "The name affix of the company.")
+    @Schema(description = "The name affix of the company.")
     private final String nameAffix;
 
-    @ApiModelProperty(notes = "The additional name affix of the company.")
+    @Schema(description = "The additional name affix of the company.")
     private final String additionalNameAffix;
 
-    @ApiModelProperty(notes = "The marketing name of the company.")
+    @Schema(description = "The marketing name of the company.")
     private final String marketingName;
 
-    @ApiModelProperty(notes = "Valid tenants of the company (also known as Portal-ID).")
+    @Schema(description = "Valid tenants of the company (also known as Portal-ID).")
     private final Collection<String> tenants;
 
-    @ApiModelProperty(
-        notes = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
+    @Schema(
+        description = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
             + "interface.")
     private final Collection<CompanyBrandLinkDTO> brands;
 
-    @ApiModelProperty(notes = "The company number. In most cases, this is the same as the SAP number.")
+    @Schema(description = "The company number. In most cases, this is the same as the SAP number.")
     private final String companyNumber;
 
-    @ApiModelProperty(notes = "The name of the street as defined in the address of the company.")
+    @Schema(description = "The name of the street as defined in the address of the company.")
     private final String street;
 
-    @ApiModelProperty(notes = "The name of the city as defined in the address of the company.")
+    @Schema(description = "The name of the city as defined in the address of the company.")
     private final String city;
 
-    @ApiModelProperty(notes = "The postal code of the city as defined in the address of the company.")
+    @Schema(description = "The postal code of the city as defined in the address of the company.")
     private final String postalCode;
 
-    @ApiModelProperty(notes = "The code of the country as defined in the address of the company.")
+    @Schema(description = "The code of the country as defined in the address of the company.")
     private final String countryCode;
 
-    @ApiModelProperty(notes = "The name of the country as defined in the address of the company.")
+    @Schema(description = "The name of the country as defined in the address of the company.")
     private final String country;
 
-    @ApiModelProperty(notes = "The region as defined in the address of the company.")
+    @Schema(description = "The region as defined in the address of the company.")
     private final String region;
 
-    @ApiModelProperty(notes = "All company types assigned to the company. The matchcode of each item fits to the "
+    @Schema(description = "All company types assigned to the company. The matchcode of each item fits to the "
         + "matchcodes of the company types interface.")
     private final Collection<CompanyTypeLinkDTO> types;
 
-    @ApiModelProperty(notes = "The logitude and latitude of the companies location.")
+    @Schema(description = "The logitude and latitude of the companies location.")
     private final GeoPoint location;
 
-    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
+    @Schema(description = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
 
-    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId, @JsonProperty("matchcode") String matchcode,

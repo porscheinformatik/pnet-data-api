@@ -6,24 +6,23 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Known languages of the user.
  *
  * @author HAM
  */
-@ApiModel(description = "Holds a language of the person.")
+@Schema(description = "Holds a language of the person.")
 public class PersonLanguageLinkDTO implements Serializable
 {
 
     private static final long serialVersionUID = 5456631116216468972L;
 
-    @ApiModelProperty(notes = "The language as IETF language tag.")
+    @Schema(description = "The language as IETF language tag.")
     private final Locale language;
 
-    @ApiModelProperty(notes = "The level of competence.")
+    @Schema(description = "The level of competence.")
     private final LanguageLevel level;
 
     public PersonLanguageLinkDTO(@JsonProperty("language") Locale language, @JsonProperty("level") LanguageLevel level)

@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithCompanyId;
 
@@ -19,16 +19,16 @@ public abstract class AbstractNumberTypeLinkDTO extends AbstractLinkDTO implemen
 
     private static final long serialVersionUID = 5799256161583182636L;
 
-    @ApiModelProperty(notes = "The id of the company the person has the number at.")
+    @Schema(description = "The id of the company the person has the number at.")
     protected final Integer companyId;
 
-    @ApiModelProperty(notes = "The matchcode of the company the person has the number at.")
+    @Schema(description = "The matchcode of the company the person has the number at.")
     protected final String companyMatchcode;
 
-    @ApiModelProperty(notes = "The number of the company the person has the number at.")
+    @Schema(description = "The number of the company the person has the number at.")
     protected final String companyNumber;
 
-    @ApiModelProperty(notes = "The actual number, that fits the number type.")
+    @Schema(description = "The actual number, that fits the number type.")
     protected final String number;
 
     public AbstractNumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
