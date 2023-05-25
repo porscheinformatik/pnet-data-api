@@ -150,14 +150,14 @@ public interface GenericType<T> extends ParameterizedType
         {
             GenericType<Object> genericType = build(Of.class).implementedBy(getClass()).getArgument(0);
 
-            this.name = null;
-            this.ownerType = genericType.getOwnerType();
-            this.rawType = genericType.getType();
-            this.componentType = genericType.getComponentType();
-            this.lowerBounds = EMPTY_TYPES;
-            this.upperBounds = EMPTY_TYPES;
-            this.actualTypeArguments = genericType.getActualTypeArguments();
-            this.arguments = genericType.getArguments();
+            name = null;
+            ownerType = genericType.getOwnerType();
+            rawType = genericType.getType();
+            componentType = genericType.getComponentType();
+            lowerBounds = EMPTY_TYPES;
+            upperBounds = EMPTY_TYPES;
+            actualTypeArguments = genericType.getActualTypeArguments();
+            arguments = genericType.getArguments();
         }
 
         Of(String name, Type ownerType, Class<?> rawType, Type[] lowerBounds, Type[] upperBounds,
@@ -181,7 +181,7 @@ public interface GenericType<T> extends ParameterizedType
             this.lowerBounds = lowerBounds != null ? lowerBounds : EMPTY_TYPES;
             this.upperBounds = upperBounds != null ? upperBounds : EMPTY_TYPES;
             this.actualTypeArguments = actualTypeArguments;
-            this.arguments = of(actualTypeArguments);
+            arguments = of(actualTypeArguments);
         }
 
         @Override

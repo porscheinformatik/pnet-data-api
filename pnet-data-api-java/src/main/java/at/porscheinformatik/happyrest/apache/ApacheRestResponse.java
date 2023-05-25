@@ -159,13 +159,13 @@ class ApacheRestResponse<T> implements RestResponse<T>
     @Override
     public List<String> getHeader(String key)
     {
-        return getHeaders(this.headers, key);
+        return getHeaders(headers, key);
     }
 
     @Override
     public String getFirstHeader(String key)
     {
-        return getFirstHeader(this.headers, key);
+        return getFirstHeader(headers, key);
     }
 
     @Override

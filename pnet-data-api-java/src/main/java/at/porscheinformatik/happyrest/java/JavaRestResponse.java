@@ -149,13 +149,13 @@ class JavaRestResponse<T> implements RestResponse<T>
     @Override
     public List<String> getHeader(String key)
     {
-        return this.headers.allValues(key);
+        return headers.allValues(key);
     }
 
     @Override
     public String getFirstHeader(String key)
     {
-        return this.headers.firstValue(key).orElse(null);
+        return headers.firstValue(key).orElse(null);
     }
 
     @Override
