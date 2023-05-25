@@ -5,8 +5,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithCompanyId;
 
 /**
@@ -14,21 +13,21 @@ import pnet.data.api.util.WithCompanyId;
  *
  * @author cet
  */
-@ApiModel(description = "Holds minimal information about a company group member")
+@Schema(description = "Holds minimal information about a company group member")
 public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
 {
     private static final long serialVersionUID = 1202524288584163184L;
 
-    @ApiModelProperty(notes = "The unique id of the company that is in the company group.")
+    @Schema(description = "The unique id of the company that is in the company group.")
     private final Integer companyId;
 
-    @ApiModelProperty(notes = "The (almost-unique) matchcode of the company that is in the company group.")
+    @Schema(description = "The (almost-unique) matchcode of the company that is in the company group.")
     private final String companyMatchcode;
 
-    @ApiModelProperty(notes = "The (non-unique) number of the company that is in the company group.")
+    @Schema(description = "The (non-unique) number of the company that is in the company group.")
     private final String companyNumber;
 
-    @ApiModelProperty(notes = "The unique matchcode of the company group type of the company group")
+    @Schema(description = "The unique matchcode of the company group type of the company group")
     private final String groupType;
 
     public CompanyGroupMemberLinkDTO(@JsonProperty("companyId") Integer companyId,

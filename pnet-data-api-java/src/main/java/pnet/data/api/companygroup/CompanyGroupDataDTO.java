@@ -21,30 +21,29 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Holds a group of companies.
  *
  * @author ham
  */
-@ApiModel(description = "Holds all information about a company group.")
+@Schema(description = "Holds all information about a company group.")
 public class CompanyGroupDataDTO implements Serializable
 {
 
     private static final long serialVersionUID = 9149727074935636956L;
 
-    @ApiModelProperty(notes = "The unique id of the company that is leading the company group.")
+    @Schema(description = "The unique id of the company that is leading the company group.")
     private final Integer leadingCompanyId;
 
-    @ApiModelProperty(notes = "The (almost-unique) matchcode of the company that is leading the company group.")
+    @Schema(description = "The (almost-unique) matchcode of the company that is leading the company group.")
     private final String leadingCompanyMatchcode;
 
-    @ApiModelProperty(notes = "The (non-unique) number of the company that is leading the company group.")
+    @Schema(description = "The (non-unique) number of the company that is leading the company group.")
     private final String leadingCompanyNumber;
 
-    @ApiModelProperty(notes = "The members of the company group")
+    @Schema(description = "The members of the company group")
     private Collection<CompanyGroupMemberLinkDTO> members;
 
     public CompanyGroupDataDTO(@JsonProperty("leadingCompanyId") Integer leadingCompanyId,

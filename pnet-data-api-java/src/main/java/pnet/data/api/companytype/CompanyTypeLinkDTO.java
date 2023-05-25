@@ -17,7 +17,7 @@ package pnet.data.api.companytype;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 
 /**
@@ -25,7 +25,7 @@ import pnet.data.api.util.AbstractLinkDTO;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a company type")
+@Schema(description = "Holds minimal information about a company type")
 public class CompanyTypeLinkDTO extends AbstractLinkDTO
 {
 

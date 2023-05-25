@@ -20,8 +20,7 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -32,24 +31,24 @@ import pnet.data.api.util.WithScore;
  *
  * @author ham
  */
-@ApiModel(description = "Holds basic information about an application")
+@Schema(description = "Holds basic information about an application")
 public class ApplicationItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
     private static final long serialVersionUID = 1943888464506455363L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the application.")
+    @Schema(description = "The unique matchcode of the application.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The label of the application in the requested language.")
+    @Schema(description = "The label of the application in the requested language.")
     private final String label;
 
-    @ApiModelProperty(notes = "The matchcodes of all scopes this application is permitted to use.")
+    @Schema(description = "The matchcodes of all scopes this application is permitted to use.")
     private final Collection<String> scopeMatchcodes;
 
-    @ApiModelProperty(notes = "The time and date when this item has been changed recently.")
+    @Schema(description = "The time and date when this item has been changed recently.")
     private final LocalDateTime lastUpdate;
 
-    @ApiModelProperty(notes = "The score this item accomplished in the search operation.")
+    @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
     public ApplicationItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,

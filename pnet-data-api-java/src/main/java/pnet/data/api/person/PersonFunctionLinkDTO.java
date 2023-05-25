@@ -19,8 +19,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithValidPeriod;
@@ -30,23 +29,23 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "The assignment of a function to a person, for a specific company, tenant and brand.")
+@Schema(description = "The assignment of a function to a person, for a specific company, tenant and brand.")
 public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithValidPeriod
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
 
-    @ApiModelProperty(notes = "True, if the function has been approved already, false otherwise.")
+    @Schema(description = "True, if the function has been approved already, false otherwise.")
     protected final boolean approved;
 
-    @ApiModelProperty(notes = "The current state of the audit process.")
+    @Schema(description = "The current state of the audit process.")
     protected final ApprovalState approvalState;
 
-    @ApiModelProperty(notes = "The starting date and time of this function assignment. "
+    @Schema(description = "The starting date and time of this function assignment. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The ending date and time of this function assignment. "
+    @Schema(description = "The ending date and time of this function assignment. "
         + "A missing value indicates an ongoing assignment. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;

@@ -21,8 +21,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -32,19 +31,19 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-@ApiModel(description = "Holds all information about a legal form as used with companies.")
+@Schema(description = "Holds all information about a legal form as used with companies.")
 public class LegalFormDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 7656177578952551086L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the legal form.")
+    @Schema(description = "The unique matchcode of the legal form.")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The label of the legal form with all existing translations.")
+    @Schema(description = "The label of the legal form with all existing translations.")
     private Map<Locale, String> labels;
 
-    @ApiModelProperty(notes = "The time and date when the legal form was last changed.")
+    @Schema(description = "The time and date when the legal form was last changed.")
     private LocalDateTime lastUpdate;
 
     public LegalFormDataDTO(@JsonProperty("matchcode") String matchcode)

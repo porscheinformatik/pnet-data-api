@@ -6,69 +6,68 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Holds one to-do.
  *
  * @author HAM
  */
-@ApiModel(description = "One to-do within a group of to-dos.")
+@Schema(description = "One to-do within a group of to-dos.")
 public class TodoGroupEntryLinkDTO implements Serializable
 {
     private static final long serialVersionUID = 7738135458998397744L;
 
-    @ApiModelProperty(notes = "The unique id of the to-do entry.")
+    @Schema(description = "The unique id of the to-do entry.")
     private final Integer id;
 
-    @ApiModelProperty(notes = "The type of the to-do entry.")
+    @Schema(description = "The type of the to-do entry.")
     private final String type;
 
-    @ApiModelProperty(notes = "The source of the to-do entry.")
+    @Schema(description = "The source of the to-do entry.")
     private final TodoSource source;
 
-    @ApiModelProperty(notes = "The state of the to-do entry.")
+    @Schema(description = "The state of the to-do entry.")
     private final TodoState state;
 
-    @ApiModelProperty(notes = "The phase of the to-do entry, that depends directly on the state.")
+    @Schema(description = "The phase of the to-do entry, that depends directly on the state.")
     private final TodoPhase phase;
 
-    @ApiModelProperty(notes = "The date and time this to-do entry has been created.")
+    @Schema(description = "The date and time this to-do entry has been created.")
     private final LocalDateTime created;
 
-    @ApiModelProperty(
-        notes = "The date and time this to-do entry has been redetected (created again) and possibly updated.")
+    @Schema(
+        description = "The date and time this to-do entry has been redetected (created again) and possibly updated.")
     private final LocalDateTime refreshed;
 
-    @ApiModelProperty(notes = "The name of the person, that did the approval.")
+    @Schema(description = "The name of the person, that did the approval.")
     private final Collection<Integer> assignedToPersonIds;
 
-    @ApiModelProperty(
-        notes = "The date and time, this entry was processed and submitted. Null, if it has not been approved, yet..")
+    @Schema(
+        description = "The date and time, this entry was processed and submitted. Null, if it has not been approved, yet..")
     private final LocalDateTime submitted;
 
-    @ApiModelProperty(notes = "The id of the person, that did the processing and submittion.")
+    @Schema(description = "The id of the person, that did the processing and submittion.")
     private final Integer submittedByPersonId;
 
-    @ApiModelProperty(notes = "The name of the person, that did the processing ans submittion.")
+    @Schema(description = "The name of the person, that did the processing ans submittion.")
     private final String submittedByPersonName;
 
-    @ApiModelProperty(notes = "The earliest date and time, the execution of this entry may start.")
+    @Schema(description = "The earliest date and time, the execution of this entry may start.")
     private final LocalDateTime scheduled;
 
-    @ApiModelProperty(
-        notes = "The date and time the execution of this entry has been started. Null, if the execution has not been started, yet.")
+    @Schema(
+        description = "The date and time the execution of this entry has been started. Null, if the execution has not been started, yet.")
     private final LocalDateTime started;
 
-    @ApiModelProperty(
-        notes = "The date and time this to-do entry has been finished. Null, it the execution has not been finished, yet.")
+    @Schema(
+        description = "The date and time this to-do entry has been finished. Null, it the execution has not been finished, yet.")
     private final LocalDateTime finished;
 
-    @ApiModelProperty(notes = "The headline of the entry.")
+    @Schema(description = "The headline of the entry.")
     private final String headline;
 
-    @ApiModelProperty(notes = "The description of the entry.")
+    @Schema(description = "The description of the entry.")
     private final String description;
 
     public TodoGroupEntryLinkDTO(@JsonProperty("id") Integer id, @JsonProperty("type") String type,

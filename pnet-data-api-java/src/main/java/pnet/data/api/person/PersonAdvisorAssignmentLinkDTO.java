@@ -19,8 +19,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
@@ -30,25 +29,25 @@ import pnet.data.api.util.WithCompanyId;
  *
  * @author ham
  */
-@ApiModel(description = "Holds an advisor assignment of the person.")
+@Schema(description = "Holds an advisor assignment of the person.")
 public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
 {
 
     private static final long serialVersionUID = 4247336068734009775L;
 
-    @ApiModelProperty(notes = "The unique id of the company the person is advisor for.")
+    @Schema(description = "The unique id of the company the person is advisor for.")
     private final Integer companyId;
 
-    @ApiModelProperty(notes = "The matchcode of the company the person has/had is advisor for.")
+    @Schema(description = "The matchcode of the company the person has/had is advisor for.")
     private final String companyMatchcode;
 
-    @ApiModelProperty(notes = "The number of the company the person has/had is advisor for.")
+    @Schema(description = "The number of the company the person has/had is advisor for.")
     private final String companyNumber;
 
-    @ApiModelProperty(notes = "The matchcode of the brand where the person is advisor for.")
+    @Schema(description = "The matchcode of the brand where the person is advisor for.")
     private final String brandMatchcode;
 
-    @ApiModelProperty(notes = "The matchcode of the advisor division.")
+    @Schema(description = "The matchcode of the advisor division.")
     private final String divisionMatchcode;
 
     public PersonAdvisorAssignmentLinkDTO(@JsonProperty("tenant") String tenant,

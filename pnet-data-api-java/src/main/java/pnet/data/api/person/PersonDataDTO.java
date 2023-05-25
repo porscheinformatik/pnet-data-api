@@ -24,8 +24,7 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.WithId;
 import pnet.data.api.util.WithLastUpdate;
@@ -38,156 +37,152 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @SuppressWarnings("deprecation")
-@ApiModel(description = "Holds all information about a person")
+@Schema(description = "Holds all information about a person")
 public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLastUpdate, Serializable
 {
     private static final long serialVersionUID = -2096202204327773391L;
 
-    @ApiModelProperty(notes = "The unique id of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The unique id of the person (needed scope: SC_IDENTIFIER).")
     @Deprecated
     private final Integer id;
 
-    @ApiModelProperty(notes = "The unique id of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The unique id of the person (needed scope: SC_IDENTIFIER).")
     private final Integer personId;
 
-    @ApiModelProperty(notes = "The tenant, in which this person is administrated (no scope needed).")
+    @Schema(description = "The tenant, in which this person is administrated (no scope needed).")
     private String administrativeTenant;
 
-    @ApiModelProperty(notes = "The tenants where the person is valid (no scope needed).")
+    @Schema(description = "The tenants where the person is valid (no scope needed).")
     private Collection<String> tenants;
 
-    @ApiModelProperty(notes = "The form of the adress the person prefers (needed scope: SC_GENDER).")
+    @Schema(description = "The form of the adress the person prefers (needed scope: SC_GENDER).")
     private FormOfAddress formOfAddress;
 
-    @ApiModelProperty(notes = "The academic title of the person (needed scope: SC_NAME).")
+    @Schema(description = "The academic title of the person (needed scope: SC_NAME).")
     private String academicTitle;
 
-    @ApiModelProperty(notes = "The academic title of the person, that's placed after the name (needed scope: SC_NAME).")
+    @Schema(description = "The academic title of the person, that's placed after the name (needed scope: SC_NAME).")
     private String academicTitlePostNominal;
 
-    @ApiModelProperty(notes = "The first name of the person (needed scope: SC_NAME).")
+    @Schema(description = "The first name of the person (needed scope: SC_NAME).")
     private String firstName;
 
-    @ApiModelProperty(notes = "The last name of the person (needed scope: SC_NAME).")
+    @Schema(description = "The last name of the person (needed scope: SC_NAME).")
     private String lastName;
 
-    @ApiModelProperty(notes = "The username of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The username of the person (needed scope: SC_IDENTIFIER).")
     private String username;
 
-    @ApiModelProperty(notes = "The person is able to access the Partner.Net (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The person is able to access the Partner.Net (needed scope: SC_IDENTIFIER).")
     private Boolean credentialsAvailable;
 
-    @ApiModelProperty(notes = "True, if the user has (or had) additional authentication factors enabled.")
+    @Schema(description = "True, if the user has (or had) additional authentication factors enabled.")
     private Boolean multifactorEnabled;
 
-    @ApiModelProperty(
-        notes = "True, if the person has been fully approved by authorities, false if the approval process is still "
+    @Schema(
+        description = "True, if the person has been fully approved by authorities, false if the approval process is still "
             + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
             + "only approved persons will be available.")
     private boolean approved;
 
-    @ApiModelProperty(notes = "The current state of the audit process.")
+    @Schema(description = "The current state of the audit process.")
     private ApprovalState approvalState;
 
-    @ApiModelProperty(notes = "The birthdate of the person (needed scope: SC_BIRTHDATE).")
+    @Schema(description = "The birthdate of the person (needed scope: SC_BIRTHDATE).")
     private LocalDate birthdate;
 
-    @ApiModelProperty(notes = "The external id of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The external id of the person (needed scope: SC_IDENTIFIER).")
     private String externalId;
 
-    @ApiModelProperty(notes = "The global user id of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The global user id of the person (needed scope: SC_IDENTIFIER).")
     private String guid;
 
-    @ApiModelProperty(notes = "The preferred user id of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The preferred user id of the person (needed scope: SC_IDENTIFIER).")
     private String preferredUserId;
 
-    @ApiModelProperty(notes = "The phone number of the person at work (needed scope: SC_PHONE_NUMBER).")
+    @Schema(description = "The phone number of the person at work (needed scope: SC_PHONE_NUMBER).")
     private String phoneNumber;
 
-    @ApiModelProperty(notes = "The extension number of the person at work (needed scope: SC_PHONE_NUMBER).")
+    @Schema(description = "The extension number of the person at work (needed scope: SC_PHONE_NUMBER).")
     private String extensionNumber;
 
-    @ApiModelProperty(
-        notes = "The mobile phone number of the person regarding business (needed scope: SC_PHONE_NUMBER).")
+    @Schema(description = "The mobile phone number of the person regarding business (needed scope: SC_PHONE_NUMBER).")
     private String mobileNumber;
 
-    @ApiModelProperty(notes = "The fax number of the person at work (needed scope: SC_PHONE_NUMBER).")
+    @Schema(description = "The fax number of the person at work (needed scope: SC_PHONE_NUMBER).")
     private String faxNumber;
 
-    @ApiModelProperty(notes = "The business email of the person (needed scope: SC_EMAIL).")
+    @Schema(description = "The business email of the person (needed scope: SC_EMAIL).")
     private String email;
 
-    @ApiModelProperty(
-        notes = "The id of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
+    @Schema(description = "The id of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private Integer contactCompanyId;
 
-    @ApiModelProperty(
-        notes = "The matchcode of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
+    @Schema(
+        description = "The matchcode of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private String contactCompanyMatchcode;
 
-    @ApiModelProperty(
-        notes = "The number of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
+    @Schema(
+        description = "The number of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private String contactCompanyNumber;
 
-    @ApiModelProperty(notes = "The cost center of the person (needed scope: SC_ORGANIZATION_UNIT).")
+    @Schema(description = "The cost center of the person (needed scope: SC_ORGANIZATION_UNIT).")
     private String costCenter;
 
-    @ApiModelProperty(notes = "The personnel number of the person (needed scope: SC_ORGANIZATION_UNIT).")
+    @Schema(description = "The personnel number of the person (needed scope: SC_ORGANIZATION_UNIT).")
     private String personnelNumber;
 
-    @ApiModelProperty(
-        notes = "The personnel number of the supervisor of the person (needed scope: SC_ORGANIZATION_UNIT).")
+    @Schema(description = "The personnel number of the supervisor of the person (needed scope: SC_ORGANIZATION_UNIT).")
     private String supervisorPersonnelNumber;
 
-    @ApiModelProperty(notes = "The controlling area the person belongs to (needed scope: SC_ORGANIZATION_UNIT).")
+    @Schema(description = "The controlling area the person belongs to (needed scope: SC_ORGANIZATION_UNIT).")
     private String controllingArea;
 
-    @ApiModelProperty(notes = "The personnel department the person belongs to (needed scope: SC_ORGANIZATION_UNIT).")
+    @Schema(description = "The personnel department the person belongs to (needed scope: SC_ORGANIZATION_UNIT).")
     private String personnelDepartment;
 
-    @ApiModelProperty(notes = "The description of the job the person mainly does (needed scope: SC_ORGANIZATION_UNIT).")
+    @Schema(description = "The description of the job the person mainly does (needed scope: SC_ORGANIZATION_UNIT).")
     private String jobDescription;
 
-    @ApiModelProperty(notes = "The matchcode of the team the person is part of (needed scope: SC_ORGANIZATION_UNIT).")
+    @Schema(description = "The matchcode of the team the person is part of (needed scope: SC_ORGANIZATION_UNIT).")
     private String teamMatchcode;
 
-    @ApiModelProperty(notes = "The name of the team the person is part of (needed scope: SC_ORGANIZATION_UNIT).")
+    @Schema(description = "The name of the team the person is part of (needed scope: SC_ORGANIZATION_UNIT).")
     private String teamLabel;
 
-    @ApiModelProperty(notes = "The tenant specific settings of the user (needed scope: SC_PREFERRED_COMPANY).")
+    @Schema(description = "The tenant specific settings of the user (needed scope: SC_PREFERRED_COMPANY).")
     private Collection<PersonSettingsLinkDTO> settings;
 
-    @ApiModelProperty(notes = "The languages known to the user, ordered by preference (needed scope: SC_LANGUAGE).")
+    @Schema(description = "The languages known to the user, ordered by preference (needed scope: SC_LANGUAGE).")
     private List<PersonLanguageLinkDTO> languages;
 
-    @ApiModelProperty(notes = "The companies the person has employments at (needed scope: SC_EMPLOYMENT).")
+    @Schema(description = "The companies the person has employments at (needed scope: SC_EMPLOYMENT).")
     private Collection<PersonCompanyLinkDTO> companies;
 
-    @ApiModelProperty(notes = "The number types the person has at specific companies (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The number types the person has at specific companies (needed scope: SC_IDENTIFIER).")
     private Collection<PersonNumberTypeLinkDTO> numbers;
 
-    @ApiModelProperty(notes = "The functions the person has at specific companies (needed scope: SC_ROLE).")
+    @Schema(description = "The functions the person has at specific companies (needed scope: SC_ROLE).")
     private Collection<PersonFunctionLinkDTO> functions;
 
-    @ApiModelProperty(notes = "The activities the person has at specific companies (needed scope: SC_ROLE).")
+    @Schema(description = "The activities the person has at specific companies (needed scope: SC_ROLE).")
     private Collection<PersonActivityLinkDTO> activities;
 
-    @ApiModelProperty(
-        notes = "The advisor assignments of the person for specific companies (needed scope: SC_ADVISOR_ASSIGNMENT).")
+    @Schema(
+        description = "The advisor assignments of the person for specific companies (needed scope: SC_ADVISOR_ASSIGNMENT).")
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
-    @ApiModelProperty(notes = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
+    @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
     private Boolean portraitAvailable;
 
-    @ApiModelProperty(
-        notes = "Indicates, whether the person will get deleted automatically in the near future (no scope needed).")
+    @Schema(
+        description = "Indicates, whether the person will get deleted automatically in the near future (no scope needed).")
     private boolean automaticDeletion;
 
-    @ApiModelProperty(
-        notes = "The checksum of all data of a person, which is needed to detect changes (no scope needed).")
+    @Schema(description = "The checksum of all data of a person, which is needed to detect changes (no scope needed).")
     private String checksum;
 
-    @ApiModelProperty(notes = "The time and date when the person was last changed (no scope needed).")
+    @Schema(description = "The time and date when the person was last changed (no scope needed).")
     private LocalDateTime lastUpdate;
 
     public PersonDataDTO(@JsonProperty("id") Integer id, @JsonProperty("personId") Integer personId)

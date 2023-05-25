@@ -21,8 +21,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -32,18 +31,18 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-@ApiModel(description = "Holds all information about a function")
+@Schema(description = "Holds all information about a function")
 public class NumberTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 8121115362492515187L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the function")
+    @Schema(description = "The unique matchcode of the function")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The label of the function with all existing translations")
+    @Schema(description = "The label of the function with all existing translations")
     private Map<Locale, String> labels;
-    @ApiModelProperty(notes = "The time and date when the function was last changed")
+    @Schema(description = "The time and date when the function was last changed")
     private LocalDateTime lastUpdate;
 
     public NumberTypeDataDTO(@JsonProperty("matchcode") String matchcode)

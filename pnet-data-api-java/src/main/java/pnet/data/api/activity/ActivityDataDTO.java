@@ -24,8 +24,7 @@ import java.util.function.Predicate;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.companytype.CompanyTypeLinkDTO;
@@ -43,38 +42,38 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-@ApiModel(description = "Holds all information about an activity")
+@Schema(description = "Holds all information about an activity")
 public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks,
     WithCompanyTypeLinks, WithContractTypeLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = 5133673955487263429L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the activity")
+    @Schema(description = "The unique matchcode of the activity")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The label of the activity with all existing translations")
+    @Schema(description = "The label of the activity with all existing translations")
     private Map<Locale, String> labels;
 
-    @ApiModelProperty(notes = "The description of the activity with all existing translations")
+    @Schema(description = "The description of the activity with all existing translations")
     private Map<Locale, String> descriptions;
 
-    @ApiModelProperty(notes = "The tenants where the activity is valid")
+    @Schema(description = "The tenants where the activity is valid")
     private Collection<String> tenants;
 
-    @ApiModelProperty(notes = "The brands where the activity is valid")
+    @Schema(description = "The brands where the activity is valid")
     private Collection<BrandLinkDTO> brands;
 
-    @ApiModelProperty(notes = "The company types where the activity is valid")
+    @Schema(description = "The company types where the activity is valid")
     private Collection<CompanyTypeLinkDTO> companyTypes;
 
-    @ApiModelProperty(notes = "The contract types where the activity is valid")
+    @Schema(description = "The contract types where the activity is valid")
     private Collection<ContractTypeLinkDTO> contractTypes;
 
-    @ApiModelProperty(notes = "The settings for this activity")
+    @Schema(description = "The settings for this activity")
     private Collection<ActivitySettingsLinkDTO> settings;
 
-    @ApiModelProperty(notes = "The time and date when the activity was last changed")
+    @Schema(description = "The time and date when the activity was last changed")
     private LocalDateTime lastUpdate;
 
     public ActivityDataDTO(@JsonProperty("matchcode") String matchcode)

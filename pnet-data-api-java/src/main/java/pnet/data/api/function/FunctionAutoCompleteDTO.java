@@ -16,17 +16,16 @@ package pnet.data.api.function;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.WithMatchcode;
 
-@ApiModel(description = "Holds the auto-complete results for a function")
+@Schema(description = "Holds the auto-complete results for a function")
 public class FunctionAutoCompleteDTO extends AbstractAutoCompleteDTO implements WithMatchcode
 {
     private static final long serialVersionUID = -8765852009234856747L;
 
-    @ApiModelProperty(notes = "The unique matchcode of the activity.")
+    @Schema(description = "The unique matchcode of the activity.")
     private final String matchcode;
 
     public FunctionAutoCompleteDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,

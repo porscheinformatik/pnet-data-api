@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithPersonId;
 
 /**
@@ -13,16 +12,16 @@ import pnet.data.api.util.WithPersonId;
  *
  * @author HAM
  */
-@ApiModel(description = "One referenced person of a proposal.")
+@Schema(description = "One referenced person of a proposal.")
 public class ProposalPersonLinkDTO implements WithPersonId, Serializable
 {
 
     private static final long serialVersionUID = 4810615779489939325L;
 
-    @ApiModelProperty(notes = "The id of the person.")
+    @Schema(description = "The id of the person.")
     private final Integer personId;
 
-    @ApiModelProperty(notes = "The name of the person.")
+    @Schema(description = "The name of the person.")
     private final String name;
 
     private final ProposalPersonType type;

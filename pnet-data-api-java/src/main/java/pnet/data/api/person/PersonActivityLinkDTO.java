@@ -20,8 +20,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.PnetDataApiUtils;
@@ -33,40 +32,40 @@ import pnet.data.api.util.WithCompanyId;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about a activity of the person.")
+@Schema(description = "Holds minimal information about a activity of the person.")
 public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
 {
 
     private static final long serialVersionUID = 4247336068734009775L;
 
-    @ApiModelProperty(notes = "The unique id of the company the person has the activity at.")
+    @Schema(description = "The unique id of the company the person has the activity at.")
     private final Integer companyId;
 
-    @ApiModelProperty(notes = "The matchcode of the company the person has/had an activity at.")
+    @Schema(description = "The matchcode of the company the person has/had an activity at.")
     private final String companyMatchcode;
 
-    @ApiModelProperty(notes = "The number of the company the person has/had an activity at.")
+    @Schema(description = "The number of the company the person has/had an activity at.")
     private final String companyNumber;
 
-    @ApiModelProperty(notes = "A unique matchcode of the brand where the activity is valid.")
+    @Schema(description = "A unique matchcode of the brand where the activity is valid.")
     private final String brandMatchcode;
 
-    @ApiModelProperty(notes = "True, if the employment has been approved already, false otherwise.")
+    @Schema(description = "True, if the employment has been approved already, false otherwise.")
     protected final boolean approved;
 
-    @ApiModelProperty(notes = "The current state of the audit process.")
+    @Schema(description = "The current state of the audit process.")
     protected final ApprovalState approvalState;
 
-    @ApiModelProperty(notes = "The date and time from when this person has/had an actvitiy. "
+    @Schema(description = "The date and time from when this person has/had an actvitiy. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this brand has/had an actvitiy. "
+    @Schema(description = "The date and time till when this brand has/had an actvitiy. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
-    @ApiModelProperty(
-        notes = "The flag that declares, whether this activity is assigned to the person due to a function or not.")
+    @Schema(
+        description = "The flag that declares, whether this activity is assigned to the person due to a function or not.")
     private final boolean dueToFunction;
 
     public PersonActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,

@@ -19,8 +19,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 
@@ -29,15 +28,15 @@ import pnet.data.api.util.WithTenant;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about an activity")
+@Schema(description = "Holds minimal information about an activity")
 public class ActivityLinkDTO implements WithTenant, WithMatchcode, Serializable
 {
 
     private static final long serialVersionUID = -5441503535879450447L;
 
-    @ApiModelProperty(notes = "A tenant where the activity is valid")
+    @Schema(description = "A tenant where the activity is valid")
     private final String tenant;
-    @ApiModelProperty(notes = "The unique matchcode of the activity")
+    @Schema(description = "The unique matchcode of the activity")
     private final String matchcode;
 
     public ActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)

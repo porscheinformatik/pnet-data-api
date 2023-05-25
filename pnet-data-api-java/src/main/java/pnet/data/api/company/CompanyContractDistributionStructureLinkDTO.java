@@ -20,8 +20,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
@@ -34,35 +33,35 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@ApiModel(description = "Holds minimal information about the contract distribution structure of a company.")
+@Schema(description = "Holds minimal information about the contract distribution structure of a company.")
 public class CompanyContractDistributionStructureLinkDTO
     implements WithTenant, WithCompanyId, WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod, Serializable
 {
     private static final long serialVersionUID = 5212128752932674480L;
 
-    @ApiModelProperty(notes = "The tenant (Portal-ID) where this contract state is valid.")
+    @Schema(description = "The tenant (Portal-ID) where this contract state is valid.")
     private final String tenant;
 
-    @ApiModelProperty(notes = "The company that is linked with this contract distribution structure.")
+    @Schema(description = "The company that is linked with this contract distribution structure.")
     private final Integer companyId;
 
-    @ApiModelProperty(notes = "The company that is linked with this contract distribution structure.")
+    @Schema(description = "The company that is linked with this contract distribution structure.")
     private final String companyNumber;
 
-    @ApiModelProperty(notes = "The company that is linked with this contract distribution structure.")
+    @Schema(description = "The company that is linked with this contract distribution structure.")
     private final String companyMatchcode;
 
-    @ApiModelProperty(notes = "The matchcode of the brand this contract distribution structure is assigned to.")
+    @Schema(description = "The matchcode of the brand this contract distribution structure is assigned to.")
     private final String brandMatchcode;
 
-    @ApiModelProperty(notes = "The matchcode of the contract type this distribution structure state is assigned to.")
+    @Schema(description = "The matchcode of the contract type this distribution structure state is assigned to.")
     private final String contractTypeMatchcode;
 
-    @ApiModelProperty(notes = "The date and time from when this contract state is/was valid for the company. "
+    @Schema(description = "The date and time from when this contract state is/was valid for the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validFrom;
 
-    @ApiModelProperty(notes = "The date and time till when this contract state is/was valid for the company. "
+    @Schema(description = "The date and time till when this contract state is/was valid for the company. "
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
@@ -19,19 +19,19 @@ public abstract class AbstractPersonFunctionLinkDTO extends AbstractLinkDTO impl
 
     private static final long serialVersionUID = -7454296829315458948L;
 
-    @ApiModelProperty(notes = "The id of the company at which the function is assigned to the person.")
+    @Schema(description = "The id of the company at which the function is assigned to the person.")
     protected final Integer companyId;
 
-    @ApiModelProperty(notes = "The matchcode of the company at which the function is assigned to the person.")
+    @Schema(description = "The matchcode of the company at which the function is assigned to the person.")
     protected final String companyMatchcode;
 
-    @ApiModelProperty(notes = "The number of the company at which the function is assigned to the person.")
+    @Schema(description = "The number of the company at which the function is assigned to the person.")
     protected final String companyNumber;
 
-    @ApiModelProperty(notes = "The brand to which the function is assigned to the person.")
+    @Schema(description = "The brand to which the function is assigned to the person.")
     protected final String brandMatchcode;
 
-    @ApiModelProperty(notes = "The flag that declares, whether this function is the "
+    @Schema(description = "The flag that declares, whether this function is the "
         + "main function of the person at the specific company or not.")
     protected final boolean mainFunction;
 

@@ -2,7 +2,7 @@ package pnet.data.api.company;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.GeoPoint;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.PnetDataApiUtils;
@@ -17,20 +17,19 @@ public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO
 
     private static final long serialVersionUID = -6275336068143194073L;
 
-    @ApiModelProperty(notes = "The unique id of the company.")
+    @Schema(description = "The unique id of the company.")
     private final Integer companyId;
 
-    @ApiModelProperty(
-        notes = "The matchcode of the company (a combination of administrative tenant and company number).")
+    @Schema(description = "The matchcode of the company (a combination of administrative tenant and company number).")
     private final String matchcode;
 
-    @ApiModelProperty(notes = "The tenant (Portal-ID), in which this company gets administrated.")
+    @Schema(description = "The tenant (Portal-ID), in which this company gets administrated.")
     private final String administrativeTenant;
 
-    @ApiModelProperty(notes = "The company number. In most cases, this is the same as the SAP number.")
+    @Schema(description = "The company number. In most cases, this is the same as the SAP number.")
     private final String companyNumber;
 
-    @ApiModelProperty(notes = "The logitude and latitude of the companies location.")
+    @Schema(description = "The logitude and latitude of the companies location.")
     private final GeoPoint location;
 
     public CompanyAutoCompleteDTO(@JsonProperty("companyId") Integer companyId,

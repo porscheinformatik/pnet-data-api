@@ -5,8 +5,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithCompanyId;
@@ -16,32 +15,32 @@ import pnet.data.api.util.WithCompanyId;
  *
  * @author HAM
  */
-@ApiModel(description = "Holds minimal information about a employment the person has. "
+@Schema(description = "Holds minimal information about a employment the person has. "
     + "Related to the datedBackUnitl parameter.")
 public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
 {
 
     private static final long serialVersionUID = -847403488657179223L;
 
-    @ApiModelProperty(notes = "The unique id of the company the person has an employment at.")
+    @Schema(description = "The unique id of the company the person has an employment at.")
     protected final Integer companyId;
 
-    @ApiModelProperty(notes = "The matchcode of the company the person has an employment at.")
+    @Schema(description = "The matchcode of the company the person has an employment at.")
     protected final String companyMatchcode;
 
-    @ApiModelProperty(notes = "The number of the company the person has an employment at.")
+    @Schema(description = "The number of the company the person has an employment at.")
     protected final String companyNumber;
 
-    @ApiModelProperty(notes = "The label of the company the person has an employment at.")
+    @Schema(description = "The label of the company the person has an employment at.")
     protected final String companyLabel;
 
-    @ApiModelProperty(notes = "True, if the employment has been approved already, false otherwise.")
+    @Schema(description = "True, if the employment has been approved already, false otherwise.")
     protected final boolean approved;
 
-    @ApiModelProperty(notes = "The current state of the audit process.")
+    @Schema(description = "The current state of the audit process.")
     protected final ApprovalState approvalState;
 
-    @ApiModelProperty(notes = "True if currently active (ignores the datedBackUntil parameter).")
+    @Schema(description = "True if currently active (ignores the datedBackUntil parameter).")
     protected final boolean currentlyActive;
 
     public ActivePersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,

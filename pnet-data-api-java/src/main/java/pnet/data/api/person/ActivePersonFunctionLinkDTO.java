@@ -16,8 +16,7 @@ package pnet.data.api.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabel;
 
 /**
@@ -25,17 +24,17 @@ import pnet.data.api.util.WithLabel;
  *
  * @author ham
  */
-@ApiModel(description = "The assignment of a function to a person, for a specific company, tenant and brand. "
+@Schema(description = "The assignment of a function to a person, for a specific company, tenant and brand. "
     + "Related to the datedBackUnitl parameter.")
 public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithLabel
 {
 
     private static final long serialVersionUID = -5572016715722241376L;
 
-    @ApiModelProperty(notes = "The label of the function that is assigned to the person.")
+    @Schema(description = "The label of the function that is assigned to the person.")
     private final String label;
 
-    @ApiModelProperty(notes = "True if currently active (ignores the datedBackUntil parameter).")
+    @Schema(description = "True if currently active (ignores the datedBackUntil parameter).")
     protected final boolean currentlyActive;
 
     public ActivePersonFunctionLinkDTO(@JsonProperty("tenant") String tenant,

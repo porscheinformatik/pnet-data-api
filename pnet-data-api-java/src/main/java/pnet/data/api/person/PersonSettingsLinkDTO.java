@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithTenant;
 
 /**
@@ -13,18 +12,18 @@ import pnet.data.api.util.WithTenant;
  *
  * @author HAM
  */
-@ApiModel(description = "Holds the settings of the person per tenant.")
+@Schema(description = "Holds the settings of the person per tenant.")
 public class PersonSettingsLinkDTO implements WithTenant, Serializable
 {
     private static final long serialVersionUID = -8062595231537086982L;
 
-    @ApiModelProperty(notes = "The tenant these settings are defined for.")
+    @Schema(description = "The tenant these settings are defined for.")
     private final String tenant;
 
-    @ApiModelProperty(notes = "The id of the preferred company.")
+    @Schema(description = "The id of the preferred company.")
     private final Integer preferredCompanyId;
 
-    @ApiModelProperty(notes = "The id of the preferred brand.")
+    @Schema(description = "The id of the preferred brand.")
     private final String preferredBrandId;
 
     public PersonSettingsLinkDTO(@JsonProperty("tenant") String tenant,
