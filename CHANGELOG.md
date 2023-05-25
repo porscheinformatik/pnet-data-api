@@ -1,3 +1,8 @@
+pnet-data-api 1.22.0
+====================
+
+* Update Swagger Annotation to newest version.
+
 pnet-data-api 1.21.3
 ====================
 
