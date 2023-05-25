@@ -11,35 +11,42 @@ import java.util.stream.Collectors;
  *
  * @author ham
  */
-public class Table {
+public class Table
+{
 
     private final List<List<Object>> rows = new ArrayList<>();
 
-    public <T> Table addRow(T object, Function<T, ?>[] columnProviders) {
+    public <T> Table addRow(T object, Function<T, ?>[] columnProviders)
+    {
         return addRow(Arrays
-                .stream(columnProviders)
-                .map(columnProvider -> columnProvider.apply(object))
-                .collect(Collectors.toList()));
+            .stream(columnProviders)
+            .map(columnProvider -> columnProvider.apply(object))
+            .collect(Collectors.toList()));
     }
 
-    public Table addRow(Object... row) {
+    public Table addRow(Object... row)
+    {
         return addRow(Arrays.asList(row));
     }
 
-    public Table addRow(List<Object> row) {
+    public Table addRow(List<Object> row)
+    {
         rows.add(row);
 
         return this;
     }
 
-    private String toString(Object value, int width) {
+    private String toString(Object value, int width)
+    {
         StringBuilder builder = new StringBuilder();
 
-        if (value != null) {
+        if (value != null)
+        {
             builder.append(value);
         }
 
-        while (builder.length() < width) {
+        while (builder.length() < width)
+        {
             builder.append(" ");
         }
 
@@ -51,12 +58,14 @@ public class Table {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         int size = rows.stream().mapToInt(List::size).max().orElse(0);
         int[] width = new int[size];
 
         rows.stream().forEach(row -> {
-            for (int i = 0; i < row.size(); i++) {
+            for (int i = 0; i < row.size(); i++)
+            {
                 width[i] = Math.max(width[i], toString(row.get(i), 0).length());
             }
         });
@@ -64,12 +73,15 @@ public class Table {
         StringBuilder builder = new StringBuilder();
 
         rows.stream().forEach(row -> {
-            if (builder.length() > 0) {
+            if (builder.length() > 0)
+            {
                 builder.append("\n");
             }
 
-            for (int i = 0; i < size; i++) {
-                if (i > 0) {
+            for (int i = 0; i < size; i++)
+            {
+                if (i > 0)
+                {
                     builder.append(" | ");
                 }
 
