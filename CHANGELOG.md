@@ -1,3 +1,8 @@
+pnet-data-api 2.1.0
+====================
+
+* Update Swagger Annotation to newest version.
+
 pnet-data-api 2.0.3
 ====================
 
@@ -24,6 +29,11 @@ pnet-data-api 2.0.0
   older Spring Boot version (since the Data API does not depend on it, nor does is use any Jakarta packages). You still
   have to use up-to-date libraries like Jackson 2.14 or greater, Spring-Web 6.0 or greater (if using the Spring
   connector) and Java 17 or greater.
+
+pnet-data-api 1.22.0
+====================
+
+* Update Swagger Annotation to newest version.
 
 pnet-data-api 1.21.3
 ====================
