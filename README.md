@@ -190,17 +190,28 @@ Store the token in a variable, it is valid for one hour:
 export JWT='Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...'
 ```
 
-> In windows, you can experiment with the `set` command and `%JWT%` as placeholder.
+> In Windows, you can experiment with the `set` command and `%JWT%` as placeholder.
 
 ### Access data
 
 First call the `about` interface, just for testing:
 
 ```
-curl -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJwbmV0LmFwSWQ...' -X GET https://qa-data.auto-partner.net/data/api/v1/about
+curl -H "$JWT" -X GET https://qa-data.auto-partner.net/data/api/v1/about
 ```
 
+> In Windows, use `%JTW%` instead.
+
 This should return some information about the version and your user.
+
+Example for searching a `function`:
+
+```
+curl -H "$JWT" -X GET https://qa-data.auto-partner.net/data/api/v1/functions/search?q=test\&t=AT\&l=de
+
+```
+
+You should be aware that the ampersand has to be escaped.
 
 ## Using Powershell
 
