@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  *
  * @author ham
  */
-@Schema(description = "Holds information@Schemae Partner.Net Data API and the connected user.")
+@Schema(description = "Holds information about the Partner.Net Data API and the connected user.")
 public class AboutDataDTO implements Serializable
 {
     private static final long serialVersionUID = -6140129628280468919L;

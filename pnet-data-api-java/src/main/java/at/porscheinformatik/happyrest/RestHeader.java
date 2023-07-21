@@ -7,10 +7,8 @@ package at.porscheinformatik.happyrest;
  */
 public final class RestHeader extends AbstractRestAttribute
 {
-
     protected RestHeader(String name, String value)
     {
         super(name, value);
     }
-
 }

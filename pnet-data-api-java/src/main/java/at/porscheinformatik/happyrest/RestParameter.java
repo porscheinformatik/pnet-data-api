@@ -7,10 +7,8 @@ package at.porscheinformatik.happyrest;
  */
 public final class RestParameter extends AbstractRestAttribute
 {
-
     protected RestParameter(String name, Object value)
     {
         super(name, value);
     }
-
 }

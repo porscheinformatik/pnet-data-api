@@ -1,3 +1,8 @@
+pnet-data-api 1.22.1
+====================
+
+* Add replace and remove attribute methods to RestCall.
+
 pnet-data-api 1.22.0
 ====================
 

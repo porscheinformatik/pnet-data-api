@@ -5,7 +5,6 @@ package at.porscheinformatik.happyrest;
  */
 public interface RestAttribute
 {
-
     static RestHeader header(String name, String value)
     {
         return new RestHeader(name, value);
@@ -24,5 +23,4 @@ public interface RestAttribute
     String getName();
 
     Object getValue();
-
 }
