@@ -15,6 +15,7 @@ public class RestCallTest
     {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/data/{variable}/list")
+            .variable("variable", "oldValue")
             .variable("variable", "value")
             .invoke(RestMethod.GET, Void.class);
 
@@ -108,6 +109,34 @@ public class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
         assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
+    }
+
+    @ParameterizedTest
+    @EnumSource(MockedRestCallFactory.class)
+    public void testReplaceParameter(MockedRestCallFactory factory) throws RestException
+    {
+        MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
+            .url("https://example.com")
+            .parameter("key", "value")
+            .replaceParameter("key", "otherValue")
+            .invoke(RestMethod.GET, Void.class);
+
+        assertThat(response.getRequestMethod(), equalTo("GET"));
+        assertThat(response.getRequestUrl(), equalTo("https://example.com?key=otherValue"));
+    }
+
+    @ParameterizedTest
+    @EnumSource(MockedRestCallFactory.class)
+    public void testRemoveParameter(MockedRestCallFactory factory) throws RestException
+    {
+        MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
+            .url("https://example.com")
+            .parameter("key", "value")
+            .removeParameters("key")
+            .invoke(RestMethod.GET, Void.class);
+
+        assertThat(response.getRequestMethod(), equalTo("GET"));
+        assertThat(response.getRequestUrl(), equalTo("https://example.com"));
     }
 
     @ParameterizedTest

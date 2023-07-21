@@ -152,6 +152,12 @@ public interface RestCall
 
     RestCall headers(String name, Collection<String> values);
 
+    RestCall replaceHeader(String name, String... values);
+
+    RestCall replaceHeaders(String name, Collection<String> values);
+
+    RestCall removeHeaders(String... names);
+
     default boolean containsHeaders()
     {
         return containsAttributes(RestHeader.class);
@@ -167,7 +173,22 @@ public interface RestCall
         return getAttributes(RestHeader.class);
     }
 
-    RestCall variable(String name, Object... value);
+    default RestCall variable(String name, Object value)
+    {
+        return variable(name, new Object[]{value});
+    }
+
+    /**
+     * Add a variable.
+     *
+     * @param name the name
+     * @param values the values (only the first will be used)
+     * @return a new RestCall instance
+     * @deprecated there is no use for multiple variable values with the same name. Use the
+     *             {@link #variable(String, Object)} method.
+     */
+    @Deprecated
+    RestCall variable(String name, Object... values);
 
     default boolean containsVariables()
     {
@@ -194,6 +215,14 @@ public interface RestCall
     RestCall parameters(String name, Collection<?> values);
 
     RestCall parameters(Collection<? extends Pair<String, ?>> values);
+
+    RestCall replaceParameter(String name, String... values);
+
+    RestCall replaceParameters(String name, Collection<String> values);
+
+    RestCall replaceParameters(Collection<? extends Pair<String, ?>> values);
+
+    RestCall removeParameters(String... names);
 
     default boolean containsParameters()
     {
@@ -351,5 +380,4 @@ public interface RestCall
 
     @Deprecated
     <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException;
-
 }

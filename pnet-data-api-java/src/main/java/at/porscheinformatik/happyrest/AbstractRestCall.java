@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -159,17 +160,41 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public RestCall variable(String name, Object... values)
+    public RestCall replaceHeader(String name, String... values)
     {
         if (values == null || values.length == 0)
         {
             return this;
         }
 
-        return attribute(Arrays
+        return replaceAttribute(Arrays
             .stream(values)
-            .map(value -> RestAttribute.variable(name, value))
+            .map(value -> RestAttribute.header(name, value))
             .toArray(size -> new RestAttribute[size]));
+    }
+
+    @Override
+    public RestCall replaceHeaders(String name, Collection<String> values)
+    {
+        if (values == null || values.isEmpty())
+        {
+            return this;
+        }
+
+        return replaceAttribute(
+            values.stream().map(value -> RestAttribute.header(name, value)).toArray(size -> new RestAttribute[size]));
+    }
+
+    @Override
+    public RestCall removeHeaders(String... names)
+    {
+        return removeAttributesByName(RestHeader.class, names);
+    }
+
+    @Override
+    public RestCall variable(String name, Object... values)
+    {
+        return replaceAttribute(RestAttribute.variable(name, values[0]));
     }
 
     @Override
@@ -214,6 +239,54 @@ public abstract class AbstractRestCall implements RestCall
             .toArray(size -> new RestAttribute[size]));
     }
 
+    @Override
+    public RestCall replaceParameter(String name, String... values)
+    {
+        if (values == null || values.length == 0)
+        {
+            return this;
+        }
+
+        return replaceAttribute(Arrays
+            .stream(values)
+            .map(value -> RestAttribute.parameter(name, value))
+            .toArray(size -> new RestAttribute[size]));
+    }
+
+    @Override
+    public RestCall replaceParameters(String name, Collection<String> values)
+    {
+        if (values == null || values.isEmpty())
+        {
+            return this;
+        }
+
+        return replaceAttribute(values
+            .stream()
+            .map(value -> RestAttribute.parameter(name, value))
+            .toArray(size -> new RestAttribute[size]));
+    }
+
+    @Override
+    public RestCall replaceParameters(Collection<? extends Pair<String, ?>> values)
+    {
+        if (values == null || values.isEmpty())
+        {
+            return this;
+        }
+
+        return replaceAttribute(values
+            .stream()
+            .map(value -> RestAttribute.parameter(value.getLeft(), value.getRight()))
+            .toArray(size -> new RestAttribute[size]));
+    }
+
+    @Override
+    public RestCall removeParameters(String... names)
+    {
+        return removeAttributesByName(RestParameter.class, names);
+    }
+
     protected RestCall attribute(RestAttribute... attributesToAdd)
     {
         ArrayList<RestAttribute> currentAttributes = new ArrayList<>(Arrays.asList(attributesToAdd));
@@ -222,6 +295,46 @@ public abstract class AbstractRestCall implements RestCall
         {
             currentAttributes.addAll(0, attributes);
         }
+
+        return copy(loggerAdapter, url, acceptableMediaTypes, contentType,
+            Collections.unmodifiableList(currentAttributes), formatter, body);
+    }
+
+    protected RestCall replaceAttribute(RestAttribute... attributesToAdd)
+    {
+        List<RestAttribute> currentAttributes = new ArrayList<>(Arrays.asList(attributesToAdd));
+
+        if (attributes != null)
+        {
+            Collection<RestAttribute> attributesToRemove = Arrays.asList(attributesToAdd);
+            ArrayList<RestAttribute> attributesToKeep = new ArrayList<>(attributes);
+
+            attributesToKeep
+                .removeIf(attribute -> attributesToRemove
+                    .stream()
+                    .anyMatch(attributeToRemove -> attributeToRemove.getClass().isInstance(attribute)
+                        && Objects.equals(attributeToRemove.getName(), attribute.getName())));
+
+            currentAttributes.addAll(attributesToKeep);
+        }
+
+        return copy(loggerAdapter, url, acceptableMediaTypes, contentType,
+            Collections.unmodifiableList(currentAttributes), formatter, body);
+    }
+
+    protected RestCall removeAttributesByName(Class<? extends RestAttribute> attributeType, String... attributeNames)
+    {
+        if (attributes == null)
+        {
+            return this;
+        }
+
+        Collection<String> attributeNameCollection = new HashSet<>(Arrays.asList(attributeNames));
+        List<RestAttribute> currentAttributes = new ArrayList<>(attributes);
+
+        currentAttributes
+            .removeIf(attribute -> attributeType.isInstance(attribute)
+                && attributeNameCollection.contains(attribute.getName()));
 
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType,
             Collections.unmodifiableList(currentAttributes), formatter, body);
