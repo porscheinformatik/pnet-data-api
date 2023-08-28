@@ -17,7 +17,6 @@ import pnet.data.api.function.FunctionDataClient;
 import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
-import pnet.data.api.proposal.ProposalDataClient;
 
 public interface ClientProvider
 {
@@ -54,6 +53,4 @@ public interface ClientProvider
     NumberTypeDataClient getNumberTypeDataClient();
 
     PersonDataClient getPersonDataClient();
-
-    ProposalDataClient getProposalDataClient();
 }

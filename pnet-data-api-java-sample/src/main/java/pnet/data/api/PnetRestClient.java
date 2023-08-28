@@ -137,11 +137,6 @@ import pnet.data.api.person.PersonDataFind;
 import pnet.data.api.person.PersonDataGet;
 import pnet.data.api.person.PersonDataSearch;
 import pnet.data.api.person.PersonItemDTO;
-import pnet.data.api.proposal.ProposalDataClient;
-import pnet.data.api.proposal.ProposalDataFind;
-import pnet.data.api.proposal.ProposalDataSearch;
-import pnet.data.api.proposal.ProposalItemDTO;
-import pnet.data.api.proposal.ProposalState;
 import pnet.data.api.settings.Visibility;
 import pnet.data.api.spring.PnetSpringRestClientLauncher;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
@@ -306,8 +301,6 @@ public final class PnetRestClient
 
     private final PersonDataClient personDataClient;
 
-    private final ProposalDataClient proposalDataClient;
-
     private final PnetDataApiContext context;
 
     private final List<String> restrictedTenants = new ArrayList<>();
@@ -346,8 +339,7 @@ public final class PnetRestClient
         CompanyTypeDataClient companyTypeDataClient, ContractStateDataClient contractStateDataClient,
         ContractTypeDataClient contractTypeDataClient, ExternalBrandDataClient externalBrandDataClient,
         FunctionDataClient functionDataClient, LegalFormDataClient legalFormDataClient,
-        NumberTypeDataClient numberTypeDataClient, PersonDataClient personDataClient,
-        ProposalDataClient proposalDataClient, PnetDataApiContext context)
+        NumberTypeDataClient numberTypeDataClient, PersonDataClient personDataClient, PnetDataApiContext context)
     {
         super();
         this.loginMethod = loginMethod;
@@ -368,7 +360,6 @@ public final class PnetRestClient
         this.legalFormDataClient = legalFormDataClient;
         this.numberTypeDataClient = numberTypeDataClient;
         this.personDataClient = personDataClient;
-        this.proposalDataClient = proposalDataClient;
         this.context = context;
 
         cli = new CLI();
@@ -1912,80 +1903,6 @@ public final class PnetRestClient
                     .filter(ActivePersonFunctionLinkDTO::isMainFunction)
                     .map(ActivePersonFunctionLinkDTO::getLabel)
                     .collect(Collectors.joining(", ")) : null,
-                dto.getLastUpdate(), dto.getScore());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    @CLI.Command(name = "export all proposals", description = "Exports all proposals.")
-    public void exportAllProposals() throws PnetDataClientException
-    {
-        ProposalDataFind query = restrict(proposalDataClient.find().scroll());
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language, 0, pageSize);
-
-        printAllResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = "export updated proposals", format = "[updatedAfter]",
-        description = "Exports all proposals updated since yesterday.")
-    public void exportAllUpdatedProposals(String updatedAfter) throws PnetDataClientException
-    {
-        ProposalDataFind query =
-            restrict(proposalDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language, 0, pageSize);
-
-        printAllResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {"find proposals by id", "find proposal by id"}, format = "<ID...>",
-        description = "Find proposals by id")
-    public void findProposalsById(Integer... ids) throws PnetDataClientException
-    {
-        ProposalDataFind query = restrict(proposalDataClient.find().id(ids));
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language);
-
-        printResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {"find proposals by state", "find proposal by state"}, format = "<STATE...>",
-        description = "Find proposals by state.")
-    public void findProposalsByCategory(ProposalState... states) throws PnetDataClientException
-    {
-        ProposalDataFind query = restrict(proposalDataClient.find().state(states));
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language);
-
-        printResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {"find proposals by person id", "find proposal by person id"}, format = "<PERSION-ID...>",
-        description = "Find proposals by person id.")
-    public void findProposalsByOPersonId(Integer... personIds) throws PnetDataClientException
-    {
-        ProposalDataFind query = restrict(proposalDataClient.find().personId(personIds));
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language);
-
-        printResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {"search proposals", "search proposal"}, format = "<QUERY>", description = "Query proposals.")
-    public void searchProposals(String... qs) throws PnetDataClientException
-    {
-        ProposalDataSearch query = restrict(proposalDataClient.search());
-        PnetDataClientResultPage<ProposalItemDTO> result = query.execute(language, joinQuery(qs));
-
-        printResults(result, this::populateTable);
-    }
-
-    protected void populateTable(Table table, ProposalItemDTO dto)
-    {
-        table
-            .addRow(dto.getProposalId(), dto.getLabel(), dto.getDescription(), dto.getMatchcode(), dto.getType(),
-                dto.getState(), dto.isRejected(), dto.isArchived(), dto.getTargetDateType(), dto.getTargetDate(),
-                dto
-                    .getPersons()
-                    .stream()
-                    .map(link -> link.getName() + " (" + link.getType() + ")")
-                    .collect(Collectors.joining(", ")),
                 dto.getLastUpdate(), dto.getScore());
     }
 

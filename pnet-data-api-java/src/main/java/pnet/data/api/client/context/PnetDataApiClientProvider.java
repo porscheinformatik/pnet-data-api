@@ -20,7 +20,6 @@ import pnet.data.api.function.FunctionDataClient;
 import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
-import pnet.data.api.proposal.ProposalDataClient;
 import pnet.data.api.util.ClientProvider;
 
 /**
@@ -48,7 +47,6 @@ public class PnetDataApiClientProvider implements ClientProvider
     private final LegalFormDataClient legalFormDataClient;
     private final NumberTypeDataClient numberTypeDataClient;
     private final PersonDataClient personDataClient;
-    private final ProposalDataClient proposalDataClient;
 
     public PnetDataApiClientProvider(@Lazy AboutDataClient aboutDataClient, @Lazy ActivityDataClient activityDataClient,
         @Lazy AdvisorTypeDataClient advisorTypeDataClient, @Lazy ApplicationDataClient applicationDataClient,
@@ -59,8 +57,7 @@ public class PnetDataApiClientProvider implements ClientProvider
         @Lazy CompanyTypeDataClient companyTypeDataClient, @Lazy ContractStateDataClient contractStateDataClient,
         @Lazy ContractTypeDataClient contractTypeDataClient, @Lazy ExternalBrandDataClient externalBrandDataClient,
         @Lazy FunctionDataClient functionDataClient, @Lazy LegalFormDataClient legalFormDataClient,
-        @Lazy NumberTypeDataClient numberTypeDataClient, @Lazy PersonDataClient personDataClient,
-        @Lazy ProposalDataClient proposalDataClient)
+        @Lazy NumberTypeDataClient numberTypeDataClient, @Lazy PersonDataClient personDataClient)
     {
         super();
         this.aboutDataClient = aboutDataClient;
@@ -80,7 +77,6 @@ public class PnetDataApiClientProvider implements ClientProvider
         this.legalFormDataClient = legalFormDataClient;
         this.numberTypeDataClient = numberTypeDataClient;
         this.personDataClient = personDataClient;
-        this.proposalDataClient = proposalDataClient;
     }
 
     @Override
@@ -183,11 +179,5 @@ public class PnetDataApiClientProvider implements ClientProvider
     public PersonDataClient getPersonDataClient()
     {
         return personDataClient;
-    }
-
-    @Override
-    public ProposalDataClient getProposalDataClient()
-    {
-        return proposalDataClient;
     }
 }
