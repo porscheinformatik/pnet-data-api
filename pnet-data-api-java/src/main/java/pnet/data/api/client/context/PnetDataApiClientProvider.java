@@ -21,7 +21,6 @@ import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.proposal.ProposalDataClient;
-import pnet.data.api.todo.TodoGroupDataClient;
 import pnet.data.api.util.ClientProvider;
 
 /**
@@ -50,7 +49,6 @@ public class PnetDataApiClientProvider implements ClientProvider
     private final NumberTypeDataClient numberTypeDataClient;
     private final PersonDataClient personDataClient;
     private final ProposalDataClient proposalDataClient;
-    private final TodoGroupDataClient todoGroupDataClient;
 
     public PnetDataApiClientProvider(@Lazy AboutDataClient aboutDataClient, @Lazy ActivityDataClient activityDataClient,
         @Lazy AdvisorTypeDataClient advisorTypeDataClient, @Lazy ApplicationDataClient applicationDataClient,
@@ -62,7 +60,7 @@ public class PnetDataApiClientProvider implements ClientProvider
         @Lazy ContractTypeDataClient contractTypeDataClient, @Lazy ExternalBrandDataClient externalBrandDataClient,
         @Lazy FunctionDataClient functionDataClient, @Lazy LegalFormDataClient legalFormDataClient,
         @Lazy NumberTypeDataClient numberTypeDataClient, @Lazy PersonDataClient personDataClient,
-        @Lazy ProposalDataClient proposalDataClient, @Lazy TodoGroupDataClient todoGroupDataClient)
+        @Lazy ProposalDataClient proposalDataClient)
     {
         super();
         this.aboutDataClient = aboutDataClient;
@@ -83,7 +81,6 @@ public class PnetDataApiClientProvider implements ClientProvider
         this.numberTypeDataClient = numberTypeDataClient;
         this.personDataClient = personDataClient;
         this.proposalDataClient = proposalDataClient;
-        this.todoGroupDataClient = todoGroupDataClient;
     }
 
     @Override
@@ -192,11 +189,5 @@ public class PnetDataApiClientProvider implements ClientProvider
     public ProposalDataClient getProposalDataClient()
     {
         return proposalDataClient;
-    }
-
-    @Override
-    public TodoGroupDataClient getTodoGroupDataClient()
-    {
-        return todoGroupDataClient;
     }
 }
