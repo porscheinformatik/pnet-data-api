@@ -144,13 +144,6 @@ import pnet.data.api.proposal.ProposalItemDTO;
 import pnet.data.api.proposal.ProposalState;
 import pnet.data.api.settings.Visibility;
 import pnet.data.api.spring.PnetSpringRestClientLauncher;
-import pnet.data.api.todo.TodoCategory;
-import pnet.data.api.todo.TodoGroupDataClient;
-import pnet.data.api.todo.TodoGroupDataFind;
-import pnet.data.api.todo.TodoGroupDataSearch;
-import pnet.data.api.todo.TodoGroupEntryLinkDTO;
-import pnet.data.api.todo.TodoGroupItemDTO;
-import pnet.data.api.todo.TodoGroupPersonLinkDTO;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.AggregateNumberPerActivity;
 import pnet.data.api.util.AggregateNumberPerBrand;
@@ -315,8 +308,6 @@ public final class PnetRestClient
 
     private final ProposalDataClient proposalDataClient;
 
-    private final TodoGroupDataClient todoGroupDataClient;
-
     private final PnetDataApiContext context;
 
     private final List<String> restrictedTenants = new ArrayList<>();
@@ -356,7 +347,7 @@ public final class PnetRestClient
         ContractTypeDataClient contractTypeDataClient, ExternalBrandDataClient externalBrandDataClient,
         FunctionDataClient functionDataClient, LegalFormDataClient legalFormDataClient,
         NumberTypeDataClient numberTypeDataClient, PersonDataClient personDataClient,
-        ProposalDataClient proposalDataClient, TodoGroupDataClient todoGroupDataClient, PnetDataApiContext context)
+        ProposalDataClient proposalDataClient, PnetDataApiContext context)
     {
         super();
         this.loginMethod = loginMethod;
@@ -378,7 +369,6 @@ public final class PnetRestClient
         this.numberTypeDataClient = numberTypeDataClient;
         this.personDataClient = personDataClient;
         this.proposalDataClient = proposalDataClient;
-        this.todoGroupDataClient = todoGroupDataClient;
         this.context = context;
 
         cli = new CLI();
@@ -1996,84 +1986,6 @@ public final class PnetRestClient
                     .stream()
                     .map(link -> link.getName() + " (" + link.getType() + ")")
                     .collect(Collectors.joining(", ")),
-                dto.getLastUpdate(), dto.getScore());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    @CLI.Command(name = "export all todo groups", description = "Exports all todo groups.")
-    public void exportAllTodoGroups() throws PnetDataClientException
-    {
-        TodoGroupDataFind query = restrict(todoGroupDataClient.find().scroll());
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language, 0, pageSize);
-
-        printAllResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = "export updated todo groups", format = "[updatedAfter]",
-        description = "Exports all todo groups updated since yesterday.")
-    public void exportAllUpdatedTodoGroups(String updatedAfter) throws PnetDataClientException
-    {
-        TodoGroupDataFind query =
-            restrict(todoGroupDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language, 0, pageSize);
-
-        printAllResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {"find todo groups by mc", "find todo group by mc"}, format = "<ID...>",
-        description = "Find todo groups by reference matchcode.")
-    public void findTodoGroupsByReferenceMatchcode(String... referenceMatchcodes) throws PnetDataClientException
-    {
-        TodoGroupDataFind query = restrict(todoGroupDataClient.find().referenceMatchcode(referenceMatchcodes));
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language);
-
-        printResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {"find todo groups by category", "find todo group by category"}, format = "<CATEGORY...>",
-        description = "Find todo groups by category.")
-    public void findTodoGroupsByCategory(TodoCategory... categories) throws PnetDataClientException
-    {
-        TodoGroupDataFind query = restrict(todoGroupDataClient.find().category(categories));
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language);
-
-        printResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {"find todo groups by person id", "find todo group by person id"}, format = "<PERSION-ID...>",
-        description = "Find todo groups by person id.")
-    public void findTodoGroupsByOPersonId(Integer... personIds) throws PnetDataClientException
-    {
-        TodoGroupDataFind query = restrict(todoGroupDataClient.find().personId(personIds));
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language);
-
-        printResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = "test",
-        description = "Method to implement complex requests or test something data-api related.")
-    public void test() throws PnetDataClientException
-    {
-        throw new UnsupportedOperationException("IMPLEMENT WHEN NEEDED!");
-    }
-
-    @CLI.Command(name = {"search todo groups", "search todo group"}, format = "<QUERY>",
-        description = "Query todo groups.")
-    public void searchTodoGroups(String... qs) throws PnetDataClientException
-    {
-        TodoGroupDataSearch query = restrict(todoGroupDataClient.search());
-        PnetDataClientResultPage<TodoGroupItemDTO> result = query.execute(language, joinQuery(qs));
-
-        printResults(result, this::populateTable);
-    }
-
-    protected void populateTable(Table table, TodoGroupItemDTO dto)
-    {
-        table
-            .addRow(dto.getCategory(), dto.getReferenceId(), dto.getReferenceMatchcode(), dto.getLabel(),
-                dto.getPersons().stream().map(TodoGroupPersonLinkDTO::getName).collect(Collectors.joining(", ")),
-                dto.getEntries().stream().map(TodoGroupEntryLinkDTO::getHeadline).collect(Collectors.joining(", ")),
                 dto.getLastUpdate(), dto.getScore());
     }
 

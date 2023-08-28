@@ -18,11 +18,9 @@ import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.proposal.ProposalDataClient;
-import pnet.data.api.todo.TodoGroupDataClient;
 
 public interface ClientProvider
 {
-
     AboutDataClient getAboutDataClient();
 
     ActivityDataClient getActivityDataClient();
@@ -58,7 +56,4 @@ public interface ClientProvider
     PersonDataClient getPersonDataClient();
 
     ProposalDataClient getProposalDataClient();
-
-    TodoGroupDataClient getTodoGroupDataClient();
-
 }

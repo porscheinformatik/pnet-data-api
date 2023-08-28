@@ -32,7 +32,6 @@ import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.proposal.ProposalDataClient;
-import pnet.data.api.todo.TodoGroupDataClient;
 
 /**
  * A factory for clients if you are working without Spring.
@@ -67,7 +66,6 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
     private NumberTypeDataClient numberTypeDataClient = null;
     private PersonDataClient personDataClient = null;
     private ProposalDataClient proposalDataClient = null;
-    private TodoGroupDataClient todoGroupDataClient = null;
 
     //    public AbstractClientFactory(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
 
@@ -368,16 +366,5 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
         }
 
         return proposalDataClient;
-    }
-
-    @Override
-    public synchronized TodoGroupDataClient getTodoGroupDataClient()
-    {
-        if (todoGroupDataClient == null)
-        {
-            todoGroupDataClient = new TodoGroupDataClient(context);
-        }
-
-        return todoGroupDataClient;
     }
 }
