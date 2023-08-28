@@ -21,7 +21,6 @@ import pnet.data.api.function.FunctionPnetDataApiClientConfig;
 import pnet.data.api.legalform.LegalFormPnetDataApiClientConfig;
 import pnet.data.api.numbertype.NumberTypePnetDataApiClientConfig;
 import pnet.data.api.person.PersonPnetDataApiClientConfig;
-import pnet.data.api.proposal.ProposalDataApiClientConfig;
 
 /**
  * Spring configuration for the PnetDataApiClient module
@@ -45,8 +44,7 @@ import pnet.data.api.proposal.ProposalDataApiClientConfig;
     LegalFormPnetDataApiClientConfig.class,
     FunctionPnetDataApiClientConfig.class,
     NumberTypePnetDataApiClientConfig.class,
-    PersonPnetDataApiClientConfig.class,
-    ProposalDataApiClientConfig.class})
+    PersonPnetDataApiClientConfig.class})
 public class PnetDataClientConfig
 {
 

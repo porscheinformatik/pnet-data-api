@@ -2,6 +2,7 @@ pnet-data-api 2.2.0
 ===================
 
 * Add description to application item.
+* Remove internal interfaces (Todos, Proposals)
 
 pnet-data-api 2.1.1
 ====================

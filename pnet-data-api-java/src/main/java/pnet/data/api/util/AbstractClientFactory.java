@@ -31,7 +31,6 @@ import pnet.data.api.function.FunctionDataClient;
 import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
-import pnet.data.api.proposal.ProposalDataClient;
 
 /**
  * A factory for clients if you are working without Spring.
@@ -65,7 +64,6 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
     private LegalFormDataClient legalFormDataClient = null;
     private NumberTypeDataClient numberTypeDataClient = null;
     private PersonDataClient personDataClient = null;
-    private ProposalDataClient proposalDataClient = null;
 
     //    public AbstractClientFactory(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
 
@@ -355,16 +353,5 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
         }
 
         return personDataClient;
-    }
-
-    @Override
-    public synchronized ProposalDataClient getProposalDataClient()
-    {
-        if (proposalDataClient == null)
-        {
-            proposalDataClient = new ProposalDataClient(context);
-        }
-
-        return proposalDataClient;
     }
 }
