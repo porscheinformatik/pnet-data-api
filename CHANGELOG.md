@@ -1,8 +1,12 @@
-pnet-data-api 2.2.1
+pnet-data-api 2.3.0
 ====================
 
 * Allow to search for inactive Functions, Activities and Applications.
 * Add missing contract state restriction in find for contract types.
+* Fix constrcutor modifiers for ApplicationDataSearch and ContractTypeDataSearch.
+* Move ContractTypeDataFind to correct package.
+* Add missing id restriction to external brands.
+* Fix invalid restrictions in PersonDataFind.
 
 pnet-data-api 2.2.0
 ===================
@@ -47,7 +51,7 @@ pnet-data-api 2.0.0
   have to use up-to-date libraries like Jackson 2.14 or greater, Spring-Web 6.0 or greater (if using the Spring
   connector) and Java 17 or greater.
 
-pnet-data-api 1.23.1
+pnet-data-api 1.24.0
 ====================
 
 * Allow to search for inactive Functions, Activities and Applications.
@@ -55,6 +59,7 @@ pnet-data-api 1.23.1
 * Fix constrcutor modifiers for ApplicationDataSearch and ContractTypeDataSearch.
 * Move ContractTypeDataFind to correct package.
 * Add missing id restriction to external brands.
+* Fix invalid restrictions in PersonDataFind.
 
 pnet-data-api 1.23.0
 ====================
