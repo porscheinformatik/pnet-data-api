@@ -18,7 +18,6 @@ import pnet.data.api.client.PnetDataClientResultPage;
 public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> extends AbstractRestricable<SELF>
     implements Find<DTO>, Restrict<SELF>
 {
-
     private final FindFunction<DTO> findFunction;
 
     protected AbstractFind(FindFunction<DTO> findFunction, List<Pair<String, Object>> restricts)
@@ -58,5 +57,4 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> ex
     {
         return findFunction.find(language, getRestricts(), pageIndex, itemsPerPage);
     }
-
 }

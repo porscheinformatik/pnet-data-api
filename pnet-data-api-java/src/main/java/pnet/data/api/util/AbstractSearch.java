@@ -18,7 +18,6 @@ import pnet.data.api.client.PnetDataClientResultPage;
 public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>> extends AbstractRestricable<SELF>
     implements Search<DTO>, Restrict<SELF>, Aggregate<SELF>
 {
-
     private final SearchFunction<DTO> searchFunction;
 
     protected AbstractSearch(SearchFunction<DTO> searchFunction, List<Pair<String, Object>> restricts)
@@ -58,5 +57,4 @@ public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>
     {
         return searchFunction.search(language, query, getRestricts(), pageIndex, itemsPerPage);
     }
-
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
-import pnet.data.api.util.AbstractGet;
+import pnet.data.api.util.AbstractScrollableGet;
 import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictCompany;
@@ -20,7 +20,7 @@ import pnet.data.api.util.Scrollable;
 /**
  * @author cet
  */
-public class CompanyGroupDataGet extends AbstractGet<CompanyGroupDataDTO, CompanyGroupDataGet>
+public class CompanyGroupDataGet extends AbstractScrollableGet<CompanyGroupDataDTO, CompanyGroupDataGet>
     implements RestrictLeadingCompanyId<CompanyGroupDataGet>, RestrictLeadingCompanyNumber<CompanyGroupDataGet>,
     RestrictLeadingCompany<CompanyGroupDataGet>, RestrictCompanyId<CompanyGroupDataGet>,
     RestrictCompanyNumber<CompanyGroupDataGet>, RestrictCompany<CompanyGroupDataGet>, RestrictType<CompanyGroupDataGet>,
