@@ -7,6 +7,9 @@ pnet-data-api 2.3.0
 * Move ContractTypeDataFind to correct package.
 * Add missing id restriction to external brands.
 * Fix invalid restrictions in PersonDataFind.
+* Add missing restrictions for company methods.
+* Made scroll API more intuitive.
+* Add restriction for administrative tenants to Person search.
 
 pnet-data-api 2.2.0
 ===================
