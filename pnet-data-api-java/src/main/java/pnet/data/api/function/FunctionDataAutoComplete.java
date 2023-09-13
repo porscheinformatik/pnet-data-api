@@ -4,6 +4,7 @@ import java.util.List;
 
 import pnet.data.api.util.AbstractAutoComplete;
 import pnet.data.api.util.AutoCompleteFunction;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictApprovalNeeded;
@@ -23,7 +24,8 @@ public class FunctionDataAutoComplete extends AbstractAutoComplete<FunctionAutoC
     implements RestrictTenant<FunctionDataAutoComplete>, RestrictBrand<FunctionDataAutoComplete>,
     RestrictCompanyType<FunctionDataAutoComplete>, RestrictContractType<FunctionDataAutoComplete>,
     RestrictActivity<FunctionDataAutoComplete>, RestrictNumberType<FunctionDataAutoComplete>,
-    RestrictVisibility<FunctionDataAutoComplete>, RestrictApprovalNeeded<FunctionDataAutoComplete>
+    RestrictVisibility<FunctionDataAutoComplete>, RestrictApprovalNeeded<FunctionDataAutoComplete>,
+    IncludeInactive<FunctionDataAutoComplete>
 {
     public FunctionDataAutoComplete(AutoCompleteFunction<FunctionAutoCompleteDTO> autoCompleteFunction,
         List<Pair<String, Object>> restrictItems)
