@@ -4,6 +4,7 @@ import java.util.List;
 
 import pnet.data.api.util.AbstractFind;
 import pnet.data.api.util.FindFunction;
+import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictApprovalNeeded;
 import pnet.data.api.util.RestrictBrand;
@@ -23,7 +24,8 @@ import pnet.data.api.util.Scrollable;
 public class ActivityDataFind extends AbstractFind<ActivityItemDTO, ActivityDataFind>
     implements RestrictMatchcode<ActivityDataFind>, RestrictTenant<ActivityDataFind>, RestrictBrand<ActivityDataFind>,
     RestrictCompanyType<ActivityDataFind>, RestrictContractType<ActivityDataFind>, RestrictVisibility<ActivityDataFind>,
-    RestrictApprovalNeeded<ActivityDataFind>, RestrictUpdatedAfter<ActivityDataFind>, Scrollable<ActivityDataFind>
+    RestrictApprovalNeeded<ActivityDataFind>, RestrictUpdatedAfter<ActivityDataFind>, IncludeInactive<ActivityDataFind>,
+    Scrollable<ActivityDataFind>
 {
 
     public ActivityDataFind(FindFunction<ActivityItemDTO> findFunction, List<Pair<String, Object>> restricts)
