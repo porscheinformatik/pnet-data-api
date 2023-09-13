@@ -12,6 +12,7 @@ import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictCommercialRegisterNumber;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictDataProcessingRegisterNumber;
 import pnet.data.api.util.RestrictDatedBackUntil;
@@ -28,8 +29,8 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     implements RestrictTenant<CompanyDataGet>, ById<Integer, CompanyDataDTO, CompanyDataGet>,
     ByMatchcode<CompanyDataDTO, CompanyDataGet>, RestrictVatIdNumber<CompanyDataGet>, RestrictSapNumber<CompanyDataGet>,
     RestrictCompanyNumber<CompanyDataGet>, RestrictIban<CompanyDataGet>, RestrictEmail<CompanyDataGet>,
-    RestrictDataProcessingRegisterNumber<CompanyDataGet>, RestrictDatedBackUntil<CompanyDataGet>,
-    IncludeInactive<CompanyDataGet>, CompanyMergable<CompanyDataGet>
+    RestrictDataProcessingRegisterNumber<CompanyDataGet>, RestrictCommercialRegisterNumber<CompanyDataGet>,
+    RestrictDatedBackUntil<CompanyDataGet>, IncludeInactive<CompanyDataGet>, CompanyMergable<CompanyDataGet>
 {
 
     public CompanyDataGet(GetFunction<CompanyDataDTO> getFunction, List<Pair<String, Object>> restricts)
@@ -96,12 +97,23 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     public CompanyDataDTO byDataProcessingRegisterNumber(String dataProcessingRegisterNumber)
         throws PnetDataClientException
     {
-        return allByEmails(Arrays.asList(dataProcessingRegisterNumber), 0, 1).first();
+        return allByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumber), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> allByDataProcessingRegisterNumbers(
         List<String> dataProcessingRegisterNumbers, int pageIndex, int itemsPerPage) throws PnetDataClientException
     {
         return dataProcessingRegisterNumbers(dataProcessingRegisterNumbers).execute(pageIndex, itemsPerPage);
+    }
+
+    public CompanyDataDTO byCommercialRegisterNumber(String commercialRegisterNumber) throws PnetDataClientException
+    {
+        return allByCommercialRegisterNumbers(Arrays.asList(commercialRegisterNumber), 0, 1).first();
+    }
+
+    public PnetDataClientResultPage<CompanyDataDTO> allByCommercialRegisterNumbers(
+        List<String> commercialRegisterNumbers, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    {
+        return commercialRegisterNumbers(commercialRegisterNumbers).execute(pageIndex, itemsPerPage);
     }
 }
