@@ -10,13 +10,6 @@ import java.util.Collection;
  */
 public interface RestrictTenant<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
-
-    // TODO "*" for all tenants
-    //    default SELF allTenants()
-    //    {
-    //        return restrict("t", "*");
-    //    }
-
     default SELF tenant(String... tenants)
     {
         return restrict("t", (Object[]) tenants);
@@ -26,5 +19,4 @@ public interface RestrictTenant<SELF extends Restrict<SELF>> extends Restrict<SE
     {
         return tenant(tenants.toArray(new String[tenants.size()]));
     }
-
 }

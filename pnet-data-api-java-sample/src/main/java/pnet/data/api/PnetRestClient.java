@@ -405,8 +405,8 @@ public final class PnetRestClient
     @CLI.Command(name = "export all activities", description = "Exports all activities.")
     public void exportAllActivities() throws PnetDataClientException
     {
-        ActivityDataFind query = restrict(activityDataClient.find().scroll());
-        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(language, 0, pageSize);
+        ActivityDataFind query = restrict(activityDataClient.find());
+        PnetDataClientResultPage<ActivityItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -415,9 +415,8 @@ public final class PnetRestClient
         description = "Exports all activities updated since yesterday.")
     public void exportAllUpdatedActivities(String updatedAfter) throws PnetDataClientException
     {
-        ActivityDataFind query =
-            restrict(activityDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
-        PnetDataClientResultPage<ActivityItemDTO> result = query.execute(language, 0, pageSize);
+        ActivityDataFind query = restrict(activityDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
+        PnetDataClientResultPage<ActivityItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -522,8 +521,8 @@ public final class PnetRestClient
     @CLI.Command(name = "export all applications", description = "Exports all applications.")
     public void exportAllApplications() throws PnetDataClientException
     {
-        ApplicationDataFind query = restrict(applicationDataClient.find().scroll());
-        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(language, 0, pageSize);
+        ApplicationDataFind query = restrict(applicationDataClient.find());
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -533,8 +532,8 @@ public final class PnetRestClient
     public void exportAllUpdatedApplications(String updatedAfter) throws PnetDataClientException
     {
         ApplicationDataFind query =
-            restrict(applicationDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
-        PnetDataClientResultPage<ApplicationItemDTO> result = query.execute(language, 0, pageSize);
+            restrict(applicationDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
+        PnetDataClientResultPage<ApplicationItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -719,8 +718,8 @@ public final class PnetRestClient
     @CLI.Command(name = "export all companies", description = "Exports all companies.")
     public void exportAllCompanies() throws PnetDataClientException
     {
-        CompanyDataFind query = restrict(companyDataClient.find().scroll());
-        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language, 0, pageSize);
+        CompanyDataFind query = restrict(companyDataClient.find());
+        PnetDataClientResultPage<CompanyItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -729,9 +728,8 @@ public final class PnetRestClient
         description = "Exports all companies updated since yesterday.")
     public void exportAllUpdatedCompanies(String updatedAfter) throws PnetDataClientException
     {
-        CompanyDataFind query =
-            restrict(companyDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
-        PnetDataClientResultPage<CompanyItemDTO> result = query.execute(language, 0, pageSize);
+        CompanyDataFind query = restrict(companyDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
+        PnetDataClientResultPage<CompanyItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1128,9 +1126,8 @@ public final class PnetRestClient
             .map(CompanyGroupTypeItemDTO::getMatchcode)
             .collect(Collectors.toList());
 
-        CompanyGroupDataGet query = restrict(companyGroupDataClient.get().scroll());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result =
-            query.allByCompanyGroupTypes(companyGroupTypeMatchcodes, 0, 25);
+        CompanyGroupDataGet query = restrict(companyGroupDataClient.get().types(companyGroupTypeMatchcodes));
+        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.executeAndScroll(25);
 
         printAllResults(result, this::populateTable);
     }
@@ -1530,8 +1527,8 @@ public final class PnetRestClient
     @CLI.Command(name = "export all functions", description = "Exports all functions.")
     public void exportAllFunctions() throws PnetDataClientException
     {
-        FunctionDataFind query = restrict(functionDataClient.find().scroll());
-        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(language, 0, pageSize);
+        FunctionDataFind query = restrict(functionDataClient.find());
+        PnetDataClientResultPage<FunctionItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1540,9 +1537,8 @@ public final class PnetRestClient
         description = "Exports all functions updated since yesterday.")
     public void exportAllUpdatedFunctions(String updatedAfter) throws PnetDataClientException
     {
-        FunctionDataFind query =
-            restrict(functionDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
-        PnetDataClientResultPage<FunctionItemDTO> result = query.execute(language, 0, pageSize);
+        FunctionDataFind query = restrict(functionDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
+        PnetDataClientResultPage<FunctionItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1755,8 +1751,8 @@ public final class PnetRestClient
     @CLI.Command(name = "export all persons", description = "Exports all persons available for the current user.")
     public void exportAllPersons() throws PnetDataClientException
     {
-        PersonDataFind query = restrict(personDataClient.find().scroll());
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language, 0, pageSize);
+        PersonDataFind query = restrict(personDataClient.find());
+        PnetDataClientResultPage<PersonItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1765,8 +1761,8 @@ public final class PnetRestClient
         description = "Exports all persons available for the current user, that have been updated since yesterday.")
     public void exportAllUpdatedPersons(String updatedAfter) throws PnetDataClientException
     {
-        PersonDataFind query = restrict(personDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)).scroll());
-        PnetDataClientResultPage<PersonItemDTO> result = query.execute(language, 0, pageSize);
+        PersonDataFind query = restrict(personDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
+        PnetDataClientResultPage<PersonItemDTO> result = query.executeAndScroll(language, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1795,7 +1791,7 @@ public final class PnetRestClient
         description = "Find persons by salesman number.")
     public void findPersonsBySalesmanNumber(String... numbers) throws PnetDataClientException
     {
-        PersonDataFind query = restrict(personDataClient.find().numbersType("NT_VERK_NR").number(numbers));
+        PersonDataFind query = restrict(personDataClient.find().numberType("NT_VERK_NR").number(numbers));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(language);
 
         printResults(result, this::populateTable);
