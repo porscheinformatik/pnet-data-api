@@ -7,6 +7,7 @@ pnet-data-api 1.24.0
 * Move ContractTypeDataFind to correct package.
 * Add missing id restriction to external brands.
 * Fix invalid restrictions in PersonDataFind.
+* Add missing restrictions for company methods.
 
 pnet-data-api 1.23.0
 ====================
