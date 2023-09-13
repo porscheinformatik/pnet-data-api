@@ -73,8 +73,7 @@ public final class PnetSpringRestClientTemplate
                 .find()
                 .type("CT_DEAL")
                 .tenant("AT")
-                .scroll()
-                .execute(Locale.getDefault(), 0, 25)
+                .executeAndScroll(Locale.getDefault(), 25)
                 .streamAll()
                 .forEach(company -> System.out.println(company.getLabelWithNumber()));
         }
