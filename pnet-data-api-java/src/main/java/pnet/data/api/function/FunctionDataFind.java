@@ -2,7 +2,7 @@ package pnet.data.api.function;
 
 import java.util.List;
 
-import pnet.data.api.util.AbstractFind;
+import pnet.data.api.util.AbstractScrollableFind;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
@@ -23,7 +23,7 @@ import pnet.data.api.util.Scrollable;
  *
  * @author HAM
  */
-public class FunctionDataFind extends AbstractFind<FunctionItemDTO, FunctionDataFind>
+public class FunctionDataFind extends AbstractScrollableFind<FunctionItemDTO, FunctionDataFind>
     implements RestrictMatchcode<FunctionDataFind>, RestrictTenant<FunctionDataFind>, RestrictBrand<FunctionDataFind>,
     RestrictCompanyType<FunctionDataFind>, RestrictContractType<FunctionDataFind>, RestrictActivity<FunctionDataFind>,
     RestrictNumberType<FunctionDataFind>, RestrictVisibility<FunctionDataFind>,

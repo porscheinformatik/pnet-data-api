@@ -2,7 +2,7 @@ package pnet.data.api.company;
 
 import java.util.List;
 
-import pnet.data.api.util.AbstractFind;
+import pnet.data.api.util.AbstractScrollableFind;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.IncludeInactive;
@@ -34,7 +34,7 @@ import pnet.data.api.util.Scrollable;
  *
  * @author HAM
  */
-public class CompanyDataFind extends AbstractFind<CompanyItemDTO, CompanyDataFind>
+public class CompanyDataFind extends AbstractScrollableFind<CompanyItemDTO, CompanyDataFind>
     implements RestrictId<Integer, CompanyDataFind>, RestrictMatchcode<CompanyDataFind>,
     RestrictTenant<CompanyDataFind>, RestrictBrand<CompanyDataFind>, RestrictVatIdNumber<CompanyDataFind>,
     RestrictSapNumber<CompanyDataFind>, RestrictCompanyNumber<CompanyDataFind>, RestrictIban<CompanyDataFind>,

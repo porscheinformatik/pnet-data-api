@@ -61,6 +61,7 @@ pnet-data-api 1.24.0
 * Add missing id restriction to external brands.
 * Fix invalid restrictions in PersonDataFind.
 * Add missing restrictions for company methods.
+* Made scroll API more intuitive.
 
 pnet-data-api 1.23.0
 ====================

@@ -2,7 +2,7 @@ package pnet.data.api.person;
 
 import java.util.List;
 
-import pnet.data.api.util.AbstractFind;
+import pnet.data.api.util.AbstractScrollableFind;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.IncludeAllFunctions;
@@ -46,7 +46,7 @@ import pnet.data.api.util.Scrollable;
  *
  * @author ham
  */
-public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind>
+public class PersonDataFind extends AbstractScrollableFind<PersonItemDTO, PersonDataFind>
     implements RestrictId<Integer, PersonDataFind>, RestrictExternalId<PersonDataFind>, RestrictTenant<PersonDataFind>,
     RestrictGuid<PersonDataFind>, RestrictPreferredUserId<PersonDataFind>, RestrictEmail<PersonDataFind>,
     RestrictCostCenter<PersonDataFind>, RestrictPersonnelNumber<PersonDataFind>,
