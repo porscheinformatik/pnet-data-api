@@ -13,7 +13,7 @@ import pnet.data.api.util.SearchFunction;
 public class ApplicationDataSearch extends AbstractSearch<ApplicationItemDTO, ApplicationDataSearch>
     implements IncludeInactive<ApplicationDataSearch>
 {
-    protected ApplicationDataSearch(SearchFunction<ApplicationItemDTO> searchFunction,
+    public ApplicationDataSearch(SearchFunction<ApplicationItemDTO> searchFunction,
         List<Pair<String, Object>> restricts)
     {
         super(searchFunction, restricts);
