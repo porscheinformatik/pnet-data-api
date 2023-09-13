@@ -1,4 +1,4 @@
-pnet-data-api 1.23.1
+pnet-data-api 1.24.0
 ====================
 
 * Allow to search for inactive Functions, Activities and Applications.
@@ -6,6 +6,7 @@ pnet-data-api 1.23.1
 * Fix constrcutor modifiers for ApplicationDataSearch and ContractTypeDataSearch.
 * Move ContractTypeDataFind to correct package.
 * Add missing id restriction to external brands.
+* Fix invalid restrictions in PersonDataFind.
 
 pnet-data-api 1.23.0
 ====================

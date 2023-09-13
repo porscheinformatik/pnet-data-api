@@ -25,10 +25,12 @@ import pnet.data.api.util.RestrictCostCenter;
 import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictEmail;
+import pnet.data.api.util.RestrictExternalId;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictGuid;
 import pnet.data.api.util.RestrictId;
 import pnet.data.api.util.RestrictNumber;
+import pnet.data.api.util.RestrictNumberType;
 import pnet.data.api.util.RestrictNumbersType;
 import pnet.data.api.util.RestrictPersonnelDepartment;
 import pnet.data.api.util.RestrictPersonnelNumber;
@@ -45,13 +47,14 @@ import pnet.data.api.util.Scrollable;
  * @author ham
  */
 public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind>
-    implements RestrictId<Integer, PersonDataFind>, RestrictTenant<PersonDataFind>, RestrictGuid<PersonDataFind>,
-    RestrictPreferredUserId<PersonDataFind>, RestrictEmail<PersonDataFind>, RestrictCostCenter<PersonDataFind>,
-    RestrictPersonnelNumber<PersonDataFind>, RestrictSupervisorPersonnelNumber<PersonDataFind>,
-    RestrictControllingArea<PersonDataFind>, RestrictPersonnelDepartment<PersonDataFind>,
-    RestrictCompanyId<PersonDataFind>, RestrictCompanyNumber<PersonDataFind>, RestrictCompany<PersonDataFind>,
-    RestrictBrand<PersonDataFind>, RestrictFunction<PersonDataFind>, RestrictActivity<PersonDataFind>,
-    RestrictRole<PersonDataFind>, RestrictNumbersType<PersonDataFind>, RestrictNumber<PersonDataFind>,
+    implements RestrictId<Integer, PersonDataFind>, RestrictExternalId<PersonDataFind>, RestrictTenant<PersonDataFind>,
+    RestrictGuid<PersonDataFind>, RestrictPreferredUserId<PersonDataFind>, RestrictEmail<PersonDataFind>,
+    RestrictCostCenter<PersonDataFind>, RestrictPersonnelNumber<PersonDataFind>,
+    RestrictSupervisorPersonnelNumber<PersonDataFind>, RestrictControllingArea<PersonDataFind>,
+    RestrictPersonnelDepartment<PersonDataFind>, RestrictCompanyId<PersonDataFind>,
+    RestrictCompanyNumber<PersonDataFind>, RestrictCompany<PersonDataFind>, RestrictBrand<PersonDataFind>,
+    RestrictFunction<PersonDataFind>, RestrictActivity<PersonDataFind>, RestrictRole<PersonDataFind>,
+    RestrictNumberType<PersonDataFind>, RestrictNumbersType<PersonDataFind>, RestrictNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompanyId<PersonDataFind>, RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompany<PersonDataFind>, RestrictAdvisorAssignmentType<PersonDataFind>,
     RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictCredentialsAvailable<PersonDataFind>,

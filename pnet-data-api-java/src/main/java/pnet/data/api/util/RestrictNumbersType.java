@@ -7,13 +7,15 @@ import java.util.Collection;
  *
  * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @deprecated use {@link RestrictNumberType} instead
  */
+@Deprecated
 public interface RestrictNumbersType<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
 
     default SELF numbersType(String... numbersTypeMatchcodes)
     {
-        return restrict("numbersType", (Object[]) numbersTypeMatchcodes);
+        return restrict("numberType", (Object[]) numbersTypeMatchcodes);
     }
 
     default SELF numbersTypes(Collection<String> numbersTypeMatchcodes)
