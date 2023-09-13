@@ -4,6 +4,7 @@ pnet-data-api 1.23.1
 * Allow to search for inactive Functions, Activities and Applications.
 * Add missing contract state restriction in find for contract types.
 * Fix constrcutor modifiers for ApplicationDataSearch and ContractTypeDataSearch.
+* Move ContractTypeDataFind to correct package
 
 pnet-data-api 1.23.0
 ====================
