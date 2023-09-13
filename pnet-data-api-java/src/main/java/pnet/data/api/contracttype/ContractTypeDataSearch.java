@@ -14,11 +14,9 @@ import pnet.data.api.util.SearchFunction;
 public class ContractTypeDataSearch extends AbstractSearch<ContractTypeItemDTO, ContractTypeDataSearch>
     implements RestrictTenant<ContractTypeDataSearch>, RestrictBrand<ContractTypeDataSearch>
 {
-
-    protected ContractTypeDataSearch(SearchFunction<ContractTypeItemDTO> searchFunction,
+    public ContractTypeDataSearch(SearchFunction<ContractTypeItemDTO> searchFunction,
         List<Pair<String, Object>> restricts)
     {
         super(searchFunction, restricts);
     }
-
 }
