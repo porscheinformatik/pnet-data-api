@@ -42,8 +42,10 @@ public class ExternalBrandDataDTO implements WithMatchcode, WithLabels, WithLast
 
     @Schema(description = "The unique id of the external brand")
     private String id;
+
     @Schema(description = "The label of the external brand with all existing translations")
     private Map<Locale, String> labels;
+
     @Schema(description = "The time and date when the external brand was last changed")
     private LocalDateTime lastUpdate;
 

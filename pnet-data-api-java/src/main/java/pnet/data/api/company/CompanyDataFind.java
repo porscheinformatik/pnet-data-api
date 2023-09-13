@@ -28,8 +28,8 @@ import pnet.data.api.util.Scrollable;
  *
  * @author HAM
  */
-public class CompanyDataFind extends AbstractFind<CompanyItemDTO, CompanyDataFind>
-    implements RestrictId<CompanyDataFind>, RestrictMatchcode<CompanyDataFind>, RestrictTenant<CompanyDataFind>,
+public class CompanyDataFind extends AbstractFind<CompanyItemDTO, CompanyDataFind> implements
+    RestrictId<Integer, CompanyDataFind>, RestrictMatchcode<CompanyDataFind>, RestrictTenant<CompanyDataFind>,
     RestrictBrand<CompanyDataFind>, RestrictCompanyNumber<CompanyDataFind>, RestrictPostalCode<CompanyDataFind>,
     RestrictCountryCode<CompanyDataFind>, RestrictType<CompanyDataFind>, RestrictContractType<CompanyDataFind>,
     RestrictContractState<CompanyDataFind>, RestrictLocation<CompanyDataFind>, RestrictExternalBrand<CompanyDataFind>,

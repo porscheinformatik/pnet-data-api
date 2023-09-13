@@ -45,7 +45,7 @@ import pnet.data.api.util.Scrollable;
  * @author ham
  */
 public class PersonDataFind extends AbstractFind<PersonItemDTO, PersonDataFind>
-    implements RestrictId<PersonDataFind>, RestrictTenant<PersonDataFind>, RestrictGuid<PersonDataFind>,
+    implements RestrictId<Integer, PersonDataFind>, RestrictTenant<PersonDataFind>, RestrictGuid<PersonDataFind>,
     RestrictPreferredUserId<PersonDataFind>, RestrictEmail<PersonDataFind>, RestrictCostCenter<PersonDataFind>,
     RestrictPersonnelNumber<PersonDataFind>, RestrictSupervisorPersonnelNumber<PersonDataFind>,
     RestrictControllingArea<PersonDataFind>, RestrictPersonnelDepartment<PersonDataFind>,

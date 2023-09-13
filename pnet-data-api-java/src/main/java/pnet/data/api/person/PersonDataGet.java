@@ -27,7 +27,7 @@ public class PersonDataGet extends AbstractGet<PersonDataDTO, PersonDataGet>
     implements RestrictTenant<PersonDataGet>, RestrictExternalId<PersonDataGet>, RestrictGuid<PersonDataGet>,
     RestrictPreferredUserId<PersonDataGet>, RestrictEmail<PersonDataGet>, RestrictDatedBackUntil<PersonDataGet>,
     RestrictPersonnelNumber<PersonDataGet>, RestrictCredentialsAvailable<PersonDataGet>,
-    RestrictApproved<PersonDataGet>, IncludeInactive<PersonDataGet>, ById<PersonDataDTO, PersonDataGet>
+    RestrictApproved<PersonDataGet>, IncludeInactive<PersonDataGet>, ById<Integer, PersonDataDTO, PersonDataGet>
 {
 
     public PersonDataGet(GetFunction<PersonDataDTO> getFunction, List<Pair<String, Object>> restricts)
