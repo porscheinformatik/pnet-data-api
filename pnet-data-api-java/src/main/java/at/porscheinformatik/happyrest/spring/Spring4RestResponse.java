@@ -10,7 +10,12 @@ import org.springframework.http.ResponseEntity;
 import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestUtils;
-
+/**
+ * Response for rest calls.
+ * @param T the type of body
+ * @deprecated will be removed soon. Switch to the java-11 branch, if you need this feature!
+ */
+@Deprecated
 class Spring4RestResponse<T> implements RestResponse<T>
 {
 

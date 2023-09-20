@@ -16,7 +16,9 @@ import at.porscheinformatik.happyrest.util.TextPlainFormatter;
  * A factory for REST calls using spring
  *
  * @author ham
+ * @deprecated will be removed soon. Switch to the java-11 branch, if you need this feature!
  */
+@Deprecated
 @Service
 public class Spring4RestCallFactory implements RestCallFactory
 {

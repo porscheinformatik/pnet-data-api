@@ -36,7 +36,9 @@ import at.porscheinformatik.happyrest.RestVariable;
  * A REST call, compatible to Spring4. This implementation is thread-safe!
  *
  * @author ham
+ * @deprecated will be removed soon. Switch to the java-11 branch, if you need this feature!
  */
+@Deprecated
 public class Spring4RestCall extends AbstractRestCall
 {
     protected final RestTemplate restTemplate;
