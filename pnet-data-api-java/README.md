@@ -19,12 +19,10 @@ Currently we are maintaining two branches:
 
 The Java client has been designed to **reduce its dependencies to a minimum**. All dependencies are "provided", which means, you have to define them on your own - within your project. Currently you have the following options:
 
--   **Just use the DTOs**: You don't need any dependencies for this. You don't need Spring for this.
--   **Java HTTP Client**: Use the Java HTTP Client introduced with Java 9 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
--   **Apache HTTP Client**: Use the Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
--   **Spring 6**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible.
--   **Spring 5**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. The `master` is not compatible with Spring 5. Use the version the `java-11` branch.
--   **Spring 4**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. It will be remove from the `master` branch, please use the version the `java-11` branch.
+-   **[Just use the DTOs](#just-use-the-dtos)**: You don't need any dependencies for this. You don't need Spring for this.
+-   **[Java HTTP Client](#java-http-client)**: Use the Java HTTP Client introduced with Java 9 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
+-   **[Apache HTTP Client](#apache-http-client)**: Use the Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
+-   **[Spring](#spring)**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible. For older Spring version, please use the version the `java-11` branch.
 
 ## Just use the DTOs
 
@@ -57,28 +55,43 @@ You will need the following dependencies:
 </dependency>
 ```
 
-Create the preferred login method:
+Use your preferred login method.
+
+### Login via Token
+
+The preferred way for authenticating your client is by using the `AuthenticationTokenPnetDataApiLoginMethod`.
 
 ```
-AuthenticationTokenPnetDataApiLoginMethod loginMethod =
-    new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
 ```
 
 Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
 area of your application. The method will be called around once per hour thus aquiring
 the token must not be very performant.
 
-Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`.
+### Login via Username/Password
 
-Create the client factory:
+Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`, but be aware, that the preferred way to authenticate your client is by using the token.
+
+```
+PnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(<USERNAME>, <PASSWORD>));
+```
+
+Use the Partner.Net Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
+the username/password must not be very performant.
+
+### Create the Client Factory
 
 ```
 JavaClientFactory clientFactory = JavaClientFactory.of(loginMethod);
 ```
 
-And create the clients with that factory:
+### Example
 
 ```
+PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+JavaClientFactory clientFactory = JavaClientFactory.of(loginMethod);
+
 clientFactory
     .getCompanyDataClient()
     .search()
@@ -88,7 +101,7 @@ clientFactory
 
 All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
 
-Be warned that the first login will usually fail, because your IP is missing. Have a look at the Partner.Net Self-Service to fix this issue.
+Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
 
 Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/java/PnetJavaRestClientTemplate.java for some super simple sample code.
 
@@ -113,28 +126,43 @@ You will need the following dependencies:
 </dependency>
 ```
 
-Create the preferred login method:
+Use your preferred login method.
+
+### Login via Token
+
+The preferred way for authenticating your client is by using the `AuthenticationTokenPnetDataApiLoginMethod`.
 
 ```
-AuthenticationTokenPnetDataApiLoginMethod loginMethod =
-    new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
 ```
 
 Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
 area of your application. The method will be called around once per hour thus aquiring
 the token must not be very performant.
 
-Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`.
+### Login via Username/Password
 
-Create the client factory:
+Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`, but be aware, that the preferred way to authenticate your client is by using the token.
+
+```
+PnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(<USERNAME>, <PASSWORD>));
+```
+
+Use the Partner.Net Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
+the username/password must not be very performant.
+
+### Create the Client Factory
 
 ```
 ApacheClientFactory clientFactory = ApacheClientFactory.of(loginMethod);
 ```
 
-And create the clients with that factory:
+### Example
 
 ```
+PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+ApacheClientFactory clientFactory = ApacheClientFactory.of(loginMethod);
+
 clientFactory
     .getCompanyDataClient()
     .search()
@@ -144,7 +172,7 @@ clientFactory
 
 All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
 
-Be warned that the first login will usually fail, because your IP is missing. Have a look at the Partner.Net Self-Service to fix this issue.
+Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
 
 Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache/PnetApacheRestClientTemplate.java for some super simple sample code.
 
@@ -174,41 +202,86 @@ You will need the following dependencies:
 </dependency>
 ```
 
-### Spring Version >= 5
+Import the `PnetDataClientConfig` to your existing configuration. First, you will need to provide a `PnetDataApiLoginMethod`. Use your preferred one.
 
-Import the `PnetDataClientConfig` to your existing configuration. You will need to provide `PnetDataClientPrefs` containing your user data.
+### Login via Token
+
+The preferred way for authenticating your client is by using the `AuthenticationTokenPnetDataApiLoginMethod`.
+
+```
+@Bean
+public PnetDataApiLoginMethod pnetDataApiLoginMethod()
+{
+    return new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+}
+```
+
+Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
+area of your application. The method will be called around once per hour thus aquiring
+the token must not be very performant.
+
+### Login via Username/Password
+
+Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`, but be aware, that the preferred way to authenticate your client is by using the token.
+
+```
+@Bean
+public PnetDataApiLoginMethod pnetDataApiLoginMethod()
+{
+    return new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(<USERNAME>, <PASSWORD>));
+}
+```
+
+Use the Partner.Net Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
+the username/password must not be very performant.
+
+### Create the Client Factory
 
 ```
 @Import(PnetDataClientConfig.class)
 ```
 
-### Spring Version 4
-
-Import the `PnetDataClientSpring4Config` to your existing configuration. You will need to provide `PnetDataClientPrefs` containing your user data.
+You will need a logging adapter as well:
 
 ```
-@Import(PnetDataClientSpring4Config.class)
+@Bean
+public RestLoggerAdapter restLoggerAdapter()
+{
+    return SystemRestLoggerAdapter.INSTANCE;
+}
+```
+
+### Usage
+
+Inject the clients whenever needed:
+
+```
+@Autowired
+CompanyDataClient companyDataClient;
 ```
 
 ### Example
 
-This is an example of a most basic configuration accessing the QA environment and getting the username/password from the application properties:
+This is an example of a most basic configuration accessing the QA environment and getting the token from the application properties (which isn't very secure):
 
 ```
 @Configuration
-@Import(PnetDataClientConfig.class OR PnetDataClientSpring4Config.class)
+@Import(PnetDataClientConfig.class)
 public class MyConfig
 {
-    @Value("${dataApi.username}")
-    private String username;
-
-    @Value("${dataApi.password}")
-    private String password;
+    @Value("${dataApi.token}")
+    private String token;
 
     @Bean
-    public MutablePnetDataClientPrefs pnetDataClientPrefs()
+    public PnetDataApiLoginMethod pnetDataApiLoginMethod()
     {
-        return new MutablePnetDataClientPrefs("https://qa-data.auto-partner.net/data", username, password);
+        return new AuthenticationTokenPnetDataApiLoginMethod("https://qa-data.auto-partner.net/data", () -> token);
+    }
+
+    @Bean
+    public RestLoggerAdapter restLoggerAdapter()
+    {
+        return SystemRestLoggerAdapter.INSTANCE;
     }
 }
 ```
@@ -217,10 +290,14 @@ Afterwards, you autowire the clients you need:
 
 ```
 @Autowired
-private PersonDataClient personDataClient;
+CompanyDataClient companyDataClient;
 
-@Autowired
-private CompanyDataClient companyDataClient;
+public void test() {
+    companyDataClient
+        .search()
+        .execute(Locale.getDefault(), "Informatik")
+        .forEach(company -> System.out.println(company));
+}
 ```
 
 Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/spring/PnetSpringRestClientTemplate.java for some super simple sample code.
@@ -246,13 +323,13 @@ There is one client class for each REST interface:
 -   `LegalFormDataClient`
 -   `NumberTypeDataClient`
 -   `PersonDataClient`
--   `TodoGroupDataClient`
 
 The clients and all methods are stateless and threadsafe! You can access the three basic methods by using the fluent interface:
 
 -   `get()` for the details
 -   `search()` for search operations
 -   `find()` for find operations
+-   `autocomplete()` for non-fuzzy search operations
 
 Execute all requests by calling the `execute(..)` method.
 
@@ -283,7 +360,7 @@ Get one person by id (keep in mind, that you will only find persons, that gave t
 PersonDataDTO person = personDataClient.get().byId(id);
 ```
 
-Find all dealers in Austira, repsect internet groups, use a scrolling query and stream over all results (which may include multiple requests):
+Find all dealers in Austria, repsect internet groups, use a scrolling query and stream over all results (which may include multiple requests):
 
 ```
 companyDataClient
@@ -299,7 +376,7 @@ companyDataClient
 
 # Building
 
-You will need Git, Java >= 8 and Maven.
+You will need Git, Java >= 17 and Maven.
 
 First, clone the repository:
 
