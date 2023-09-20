@@ -8,15 +8,23 @@ The Java client supports all requests to the Partner.&#78;et Data API. We use it
 
 An up-to-date version is available in the corporate Maven repository. If you do not have access to this repository, you have to build our own version (see [Building](#building))
 
+# Main / Java 11 branch
+
+Currently we are maintaining two branches:
+
+* `master`: Contains the version 2 of the Java client, that needs at least Java 17 and, if you are using Spring, it needs Spring 6.
+* `java-11`: Contains the version 1 of the Java client, that's suited for Java 11 and, if you are using Spring, it's only compatible with Spring 5.
+
 # Using the Java client
 
 The Java client has been designed to **reduce its dependencies to a minimum**. All dependencies are "provided", which means, you have to define them on your own - within your project. Currently you have the following options:
 
 -   **Just use the DTOs**: You don't need any dependencies for this. You don't need Spring for this.
--   **Java 9 HTTP Client**: Use the Java 9 HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
+-   **Java HTTP Client**: Use the Java HTTP Client introduced with Java 9 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
 -   **Apache HTTP Client**: Use the Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
--   **Spring 5**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication.
--   **Spring 4**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication.
+-   **Spring 6**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible.
+-   **Spring 5**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. The `master` is not compatible with Spring 5. Use the version the `java-11` branch.
+-   **Spring 4**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. It will be remove from the `master` branch, please use the version the `java-11` branch.
 
 ## Just use the DTOs
 
@@ -33,7 +41,7 @@ That's it. Now, you may implement the client on your own.
 
 The project contains an adapter that utilizes different kinds of HTTP clients. You may wish to use this adapter while adapting to your own preferred HTTP client. This holds the advantage, that you can use the rest of the infrastructure provided by this library. Have a look at the implementations of the `at.porscheinformatik.happyrest.java.JavaRestCall` (using the Java HTTP client), the `at.porscheinformatik.happyrest.apache.ApacheRestCall` (using the Apache HTTP Client) or the `at.porscheinformatik.happyrest.spring.SpringRestCall` (using Spring's REST Template).
 
-## Java 9 HTTP Client
+## Java HTTP Client
 
 You will need the following dependencies:
 
