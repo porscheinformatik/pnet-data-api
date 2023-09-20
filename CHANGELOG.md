@@ -1,3 +1,8 @@
+pnet-data-api 2.4.0
+====================
+
+* Update dependencies.
+
 pnet-data-api 2.3.0
 ====================
 
