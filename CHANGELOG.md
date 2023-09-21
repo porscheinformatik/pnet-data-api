@@ -1,7 +1,10 @@
-pnet-data-api 2.4.0
+pnet-data-api 2.5.0
 ====================
 
-* Update dependencies.
+* Updated dependencies.
+* Added an Rest Client adapter for the the Apache HTTP Client version 5.
+* Added a new paging option by using "searchAfter". Since we have switched to Elasticsearch 8 as our document store, the process of iterating over pages has been discouraged by the manufacturer. Unfortunately, this has to be reflected in our client. Some properties in the result, like "pageIndex" and "numberOfPages", are not reliable anymore. You may add the system property "-Dpnet-data-api.avoid-search-after=true" to make sure, that the "nextPage" method is using the pageIndex to load the next page (as a consequence, the pageIndex property will be filled correctly - with your given value).
+* Removed an incompatible slash at end of the "about" URL.
 
 pnet-data-api 2.3.0
 ====================

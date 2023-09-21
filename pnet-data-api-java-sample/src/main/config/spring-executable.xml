@@ -16,6 +16,7 @@
             <unpack>true</unpack>
             <excludes>
                 <exclude>org.apache.httpcomponents:*</exclude>
+                <exclude>org.apache.httpcomponents.client5:*</exclude>
                 <exclude>commons-logging:*</exclude>
                 <exclude>commons-codec:*</exclude>
             </excludes>

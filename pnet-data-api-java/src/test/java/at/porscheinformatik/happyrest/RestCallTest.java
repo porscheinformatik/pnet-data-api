@@ -108,7 +108,17 @@ public class RestCallTest
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
+                break;
+        }
     }
 
     @ParameterizedTest
@@ -122,7 +132,17 @@ public class RestCallTest
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com?key=otherValue"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=otherValue"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com?key=otherValue"));
+                break;
+        }
     }
 
     @ParameterizedTest
@@ -136,7 +156,17 @@ public class RestCallTest
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+                break;
+        }
     }
 
     @ParameterizedTest
@@ -158,6 +188,7 @@ public class RestCallTest
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/?key+with+spaces=value+with+spaces"));
                 break;
 
+            case APACHE_5:
             case SPRING:
                 assertThat(response.getRequestUrl(),
                     equalTo("https://example.com/?key%20with%20spaces=value%20with%20spaces"));
@@ -182,6 +213,7 @@ public class RestCallTest
         switch (factory)
         {
             case APACHE:
+            case APACHE_5:
             case JAVA:
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/list?key%2Fkey=value%2Fvalue"));
                 break;
@@ -210,6 +242,7 @@ public class RestCallTest
         switch (factory)
         {
             case APACHE:
+            case APACHE_5:
             case JAVA:
                 // Uses Java's URLEncoder
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/list/?%22key%22=%27value%27"));
@@ -241,6 +274,10 @@ public class RestCallTest
 
         switch (factory)
         {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/?%7Bkey%7D=%7Bvalue%7D"));
+                break;
+
             case APACHE:
             case JAVA:
                 assertThat(response.getRequestUrl(), equalTo("https://example.com?%7Bkey%7D=%7Bvalue%7D"));
@@ -266,8 +303,19 @@ public class RestCallTest
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(),
-            equalTo("https://example.com?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(),
+                    equalTo("https://example.com/?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(),
+                    equalTo("https://example.com?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F"));
+                break;
+        }
     }
 
     @ParameterizedTest
@@ -280,7 +328,17 @@ public class RestCallTest
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value&anotherKey=anotherValue"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value&anotherKey=anotherValue"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value&anotherKey=anotherValue"));
+                break;
+        }
     }
 
     @ParameterizedTest
@@ -294,7 +352,18 @@ public class RestCallTest
             .invoke(RestMethod.POST, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+                break;
+        }
+
         assertThat(response.getRequestBody(), equalTo("key=value"));
     }
 
@@ -356,7 +425,17 @@ public class RestCallTest
             .invoke(RestMethod.POST, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+        }
+
         assertThat(response.getRequestBody(), equalTo("%7Bkey%7D=%7Bvalue%7D"));
     }
 
@@ -371,7 +450,18 @@ public class RestCallTest
             .invoke(RestMethod.POST, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+                break;
+        }
+
         assertThat(response.getRequestBody(), equalTo("%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F"));
     }
 
@@ -386,7 +476,18 @@ public class RestCallTest
             .invoke(RestMethod.POST, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
+                break;
+        }
+
         assertThat(response.getRequestBody(), equalTo("anotherKey=anotherValue"));
     }
 
@@ -400,7 +501,17 @@ public class RestCallTest
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+        }
+
         assertThat(response.getRequestHeader("key"), contains("value"));
     }
 
@@ -414,7 +525,18 @@ public class RestCallTest
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+                break;
+        }
+
         assertThat(response.getRequestHeader("key"), contains("value with spaces"));
     }
 
@@ -429,7 +551,18 @@ public class RestCallTest
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+
+        switch (factory)
+        {
+            case APACHE_5:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+                break;
+
+            default:
+                assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+                break;
+        }
+
         assertThat(response.getRequestHeader("key"), contains("value1", "value2"));
     }
 

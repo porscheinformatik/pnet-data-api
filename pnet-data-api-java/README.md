@@ -105,7 +105,78 @@ Be warned that the first login will usually fail, because of IP restrictions def
 
 Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/java/PnetJavaRestClientTemplate.java for some super simple sample code.
 
-## Apache HTTP Client
+## Apache HTTP Client 5
+
+You will need the following dependencies:
+
+```
+<dependency>
+    <groupId>at.porscheinformatik.pnet</groupId>
+    <artifactId>pnet-data-api-java</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.httpcomponents.client5</groupId>
+    <artifactId>httpclient5</artifactId>
+</dependency>
+```
+
+Use your preferred login method.
+
+### Login via Token
+
+The preferred way for authenticating your client is by using the `AuthenticationTokenPnetDataApiLoginMethod`.
+
+```
+PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+```
+
+Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
+area of your application. The method will be called around once per hour thus aquiring
+the token must not be very performant.
+
+### Login via Username/Password
+
+Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`, but be aware, that the preferred way to authenticate your client is by using the token.
+
+```
+PnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(<USERNAME>, <PASSWORD>));
+```
+
+Use the Partner.Net Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
+the username/password must not be very performant.
+
+### Create the Client Factory
+
+```
+Apache5ClientFactory clientFactory = Apache5ClientFactory.of(loginMethod);
+```
+
+### Example
+
+```
+PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
+Apache5ClientFactory clientFactory = Apache5ClientFactory.of(loginMethod);
+
+clientFactory
+    .getCompanyDataClient()
+    .search()
+    .execute(Locale.getDefault(), "Informatik")
+    .forEach(company -> System.out.println(company));
+```
+
+All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
+
+Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
+
+Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache5/PnetApache5RestClientTemplate.java for some super simple sample code.
+
+## (Old) Apache HTTP Client
 
 You will need the following dependencies:
 

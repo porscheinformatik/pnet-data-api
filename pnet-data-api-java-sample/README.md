@@ -295,9 +295,7 @@ Finally you can exit the application with `exit`.
 | `no credentials available only` | Show only persons without login credentials |
 | `not archived only` | Show only results, that are not archived. |
 | `not rejected only` | Show only results, that are not rejected. |
-| `page [<NUMBER>]` | Prints the page with the specified number. |
 | `page size <SIZE>` | Sets the number of items per page. |
-| `prev` | Prints the previous page of the last result. |
 | `rejected only` | Show only results, that have been rejected. |
 | `remove [<KEY>]` | Remove the URL and username/password from your prefernces. |
 | `restrict activities <MC...>` | Places a restriction of activities for subsequent operations. |

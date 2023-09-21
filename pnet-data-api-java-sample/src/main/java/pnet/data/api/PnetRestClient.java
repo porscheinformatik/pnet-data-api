@@ -43,7 +43,7 @@ import pnet.data.api.advisortype.AdvisorTypeDataFind;
 import pnet.data.api.advisortype.AdvisorTypeDataGet;
 import pnet.data.api.advisortype.AdvisorTypeDataSearch;
 import pnet.data.api.advisortype.AdvisorTypeItemDTO;
-import pnet.data.api.apache.PnetApacheRestClientLauncher;
+import pnet.data.api.apache5.PnetApache5RestClientLauncher;
 import pnet.data.api.application.ApplicationDataClient;
 import pnet.data.api.application.ApplicationDataDTO;
 import pnet.data.api.application.ApplicationDataFind;
@@ -182,7 +182,7 @@ import pnet.data.api.util.RestrictVisibility;
 import pnet.data.api.util.Table;
 
 /**
- * The client with all commands. See {@link PnetApacheRestClientLauncher}, {@link PnetJavaRestClientLauncher} or
+ * The client with all commands. See {@link PnetApache5RestClientLauncher}, {@link PnetJavaRestClientLauncher} or
  * {@link PnetSpringRestClientLauncher} on how to launch this client.
  *
  * @author ham
@@ -216,13 +216,6 @@ public final class PnetRestClient
         protected CurrentResult<T> nextPage() throws PnetDataClientException
         {
             page = page.nextPage();
-
-            return this;
-        }
-
-        protected CurrentResult<T> page(int index) throws PnetDataClientException
-        {
-            page = page.getPage(index);
 
             return this;
         }

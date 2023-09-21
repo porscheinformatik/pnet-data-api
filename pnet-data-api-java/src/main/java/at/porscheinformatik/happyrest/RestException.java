@@ -7,7 +7,6 @@ package at.porscheinformatik.happyrest;
  */
 public class RestException extends Exception
 {
-
     private static final long serialVersionUID = 6828148858084801707L;
 
     public RestException(String message)
@@ -31,5 +30,4 @@ public class RestException extends Exception
     {
         super(String.format(message, args), cause);
     }
-
 }
