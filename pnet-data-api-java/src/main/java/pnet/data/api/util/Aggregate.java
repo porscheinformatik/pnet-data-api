@@ -9,7 +9,5 @@ package pnet.data.api.util;
 @FunctionalInterface
 public interface Aggregate<SELF extends Aggregate<SELF>>
 {
-
     SELF aggregate(String name);
-
 }
