@@ -30,6 +30,6 @@ public class AboutDataClient extends AbstractPnetDataApiClient<AboutDataClient>
      */
     public AboutDataDTO about() throws PnetDataClientException
     {
-        return invoke(restCall -> restCall.path("/api/v1/about/").get(AboutDataDTO.class));
+        return invoke(restCall -> restCall.path("/api/v1/about").get(AboutDataDTO.class));
     }
 }
