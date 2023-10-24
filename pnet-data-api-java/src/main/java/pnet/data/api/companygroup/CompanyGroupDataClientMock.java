@@ -44,11 +44,10 @@ public class CompanyGroupDataClientMock extends CompanyGroupDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyGroupDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyGroupDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<CompanyGroupDataDTO> entries = findDatas(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 }

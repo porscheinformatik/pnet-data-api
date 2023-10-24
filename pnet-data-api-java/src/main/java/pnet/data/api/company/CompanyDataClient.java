@@ -1,7 +1,7 @@
 package pnet.data.api.company;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,24 +31,22 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
 
     public CompanyDataGet get()
     {
-        return new CompanyDataGet(this::get, null);
+        return new CompanyDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<CompanyDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/companies/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -56,21 +54,16 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
 
     public CompanyDataSearch search()
     {
-        return new CompanyDataSearch(this::search, null);
+        return new CompanyDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> search(Locale language,
-        String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
-        throws PnetDataClientException
+    protected PnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> search(
+        List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> resultPage =
                 restCall
-                    .parameter("l", language)
-                    .parameter("q", query)
                     .parameters(restricts)
-                    .parameter("p", pageIndex)
-                    .parameter("pp", itemsPerPage)
                     .path("/api/v1/companies/search")
                     .get(
                         new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO>>()
@@ -78,7 +71,7 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                             // intentionally left blank
                         });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -86,15 +79,13 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
 
     public CompanyDataAutoComplete autoComplete()
     {
-        return new CompanyDataAutoComplete(this::autoComplete, null);
+        return new CompanyDataAutoComplete(this::autoComplete, Collections.emptyList());
     }
 
-    protected List<CompanyAutoCompleteDTO> autoComplete(Locale language, String query,
-        List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected List<CompanyAutoCompleteDTO> autoComplete(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> restCall
-            .parameter("l", language)
-            .parameter("q", query)
             .parameters(restricts)
             .path("/api/v1/companies/autocomplete")
             .get(new GenericType.Of<List<CompanyAutoCompleteDTO>>()
@@ -105,25 +96,22 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
 
     public CompanyDataFind find()
     {
-        return new CompanyDataFind(this::find, null);
+        return new CompanyDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<CompanyItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/companies/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
             resultPage.setScrollSupplier(this::next);
 
             return resultPage;

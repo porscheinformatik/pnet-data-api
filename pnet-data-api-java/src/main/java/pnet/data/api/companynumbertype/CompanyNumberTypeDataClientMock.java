@@ -3,7 +3,6 @@ package pnet.data.api.companynumbertype;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -39,29 +38,26 @@ public class CompanyNumberTypeDataClientMock extends CompanyNumberTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyNumberTypeDataDTO> get(List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyNumberTypeDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<CompanyNumberTypeDataDTO> entries = findDatas(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> find(Locale language,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<CompanyNumberTypeItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<CompanyNumberTypeItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 }

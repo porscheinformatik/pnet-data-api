@@ -1,7 +1,7 @@
 package pnet.data.api.activity;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,6 @@ import pnet.data.api.util.Pair;
 @Service
 public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataClient>
 {
-
     @Autowired
     public ActivityDataClient(PnetDataApiContext context)
     {
@@ -31,24 +30,22 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
     public ActivityDataGet get()
     {
-        return new ActivityDataGet(this::get, null);
+        return new ActivityDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ActivityDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ActivityDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ActivityDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/activities/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ActivityDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -56,26 +53,22 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
     public ActivityDataSearch search()
     {
-        return new ActivityDataSearch(this::search, null);
+        return new ActivityDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ActivityItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ActivityItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ActivityItemDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/activities/search")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -83,15 +76,13 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
     public ActivityDataAutoComplete autoComplete()
     {
-        return new ActivityDataAutoComplete(this::autoComplete, null);
+        return new ActivityDataAutoComplete(this::autoComplete, Collections.emptyList());
     }
 
-    protected List<ActivityAutoCompleteDTO> autoComplete(Locale language, String query,
-        List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected List<ActivityAutoCompleteDTO> autoComplete(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> restCall
-            .parameter("l", language)
-            .parameter("q", query)
             .parameters(restricts)
             .path("/api/v1/activities/autocomplete")
             .get(new GenericType.Of<List<ActivityAutoCompleteDTO>>()
@@ -102,25 +93,22 @@ public class ActivityDataClient extends AbstractPnetDataApiClient<ActivityDataCl
 
     public ActivityDataFind find()
     {
-        return new ActivityDataFind(this::find, null);
+        return new ActivityDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ActivityItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ActivityItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ActivityItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/activities/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ActivityItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
             resultPage.setScrollSupplier(this::next);
 
             return resultPage;

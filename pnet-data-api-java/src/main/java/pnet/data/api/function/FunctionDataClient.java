@@ -1,7 +1,7 @@
 package pnet.data.api.function;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,24 +29,22 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
 
     public FunctionDataGet get()
     {
-        return new FunctionDataGet(this::get, null);
+        return new FunctionDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<FunctionDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<FunctionDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<FunctionDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/functions/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -54,26 +52,22 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
 
     public FunctionDataSearch search()
     {
-        return new FunctionDataSearch(this::search, null);
+        return new FunctionDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<FunctionItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<FunctionItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<FunctionItemDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/functions/search")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -81,15 +75,13 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
 
     public FunctionDataAutoComplete autoComplete()
     {
-        return new FunctionDataAutoComplete(this::autoComplete, null);
+        return new FunctionDataAutoComplete(this::autoComplete, Collections.emptyList());
     }
 
-    protected List<FunctionAutoCompleteDTO> autoComplete(Locale language, String query,
-        List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected List<FunctionAutoCompleteDTO> autoComplete(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> restCall
-            .parameter("l", language)
-            .parameter("q", query)
             .parameters(restricts)
             .path("/api/v1/functions/autocomplete")
             .get(new GenericType.Of<List<FunctionAutoCompleteDTO>>()
@@ -100,27 +92,22 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
 
     public FunctionDataFind find()
     {
-        return new FunctionDataFind(this::find, null);
+        return new FunctionDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<FunctionItemDTO>
-
-        find(Locale language, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
-            throws PnetDataClientException
+    protected PnetDataClientResultPage<FunctionItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<FunctionItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/functions/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
             resultPage.setScrollSupplier(this::next);
 
             return resultPage;

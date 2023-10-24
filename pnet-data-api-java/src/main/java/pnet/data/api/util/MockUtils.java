@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import pnet.data.api.SearchAfter;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.DefaultPnetDataClientResultPageWithAggregations;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -22,38 +23,61 @@ import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
  */
 public final class MockUtils
 {
-
     private MockUtils()
     {
         super();
     }
 
-    public static <T> PnetDataClientResultPage<T> mockResultPage(List<T> allItems, int pageIndex, int itemsPerPage)
+    public static <T> PnetDataClientResultPage<T> mockResultPage(List<Pair<String, Object>> restricts, List<T> allItems)
     {
+        Integer pageIndex = getPageIndex(restricts);
+        Integer itemsPerPage = getItemsPerPage(restricts);
         List<List<T>> chunks = split(allItems, itemsPerPage, ArrayList::new);
         List<T> items = pageIndex >= chunks.size() ? Collections.emptyList() : chunks.get(0);
         DefaultPnetDataClientResultPage<T> result = new DefaultPnetDataClientResultPage<>(items, itemsPerPage,
-            allItems.size(), pageIndex, allItems.size() / itemsPerPage + 1, null);
+            allItems.size(), pageIndex, allItems.size() / itemsPerPage + 1, null, null);
 
-        result.setPageSupplier(index -> mockResultPage(allItems, index, itemsPerPage));
-        result.setScrollSupplier(scrollId -> mockResultPage(allItems, pageIndex + 1, itemsPerPage));
+        result.setPageSupplier(restricts, index -> mockResultPage(restricts, allItems));
+        result.setScrollSupplier(scrollId -> mockResultPage(restricts, allItems));
 
         return result;
     }
 
     public static <T, AggregationsT> PnetDataClientResultPageWithAggregations<T, AggregationsT> mockResultPageWithAggregations(
-        List<T> allItems, AggregationsT aggregations, int pageIndex, int itemsPerPage)
+        List<Pair<String, Object>> restricts, List<T> allItems, AggregationsT aggregations)
     {
+        Integer pageIndex = getPageIndex(restricts);
+        Integer itemsPerPage = getItemsPerPage(restricts);
         List<List<T>> chunks = split(allItems, itemsPerPage, ArrayList::new);
         List<T> items = pageIndex >= chunks.size() ? Collections.emptyList() : chunks.get(0);
         DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT> result =
             new DefaultPnetDataClientResultPageWithAggregations<>(items, aggregations, itemsPerPage, allItems.size(),
-                pageIndex, allItems.size() / itemsPerPage + 1, null);
+                pageIndex, allItems.size() / itemsPerPage + 1, SearchAfter.EMPTY, null);
 
-        result.setPageSupplier(index -> mockResultPage(allItems, index, itemsPerPage));
-        result.setScrollSupplier(scrollId -> mockResultPage(allItems, pageIndex + 1, itemsPerPage));
+        result.setPageSupplier(restricts, index -> mockResultPage(restricts, allItems));
+        result.setScrollSupplier(scrollId -> mockResultPage(restricts, allItems));
 
         return result;
+    }
+
+    private static Integer getPageIndex(List<Pair<String, Object>> restricts)
+    {
+        return restricts
+            .stream()
+            .filter(restrict -> "p".equals(restrict.getLeft()))
+            .findFirst()
+            .map(restrict -> (Integer) restrict.getRight())
+            .orElse(0);
+    }
+
+    private static Integer getItemsPerPage(List<Pair<String, Object>> restricts)
+    {
+        return restricts
+            .stream()
+            .filter(restrict -> "pp".equals(restrict.getLeft()))
+            .findFirst()
+            .map(restrict -> (Integer) restrict.getRight())
+            .orElse(10);
     }
 
     protected static <T, CollectionOfT extends Collection<T>> List<CollectionOfT> split(Iterable<T> source,
@@ -109,5 +133,4 @@ public final class MockUtils
     {
         return aggregateFlat(entries, item -> item.getTenants().stream(), aggregationFactory);
     }
-
 }

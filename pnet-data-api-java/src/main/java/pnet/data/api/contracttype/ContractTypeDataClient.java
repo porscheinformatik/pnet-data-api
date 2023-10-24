@@ -1,7 +1,7 @@
 package pnet.data.api.contracttype;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
@@ -29,24 +29,22 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
 
     public ContractTypeDataGet get()
     {
-        return new ContractTypeDataGet(this::get, null);
+        return new ContractTypeDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ContractTypeDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractTypeDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/contracttypes/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -54,26 +52,22 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
 
     public ContractTypeDataSearch search()
     {
-        return new ContractTypeDataSearch(this::search, null);
+        return new ContractTypeDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ContractTypeItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractTypeItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/contracttypes/search")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -81,25 +75,22 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
 
     public ContractTypeDataFind find()
     {
-        return new ContractTypeDataFind(this::find, null);
+        return new ContractTypeDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ContractTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractTypeItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/contracttypes/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
 
             return resultPage;
         });

@@ -1,7 +1,6 @@
 package pnet.data.api.util;
 
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 
@@ -14,8 +13,5 @@ import pnet.data.api.PnetDataClientException;
 @FunctionalInterface
 public interface AutoCompleteFunction<DTO>
 {
-
-    List<DTO> autoComplete(Locale language, String query, List<Pair<String, Object>> restricts)
-        throws PnetDataClientException;
-
+    List<DTO> autoComplete(List<Pair<String, Object>> restricts) throws PnetDataClientException;
 }

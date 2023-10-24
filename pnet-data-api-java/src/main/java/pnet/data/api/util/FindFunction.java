@@ -1,7 +1,6 @@
 package pnet.data.api.util;
 
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -15,8 +14,5 @@ import pnet.data.api.client.PnetDataClientResultPage;
 @FunctionalInterface
 public interface FindFunction<DTO>
 {
-
-    PnetDataClientResultPage<DTO> find(Locale language, List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException;
-
+    PnetDataClientResultPage<DTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException;
 }

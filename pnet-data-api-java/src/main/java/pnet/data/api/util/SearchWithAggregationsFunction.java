@@ -1,7 +1,6 @@
 package pnet.data.api.util;
 
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
@@ -16,9 +15,7 @@ import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 @FunctionalInterface
 public interface SearchWithAggregationsFunction<DTO, AggregationsDTO> extends SearchFunction<DTO>
 {
-
     @Override
-    PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException;
-
+    PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException;
 }

@@ -1,11 +1,14 @@
 package pnet.data.api.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.ResultPage;
+import pnet.data.api.SearchAfter;
+import pnet.data.api.util.Pair;
 
 /**
  * A {@link ResultPage} with a link to the next page
@@ -15,12 +18,12 @@ import pnet.data.api.ResultPage;
  */
 public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultPage<T>
 {
-
+    @SuppressWarnings("deprecation")
     public static <T> DefaultPnetDataClientResultPage<T> of(ResultPage<T> resultPage)
     {
         return new DefaultPnetDataClientResultPage<>(resultPage.getItems(), resultPage.getItemsPerPage(),
             resultPage.getTotalNumberOfItems(), resultPage.getPageIndex(), resultPage.getNumberOfPages(),
-            resultPage.getScrollId());
+            resultPage.getSearchAfter(), resultPage.getScrollId());
     }
 
     private final List<T> items;
@@ -28,15 +31,17 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     private final int totalNumberOfItems;
     private final int pageIndex;
     private final int numberOfPages;
+    private final SearchAfter searchAfter;
     private final String scrollId;
 
+    private List<Pair<String, Object>> restricts;
     private PnetDataClientPageSupplier<T> pageSupplier;
     private PnetDataClientScrollSupplier<T> scrollSupplier;
 
     public DefaultPnetDataClientResultPage(@JsonProperty("items") List<T> items,
         @JsonProperty("itemsPerPage") int itemsPerPage, @JsonProperty("totalNumberOfItems") int totalNumberOfItems,
         @JsonProperty("pageIndex") int pageIndex, @JsonProperty("numberOfPages") int numberOfPages,
-        @JsonProperty("scrollId") String scrollId)
+        @JsonProperty("searchAfter") SearchAfter searchAfter, @JsonProperty("scrollId") String scrollId)
     {
         super();
 
@@ -45,6 +50,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         this.totalNumberOfItems = totalNumberOfItems;
         this.pageIndex = pageIndex;
         this.numberOfPages = numberOfPages;
+        this.searchAfter = searchAfter;
         this.scrollId = scrollId;
     }
 
@@ -67,15 +73,23 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     }
 
     @Override
+    @Deprecated
     public int getPageIndex()
     {
         return pageIndex;
     }
 
     @Override
+    @Deprecated
     public int getNumberOfPages()
     {
         return numberOfPages;
+    }
+
+    @Override
+    public SearchAfter getSearchAfter()
+    {
+        return searchAfter;
     }
 
     @Override
@@ -89,8 +103,9 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         return pageSupplier;
     }
 
-    public void setPageSupplier(PnetDataClientPageSupplier<T> pageSupplier)
+    public void setPageSupplier(List<Pair<String, Object>> restricts, PnetDataClientPageSupplier<T> pageSupplier)
     {
+        this.restricts = restricts;
         this.pageSupplier = pageSupplier;
     }
 
@@ -105,9 +120,9 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     }
 
     @Override
-    public PnetDataClientResultPage<T> nextPage() throws PnetDataClientException
+    public PnetDataClientResultPage<T> nextPage(boolean avoidSearchAfter) throws PnetDataClientException
     {
-        if (!hasNextPage())
+        if (isEmpty())
         {
             return null;
         }
@@ -118,20 +133,33 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         {
             result = scrollSupplier.get(scrollId);
         }
+        else if (!avoidSearchAfter && searchAfter != null)
+        {
+            List<Pair<String, Object>> restricts = new ArrayList<>(this.restricts);
+
+            restricts.removeIf(restrict -> "p".equals(restrict.getLeft()));
+            restricts.removeIf(restrict -> "sa".equals(restrict.getLeft()));
+            restricts.add(Pair.of("p", pageIndex + 1)); // for backward compatibility
+            restricts.add(Pair.of("sa", searchAfter.getValue()));
+
+            result = pageSupplier.get(restricts);
+        }
         else
         {
-            result = pageSupplier.get(pageIndex + 1);
-        }
+            List<Pair<String, Object>> restricts = new ArrayList<>(this.restricts);
 
-        if (result != null && result.size() == 0)
-        {
-            return null;
+            restricts.removeIf(restrict -> "p".equals(restrict.getLeft()));
+            restricts.removeIf(restrict -> "sa".equals(restrict.getLeft()));
+            restricts.add(Pair.of("p", pageIndex + 1));
+
+            result = pageSupplier.get(restricts);
         }
 
         return result;
     }
 
     @Override
+    @Deprecated
     public PnetDataClientResultPage<T> getPage(int index) throws PnetDataClientException
     {
         if (pageSupplier == null)
@@ -139,14 +167,12 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
             throw new UnsupportedOperationException("Feature not supported");
         }
 
-        PnetDataClientResultPage<T> result = pageSupplier.get(index);
+        List<Pair<String, Object>> restricts = new ArrayList<>(this.restricts);
 
-        if (result != null && result.size() == 0)
-        {
-            return null;
-        }
+        restricts.removeIf(restrict -> "p".equals(restrict.getLeft()));
+        restricts.removeIf(restrict -> "sa".equals(restrict.getLeft()));
+        restricts.add(Pair.of("p", pageIndex + 1));
 
-        return result;
+        return pageSupplier.get(restricts);
     }
-
 }

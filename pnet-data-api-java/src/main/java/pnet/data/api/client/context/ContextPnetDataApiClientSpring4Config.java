@@ -12,6 +12,7 @@ import at.porscheinformatik.happyrest.spring.SpringRestFormatter;
 
 @Configuration
 @ComponentScan(basePackageClasses = {ContextPnetDataApiClientSpring4Config.class})
+@Deprecated
 public class ContextPnetDataApiClientSpring4Config extends AbstractContextPnetDataApiClientConfig
 {
     @Override

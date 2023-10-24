@@ -14,8 +14,5 @@ import pnet.data.api.client.PnetDataClientResultPage;
 @FunctionalInterface
 public interface GetFunction<DTO>
 {
-
-    PnetDataClientResultPage<DTO> get(List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
-        throws PnetDataClientException;
-
+    PnetDataClientResultPage<DTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException;
 }

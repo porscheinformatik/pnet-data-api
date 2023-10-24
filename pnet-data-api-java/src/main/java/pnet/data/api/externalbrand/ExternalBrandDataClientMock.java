@@ -3,7 +3,6 @@ package pnet.data.api.externalbrand;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -40,29 +39,26 @@ public class ExternalBrandDataClientMock extends ExternalBrandDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ExternalBrandDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<ExternalBrandDataDTO> entries = findDatas(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<ExternalBrandItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<ExternalBrandItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<ExternalBrandItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<ExternalBrandItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 }

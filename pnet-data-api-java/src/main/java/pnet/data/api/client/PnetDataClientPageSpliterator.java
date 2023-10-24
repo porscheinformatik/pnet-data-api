@@ -33,7 +33,7 @@ public class PnetDataClientPageSpliterator<T> implements Spliterator<T>
     {
         while (!iterator.hasNext())
         {
-            if (!page.hasNextPage())
+            if (page.isEmpty())
             {
                 return false;
             }

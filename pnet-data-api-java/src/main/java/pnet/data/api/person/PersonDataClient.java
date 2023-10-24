@@ -1,7 +1,7 @@
 package pnet.data.api.person;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -35,24 +35,22 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
 
     public PersonDataGet get()
     {
-        return new PersonDataGet(this::get, null);
+        return new PersonDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<PersonDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<PersonDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<PersonDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/persons/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<PersonDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -60,20 +58,15 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
 
     public PersonDataSearch search()
     {
-        return new PersonDataSearch(this::search, null);
+        return new PersonDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> search(Locale language,
-        String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
-        throws PnetDataClientException
+    protected PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> search(
+        List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/persons/search")
                 .get(
                     new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO>>()
@@ -81,7 +74,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                         // intentionally left blank
                     });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -89,15 +82,13 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
 
     public PersonDataAutoComplete autoComplete()
     {
-        return new PersonDataAutoComplete(this::autoComplete, null);
+        return new PersonDataAutoComplete(this::autoComplete, Collections.emptyList());
     }
 
-    protected List<PersonAutoCompleteDTO> autoComplete(Locale language, String query,
-        List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected List<PersonAutoCompleteDTO> autoComplete(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> restCall
-            .parameter("l", language)
-            .parameter("q", query)
             .parameters(restricts)
             .path("/api/v1/persons/autocomplete")
             .get(new GenericType.Of<List<PersonAutoCompleteDTO>>()
@@ -108,25 +99,22 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
 
     public PersonDataFind find()
     {
-        return new PersonDataFind(this::find, null);
+        return new PersonDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<PersonItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<PersonItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<PersonItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/persons/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<PersonItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
             resultPage.setScrollSupplier(this::next);
 
             return resultPage;

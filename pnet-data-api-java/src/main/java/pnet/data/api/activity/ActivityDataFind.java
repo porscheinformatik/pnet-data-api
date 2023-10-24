@@ -14,7 +14,6 @@ import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictUpdatedAfter;
 import pnet.data.api.util.RestrictVisibility;
-import pnet.data.api.util.Scrollable;
 
 /**
  * Find for {@link ActivityDataClient}.
@@ -24,8 +23,7 @@ import pnet.data.api.util.Scrollable;
 public class ActivityDataFind extends AbstractScrollableFind<ActivityItemDTO, ActivityDataFind>
     implements RestrictMatchcode<ActivityDataFind>, RestrictTenant<ActivityDataFind>, RestrictBrand<ActivityDataFind>,
     RestrictCompanyType<ActivityDataFind>, RestrictContractType<ActivityDataFind>, RestrictVisibility<ActivityDataFind>,
-    RestrictApprovalNeeded<ActivityDataFind>, RestrictUpdatedAfter<ActivityDataFind>, IncludeInactive<ActivityDataFind>,
-    Scrollable<ActivityDataFind>
+    RestrictApprovalNeeded<ActivityDataFind>, RestrictUpdatedAfter<ActivityDataFind>, IncludeInactive<ActivityDataFind>
 {
 
     public ActivityDataFind(FindFunction<ActivityItemDTO> findFunction, List<Pair<String, Object>> restricts)

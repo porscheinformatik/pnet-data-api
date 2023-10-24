@@ -1,7 +1,7 @@
 package pnet.data.api.brand;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,24 +31,22 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
 
     public BrandDataGet get()
     {
-        return new BrandDataGet(this::get, null);
+        return new BrandDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<BrandDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<BrandDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<BrandDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/brands/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -56,28 +54,22 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
 
     public BrandDataSearch search()
     {
-        return new BrandDataSearch(this::search, null);
+        return new BrandDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<BrandItemDTO>
-
-        search(Locale language, String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
-            throws PnetDataClientException
+    protected PnetDataClientResultPage<BrandItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<BrandItemDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/brands/search")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -85,25 +77,22 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
 
     public BrandDataFind find()
     {
-        return new BrandDataFind(this::find, null);
+        return new BrandDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<BrandItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<BrandItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<BrandItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/brands/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
 
             return resultPage;
         });

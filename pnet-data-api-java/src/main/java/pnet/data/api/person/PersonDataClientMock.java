@@ -4,7 +4,6 @@ import static pnet.data.api.util.MockFilters.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -70,26 +69,23 @@ public class PersonDataClientMock extends PersonDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<PersonDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<PersonDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<PersonDataDTO> entries = findDatas(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<PersonItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<PersonItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<PersonItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> search(Locale language,
-        String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
+    protected PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> search(List<Pair<String, Object>> restricts)
         throws PnetDataClientException
     {
         List<PersonItemDTO> entries = findItems(restricts);
@@ -108,6 +104,6 @@ public class PersonDataClientMock extends PersonDataClient
         PersonAggregationsDTO aggregations = new PersonAggregationsDTO(aggregatedTenants, aggregatedCompanies,
             aggregatedFunctions, aggregatedActivities);
 
-        return MockUtils.mockResultPageWithAggregations(entries, aggregations, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPageWithAggregations(restricts, entries, aggregations);
     }
 }

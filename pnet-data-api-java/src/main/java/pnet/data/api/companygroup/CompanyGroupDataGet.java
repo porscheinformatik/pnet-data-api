@@ -15,7 +15,6 @@ import pnet.data.api.util.RestrictLeadingCompany;
 import pnet.data.api.util.RestrictLeadingCompanyId;
 import pnet.data.api.util.RestrictLeadingCompanyNumber;
 import pnet.data.api.util.RestrictType;
-import pnet.data.api.util.Scrollable;
 
 /**
  * @author cet
@@ -23,10 +22,8 @@ import pnet.data.api.util.Scrollable;
 public class CompanyGroupDataGet extends AbstractScrollableGet<CompanyGroupDataDTO, CompanyGroupDataGet>
     implements RestrictLeadingCompanyId<CompanyGroupDataGet>, RestrictLeadingCompanyNumber<CompanyGroupDataGet>,
     RestrictLeadingCompany<CompanyGroupDataGet>, RestrictCompanyId<CompanyGroupDataGet>,
-    RestrictCompanyNumber<CompanyGroupDataGet>, RestrictCompany<CompanyGroupDataGet>, RestrictType<CompanyGroupDataGet>,
-    Scrollable<CompanyGroupDataGet>
+    RestrictCompanyNumber<CompanyGroupDataGet>, RestrictCompany<CompanyGroupDataGet>, RestrictType<CompanyGroupDataGet>
 {
-
     public CompanyGroupDataGet(GetFunction<CompanyGroupDataDTO> getFunction, List<Pair<String, Object>> restricts)
     {
         super(getFunction, restricts);

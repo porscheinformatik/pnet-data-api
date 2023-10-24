@@ -1,7 +1,7 @@
 package pnet.data.api.externalbrand;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,24 +31,22 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
 
     public ExternalBrandDataGet get()
     {
-        return new ExternalBrandDataGet(this::get, null);
+        return new ExternalBrandDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ExternalBrandDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ExternalBrandDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/externalbrands/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -56,26 +54,22 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
 
     public ExternalBrandDataSearch search()
     {
-        return new ExternalBrandDataSearch(this::search, null);
+        return new ExternalBrandDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ExternalBrandItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ExternalBrandItemDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/externalbrands/search")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -83,25 +77,22 @@ public class ExternalBrandDataClient extends AbstractPnetDataApiClient<ExternalB
 
     public ExternalBrandDataFind find()
     {
-        return new ExternalBrandDataFind(this::find, null);
+        return new ExternalBrandDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<ExternalBrandItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ExternalBrandItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/externalbrands/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<ExternalBrandItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
 
             return resultPage;
         });

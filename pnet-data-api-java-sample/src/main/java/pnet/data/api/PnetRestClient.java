@@ -189,7 +189,6 @@ import pnet.data.api.util.Table;
  */
 public final class PnetRestClient
 {
-
     private static class CurrentResult<T>
     {
         private PnetDataClientResultPage<T> page;
@@ -203,14 +202,9 @@ public final class PnetRestClient
             this.populateTableFn = populateTableFn;
         }
 
-        protected int getPageIndex()
+        protected boolean isEmpty()
         {
-            return page.getPageIndex();
-        }
-
-        protected boolean hasNextPage()
-        {
-            return page.hasNextPage();
+            return page.isEmpty();
         }
 
         protected CurrentResult<T> nextPage() throws PnetDataClientException
@@ -236,9 +230,8 @@ public final class PnetRestClient
             }
 
             cli
-                .info(
-                    "\nThis is page %d of %d (%d of %d results). Type \"next\", \"prev\" or \"page <NUM>\" to navigate.",
-                    page.getPageIndex() + 1, page.getNumberOfPages(), page.size(), page.getTotalNumberOfItems());
+                .info("\nShowing %d of %d results. Type \"next\" to load the next page.", page.size(),
+                    page.getTotalNumberOfItems());
         }
 
         protected void printAggregations(CLI cli)
@@ -2582,52 +2575,13 @@ public final class PnetRestClient
             return;
         }
 
-        if (!currentResult.hasNextPage())
+        if (currentResult.isEmpty())
         {
             cli.error("There is no next page.");
             return;
         }
 
         currentResult.nextPage().print(cli, compact);
-    }
-
-    @CLI.Command(description = "Prints the previous page of the last result.")
-    public void prev() throws PnetDataClientException
-    {
-        if (currentResult == null)
-        {
-            cli.error("No result available.");
-            return;
-        }
-
-        int index = currentResult.getPageIndex();
-
-        if (index <= 0)
-        {
-            cli.error("There is no previous page.");
-            return;
-        }
-
-        currentResult.page(index - 1).print(cli, compact);
-    }
-
-    @CLI.Command(format = "[<NUMBER>]", description = "Prints the page with the specified number.")
-    public void page(Integer number) throws PnetDataClientException
-    {
-        if (currentResult == null)
-        {
-            cli.error("No result available.");
-            return;
-        }
-
-        if (number == null)
-        {
-            currentResult.print(cli, compact);
-        }
-        else
-        {
-            currentResult.page(number - 1).print(cli, compact);
-        }
     }
 
     @CLI.Command(name = "page size", format = "<SIZE>", description = "Sets the number of items per page.")

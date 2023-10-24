@@ -29,11 +29,11 @@ import pnet.data.api.util.WithAggregations;
 @Schema(description = "Holds results of a search or find operation with paging information and aggregations.")
 public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage<T>, WithAggregations<AggregationsT>
 {
-
     static <T, AggregationsT> ResultPageWithAggregations<T, AggregationsT> of(List<T> items, AggregationsT aggregations,
-        int itemsPerPage, int totalNumberOfItems, int pageIndex, int numberOfPages, String scrollId)
+        int itemsPerPage, int totalNumberOfItems, int pageIndex, int numberOfPages, SearchAfter searchAfter,
+        String scrollId)
     {
-        return new ResultPageWithAggregations<T, AggregationsT>() //
+        return new ResultPageWithAggregations<>() //
         {
             @Override
             public List<T> getItems()
@@ -69,6 +69,12 @@ public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage
             public int getNumberOfPages()
             {
                 return numberOfPages;
+            }
+
+            @Override
+            public SearchAfter getSearchAfter()
+            {
+                return searchAfter;
             }
 
             @Override

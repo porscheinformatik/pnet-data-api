@@ -3,7 +3,6 @@ package pnet.data.api.activity;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -43,29 +42,29 @@ public class ActivityDataClientMock extends ActivityDataClient implements
     }
 
     @Override
-    protected PnetDataClientResultPage<ActivityDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ActivityDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ActivityDataDTO> entries = findDatas(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<ActivityItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ActivityItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ActivityItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<ActivityItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ActivityItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ActivityItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 }

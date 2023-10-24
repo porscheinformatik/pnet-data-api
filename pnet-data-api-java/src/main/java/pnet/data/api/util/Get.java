@@ -1,6 +1,7 @@
 package pnet.data.api.util;
 
 import pnet.data.api.PnetDataClientException;
+import pnet.data.api.SearchAfter;
 import pnet.data.api.client.PnetDataClientResultPage;
 
 /**
@@ -11,10 +12,11 @@ import pnet.data.api.client.PnetDataClientResultPage;
  */
 public interface Get<DTO>
 {
-    default DTO firstOnly() throws PnetDataClientException
-    {
-        return execute(0, 1).first();
-    }
+    DTO firstOnly() throws PnetDataClientException;
+
+    PnetDataClientResultPage<DTO> execute() throws PnetDataClientException;
+
+    PnetDataClientResultPage<DTO> execute(SearchAfter searchAfter, int itemsPerPage) throws PnetDataClientException;
 
     PnetDataClientResultPage<DTO> execute(int pageIndex, int itemsPerPage) throws PnetDataClientException;
 }

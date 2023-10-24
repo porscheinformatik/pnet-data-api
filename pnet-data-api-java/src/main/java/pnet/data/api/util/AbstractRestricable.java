@@ -1,6 +1,7 @@
 package pnet.data.api.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,14 +12,13 @@ import java.util.List;
  */
 public abstract class AbstractRestricable<SELF extends AbstractRestricable<SELF>>
 {
-
     private final List<Pair<String, Object>> restricts;
 
     public AbstractRestricable(List<Pair<String, Object>> restricts)
     {
         super();
 
-        this.restricts = restricts;
+        this.restricts = Collections.unmodifiableList(restricts);
     }
 
     protected abstract SELF newInstance(List<Pair<String, Object>> restricts);
@@ -51,5 +51,4 @@ public abstract class AbstractRestricable<SELF extends AbstractRestricable<SELF>
     {
         return restrict("aggregate", name);
     }
-
 }

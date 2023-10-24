@@ -13,8 +13,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the filter itself for fluent interface
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractScrollableSearch<DTO, SELF extends AbstractScrollableSearch<DTO, SELF>>
-    extends AbstractSearch<DTO, SELF> implements ScrollableSearch<DTO>
+    extends AbstractSearch<DTO, SELF> implements ScrollableSearch<DTO>, Scrollable<SELF>
 {
     protected AbstractScrollableSearch(SearchFunction<DTO> searchFunction, List<Pair<String, Object>> restricts)
     {

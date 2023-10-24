@@ -12,8 +12,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the restriction itself for fluent interface
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractScrollableGet<DTO, SELF extends AbstractScrollableGet<DTO, SELF>>
-    extends AbstractGet<DTO, SELF> implements ScrollableGet<DTO>
+    extends AbstractGet<DTO, SELF> implements ScrollableGet<DTO>, Scrollable<SELF>
 {
     protected AbstractScrollableGet(GetFunction<DTO> getFunction, List<Pair<String, Object>> restricts)
     {

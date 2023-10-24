@@ -3,7 +3,6 @@ package pnet.data.api.contracttype;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -41,29 +40,26 @@ public class ContractTypeDataClientMock extends ContractTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ContractTypeDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractTypeDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<ContractTypeDataDTO> entries = findDatas(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<ContractTypeItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractTypeItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<ContractTypeItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<ContractTypeItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractTypeItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<ContractTypeItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 }

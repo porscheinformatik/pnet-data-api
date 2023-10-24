@@ -45,10 +45,8 @@ public class PnetDataClientException extends Exception
 
     public static String enhanceMessage(String message, Throwable cause)
     {
-        if (cause instanceof RestResponseException)
+        if (cause instanceof RestResponseException e)
         {
-            RestResponseException e = (RestResponseException) cause;
-
             return RestUtils.getHttpStatus(e.getStatusCode(), ((RestResponseException) cause).getStatusMessage())
                 + " - "
                 + message;

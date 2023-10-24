@@ -3,6 +3,7 @@ package pnet.data.api.util;
 import java.util.Locale;
 
 import pnet.data.api.PnetDataClientException;
+import pnet.data.api.SearchAfter;
 import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 
 /**
@@ -15,14 +16,17 @@ import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 public interface SearchWithAggregations<DTO, AggregationsDTO> extends Search<DTO>
 {
     @Override
-    default PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> execute(Locale language, String query)
-        throws PnetDataClientException
-    {
-        return execute(language, query, 0, 10);
-    }
+    DTO firstOnly(Locale language, String query) throws PnetDataClientException;
+
+    @Override
+    PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> execute(Locale language, String query)
+        throws PnetDataClientException;
+
+    @Override
+    PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> execute(Locale language, String query,
+        SearchAfter searchAfter, int itemsPerPage) throws PnetDataClientException;
 
     @Override
     PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> execute(Locale language, String query, int pageIndex,
         int itemsPerPage) throws PnetDataClientException;
-
 }

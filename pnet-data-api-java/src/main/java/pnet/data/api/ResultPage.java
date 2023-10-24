@@ -32,11 +32,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Holds results of a search or find operation with paging information")
 public interface ResultPage<T> extends Iterable<T>
 {
-
     static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int totalNumberOfItems, int pageIndex,
-        int numberOfPages, String scrollId)
+        int numberOfPages, SearchAfter searchAfter, String scrollId)
     {
-        return new ResultPage<T>() //
+        return new ResultPage<>() //
         {
             @Override
             public List<T> getItems()
@@ -66,6 +65,11 @@ public interface ResultPage<T> extends Iterable<T>
             public int getNumberOfPages()
             {
                 return numberOfPages;
+            }
+
+            public SearchAfter getSearchAfter()
+            {
+                return searchAfter;
             }
 
             @Override
@@ -131,6 +135,11 @@ public interface ResultPage<T> extends Iterable<T>
         return items != null && index < items.size() ? items.get(index) : null;
     }
 
+    default boolean isEmpty()
+    {
+        return size() == 0;
+    }
+
     /**
      * @return the number of items of this page
      */
@@ -157,26 +166,41 @@ public interface ResultPage<T> extends Iterable<T>
     /**
      * @return the number of items per page, which must not be the same a the number of items in this page.
      */
-    @Schema(description = "The amount of items that each page can hold")
+    @Schema(description = "The amount of items that each page can hold.")
     int getItemsPerPage();
 
     /**
      * @return the total number of items.
      */
-    @Schema(description = "The total amount of items that the search/find operation found")
+    @Schema(description = "The total amount of items that the search/find operation found.")
     int getTotalNumberOfItems();
 
     /**
      * @return the index of this page, 0-based.
+     * @deprecated Depending on how the page was loaded, this value may be missing and contain 0 despite the fact, that
+     *             it isn't the first page. This property will be removed to avoid confusion, to conform our document
+     *             store, that does not provide this value anymore and you should be encourage to use other forms of
+     *             iterating over results.
      */
-    @Schema(description = "The index of the current page (the index is 0-based)")
+    @Schema(description = "The index of the current page if paging was used (the index is 0-based).")
+    @Deprecated
     int getPageIndex();
 
     /**
      * @return the total number of pages.
+     * @deprecated This value is a simple calculation of the totalNumberOfItems / itemsPerPage, because out document
+     *             store, that does not provide this value anymore. By removing this property, you should be encourage
+     *             to use other forms of iterating over results.
      */
-    @Schema(description = "The total amount of pages, that the search/find operation found")
+    @Deprecated
+    @Schema(description = "The total amount of pages, that the search/find operation found.")
     int getNumberOfPages();
+
+    /**
+     * @return the searchAfter parameter that can be passed to the next request to skip all previous results
+     */
+    @Schema(description = "The searchAfter parameter, that can be used with subsequent requests to implement paging.")
+    SearchAfter getSearchAfter();
 
     /**
      * Returns the scroll id, if available
@@ -188,10 +212,13 @@ public interface ResultPage<T> extends Iterable<T>
 
     /**
      * @return true if there is another page
+     * @deprecated The result of this method depends on two values, that are not available anymore and should not be
+     *             used anymore. Depending on how the results were loaded, this method may report the wrong result (see
+     *             {@link #getPageIndex()} and {@link #getNumberOfPages()}).
      */
+    @Deprecated
     default boolean hasNextPage()
     {
-        return getPageIndex() + 1 < getNumberOfPages();
+        return !isEmpty() && getPageIndex() + 1 < getNumberOfPages();
     }
-
 }

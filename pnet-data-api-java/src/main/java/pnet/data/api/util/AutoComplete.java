@@ -13,7 +13,5 @@ import pnet.data.api.PnetDataClientException;
  */
 public interface AutoComplete<DTO>
 {
-
     List<DTO> execute(Locale language, String query) throws PnetDataClientException;
-
 }

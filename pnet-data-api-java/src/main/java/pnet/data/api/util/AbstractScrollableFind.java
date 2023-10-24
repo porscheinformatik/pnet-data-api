@@ -13,8 +13,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the restriction itself for fluent interface
  */
+@SuppressWarnings("deprecation")
 public abstract class AbstractScrollableFind<DTO, SELF extends AbstractScrollableFind<DTO, SELF>>
-    extends AbstractFind<DTO, SELF> implements ScrollableFind<DTO>
+    extends AbstractFind<DTO, SELF> implements ScrollableFind<DTO>, Scrollable<SELF>
 {
     protected AbstractScrollableFind(FindFunction<DTO> findFunction, List<Pair<String, Object>> restricts)
     {

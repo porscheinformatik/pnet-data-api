@@ -1,7 +1,7 @@
 package pnet.data.api.legalform;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,24 +30,22 @@ public class LegalFormDataClient extends AbstractPnetDataApiClient<LegalFormData
 
     public LegalFormDataGet get()
     {
-        return new LegalFormDataGet(this::get, null);
+        return new LegalFormDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<LegalFormDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<LegalFormDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<LegalFormDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/legalforms/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -55,26 +53,22 @@ public class LegalFormDataClient extends AbstractPnetDataApiClient<LegalFormData
 
     public LegalFormDataSearch search()
     {
-        return new LegalFormDataSearch(this::search, null);
+        return new LegalFormDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<LegalFormItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<LegalFormItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<LegalFormItemDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/legalforms/search")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -82,25 +76,22 @@ public class LegalFormDataClient extends AbstractPnetDataApiClient<LegalFormData
 
     public LegalFormDataFind find()
     {
-        return new LegalFormDataFind(this::find, null);
+        return new LegalFormDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<LegalFormItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<LegalFormItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<LegalFormItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/legalforms/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<LegalFormItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
 
             return resultPage;
         });

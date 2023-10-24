@@ -1,7 +1,7 @@
 package pnet.data.api.companynumbertype;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.stereotype.Service;
 
@@ -29,24 +29,22 @@ public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<Compa
 
     public CompanyNumberTypeDataGet get()
     {
-        return new CompanyNumberTypeDataGet(this::get, null);
+        return new CompanyNumberTypeDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<CompanyNumberTypeDataDTO> get(List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyNumberTypeDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/companynumbertypes/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
@@ -54,26 +52,22 @@ public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<Compa
 
     public CompanyNumberTypeDataSearch search()
     {
-        return new CompanyNumberTypeDataSearch(this::search, null);
+        return new CompanyNumberTypeDataSearch(this::search, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> search(Locale language, String query,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO> resultPage = restCall
-                .parameter("l", language)
-                .parameter("q", query)
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/companynumbertypes/search")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> search(language, query, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::search);
 
             return resultPage;
         });
@@ -81,25 +75,22 @@ public class CompanyNumberTypeDataClient extends AbstractPnetDataApiClient<Compa
 
     public CompanyNumberTypeDataFind find()
     {
-        return new CompanyNumberTypeDataFind(this::find, null);
+        return new CompanyNumberTypeDataFind(this::find, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> find(Locale language,
-        List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyNumberTypeItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("l", language)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/companynumbertypes/find")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyNumberTypeItemDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> find(language, restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::find);
 
             return resultPage;
         });

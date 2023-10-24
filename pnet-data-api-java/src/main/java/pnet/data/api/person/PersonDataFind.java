@@ -31,7 +31,6 @@ import pnet.data.api.util.RestrictGuid;
 import pnet.data.api.util.RestrictId;
 import pnet.data.api.util.RestrictNumber;
 import pnet.data.api.util.RestrictNumberType;
-import pnet.data.api.util.RestrictNumbersType;
 import pnet.data.api.util.RestrictPersonnelDepartment;
 import pnet.data.api.util.RestrictPersonnelNumber;
 import pnet.data.api.util.RestrictPreferredUserId;
@@ -39,7 +38,6 @@ import pnet.data.api.util.RestrictRole;
 import pnet.data.api.util.RestrictSupervisorPersonnelNumber;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictUpdatedAfter;
-import pnet.data.api.util.Scrollable;
 
 /**
  * Find interface for persons.
@@ -54,13 +52,13 @@ public class PersonDataFind extends AbstractScrollableFind<PersonItemDTO, Person
     RestrictPersonnelDepartment<PersonDataFind>, RestrictCompanyId<PersonDataFind>,
     RestrictCompanyNumber<PersonDataFind>, RestrictCompany<PersonDataFind>, RestrictBrand<PersonDataFind>,
     RestrictFunction<PersonDataFind>, RestrictActivity<PersonDataFind>, RestrictRole<PersonDataFind>,
-    RestrictNumberType<PersonDataFind>, RestrictNumbersType<PersonDataFind>, RestrictNumber<PersonDataFind>,
+    RestrictNumberType<PersonDataFind>, RestrictNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompanyId<PersonDataFind>, RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompany<PersonDataFind>, RestrictAdvisorAssignmentType<PersonDataFind>,
     RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictCredentialsAvailable<PersonDataFind>,
     RestrictApproved<PersonDataFind>, RestrictUpdatedAfter<PersonDataFind>, RestrictDatedBackUntil<PersonDataFind>,
     IncludeInactive<PersonDataFind>, IncludeAllFunctions<PersonDataFind>, CompanyMergable<PersonDataFind>,
-    Orderable<PersonDataFind, PersonOrderBy>, Scrollable<PersonDataFind>
+    Orderable<PersonDataFind, PersonOrderBy>
 {
     public PersonDataFind(FindFunction<PersonItemDTO> findFunction, List<Pair<String, Object>> restrictItems)
     {

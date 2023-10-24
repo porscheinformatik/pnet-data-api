@@ -1,5 +1,6 @@
 package pnet.data.api.companygroup;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ import pnet.data.api.util.Pair;
 @Service
 public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGroupDataClient>
 {
-
     public CompanyGroupDataClient(PnetDataApiContext context)
     {
         super(context);
@@ -28,24 +28,22 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
 
     public CompanyGroupDataGet get()
     {
-        return new CompanyGroupDataGet(this::get, null);
+        return new CompanyGroupDataGet(this::get, Collections.emptyList());
     }
 
-    protected PnetDataClientResultPage<CompanyGroupDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyGroupDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyGroupDataDTO> resultPage = restCall
                 .parameters(restricts)
-                .parameter("p", pageIndex)
-                .parameter("pp", itemsPerPage)
                 .path("/api/v1/companygroups/details")
                 .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupDataDTO>>()
                 {
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(index -> get(restricts, index, itemsPerPage));
+            resultPage.setPageSupplier(restricts, this::get);
             resultPage.setScrollSupplier(this::next);
 
             return resultPage;
@@ -68,5 +66,4 @@ public class CompanyGroupDataClient extends AbstractPnetDataApiClient<CompanyGro
             return resultPage;
         });
     }
-
 }

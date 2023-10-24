@@ -4,7 +4,6 @@ import static pnet.data.api.util.MockFilters.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import pnet.data.api.GeoDistance;
 import pnet.data.api.PnetDataClientException;
@@ -69,26 +68,23 @@ public class CompanyDataClientMock extends CompanyDataClient implements
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyDataDTO> get(List<Pair<String, Object>> restricts, int pageIndex,
-        int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<CompanyDataDTO> entries = findDatas(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyItemDTO> find(Locale language, List<Pair<String, Object>> restricts,
-        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<CompanyItemDTO> entries = findItems(restricts);
 
-        return MockUtils.mockResultPage(entries, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPage(restricts, entries);
     }
 
     @Override
-    protected PnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> search(Locale language,
-        String query, List<Pair<String, Object>> restricts, int pageIndex, int itemsPerPage)
+    protected PnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO> search(List<Pair<String, Object>> restricts)
         throws PnetDataClientException
     {
         List<CompanyItemDTO> entries = findItems(restricts);
@@ -105,6 +101,6 @@ public class CompanyDataClientMock extends CompanyDataClient implements
         CompanyAggregationsDTO aggregations =
             new CompanyAggregationsDTO(aggregatedTenants, aggregatedBrands, aggregatedTypes, Collections.emptyList());
 
-        return MockUtils.mockResultPageWithAggregations(entries, aggregations, pageIndex, itemsPerPage);
+        return MockUtils.mockResultPageWithAggregations(restricts, entries, aggregations);
     }
 }

@@ -2,6 +2,8 @@ package pnet.data.api.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,7 +19,6 @@ import pnet.data.api.PnetDataClientException;
 public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplete<DTO, SELF>>
     extends AbstractRestricable<SELF> implements AutoComplete<DTO>, Restrict<SELF>, Aggregate<SELF>
 {
-
     private final AutoCompleteFunction<DTO> autoCompleteFunction;
 
     protected AbstractAutoComplete(AutoCompleteFunction<DTO> autoCompleteFunction, List<Pair<String, Object>> restricts)
@@ -54,7 +55,12 @@ public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplet
     @Override
     public List<DTO> execute(Locale language, String query) throws PnetDataClientException
     {
-        return autoCompleteFunction.autoComplete(language, query, getRestricts());
+        List<Pair<String, Object>> restricts = new ArrayList<>(getRestricts());
+
+        restricts.add(Pair.of("l", language));
+        restricts.add(Pair.of("q", query));
+
+        return autoCompleteFunction.autoComplete(Collections.unmodifiableList(restricts));
     }
 
 }
