@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * A simulated backned
+ * A simulated backend
  *
  * @author HAM
  * @param <T> the type of data DTOs

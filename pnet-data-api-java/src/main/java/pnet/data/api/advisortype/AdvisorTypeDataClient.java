@@ -45,7 +45,7 @@ public class AdvisorTypeDataClient extends AbstractPnetDataApiClient<AdvisorType
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(restricts, index -> get(restricts));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });

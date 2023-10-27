@@ -37,7 +37,7 @@ public final class MockUtils
         DefaultPnetDataClientResultPage<T> result = new DefaultPnetDataClientResultPage<>(items, itemsPerPage,
             allItems.size(), pageIndex, allItems.size() / itemsPerPage + 1, null, null);
 
-        result.setPageSupplier(restricts, index -> mockResultPage(restricts, allItems));
+        result.setPageSupplier(restricts, r -> mockResultPage(r, allItems));
         result.setScrollSupplier(scrollId -> mockResultPage(restricts, allItems));
 
         return result;
@@ -54,7 +54,7 @@ public final class MockUtils
             new DefaultPnetDataClientResultPageWithAggregations<>(items, aggregations, itemsPerPage, allItems.size(),
                 pageIndex, allItems.size() / itemsPerPage + 1, SearchAfter.EMPTY, null);
 
-        result.setPageSupplier(restricts, index -> mockResultPage(restricts, allItems));
+        result.setPageSupplier(restricts, r -> mockResultPage(r, allItems));
         result.setScrollSupplier(scrollId -> mockResultPage(restricts, allItems));
 
         return result;

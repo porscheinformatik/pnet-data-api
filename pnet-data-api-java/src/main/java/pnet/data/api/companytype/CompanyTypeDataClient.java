@@ -45,7 +45,7 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
                     // intentionally left blank
                 });
 
-            resultPage.setPageSupplier(restricts, index -> get(restricts));
+            resultPage.setPageSupplier(restricts, this::get);
 
             return resultPage;
         });
