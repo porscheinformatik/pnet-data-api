@@ -39,7 +39,8 @@ public class AdvisorTypeDataClientMock extends AdvisorTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<AdvisorTypeDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<AdvisorTypeDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<AdvisorTypeDataDTO> entries = findDatas(restricts);
 
@@ -47,7 +48,8 @@ public class AdvisorTypeDataClientMock extends AdvisorTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<AdvisorTypeItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<AdvisorTypeItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<AdvisorTypeItemDTO> entries = findItems(restricts);
 
@@ -55,7 +57,8 @@ public class AdvisorTypeDataClientMock extends AdvisorTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<AdvisorTypeItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<AdvisorTypeItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<AdvisorTypeItemDTO> entries = findItems(restricts);
 

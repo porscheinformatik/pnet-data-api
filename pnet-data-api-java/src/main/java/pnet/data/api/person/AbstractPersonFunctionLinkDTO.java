@@ -97,11 +97,10 @@ public abstract class AbstractPersonFunctionLinkDTO extends AbstractLinkDTO impl
         {
             return false;
         }
-        if (!(obj instanceof AbstractPersonFunctionLinkDTO))
+        if (!(obj instanceof AbstractPersonFunctionLinkDTO other))
         {
             return false;
         }
-        AbstractPersonFunctionLinkDTO other = (AbstractPersonFunctionLinkDTO) obj;
         return Objects.equals(brandMatchcode, other.brandMatchcode) && Objects.equals(companyId, other.companyId);
     }
 

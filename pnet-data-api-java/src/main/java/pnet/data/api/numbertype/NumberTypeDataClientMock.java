@@ -39,7 +39,8 @@ public class NumberTypeDataClientMock extends NumberTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<NumberTypeDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<NumberTypeDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<NumberTypeDataDTO> entries = findDatas(restricts);
 
@@ -47,7 +48,8 @@ public class NumberTypeDataClientMock extends NumberTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<NumberTypeItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<NumberTypeItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<NumberTypeItemDTO> entries = findItems(restricts);
 
@@ -55,7 +57,8 @@ public class NumberTypeDataClientMock extends NumberTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<NumberTypeItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<NumberTypeItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<NumberTypeItemDTO> entries = findItems(restricts);
 

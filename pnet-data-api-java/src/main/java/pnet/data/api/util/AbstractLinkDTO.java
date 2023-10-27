@@ -69,11 +69,10 @@ public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Seri
         {
             return false;
         }
-        if (!(obj instanceof AbstractLinkDTO))
+        if (!(obj instanceof AbstractLinkDTO other))
         {
             return false;
         }
-        AbstractLinkDTO other = (AbstractLinkDTO) obj;
         if (!Objects.equals(matchcode, other.matchcode))
         {
             return false;

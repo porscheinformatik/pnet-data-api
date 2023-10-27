@@ -38,7 +38,8 @@ public class ContractStateDataClientMock extends ContractStateDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ContractStateDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractStateDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ContractStateDataDTO> entries = findDatas(restricts);
 
@@ -46,7 +47,8 @@ public class ContractStateDataClientMock extends ContractStateDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ContractStateItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractStateItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ContractStateItemDTO> entries = findItems(restricts);
 
@@ -54,7 +56,8 @@ public class ContractStateDataClientMock extends ContractStateDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ContractStateItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ContractStateItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ContractStateItemDTO> entries = findItems(restricts);
 

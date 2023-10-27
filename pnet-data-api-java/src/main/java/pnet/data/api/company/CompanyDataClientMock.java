@@ -39,7 +39,8 @@ public class CompanyDataClientMock extends CompanyDataClient implements
         itemStore.addFilter("id", whenEquals(CompanyItemDTO::getCompanyId));
         itemStore.addFilter("companyNumber", whenEquals(CompanyItemDTO::getCompanyNumber));
         itemStore
-            .addFilter(BRAND_KEY, withCollection(CompanyItemDTO::getBrands, whenEquals(CompanyBrandLinkDTO::getMatchcode)));
+            .addFilter(BRAND_KEY,
+                withCollection(CompanyItemDTO::getBrands, whenEquals(CompanyBrandLinkDTO::getMatchcode)));
         itemStore.addFilter("poastCode", whenEquals(CompanyItemDTO::getPostalCode));
         itemStore.addFilter("countryCode", whenEquals(CompanyItemDTO::getCountryCode));
         itemStore

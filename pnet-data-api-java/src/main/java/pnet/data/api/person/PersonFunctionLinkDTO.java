@@ -107,11 +107,10 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
         {
             return false;
         }
-        if (!(obj instanceof PersonFunctionLinkDTO))
+        if (!(obj instanceof PersonFunctionLinkDTO other))
         {
             return false;
         }
-        PersonFunctionLinkDTO other = (PersonFunctionLinkDTO) obj;
         return PnetDataApiUtils.equals(validFrom, other.validFrom);
     }
 

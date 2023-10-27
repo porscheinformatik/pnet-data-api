@@ -129,11 +129,10 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
         {
             return false;
         }
-        if (!(obj instanceof PersonAdvisorAssignmentLinkDTO))
+        if (!(obj instanceof PersonAdvisorAssignmentLinkDTO other))
         {
             return false;
         }
-        PersonAdvisorAssignmentLinkDTO other = (PersonAdvisorAssignmentLinkDTO) obj;
         if (!Objects.equals(brandMatchcode, other.brandMatchcode))
         {
             return false;

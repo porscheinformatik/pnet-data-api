@@ -319,7 +319,7 @@ public class GenericTypeTest
         assertThat(innerGenericJavaType.getTypeName(), is("java.lang.String"));
         assertThat(innerGenericJavaType.getSimpleTypeName(), is("String"));
 
-        GenericType.Of<A<List<String>>> GenericJavaTypeOfOf = new GenericType.Of<A<List<String>>>()
+        GenericType.Of<A<List<String>>> GenericJavaTypeOfOf = new GenericType.Of<>()
         {
             // intentionally left blank
         };
@@ -332,7 +332,7 @@ public class GenericTypeTest
     @Test
     public void testOfString()
     {
-        Of<String> type = new Of<String>()
+        Of<String> type = new Of<>()
         {
             // intentionally left blank
         };
@@ -359,7 +359,7 @@ public class GenericTypeTest
     @Test
     public void testOfObject()
     {
-        Of<Object> type = new Of<Object>()
+        Of<Object> type = new Of<>()
         {
             // intentionally left blank
         };
@@ -386,7 +386,7 @@ public class GenericTypeTest
     @Test
     public void testDoppeltGemoppeltOf()
     {
-        Of<List<String>> genericJavaType = new Of<List<String>>()
+        Of<List<String>> genericJavaType = new Of<>()
         {
             // intentionally left blank
         };
@@ -397,8 +397,8 @@ public class GenericTypeTest
         assertThat(genericJavaType.getTypeName(), is("java.util.List<java.lang.String>"));
         assertThat(genericJavaType.getSimpleTypeName(), is("List<String>"));
         assertThat(genericJavaType.isInstance(null), is(true));
-        assertThat(genericJavaType.isInstance(new ArrayList<String>()), is(true));
-        assertThat(genericJavaType.isInstance(new ArrayList<Integer>()), is(true)); // type info gets lost during compilation
+        assertThat(genericJavaType.isInstance(new ArrayList<>()), is(true));
+        assertThat(genericJavaType.isInstance(new ArrayList<>()), is(true)); // type info gets lost during compilation
         assertThat(genericJavaType.isInstance(new ListOfStrings()), is(true));
         assertThat(genericJavaType.isInstance(new ListOfIntegers()), is(false));
 

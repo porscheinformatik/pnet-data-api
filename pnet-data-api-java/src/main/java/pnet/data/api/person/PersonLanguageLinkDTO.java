@@ -59,11 +59,10 @@ public class PersonLanguageLinkDTO implements Serializable
         {
             return false;
         }
-        if (!(obj instanceof PersonLanguageLinkDTO))
+        if (!(obj instanceof PersonLanguageLinkDTO other))
         {
             return false;
         }
-        PersonLanguageLinkDTO other = (PersonLanguageLinkDTO) obj;
         if (!Objects.equals(language, other.language))
         {
             return false;

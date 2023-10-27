@@ -36,9 +36,9 @@ import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestRequestException;
 import at.porscheinformatik.happyrest.RestResponse;
-import at.porscheinformatik.happyrest.RuntimeRestExceptionWrapper;
 import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
+import at.porscheinformatik.happyrest.RuntimeRestExceptionWrapper;
 
 /**
  * A REST call. This implementation is thread-safe!

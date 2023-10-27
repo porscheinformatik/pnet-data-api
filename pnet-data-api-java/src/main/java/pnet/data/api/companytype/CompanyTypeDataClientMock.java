@@ -40,7 +40,8 @@ public class CompanyTypeDataClientMock extends CompanyTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyTypeDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyTypeDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<CompanyTypeDataDTO> entries = findDatas(restricts);
 
@@ -48,7 +49,8 @@ public class CompanyTypeDataClientMock extends CompanyTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyTypeItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyTypeItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<CompanyTypeItemDTO> entries = findItems(restricts);
 
@@ -56,7 +58,8 @@ public class CompanyTypeDataClientMock extends CompanyTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyTypeItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyTypeItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<CompanyTypeItemDTO> entries = findItems(restricts);
 

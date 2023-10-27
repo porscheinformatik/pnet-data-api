@@ -11,14 +11,14 @@ public interface PnetDataConstants
     String SEARCH_AFTER_KEY = "sa";
 
     String LANGUAGE_KEY = "l";
-    
+
     String MATCHCODE_KEY = "mc";
-    
+
     String TENANT_KEY = "t";
-    
+
     String BRAND_KEY = "b";
-    
+
     String UPDATED_AFTER_KEY = "up";
-    
+
     String SCROLL_KEY = "scroll";
 }

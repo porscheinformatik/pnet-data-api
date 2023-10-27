@@ -39,7 +39,8 @@ public class ExternalBrandDataClientMock extends ExternalBrandDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ExternalBrandDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ExternalBrandDataDTO> entries = findDatas(restricts);
 
@@ -47,7 +48,8 @@ public class ExternalBrandDataClientMock extends ExternalBrandDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ExternalBrandItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ExternalBrandItemDTO> entries = findItems(restricts);
 
@@ -55,7 +57,8 @@ public class ExternalBrandDataClientMock extends ExternalBrandDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ExternalBrandItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ExternalBrandItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ExternalBrandItemDTO> entries = findItems(restricts);
 

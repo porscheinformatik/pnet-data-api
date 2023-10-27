@@ -116,12 +116,10 @@ public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
             return false;
         }
 
-        if (!(obj instanceof PnetDataApiTokenKey))
+        if (!(obj instanceof PnetDataApiTokenKey other))
         {
             return false;
         }
-
-        PnetDataApiTokenKey other = (PnetDataApiTokenKey) obj;
 
         if (!Objects.equals(password, other.password))
         {

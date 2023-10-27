@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import at.porscheinformatik.happyrest.GenericType;
@@ -71,16 +69,6 @@ public class JacksonBasedParser implements RestParser
         try
         {
             return mapper.readValue(bytes, JacksonTypeReference.of(type));
-        }
-        catch (JsonParseException e)
-        {
-            throw new RestParserException(
-                "Failed to parse JSON for type " + type + ": " + RestUtils.abbreviate(new String(bytes), 2048), e);
-        }
-        catch (JsonMappingException e)
-        {
-            throw new RestParserException(
-                "Failed to parse JSON for type " + type + ": " + RestUtils.abbreviate(new String(bytes), 2048), e);
         }
         catch (Exception e)
         {

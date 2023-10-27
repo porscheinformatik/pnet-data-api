@@ -69,7 +69,7 @@ public abstract class AbstractContextPnetDataApiClientConfig
     public Converter<LocalDateTime, String> localDateTimeToStringConverter()
     {
         // do not convert this to a Lambda operation, otherwise Spring get's confused!
-        return new Converter<LocalDateTime, String>()
+        return new Converter<>()
         {
             private final ZoneId systemDefault = ZoneId.systemDefault();
             private final ZoneId utc = ZoneId.of("UTC");
@@ -94,7 +94,7 @@ public abstract class AbstractContextPnetDataApiClientConfig
     public Converter<GeoDistance, String> geoDistanceToStringConverter()
     {
         // do not convert this to a Lambda operation, otherwise Spring get's confused!
-        return new Converter<GeoDistance, String>()
+        return new Converter<>()
         {
             private final Locale locale = Locale.ENGLISH;
 

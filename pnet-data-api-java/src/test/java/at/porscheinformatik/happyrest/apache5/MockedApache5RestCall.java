@@ -173,7 +173,7 @@ public class MockedApache5RestCall extends Apache5RestCall
     {
         return (MockedApache5RestResponse<T>) super.invoke(method, responseType);
     }
-    
+
     @Override
     protected <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType, HttpUriRequestBase request)
         throws RestException, RestRequestException

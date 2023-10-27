@@ -24,6 +24,7 @@ import pnet.data.api.person.PersonPnetDataApiClientConfig;
 
 /**
  * Spring configuration for the PnetDataApiClient module
+ *
  * @deprecated will be removed soon. Switch to the java-11 branch, if you need this feature!
  */
 @Configuration

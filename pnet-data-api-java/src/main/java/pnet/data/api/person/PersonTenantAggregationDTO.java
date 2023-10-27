@@ -22,7 +22,7 @@ public class PersonTenantAggregationDTO implements Serializable
         super();
 
         this.tenant = tenant;
-        this.count = count != null ? count.longValue() : 0;
+        this.count = count != null ? count : 0;
     }
 
     public String getTenant()

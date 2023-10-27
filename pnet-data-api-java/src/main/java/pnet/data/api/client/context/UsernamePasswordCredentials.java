@@ -43,11 +43,10 @@ public class UsernamePasswordCredentials
         {
             return true;
         }
-        if (!(obj instanceof UsernamePasswordCredentials))
+        if (!(obj instanceof UsernamePasswordCredentials other))
         {
             return false;
         }
-        UsernamePasswordCredentials other = (UsernamePasswordCredentials) obj;
         return Objects.equals(password, other.password) && Objects.equals(username, other.username);
     }
 }

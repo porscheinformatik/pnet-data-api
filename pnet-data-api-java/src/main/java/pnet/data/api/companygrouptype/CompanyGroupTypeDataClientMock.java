@@ -38,7 +38,8 @@ public class CompanyGroupTypeDataClientMock extends CompanyGroupTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyGroupTypeDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyGroupTypeDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<CompanyGroupTypeDataDTO> entries = findDatas(restricts);
 
@@ -46,7 +47,8 @@ public class CompanyGroupTypeDataClientMock extends CompanyGroupTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyGroupTypeItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyGroupTypeItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<CompanyGroupTypeItemDTO> entries = findItems(restricts);
 
@@ -54,7 +56,8 @@ public class CompanyGroupTypeDataClientMock extends CompanyGroupTypeDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<CompanyGroupTypeItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<CompanyGroupTypeItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<CompanyGroupTypeItemDTO> entries = findItems(restricts);
 

@@ -120,11 +120,10 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
         {
             return false;
         }
-        if (!(obj instanceof ActivePersonCompanyLinkDTO))
+        if (!(obj instanceof ActivePersonCompanyLinkDTO other))
         {
             return false;
         }
-        ActivePersonCompanyLinkDTO other = (ActivePersonCompanyLinkDTO) obj;
         return Objects.equals(companyId, other.companyId);
     }
 

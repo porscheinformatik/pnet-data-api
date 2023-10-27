@@ -37,7 +37,8 @@ public class LegalFormDataClientMock extends LegalFormDataClient implements
     }
 
     @Override
-    protected PnetDataClientResultPage<LegalFormDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<LegalFormDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<LegalFormDataDTO> entries = findDatas(restricts);
 
@@ -45,7 +46,8 @@ public class LegalFormDataClientMock extends LegalFormDataClient implements
     }
 
     @Override
-    protected PnetDataClientResultPage<LegalFormItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<LegalFormItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<LegalFormItemDTO> entries = findItems(restricts);
 
@@ -53,7 +55,8 @@ public class LegalFormDataClientMock extends LegalFormDataClient implements
     }
 
     @Override
-    protected PnetDataClientResultPage<LegalFormItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<LegalFormItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<LegalFormItemDTO> entries = findItems(restricts);
 

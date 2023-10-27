@@ -77,11 +77,10 @@ public class CompanyNumberLinkDTO implements WithMatchcode, Serializable
         {
             return false;
         }
-        if (!(obj instanceof CompanyNumberLinkDTO))
+        if (!(obj instanceof CompanyNumberLinkDTO other))
         {
             return false;
         }
-        CompanyNumberLinkDTO other = (CompanyNumberLinkDTO) obj;
         if (!Objects.equals(matchcode, other.matchcode))
         {
             return false;

@@ -131,11 +131,10 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO implements WithB
         {
             return false;
         }
-        if (!(obj instanceof CompanyContractTypeLinkDTO))
+        if (!(obj instanceof CompanyContractTypeLinkDTO other))
         {
             return false;
         }
-        CompanyContractTypeLinkDTO other = (CompanyContractTypeLinkDTO) obj;
         if (!Objects.equals(brandMatchcode, other.brandMatchcode))
         {
             return false;

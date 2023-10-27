@@ -126,11 +126,10 @@ public class CompanyContractStateLinkDTO extends AbstractLinkDTO
         {
             return false;
         }
-        if (!(obj instanceof CompanyContractStateLinkDTO))
+        if (!(obj instanceof CompanyContractStateLinkDTO other))
         {
             return false;
         }
-        CompanyContractStateLinkDTO other = (CompanyContractStateLinkDTO) obj;
         if (!Objects.equals(brandMatchcode, other.brandMatchcode))
         {
             return false;

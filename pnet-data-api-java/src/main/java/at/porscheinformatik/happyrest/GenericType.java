@@ -56,34 +56,27 @@ public interface GenericType<T> extends ParameterizedType
             return (GenericType<T>) type;
         }
 
-        if (type instanceof ParameterizedType)
+        if (type instanceof ParameterizedType parameterizedType)
         {
-            ParameterizedType parameterizedType = (ParameterizedType) type;
             Class<?> rawType = (Class<?>) parameterizedType.getRawType();
 
             return new Of<>(null, parameterizedType.getOwnerType(), rawType, Of.EMPTY_TYPES, Of.EMPTY_TYPES,
                 parameterizedType.getActualTypeArguments());
         }
 
-        if (type instanceof TypeVariable<?>)
+        if (type instanceof TypeVariable<?> typeVariable)
         {
-            TypeVariable<?> typeVariable = (TypeVariable<?>) type;
-
             return new Of<>(typeVariable.getName(), null, null, Of.EMPTY_TYPES, Of.EMPTY_TYPES);
         }
 
-        if (type instanceof Class<?>)
+        if (type instanceof Class<?> clazz)
         {
-            Class<?> clazz = (Class<?>) type;
-
             return new Of<>(null, clazz.getEnclosingClass(), clazz, Of.EMPTY_TYPES, Of.EMPTY_TYPES,
                 of(clazz.getTypeParameters()));
         }
 
-        if (type instanceof WildcardType)
+        if (type instanceof WildcardType wildcardType)
         {
-            WildcardType wildcardType = (WildcardType) type;
-
             return new Of<>(null, null, null, wildcardType.getLowerBounds(), wildcardType.getUpperBounds());
         }
 
@@ -458,9 +451,8 @@ public interface GenericType<T> extends ParameterizedType
                 return parameter;
             }
 
-            if (parameter instanceof TypeVariable<?>)
+            if (parameter instanceof TypeVariable<?> typeVariable)
             {
-                TypeVariable<?> typeVariable = (TypeVariable<?>) parameter;
                 Class<?> genericDeclaration = (Class<?>) typeVariable.getGenericDeclaration();
 
                 if (implementingType == genericDeclaration)

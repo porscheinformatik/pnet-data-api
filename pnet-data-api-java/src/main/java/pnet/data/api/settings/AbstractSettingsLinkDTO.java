@@ -38,11 +38,10 @@ public abstract class AbstractSettingsLinkDTO implements WithTenant, Serializabl
         {
             return true;
         }
-        if (!(obj instanceof AbstractSettingsLinkDTO))
+        if (!(obj instanceof AbstractSettingsLinkDTO other))
         {
             return false;
         }
-        AbstractSettingsLinkDTO other = (AbstractSettingsLinkDTO) obj;
         return Objects.equals(tenant, other.tenant);
     }
 

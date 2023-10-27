@@ -38,7 +38,8 @@ public class ApplicationDataClientMock extends ApplicationDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ApplicationDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ApplicationDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ApplicationDataDTO> entries = findDatas(restricts);
 
@@ -46,7 +47,8 @@ public class ApplicationDataClientMock extends ApplicationDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ApplicationItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ApplicationItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ApplicationItemDTO> entries = findItems(restricts);
 
@@ -54,7 +56,8 @@ public class ApplicationDataClientMock extends ApplicationDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<ApplicationItemDTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<ApplicationItemDTO> search(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<ApplicationItemDTO> entries = findItems(restricts);
 

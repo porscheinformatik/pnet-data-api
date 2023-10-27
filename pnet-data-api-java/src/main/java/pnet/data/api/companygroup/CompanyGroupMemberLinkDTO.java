@@ -87,12 +87,10 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
         {
             return false;
         }
-        if (!(obj instanceof CompanyGroupMemberLinkDTO))
+        if (!(obj instanceof CompanyGroupMemberLinkDTO other))
         {
             return false;
         }
-
-        CompanyGroupMemberLinkDTO other = (CompanyGroupMemberLinkDTO) obj;
 
         if (!Objects.equals(groupType, other.groupType))
         {

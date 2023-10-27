@@ -99,11 +99,10 @@ public abstract class AbstractNumberTypeLinkDTO extends AbstractLinkDTO implemen
         {
             return false;
         }
-        if (!(obj instanceof AbstractNumberTypeLinkDTO))
+        if (!(obj instanceof AbstractNumberTypeLinkDTO other))
         {
             return false;
         }
-        AbstractNumberTypeLinkDTO other = (AbstractNumberTypeLinkDTO) obj;
         return Objects.equals(companyId, other.companyId);
     }
 

@@ -171,11 +171,10 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompan
         {
             return false;
         }
-        if (!(obj instanceof PersonActivityLinkDTO))
+        if (!(obj instanceof PersonActivityLinkDTO other))
         {
             return false;
         }
-        PersonActivityLinkDTO other = (PersonActivityLinkDTO) obj;
         return Objects.equals(brandMatchcode, other.brandMatchcode)
             && Objects.equals(companyId, other.companyId)
             && PnetDataApiUtils.equals(validFrom, other.validFrom);

@@ -52,11 +52,10 @@ public class CompanyTypeLinkDTO implements WithMatchcode, Serializable
         {
             return false;
         }
-        if (!(obj instanceof CompanyTypeLinkDTO))
+        if (!(obj instanceof CompanyTypeLinkDTO other))
         {
             return false;
         }
-        CompanyTypeLinkDTO other = (CompanyTypeLinkDTO) obj;
         if (!Objects.equals(matchcode, other.matchcode))
         {
             return false;

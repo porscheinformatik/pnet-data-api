@@ -143,11 +143,10 @@ public class CompanyContractDistributionStructureLinkDTO
         {
             return true;
         }
-        if (!(obj instanceof CompanyContractDistributionStructureLinkDTO))
+        if (!(obj instanceof CompanyContractDistributionStructureLinkDTO other))
         {
             return false;
         }
-        CompanyContractDistributionStructureLinkDTO other = (CompanyContractDistributionStructureLinkDTO) obj;
         return Objects.equals(brandMatchcode, other.brandMatchcode)
             && Objects.equals(companyId, other.companyId)
             && Objects.equals(companyNumber, other.companyNumber)

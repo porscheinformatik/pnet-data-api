@@ -98,11 +98,10 @@ public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPer
         {
             return false;
         }
-        if (!(obj instanceof CompanyBrandLinkDTO))
+        if (!(obj instanceof CompanyBrandLinkDTO other))
         {
             return false;
         }
-        CompanyBrandLinkDTO other = (CompanyBrandLinkDTO) obj;
         if (!PnetDataApiUtils.equals(validFrom, other.validFrom))
         {
             return false;

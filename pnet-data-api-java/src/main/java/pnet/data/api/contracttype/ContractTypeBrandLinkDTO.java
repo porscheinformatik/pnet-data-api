@@ -66,11 +66,10 @@ public class ContractTypeBrandLinkDTO extends AbstractLinkDTO
         {
             return false;
         }
-        if (!(obj instanceof ContractTypeBrandLinkDTO))
+        if (!(obj instanceof ContractTypeBrandLinkDTO other))
         {
             return false;
         }
-        ContractTypeBrandLinkDTO other = (ContractTypeBrandLinkDTO) obj;
         if (!Objects.equals(states, other.states))
         {
             return false;
