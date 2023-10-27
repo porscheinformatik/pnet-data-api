@@ -1,5 +1,7 @@
 package pnet.data.api.client;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,10 +139,10 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         {
             List<Pair<String, Object>> restricts = new ArrayList<>(this.restricts);
 
-            restricts.removeIf(restrict -> "p".equals(restrict.getLeft()));
-            restricts.removeIf(restrict -> "sa".equals(restrict.getLeft()));
-            restricts.add(Pair.of("p", pageIndex + 1)); // for backward compatibility
-            restricts.add(Pair.of("sa", searchAfter.getValue()));
+            restricts.removeIf(restrict -> PAGE_INDEX_KEY.equals(restrict.getLeft()));
+            restricts.removeIf(restrict -> SEARCH_AFTER_KEY.equals(restrict.getLeft()));
+            restricts.add(Pair.of(PAGE_INDEX_KEY, pageIndex + 1)); // for backward compatibility
+            restricts.add(Pair.of(SEARCH_AFTER_KEY, searchAfter.getValue()));
 
             result = pageSupplier.get(restricts);
         }
@@ -148,9 +150,9 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         {
             List<Pair<String, Object>> restricts = new ArrayList<>(this.restricts);
 
-            restricts.removeIf(restrict -> "p".equals(restrict.getLeft()));
-            restricts.removeIf(restrict -> "sa".equals(restrict.getLeft()));
-            restricts.add(Pair.of("p", pageIndex + 1));
+            restricts.removeIf(restrict -> PAGE_INDEX_KEY.equals(restrict.getLeft()));
+            restricts.removeIf(restrict -> SEARCH_AFTER_KEY.equals(restrict.getLeft()));
+            restricts.add(Pair.of(PAGE_INDEX_KEY, pageIndex + 1));
 
             result = pageSupplier.get(restricts);
         }
@@ -169,9 +171,9 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
 
         List<Pair<String, Object>> restricts = new ArrayList<>(this.restricts);
 
-        restricts.removeIf(restrict -> "p".equals(restrict.getLeft()));
-        restricts.removeIf(restrict -> "sa".equals(restrict.getLeft()));
-        restricts.add(Pair.of("p", pageIndex + 1));
+        restricts.removeIf(restrict -> PAGE_INDEX_KEY.equals(restrict.getLeft()));
+        restricts.removeIf(restrict -> SEARCH_AFTER_KEY.equals(restrict.getLeft()));
+        restricts.add(Pair.of(PAGE_INDEX_KEY, pageIndex + 1));
 
         return pageSupplier.get(restricts);
     }

@@ -1,5 +1,6 @@
 package pnet.data.api.person;
 
+import static pnet.data.api.PnetDataConstants.*;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.Collections;
@@ -31,7 +32,7 @@ public class PersonDataClientMock extends PersonDataClient
         MockStore<PersonItemDTO> itemStore = getItemStore();
 
         itemStore
-            .addFilter("q", whenMatches(PersonItemDTO::getPersonId, PersonItemDTO::getFirstName,
+            .addFilter(QUERY_KEY, whenMatches(PersonItemDTO::getPersonId, PersonItemDTO::getFirstName,
                 PersonItemDTO::getLastName, PersonItemDTO::getPersonnelNumber));
         itemStore.addFilter("id", whenEquals(PersonItemDTO::getPersonId));
         itemStore.addFilter("externalId", whenEquals(PersonItemDTO::getExternalId));
@@ -69,7 +70,8 @@ public class PersonDataClientMock extends PersonDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<PersonDataDTO> get(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<PersonDataDTO> get(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<PersonDataDTO> entries = findDatas(restricts);
 
@@ -77,7 +79,8 @@ public class PersonDataClientMock extends PersonDataClient
     }
 
     @Override
-    protected PnetDataClientResultPage<PersonItemDTO> find(List<Pair<String, Object>> restricts) throws PnetDataClientException
+    protected PnetDataClientResultPage<PersonItemDTO> find(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
     {
         List<PersonItemDTO> entries = findItems(restricts);
 
@@ -85,8 +88,8 @@ public class PersonDataClientMock extends PersonDataClient
     }
 
     @Override
-    protected PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
+    protected PnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO> search(
+        List<Pair<String, Object>> restricts) throws PnetDataClientException
     {
         List<PersonItemDTO> entries = findItems(restricts);
 

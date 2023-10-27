@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 /**
  * Enables scrolling.
  *
@@ -19,6 +21,6 @@ public interface Scrollable<SELF extends Restrict<SELF>> extends Restrict<SELF>
     @Deprecated
     default SELF scroll()
     {
-        return restrict("scroll", true);
+        return restrict(SCROLL_KEY, true);
     }
 }

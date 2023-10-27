@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -57,8 +59,8 @@ public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplet
     {
         List<Pair<String, Object>> restricts = new ArrayList<>(getRestricts());
 
-        restricts.add(Pair.of("l", language));
-        restricts.add(Pair.of("q", query));
+        restricts.add(Pair.of(LANGUAGE_KEY, language));
+        restricts.add(Pair.of(QUERY_KEY, query));
 
         return autoCompleteFunction.autoComplete(Collections.unmodifiableList(restricts));
     }

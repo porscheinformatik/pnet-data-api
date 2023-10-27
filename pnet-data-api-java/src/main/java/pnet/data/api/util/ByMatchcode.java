@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public interface ByMatchcode<DTO, SELF extends By<DTO, SELF>> extends By<DTO, SE
     default PnetDataClientResultPage<DTO> allByMatchcodes(List<String> matchcodes, int pageIndex, int itemsPerPage)
         throws PnetDataClientException
     {
-        return restrict("mc", matchcodes).execute(pageIndex, itemsPerPage);
+        return restrict(MATCHCODE_KEY, matchcodes).execute(pageIndex, itemsPerPage);
     }
 
 }

@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.util.List;
 
 import pnet.data.api.PnetDataClientException;
@@ -24,6 +26,6 @@ public abstract class AbstractScrollableGet<DTO, SELF extends AbstractScrollable
     @Override
     public PnetDataClientResultPage<DTO> executeAndScroll(int itemsPerPage) throws PnetDataClientException
     {
-        return restrict("scroll", true).execute(0, itemsPerPage);
+        return restrict(SCROLL_KEY, true).execute(0, itemsPerPage);
     }
 }

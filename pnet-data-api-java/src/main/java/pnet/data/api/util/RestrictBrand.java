@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.util.Collection;
 
 /**
@@ -13,7 +15,7 @@ public interface RestrictBrand<SELF extends Restrict<SELF>> extends Restrict<SEL
 
     default SELF brand(String... brandMatchcodes)
     {
-        return restrict("b", (Object[]) brandMatchcodes);
+        return restrict(BRAND_KEY, (Object[]) brandMatchcodes);
     }
 
     default SELF brands(Collection<String> brandMatchcodes)

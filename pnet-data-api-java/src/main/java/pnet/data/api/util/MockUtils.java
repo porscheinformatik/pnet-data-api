@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -64,7 +66,7 @@ public final class MockUtils
     {
         return restricts
             .stream()
-            .filter(restrict -> "p".equals(restrict.getLeft()))
+            .filter(restrict -> PAGE_INDEX_KEY.equals(restrict.getLeft()))
             .findFirst()
             .map(restrict -> (Integer) restrict.getRight())
             .orElse(0);
@@ -74,7 +76,7 @@ public final class MockUtils
     {
         return restricts
             .stream()
-            .filter(restrict -> "pp".equals(restrict.getLeft()))
+            .filter(restrict -> ITEMS_PER_PAGE_KEY.equals(restrict.getLeft()))
             .findFirst()
             .map(restrict -> (Integer) restrict.getRight())
             .orElse(10);

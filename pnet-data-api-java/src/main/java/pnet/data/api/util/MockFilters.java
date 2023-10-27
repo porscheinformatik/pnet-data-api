@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.BiPredicate;
@@ -70,36 +72,36 @@ public interface MockFilters
 
     static <T extends WithLabel> void addDefaultLabelQueryFilter(MockStore<T> store)
     {
-        store.addFilter("q", whenMatches(WithLabel::getLabel));
+        store.addFilter(QUERY_KEY, whenMatches(WithLabel::getLabel));
     }
 
     static <T extends WithDescription> void addDefaultDescriptionQueryFilter(MockStore<T> store)
     {
-        store.addFilter("q", whenMatches(WithDescription::getDescription));
+        store.addFilter(QUERY_KEY, whenMatches(WithDescription::getDescription));
     }
 
     static <T extends WithMatchcode> void addDefaultMatchcodeFilter(MockStore<T> store)
     {
-        store.addFilter("mc", whenEquals(WithMatchcode::getMatchcode));
+        store.addFilter(MATCHCODE_KEY, whenEquals(WithMatchcode::getMatchcode));
     }
 
     static <T extends WithTenants> void addDefaultTenantsFilter(MockStore<T> store)
     {
-        store.addFilter("t", whenCollectionContains(WithTenants::getTenants));
+        store.addFilter(TENANT_KEY, whenCollectionContains(WithTenants::getTenants));
     }
 
     static <T extends WithBrandLinks> void addDefaultBrandFilter(MockStore<T> store)
     {
-        store.addFilter("b", withCollection(WithBrandLinks::getBrands, whenEquals(BrandLinkDTO::getMatchcode)));
+        store.addFilter(BRAND_KEY, withCollection(WithBrandLinks::getBrands, whenEquals(BrandLinkDTO::getMatchcode)));
     }
 
     static <T extends WithLastUpdate> void addDefaultLastUpdateFilter(MockStore<T> store)
     {
-        store.addFilter("up", whenAfter(WithLastUpdate::getLastUpdate));
+        store.addFilter(UPDATED_AFTER_KEY, whenAfter(WithLastUpdate::getLastUpdate));
     }
 
     static <T> void addDefaultScrollDummy(MockStore<T> store)
     {
-        store.addFilter("scroll", ignore());
+        store.addFilter(SCROLL_KEY, ignore());
     }
 }

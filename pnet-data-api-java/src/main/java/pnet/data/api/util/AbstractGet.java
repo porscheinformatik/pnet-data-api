@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -73,8 +75,8 @@ public abstract class AbstractGet<DTO, SELF extends AbstractGet<DTO, SELF>> exte
     {
         List<Pair<String, Object>> restricts = new ArrayList<>(getRestricts());
 
-        restricts.add(Pair.of("sa", searchAfter.getValue()));
-        restricts.add(Pair.of("pp", itemsPerPage));
+        restricts.add(Pair.of(SEARCH_AFTER_KEY, searchAfter.getValue()));
+        restricts.add(Pair.of(ITEMS_PER_PAGE_KEY, itemsPerPage));
 
         return execute(restricts);
     }
@@ -84,8 +86,8 @@ public abstract class AbstractGet<DTO, SELF extends AbstractGet<DTO, SELF>> exte
     {
         List<Pair<String, Object>> restricts = new ArrayList<>(getRestricts());
 
-        restricts.add(Pair.of("p", pageIndex));
-        restricts.add(Pair.of("pp", itemsPerPage));
+        restricts.add(Pair.of(PAGE_INDEX_KEY, pageIndex));
+        restricts.add(Pair.of(ITEMS_PER_PAGE_KEY, itemsPerPage));
 
         return execute(restricts);
     }

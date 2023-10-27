@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -26,6 +28,6 @@ public abstract class AbstractScrollableSearch<DTO, SELF extends AbstractScrolla
     public PnetDataClientResultPage<DTO> executeAndScroll(Locale language, String query, int itemsPerPage)
         throws PnetDataClientException
     {
-        return restrict("scroll", true).execute(language, query, 0, itemsPerPage);
+        return restrict(SCROLL_KEY, true).execute(language, query, 0, itemsPerPage);
     }
 }

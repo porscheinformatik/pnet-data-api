@@ -1,5 +1,7 @@
 package pnet.data.api.util;
 
+import static pnet.data.api.PnetDataConstants.*;
+
 import java.time.LocalDateTime;
 
 /**
@@ -13,7 +15,7 @@ public interface RestrictUpdatedAfter<SELF extends Restrict<SELF>> extends Restr
 
     default SELF updatedAfter(LocalDateTime updatedAfter)
     {
-        return restrict("up", updatedAfter);
+        return restrict(UPDATED_AFTER_KEY, updatedAfter);
     }
 
 }
