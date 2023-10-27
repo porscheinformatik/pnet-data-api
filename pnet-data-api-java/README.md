@@ -21,8 +21,11 @@ The Java client has been designed to **reduce its dependencies to a minimum**. A
 
 -   **[Just use the DTOs](#just-use-the-dtos)**: You don't need any dependencies for this. You don't need Spring for this.
 -   **[Java HTTP Client](#java-http-client)**: Use the Java HTTP Client introduced with Java 9 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
--   **[Apache HTTP Client](#apache-http-client)**: Use the Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
--   **[Spring](#spring)**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible. For older Spring version, please use the version the `java-11` branch.
+-   **[Apache HTTP Client 5](#apache-http-client-5)**: Use the Apache HTTP Client 5 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
+-   **[(Old) Apache HTTP Client](#old-apache-http-client)**: Use the legacy Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
+-   **[Spring](#spring)**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible. For older Spring version, please use the version in the `java-11` branch.
+
+**Recommendation:** If your project uses Spring, the [Spring](#spring) client is the recommended implementation. If you don't use Spring then pick the [Java HTTP Client](#java-http-client).
 
 ## Just use the DTOs
 
@@ -37,7 +40,7 @@ You will need the following dependencies:
 
 That's it. Now, you may implement the client on your own.
 
-The project contains an adapter that utilizes different kinds of HTTP clients. You may wish to use this adapter while adapting to your own preferred HTTP client. This holds the advantage, that you can use the rest of the infrastructure provided by this library. Have a look at the implementations of the `at.porscheinformatik.happyrest.java.JavaRestCall` (using the Java HTTP client), the `at.porscheinformatik.happyrest.apache.ApacheRestCall` (using the Apache HTTP Client) or the `at.porscheinformatik.happyrest.spring.SpringRestCall` (using Spring's REST Template).
+The project contains an adapter that utilizes different kinds of HTTP clients. You may wish to use this adapter while adapting to your own preferred HTTP client. This holds the advantage, that you can use the rest of the infrastructure provided by this library. Have a look at the implementations of the `at.porscheinformatik.happyrest.java.JavaRestCall` (using the Java HTTP client), the `at.porscheinformatik.happyrest.apache5.Apache5RestCall` (using the Apache HTTP Client 5), the `at.porscheinformatik.happyrest.apache.ApacheRestCall` (using the legacy Apache HTTP Client) or the `at.porscheinformatik.happyrest.spring.SpringRestCall` (using Spring's REST Template).
 
 ## Java HTTP Client
 
