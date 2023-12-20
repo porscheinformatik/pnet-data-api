@@ -4,6 +4,7 @@ import static at.porscheinformatik.happyrest.spring.SpringRestUtils.*;
 
 import java.lang.reflect.Array;
 import java.net.URI;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
 import at.porscheinformatik.happyrest.RestVariable;
+import pnet.data.api.ErrorResult;
 
 /**
  * A REST call, compatible to Spring4. This implementation is thread-safe!
@@ -54,6 +56,7 @@ public class Spring4RestCall extends AbstractRestCall
         this(restTemplate, loggerAdapter, url, null, MediaType.APPLICATION_JSON, null, formatter, (Object) null);
     }
 
+    @SuppressWarnings("java:S107") // As usual, the high number of parameters is necessary
     protected Spring4RestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, String url,
         List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
         RestFormatter formatter, Object body)
@@ -85,9 +88,8 @@ public class Spring4RestCall extends AbstractRestCall
         {
             MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 
-            getParameters()
-                .stream()
-                .forEach(attribute -> map.add(attribute.getName(), format(MediaType.TEXT_PLAIN, attribute.getValue())));
+            getParameters().forEach(
+                attribute -> map.add(attribute.getName(), format(MediaType.TEXT_PLAIN, attribute.getValue())));
 
             return map;
         }
@@ -110,7 +112,7 @@ public class Spring4RestCall extends AbstractRestCall
     }
 
     protected <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType, URI uri, HttpEntity<Object> entity)
-        throws RestResponseException, RestException
+        throws RestException
     {
         try
         {
@@ -118,7 +120,7 @@ public class Spring4RestCall extends AbstractRestCall
         }
         catch (RestClientResponseException e)
         {
-            throw new RestResponseException(toDescription(method, uri, e), e.getStatusCode().value(), e.getStatusText(),
+            throw new RestResponseException(toErrorResult(e, method, uri), e.getStatusCode().value(), e.getStatusText(),
                 e);
         }
         catch (Exception e)
@@ -142,16 +144,16 @@ public class Spring4RestCall extends AbstractRestCall
     }
 
     protected <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType, URI uri,
-        HttpEntity<Object> entity) throws RestResponseException, RestException
+        HttpEntity<Object> entity) throws RestException
     {
         try
         {
-            return new Spring4RestResponse<>(restTemplate
-                .exchange(uri, toHttpMethod(method), entity, GenericParameterizedTypeReference.of(responseType)));
+            return new Spring4RestResponse<>(restTemplate.exchange(uri, toHttpMethod(method), entity,
+                GenericParameterizedTypeReference.of(responseType)));
         }
         catch (RestClientResponseException e)
         {
-            throw new RestResponseException(toDescription(method, uri, e), e.getStatusCode().value(), e.getStatusText(),
+            throw new RestResponseException(toErrorResult(e, method, uri), e.getStatusCode().value(), e.getStatusText(),
                 e);
         }
         catch (Exception e)
@@ -162,29 +164,16 @@ public class Spring4RestCall extends AbstractRestCall
 
     protected HttpMethod toHttpMethod(RestMethod method)
     {
-        switch (method)
+        return switch (method)
         {
-            case DELETE:
-                return HttpMethod.DELETE;
-
-            case GET:
-                return HttpMethod.GET;
-
-            case OPTIONS:
-                return HttpMethod.OPTIONS;
-
-            case PATCH:
-                return HttpMethod.PATCH;
-
-            case POST:
-                return HttpMethod.POST;
-
-            case PUT:
-                return HttpMethod.PUT;
-
-            default:
-                throw new UnsupportedOperationException("Unsupported method: " + method);
-        }
+            case DELETE -> HttpMethod.DELETE;
+            case GET -> HttpMethod.GET;
+            case OPTIONS -> HttpMethod.OPTIONS;
+            case PATCH -> HttpMethod.PATCH;
+            case POST -> HttpMethod.POST;
+            case PUT -> HttpMethod.PUT;
+            default -> throw new UnsupportedOperationException("Unsupported method: " + method);
+        };
     }
 
     protected URI processAttributes(HttpHeaders headers, boolean form) throws RestException
@@ -216,6 +205,7 @@ public class Spring4RestCall extends AbstractRestCall
         }
     }
 
+    @SuppressWarnings("java:S135") // Multiple continues are ok
     private Map<String, Object> buildVariables(UriComponentsBuilder builder, HttpHeaders headers, boolean form)
         throws RestException
     {
@@ -304,8 +294,23 @@ public class Spring4RestCall extends AbstractRestCall
         variables.put(key, value);
     }
 
-    protected static String toDescription(RestMethod method, URI uri, RestClientResponseException e)
+    protected ErrorResult toErrorResult(RestClientResponseException exception, RestMethod method, URI uri)
     {
-        return method + " " + uri + ": " + e.getResponseBodyAsString();
+        try
+        {
+            var result = exception.getResponseBodyAs(ErrorResult.class);
+
+            if (result != null)
+            {
+                return result;
+            }
+        }
+        catch (Exception e)
+        {
+            // ignore
+        }
+
+        return new ErrorResult(exception.getStatusCode().value() + " " + exception.getStatusText(), null,
+            exception.getMessage(), exception.getResponseBodyAsString(), method + " " + uri, ZonedDateTime.now());
     }
 }

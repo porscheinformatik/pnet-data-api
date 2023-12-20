@@ -7,7 +7,6 @@ import java.io.Reader;
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.MediaType;
@@ -17,7 +16,6 @@ import at.porscheinformatik.happyrest.RestUtils;
 
 public class CharArrayParser implements RestParser
 {
-
     public static final CharArrayParser INSTANCE = new CharArrayParser();
 
     private static final GenericType<byte[]> CHAR_ARRAY_TYPE =
@@ -29,17 +27,29 @@ public class CharArrayParser implements RestParser
     }
 
     @Override
-    public boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type)
+    public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
     {
-
         return type.isAssignableFrom(CHAR_ARRAY_TYPE);
     }
 
     @Override
-    public <T> char[] parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in)
-        throws RestParserException
+    public char[] parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException
     {
-        Charset charset = contentType.map(ct -> ct.getCharset(StandardCharsets.UTF_8)).orElse(StandardCharsets.UTF_8);
+        return s.toCharArray();
+    }
+
+    @Override
+    public char[] parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException
+    {
+        return new String(bytes, contentType != null ?
+            contentType.getCharset(StandardCharsets.UTF_8) :
+            StandardCharsets.UTF_8).toCharArray();
+    }
+
+    @Override
+    public char[] parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
+    {
+        Charset charset = contentType != null ? contentType.getCharset(StandardCharsets.UTF_8) : StandardCharsets.UTF_8;
 
         try (Reader reader = new InputStreamReader(in, charset))
         {
@@ -50,5 +60,4 @@ public class CharArrayParser implements RestParser
             throw new RestParserException("Failed to read chars", e);
         }
     }
-
 }

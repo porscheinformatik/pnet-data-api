@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.MediaType;
@@ -18,7 +17,6 @@ import at.porscheinformatik.happyrest.RestUtils;
 
 public class NumberParser implements RestParser
 {
-
     public static final NumberParser INSTANCE = new NumberParser();
 
     private static final GenericType<String> NUMBER_TYPE = GenericType.of(Number.class);
@@ -38,69 +36,80 @@ public class NumberParser implements RestParser
     }
 
     @Override
-    public boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type)
+    public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
     {
         return type.isAssignableFrom(NUMBER_TYPE);
     }
 
     @Override
-    public <T> Object parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in)
-        throws RestParserException
+    public Number parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException
     {
-        Charset charset = contentType.map(ct -> ct.getCharset(StandardCharsets.UTF_8)).orElse(StandardCharsets.UTF_8);
+        try
+        {
+            if (type.isAssignableFrom(BYTE_TYPE))
+            {
+                return Byte.decode(s);
+            }
+
+            if (type.isAssignableFrom(SHORT_TYPE))
+            {
+                return Short.decode(s);
+            }
+
+            if (type.isAssignableFrom(INTEGER_TYPE))
+            {
+                return Integer.decode(s);
+            }
+
+            if (type.isAssignableFrom(LONG_TYPE))
+            {
+                return Long.decode(s);
+            }
+
+            if (type.isAssignableFrom(FLOAT_TYPE))
+            {
+                return Float.parseFloat(s);
+            }
+
+            if (type.isAssignableFrom(DOUBLE_TYPE))
+            {
+                return Double.parseDouble(s);
+            }
+
+            if (type.isAssignableFrom(BIG_INTEGER_TYPE))
+            {
+                return new BigInteger(s);
+            }
+
+            if (type.isAssignableFrom(BIG_DECIMAL_TYPE))
+            {
+                return new BigDecimal(s);
+            }
+
+            throw new IllegalArgumentException("Unsupported type: " + type);
+        }
+        catch (NumberFormatException e)
+        {
+            throw new RestParserException("Failed to parse number: " + s, e);
+        }
+    }
+
+    @Override
+    public Number parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException
+    {
+        Charset charset = contentType != null ? contentType.getCharset(StandardCharsets.UTF_8) : StandardCharsets.UTF_8;
+
+        return parse(contentType, type, new String(bytes, charset));
+    }
+
+    @Override
+    public Number parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
+    {
+        Charset charset = contentType != null ? contentType.getCharset(StandardCharsets.UTF_8) : StandardCharsets.UTF_8;
 
         try (Reader reader = new InputStreamReader(in, charset))
         {
-            String s = RestUtils.readFully(reader);
-
-            try
-            {
-                if (type.isAssignableFrom(BYTE_TYPE))
-                {
-                    return Byte.decode(s);
-                }
-
-                if (type.isAssignableFrom(SHORT_TYPE))
-                {
-                    return Short.decode(s);
-                }
-
-                if (type.isAssignableFrom(INTEGER_TYPE))
-                {
-                    return Integer.decode(s);
-                }
-
-                if (type.isAssignableFrom(LONG_TYPE))
-                {
-                    return Long.decode(s);
-                }
-
-                if (type.isAssignableFrom(FLOAT_TYPE))
-                {
-                    return Float.parseFloat(s);
-                }
-
-                if (type.isAssignableFrom(DOUBLE_TYPE))
-                {
-                    return Double.parseDouble(s);
-                }
-
-                if (type.isAssignableFrom(BIG_INTEGER_TYPE))
-                {
-                    return new BigInteger(s);
-                }
-
-                if (type.isAssignableFrom(BIG_DECIMAL_TYPE))
-                {
-                    return new BigDecimal(s);
-                }
-
-                throw new IllegalArgumentException("Unsupported type: " + type);
-            }
-            catch (NumberFormatException e)
-            {
-                throw new RestParserException("Failed to parse number: " + s, e);
-            }
+            return parse(contentType, type, RestUtils.readFully(reader));
         }
         catch (IOException e)
         {

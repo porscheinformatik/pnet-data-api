@@ -1,5 +1,9 @@
 package at.porscheinformatik.happyrest;
 
+import java.io.Serial;
+
+import pnet.data.api.ErrorResult;
+
 /**
  * Exception for REST calls.
  *
@@ -7,7 +11,7 @@ package at.porscheinformatik.happyrest;
  */
 public class RestResponseException extends RestException
 {
-
+    @Serial
     private static final long serialVersionUID = 2832735845570939626L;
 
     private final String description;
@@ -21,6 +25,11 @@ public class RestResponseException extends RestException
         this.description = description;
         this.statusCode = statusCode;
         this.statusMessage = RestUtils.getHttpStatusMessage(statusCode, statusMessage);
+    }
+
+    public RestResponseException(ErrorResult errorResult, int statusCode, String statusMessage, Throwable cause)
+    {
+        this(errorResult.toDescription(), statusCode, statusMessage, cause);
     }
 
     public String getDescription()
@@ -42,5 +51,4 @@ public class RestResponseException extends RestException
     {
         return statusCode + " " + statusMessage;
     }
-
 }

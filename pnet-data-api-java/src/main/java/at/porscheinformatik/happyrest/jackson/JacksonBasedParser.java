@@ -2,7 +2,6 @@ package at.porscheinformatik.happyrest.jackson;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,26 +29,58 @@ public class JacksonBasedParser implements RestParser
     }
 
     @Override
-    public boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type)
+    public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
     {
-        if (!contentType.isPresent())
+        if (contentType == null)
         {
             return true;
         }
 
-        return MediaType.APPLICATION_JSON.isCompatible(contentType.get())
-            || MediaType.APPLICATION_ANY_JSON.isCompatible(contentType.get());
+        return MediaType.APPLICATION_JSON.isCompatible(contentType) || MediaType.APPLICATION_ANY_JSON.isCompatible(
+            contentType);
     }
 
     @Override
-    public <T> Object parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in)
-        throws RestParserException
+    public Object parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException
     {
         if (!isContentTypeSupported(contentType, type))
         {
             throw new RestParserException("Cannot convert " + contentType + " to " + type);
         }
 
+        try
+        {
+            return mapper.readValue(s, JacksonTypeReference.of(type));
+        }
+        catch (Exception e)
+        {
+            throw new RestParserException(
+                "Failed to parse JSON for type " + type + ": " + RestUtils.abbreviate(s, 2048), e);
+        }
+    }
+
+    @Override
+    public Object parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException
+    {
+        if (!isContentTypeSupported(contentType, type))
+        {
+            throw new RestParserException("Cannot convert " + contentType + " to " + type);
+        }
+
+        try
+        {
+            return mapper.readValue(bytes, JacksonTypeReference.of(type));
+        }
+        catch (Exception e)
+        {
+            throw new RestParserException(
+                "Failed to parse JSON for type " + type + ": " + RestUtils.abbreviate(new String(bytes), 2048), e);
+        }
+    }
+
+    @Override
+    public Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
+    {
         byte[] bytes;
 
         try
@@ -66,14 +97,6 @@ public class JacksonBasedParser implements RestParser
             throw new RestParserException("Failed to read JSON", e);
         }
 
-        try
-        {
-            return mapper.readValue(bytes, JacksonTypeReference.of(type));
-        }
-        catch (Exception e)
-        {
-            throw new RestParserException(
-                "Failed to parse JSON for type " + type + ": " + RestUtils.abbreviate(new String(bytes), 2048), e);
-        }
+        return parse(contentType, type, bytes);
     }
 }

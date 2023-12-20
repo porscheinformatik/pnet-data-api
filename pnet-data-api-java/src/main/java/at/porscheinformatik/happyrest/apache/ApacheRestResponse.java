@@ -2,8 +2,6 @@ package at.porscheinformatik.happyrest.apache;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +9,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -31,18 +28,18 @@ import at.porscheinformatik.happyrest.RestUtils;
 /**
  * Wrapper for a HttpClient response
  *
- * @author HAM
  * @param <T> the type of result object
+ * @author HAM
  */
 class ApacheRestResponse<T> implements RestResponse<T>
 {
-
     private static final ZoneId GMT = ZoneId.of("GMT");
 
     private static final DateTimeFormatter[] DATE_PARSERS = new DateTimeFormatter[]{
         DateTimeFormatter.RFC_1123_DATE_TIME,
         DateTimeFormatter.ofPattern("EEEE, dd-MMM-yy HH:mm:ss zzz", Locale.US),
-        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy", Locale.US).withZone(GMT)};
+        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy", Locale.US).withZone(GMT)
+    };
 
     @SuppressWarnings("unchecked")
     public static <T> ApacheRestResponse<T> create(RestParser parser, HttpResponse response, GenericType<T> type)
@@ -61,10 +58,8 @@ class ApacheRestResponse<T> implements RestResponse<T>
         {
             try (InputStream in = entity.getContent())
             {
-                try (Reader reader = new InputStreamReader(in))
-                {
-                    throw new RestResponseException(RestUtils.readFully(reader), statusCode, statusMessage, null);
-                }
+                throw new RestResponseException(RestUtils.toErrorResult(parser, statusCode, statusMessage, in),
+                    statusCode, statusMessage, null);
             }
             catch (IOException e)
             {
@@ -78,7 +73,7 @@ class ApacheRestResponse<T> implements RestResponse<T>
             {
                 try (InputStream in = entity.getContent())
                 {
-                    body = (T) parser.parse(ApacheRestUtils.convertMediaType(contentType), type, in);
+                    body = (T) parser.parse(ApacheRestUtils.convertMediaType(contentType).orElse(null), type, in);
                 }
             }
             catch (ParseException e)
@@ -220,7 +215,7 @@ class ApacheRestResponse<T> implements RestResponse<T>
             .stream(headers)
             .filter(header -> key.equalsIgnoreCase(header.getName()))
             .map(Header::getValue)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     private static String getFirstHeader(Header[] headers, String key)

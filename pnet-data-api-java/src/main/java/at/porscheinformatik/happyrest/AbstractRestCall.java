@@ -2,6 +2,7 @@ package at.porscheinformatik.happyrest;
 
 import java.lang.reflect.Array;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,7 +10,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import pnet.data.api.util.Pair;
 
@@ -20,8 +20,7 @@ import pnet.data.api.util.Pair;
  */
 public abstract class AbstractRestCall implements RestCall
 {
-
-    private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     private final RestLoggerAdapter loggerAdapter;
     private final String url;
@@ -87,10 +86,8 @@ public abstract class AbstractRestCall implements RestCall
         }
 
         return copy(loggerAdapter,
-            RestUtils
-                .appendPathSegmentsWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"),
-                    pathSegments),
-            acceptableMediaTypes, contentType, attributes, formatter, body);
+            RestUtils.appendPathSegmentsWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"),
+                pathSegments), acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
     @Override
@@ -102,9 +99,8 @@ public abstract class AbstractRestCall implements RestCall
         }
 
         return copy(loggerAdapter,
-            RestUtils
-                .appendEncodedPathSegments(Objects.requireNonNull(url, "Cannot add path to missing URL"), pathSegments),
-            acceptableMediaTypes, contentType, attributes, formatter, body);
+            RestUtils.appendEncodedPathSegments(Objects.requireNonNull(url, "Cannot add path to missing URL"),
+                pathSegments), acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
     @Override
@@ -141,10 +137,8 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return attribute(Arrays
-            .stream(values)
-            .map(value -> RestAttribute.header(name, value))
-            .toArray(size -> new RestAttribute[size]));
+        return attribute(
+            Arrays.stream(values).map(value -> RestAttribute.header(name, value)).toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -155,8 +149,7 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return attribute(
-            values.stream().map(value -> RestAttribute.header(name, value)).toArray(size -> new RestAttribute[size]));
+        return attribute(values.stream().map(value -> RestAttribute.header(name, value)).toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -167,10 +160,8 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return replaceAttribute(Arrays
-            .stream(values)
-            .map(value -> RestAttribute.header(name, value))
-            .toArray(size -> new RestAttribute[size]));
+        return replaceAttribute(
+            Arrays.stream(values).map(value -> RestAttribute.header(name, value)).toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -182,7 +173,7 @@ public abstract class AbstractRestCall implements RestCall
         }
 
         return replaceAttribute(
-            values.stream().map(value -> RestAttribute.header(name, value)).toArray(size -> new RestAttribute[size]));
+            values.stream().map(value -> RestAttribute.header(name, value)).toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -205,10 +196,8 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return attribute(Arrays
-            .stream(values)
-            .map(value -> RestAttribute.parameter(name, value))
-            .toArray(size -> new RestAttribute[size]));
+        return attribute(
+            Arrays.stream(values).map(value -> RestAttribute.parameter(name, value)).toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -219,10 +208,8 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return attribute(values
-            .stream()
-            .map(value -> RestAttribute.parameter(name, value))
-            .toArray(size -> new RestAttribute[size]));
+        return attribute(
+            values.stream().map(value -> RestAttribute.parameter(name, value)).toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -236,7 +223,7 @@ public abstract class AbstractRestCall implements RestCall
         return attribute(values
             .stream()
             .map(value -> RestAttribute.parameter(value.getLeft(), value.getRight()))
-            .toArray(size -> new RestAttribute[size]));
+            .toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -247,10 +234,8 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return replaceAttribute(Arrays
-            .stream(values)
-            .map(value -> RestAttribute.parameter(name, value))
-            .toArray(size -> new RestAttribute[size]));
+        return replaceAttribute(
+            Arrays.stream(values).map(value -> RestAttribute.parameter(name, value)).toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -261,10 +246,8 @@ public abstract class AbstractRestCall implements RestCall
             return this;
         }
 
-        return replaceAttribute(values
-            .stream()
-            .map(value -> RestAttribute.parameter(name, value))
-            .toArray(size -> new RestAttribute[size]));
+        return replaceAttribute(
+            values.stream().map(value -> RestAttribute.parameter(name, value)).toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -278,7 +261,7 @@ public abstract class AbstractRestCall implements RestCall
         return replaceAttribute(values
             .stream()
             .map(value -> RestAttribute.parameter(value.getLeft(), value.getRight()))
-            .toArray(size -> new RestAttribute[size]));
+            .toArray(RestAttribute[]::new));
     }
 
     @Override
@@ -309,11 +292,10 @@ public abstract class AbstractRestCall implements RestCall
             Collection<RestAttribute> attributesToRemove = Arrays.asList(attributesToAdd);
             ArrayList<RestAttribute> attributesToKeep = new ArrayList<>(attributes);
 
-            attributesToKeep
-                .removeIf(attribute -> attributesToRemove
-                    .stream()
-                    .anyMatch(attributeToRemove -> attributeToRemove.getClass().isInstance(attribute)
-                        && Objects.equals(attributeToRemove.getName(), attribute.getName())));
+            attributesToKeep.removeIf(attribute -> attributesToRemove
+                .stream()
+                .anyMatch(attributeToRemove -> attributeToRemove.getClass().isInstance(attribute) && Objects.equals(
+                    attributeToRemove.getName(), attribute.getName())));
 
             currentAttributes.addAll(attributesToKeep);
         }
@@ -332,9 +314,8 @@ public abstract class AbstractRestCall implements RestCall
         Collection<String> attributeNameCollection = new HashSet<>(Arrays.asList(attributeNames));
         List<RestAttribute> currentAttributes = new ArrayList<>(attributes);
 
-        currentAttributes
-            .removeIf(attribute -> attributeType.isInstance(attribute)
-                && attributeNameCollection.contains(attribute.getName()));
+        currentAttributes.removeIf(
+            attribute -> attributeType.isInstance(attribute) && attributeNameCollection.contains(attribute.getName()));
 
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType,
             Collections.unmodifiableList(currentAttributes), formatter, body);
@@ -398,23 +379,16 @@ public abstract class AbstractRestCall implements RestCall
 
         boolean form = isForm();
 
-        if (form
-            && (method == RestMethod.GET
-                || method == RestMethod.PUT
-                || method == RestMethod.DELETE
-                || method == RestMethod.OPTIONS))
+        if (form && (method == RestMethod.GET
+            || method == RestMethod.PUT
+            || method == RestMethod.DELETE
+            || method == RestMethod.OPTIONS))
         {
             throw new RestRequestException("A " + method + " request does not allow form values.");
         }
 
         return form;
     }
-
-    @Override
-    public abstract <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException;
-
-    @Override
-    public abstract <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException;
 
     @Override
     public final <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
@@ -434,6 +408,7 @@ public abstract class AbstractRestCall implements RestCall
         return DEFAULT_CHARSET;
     }
 
+    @SuppressWarnings("java:S135")
     protected List<String> collectParameters()
     {
         List<String> parameters = new ArrayList<>();
@@ -452,10 +427,8 @@ public abstract class AbstractRestCall implements RestCall
             {
                 for (int i = 0; i < Array.getLength(value); i++)
                 {
-                    parameters
-                        .add(RestUtils.encodeString(parameter.getName(), charset)
-                            + "="
-                            + RestUtils.encodeString(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset));
+                    parameters.add(RestUtils.encodeString(parameter.getName(), charset) + "=" + RestUtils.encodeString(
+                        format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset));
                 }
 
                 continue;
@@ -465,19 +438,15 @@ public abstract class AbstractRestCall implements RestCall
             {
                 for (Object element : ((Iterable<?>) value))
                 {
-                    parameters
-                        .add(RestUtils.encodeString(parameter.getName(), charset)
-                            + "="
-                            + RestUtils.encodeString(format(MediaType.TEXT_PLAIN, element), charset));
+                    parameters.add(RestUtils.encodeString(parameter.getName(), charset) + "=" + RestUtils.encodeString(
+                        format(MediaType.TEXT_PLAIN, element), charset));
                 }
 
                 continue;
             }
 
-            parameters
-                .add(RestUtils.encodeString(parameter.getName(), charset)
-                    + "="
-                    + RestUtils.encodeString(format(MediaType.TEXT_PLAIN, value), charset));
+            parameters.add(RestUtils.encodeString(parameter.getName(), charset) + "=" + RestUtils.encodeString(
+                format(MediaType.TEXT_PLAIN, value), charset));
         }
 
         return parameters;
@@ -485,14 +454,13 @@ public abstract class AbstractRestCall implements RestCall
 
     protected String buildUrl(boolean form)
     {
-        String url = getUrl();
+        String currentUrl = getUrl();
         Charset charset = getCharset();
 
         for (RestVariable variable : getVariables())
         {
-            url = url
-                .replace("{" + variable.getName() + "}", RestUtils
-                    .encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
+            currentUrl = currentUrl.replace("{" + variable.getName() + "}",
+                RestUtils.encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
         }
 
         if (!form)
@@ -501,20 +469,20 @@ public abstract class AbstractRestCall implements RestCall
 
             if (!parameters.isEmpty())
             {
-                if (url.contains("?"))
+                if (currentUrl.contains("?"))
                 {
-                    url += "&";
+                    currentUrl += "&";
                 }
                 else
                 {
-                    url += "?";
+                    currentUrl += "?";
                 }
 
-                url += parameters.stream().collect(Collectors.joining("&"));
+                currentUrl += String.join("&", parameters);
             }
         }
 
-        return url;
+        return currentUrl;
     }
 
     @Override

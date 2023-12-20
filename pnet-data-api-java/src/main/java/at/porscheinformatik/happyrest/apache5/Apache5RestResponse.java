@@ -2,8 +2,6 @@ package at.porscheinformatik.happyrest.apache5;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +9,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.ContentType;
@@ -29,18 +26,18 @@ import at.porscheinformatik.happyrest.RestUtils;
 /**
  * Wrapper for a HttpClient response
  *
- * @author HAM
  * @param <T> the type of result object
+ * @author HAM
  */
 class Apache5RestResponse<T> implements RestResponse<T>
 {
-
     private static final ZoneId GMT = ZoneId.of("GMT");
 
     private static final DateTimeFormatter[] DATE_PARSERS = new DateTimeFormatter[]{
         DateTimeFormatter.RFC_1123_DATE_TIME,
         DateTimeFormatter.ofPattern("EEEE, dd-MMM-yy HH:mm:ss zzz", Locale.US),
-        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy", Locale.US).withZone(GMT)};
+        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy", Locale.US).withZone(GMT)
+    };
 
     @SuppressWarnings("unchecked")
     public static <T> Apache5RestResponse<T> create(RestParser parser, ClassicHttpResponse response,
@@ -59,10 +56,8 @@ class Apache5RestResponse<T> implements RestResponse<T>
         {
             try (InputStream in = entity.getContent())
             {
-                try (Reader reader = new InputStreamReader(in))
-                {
-                    throw new RestResponseException(RestUtils.readFully(reader), statusCode, statusMessage, null);
-                }
+                throw new RestResponseException(RestUtils.toErrorResult(parser, statusCode, statusMessage, in),
+                    statusCode, statusMessage, null);
             }
             catch (IOException e)
             {
@@ -76,7 +71,7 @@ class Apache5RestResponse<T> implements RestResponse<T>
             {
                 try (InputStream in = entity.getContent())
                 {
-                    body = (T) parser.parse(Apache5RestUtils.convertMediaType(contentType), type, in);
+                    body = (T) parser.parse(Apache5RestUtils.convertMediaType(contentType).orElse(null), type, in);
                 }
             }
             catch (IOException e)
@@ -214,7 +209,7 @@ class Apache5RestResponse<T> implements RestResponse<T>
             .stream(headers)
             .filter(header -> key.equalsIgnoreCase(header.getName()))
             .map(Header::getValue)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     private static String getFirstHeader(Header[] headers, String key)

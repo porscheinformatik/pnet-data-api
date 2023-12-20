@@ -1,5 +1,7 @@
 package pnet.data.api;
 
+import java.io.Serial;
+
 import at.porscheinformatik.happyrest.RestResponseException;
 import at.porscheinformatik.happyrest.RestUtils;
 
@@ -10,7 +12,7 @@ import at.porscheinformatik.happyrest.RestUtils;
  */
 public class PnetDataClientException extends Exception
 {
-
+    @Serial
     private static final long serialVersionUID = -454458537464803864L;
 
     private final int statusCode;
@@ -28,9 +30,12 @@ public class PnetDataClientException extends Exception
     {
         super(String.format(enhanceMessage(message, cause), args), cause);
 
-        statusCode = cause instanceof RestResponseException ? ((RestResponseException) cause).getStatusCode() : -1;
-        statusMessage = cause instanceof RestResponseException ? ((RestResponseException) cause).getStatusMessage()
-            : RestUtils.getHttpStatusMessage(statusCode);
+        statusCode =
+            cause instanceof RestResponseException restResponseException ? restResponseException.getStatusCode() : -1;
+
+        statusMessage = cause instanceof RestResponseException restResponseException ?
+            restResponseException.getStatusMessage() :
+            RestUtils.getHttpStatusMessage(statusCode);
     }
 
     public int getStatusCode()
@@ -47,12 +52,9 @@ public class PnetDataClientException extends Exception
     {
         if (cause instanceof RestResponseException e)
         {
-            return RestUtils.getHttpStatus(e.getStatusCode(), ((RestResponseException) cause).getStatusMessage())
-                + " - "
-                + message;
+            return message + " - " + e.getDescription();
         }
 
         return message;
     }
-
 }

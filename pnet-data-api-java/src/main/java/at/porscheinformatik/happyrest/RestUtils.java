@@ -4,15 +4,18 @@ import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import pnet.data.api.ErrorResult;
 
 /**
  * Utilities for the framework.
@@ -112,9 +115,11 @@ public final class RestUtils
         {
             version = "UNDEFINED";
 
-            try (InputStream stream = RestUtils.class
-                .getClassLoader()
-                .getResourceAsStream("META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
+            try (
+                InputStream stream = RestUtils.class
+                    .getClassLoader()
+                    .getResourceAsStream("META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties")
+            )
             {
                 if (stream != null)
                 {
@@ -142,10 +147,9 @@ public final class RestUtils
 
     public static String getUserAgent(String technology)
     {
-        return String
-            .format("HappyRest %s using %s (%s; %s) %s %s", getVersion(), technology, System.getProperty("os.name"),
-                System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
-                System.getProperty("java.runtime.version"));
+        return String.format("HappyRest %s using %s (%s; %s) %s %s", getVersion(), technology,
+            System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
+            System.getProperty("java.runtime.version"));
     }
 
     // CHECKSTYLE:OFF
@@ -207,26 +211,12 @@ public final class RestUtils
             inPlaceholder = encodeByte(baos, b, ignorePathSeparator, ignorePlaceholders, inPlaceholder);
         }
 
-        try
-        {
-            return baos.toString(charset.name());
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new RuntimeException("Failed to copy contents of ByteArrayOutputStream into a String", e);
-        }
+        return baos.toString(charset);
     }
 
     public static String encodeString(String s, Charset charset)
     {
-        try
-        {
-            return URLEncoder.encode(s, charset.name());
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new IllegalArgumentException("Invalid charset: " + charset);
-        }
+        return URLEncoder.encode(s, charset);
     }
 
     private static boolean encodeByte(ByteArrayOutputStream baos, byte b, boolean ignorePathSeparator,
@@ -278,7 +268,7 @@ public final class RestUtils
 
     private static String appendPath(String uri, boolean encode, boolean ignorePlaceholders, String path)
     {
-        if (path == null || path.length() == 0)
+        if (path == null || path.isEmpty())
         {
             return uri;
         }
@@ -322,12 +312,11 @@ public final class RestUtils
             {
                 if (encode)
                 {
-                    pathSegment = RestUtils
-                        .encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePathSeparator,
-                            ignorePlaceholders);
+                    pathSegment = RestUtils.encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePathSeparator,
+                        ignorePlaceholders);
                 }
 
-                if (!pathSegment.startsWith("/") && builder.length() > 0 && builder.charAt(builder.length() - 1) != '/')
+                if (!pathSegment.startsWith("/") && !builder.isEmpty() && builder.charAt(builder.length() - 1) != '/')
                 {
                     builder.append("/");
                 }
@@ -348,17 +337,17 @@ public final class RestUtils
 
     public static String getHttpStatusMessage(int statusCode, String statusMessage)
     {
-        if (statusMessage != null && statusMessage.length() > 0)
+        if (statusMessage != null && !statusMessage.isEmpty())
         {
             String statusCodeAsString = String.valueOf(statusCode);
 
             if (statusMessage.startsWith(statusCodeAsString))
             {
-                statusMessage = statusMessage.substring(statusCodeAsString.length(), statusMessage.length()).trim();
+                statusMessage = statusMessage.substring(statusCodeAsString.length()).trim();
             }
         }
 
-        if (statusMessage == null || statusMessage.length() == 0)
+        if (statusMessage == null || statusMessage.isEmpty())
         {
             statusMessage = RestUtils.getHttpStatusMessage(statusCode);
         }
@@ -406,7 +395,8 @@ public final class RestUtils
             return result.toByteArray();
         }
 
-        // seems to be buggy, it causes the pnet.data.webapp.person.PersonDataImageIT.getPortrait(ClientTechnology) to fail
+        // seems to be buggy, it causes the pnet.data.webapp.person.PersonDataImageIT.getPortrait(ClientTechnology)
+        // to fail
         // return in.readAllBytes();
     }
 
@@ -474,5 +464,34 @@ public final class RestUtils
         }
 
         return type;
+    }
+
+    public static ErrorResult toErrorResult(RestParser parser, int statusCode, String statusMessage, InputStream stream)
+        throws IOException
+    {
+        try (var reader = new InputStreamReader(stream))
+        {
+            return toErrorResult(parser, statusCode, statusMessage, RestUtils.readFully(reader));
+        }
+    }
+
+    public static ErrorResult toErrorResult(RestParser parser, int statusCode, String statusMessage, String message)
+    {
+        var type = GenericType.of(ErrorResult.class);
+
+        if (parser.isContentTypeSupported(MediaType.APPLICATION_JSON, type))
+        {
+            try
+            {
+                return (ErrorResult) parser.parse(MediaType.APPLICATION_JSON, type, message);
+            }
+            catch (RestParserException e)
+            {
+                // ignore
+            }
+        }
+
+        return new ErrorResult(getHttpStatus(statusCode, statusMessage), null, message, null, null,
+            ZonedDateTime.now());
     }
 }

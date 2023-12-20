@@ -2,8 +2,6 @@ package at.porscheinformatik.happyrest.java;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpResponse;
 import java.time.ZoneId;
@@ -27,8 +25,8 @@ import at.porscheinformatik.happyrest.RestUtils;
 /**
  * Wrapper for a HttpClient response
  *
- * @author HAM
  * @param <T> the type of result object
+ * @author HAM
  */
 class JavaRestResponse<T> implements RestResponse<T>
 {
@@ -38,7 +36,8 @@ class JavaRestResponse<T> implements RestResponse<T>
     private static final DateTimeFormatter[] DATE_PARSERS = new DateTimeFormatter[]{
         DateTimeFormatter.RFC_1123_DATE_TIME,
         DateTimeFormatter.ofPattern("EEEE, dd-MMM-yy HH:mm:ss zzz", Locale.US),
-        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy", Locale.US).withZone(GMT)};
+        DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss yyyy", Locale.US).withZone(GMT)
+    };
 
     @SuppressWarnings("unchecked")
     public static <T> RestResponse<T> create(RestParser parser, HttpResponse<InputStream> response, GenericType<T> type,
@@ -55,10 +54,8 @@ class JavaRestResponse<T> implements RestResponse<T>
         {
             try (InputStream stream = response.body())
             {
-                try (Reader reader = new InputStreamReader(stream))
-                {
-                    throw new RestResponseException(RestUtils.readFully(reader), statusCode, statusMessage, null);
-                }
+                throw new RestResponseException(RestUtils.toErrorResult(parser, statusCode, statusMessage, stream),
+                    statusCode, statusMessage, null);
             }
             catch (IOException e)
             {
@@ -72,7 +69,7 @@ class JavaRestResponse<T> implements RestResponse<T>
             {
                 if (in != null)
                 {
-                    body = (T) parser.parse(optionalContentType, type, in);
+                    body = (T) parser.parse(optionalContentType.orElse(null), type, in);
                 }
             }
             catch (IOException e)

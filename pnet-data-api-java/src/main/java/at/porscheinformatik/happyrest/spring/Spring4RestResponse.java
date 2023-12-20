@@ -19,7 +19,6 @@ import at.porscheinformatik.happyrest.RestUtils;
 @Deprecated
 class Spring4RestResponse<T> implements RestResponse<T>
 {
-
     private final ResponseEntity<T> response;
 
     Spring4RestResponse(ResponseEntity<T> response)

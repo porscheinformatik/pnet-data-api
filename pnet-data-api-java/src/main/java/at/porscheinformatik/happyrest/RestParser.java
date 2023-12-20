@@ -1,7 +1,6 @@
 package at.porscheinformatik.happyrest;
 
 import java.io.InputStream;
-import java.util.Optional;
 
 /**
  * Parses a rest response
@@ -10,13 +9,12 @@ import java.util.Optional;
  */
 public interface RestParser
 {
-
     static RestParser of(RestParser... parsers)
     {
         return new RestParser()
         {
             @Override
-            public boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type)
+            public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
             {
                 for (RestParser parser : parsers)
                 {
@@ -30,14 +28,41 @@ public interface RestParser
             }
 
             @Override
-            public <T> Object parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in)
-                throws RestParserException
+            public Object parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException
             {
                 for (RestParser parser : parsers)
                 {
                     if (parser.isContentTypeSupported(contentType, type))
                     {
-                        return parser.<T> parse(contentType, type, in);
+                        return parser.parse(contentType, type, s);
+                    }
+                }
+
+                throw new RestParserException("Cannot convert " + contentType + " to " + type);
+            }
+
+            @Override
+            public Object parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException
+            {
+                for (RestParser parser : parsers)
+                {
+                    if (parser.isContentTypeSupported(contentType, type))
+                    {
+                        return parser.parse(contentType, type, bytes);
+                    }
+                }
+
+                throw new RestParserException("Cannot convert " + contentType + " to " + type);
+            }
+
+            @Override
+            public Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
+            {
+                for (RestParser parser : parsers)
+                {
+                    if (parser.isContentTypeSupported(contentType, type))
+                    {
+                        return parser.parse(contentType, type, in);
                     }
                 }
 
@@ -46,8 +71,11 @@ public interface RestParser
         };
     }
 
-    boolean isContentTypeSupported(Optional<MediaType> contentType, GenericType<?> type);
+    boolean isContentTypeSupported(MediaType contentType, GenericType<?> type);
 
-    <T> Object parse(Optional<MediaType> contentType, GenericType<?> type, InputStream in) throws RestParserException;
+    Object parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException;
 
+    Object parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException;
+
+    Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException;
 }

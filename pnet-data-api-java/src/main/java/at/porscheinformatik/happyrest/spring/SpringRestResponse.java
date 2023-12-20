@@ -13,7 +13,6 @@ import at.porscheinformatik.happyrest.RestUtils;
 
 class SpringRestResponse<T> implements RestResponse<T>
 {
-
     private final ResponseEntity<T> response;
 
     SpringRestResponse(ResponseEntity<T> response)
