@@ -4,7 +4,7 @@
 
 	<groupId>at.porscheinformatik.pnet</groupId>
 	<artifactId>pnet-data-api</artifactId>
-	<version>2.4.0-RC4-SNAPSHOT</version>
+	<version>2.4.0</version>
 
 	<name>Partner.Net Data API</name>
 
@@ -12,7 +12,7 @@
 		<connection>scm:git:git@github.com:porscheinformatik/pnet-data-api.git</connection>
 		<developerConnection>scm:git:git@github.com:porscheinformatik/pnet-data-api.git</developerConnection>
 		<url>https://github.com/porscheinformatik/pnet-data-api</url>
-		<tag>HEAD</tag>
+		<tag>pnet-data-api-2.4.0</tag>
 	</scm>
 
 	<packaging>pom</packaging>
