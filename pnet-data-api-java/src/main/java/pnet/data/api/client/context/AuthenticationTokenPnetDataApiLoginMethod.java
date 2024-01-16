@@ -63,11 +63,11 @@ public class AuthenticationTokenPnetDataApiLoginMethod implements PnetDataApiLog
                 return restCall.bearerAuthorization(token);
             }
 
-            throw new PnetDataClientException("Login failed at \"%s\": %s", url, response);
+            throw new PnetDataClientException("Login failed at \"" + url + "\": " + response);
         }
         catch (Exception e)
         {
-            throw new PnetDataClientException("Login failed at \"%s\"", e, url);
+            throw new PnetDataClientException("Login failed at \"" + url + "\"", e);
         }
     }
 }

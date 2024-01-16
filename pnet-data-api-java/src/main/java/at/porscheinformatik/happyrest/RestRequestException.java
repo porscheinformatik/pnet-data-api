@@ -1,5 +1,7 @@
 package at.porscheinformatik.happyrest;
 
+import java.io.Serial;
+
 /**
  * Exception for REST calls.
  *
@@ -7,7 +9,7 @@ package at.porscheinformatik.happyrest;
  */
 public class RestRequestException extends RestException
 {
-
+    @Serial
     private static final long serialVersionUID = -3314554757798478103L;
 
     public RestRequestException(String message, Throwable cause)
@@ -19,17 +21,4 @@ public class RestRequestException extends RestException
     {
         super(message);
     }
-
-    @Deprecated
-    public RestRequestException(String message, Object... args)
-    {
-        super(message, args);
-    }
-
-    @Deprecated
-    public RestRequestException(String message, Throwable cause, Object... args)
-    {
-        super(message, cause, args);
-    }
-
 }

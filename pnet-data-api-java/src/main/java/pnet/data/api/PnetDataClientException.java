@@ -18,9 +18,9 @@ public class PnetDataClientException extends Exception
     private final int statusCode;
     private final String statusMessage;
 
-    public PnetDataClientException(String message, Object... args)
+    public PnetDataClientException(String message)
     {
-        super(String.format(message, args));
+        super(message);
 
         statusCode = -1;
         statusMessage = RestUtils.getHttpStatusMessage(statusCode);
@@ -28,7 +28,7 @@ public class PnetDataClientException extends Exception
 
     public PnetDataClientException(String message, Throwable cause, Object... args)
     {
-        super(String.format(enhanceMessage(message, cause), args), cause);
+        super(enhanceMessage(message, cause), cause);
 
         statusCode =
             cause instanceof RestResponseException restResponseException ? restResponseException.getStatusCode() : -1;

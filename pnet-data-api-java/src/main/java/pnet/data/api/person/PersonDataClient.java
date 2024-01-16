@@ -158,7 +158,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                     return Optional.empty();
                 }
 
-                throw new PnetDataClientException("Image request for person %s failed", e, personId);
+                throw new PnetDataClientException("Image request for person " + personId
+                    + " failed", e);
             }
         });
     }

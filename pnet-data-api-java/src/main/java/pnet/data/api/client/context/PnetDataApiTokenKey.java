@@ -16,7 +16,7 @@ import pnet.data.api.util.PnetDataApiUtils;
  *
  * @author ham
  * @deprecated replace the token with an appropriate {@link PnetDataApiLoginMethod}, e.g.
- *             {@link AuthenticationTokenPnetDataApiLoginMethod} or {@link UsernamePasswordPnetDataApiLoginMethod}.
+ * {@link AuthenticationTokenPnetDataApiLoginMethod} or {@link UsernamePasswordPnetDataApiLoginMethod}.
  */
 @Deprecated
 public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
@@ -89,11 +89,11 @@ public class PnetDataApiTokenKey implements PnetDataApiLoginMethod
                 return restCall.bearerAuthorization(token);
             }
 
-            throw new PnetDataClientException("Login failed at \"%s\": %s", getUrl(), response);
+            throw new PnetDataClientException("Login failed at \"" + getUrl() + "\": " + response);
         }
         catch (Exception e)
         {
-            throw new PnetDataClientException("Login failed at \"%s\"", e, getUrl());
+            throw new PnetDataClientException("Login failed at \"" + getUrl() + "\"", e);
         }
     }
 
