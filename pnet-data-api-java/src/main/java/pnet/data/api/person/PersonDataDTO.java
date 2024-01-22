@@ -82,10 +82,15 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(
         description = "True, if the person has been fully approved by authorities, false if the approval process is still "
             + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
-            + "only approved persons will be available.")
+            + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The value "
+            + "will always be set to 'true'.")
+    @Deprecated(since = "22.01.2024")
     private boolean approved;
 
-    @Schema(description = "The current state of the audit process.")
+    @Schema(
+        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
+            + "The value will always be set to 'ApprovalState.DONE'.")
+    @Deprecated(since = "22.01.2024")
     private ApprovalState approvalState;
 
     @Schema(description = "The birthdate of the person (needed scope: SC_BIRTHDATE).")
@@ -313,21 +318,25 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.multifactorEnabled = multifactorEnabled;
     }
 
+    @Deprecated(since = "22.01.2024")
     public boolean isApproved()
     {
         return approved;
     }
 
+    @Deprecated(since = "22.01.2024")
     public void setApproved(boolean approved)
     {
         this.approved = approved;
     }
 
+    @Deprecated(since = "22.01.2024")
     public ApprovalState getApprovalState()
     {
         return approvalState;
     }
 
+    @Deprecated(since = "22.01.2024")
     public void setApprovalState(ApprovalState approvalState)
     {
         this.approvalState = approvalState;
