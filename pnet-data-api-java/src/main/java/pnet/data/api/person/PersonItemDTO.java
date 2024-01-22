@@ -39,7 +39,6 @@ import pnet.data.api.util.WithTenants;
 @Schema(description = "Holds basic information about a person")
 public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate, WithScore, Serializable
 {
-
     private static final long serialVersionUID = -481025382258675738L;
 
     @Schema(description = "The unique id of the person (needed scope: SC_IDENTIFIER).")
@@ -78,10 +77,15 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(
         description = "True, if the person has been fully approved by authorities, false if the approval process is still "
             + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
-            + "only approved persons will be available.")
+            + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The value "
+            + "will always be set to 'true'.")
+    @Deprecated(since = "22.01.2024")
     private final boolean approved;
 
-    @Schema(description = "The current state of the audit process.")
+    @Schema(
+        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
+            + "The value will always be set to 'ApprovalState.DONE'.")
+    @Deprecated(since = "22.01.2024")
     private final ApprovalState approvalState;
 
     @Schema(description = "The external id of the person (needed scope: SC_IDENTIFIER).")
@@ -147,9 +151,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
         @JsonProperty("username") String username, @JsonProperty("credentialsAvailable") Boolean credentialsAvailable,
-        @JsonProperty("multifactorEnabled") Boolean multifactorEnabled, @JsonProperty("approved") boolean approved,
-        @JsonProperty("approvalState") ApprovalState approvalState, @JsonProperty("externalId") String externalId,
-        @JsonProperty("guid") String guid, @JsonProperty("preferredUserId") String preferredUserId,
+        @JsonProperty("multifactorEnabled") Boolean multifactorEnabled,
+        @JsonProperty("approved") @Deprecated(since = "22.01.2024") boolean approved,
+        @JsonProperty("approvalState") @Deprecated(since = "22.01.2024") ApprovalState approvalState,
+        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
+        @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
         @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber,
         @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("languages") Collection<Locale> languages,
@@ -254,11 +260,13 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return multifactorEnabled;
     }
 
+    @Deprecated(since = "22.01.2024")
     public boolean isApproved()
     {
         return approved;
     }
 
+    @Deprecated(since = "22.01.2024")
     public ApprovalState getApprovalState()
     {
         return approvalState;
@@ -389,5 +397,4 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
                 functions, numbers, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber, portraitAvailable,
                 lastUpdate, score);
     }
-
 }
