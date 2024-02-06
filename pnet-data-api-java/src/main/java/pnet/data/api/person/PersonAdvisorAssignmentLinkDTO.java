@@ -44,9 +44,10 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     private final String companyNumber;
 
     @Schema(description = "The matchcode of the brand where the person is advisor for. "
-        + "NOTE: Deprecated as of PNETREQ-1357. There is no direct correlation between an advisor and a brand, "
-        + "so this field cannot be reliably set. It will be set to 'null' from now on.")
-    @Deprecated(since = "22.01.2024", forRemoval = true)
+        + "NOTE: Do not use. Value will be any brand matchcode that this division and advisor type "
+        + "matchcode combination can be registered for. Because of that, it may return a brand matchcode "
+        + "that is not even active for the company of this assignment.")
+    @Deprecated(since = "2.5.0")
     private final String brandMatchcode;
 
     @Schema(description = "The matchcode of the advisor division.")
@@ -55,7 +56,7 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     public PersonAdvisorAssignmentLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("brandMatchcode") @Deprecated(since = "22.01.2024", forRemoval = true) String brandMatchcode,
+        @JsonProperty("brandMatchcode") @Deprecated(since = "2.5.0") String brandMatchcode,
         @JsonProperty("divisionMatchcode") String divisionMatchcode)
     {
         super(tenant, matchcode);
@@ -81,8 +82,13 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
         return super.getMatchcode();
     }
 
+    /**
+     * @deprecated Do not use. Value will be any brand matchcode that this division and advisor type matchcode
+     *             combination can be registered for. Because of that, it may return a brand matchcode that is not even
+     *             active for the company of this assignment.
+     */
     @Override
-    @Deprecated(since = "22.01.2024", forRemoval = true)
+    @Deprecated(since = "2.5.0")
     public String getBrandMatchcode()
     {
         return brandMatchcode;
@@ -156,5 +162,4 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
                     + "brandMatchcode=%s, divisionMatchcode=%s]",
                 companyId, companyMatchcode, companyNumber, brandMatchcode, divisionMatchcode);
     }
-
 }
