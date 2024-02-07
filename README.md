@@ -82,19 +82,13 @@ The REST Interface provides the data as fast as it can. Currently we don't have 
 
 **Consider caching relevant information!** Most of the data does not change very often. We encourage you to store results locally and reuse the information instead of performing the same request over and over again.
 
-Some of the interfaces support scrolling. This allows your application to rapidly browse though thousands of data items.
-
 ## Paging
 
-The result of each request is paged, that means, that it splits the result into multiple pages. You can add the desired page size to each request (`pp` parameter), but the server may reduce it, if it is too large. Currently, each page is limited to, at most, 100 items.
+The result of each request is paged, that means, that it splits the result into multiple pages. You can add the desired page size to each request (`pp` parameter), but the server may reduce it, if it is too large. Currently, each page is limited to, at most, 100 items, **but do not bet on it. We may decide to return fewer items (for reasons), make sure your code can cope with that**.
 
-You can request subsequent pages by adding a page (`p`) parameter, but the rest of the request must be exactly the same.
+You can request subsequent pages by adding a page (`p`) or a search after (`sa`) parameter, but the rest of the request must be exactly the same. 
 
-## Scroll Queries
-
-Some `find`-queries support scrolling (applications, activities, companies, company groups, functions and persons). Use scrolling queries (only) if you expect and process large result sets (that won't fit on one page). Pass `scroll=true` to the request. The first response will contain a `scrollId`. Call the the `next` interface with the `scrollId` as last path segment to get the next result set.
-
-**Be aware, that the `scrollId` is only valid for a few seconds after each request (it's like a session timeout)! If you don't have enough time to process the data on your side, choose a smaller page size.**
+**If you are requesting multiple pages, we recommend that you to use the `sa` parameter instead of the `p` parameter.** Each response will return a `searchAfter` value. When you make the request for the next page, add the search after parameter as `&sa=...` (instead of the `p` parameter). This will ensure that the response contains the results of the next page. If you use the `p` parameter instead, you may miss items or get duplicates, if the underlying data has changed in the meantime.
 
 ## `lastUpdate`
 
@@ -337,7 +331,7 @@ Use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdp
 
 With reach request a new search will be performed in our database. When your are iterating over pages, it may happen, that the next page contains an entry, that was already present on the last page, while another one is missing. We are trying our best to avoid this by sorting the results, but if someone is changing the data at the same moment you are accessing it, it may happen nevertheless.
 
-You can avoid this problem at all by using the `scroll` parameter (it's only available with `find` queries). Check [Scroll Queries](#scroll-queries) for more information.
+You can avoid this problem at all by using the `searchAfter` parameter. Check [Paging](#paging) for more information.
 
 ## When querying persons, why are some missing?
 
@@ -358,7 +352,7 @@ If some fields are missing, please create a [Partner.&#78;et Wartungsantrag](htt
 You can add parameters more than once. The following query will return all persons with at least one of the specified activities:
 
 ```
-.../persons/find?scroll=true&activity=TA_ACT_1&activity=TA_ACT_2&activity=TA_ACT_3
+.../persons/find?activity=TA_ACT_1&activity=TA_ACT_2&activity=TA_ACT_3
 ```
 
 You may note, that the parameter separator of the URL looks like an "and", but, in this case, it's an "or" condition.
@@ -366,7 +360,7 @@ You may note, that the parameter separator of the URL looks like an "and", but, 
 A common pitfall is, that if you are using other conditions in the same query: they are treated as "and". Only conditions to the same field are treated as "or".
 
 ```
-.../persons/find?scroll=true&activity=TA_ACT_1&activity=TA_ACT_2&function=FU_FUN_1&function=FU_FUN_1
+.../persons/find?activity=TA_ACT_1&activity=TA_ACT_2&function=FU_FUN_1&function=FU_FUN_1
 ```
 
 This will result in a search that's more like: `(TA_ACT_1 OR TA_ACT_2) AND (FU_FUN_1 OR FU_FUN_2)`.
