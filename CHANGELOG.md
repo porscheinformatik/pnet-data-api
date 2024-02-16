@@ -1,3 +1,11 @@
+pnet-data-api 2.6.0
+===================
+
+* Add a "complete" flag to page results. Needs Partner.Net 6.43.
+* Improve the sample client
+* Add a (basich) bash client
+* Make approval properties in person deprecated
+
 pnet-data-api 2.5.0
 ====================
 
