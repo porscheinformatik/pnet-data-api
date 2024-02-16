@@ -25,7 +25,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     {
         return new DefaultPnetDataClientResultPage<>(resultPage.getItems(), resultPage.getItemsPerPage(),
             resultPage.getTotalNumberOfItems(), resultPage.getPageIndex(), resultPage.getNumberOfPages(),
-            resultPage.getSearchAfter(), resultPage.getScrollId());
+            resultPage.getSearchAfter(), resultPage.getScrollId(), resultPage.isComplete());
     }
 
     private final List<T> items;
@@ -35,6 +35,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     private final int numberOfPages;
     private final SearchAfter searchAfter;
     private final String scrollId;
+    private final boolean complete;
 
     private List<Pair<String, Object>> restricts;
     private PnetDataClientPageSupplier<T> pageSupplier;
@@ -43,7 +44,8 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     public DefaultPnetDataClientResultPage(@JsonProperty("items") List<T> items,
         @JsonProperty("itemsPerPage") int itemsPerPage, @JsonProperty("totalNumberOfItems") int totalNumberOfItems,
         @JsonProperty("pageIndex") int pageIndex, @JsonProperty("numberOfPages") int numberOfPages,
-        @JsonProperty("searchAfter") SearchAfter searchAfter, @JsonProperty("scrollId") String scrollId)
+        @JsonProperty("searchAfter") SearchAfter searchAfter, @JsonProperty("scrollId") String scrollId,
+        @JsonProperty("complete") boolean complete)
     {
         super();
 
@@ -54,6 +56,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         this.numberOfPages = numberOfPages;
         this.searchAfter = searchAfter;
         this.scrollId = scrollId;
+        this.complete = complete;
     }
 
     @Override
@@ -98,6 +101,12 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     public String getScrollId()
     {
         return scrollId;
+    }
+
+    @Override
+    public boolean isComplete()
+    {
+        return complete;
     }
 
     public PnetDataClientPageSupplier<T> getPageSupplier()

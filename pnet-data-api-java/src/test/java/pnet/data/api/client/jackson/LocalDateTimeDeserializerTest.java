@@ -14,7 +14,6 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-@SuppressWarnings("resource")
 public class LocalDateTimeDeserializerTest
 {
 

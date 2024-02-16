@@ -38,6 +38,11 @@ public class PnetDataClientPageSpliterator<T> implements Spliterator<T>
                 return false;
             }
 
+            if (page.isComplete())
+            {
+                return false;
+            }
+
             try
             {
                 page = page.nextPage();

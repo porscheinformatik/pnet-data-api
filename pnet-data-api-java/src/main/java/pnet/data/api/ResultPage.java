@@ -33,7 +33,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public interface ResultPage<T> extends Iterable<T>
 {
     static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int totalNumberOfItems, int pageIndex,
-        int numberOfPages, SearchAfter searchAfter, String scrollId)
+        int numberOfPages, SearchAfter searchAfter, String scrollId, boolean complete)
     {
         return new ResultPage<>() //
         {
@@ -76,6 +76,12 @@ public interface ResultPage<T> extends Iterable<T>
             public String getScrollId()
             {
                 return scrollId;
+            }
+
+            @Override
+            public boolean isComplete()
+            {
+                return complete;
             }
         };
     }
@@ -221,4 +227,12 @@ public interface ResultPage<T> extends Iterable<T>
     {
         return !isEmpty() && getPageIndex() + 1 < getNumberOfPages();
     }
+
+    /**
+     * @return false if there may be more results on a subsequent page. If this properity retrurns true, it has been
+     *         verified, that subsequent pages will not contain any more results. If this propertys return false, the
+     *         next page may contain more results but it may also be empty. This property is of special intrest when
+     *         scrolling, in order to prevent a final call that results in an empty page.
+     */
+    boolean isComplete();
 }

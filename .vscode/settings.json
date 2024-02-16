@@ -5,5 +5,6 @@
         "**/dist": true
     },
     "java.configuration.updateBuildConfiguration": "interactive",
-    "java.format.settings.url": ".vscode/eclipse-formatter.xml"
+    "java.format.settings.url": ".vscode/eclipse-formatter.xml",
+    "java.compile.nullAnalysis.mode": "disabled"
 }

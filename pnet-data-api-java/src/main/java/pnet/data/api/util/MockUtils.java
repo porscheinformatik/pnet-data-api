@@ -37,7 +37,7 @@ public final class MockUtils
         List<List<T>> chunks = split(allItems, itemsPerPage, ArrayList::new);
         List<T> items = pageIndex >= chunks.size() ? Collections.emptyList() : chunks.get(0);
         DefaultPnetDataClientResultPage<T> result = new DefaultPnetDataClientResultPage<>(items, itemsPerPage,
-            allItems.size(), pageIndex, allItems.size() / itemsPerPage + 1, null, null);
+            allItems.size(), pageIndex, allItems.size() / itemsPerPage + 1, null, null, true);
 
         result.setPageSupplier(restricts, r -> mockResultPage(r, allItems));
         result.setScrollSupplier(scrollId -> mockResultPage(restricts, allItems));
@@ -54,7 +54,7 @@ public final class MockUtils
         List<T> items = pageIndex >= chunks.size() ? Collections.emptyList() : chunks.get(0);
         DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT> result =
             new DefaultPnetDataClientResultPageWithAggregations<>(items, aggregations, itemsPerPage, allItems.size(),
-                pageIndex, allItems.size() / itemsPerPage + 1, SearchAfter.EMPTY, null);
+                pageIndex, allItems.size() / itemsPerPage + 1, SearchAfter.EMPTY, null, true);
 
         result.setPageSupplier(restricts, r -> mockResultPage(r, allItems));
         result.setScrollSupplier(scrollId -> mockResultPage(restricts, allItems));

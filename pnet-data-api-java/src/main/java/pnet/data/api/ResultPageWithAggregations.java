@@ -31,7 +31,7 @@ public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage
 {
     static <T, AggregationsT> ResultPageWithAggregations<T, AggregationsT> of(List<T> items, AggregationsT aggregations,
         int itemsPerPage, int totalNumberOfItems, int pageIndex, int numberOfPages, SearchAfter searchAfter,
-        String scrollId)
+        String scrollId, boolean complete)
     {
         return new ResultPageWithAggregations<>() //
         {
@@ -81,6 +81,12 @@ public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage
             public String getScrollId()
             {
                 return scrollId;
+            }
+
+            @Override
+            public boolean isComplete()
+            {
+                return complete;
             }
         };
     }
