@@ -2,7 +2,6 @@ package pnet.data.api.brand;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * A data object, that contains {@link BrandLinkDTO}s.
@@ -27,7 +26,7 @@ public interface WithBrandLinks
      */
     default Collection<BrandLinkDTO> getBrandsOfTenant(String tenant)
     {
-        return getBrands().stream().filter($ -> Objects.equals(tenant, $.getTenant())).collect(Collectors.toList());
+        return getBrands().stream().filter($ -> Objects.equals(tenant, $.getTenant())).toList();
     }
 
 }

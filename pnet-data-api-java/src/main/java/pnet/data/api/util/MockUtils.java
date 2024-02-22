@@ -32,8 +32,8 @@ public final class MockUtils
 
     public static <T> PnetDataClientResultPage<T> mockResultPage(List<Pair<String, Object>> restricts, List<T> allItems)
     {
-        Integer pageIndex = getPageIndex(restricts);
-        Integer itemsPerPage = getItemsPerPage(restricts);
+        int pageIndex = getPageIndex(restricts);
+        int itemsPerPage = getItemsPerPage(restricts);
         List<List<T>> chunks = split(allItems, itemsPerPage, ArrayList::new);
         List<T> items = pageIndex >= chunks.size() ? Collections.emptyList() : chunks.get(0);
         DefaultPnetDataClientResultPage<T> result = new DefaultPnetDataClientResultPage<>(items, itemsPerPage,
@@ -48,8 +48,8 @@ public final class MockUtils
     public static <T, AggregationsT> PnetDataClientResultPageWithAggregations<T, AggregationsT> mockResultPageWithAggregations(
         List<Pair<String, Object>> restricts, List<T> allItems, AggregationsT aggregations)
     {
-        Integer pageIndex = getPageIndex(restricts);
-        Integer itemsPerPage = getItemsPerPage(restricts);
+        int pageIndex = getPageIndex(restricts);
+        int itemsPerPage = getItemsPerPage(restricts);
         List<List<T>> chunks = split(allItems, itemsPerPage, ArrayList::new);
         List<T> items = pageIndex >= chunks.size() ? Collections.emptyList() : chunks.get(0);
         DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT> result =
@@ -82,7 +82,7 @@ public final class MockUtils
             .orElse(10);
     }
 
-    protected static <T, CollectionOfT extends Collection<T>> List<CollectionOfT> split(Iterable<T> source,
+    private static <T, CollectionOfT extends Collection<T>> List<CollectionOfT> split(Iterable<T> source,
         int maxChunkSize, Function<Collection<T>, CollectionOfT> targetCollectionFactory)
     {
         List<CollectionOfT> result = new ArrayList<>();
@@ -93,7 +93,7 @@ public final class MockUtils
         {
             current.add(iterator.next());
 
-            if (current.size() >= maxChunkSize || (!iterator.hasNext() && current.size() > 0))
+            if (current.size() >= maxChunkSize || (!iterator.hasNext() && !current.isEmpty()))
             {
                 result.add(targetCollectionFactory.apply(current));
                 current.clear();
@@ -113,7 +113,7 @@ public final class MockUtils
             .entrySet()
             .stream()
             .map(entry -> aggregationFactory.apply(entry.getKey(), entry.getValue()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public static <EntryT, GroupT, AggregationT> List<AggregationT> aggregateFlat(Collection<EntryT> entries,
@@ -127,7 +127,7 @@ public final class MockUtils
             .entrySet()
             .stream()
             .map(entry -> aggregationFactory.apply(entry.getKey(), entry.getValue()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public static <AggregationT> List<AggregationT> aggregateTenants(Collection<? extends WithTenants> entries,

@@ -1,6 +1,6 @@
 package pnet.data.api.util;
 
-import java.awt.Image;
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 

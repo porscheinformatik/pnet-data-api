@@ -5,7 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
@@ -19,7 +18,7 @@ public class MockedApacheRestResponse<T> extends MockedRestResponse<T>
 {
     private final GenericType<T> responseType;
     private final HttpRequestBase request;
-    private String requestBody;
+    private final String requestBody;
 
     public MockedApacheRestResponse(GenericType<T> responseType, HttpRequestBase request)
     {
@@ -79,7 +78,7 @@ public class MockedApacheRestResponse<T> extends MockedRestResponse<T>
             return Collections.emptyList();
         }
 
-        return Arrays.stream(headers).map(Header::getValue).collect(Collectors.toList());
+        return Arrays.stream(headers).map(Header::getValue).toList();
     }
 
     @Override

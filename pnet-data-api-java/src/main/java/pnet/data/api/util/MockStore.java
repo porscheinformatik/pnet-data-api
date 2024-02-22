@@ -24,13 +24,7 @@ public class MockStore<T>
 
     public static <T> MockStore<T> get(Object instance, Class<T> type)
     {
-        Map<Class<?>, MockStore<?>> map = STORES.get(instance);
-
-        if (map == null)
-        {
-            map = new HashMap<>();
-            STORES.put(instance, map);
-        }
+        Map<Class<?>, MockStore<?>> map = STORES.computeIfAbsent(instance, k -> new HashMap<>());
 
         @SuppressWarnings("unchecked")
         MockStore<T> store = (MockStore<T>) map.get(type);
@@ -108,7 +102,7 @@ public class MockStore<T>
             stream = stream.filter(predicate);
         }
 
-        return stream.collect(Collectors.toList());
+        return stream.toList();
     }
 
 }

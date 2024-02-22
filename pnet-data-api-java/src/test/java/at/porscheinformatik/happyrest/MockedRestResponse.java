@@ -3,7 +3,6 @@ package at.porscheinformatik.happyrest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import pnet.data.api.util.Pair;
 
@@ -145,7 +144,7 @@ public abstract class MockedRestResponse<T> implements RestResponse<T>
             .stream()
             .filter(header -> key.equalsIgnoreCase(header.getLeft()))
             .map(Pair::getRight)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     @Override

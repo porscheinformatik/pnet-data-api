@@ -4,6 +4,7 @@ import static pnet.data.api.util.PrettyPrint.*;
 
 import java.awt.*;
 import java.io.IOException;
+import java.io.Serial;
 import java.net.URI;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -235,7 +236,7 @@ public final class PnetRestClient
 
         private void printAggregations(CLI cli)
         {
-            if (page == null || !(page instanceof PnetDataClientResultPageWithAggregations<?, ?>))
+            if (!(page instanceof PnetDataClientResultPageWithAggregations<?, ?>))
             {
                 cli.error("No aggregations available in current page.");
 
@@ -315,6 +316,7 @@ public final class PnetRestClient
     private Locale language = Locale.getDefault();
     private boolean includeInactive = false;
 
+    @SuppressWarnings("java:S107") // Too many parameters
     public PnetRestClient(MutablePnetDataApiLoginMethod loginMethod, AboutDataClient aboutDataClient,
         ActivityDataClient activityDataClient, AdvisorTypeDataClient advisorTypeDataClient,
         ApplicationDataClient applicationDataClient, BrandDataClient brandDataClient,
@@ -624,7 +626,7 @@ public final class PnetRestClient
     {
         if (brands != null && brands.length > 0)
         {
-            Arrays.stream(brands).forEach(restrictedBrands::add);
+            restrictedBrands.addAll(Arrays.asList(brands));
         }
 
         cli.info("Requests are restricted to brands: %s", restrictedBrands);
@@ -808,7 +810,7 @@ public final class PnetRestClient
     {
         if (ids != null && ids.length > 0)
         {
-            Arrays.stream(ids).forEach(restrictedCompanyIds::add);
+            restrictedCompanyIds.addAll(Arrays.asList(ids));
         }
 
         cli.info("Requests are restricted to company ids: %s", restrictedCompanyIds);
@@ -821,7 +823,7 @@ public final class PnetRestClient
     {
         if (matchcodes != null && matchcodes.length > 0)
         {
-            Arrays.stream(matchcodes).forEach(restrictedCompanyMatchcodes::add);
+            restrictedCompanyMatchcodes.addAll(Arrays.asList(matchcodes));
         }
 
         cli.info("Requests are restricted to company matchcodes: %s", restrictedCompanyMatchcodes);
@@ -834,7 +836,7 @@ public final class PnetRestClient
     {
         if (numbers != null && numbers.length > 0)
         {
-            Arrays.stream(numbers).forEach(restrictedCompanyNumbers::add);
+            restrictedCompanyNumbers.addAll(Arrays.asList(numbers));
         }
 
         cli.info("Requests are restricted to company numbers: %s", restrictedCompanyNumbers);
@@ -847,7 +849,7 @@ public final class PnetRestClient
     {
         if (matchcodes != null && matchcodes.length > 0)
         {
-            Arrays.stream(matchcodes).forEach(restrictedFunctionMatchcodes::add);
+            restrictedFunctionMatchcodes.addAll(Arrays.asList(matchcodes));
         }
 
         cli.info("Requests are restricted to function matchcodes: %s", restrictedFunctionMatchcodes);
@@ -860,7 +862,7 @@ public final class PnetRestClient
     {
         if (matchcodes != null && matchcodes.length > 0)
         {
-            Arrays.stream(matchcodes).forEach(restrictedActivityMatchcodes::add);
+            restrictedActivityMatchcodes.addAll(Arrays.asList(matchcodes));
         }
 
         cli.info("Requests are restricted to activity matchcodes: %s", restrictedActivityMatchcodes);
@@ -873,7 +875,7 @@ public final class PnetRestClient
     {
         if (matchcodes != null && matchcodes.length > 0)
         {
-            Arrays.stream(matchcodes).forEach(restrictedNumberTypeMatchcodes::add);
+            restrictedNumberTypeMatchcodes.addAll(Arrays.asList(matchcodes));
         }
 
         cli.info("Requests are restricted to number type matchcodes: %s", restrictedNumberTypeMatchcodes);
@@ -886,7 +888,7 @@ public final class PnetRestClient
     {
         if (matchcodes != null && matchcodes.length > 0)
         {
-            Arrays.stream(matchcodes).forEach(restrictedCompanyTypeMatchcodes::add);
+            restrictedCompanyTypeMatchcodes.addAll(Arrays.asList(matchcodes));
         }
 
         cli.info("Requests are restricted to company type matchcodes: %s", restrictedCompanyTypeMatchcodes);
@@ -899,7 +901,7 @@ public final class PnetRestClient
     {
         if (matchcodes != null && matchcodes.length > 0)
         {
-            Arrays.stream(matchcodes).forEach(restrictedContractTypeMatchcodes::add);
+            restrictedContractTypeMatchcodes.addAll(Arrays.asList(matchcodes));
         }
 
         cli.info("Requests are restricted to contract type matchcodes: %s", restrictedContractTypeMatchcodes);
@@ -912,7 +914,7 @@ public final class PnetRestClient
     {
         if (matchcodes != null && matchcodes.length > 0)
         {
-            Arrays.stream(matchcodes).forEach(restrictedContractStateMatchcodes::add);
+            restrictedContractStateMatchcodes.addAll(Arrays.asList(matchcodes));
         }
 
         cli.info("Requests are restricted to contract state matchcodes: %s", restrictedContractStateMatchcodes);
@@ -1152,39 +1154,13 @@ public final class PnetRestClient
             find = find.matchcode(matchcodes);
         }
 
-        List<String> companyGroupTypeMatchcodes = restrict(find)
-            .execute(language, 0, pageSize)
-            .stream()
-            .map(CompanyGroupTypeItemDTO::getMatchcode)
-            .collect(Collectors.toList());
+        List<String> companyGroupTypeMatchcodes =
+            restrict(find).execute(language, 0, pageSize).stream().map(CompanyGroupTypeItemDTO::getMatchcode).toList();
 
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get().types(companyGroupTypeMatchcodes));
         PnetDataClientResultPage<CompanyGroupDataDTO> result = query.executeAndScroll(25);
 
         printAllResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {
-        "find company groups by leader", "find company group by leader"
-    }, format = "<COMPANY-ID...>", description = "Find all company groups with the specified leader.")
-    public void findCompanyGroupsByLeader(Integer... ids) throws PnetDataClientException
-    {
-        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result =
-            query.allByLeadingCompanyIds(Arrays.asList(ids), 0, pageSize);
-
-        printResults(result, this::populateTable);
-    }
-
-    @CLI.Command(name = {
-        "find company groups by member", "find company group by member"
-    }, format = "<COMPANY-ID...>", description = "Find all company groups with the specified member.")
-    public void findCompanyGroupsByMember(Integer... ids) throws PnetDataClientException
-    {
-        CompanyGroupDataGet query = restrict(companyGroupDataClient.get());
-        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.allByCompanyIds(Arrays.asList(ids), 0, pageSize);
-
-        printResults(result, this::populateTable);
     }
 
     private void populateTable(Table table, CompanyGroupDataDTO dto)
@@ -1934,7 +1910,7 @@ public final class PnetRestClient
     {
         Optional<Resource> portrait = personDataClient.portrait(id, ImageType.ORIGINAL);
 
-        if (!portrait.isPresent())
+        if (portrait.isEmpty())
         {
             cli.error("Image not found.");
             return;
@@ -1949,7 +1925,7 @@ public final class PnetRestClient
     {
         Optional<Resource> portrait = personDataClient.portrait(id, ImageType.THUMBNAIL);
 
-        if (!portrait.isPresent())
+        if (portrait.isEmpty())
         {
             cli.error("Image not found.");
             return;
@@ -2016,7 +1992,7 @@ public final class PnetRestClient
         + "specified index.")
     public void migrateFull(String indexName) throws RestException, PnetDataClientException
     {
-        context.restCall().variable("indexName", indexName).path("/api/v1/migrator/full/{indexName}").post(Void.class);
+        context.restCall().variable(INDEX_NAME, indexName).path("/api/v1/migrator/full/{indexName}").post(Void.class);
 
         cli.info("Performing a full migration on index: %s.", indexName);
     }
@@ -2025,7 +2001,7 @@ public final class PnetRestClient
         + "specified index.")
     public void migrateDelta(String indexName) throws RestException, PnetDataClientException
     {
-        context.restCall().variable("indexName", indexName).path("/api/v1/migrator/delta/{indexName}").post(Void.class);
+        context.restCall().variable(INDEX_NAME, indexName).path("/api/v1/migrator/delta/{indexName}").post(Void.class);
 
         cli.info("Performing a delta migration on index: %s.", indexName);
     }
@@ -2035,7 +2011,7 @@ public final class PnetRestClient
     {
         HashMap<?, ?> state = context
             .restCall()
-            .variable("indexName", indexName)
+            .variable(INDEX_NAME, indexName)
             .path("/api/v1/migrator/states/{indexName}")
             .get(HashMap.class);
 
@@ -2048,7 +2024,7 @@ public final class PnetRestClient
     {
         HashMap<?, ?> state = context
             .restCall()
-            .variable("indexName", indexName)
+            .variable(INDEX_NAME, indexName)
             .parameter("id", (Object[]) ids)
             .path("/api/v1/migrator/explicit/{indexName}")
             .post(HashMap.class);
@@ -2066,7 +2042,7 @@ public final class PnetRestClient
     {
         if (tenants != null && tenants.length > 0)
         {
-            Arrays.stream(tenants).forEach(restrictedTenants::add);
+            restrictedTenants.addAll(Arrays.asList(tenants));
         }
 
         cli.info("Requests are restricted to tenants: %s", restrictedTenants);
@@ -2091,7 +2067,7 @@ public final class PnetRestClient
     {
         if (queryFields != null && queryFields.length > 0)
         {
-            Arrays.stream(queryFields).forEach(restrictedQueryFields::add);
+            restrictedQueryFields.addAll(Arrays.asList(queryFields));
         }
 
         cli.info("Queries are restricted to following fields: %s", restrictedQueryFields);
@@ -2186,6 +2162,7 @@ public final class PnetRestClient
         request = applyBaseDataRestrictions(request);
         request = applyBaseTypeRestrictions(request);
         request = applyCustomRestrictions(request);
+        request = applyApprovalRestrictions(request);
         request = applyAggregations(request);
 
         return request;
@@ -2338,6 +2315,26 @@ public final class PnetRestClient
             request = ((RestrictCredentialsAvailable<T>) request).credentialsAvailable(restrictCredentialsAvailable);
         }
 
+        if (request instanceof RestrictArchived && restrictArchived != null)
+        {
+            cli.info("Archived: " + restrictArchived);
+
+            request = ((RestrictArchived<T>) request).archived(restrictArchived);
+        }
+
+        if (request instanceof IncludeInactive && includeInactive)
+        {
+            cli.info("Including inactive items.");
+
+            request = ((IncludeInactive<T>) request).includeInactive();
+        }
+
+        return request;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends Restrict<T>> T applyApprovalRestrictions(T request)
+    {
         if (request instanceof RestrictApproved && restrictApproved != null)
         {
             cli.info("Approved: " + restrictApproved);
@@ -2352,27 +2349,12 @@ public final class PnetRestClient
             request = ((RestrictRejected<T>) request).rejected(restrictRejected);
         }
 
-        if (request instanceof RestrictArchived && restrictArchived != null)
-        {
-            cli.info("Archived: " + restrictArchived);
-
-            request = ((RestrictArchived<T>) request).archived(restrictArchived);
-        }
-
         if (request instanceof RestrictApprovalNeeded && restrictApprovalNeeded != null)
         {
             cli.info("Approval needed: " + restrictApprovalNeeded);
 
             request = ((RestrictApprovalNeeded<T>) request).approvalNeeded(restrictApprovalNeeded);
         }
-
-        if (request instanceof IncludeInactive && includeInactive)
-        {
-            cli.info("Including inactive items.");
-
-            request = ((IncludeInactive<T>) request).includeInactive();
-        }
-
         return request;
     }
 
@@ -2461,7 +2443,7 @@ public final class PnetRestClient
     ////////////////////////////////////////////////////////////////////////////
 
     @CLI.Command(format = "[<URL>]", description = "Prints or overrides the predefined URL.")
-    public void url(String url) throws PnetDataClientException
+    public void url(String url)
     {
         if (url != null)
         {
@@ -2500,7 +2482,7 @@ public final class PnetRestClient
     }
 
     @CLI.Command(format = "[<KEY>]", description = "Loads the URL and username/password from your prefernces.")
-    public void load(String key) throws PnetDataClientException
+    public void load(String key)
     {
         if (key == null)
         {
@@ -2532,7 +2514,7 @@ public final class PnetRestClient
     }
 
     @CLI.Command(format = "[<KEY>]", description = "Remove the URL and username/password from your prefernces.")
-    public void remove(String key) throws PnetDataClientException
+    public void remove(String key)
     {
         if (key == null)
         {
@@ -2561,7 +2543,7 @@ public final class PnetRestClient
     ////////////////////////////////////////////////////////////////////////////
 
     @CLI.Command(format = "[<USERNAME>] [<PASSWORD>]", description = "Prints or overrides the username and password.")
-    public void user(String username, String password) throws IOException, PnetDataClientException
+    public void user(String username, String password)
     {
         if (username != null)
         {
@@ -2587,7 +2569,7 @@ public final class PnetRestClient
             }
             else
             {
-                cli.warn("Aborted.");
+                cli.warn(ABORTED_TEXT);
             }
         }
 
@@ -2595,7 +2577,7 @@ public final class PnetRestClient
     }
 
     @CLI.Command(format = "<TOKEN>", description = "Sets the authentication token.")
-    public void token(String token) throws IOException, PnetDataClientException
+    public void token(String token)
     {
         if (token == null)
         {
@@ -2621,7 +2603,7 @@ public final class PnetRestClient
         }
         else
         {
-            cli.warn("Aborted.");
+            cli.warn(ABORTED_TEXT);
         }
     }
 
@@ -2703,14 +2685,14 @@ public final class PnetRestClient
     }
 
     @CLI.Command(name = "no aggs", description = "Disables aggregations.")
-    public void noAggs() throws PnetDataClientException
+    public void noAggs()
     {
         cli.info("Aggs disabled.");
         aggs = false;
     }
 
     @CLI.Command(description = "Enables aggregations or prints them, if available.")
-    public void aggs() throws PnetDataClientException
+    public void aggs()
     {
         if (!aggs)
         {
@@ -2731,14 +2713,13 @@ public final class PnetRestClient
     ////////////////////////////////////////////////////////////////////////////
 
     private <T> void printResults(PnetDataClientResultPage<T> page, BiConsumer<Table, T> populateTableFn)
-        throws PnetDataClientException
     {
         cli.info("Found %d results.", page.getTotalNumberOfItems());
 
         printPage(page, populateTableFn);
     }
 
-    private <T> void printResults(List<T> list, BiConsumer<Table, T> populateTableFn) throws PnetDataClientException
+    private <T> void printResults(List<T> list, BiConsumer<Table, T> populateTableFn)
     {
         cli.info("Found %d results.", list.size());
 
@@ -2751,7 +2732,7 @@ public final class PnetRestClient
         long millis = System.currentTimeMillis();
         int count = 0;
 
-        while (page != null && page.size() > 0)
+        while (page != null && !page.isEmpty())
         {
             Table table = new Table();
 
@@ -2776,7 +2757,7 @@ public final class PnetRestClient
     {
         Table table = new Table();
 
-        list.stream().forEach(item -> populateTableFn.accept(table, item));
+        list.forEach(item -> populateTableFn.accept(table, item));
 
         cli.info(table.toString());
     }
@@ -2796,7 +2777,7 @@ public final class PnetRestClient
             }
             catch (InterruptedException e)
             {
-                Thread.interrupted();
+                Thread.currentThread().interrupt();
                 break;
             }
 
@@ -2813,7 +2794,7 @@ public final class PnetRestClient
             }
         }
 
-        cli.info("Aborted.");
+        cli.info(ABORTED_TEXT);
     }
 
     private static String toCsv(Object... args)
@@ -2848,13 +2829,14 @@ public final class PnetRestClient
             return null;
         }
 
-        return Arrays.stream(qs).collect(Collectors.joining(" "));
+        return String.join(" ", qs);
     }
 
     private static void showImage(String title, Image image)
     {
         Canvas canvas = new Canvas()
         {
+            @Serial
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -2923,4 +2905,7 @@ public final class PnetRestClient
             }
         }
     }
+
+    private static final String INDEX_NAME = "indexName";
+    private static final String ABORTED_TEXT = "Aborted.";
 }

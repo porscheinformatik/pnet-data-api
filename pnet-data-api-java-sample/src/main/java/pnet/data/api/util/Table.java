@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * A simple table
@@ -21,7 +20,7 @@ public class Table
         return addRow(Arrays
             .stream(columnProviders)
             .map(columnProvider -> columnProvider.apply(object))
-            .collect(Collectors.toList()));
+            .toList());
     }
 
     public Table addRow(Object... row)
@@ -63,7 +62,7 @@ public class Table
         int size = rows.stream().mapToInt(List::size).max().orElse(0);
         int[] width = new int[size];
 
-        rows.stream().forEach(row -> {
+        rows.forEach(row -> {
             for (int i = 0; i < row.size(); i++)
             {
                 width[i] = Math.max(width[i], toString(row.get(i), 0).length());
@@ -72,8 +71,8 @@ public class Table
 
         StringBuilder builder = new StringBuilder();
 
-        rows.stream().forEach(row -> {
-            if (builder.length() > 0)
+        rows.forEach(row -> {
+            if (!builder.isEmpty())
             {
                 builder.append("\n");
             }

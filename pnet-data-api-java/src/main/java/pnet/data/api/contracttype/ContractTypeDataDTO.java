@@ -14,6 +14,7 @@
  */
 package pnet.data.api.contracttype;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -22,7 +23,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -41,7 +41,7 @@ import pnet.data.api.util.WithTenants;
 @Schema(description = "Holds all information about a contract type")
 public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -1947283275602928634L;
 
     @Schema(description = "The unique matchcode of the contract type")
@@ -109,7 +109,7 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
 
     public Collection<ContractTypeBrandLinkDTO> getBrandsOfTenant(String tenant)
     {
-        return getBrands().stream().filter($ -> Objects.equals(tenant, $.getTenant())).collect(Collectors.toList());
+        return getBrands().stream().filter($ -> Objects.equals(tenant, $.getTenant())).toList();
     }
 
     public void setBrands(Collection<ContractTypeBrandLinkDTO> brands)
@@ -141,9 +141,8 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
     @Override
     public String toString()
     {
-        return String
-            .format("ContractTypeDataDTO [matchcode=%s, labels=%s, tenants=%s, brands=%s, type=%s]", matchcode, labels,
-                tenants, brands, type);
+        return String.format("ContractTypeDataDTO [matchcode=%s, labels=%s, tenants=%s, brands=%s, type=%s]", matchcode,
+            labels, tenants, brands, type);
     }
 
 }

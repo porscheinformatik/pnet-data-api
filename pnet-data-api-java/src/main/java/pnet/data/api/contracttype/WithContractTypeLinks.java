@@ -2,7 +2,6 @@ package pnet.data.api.contracttype;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * A data object, that contains {@link ContractTypeLinkDTO}s.
@@ -30,7 +29,7 @@ public interface WithContractTypeLinks
         return getContractTypes()
             .stream()
             .filter($ -> Objects.equals(tenant, $.getTenant()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
 }

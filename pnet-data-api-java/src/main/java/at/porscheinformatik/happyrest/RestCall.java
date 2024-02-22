@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import pnet.data.api.util.Pair;
 
@@ -115,13 +114,13 @@ public interface RestCall
             .filter(type::isInstance)
             .filter(attribute -> Objects.equals(attribute.getName(), name))
             .map(RestAttribute::getValue)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     @SuppressWarnings("unchecked")
     default <T extends RestAttribute> List<T> getAttributes(Class<T> type)
     {
-        return (List<T>) getAttributes().stream().filter(type::isInstance).collect(Collectors.toList());
+        return (List<T>) getAttributes().stream().filter(type::isInstance).toList();
     }
 
     RestCall body(Object body);
