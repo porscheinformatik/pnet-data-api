@@ -53,11 +53,15 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     @Schema(description = "The matchcode of the advisor division.")
     private final String divisionMatchcode;
 
+    @Schema(description = "The label of the advisor division.")
+    private final String divisionLabel;
+
     public PersonAdvisorAssignmentLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("brandMatchcode") @Deprecated(since = "2.5.0") String brandMatchcode,
-        @JsonProperty("divisionMatchcode") String divisionMatchcode)
+        @JsonProperty("divisionMatchcode") String divisionMatchcode,
+        @JsonProperty("divisionLabel") String divisionLabel)
     {
         super(tenant, matchcode);
 
@@ -66,6 +70,7 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
         this.companyNumber = companyNumber;
         this.brandMatchcode = brandMatchcode;
         this.divisionMatchcode = divisionMatchcode;
+        this.divisionLabel = divisionLabel;
     }
 
     @JsonPropertyDescription("A tenant where the advisor assignment is valid.")
@@ -84,8 +89,8 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
 
     /**
      * @deprecated Do not use. Value will be any brand matchcode that this division and advisor type matchcode
-     *             combination can be registered for. Because of that, it may return a brand matchcode that is not even
-     *             active for the company of this assignment.
+     * combination can be registered for. Because of that, it may return a brand matchcode that is not even active for
+     * the company of this assignment.
      */
     @Override
     @Deprecated(since = "2.5.0")
@@ -115,6 +120,11 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     public String getDivisionMatchcode()
     {
         return divisionMatchcode;
+    }
+
+    public String getDivisionLabel()
+    {
+        return divisionLabel;
     }
 
     @Override
@@ -156,10 +166,9 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "PersonAdvisorAssignmentLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, "
-                    + "brandMatchcode=%s, divisionMatchcode=%s]",
-                companyId, companyMatchcode, companyNumber, brandMatchcode, divisionMatchcode);
+        return String.format("PersonAdvisorAssignmentLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, "
+                + "brandMatchcode=%s, divisionMatchcode=%s, divisionLabel=%s]", companyId, companyMatchcode,
+            companyNumber,
+            brandMatchcode, divisionMatchcode, divisionLabel);
     }
 }

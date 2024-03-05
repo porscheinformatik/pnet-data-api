@@ -1,9 +1,16 @@
+pnet-data-api 2.7.0
+===================
+
+Compatibility with Partner.Net 6.44.
+
+* Add the division label to person advisor assignments.
+
 pnet-data-api 2.6.0
 ===================
 
 * Add a "complete" flag to page results. Needs Partner.Net 6.43.
 * Improve the sample client
-* Add a (basich) bash client
+* Add a (basic) bash client
 * Make approval properties in person deprecated
 
 pnet-data-api 2.5.0
