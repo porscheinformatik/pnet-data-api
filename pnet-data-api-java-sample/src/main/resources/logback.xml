@@ -10,10 +10,10 @@
     </appender>
 
     <root level="warn">
-        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="CONSOLE"/>
     </root>
-    
-    <logger name="at.porscheinformatik.happyrest" level="INFO" />
-    <logger name="pnet" level="INFO" />
-    
+
+    <logger name="at.porscheinformatik.happyrest" level="INFO"/>
+    <logger name="pnet" level="INFO"/>
+
 </configuration>

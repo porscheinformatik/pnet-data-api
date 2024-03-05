@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts personnel department.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictPersonnelDepartment<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictPersonnelDepartment<SELF extends Restrict<SELF>> extend
 
     default SELF personnelDepartments(Collection<String> personnelDepartments)
     {
-        return personnelDepartment(personnelDepartments.toArray(new String[personnelDepartments.size()]));
+        return personnelDepartment(personnelDepartments.toArray(new String[0]));
     }
 
 }

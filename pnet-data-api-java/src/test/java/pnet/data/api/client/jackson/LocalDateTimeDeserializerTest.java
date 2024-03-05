@@ -10,22 +10,20 @@ import java.time.ZoneId;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
-public class LocalDateTimeDeserializerTest
+class LocalDateTimeDeserializerTest
 {
 
     private static final ZoneId UTC = ZoneId.of("UTC");
     private static final ZoneId CET = ZoneId.of("CET");
 
     @Test
-    public void testNull() throws JsonGenerationException, IOException
+    void testNull() throws IOException
     {
-        ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(
-                new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(UTC)));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(UTC)));
 
         LocalDateTime result = objectMapper.readValue("null", LocalDateTime.class);
 
@@ -33,11 +31,10 @@ public class LocalDateTimeDeserializerTest
     }
 
     @Test
-    public void testDateUtc() throws JsonGenerationException, IOException
+    void testDateUtc() throws IOException
     {
-        ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(
-                new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(UTC)));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(UTC)));
 
         LocalDateTime result = objectMapper.readValue("\"2000-01-01\"", LocalDateTime.class);
 
@@ -51,11 +48,10 @@ public class LocalDateTimeDeserializerTest
     }
 
     @Test
-    public void testDateCet() throws JsonGenerationException, IOException
+    void testDateCet() throws IOException
     {
-        ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(
-                new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(CET)));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(CET)));
 
         LocalDateTime result = objectMapper.readValue("\"2000-01-01\"", LocalDateTime.class);
 
@@ -69,11 +65,10 @@ public class LocalDateTimeDeserializerTest
     }
 
     @Test
-    public void testDateTimeUtc() throws JsonGenerationException, IOException
+    void testDateTimeUtc() throws IOException
     {
-        ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(
-                new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(UTC)));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(UTC)));
 
         LocalDateTime result = objectMapper.readValue("\"2000-01-01T00:00:00\"", LocalDateTime.class);
 
@@ -87,11 +82,10 @@ public class LocalDateTimeDeserializerTest
     }
 
     @Test
-    public void testDateTimeCet() throws JsonGenerationException, IOException
+    void testDateTimeCet() throws IOException
     {
-        ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(
-                new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(CET)));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(CET)));
 
         LocalDateTime result = objectMapper.readValue("\"2000-01-01T00:00:00\"", LocalDateTime.class);
 
@@ -105,11 +99,10 @@ public class LocalDateTimeDeserializerTest
     }
 
     @Test
-    public void testZonedDateTimeUtc() throws JsonGenerationException, IOException
+    void testZonedDateTimeUtc() throws IOException
     {
-        ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(
-                new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(UTC)));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(UTC)));
 
         LocalDateTime result = objectMapper.readValue("\"2000-01-01T00:00:00Z\"", LocalDateTime.class);
 
@@ -123,11 +116,10 @@ public class LocalDateTimeDeserializerTest
     }
 
     @Test
-    public void testZonedDateTimeCet() throws JsonGenerationException, IOException
+    void testZonedDateTimeCet() throws IOException
     {
-        ObjectMapper objectMapper = new ObjectMapper()
-            .registerModule(
-                new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(CET)));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(CET)));
 
         LocalDateTime result = objectMapper.readValue("\"2000-01-01T00:00:00Z\"", LocalDateTime.class);
 

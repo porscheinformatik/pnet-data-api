@@ -48,7 +48,7 @@ public final class PnetDataApiUtils
 
     public static final Comparator<String> DICTIONARY_COMPARATOR = PnetDataApiUtils::dictionaryCompare;
 
-    public static String WILDCARD = "*";
+    public static final String WILDCARD = "*";
 
     static
     {
@@ -66,9 +66,11 @@ public final class PnetDataApiUtils
         {
             version = "UNDEFINED";
 
-            try (InputStream stream = PnetDataApiUtils.class
-                .getClassLoader()
-                .getResourceAsStream("META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"))
+            try (
+                InputStream stream = PnetDataApiUtils.class
+                    .getClassLoader()
+                    .getResourceAsStream("META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties")
+            )
             {
                 if (stream != null)
                 {
@@ -80,17 +82,14 @@ public final class PnetDataApiUtils
                 }
                 else
                 {
-                    System.err
-                        .println(
-                            "Failed to determine version of Pnet Data API Java client. Using \"UNDEFINED\" as version.");
+                    System.err.println(
+                        "Failed to determine version of Pnet Data API Java client. Using \"UNDEFINED\" as version.");
                 }
             }
             catch (IOException e)
             {
-                System.err
-                    .println(
-                        "Failed to determine version of Pnet Data API Java client (using \"UNDEFINED\" as version): "
-                            + e);
+                System.err.println(
+                    "Failed to determine version of Pnet Data API Java client (using \"UNDEFINED\" as version): " + e);
             }
 
             PnetDataApiUtils.version = version;
@@ -101,10 +100,9 @@ public final class PnetDataApiUtils
 
     public static String getUserAgent(String technology)
     {
-        return String
-            .format("Pnet Data API Java Client %s using %s (%s; %s) %s %s", getVersion(), System.getProperty("os.name"),
-                technology, System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
-                System.getProperty("java.runtime.version"));
+        return String.format("Pnet Data API Java Client %s using %s (%s; %s) %s %s", getVersion(),
+            System.getProperty("os.name"), technology, System.getProperty("os.arch"),
+            System.getProperty("java.runtime.name"), System.getProperty("java.runtime.version"));
     }
 
     private PnetDataApiUtils()
@@ -120,7 +118,7 @@ public final class PnetDataApiUtils
      */
     public static boolean isEmpty(String s)
     {
-        return s == null || s.trim().length() == 0;
+        return s == null || s.trim().isEmpty();
     }
 
     /**
@@ -144,9 +142,9 @@ public final class PnetDataApiUtils
             return false;
         }
 
-        if (left instanceof Comparable && right instanceof Comparable)
+        if (left instanceof Comparable leftComparable && right instanceof Comparable)
         {
-            return ((Comparable) left).compareTo(right) == 0;
+            return leftComparable.compareTo(right) == 0;
         }
 
         return left.equals(right);

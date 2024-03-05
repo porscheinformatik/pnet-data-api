@@ -12,8 +12,9 @@ import pnet.data.api.util.RestrictTenant;
 /**
  * @author cet
  */
-public class ActivityDataGet extends AbstractGet<ActivityDataDTO, ActivityDataGet> implements
-    RestrictTenant<ActivityDataGet>, IncludeInactive<ActivityDataGet>, ByMatchcode<ActivityDataDTO, ActivityDataGet>
+public class ActivityDataGet extends AbstractGet<ActivityDataDTO, ActivityDataGet>
+    implements RestrictTenant<ActivityDataGet>, IncludeInactive<ActivityDataGet>,
+    ByMatchcode<ActivityDataDTO, ActivityDataGet>
 {
 
     public ActivityDataGet(GetFunction<ActivityDataDTO> getFunction, List<Pair<String, Object>> restricts)

@@ -10,8 +10,8 @@ import pnet.data.api.PnetDataClientException;
 /**
  * Abstract base implementation for a rest client.
  *
- * @author ham
  * @param <SELF> the type of rest client for fluent interface
+ * @author ham
  */
 public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApiClient<SELF>>
     implements PnetDataApiContextAware<SELF>
@@ -19,8 +19,8 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
     /**
      * Function for a rest call
      *
-     * @author ham
      * @param <Any> the type of result
+     * @author ham
      */
     @FunctionalInterface
     public interface RestCallFunction<Any>

@@ -52,9 +52,8 @@ public class CompanyAggregationsDTO
     @Override
     public String toString()
     {
-        return String
-            .format("CompanyAggregationsDTO [tenants=%s, brands=%s, types=%s, contractTypes=%s]", tenants, brands,
-                types, contractTypes);
+        return String.format("CompanyAggregationsDTO [tenants=%s, brands=%s, types=%s, contractTypes=%s]", tenants,
+            brands, types, contractTypes);
     }
 
 }

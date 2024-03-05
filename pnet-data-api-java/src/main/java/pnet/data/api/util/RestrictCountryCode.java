@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts country codes.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictCountryCode<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictCountryCode<SELF extends Restrict<SELF>> extends Restri
 
     default SELF countryCodes(Collection<String> countryCodes)
     {
-        return countryCode(countryCodes.toArray(new String[countryCodes.size()]));
+        return countryCode(countryCodes.toArray(new String[0]));
     }
 
 }

@@ -51,8 +51,8 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
         }
         else if (requestContentType != null && requestContentType.contains("application/x-www-form-urlencoded"))
         {
-            @SuppressWarnings("unchecked")
-            LinkedMultiValueMap<String, String> map = (LinkedMultiValueMap<String, String>) entity.getBody();
+            @SuppressWarnings("unchecked") LinkedMultiValueMap<String, String> map =
+                (LinkedMultiValueMap<String, String>) entity.getBody();
 
             StringBuilder builder = new StringBuilder();
 
@@ -60,7 +60,7 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
             {
                 for (Entry<String, List<String>> entries : map.entrySet())
                 {
-                    if (builder.length() > 0)
+                    if (!builder.isEmpty())
                     {
                         builder.append("&");
                     }

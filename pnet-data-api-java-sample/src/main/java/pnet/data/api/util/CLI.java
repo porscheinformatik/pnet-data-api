@@ -17,7 +17,6 @@ import java.lang.reflect.Method;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
 
 /**
  * A command line interpreter - parses the input, creates process and executes them. Code borrowed from
- * https://github.com/thred/tiny-console
+ * <a href="https://github.com/thred/tiny-console">...</a>
  *
  * @author Manfred Hantschel
  */
@@ -57,7 +56,7 @@ public class CLI
 
         String format()
 
-        default "";
+            default "";
 
         String description() default "";
 
@@ -247,20 +246,14 @@ public class CLI
                 return new Token(Token.Type.END_OF_FILE, line, column, null);
             }
 
-            switch (ch)
+            return switch (ch)
             {
-                case '\n':
-                case ';':
-                    return new Token(Token.Type.END_OF_LINE, line, column, String.valueOf((char) ch));
-                case '\'':
-                    return readString(line, column, '\'');
-                case '\"':
-                    return readString(line, column, '\"');
-                default:
-                    break;
-            }
+                case '\n', ';' -> new Token(Token.Type.END_OF_LINE, line, column, String.valueOf((char) ch));
+                case '\'' -> readString(line, column, '\'');
+                case '\"' -> readString(line, column, '\"');
+                default -> readCommand(ch, line, column);
+            };
 
-            return readCommand(ch, line, column);
         }
 
         private Token readString(int line, int column, char delimiter) throws IOException
@@ -335,19 +328,16 @@ public class CLI
 
                 switch (token.getType())
                 {
-                    case END_OF_FILE:
+                    case END_OF_FILE ->
+                    {
                         return null;
-
-                    case END_OF_LINE:
-                    case SEPARATOR:
+                    }
+                    case END_OF_LINE, SEPARATOR ->
+                    {
                         return new Arguments(tokens);
-
-                    case STRING:
-                    case COMMAND:
-                        tokens.add(token.getValue());
-                        break;
-                    default:
-                        throw new UnsupportedOperationException("Unsupported token type: " + token.getType());
+                    }
+                    case STRING, COMMAND -> tokens.add(token.getValue());
+                    default -> throw new UnsupportedOperationException("Unsupported token type: " + token.getType());
                 }
             }
         }
@@ -607,7 +597,7 @@ public class CLI
         {
             Optional<Any> value = consume(index, componentType);
 
-            if (!value.isPresent())
+            if (value.isEmpty())
             {
                 return Optional.empty();
             }
@@ -620,7 +610,7 @@ public class CLI
                 value = consume(index, componentType);
             }
 
-            return Optional.of(list.<Any> toArray((Any[]) Array.newInstance(componentType, list.size())));
+            return Optional.of(list.<Any>toArray((Any[]) Array.newInstance(componentType, list.size())));
         }
 
         /**
@@ -673,7 +663,7 @@ public class CLI
 
             for (String arg : args)
             {
-                if (builder.length() > 0)
+                if (!builder.isEmpty())
                 {
                     builder.append(" ");
                 }
@@ -722,16 +712,16 @@ public class CLI
             StringBuilder builder = new StringBuilder(getConsumerHelp(prefix, qs));
             List<Handler> handlers = new ArrayList<>(subHandlers);
 
-            Collections.sort(handlers, (a, b) -> DICTIONARY_COLLATOR.compare(a.getName(), b.getName()));
+            handlers.sort((a, b) -> DICTIONARY_COLLATOR.compare(a.getName(), b.getName()));
 
             for (Handler handler : handlers)
             {
-                String help = handler
-                    .getHelp((prefix != null && prefix.length() > 0 ? prefix + " " : "") + handler.getName(), qs);
+                String help =
+                    handler.getHelp((prefix != null && !prefix.isEmpty() ? prefix + " " : "") + handler.getName(), qs);
 
-                if (help != null && help.length() > 0)
+                if (help != null && !help.isEmpty())
                 {
-                    if (builder.length() > 0)
+                    if (!builder.isEmpty())
                     {
                         builder.append("\n\n");
                     }
@@ -795,25 +785,26 @@ public class CLI
                     names = new String[]{method.getName()};
                 }
 
-                String format = command.format();
+                String currentFormat = command.format();
 
-                if ((format == null || format.length() == 0) && (parameterTypes.length > 0))
+                if ((currentFormat == null || currentFormat.isEmpty()) && (parameterTypes.length > 0))
                 {
-                    format = Arrays.stream(parameterTypes).map(Class::getSimpleName).collect(Collectors.joining(" "));
+                    currentFormat =
+                        Arrays.stream(parameterTypes).map(Class::getSimpleName).collect(Collectors.joining(" "));
                 }
 
-                String description = command.description();
+                String currentDescription = command.description();
 
-                register(instance, method, parameterTypes, names, format, description);
+                register(instance, method, parameterTypes, names, currentFormat, currentDescription);
             }
         }
 
         protected void register(Object instance, Method method, Class<?>[] parameterTypes, String[] names,
             String format, String description)
         {
-            for (String name : names)
+            for (String currentName : names)
             {
-                register(instance, method, parameterTypes, name, format, description);
+                register(instance, method, parameterTypes, currentName, format, description);
             }
         }
 
@@ -881,7 +872,7 @@ public class CLI
 
             return subHandlers
                 .stream()
-                .filter(handler -> Objects.equals(simplifiedName, simplify(handler.getName())))
+                .filter(h -> Objects.equals(simplifiedName, simplify(h.getName())))
                 .findFirst();
         }
 
@@ -958,7 +949,7 @@ public class CLI
 
     public Arguments consume(String prompt)
     {
-        if (prompt != null && prompt.length() > 0)
+        if (prompt != null && !prompt.isEmpty())
         {
             writeOut("\n%s", prompt);
         }
@@ -996,9 +987,9 @@ public class CLI
     {
         String help = handler.getHelp("", qs);
 
-        if (help == null || help.length() == 0)
+        if (help == null || help.isEmpty())
         {
-            info("No help found for: %s", Arrays.stream(qs).collect(Collectors.joining(" ")));
+            info("No help found for: %s", String.join(" ", qs));
         }
         else
         {
@@ -1029,7 +1020,7 @@ public class CLI
     {
         if (ex != null)
         {
-            out.printf("\n");
+            out.print("\n");
             ex.printStackTrace(out);
         }
     }
@@ -1044,7 +1035,7 @@ public class CLI
         if (ex != null)
         {
             ex.printStackTrace(err);
-            err.printf("\n");
+            err.print("\n");
         }
     }
 
@@ -1083,7 +1074,6 @@ public class CLI
 
     private static String simplify(String s)
     {
-        // return s.replaceAll("[^\\p{IsLatin}^\\d]", "").toLowerCase();
         return s.toLowerCase();
     }
 

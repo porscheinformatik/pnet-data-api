@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts types.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictType<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictType<SELF extends Restrict<SELF>> extends Restrict<SELF
 
     default SELF types(Collection<String> typeMatchcodes)
     {
-        return type(typeMatchcodes.toArray(new String[typeMatchcodes.size()]));
+        return type(typeMatchcodes.toArray(new String[0]));
     }
 
 }

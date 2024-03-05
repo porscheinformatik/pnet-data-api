@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts leading company ids.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictLeadingCompanyId<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,6 +18,6 @@ public interface RestrictLeadingCompanyId<SELF extends Restrict<SELF>> extends R
 
     default SELF leadingCompanyIds(Collection<Integer> companyIds)
     {
-        return leadingCompanyId(companyIds.toArray(new Integer[companyIds.size()]));
+        return leadingCompanyId(companyIds.toArray(new Integer[0]));
     }
 }

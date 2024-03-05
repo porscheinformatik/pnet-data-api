@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts Guids.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictGuid<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictGuid<SELF extends Restrict<SELF>> extends Restrict<SELF
 
     default SELF guids(Collection<String> guids)
     {
-        return guid(guids.toArray(new String[guids.size()]));
+        return guid(guids.toArray(new String[0]));
     }
 
 }

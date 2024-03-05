@@ -66,7 +66,8 @@ public class CompanyDataClient extends AbstractPnetDataApiClient<CompanyDataClie
                     .parameters(restricts)
                     .path("/api/v1/companies/search")
                     .get(
-                        new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO, CompanyAggregationsDTO>>()
+                        new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<CompanyItemDTO,
+                            CompanyAggregationsDTO>>()
                         {
                             // intentionally left blank
                         });

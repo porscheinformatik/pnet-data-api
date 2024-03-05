@@ -14,6 +14,7 @@
  */
 package pnet.data.api.activity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -43,10 +44,11 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds all information about an activity")
-public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks,
-    WithCompanyTypeLinks, WithContractTypeLinks, WithLastUpdate, Serializable
+public class ActivityDataDTO
+    implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks, WithCompanyTypeLinks,
+    WithContractTypeLinks, WithLastUpdate, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 5133673955487263429L;
 
     @Schema(description = "The unique matchcode of the activity")
@@ -156,7 +158,7 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
 
     /**
      * @return This activity is only available, if the company has one of these contracts. This collection is only
-     *         relevant, if the company type of the company says so.
+     * relevant, if the company type of the company says so.
      */
     @Override
     public Collection<ContractTypeLinkDTO> getContractTypes()
@@ -203,11 +205,10 @@ public class ActivityDataDTO implements WithMatchcode, WithLabels, WithDescripti
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
-                    + "contractTypes=%s, settings=%s, lastUpdate=%s]",
-                matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, settings, lastUpdate);
+        return String.format(
+            "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
+                + "contractTypes=%s, settings=%s, lastUpdate=%s]", matchcode, labels, descriptions, tenants, brands,
+            companyTypes, contractTypes, settings, lastUpdate);
     }
 
 }

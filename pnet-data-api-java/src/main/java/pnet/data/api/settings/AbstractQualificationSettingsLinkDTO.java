@@ -1,16 +1,18 @@
 package pnet.data.api.settings;
 
+import java.io.Serial;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class AbstractQualificationSettingsLinkDTO extends AbstractSettingsLinkDTO
 {
-
+    @Serial
     private static final long serialVersionUID = 9056664712077208202L;
 
     protected final Visibility visibility;
     protected final boolean approvalNeeded;
 
-    public AbstractQualificationSettingsLinkDTO(@JsonProperty("tenant") String tenant,
+    protected AbstractQualificationSettingsLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("visibility") Visibility visibility, @JsonProperty("approvalNeeded") boolean approvalNeeded)
     {
         super(tenant);
@@ -32,9 +34,8 @@ public abstract class AbstractQualificationSettingsLinkDTO extends AbstractSetti
     @Override
     public String toString()
     {
-        return String
-            .format("AbstractQualificationSettingsLinkDTO [tenant=%s, visibility=%s, approvalNeeded=%s]", tenant,
-                visibility, approvalNeeded);
+        return String.format("AbstractQualificationSettingsLinkDTO [tenant=%s, visibility=%s, approvalNeeded=%s]",
+            tenant, visibility, approvalNeeded);
     }
 
 }

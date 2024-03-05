@@ -184,7 +184,7 @@ public interface RestCall
      * @param values the values (only the first will be used)
      * @return a new RestCall instance
      * @deprecated there is no use for multiple variable values with the same name. Use the
-     *             {@link #variable(String, Object)} method.
+     * {@link #variable(String, Object)} method.
      */
     @Deprecated
     RestCall variable(String name, Object... values);

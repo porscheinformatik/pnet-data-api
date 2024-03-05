@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -36,7 +37,7 @@ import pnet.data.api.util.WithValidPeriod;
 public class CompanyContractStateLinkDTO extends AbstractLinkDTO
     implements WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod
 {
-
+    @Serial
     private static final long serialVersionUID = 8013176883992921779L;
 
     @Schema(description = "The matchcode of the brand this contract state is assigned to.")
@@ -138,19 +139,14 @@ public class CompanyContractStateLinkDTO extends AbstractLinkDTO
         {
             return false;
         }
-        if (!PnetDataApiUtils.equals(validFrom, other.validFrom))
-        {
-            return false;
-        }
-        return true;
+        return PnetDataApiUtils.equals(validFrom, other.validFrom);
     }
 
     @Override
     public String toString()
     {
-        return String
-            .format("%s(%s) [brandMathcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]", getMatchcode(),
-                getTenant(), brandMatchcode, contractTypeMatchcode, validFrom, validTo);
+        return String.format("%s(%s) [brandMathcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]",
+            getMatchcode(), getTenant(), brandMatchcode, contractTypeMatchcode, validFrom, validTo);
     }
 
 }

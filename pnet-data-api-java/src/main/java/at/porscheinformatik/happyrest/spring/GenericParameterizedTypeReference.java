@@ -10,8 +10,8 @@ import at.porscheinformatik.happyrest.GenericType;
 /**
  * A wrapper for the {@link ParameterizedTypeReference} ... least hacky as possible.
  *
- * @author ham
  * @param <T> the type
+ * @author ham
  */
 public class GenericParameterizedTypeReference<T> extends ParameterizedTypeReference<T>
 {
@@ -39,9 +39,8 @@ public class GenericParameterizedTypeReference<T> extends ParameterizedTypeRefer
     @Override
     public boolean equals(@Nullable Object obj)
     {
-        return (this == obj
-            || (obj instanceof ParameterizedTypeReference
-                && getType().equals(((ParameterizedTypeReference<?>) obj).getType())));
+        return (this == obj || (obj instanceof ParameterizedTypeReference && getType().equals(
+            ((ParameterizedTypeReference<?>) obj).getType())));
     }
 
     @Override

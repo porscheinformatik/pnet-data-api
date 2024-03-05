@@ -1,5 +1,7 @@
 package pnet.data.api.person;
 
+import java.io.Serial;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +14,7 @@ import pnet.data.api.util.AbstractAutoCompleteDTO;
  */
 public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
 {
-
+    @Serial
     private static final long serialVersionUID = -6275336068143194073L;
 
     @Schema(description = "The unique id of the person.")
@@ -36,6 +38,7 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
     @Schema(description = "The email of the person.")
     private final String email;
 
+    @SuppressWarnings("java:S107")
     public PersonAutoCompleteDTO(@JsonProperty("personId") Integer personId,
         @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("label") String label,
         @JsonProperty("description") String description, @JsonProperty("externalId") String externalId,
@@ -92,11 +95,11 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
     @Override
     public String toString()
     {
-        return String
-            .format("PersonAutoCompleteDTO [personId=%s, administrativeTenant=%s, externalId=%s, guid=%s, "
-                + "preferredUserId=%s, personnelNumber=%s, email=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
-                personId, administrativeTenant, externalId, guid, preferredUserId, personnelNumber, email, getLabel(),
-                getDescription(), getScore());
+        return String.format("PersonAutoCompleteDTO [personId=%s, administrativeTenant=%s, externalId=%s, guid=%s, "
+                + "preferredUserId=%s, personnelNumber=%s, email=%s, getLabel()=%s, getDescription()=%s, getScore()"
+                + "=%s]",
+            personId, administrativeTenant, externalId, guid, preferredUserId, personnelNumber, email, getLabel(),
+            getDescription(), getScore());
     }
 
 }

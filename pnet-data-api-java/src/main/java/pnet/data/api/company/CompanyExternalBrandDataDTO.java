@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -34,7 +35,7 @@ import pnet.data.api.util.WithValidPeriod;
     + "matchcodes of the external brand interface.")
 public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeriod, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -1049613870676274132L;
 
     @Schema(description = "The matchcode of the external brand (fits the matchcodes of the external brand interface.")
@@ -137,20 +138,14 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeri
             return false;
         }
 
-        if (!PnetDataApiUtils.equals(validFrom, other.validFrom))
-        {
-            return false;
-        }
-
-        return true;
+        return PnetDataApiUtils.equals(validFrom, other.validFrom);
     }
 
     @Override
     public String toString()
     {
-        return String
-            .format("%s [validFrom=%s, validTo=%s, sales=%s, service=%s, local=%s]", matchcode, validFrom, validTo,
-                sales, service, local);
+        return String.format("%s [validFrom=%s, validTo=%s, sales=%s, service=%s, local=%s]", matchcode, validFrom,
+            validTo, sales, service, local);
     }
 
 }

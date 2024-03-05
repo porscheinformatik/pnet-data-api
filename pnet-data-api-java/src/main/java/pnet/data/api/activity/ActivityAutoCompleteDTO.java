@@ -14,6 +14,8 @@
  */
 package pnet.data.api.activity;
 
+import java.io.Serial;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,6 +25,7 @@ import pnet.data.api.util.WithMatchcode;
 @Schema(description = "Holds the auto-complete results for an activity")
 public class ActivityAutoCompleteDTO extends AbstractAutoCompleteDTO implements WithMatchcode
 {
+    @Serial
     private static final long serialVersionUID = -8765852009234856747L;
 
     @Schema(description = "The unique matchcode of the activity.")
@@ -45,8 +48,8 @@ public class ActivityAutoCompleteDTO extends AbstractAutoCompleteDTO implements 
     @Override
     public String toString()
     {
-        return String
-            .format("ActivityAutoCompleteDTO [matchcode=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
-                matchcode, getLabel(), getDescription(), getScore());
+        return String.format(
+            "ActivityAutoCompleteDTO [matchcode=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]", matchcode,
+            getLabel(), getDescription(), getScore());
     }
 }

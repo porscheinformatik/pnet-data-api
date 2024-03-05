@@ -56,10 +56,9 @@ public class GeoDistance extends GeoPoint
     @Override
     public String toString()
     {
-        return String
-            .format(String
-                .format(Locale.ENGLISH, "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}", getLat(), getLon(),
-                    getDistance()));
+        return String.format(
+            String.format(Locale.ENGLISH, "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}", getLat(), getLon(),
+                getDistance()));
     }
 
 }

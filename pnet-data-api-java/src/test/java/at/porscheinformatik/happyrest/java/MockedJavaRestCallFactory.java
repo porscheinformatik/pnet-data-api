@@ -23,9 +23,8 @@ public class MockedJavaRestCallFactory extends JavaRestCallFactory
     {
         RestFormatter formatter =
             RestFormatter.of(new JacksonBasedFormatter(RestUtilsTest.OBJECT_MAPPER), new TextPlainFormatter());
-        RestParser parser = RestParser
-            .of(StringParser.INSTANCE, NumberParser.INSTANCE, CharArrayParser.INSTANCE, ByteArrayParser.INSTANCE,
-                new JacksonBasedParser(RestUtilsTest.OBJECT_MAPPER));
+        RestParser parser = RestParser.of(StringParser.INSTANCE, NumberParser.INSTANCE, CharArrayParser.INSTANCE,
+            ByteArrayParser.INSTANCE, new JacksonBasedParser(RestUtilsTest.OBJECT_MAPPER));
 
         return new MockedJavaRestCallFactory(SystemRestLoggerAdapter.INSTANCE, formatter, parser);
     }

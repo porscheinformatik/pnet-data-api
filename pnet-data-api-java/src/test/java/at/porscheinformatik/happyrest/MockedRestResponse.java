@@ -140,11 +140,7 @@ public abstract class MockedRestResponse<T> implements RestResponse<T>
     @Override
     public List<String> getHeader(String key)
     {
-        return headers
-            .stream()
-            .filter(header -> key.equalsIgnoreCase(header.getLeft()))
-            .map(Pair::getRight)
-            .toList();
+        return headers.stream().filter(header -> key.equalsIgnoreCase(header.getLeft())).map(Pair::getRight).toList();
     }
 
     @Override

@@ -4,6 +4,7 @@ pnet-data-api 2.7.0
 Compatibility with Partner.Net 6.44.
 
 * Add the division label to person advisor assignments.
+* Fixed a lot of warnings.
 
 pnet-data-api 2.6.0
 ===================

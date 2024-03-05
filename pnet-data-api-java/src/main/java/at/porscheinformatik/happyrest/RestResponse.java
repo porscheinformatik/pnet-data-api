@@ -6,8 +6,8 @@ import java.util.Locale;
 /**
  * A response of a rest call.
  *
- * @author ham
  * @param <T> the type of the body
+ * @author ham
  */
 public interface RestResponse<T>
 {

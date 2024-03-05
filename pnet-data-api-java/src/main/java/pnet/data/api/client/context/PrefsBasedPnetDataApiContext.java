@@ -9,7 +9,7 @@ import pnet.data.api.client.PnetDataClientPrefs;
  *
  * @author ham
  * @deprecated use the {@link SimplePnetDataApiContext} with an appropriate {@link PnetDataApiLoginMethod}, e.g.
- *             {@link AuthenticationTokenPnetDataApiLoginMethod} or {@link UsernamePasswordPnetDataApiLoginMethod}.
+ * {@link AuthenticationTokenPnetDataApiLoginMethod} or {@link UsernamePasswordPnetDataApiLoginMethod}.
  */
 @Deprecated
 public class PrefsBasedPnetDataApiContext extends AbstractPnetDataApiContext
@@ -52,7 +52,8 @@ public class PrefsBasedPnetDataApiContext extends AbstractPnetDataApiContext
     @Deprecated
     public PnetDataApiContext withCredentials(String username, String password)
     {
-        return new DefaultPnetDataApiContext(repository, new UsernamePasswordPnetDataApiLoginMethod(
-            getLoginMethod().getUrl(), () -> new UsernamePasswordCredentials(username, password)));
+        return new DefaultPnetDataApiContext(repository,
+            new UsernamePasswordPnetDataApiLoginMethod(getLoginMethod().getUrl(),
+                () -> new UsernamePasswordCredentials(username, password)));
     }
 }

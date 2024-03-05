@@ -14,6 +14,8 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serial;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -28,7 +30,7 @@ import pnet.data.api.util.WithLabel;
     + "Related to the datedBackUnitl parameter.")
 public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithLabel
 {
-
+    @Serial
     private static final long serialVersionUID = -5572016715722241376L;
 
     @Schema(description = "The label of the function that is assigned to the person.")
@@ -37,6 +39,7 @@ public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO i
     @Schema(description = "True if currently active (ignores the datedBackUntil parameter).")
     protected final boolean currentlyActive;
 
+    @SuppressWarnings("java:S107")
     public ActivePersonFunctionLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
@@ -63,12 +66,10 @@ public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO i
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "ActivePersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, "
-                    + "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, currentlyActive=%s]",
-                tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction,
-                currentlyActive);
+        return String.format("ActivePersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, "
+                + "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, currentlyActive=%s]", tenant, matchcode,
+            companyId,
+            companyMatchcode, companyNumber, brandMatchcode, mainFunction, currentlyActive);
     }
 
 }

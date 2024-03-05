@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts to items, that have been assigned to person ids.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictAssignedToPersonId<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -17,6 +17,6 @@ public interface RestrictAssignedToPersonId<SELF extends Restrict<SELF>> extends
 
     default SELF assignedToPersonIds(Collection<Integer> assignedToPersonIds)
     {
-        return assignedToPersonId(assignedToPersonIds.toArray(new Integer[assignedToPersonIds.size()]));
+        return assignedToPersonId(assignedToPersonIds.toArray(new Integer[0]));
     }
 }

@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts the companies of the advisor assignments.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictAdvisorAssignmentCompanyId<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -19,7 +19,7 @@ public interface RestrictAdvisorAssignmentCompanyId<SELF extends Restrict<SELF>>
     default SELF advisorAssignmentCompanys(Collection<Integer> advisorAssignmentCompanyMatchcodes)
     {
         return advisorAssignmentCompany(
-            advisorAssignmentCompanyMatchcodes.toArray(new Integer[advisorAssignmentCompanyMatchcodes.size()]));
+            advisorAssignmentCompanyMatchcodes.toArray(new Integer[0]));
     }
 
 }

@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts the type of the assigned numbers of a person.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  * @deprecated use {@link RestrictNumberType} instead
  */
 @Deprecated
@@ -20,7 +20,7 @@ public interface RestrictNumbersType<SELF extends Restrict<SELF>> extends Restri
 
     default SELF numbersTypes(Collection<String> numbersTypeMatchcodes)
     {
-        return numbersType(numbersTypeMatchcodes.toArray(new String[numbersTypeMatchcodes.size()]));
+        return numbersType(numbersTypeMatchcodes.toArray(new String[0]));
     }
 
 }

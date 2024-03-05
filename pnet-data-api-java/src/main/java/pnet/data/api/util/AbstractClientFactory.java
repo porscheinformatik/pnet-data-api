@@ -35,10 +35,9 @@ import pnet.data.api.person.PersonDataClient;
 /**
  * A factory for clients if you are working without Spring.
  *
- * @author HAM
  * @param <T> the type itself
+ * @author HAM
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> implements ClientProvider
 {
     private final PnetDataApiLoginMethod loginMethod;
@@ -67,7 +66,7 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
 
     //    public AbstractClientFactory(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
 
-    public AbstractClientFactory(PnetDataApiLoginMethod loginMethod, ObjectMapper mapper,
+    protected AbstractClientFactory(PnetDataApiLoginMethod loginMethod, ObjectMapper mapper,
         RestLoggerAdapter loggerAdapter)
     {
         super();
@@ -95,13 +94,12 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
      * @param prefs the preferences
      * @return a new instance
      * @deprecated since {@link PnetDataClientPrefs} are deprecated, use the
-     *             {@link #withLoginMethod(PnetDataApiLoginMethod)} method instead
+     * {@link #withLoginMethod(PnetDataApiLoginMethod)} method instead
      */
     @Deprecated
     public T withPrefs(PnetDataClientPrefs prefs)
     {
-        return copy(
-            new UsernamePasswordPnetDataApiLoginMethod(prefs.getPnetDataApiUrl(),
+        return copy(new UsernamePasswordPnetDataApiLoginMethod(prefs.getPnetDataApiUrl(),
                 () -> new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword())),
             mapper, loggerAdapter);
     }

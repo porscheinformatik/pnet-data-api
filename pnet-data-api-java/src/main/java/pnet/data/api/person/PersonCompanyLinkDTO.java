@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +32,7 @@ import pnet.data.api.util.WithValidPeriod;
 @Schema(description = "Holds minimal information about a employment the person has/had.")
 public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO implements WithValidPeriod
 {
-
+    @Serial
     private static final long serialVersionUID = 7199829304360405636L;
 
     @Schema(description = "The date and time from when this person has/had an employment at the company. "
@@ -42,6 +43,7 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO implements 
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
+    @SuppressWarnings("java:S107")
     public PersonCompanyLinkDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("companyLabel") String companyLabel, @JsonProperty("approved") boolean approved,
@@ -92,22 +94,17 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO implements 
             return false;
         }
         PersonCompanyLinkDTO other = (PersonCompanyLinkDTO) obj;
-        if (!PnetDataApiUtils.equals(validFrom, other.validFrom))
-        {
-            return false;
-        }
-        return true;
+
+        return PnetDataApiUtils.equals(validFrom, other.validFrom);
     }
 
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "PersonCompanyLinkDTO [validFrom=%s, validTo=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, "
-                    + "companyLabel=%s, approved=%s, approvalState=%s, currentlyActive=%s]",
-                validFrom, validTo, companyId, companyMatchcode, companyNumber, companyLabel, approved, approvalState,
-                currentlyActive);
+        return String.format(
+            "PersonCompanyLinkDTO [validFrom=%s, validTo=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, "
+                + "companyLabel=%s, approved=%s, approvalState=%s, currentlyActive=%s]", validFrom, validTo, companyId,
+            companyMatchcode, companyNumber, companyLabel, approved, approvalState, currentlyActive);
     }
 
 }

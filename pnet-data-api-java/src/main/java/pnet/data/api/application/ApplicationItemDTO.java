@@ -14,6 +14,7 @@
  */
 package pnet.data.api.application;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -36,6 +37,7 @@ import pnet.data.api.util.WithScore;
 public class ApplicationItemDTO
     implements WithMatchcode, WithLabel, WithDescription, WithLastUpdate, WithScore, Serializable
 {
+    @Serial
     private static final long serialVersionUID = 1943888464506455363L;
 
     @Schema(description = "The unique matchcode of the application.")
@@ -108,9 +110,8 @@ public class ApplicationItemDTO
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "ApplicationItemDTO [matchcode=%s, label=%s, description=%s, scopeMatchcodes=%s, lastUpdate=%s, score=%s]",
-                matchcode, label, description, scopeMatchcodes, lastUpdate, score);
+        return String.format(
+            "ApplicationItemDTO [matchcode=%s, label=%s, description=%s, scopeMatchcodes=%s, lastUpdate=%s, score=%s]",
+            matchcode, label, description, scopeMatchcodes, lastUpdate, score);
     }
 }

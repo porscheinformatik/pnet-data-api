@@ -14,6 +14,8 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serial;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -26,7 +28,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Holds one employment dependent number of a person.")
 public class ActivePersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO
 {
-
+    @Serial
     private static final long serialVersionUID = -3446430282367218468L;
 
     @Schema(description = "True if currently active (ignores future settings).")
@@ -50,11 +52,9 @@ public class ActivePersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "ActivePersonNumberTypeLinkDTO [currentlyActive=%s, companyId=%s, companyMatchcode=%s, "
-                    + "companyNumber=%s, number=%s, tenant=%s, matchcode=%s]",
-                currentlyActive, companyId, companyMatchcode, companyNumber, number, tenant, matchcode);
+        return String.format("ActivePersonNumberTypeLinkDTO [currentlyActive=%s, companyId=%s, companyMatchcode=%s, "
+                + "companyNumber=%s, number=%s, tenant=%s, matchcode=%s]", currentlyActive, companyId, companyMatchcode,
+            companyNumber, number, tenant, matchcode);
     }
 
 }

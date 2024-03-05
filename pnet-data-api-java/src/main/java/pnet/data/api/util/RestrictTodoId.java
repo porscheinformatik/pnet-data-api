@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts todo ids.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictTodoId<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictTodoId<SELF extends Restrict<SELF>> extends Restrict<SE
 
     default SELF todoIds(Collection<Integer> todoIds)
     {
-        return todoId(todoIds.toArray(new Integer[todoIds.size()]));
+        return todoId(todoIds.toArray(new Integer[0]));
     }
 
 }

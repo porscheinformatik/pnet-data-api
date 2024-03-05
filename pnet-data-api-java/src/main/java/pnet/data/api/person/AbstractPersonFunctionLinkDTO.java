@@ -1,5 +1,6 @@
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +17,7 @@ import pnet.data.api.util.WithCompanyId;
  */
 public abstract class AbstractPersonFunctionLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
 {
-
+    @Serial
     private static final long serialVersionUID = -7454296829315458948L;
 
     @Schema(description = "The id of the company at which the function is assigned to the person.")
@@ -35,7 +36,7 @@ public abstract class AbstractPersonFunctionLinkDTO extends AbstractLinkDTO impl
         + "main function of the person at the specific company or not.")
     protected final boolean mainFunction;
 
-    public AbstractPersonFunctionLinkDTO(@JsonProperty("tenant") String tenant,
+    protected AbstractPersonFunctionLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("brandMatchcode") String brandMatchcode, @JsonProperty("mainFunction") boolean mainFunction)
@@ -107,11 +108,9 @@ public abstract class AbstractPersonFunctionLinkDTO extends AbstractLinkDTO impl
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "AbstractPersonFunctionLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, "
-                    + "brandMatchcode=%s, mainFunction=%s, getTenant()=%s, getMatchcode()=%s]",
-                companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction, getTenant(), getMatchcode());
+        return String.format("AbstractPersonFunctionLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, "
+                + "brandMatchcode=%s, mainFunction=%s, getTenant()=%s, getMatchcode()=%s]", companyId, companyMatchcode,
+            companyNumber, brandMatchcode, mainFunction, getTenant(), getMatchcode());
     }
 
 }

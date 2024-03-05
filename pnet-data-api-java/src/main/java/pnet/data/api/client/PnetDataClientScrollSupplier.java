@@ -5,8 +5,8 @@ import pnet.data.api.PnetDataClientException;
 /**
  * Supplier for the next scroll page
  *
- * @author ham
  * @param <T> the type of result
+ * @author ham
  */
 @FunctionalInterface
 public interface PnetDataClientScrollSupplier<T>

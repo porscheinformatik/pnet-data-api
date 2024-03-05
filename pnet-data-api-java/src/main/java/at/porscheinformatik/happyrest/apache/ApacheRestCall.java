@@ -75,10 +75,8 @@ public class ApacheRestCall extends AbstractRestCall
         {
             List<NameValuePair> params = new ArrayList<>();
 
-            getParameters()
-                .forEach(parameter -> params
-                    .add(new BasicNameValuePair(parameter.getName(),
-                        format(MediaType.TEXT_PLAIN, parameter.getValue()))));
+            getParameters().forEach(parameter -> params.add(
+                new BasicNameValuePair(parameter.getName(), format(MediaType.TEXT_PLAIN, parameter.getValue()))));
 
             return new UrlEncodedFormEntity(params, getCharset());
         }
@@ -136,9 +134,8 @@ public class ApacheRestCall extends AbstractRestCall
 
         for (RestVariable variable : getVariables())
         {
-            url = url
-                .replace("{" + variable.getName() + "}", RestUtils
-                    .encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
+            url = url.replace("{" + variable.getName() + "}",
+                RestUtils.encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
         }
 
         return url;
@@ -157,35 +154,16 @@ public class ApacheRestCall extends AbstractRestCall
                 populateWithParameters(builder);
             }
 
-            switch (method)
+            request = switch (method)
             {
-                case GET:
-                    request = new HttpGet(builder.build());
-                    break;
-
-                case POST:
-                    request = new HttpPost(builder.build());
-                    break;
-
-                case PUT:
-                    request = new HttpPut(builder.build());
-                    break;
-
-                case DELETE:
-                    request = new HttpDelete(builder.build());
-                    break;
-
-                case OPTIONS:
-                    request = new HttpOptions(builder.build());
-                    break;
-
-                case PATCH:
-                    request = new HttpPatch(builder.build());
-                    break;
-
-                default:
-                    throw new UnsupportedOperationException("Unsupported method: " + method);
-            }
+                case GET -> new HttpGet(builder.build());
+                case POST -> new HttpPost(builder.build());
+                case PUT -> new HttpPut(builder.build());
+                case DELETE -> new HttpDelete(builder.build());
+                case OPTIONS -> new HttpOptions(builder.build());
+                case PATCH -> new HttpPatch(builder.build());
+                default -> throw new UnsupportedOperationException("Unsupported method: " + method);
+            };
         }
         catch (URISyntaxException e)
         {
@@ -231,8 +209,8 @@ public class ApacheRestCall extends AbstractRestCall
 
     private void computeHeaders(HttpRequestBase request)
     {
-        getHeaders()
-            .forEach(header -> request.addHeader(header.getName(), format(MediaType.TEXT_PLAIN, header.getValue())));
+        getHeaders().forEach(
+            header -> request.addHeader(header.getName(), format(MediaType.TEXT_PLAIN, header.getValue())));
 
         MediaType contentType = getContentType();
 

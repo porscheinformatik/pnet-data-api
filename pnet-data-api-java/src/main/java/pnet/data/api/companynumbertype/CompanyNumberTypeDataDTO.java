@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companynumbertype;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -34,7 +35,7 @@ import pnet.data.api.util.WithMatchcode;
 @Schema(description = "Holds all information about a company number type")
 public class CompanyNumberTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 8523314179106137587L;
 
     @Schema(description = "The unique matchcode of the company number type")
@@ -83,8 +84,8 @@ public class CompanyNumberTypeDataDTO implements WithMatchcode, WithLabels, With
     @Override
     public String toString()
     {
-        return String
-            .format("CompanyNumberTypeDataDTO [matchcode=%s, labels=%s, lastUpdate=%s]", matchcode, labels, lastUpdate);
+        return String.format("CompanyNumberTypeDataDTO [matchcode=%s, labels=%s, lastUpdate=%s]", matchcode, labels,
+            lastUpdate);
     }
 
 }

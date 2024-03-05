@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts SAP number
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictSapNumber<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -34,7 +34,7 @@ public interface RestrictSapNumber<SELF extends Restrict<SELF>> extends Restrict
     @Deprecated
     default SELF sapNumbers(Collection<String> numbers)
     {
-        return sapNumber(numbers.toArray(new String[numbers.size()]));
+        return sapNumber(numbers.toArray(new String[0]));
     }
 
 }

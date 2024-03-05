@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts functions.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictFunction<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictFunction<SELF extends Restrict<SELF>> extends Restrict<
 
     default SELF functions(Collection<String> functionMatchcodes)
     {
-        return function(functionMatchcodes.toArray(new String[functionMatchcodes.size()]));
+        return function(functionMatchcodes.toArray(new String[0]));
     }
 
     /**

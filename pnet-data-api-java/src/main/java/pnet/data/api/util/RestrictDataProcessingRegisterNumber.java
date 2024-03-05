@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts data processing register number
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictDataProcessingRegisterNumber<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictDataProcessingRegisterNumber<SELF extends Restrict<SELF
 
     default SELF dataProcessingRegisterNumbers(Collection<String> numbers)
     {
-        return dataProcessingRegisterNumber(numbers.toArray(new String[numbers.size()]));
+        return dataProcessingRegisterNumber(numbers.toArray(new String[0]));
     }
 
 }

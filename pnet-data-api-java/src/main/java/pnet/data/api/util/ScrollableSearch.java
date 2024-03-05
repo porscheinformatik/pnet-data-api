@@ -8,8 +8,8 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * A search query.
  *
- * @author ham
  * @param <DTO> the type of DTO
+ * @author ham
  */
 public interface ScrollableSearch<DTO> extends Search<DTO>
 {

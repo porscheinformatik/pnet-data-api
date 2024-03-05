@@ -8,8 +8,8 @@ import pnet.data.api.PnetDataClientException;
 /**
  * An autoComplete query.
  *
- * @author ham
  * @param <DTO> the type of DTO
+ * @author ham
  */
 public interface AutoComplete<DTO>
 {

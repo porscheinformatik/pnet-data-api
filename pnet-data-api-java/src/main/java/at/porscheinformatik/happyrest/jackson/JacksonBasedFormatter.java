@@ -27,8 +27,8 @@ public class JacksonBasedFormatter implements RestFormatter
     @Override
     public boolean isContentTypeSupported(MediaType contentType)
     {
-        return MediaType.APPLICATION_JSON.isCompatible(contentType)
-            || MediaType.APPLICATION_ANY_JSON.isCompatible(contentType);
+        return MediaType.APPLICATION_JSON.isCompatible(contentType) || MediaType.APPLICATION_ANY_JSON.isCompatible(
+            contentType);
     }
 
     @Override

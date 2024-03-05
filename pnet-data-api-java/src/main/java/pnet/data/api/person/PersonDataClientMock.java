@@ -31,27 +31,23 @@ public class PersonDataClientMock extends PersonDataClient
 
         MockStore<PersonItemDTO> itemStore = getItemStore();
 
-        itemStore
-            .addFilter(QUERY_KEY, whenMatches(PersonItemDTO::getPersonId, PersonItemDTO::getFirstName,
-                PersonItemDTO::getLastName, PersonItemDTO::getPersonnelNumber));
+        itemStore.addFilter(QUERY_KEY,
+            whenMatches(PersonItemDTO::getPersonId, PersonItemDTO::getFirstName, PersonItemDTO::getLastName,
+                PersonItemDTO::getPersonnelNumber));
         itemStore.addFilter("id", whenEquals(PersonItemDTO::getPersonId));
         itemStore.addFilter("externalId", whenEquals(PersonItemDTO::getExternalId));
         itemStore.addFilter("guid", whenEquals(PersonItemDTO::getGuid));
         itemStore.addFilter("preferredUserId", whenEquals(PersonItemDTO::getPreferredUserId));
         itemStore.addFilter("email", whenEquals(PersonItemDTO::getEmail));
         itemStore.addFilter("personnelNumber", whenEquals(PersonItemDTO::getPersonnelNumber));
-        itemStore
-            .addFilter("companyId",
-                withCollection(PersonItemDTO::getCompanies, whenEquals(ActivePersonCompanyLinkDTO::getCompanyId)));
-        itemStore
-            .addFilter("companyNumber",
-                withCollection(PersonItemDTO::getCompanies, whenEquals(ActivePersonCompanyLinkDTO::getCompanyNumber)));
-        itemStore
-            .addFilter("company", withCollection(PersonItemDTO::getCompanies,
-                whenEquals(ActivePersonCompanyLinkDTO::getCompanyMatchcode)));
-        itemStore
-            .addFilter("function",
-                withCollection(PersonItemDTO::getFunctions, whenEquals(ActivePersonFunctionLinkDTO::getMatchcode)));
+        itemStore.addFilter("companyId",
+            withCollection(PersonItemDTO::getCompanies, whenEquals(ActivePersonCompanyLinkDTO::getCompanyId)));
+        itemStore.addFilter("companyNumber",
+            withCollection(PersonItemDTO::getCompanies, whenEquals(ActivePersonCompanyLinkDTO::getCompanyNumber)));
+        itemStore.addFilter("company",
+            withCollection(PersonItemDTO::getCompanies, whenEquals(ActivePersonCompanyLinkDTO::getCompanyMatchcode)));
+        itemStore.addFilter("function",
+            withCollection(PersonItemDTO::getFunctions, whenEquals(ActivePersonFunctionLinkDTO::getMatchcode)));
 
         addDefaultTenantsFilter(itemStore);
         addDefaultLastUpdateFilter(itemStore);
@@ -95,17 +91,19 @@ public class PersonDataClientMock extends PersonDataClient
 
         List<PersonTenantAggregationDTO> aggregatedTenants =
             MockUtils.aggregateTenants(entries, PersonTenantAggregationDTO::new);
-        List<PersonCompanyAggregationDTO> aggregatedCompanies = MockUtils
-            .aggregateFlat(entries, entry -> entry.getCompanies().stream(),
+        List<PersonCompanyAggregationDTO> aggregatedCompanies =
+            MockUtils.aggregateFlat(entries, entry -> entry.getCompanies().stream(),
                 (company, count) -> new PersonCompanyAggregationDTO(company.getCompanyId(),
                     company.getCompanyMatchcode(), company.getCompanyNumber(), company.getCompanyLabel(), count));
-        List<PersonFunctionAggregationDTO> aggregatedFunctions = MockUtils
-            .aggregateFlat(entries, entry -> entry.getFunctions().stream(), (function,
-                count) -> new PersonFunctionAggregationDTO(function.getMatchcode(), function.getLabel(), count));
+        List<PersonFunctionAggregationDTO> aggregatedFunctions =
+            MockUtils.aggregateFlat(entries, entry -> entry.getFunctions().stream(),
+                (function, count) -> new PersonFunctionAggregationDTO(function.getMatchcode(), function.getLabel(),
+                    count));
         List<PersonActivityAggregationDTO> aggregatedActivities = Collections.emptyList();
 
-        PersonAggregationsDTO aggregations = new PersonAggregationsDTO(aggregatedTenants, aggregatedCompanies,
-            aggregatedFunctions, aggregatedActivities);
+        PersonAggregationsDTO aggregations =
+            new PersonAggregationsDTO(aggregatedTenants, aggregatedCompanies, aggregatedFunctions,
+                aggregatedActivities);
 
         return MockUtils.mockResultPageWithAggregations(restricts, entries, aggregations);
     }

@@ -26,10 +26,7 @@ public interface WithCompanyTypeLinks
      */
     default Collection<CompanyTypeLinkDTO> getCompanyTypesOfTenant(String tenant)
     {
-        return getCompanyTypes()
-            .stream()
-            .filter($ -> Objects.equals(tenant, $.getTenant()))
-            .toList();
+        return getCompanyTypes().stream().filter(ct -> Objects.equals(tenant, ct.getTenant())).toList();
     }
 
 }

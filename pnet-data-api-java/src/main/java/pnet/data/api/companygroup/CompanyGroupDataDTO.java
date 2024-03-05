@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companygroup;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Optional;
@@ -31,7 +32,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Holds all information about a company group.")
 public class CompanyGroupDataDTO implements Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 9149727074935636956L;
 
     @Schema(description = "The unique id of the company that is leading the company group.")
@@ -90,8 +91,8 @@ public class CompanyGroupDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String
-            .format("CompanyGroupDataDTO [leadingCompanyId=%s, leadingCompanyMatchcode=%s, leadingCompanyNumber=%s, "
+        return String.format(
+            "CompanyGroupDataDTO [leadingCompanyId=%s, leadingCompanyMatchcode=%s, leadingCompanyNumber=%s, "
                 + "members=%s]", leadingCompanyId, leadingCompanyMatchcode, leadingCompanyNumber, members);
     }
 

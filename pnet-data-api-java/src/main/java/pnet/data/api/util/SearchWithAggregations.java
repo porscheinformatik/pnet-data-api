@@ -9,9 +9,9 @@ import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 /**
  * A search query.
  *
- * @author ham
  * @param <DTO> the type of DTO
  * @param <AggregationsDTO> the type of aggregations DTO
+ * @author ham
  */
 public interface SearchWithAggregations<DTO, AggregationsDTO> extends Search<DTO>
 {

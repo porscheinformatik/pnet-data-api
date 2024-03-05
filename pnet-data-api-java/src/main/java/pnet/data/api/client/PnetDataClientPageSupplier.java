@@ -8,8 +8,8 @@ import pnet.data.api.util.Pair;
 /**
  * Supplier for the specified page
  *
- * @author ham
  * @param <T> the type of result
+ * @author ham
  */
 @FunctionalInterface
 public interface PnetDataClientPageSupplier<T>

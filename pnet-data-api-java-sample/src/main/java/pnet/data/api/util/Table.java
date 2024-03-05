@@ -17,10 +17,7 @@ public class Table
 
     public <T> Table addRow(T object, Function<T, ?>[] columnProviders)
     {
-        return addRow(Arrays
-            .stream(columnProviders)
-            .map(columnProvider -> columnProvider.apply(object))
-            .toList());
+        return addRow(Arrays.stream(columnProviders).map(columnProvider -> columnProvider.apply(object)).toList());
     }
 
     public Table addRow(Object... row)

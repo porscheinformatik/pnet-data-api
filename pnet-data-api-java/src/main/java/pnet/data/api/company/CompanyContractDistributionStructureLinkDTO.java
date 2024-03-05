@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -37,6 +38,7 @@ import pnet.data.api.util.WithValidPeriod;
 public class CompanyContractDistributionStructureLinkDTO
     implements WithTenant, WithCompanyId, WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod, Serializable
 {
+    @Serial
     private static final long serialVersionUID = 5212128752932674480L;
 
     @Schema(description = "The tenant (Portal-ID) where this contract state is valid.")
@@ -65,6 +67,7 @@ public class CompanyContractDistributionStructureLinkDTO
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
+    @SuppressWarnings("java:S107")
     public CompanyContractDistributionStructureLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("brand") String brandMatchcode,
@@ -132,8 +135,8 @@ public class CompanyContractDistributionStructureLinkDTO
     @Override
     public int hashCode()
     {
-        return Objects
-            .hash(brandMatchcode, companyId, companyNumber, contractTypeMatchcode, tenant, validFrom, validTo);
+        return Objects.hash(brandMatchcode, companyId, companyNumber, contractTypeMatchcode, tenant, validFrom,
+            validTo);
     }
 
     @Override
@@ -159,11 +162,8 @@ public class CompanyContractDistributionStructureLinkDTO
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "CompanyContractDistributionStructureLinkDTO [tenant=%s, companyId=%s, companyNumber=%s, "
-                    + "companyMatchcode=%s, brandMatchcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]",
-                tenant, companyId, companyNumber, companyMatchcode, brandMatchcode, contractTypeMatchcode, validFrom,
-                validTo);
+        return String.format("CompanyContractDistributionStructureLinkDTO [tenant=%s, companyId=%s, companyNumber=%s, "
+                + "companyMatchcode=%s, brandMatchcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]", tenant,
+            companyId, companyNumber, companyMatchcode, brandMatchcode, contractTypeMatchcode, validFrom, validTo);
     }
 }

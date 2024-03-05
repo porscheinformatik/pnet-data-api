@@ -8,8 +8,8 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * Function for find
  *
- * @author ham
  * @param <DTO> the DTO
+ * @author ham
  */
 @FunctionalInterface
 public interface FindFunction<DTO>

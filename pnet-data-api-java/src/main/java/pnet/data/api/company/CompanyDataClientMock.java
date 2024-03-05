@@ -23,8 +23,9 @@ import pnet.data.api.util.Pair;
  * @author HAM
  */
 @SuppressWarnings("deprecation")
-public class CompanyDataClientMock extends CompanyDataClient implements
-    ItemClientMock<CompanyItemDTO, CompanyDataClientMock>, DataClientMock<CompanyDataDTO, CompanyDataClientMock>
+public class CompanyDataClientMock extends CompanyDataClient
+    implements ItemClientMock<CompanyItemDTO, CompanyDataClientMock>,
+    DataClientMock<CompanyDataDTO, CompanyDataClientMock>
 {
 
     public CompanyDataClientMock()
@@ -33,19 +34,18 @@ public class CompanyDataClientMock extends CompanyDataClient implements
 
         MockStore<CompanyItemDTO> itemStore = getItemStore();
 
-        itemStore
-            .addFilter(QUERY_KEY, whenMatches(CompanyItemDTO::getCompanyId, CompanyItemDTO::getMatchcode,
-                CompanyItemDTO::getName, CompanyItemDTO::getMarketingName, CompanyItemDTO::getCompanyNumber));
+        itemStore.addFilter(QUERY_KEY,
+            whenMatches(CompanyItemDTO::getCompanyId, CompanyItemDTO::getMatchcode, CompanyItemDTO::getName,
+                CompanyItemDTO::getMarketingName, CompanyItemDTO::getCompanyNumber));
         itemStore.addFilter("id", whenEquals(CompanyItemDTO::getCompanyId));
         itemStore.addFilter("companyNumber", whenEquals(CompanyItemDTO::getCompanyNumber));
-        itemStore
-            .addFilter(BRAND_KEY,
-                withCollection(CompanyItemDTO::getBrands, whenEquals(CompanyBrandLinkDTO::getMatchcode)));
+        itemStore.addFilter(BRAND_KEY,
+            withCollection(CompanyItemDTO::getBrands, whenEquals(CompanyBrandLinkDTO::getMatchcode)));
         itemStore.addFilter("poastCode", whenEquals(CompanyItemDTO::getPostalCode));
         itemStore.addFilter("countryCode", whenEquals(CompanyItemDTO::getCountryCode));
-        itemStore
-            .addFilter("type", withCollection(CompanyItemDTO::getTypes, whenEquals(CompanyTypeLinkDTO::getMatchcode)));
-        itemStore.<GeoDistance> addFilter("location", (container, value) -> value.contains(container.getLocation()));
+        itemStore.addFilter("type",
+            withCollection(CompanyItemDTO::getTypes, whenEquals(CompanyTypeLinkDTO::getMatchcode)));
+        itemStore.<GeoDistance>addFilter("location", (container, value) -> value.contains(container.getLocation()));
 
         addDefaultMatchcodeFilter(itemStore);
         addDefaultTenantsFilter(itemStore);
@@ -60,8 +60,8 @@ public class CompanyDataClientMock extends CompanyDataClient implements
         dataStore.addFilter("companyNumber", whenEquals(CompanyDataDTO::getCompanyNumber));
         dataStore.addFilter("iban", whenEquals(CompanyDataDTO::getIban));
         dataStore.addFilter("email", whenEquals(CompanyDataDTO::getEmail));
-        dataStore
-            .addFilter("dataProcessingRegisterNumber", whenEquals(CompanyDataDTO::getDataProcessingRegisterNumber));
+        dataStore.addFilter("dataProcessingRegisterNumber",
+            whenEquals(CompanyDataDTO::getDataProcessingRegisterNumber));
         dataStore.addFilter("commercialRegisterNumber", whenEquals(CompanyDataDTO::getCommercialRegisterNumber));
         dataStore.addFilter("iban", whenEquals(CompanyDataDTO::getIban));
 
@@ -95,12 +95,13 @@ public class CompanyDataClientMock extends CompanyDataClient implements
 
         List<CompanyTenantAggregationDTO> aggregatedTenants =
             MockUtils.aggregateTenants(entries, CompanyTenantAggregationDTO::new);
-        List<CompanyBrandAggregationDTO> aggregatedBrands = MockUtils
-            .aggregateFlat(entries, entry -> entry.getBrands().stream().map(CompanyBrandLinkDTO::getMatchcode),
+        List<CompanyBrandAggregationDTO> aggregatedBrands =
+            MockUtils.aggregateFlat(entries, entry -> entry.getBrands().stream().map(CompanyBrandLinkDTO::getMatchcode),
                 (matchcode, count) -> new CompanyBrandAggregationDTO(matchcode, matchcode, count));
-        List<CompanyTypeAggregationDTO> aggregatedTypes = MockUtils
-            .aggregateFlat(entries, entry -> entry.getTypes().stream(), (companyType,
-                count) -> new CompanyTypeAggregationDTO(companyType.getMatchcode(), companyType.getMatchcode(), count));
+        List<CompanyTypeAggregationDTO> aggregatedTypes =
+            MockUtils.aggregateFlat(entries, entry -> entry.getTypes().stream(),
+                (companyType, count) -> new CompanyTypeAggregationDTO(companyType.getMatchcode(),
+                    companyType.getMatchcode(), count));
 
         CompanyAggregationsDTO aggregations =
             new CompanyAggregationsDTO(aggregatedTenants, aggregatedBrands, aggregatedTypes, Collections.emptyList());

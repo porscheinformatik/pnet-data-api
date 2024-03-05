@@ -7,8 +7,8 @@ import java.util.Collection;
 /**
  * Restricts matchcodes.
  *
- * @author ham
  * @param <SELF> the type of the restrict for chaining
+ * @author ham
  */
 public interface RestrictMatchcode<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -19,6 +19,6 @@ public interface RestrictMatchcode<SELF extends Restrict<SELF>> extends Restrict
 
     default SELF matchcodes(Collection<String> matchcodes)
     {
-        return matchcode(matchcodes.toArray(new String[matchcodes.size()]));
+        return matchcode(matchcodes.toArray(new String[0]));
     }
 }

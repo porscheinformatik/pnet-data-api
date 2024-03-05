@@ -7,8 +7,8 @@ import pnet.data.api.PnetDataClientException;
 /**
  * Function for auto complete.
  *
- * @author ham
  * @param <DTO> the DTO
+ * @author ham
  */
 @FunctionalInterface
 public interface AutoCompleteFunction<DTO>

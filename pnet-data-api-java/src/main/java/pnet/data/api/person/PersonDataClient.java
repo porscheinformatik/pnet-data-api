@@ -69,7 +69,8 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                 .parameters(restricts)
                 .path("/api/v1/persons/search")
                 .get(
-                    new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<PersonItemDTO, PersonAggregationsDTO>>()
+                    new GenericType.Of<DefaultPnetDataClientResultPageWithAggregations<PersonItemDTO,
+                        PersonAggregationsDTO>>()
                     {
                         // intentionally left blank
                     });
@@ -158,8 +159,7 @@ public class PersonDataClient extends AbstractPnetDataApiClient<PersonDataClient
                     return Optional.empty();
                 }
 
-                throw new PnetDataClientException("Image request for person " + personId
-                    + " failed", e);
+                throw new PnetDataClientException("Image request for person " + personId + " failed", e);
             }
         });
     }

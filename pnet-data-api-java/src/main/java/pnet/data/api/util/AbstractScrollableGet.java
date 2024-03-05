@@ -10,9 +10,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * Abstract implementation of a find query.
  *
- * @author ham
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the restriction itself for fluent interface
+ * @author ham
  */
 @SuppressWarnings("deprecation")
 public abstract class AbstractScrollableGet<DTO, SELF extends AbstractScrollableGet<DTO, SELF>>

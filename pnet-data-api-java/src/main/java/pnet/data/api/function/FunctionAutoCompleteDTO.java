@@ -45,8 +45,8 @@ public class FunctionAutoCompleteDTO extends AbstractAutoCompleteDTO implements 
     @Override
     public String toString()
     {
-        return String
-            .format("FunctionAutoCompleteDTO [matchcode=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
-                matchcode, getLabel(), getDescription(), getScore());
+        return String.format(
+            "FunctionAutoCompleteDTO [matchcode=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]", matchcode,
+            getLabel(), getDescription(), getScore());
     }
 }

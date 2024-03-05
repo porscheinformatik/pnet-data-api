@@ -1,5 +1,6 @@
 package pnet.data.api.numbertype;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -19,7 +20,7 @@ import pnet.data.api.util.WithScore;
 @Schema(description = "Holds basic information about a number type")
 public class NumberTypeItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -902938475261504086L;
 
     @Schema(description = "The unique matchcode of the number type.")
@@ -71,9 +72,8 @@ public class NumberTypeItemDTO implements WithMatchcode, WithLabel, WithLastUpda
     @Override
     public String toString()
     {
-        return String
-            .format("NumberTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label, lastUpdate,
-                score);
+        return String.format("NumberTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
+            lastUpdate, score);
     }
 
 }

@@ -78,11 +78,6 @@ public abstract class AbstractContextPnetDataApiClientConfig
             @Override
             public String convert(LocalDateTime source)
             {
-                if (source == null)
-                {
-                    return null;
-                }
-
                 ZonedDateTime zonedDate = source.atZone(systemDefault).withZoneSameInstant(utc);
 
                 return zonedDate.toLocalDateTime().format(formatter) + "Z";
@@ -101,14 +96,8 @@ public abstract class AbstractContextPnetDataApiClientConfig
             @Override
             public String convert(GeoDistance source)
             {
-                if (source == null)
-                {
-                    return null;
-                }
-
-                return String
-                    .format(locale, "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}", source.getLat(), source.getLon(),
-                        source.getDistance());
+                return String.format(locale, "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}", source.getLat(),
+                    source.getLon(), source.getDistance());
             }
         };
     }
@@ -170,12 +159,11 @@ public abstract class AbstractContextPnetDataApiClientConfig
     {
         ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
 
-        attributeConverters.ifPresent($ -> conversionServiceFactoryBean.setConverters($));
+        attributeConverters.ifPresent(conversionServiceFactoryBean::setConverters);
 
         conversionServiceFactoryBean.afterPropertiesSet();
 
-        ConversionService conversionService = conversionServiceFactoryBean.getObject();
-        return conversionService;
+        return conversionServiceFactoryBean.getObject();
     }
 
     protected abstract RestCallFactory createSpringRestCallFactory(RestTemplate restTemplate,

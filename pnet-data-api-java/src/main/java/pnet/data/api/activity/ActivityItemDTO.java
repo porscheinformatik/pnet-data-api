@@ -14,6 +14,7 @@
  */
 package pnet.data.api.activity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -39,10 +40,11 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds basic information about an activity")
-public class ActivityItemDTO implements WithMatchcode, WithLabel, WithDescription, WithTenants, WithBrandLinks,
-    WithLastUpdate, WithScore, Serializable
+public class ActivityItemDTO
+    implements WithMatchcode, WithLabel, WithDescription, WithTenants, WithBrandLinks, WithLastUpdate, WithScore,
+    Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 156511831954172558L;
 
     @Schema(description = "The unique matchcode of the activity.")
@@ -138,8 +140,8 @@ public class ActivityItemDTO implements WithMatchcode, WithLabel, WithDescriptio
     @Override
     public String toString()
     {
-        return String
-            .format("ActivityItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, "
+        return String.format(
+            "ActivityItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, "
                 + "score=%s]", matchcode, label, description, tenants, brands, lastUpdate, score);
     }
 

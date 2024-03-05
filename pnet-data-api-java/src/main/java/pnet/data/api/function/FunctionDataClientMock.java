@@ -18,8 +18,9 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class FunctionDataClientMock extends FunctionDataClient implements
-    ItemClientMock<FunctionItemDTO, FunctionDataClientMock>, DataClientMock<FunctionDataDTO, FunctionDataClientMock>
+public class FunctionDataClientMock extends FunctionDataClient
+    implements ItemClientMock<FunctionItemDTO, FunctionDataClientMock>,
+    DataClientMock<FunctionDataDTO, FunctionDataClientMock>
 {
     public FunctionDataClientMock()
     {

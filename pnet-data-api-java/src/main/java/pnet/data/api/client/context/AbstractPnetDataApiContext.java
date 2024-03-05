@@ -29,19 +29,19 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     {
         PnetDataApiLoginMethod loginMethod = getLoginMethod();
 
-        if (loginMethod instanceof AuthenticationTokenPnetDataApiLoginMethod)
+        if (loginMethod instanceof AuthenticationTokenPnetDataApiLoginMethod authenticationTokenPnetDataApiLoginMethod)
         {
-            return withLoginMethod(((AuthenticationTokenPnetDataApiLoginMethod) loginMethod).withUrl(url));
+            return withLoginMethod(authenticationTokenPnetDataApiLoginMethod.withUrl(url));
         }
 
-        if (loginMethod instanceof UsernamePasswordPnetDataApiLoginMethod)
+        if (loginMethod instanceof UsernamePasswordPnetDataApiLoginMethod usernamePasswordPnetDataApiLoginMethod)
         {
-            return withLoginMethod(((UsernamePasswordPnetDataApiLoginMethod) loginMethod).withUrl(url));
+            return withLoginMethod(usernamePasswordPnetDataApiLoginMethod.withUrl(url));
         }
 
-        if (loginMethod instanceof PnetDataApiTokenKey)
+        if (loginMethod instanceof PnetDataApiTokenKey pnetDataApiTokenKey)
         {
-            return withLoginMethod(((PnetDataApiTokenKey) loginMethod).withUrl(url));
+            return withLoginMethod(pnetDataApiTokenKey.withUrl(url));
         }
 
         throw new UnsupportedOperationException(
@@ -54,15 +54,15 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     {
         PnetDataApiLoginMethod loginMethod = getLoginMethod();
 
-        if (loginMethod instanceof UsernamePasswordPnetDataApiLoginMethod)
+        if (loginMethod instanceof UsernamePasswordPnetDataApiLoginMethod usernamePasswordPnetDataApiLoginMethod)
         {
-            return withLoginMethod(((UsernamePasswordPnetDataApiLoginMethod) loginMethod)
-                .withUsernamePasswordSupplier(() -> new UsernamePasswordCredentials(username, password)));
+            return withLoginMethod(usernamePasswordPnetDataApiLoginMethod.withUsernamePasswordSupplier(
+                () -> new UsernamePasswordCredentials(username, password)));
         }
 
-        if (loginMethod instanceof PnetDataApiTokenKey)
+        if (loginMethod instanceof PnetDataApiTokenKey pnetDataApiTokenKey)
         {
-            return withLoginMethod(((PnetDataApiTokenKey) loginMethod).withCredentials(username, password));
+            return withLoginMethod(pnetDataApiTokenKey.withCredentials(username, password));
         }
 
         throw new UnsupportedOperationException(
@@ -76,7 +76,7 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
     }
 
     @Override
-    public void invalidateLogin() throws PnetDataClientException
+    public void invalidateLogin()
     {
         repository.invalidate(getLoginMethod());
     }

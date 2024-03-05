@@ -3,8 +3,8 @@ package pnet.data.api.util;
 /**
  * Restricts rejects.
  *
- * @author ham
  * @param <SELF> the state of the filter for chaining
+ * @author ham
  */
 public interface RestrictRejected<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {

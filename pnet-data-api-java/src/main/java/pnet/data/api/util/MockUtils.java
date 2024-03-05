@@ -36,8 +36,9 @@ public final class MockUtils
         int itemsPerPage = getItemsPerPage(restricts);
         List<List<T>> chunks = split(allItems, itemsPerPage, ArrayList::new);
         List<T> items = pageIndex >= chunks.size() ? Collections.emptyList() : chunks.get(0);
-        DefaultPnetDataClientResultPage<T> result = new DefaultPnetDataClientResultPage<>(items, itemsPerPage,
-            allItems.size(), pageIndex, allItems.size() / itemsPerPage + 1, null, null, true);
+        DefaultPnetDataClientResultPage<T> result =
+            new DefaultPnetDataClientResultPage<>(items, itemsPerPage, allItems.size(), pageIndex,
+                allItems.size() / itemsPerPage + 1, null, null, true);
 
         result.setPageSupplier(restricts, r -> mockResultPage(r, allItems));
         result.setScrollSupplier(scrollId -> mockResultPage(restricts, allItems));
@@ -93,7 +94,7 @@ public final class MockUtils
         {
             current.add(iterator.next());
 
-            if (current.size() >= maxChunkSize || (!iterator.hasNext() && !current.isEmpty()))
+            if (current.size() >= maxChunkSize || !iterator.hasNext())
             {
                 result.add(targetCollectionFactory.apply(current));
                 current.clear();

@@ -22,9 +22,9 @@ import pnet.data.api.util.WithAggregations;
 /**
  * Holding results of a search or find operation with paging information.
  *
- * @author ham
  * @param <T> the type of item
  * @param <AggregationsT> the type of aggregations
+ * @author ham
  */
 @Schema(description = "Holds results of a search or find operation with paging information and aggregations.")
 public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage<T>, WithAggregations<AggregationsT>

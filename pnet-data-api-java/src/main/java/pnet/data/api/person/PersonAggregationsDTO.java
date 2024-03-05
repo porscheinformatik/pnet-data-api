@@ -52,8 +52,7 @@ public class PersonAggregationsDTO
     @Override
     public String toString()
     {
-        return String
-            .format("PersonAggregationsDTO [tenants=%s, companies=%s, functions=%s, activities=%s]", tenants, companies,
-                functions, activities);
+        return String.format("PersonAggregationsDTO [tenants=%s, companies=%s, functions=%s, activities=%s]", tenants,
+            companies, functions, activities);
     }
 }

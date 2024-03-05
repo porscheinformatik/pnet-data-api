@@ -10,8 +10,8 @@ import pnet.data.api.PnetDataClientTechnicalException;
 /**
  * A {@link Spliterator}, that's capable of loading additional pages while iterating over the items.
  *
- * @author HAM
  * @param <T> the type of item
+ * @author HAM
  */
 public class PnetDataClientPageSpliterator<T> implements Spliterator<T>
 {

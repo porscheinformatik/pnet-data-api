@@ -39,8 +39,9 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds basic information about a function")
-public class FunctionItemDTO implements WithMatchcode, WithTenants, WithLabel, WithDescription, WithBrandLinks,
-    WithLastUpdate, WithScore, Serializable
+public class FunctionItemDTO
+    implements WithMatchcode, WithTenants, WithLabel, WithDescription, WithBrandLinks, WithLastUpdate, WithScore,
+    Serializable
 {
 
     private static final long serialVersionUID = 8278014048912826651L;
@@ -138,8 +139,8 @@ public class FunctionItemDTO implements WithMatchcode, WithTenants, WithLabel, W
     @Override
     public String toString()
     {
-        return String
-            .format("FunctionItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, "
+        return String.format(
+            "FunctionItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, "
                 + "score=%s]", matchcode, label, description, tenants, brands, lastUpdate, score);
     }
 

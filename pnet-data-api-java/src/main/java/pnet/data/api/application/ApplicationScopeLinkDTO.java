@@ -1,5 +1,6 @@
 package pnet.data.api.application;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
@@ -14,6 +15,7 @@ import pnet.data.api.util.WithMatchcode;
 
 public class ApplicationScopeLinkDTO implements WithMatchcode, WithLabels, WithDescriptions, Serializable
 {
+    @Serial
     private static final long serialVersionUID = -8772509501184236662L;
 
     @Schema(description = "The unique matchcode of the scope.")
@@ -66,8 +68,8 @@ public class ApplicationScopeLinkDTO implements WithMatchcode, WithLabels, WithD
     @Override
     public String toString()
     {
-        return String
-            .format("ApplicationScopeLinkDTO [matchcode=%s, labels=%s, descriptions=%s, categoryMatchcodes=%s]",
-                matchcode, labels, descriptions, categoryMatchcodes);
+        return String.format(
+            "ApplicationScopeLinkDTO [matchcode=%s, labels=%s, descriptions=%s, categoryMatchcodes=%s]", matchcode,
+            labels, descriptions, categoryMatchcodes);
     }
 }

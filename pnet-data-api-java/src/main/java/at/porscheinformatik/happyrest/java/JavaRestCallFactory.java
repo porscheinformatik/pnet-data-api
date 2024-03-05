@@ -34,9 +34,8 @@ public class JavaRestCallFactory implements RestCallFactory
     public static JavaRestCallFactory create(RestLoggerAdapter loggerAdapter, ObjectMapper mapper)
     {
         RestFormatter formatter = RestFormatter.of(new JacksonBasedFormatter(mapper), new TextPlainFormatter());
-        RestParser parser = RestParser
-            .of(StringParser.INSTANCE, NumberParser.INSTANCE, CharArrayParser.INSTANCE, ByteArrayParser.INSTANCE,
-                new JacksonBasedParser(mapper));
+        RestParser parser = RestParser.of(StringParser.INSTANCE, NumberParser.INSTANCE, CharArrayParser.INSTANCE,
+            ByteArrayParser.INSTANCE, new JacksonBasedParser(mapper));
 
         return new JavaRestCallFactory(loggerAdapter, formatter, parser);
     }

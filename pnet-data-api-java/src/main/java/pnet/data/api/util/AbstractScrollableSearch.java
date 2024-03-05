@@ -11,9 +11,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * Abstract implementation of a search query.
  *
- * @author ham
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the filter itself for fluent interface
+ * @author ham
  */
 @SuppressWarnings("deprecation")
 public abstract class AbstractScrollableSearch<DTO, SELF extends AbstractScrollableSearch<DTO, SELF>>

@@ -117,11 +117,11 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     @Override
     public String toString()
     {
-        return String
-            .format("PersonFunctionLinkDTO [approved=%s, approvalState=%s, validFrom=%s, validTo=%s, companyId=%s, "
+        return String.format(
+            "PersonFunctionLinkDTO [approved=%s, approvalState=%s, validFrom=%s, validTo=%s, companyId=%s, "
                 + "companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, mainFunction=%s, tenant=%s, matchcode=%s]",
-                approved, approvalState, validFrom, validTo, companyId, companyMatchcode, companyNumber, brandMatchcode,
-                mainFunction, tenant, matchcode);
+            approved, approvalState, validFrom, validTo, companyId, companyMatchcode, companyNumber, brandMatchcode,
+            mainFunction, tenant, matchcode);
     }
 
 }

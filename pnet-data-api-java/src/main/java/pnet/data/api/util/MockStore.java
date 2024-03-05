@@ -14,8 +14,8 @@ import java.util.stream.Stream;
 /**
  * A simulated backend
  *
- * @author HAM
  * @param <T> the type of data DTOs
+ * @author HAM
  */
 public class MockStore<T>
 {
@@ -26,8 +26,7 @@ public class MockStore<T>
     {
         Map<Class<?>, MockStore<?>> map = STORES.computeIfAbsent(instance, k -> new HashMap<>());
 
-        @SuppressWarnings("unchecked")
-        MockStore<T> store = (MockStore<T>) map.get(type);
+        @SuppressWarnings("unchecked") MockStore<T> store = (MockStore<T>) map.get(type);
 
         if (store == null)
         {
@@ -70,14 +69,12 @@ public class MockStore<T>
 
             if (!filters.containsKey(key))
             {
-                System.err
-                    .printf("Warning: Filtering for \"%s\" is currently not supported by default. "
-                        + "You have to add a filter manually to your mocked client!\n", key);
+                System.err.printf("Warning: Filtering for \"%s\" is currently not supported by default. "
+                    + "You have to add a filter manually to your mocked client!\n", key);
                 continue;
             }
 
-            @SuppressWarnings("unchecked")
-            BiPredicate<T, Object> filter = (BiPredicate<T, Object>) filters.get(key);
+            @SuppressWarnings("unchecked") BiPredicate<T, Object> filter = (BiPredicate<T, Object>) filters.get(key);
 
             if (filter == null)
             {

@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts IBAN
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictIban<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictIban<SELF extends Restrict<SELF>> extends Restrict<SELF
 
     default SELF ibans(Collection<String> numbers)
     {
-        return iban(numbers.toArray(new String[numbers.size()]));
+        return iban(numbers.toArray(new String[0]));
     }
 
 }

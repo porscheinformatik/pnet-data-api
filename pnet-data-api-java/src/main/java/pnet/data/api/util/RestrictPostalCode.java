@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts ZIPs.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictPostalCode<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictPostalCode<SELF extends Restrict<SELF>> extends Restric
 
     default SELF postalCodes(Collection<String> postalCodes)
     {
-        return postalCode(postalCodes.toArray(new String[postalCodes.size()]));
+        return postalCode(postalCodes.toArray(new String[0]));
     }
 
 }

@@ -1,5 +1,6 @@
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -19,7 +20,7 @@ import pnet.data.api.util.WithCompanyId;
     + "Related to the datedBackUnitl parameter.")
 public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -847403488657179223L;
 
     @Schema(description = "The unique id of the company the person has an employment at.")
@@ -130,11 +131,10 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, companyLabel=%s, "
-                    + "approved=%s, approvalState=%s,currentlyActive=%s]",
-                companyId, companyMatchcode, companyNumber, companyLabel, approved, approvalState, currentlyActive);
+        return String.format(
+            "ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, companyLabel=%s, "
+                + "approved=%s, approvalState=%s,currentlyActive=%s]", companyId, companyMatchcode, companyNumber,
+            companyLabel, approved, approvalState, currentlyActive);
     }
 
 }

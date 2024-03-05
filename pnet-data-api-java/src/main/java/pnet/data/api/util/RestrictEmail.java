@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts emails.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictEmail<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictEmail<SELF extends Restrict<SELF>> extends Restrict<SEL
 
     default SELF emails(Collection<String> emails)
     {
-        return email(emails.toArray(new String[emails.size()]));
+        return email(emails.toArray(new String[0]));
     }
 
 }

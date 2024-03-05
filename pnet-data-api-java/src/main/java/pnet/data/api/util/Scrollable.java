@@ -5,8 +5,8 @@ import static pnet.data.api.PnetDataConstants.*;
 /**
  * Enables scrolling.
  *
- * @author ham
  * @param <SELF> the type of the restrict for chaining
+ * @author ham
  * @deprecated Use {@link ScrollableFind}, {@link ScrollableSearch}, {@link ScrollableGet} instead
  */
 @Deprecated

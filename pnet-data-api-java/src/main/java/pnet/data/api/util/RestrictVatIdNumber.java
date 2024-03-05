@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts by VAT Id
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictVatIdNumber<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictVatIdNumber<SELF extends Restrict<SELF>> extends Restri
 
     default SELF vatIdNumbers(Collection<String> numbers)
     {
-        return vatIdNumber(numbers.toArray(new String[numbers.size()]));
+        return vatIdNumber(numbers.toArray(new String[0]));
     }
 
 }

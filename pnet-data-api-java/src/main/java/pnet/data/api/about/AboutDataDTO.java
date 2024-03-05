@@ -14,6 +14,7 @@
  */
 package pnet.data.api.about;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -29,6 +30,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Holds information about the Partner.Net Data API and the connected user.")
 public class AboutDataDTO implements Serializable
 {
+    @Serial
     private static final long serialVersionUID = -6140129628280468919L;
 
     @Schema(description = "The version of the Partner.Net.")
@@ -103,9 +105,9 @@ public class AboutDataDTO implements Serializable
     @Override
     public String toString()
     {
-        return String
-            .format("AboutDataDTO [partnerNetVersion=%s, dataApiVersion=%s, userId=%s, tenants=%s, authorities=%s]",
-                partnerNetVersion, dataApiVersion, userId, tenants, authorities);
+        return String.format(
+            "AboutDataDTO [partnerNetVersion=%s, dataApiVersion=%s, userId=%s, tenants=%s, authorities=%s]",
+            partnerNetVersion, dataApiVersion, userId, tenants, authorities);
     }
 
 }

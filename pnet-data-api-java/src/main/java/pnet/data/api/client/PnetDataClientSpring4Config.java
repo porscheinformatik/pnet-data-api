@@ -46,7 +46,8 @@ import pnet.data.api.person.PersonPnetDataApiClientConfig;
     LegalFormPnetDataApiClientConfig.class,
     FunctionPnetDataApiClientConfig.class,
     NumberTypePnetDataApiClientConfig.class,
-    PersonPnetDataApiClientConfig.class})
+    PersonPnetDataApiClientConfig.class
+})
 @Deprecated
 public class PnetDataClientSpring4Config
 {

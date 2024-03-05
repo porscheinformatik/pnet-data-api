@@ -7,8 +7,8 @@ import java.util.Collection;
 /**
  * Restricts brands
  *
- * @author ham
  * @param <SELF> the type of the restrict for chaining
+ * @author ham
  */
 public interface RestrictBrand<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -20,7 +20,7 @@ public interface RestrictBrand<SELF extends Restrict<SELF>> extends Restrict<SEL
 
     default SELF brands(Collection<String> brandMatchcodes)
     {
-        return brand(brandMatchcodes.toArray(new String[brandMatchcodes.size()]));
+        return brand(brandMatchcodes.toArray(new String[0]));
     }
 
     /**

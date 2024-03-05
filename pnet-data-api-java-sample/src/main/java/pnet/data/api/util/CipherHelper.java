@@ -61,8 +61,9 @@ public abstract class CipherHelper
         return new CipherHelper(new SecretKeySpec(Base64.getDecoder().decode(base64EncodedKey), "AES"), 12)
         {
             @Override
-            protected Cipher buildCipher(SecretKey secretKey, int mode, byte[] iv) throws NoSuchAlgorithmException,
-                NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException
+            protected Cipher buildCipher(SecretKey secretKey, int mode, byte[] iv)
+                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
+                InvalidAlgorithmParameterException
             {
                 Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
                 GCMParameterSpec parameterSpec = new GCMParameterSpec(128, iv);
@@ -86,8 +87,9 @@ public abstract class CipherHelper
         this.ivLength = ivLength;
     }
 
-    protected abstract Cipher buildCipher(SecretKey secretKey, int mode, byte[] iv) throws NoSuchAlgorithmException,
-        NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException;
+    protected abstract Cipher buildCipher(SecretKey secretKey, int mode, byte[] iv)
+        throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
+        InvalidAlgorithmParameterException;
 
     public String encode(String s)
     {
@@ -117,8 +119,8 @@ public abstract class CipherHelper
         {
             cipher = buildCipher(secretKey, Cipher.ENCRYPT_MODE, iv);
         }
-        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException
-            | InvalidAlgorithmParameterException e)
+        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
+               InvalidAlgorithmParameterException e)
         {
             throw new IllegalArgumentException("Invalid cipher", e);
         }
@@ -186,8 +188,8 @@ public abstract class CipherHelper
         {
             cipher = buildCipher(secretKey, Cipher.DECRYPT_MODE, iv);
         }
-        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException
-            | InvalidAlgorithmParameterException e)
+        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
+               InvalidAlgorithmParameterException e)
         {
             throw new IllegalArgumentException("Invalid cipher", e);
         }

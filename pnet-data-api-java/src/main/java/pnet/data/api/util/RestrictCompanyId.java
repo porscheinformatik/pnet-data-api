@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts company ids.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictCompanyId<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,6 +18,6 @@ public interface RestrictCompanyId<SELF extends Restrict<SELF>> extends Restrict
 
     default SELF companyIds(Collection<Integer> companyIds)
     {
-        return companyId(companyIds.toArray(new Integer[companyIds.size()]));
+        return companyId(companyIds.toArray(new Integer[0]));
     }
 }

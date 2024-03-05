@@ -9,8 +9,8 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * Returns data by matchcode
  *
- * @author ham
  * @param <T> the type of data
+ * @author ham
  */
 public interface GetByMatchcode<T>
 {

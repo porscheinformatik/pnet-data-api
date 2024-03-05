@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * A pair of two values
  *
- * @author HAM
  * @param <Left> the left value
  * @param <Right> the right value
+ * @author HAM
  */
 public class Pair<Left, Right>
 {
@@ -59,24 +59,17 @@ public class Pair<Left, Right>
             return false;
         }
 
-        if (!(obj instanceof Pair))
+        if (!(obj instanceof Pair<?, ?> other))
         {
             return false;
         }
-
-        Pair<?, ?> other = (Pair<?, ?>) obj;
 
         if (!PnetDataApiUtils.equals(left, other.left))
         {
             return false;
         }
 
-        if (!PnetDataApiUtils.equals(right, other.right))
-        {
-            return false;
-        }
-
-        return true;
+        return PnetDataApiUtils.equals(right, other.right);
     }
 
     @Override

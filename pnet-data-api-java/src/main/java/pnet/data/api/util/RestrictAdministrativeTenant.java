@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts administrative tenants
  *
- * @author scd
  * @param <SELF> the type of the restrict for chaining
+ * @author scd
  */
 public interface RestrictAdministrativeTenant<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictAdministrativeTenant<SELF extends Restrict<SELF>> exten
 
     default SELF administrativeTenants(Collection<String> tenants)
     {
-        return administrativeTenant(tenants.toArray(new String[tenants.size()]));
+        return administrativeTenant(tenants.toArray(new String[0]));
     }
 
 }

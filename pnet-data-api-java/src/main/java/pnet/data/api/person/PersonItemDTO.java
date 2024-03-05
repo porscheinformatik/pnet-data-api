@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,6 +40,7 @@ import pnet.data.api.util.WithTenants;
 @Schema(description = "Holds basic information about a person")
 public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate, WithScore, Serializable
 {
+    @Serial
     private static final long serialVersionUID = -481025382258675738L;
 
     @Schema(description = "The unique id of the person (needed scope: SC_IDENTIFIER).")
@@ -74,16 +76,17 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "True, if the user has (or had) additional authentication factors enabled.")
     private final Boolean multifactorEnabled;
 
-    @Schema(
-        description = "True, if the person has been fully approved by authorities, false if the approval process is still "
+    @Schema(description =
+        "True, if the person has been fully approved by authorities, false if the approval process is still "
             + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
-            + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The value "
+            + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The"
+            + " value "
             + "will always be set to 'true'.")
     @Deprecated(since = "22.01.2024")
     private final boolean approved;
 
-    @Schema(
-        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
+    @Schema(description =
+        "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
             + "The value will always be set to 'ApprovalState.DONE'.")
     @Deprecated(since = "22.01.2024")
     private final ApprovalState approvalState;
@@ -127,12 +130,12 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The id of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private final Integer contactCompanyId;
 
-    @Schema(
-        description = "The matchcode of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
+    @Schema(description = "The matchcode of the company the person is mainly busy at (needed scope: "
+        + "SC_PREFERRED_COMPANY).")
     private final String contactCompanyMatchcode;
 
-    @Schema(
-        description = "The number of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
+    @Schema(description = "The number of the company the person is mainly busy at (needed scope: "
+        + "SC_PREFERRED_COMPANY).")
     private final String contactCompanyNumber;
 
     @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
@@ -144,6 +147,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The score this item accomplished in the search operation (no scope needed).")
     private final double score;
 
+    @SuppressWarnings("java:S107")
     public PersonItemDTO(@JsonProperty("personId") Integer personId,
         @JsonProperty("administrativeTenant") String administrativeTenant,
         @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
@@ -383,18 +387,16 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                    + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, credentialsAvailable=%s, "
-                    + "approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, "
-                    + "birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, "
-                    + "functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
-                    + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
-                personId, administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal,
-                firstName, lastName, username, credentialsAvailable, approved, approvalState, externalId, guid,
-                preferredUserId, personnelNumber, birthdate, email, phoneNumber, mobileNumber, languages, companies,
-                functions, numbers, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber, portraitAvailable,
-                lastUpdate, score);
+        return String.format(
+            "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
+                + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, credentialsAvailable=%s, "
+                + "approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, "
+                + "birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, "
+                + "functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
+                + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]", personId,
+            administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal, firstName, lastName,
+            username, credentialsAvailable, approved, approvalState, externalId, guid, preferredUserId, personnelNumber,
+            birthdate, email, phoneNumber, mobileNumber, languages, companies, functions, numbers, contactCompanyId,
+            contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate, score);
     }
 }

@@ -1,5 +1,6 @@
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,6 +16,7 @@ import pnet.data.api.util.WithTenant;
 @Schema(description = "Holds the settings of the person per tenant.")
 public class PersonSettingsLinkDTO implements WithTenant, Serializable
 {
+    @Serial
     private static final long serialVersionUID = -8062595231537086982L;
 
     @Schema(description = "The tenant these settings are defined for.")
@@ -55,8 +57,7 @@ public class PersonSettingsLinkDTO implements WithTenant, Serializable
     @Override
     public String toString()
     {
-        return String
-            .format("PersonSettingsLinkDTO [tenant=%s, preferredCompanyId=%s, preferredBrandId=%s]", tenant,
-                preferredCompanyId, preferredBrandId);
+        return String.format("PersonSettingsLinkDTO [tenant=%s, preferredCompanyId=%s, preferredBrandId=%s]", tenant,
+            preferredCompanyId, preferredBrandId);
     }
 }

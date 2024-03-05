@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companygrouptype;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -33,7 +34,7 @@ import pnet.data.api.util.WithScore;
 @Schema(description = "Holds basic information about a company group type")
 public class CompanyGroupTypeItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -3404509259945335365L;
 
     @Schema(description = "The unique matchcode of the company group type.")
@@ -85,9 +86,8 @@ public class CompanyGroupTypeItemDTO implements WithMatchcode, WithLabel, WithLa
     @Override
     public String toString()
     {
-        return String
-            .format("CompanyGroupTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
-                lastUpdate, score);
+        return String.format("CompanyGroupTypeItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode,
+            label, lastUpdate, score);
     }
 
 }

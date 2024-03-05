@@ -26,8 +26,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * Holding results of a search or find operation with paging information.
  *
- * @author ham
  * @param <T> the type of item
+ * @author ham
  */
 @Schema(description = "Holds results of a search or find operation with paging information")
 public interface ResultPage<T> extends Iterable<T>
@@ -99,7 +99,7 @@ public interface ResultPage<T> extends Iterable<T>
     {
         List<T> items = getItems();
 
-        return items != null ? items.stream() : Collections.<T> emptyList().stream();
+        return items != null ? items.stream() : Stream.<T>empty();
     }
 
     /**
@@ -110,7 +110,7 @@ public interface ResultPage<T> extends Iterable<T>
     {
         List<T> items = getItems();
 
-        return items != null && items.size() > 0 ? items.get(0) : null;
+        return items != null && !items.isEmpty() ? items.get(0) : null;
     }
 
     /**
@@ -184,9 +184,8 @@ public interface ResultPage<T> extends Iterable<T>
     /**
      * @return the index of this page, 0-based.
      * @deprecated Depending on how the page was loaded, this value may be missing and contain 0 despite the fact, that
-     *             it isn't the first page. This property will be removed to avoid confusion, to conform our document
-     *             store, that does not provide this value anymore and you should be encourage to use other forms of
-     *             iterating over results.
+     * it isn't the first page. This property will be removed to avoid confusion, to conform our document store, that
+     * does not provide this value anymore and you should be encourage to use other forms of iterating over results.
      */
     @Schema(description = "The index of the current page if paging was used (the index is 0-based).")
     @Deprecated
@@ -195,8 +194,8 @@ public interface ResultPage<T> extends Iterable<T>
     /**
      * @return the total number of pages.
      * @deprecated This value is a simple calculation of the totalNumberOfItems / itemsPerPage, because out document
-     *             store, that does not provide this value anymore. By removing this property, you should be encourage
-     *             to use other forms of iterating over results.
+     * store, that does not provide this value anymore. By removing this property, you should be encourage to use other
+     * forms of iterating over results.
      */
     @Deprecated
     @Schema(description = "The total amount of pages, that the search/find operation found.")
@@ -219,8 +218,8 @@ public interface ResultPage<T> extends Iterable<T>
     /**
      * @return true if there is another page
      * @deprecated The result of this method depends on two values, that are not available anymore and should not be
-     *             used anymore. Depending on how the results were loaded, this method may report the wrong result (see
-     *             {@link #getPageIndex()} and {@link #getNumberOfPages()}).
+     * used anymore. Depending on how the results were loaded, this method may report the wrong result (see
+     * {@link #getPageIndex()} and {@link #getNumberOfPages()}).
      */
     @Deprecated
     default boolean hasNextPage()
@@ -230,9 +229,9 @@ public interface ResultPage<T> extends Iterable<T>
 
     /**
      * @return false if there may be more results on a subsequent page. If this properity retrurns true, it has been
-     *         verified, that subsequent pages will not contain any more results. If this propertys return false, the
-     *         next page may contain more results but it may also be empty. This property is of special intrest when
-     *         scrolling, in order to prevent a final call that results in an empty page.
+     * verified, that subsequent pages will not contain any more results. If this propertys return false, the next page
+     * may contain more results but it may also be empty. This property is of special intrest when scrolling, in order
+     * to prevent a final call that results in an empty page.
      */
     boolean isComplete();
 }

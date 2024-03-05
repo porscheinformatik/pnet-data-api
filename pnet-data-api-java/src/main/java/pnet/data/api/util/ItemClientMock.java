@@ -8,9 +8,9 @@ import at.porscheinformatik.happyrest.GenericType;
 /**
  * A client mock that handles items
  *
- * @author HAM
  * @param <ItemT> the type of item
  * @param <SELF> the class for self-references
+ * @author HAM
  */
 public interface ItemClientMock<ItemT, SELF extends ItemClientMock<ItemT, SELF>> extends Self<SELF>
 {

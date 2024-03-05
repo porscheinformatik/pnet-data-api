@@ -1,7 +1,6 @@
 package at.porscheinformatik.happyrest.apache5;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
@@ -51,6 +50,7 @@ public class Apache5RestCall extends AbstractRestCall
     protected final CloseableHttpClient httpClient;
     protected final RestParser parser;
 
+    @SuppressWarnings("java:S107") // Too many parameters
     public Apache5RestCall(CloseableHttpClient httpClient, RestLoggerAdapter loggerAdapter, String url,
         List<MediaType> acceptableMediaTypes, MediaType contentType, List<RestAttribute> attributes,
         RestFormatter formatter, RestParser parser, Object body)
@@ -61,7 +61,7 @@ public class Apache5RestCall extends AbstractRestCall
         this.parser = parser;
     }
 
-    protected HttpEntity createEntity(MediaType contentType) throws UnsupportedEncodingException
+    protected HttpEntity createEntity(MediaType contentType)
     {
         Object body = getBody();
 
@@ -74,10 +74,8 @@ public class Apache5RestCall extends AbstractRestCall
         {
             List<NameValuePair> params = new ArrayList<>();
 
-            getParameters()
-                .forEach(parameter -> params
-                    .add(new BasicNameValuePair(parameter.getName(),
-                        format(MediaType.TEXT_PLAIN, parameter.getValue()))));
+            getParameters().forEach(parameter -> params.add(
+                new BasicNameValuePair(parameter.getName(), format(MediaType.TEXT_PLAIN, parameter.getValue()))));
 
             return new UrlEncodedFormEntity(params, getCharset());
         }
@@ -116,11 +114,11 @@ public class Apache5RestCall extends AbstractRestCall
     }
 
     protected <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType, HttpUriRequestBase request)
-        throws RestException, RestRequestException
+        throws RestException
     {
         try
         {
-            return httpClient.<RestResponse<T>> execute(request, response -> {
+            return httpClient.<RestResponse<T>>execute(request, response -> {
                 try
                 {
                     return Apache5RestResponse.create(parser, response, responseType);
@@ -148,9 +146,8 @@ public class Apache5RestCall extends AbstractRestCall
 
         for (RestVariable variable : getVariables())
         {
-            url = url
-                .replace("{" + variable.getName() + "}", RestUtils
-                    .encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
+            url = url.replace("{" + variable.getName() + "}",
+                RestUtils.encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
         }
 
         return url;
@@ -169,35 +166,16 @@ public class Apache5RestCall extends AbstractRestCall
                 populateWithParameters(builder);
             }
 
-            switch (method)
+            request = switch (method)
             {
-                case GET:
-                    request = new HttpGet(builder.build());
-                    break;
-
-                case POST:
-                    request = new HttpPost(builder.build());
-                    break;
-
-                case PUT:
-                    request = new HttpPut(builder.build());
-                    break;
-
-                case DELETE:
-                    request = new HttpDelete(builder.build());
-                    break;
-
-                case OPTIONS:
-                    request = new HttpOptions(builder.build());
-                    break;
-
-                case PATCH:
-                    request = new HttpPatch(builder.build());
-                    break;
-
-                default:
-                    throw new UnsupportedOperationException("Unsupported method: " + method);
-            }
+                case GET -> new HttpGet(builder.build());
+                case POST -> new HttpPost(builder.build());
+                case PUT -> new HttpPut(builder.build());
+                case DELETE -> new HttpDelete(builder.build());
+                case OPTIONS -> new HttpOptions(builder.build());
+                case PATCH -> new HttpPatch(builder.build());
+                default -> throw new UnsupportedOperationException("Unsupported method: " + method);
+            };
         }
         catch (URISyntaxException e)
         {
@@ -243,8 +221,8 @@ public class Apache5RestCall extends AbstractRestCall
 
     private void computeHeaders(HttpUriRequestBase request)
     {
-        getHeaders()
-            .forEach(header -> request.addHeader(header.getName(), format(MediaType.TEXT_PLAIN, header.getValue())));
+        getHeaders().forEach(
+            header -> request.addHeader(header.getName(), format(MediaType.TEXT_PLAIN, header.getValue())));
 
         MediaType contentType = getContentType();
 
@@ -261,18 +239,9 @@ public class Apache5RestCall extends AbstractRestCall
         }
     }
 
-    private void computeEntity(RestMethod method, HttpUriRequestBase request) throws RestRequestException
+    private void computeEntity(RestMethod method, HttpUriRequestBase request)
     {
-        HttpEntity requestEntity;
-
-        try
-        {
-            requestEntity = createEntity(getContentType());
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new RestRequestException("Failed to encode request", e);
-        }
+        HttpEntity requestEntity = createEntity(getContentType());
 
         if (requestEntity != null)
         {

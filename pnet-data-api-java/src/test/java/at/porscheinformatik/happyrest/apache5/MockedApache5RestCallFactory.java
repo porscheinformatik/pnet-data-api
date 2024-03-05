@@ -24,9 +24,8 @@ public class MockedApache5RestCallFactory extends Apache5RestCallFactory
     {
         RestFormatter formatter =
             RestFormatter.of(new JacksonBasedFormatter(RestUtilsTest.OBJECT_MAPPER), new TextPlainFormatter());
-        RestParser parser = RestParser
-            .of(StringParser.INSTANCE, NumberParser.INSTANCE, CharArrayParser.INSTANCE, ByteArrayParser.INSTANCE,
-                new JacksonBasedParser(RestUtilsTest.OBJECT_MAPPER));
+        RestParser parser = RestParser.of(StringParser.INSTANCE, NumberParser.INSTANCE, CharArrayParser.INSTANCE,
+            ByteArrayParser.INSTANCE, new JacksonBasedParser(RestUtilsTest.OBJECT_MAPPER));
 
         return new MockedApache5RestCallFactory(SystemRestLoggerAdapter.INSTANCE, formatter, parser);
     }

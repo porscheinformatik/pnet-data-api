@@ -18,8 +18,10 @@ public final class PnetSpringRestClientLauncher
 
     public static void main(String[] args)
     {
-        try (AnnotationConfigApplicationContext context =
-            new AnnotationConfigApplicationContext(PnetSpringRestClientConfig.class))
+        try (
+            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+                PnetSpringRestClientConfig.class)
+        )
         {
             context.getBean(PnetRestClient.class).consume();
         }

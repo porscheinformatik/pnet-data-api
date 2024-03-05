@@ -6,8 +6,8 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * Function for scrolling
  *
- * @author ham
  * @param <DTO> the DTO
+ * @author ham
  */
 public interface NextFunction<DTO>
 {

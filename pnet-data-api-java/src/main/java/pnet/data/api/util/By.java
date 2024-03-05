@@ -6,9 +6,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * A filter for Data-API queries
  *
- * @author ham
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the filter, for chaining
+ * @author ham
  */
 public interface By<DTO, SELF extends By<DTO, SELF>> extends Restrict<SELF>
 {

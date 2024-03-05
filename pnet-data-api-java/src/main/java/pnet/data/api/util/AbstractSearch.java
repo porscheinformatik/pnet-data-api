@@ -16,9 +16,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * Abstract implementation of a search query.
  *
- * @author ham
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the filter itself for fluent interface
+ * @author ham
  */
 public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>> extends AbstractRestricable<SELF>
     implements Search<DTO>, Restrict<SELF>, Aggregate<SELF>
@@ -61,7 +61,7 @@ public abstract class AbstractSearch<DTO, SELF extends AbstractSearch<DTO, SELF>
     {
         PnetDataClientResultPage<DTO> results = execute(language, query, 0, 1);
 
-        return results.size() > 0 ? results.get(0) : null;
+        return !results.isEmpty() ? results.get(0) : null;
     }
 
     @Override

@@ -20,7 +20,6 @@ import pnet.data.api.util.PnetDataApiUtils;
  *
  * @author HAM
  */
-@SuppressWarnings("deprecation")
 public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory>
 {
     @Deprecated
@@ -38,9 +37,8 @@ public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory>
     @Deprecated
     public static JavaClientFactory of(PnetDataClientPrefs prefs, ObjectMapper mapper, RestLoggerAdapter loggerAdapter)
     {
-        return new JavaClientFactory(
-            new UsernamePasswordPnetDataApiLoginMethod(prefs.getPnetDataApiUrl(),
-                () -> new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword())),
+        return new JavaClientFactory(new UsernamePasswordPnetDataApiLoginMethod(prefs.getPnetDataApiUrl(),
+            () -> new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword())),
             mapper, loggerAdapter);
     }
 

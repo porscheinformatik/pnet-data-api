@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts controlling areas.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictControllingArea<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictControllingArea<SELF extends Restrict<SELF>> extends Re
 
     default SELF controllingAreas(Collection<String> controllingAreas)
     {
-        return controllingArea(controllingAreas.toArray(new String[controllingAreas.size()]));
+        return controllingArea(controllingAreas.toArray(new String[0]));
     }
 
 }

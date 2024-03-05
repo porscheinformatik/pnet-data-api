@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts the types of the advisor assignments.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictAdvisorAssignmentType<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictAdvisorAssignmentType<SELF extends Restrict<SELF>> exte
     default SELF advisorAssignmentTypes(Collection<String> advisorAssignmentTypeMatchcodes)
     {
         return advisorAssignmentType(
-            advisorAssignmentTypeMatchcodes.toArray(new String[advisorAssignmentTypeMatchcodes.size()]));
+            advisorAssignmentTypeMatchcodes.toArray(new String[0]));
     }
 
     @Deprecated
@@ -30,6 +30,6 @@ public interface RestrictAdvisorAssignmentType<SELF extends Restrict<SELF>> exte
     @Deprecated
     default SELF advisorTypes(Collection<String> advisorAssignmentTypeMatchcodes)
     {
-        return advisorType(advisorAssignmentTypeMatchcodes.toArray(new String[advisorAssignmentTypeMatchcodes.size()]));
+        return advisorType(advisorAssignmentTypeMatchcodes.toArray(new String[0]));
     }
 }

@@ -14,6 +14,7 @@
  */
 package pnet.data.api.contracttype;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -39,7 +40,7 @@ import pnet.data.api.util.WithTenants;
 public class ContractTypeItemDTO
     implements WithMatchcode, WithTenants, WithLabel, WithLastUpdate, WithScore, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -6345795957251172952L;
 
     @Schema(description = "The unique matchcode of the contract type.")
@@ -127,10 +128,9 @@ public class ContractTypeItemDTO
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "ContractTypeItemDTO [matchcode=%s, label=%s, tenants=%s, brands=%s, type=%s, lastUpdate=%s, score=%s]",
-                matchcode, label, tenants, brands, type, lastUpdate, score);
+        return String.format(
+            "ContractTypeItemDTO [matchcode=%s, label=%s, tenants=%s, brands=%s, type=%s, lastUpdate=%s, score=%s]",
+            matchcode, label, tenants, brands, type, lastUpdate, score);
     }
 
 }

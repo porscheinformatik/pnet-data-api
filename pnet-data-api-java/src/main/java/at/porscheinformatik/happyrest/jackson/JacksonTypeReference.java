@@ -9,8 +9,8 @@ import at.porscheinformatik.happyrest.GenericType;
 /**
  * A wrapper for the {@link TypeReference} ... least hacky as possible.
  *
- * @author ham
  * @param <T> the type
+ * @author ham
  */
 public class JacksonTypeReference<T> extends TypeReference<T>
 {

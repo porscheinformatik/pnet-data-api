@@ -3,8 +3,8 @@ package pnet.data.api.util;
 /**
  * Provides an aggregation result
  *
- * @author HAM
  * @param <AggregationsT> the type of aggregations collector object
+ * @author HAM
  */
 public interface WithAggregations<AggregationsT>
 {

@@ -57,16 +57,16 @@ public final class PnetSpringRestClientTemplate
         }
         else
         {
-            System.out
-                .println("Usage: java "
-                    + PnetSpringRestClientTemplate.class.getName()
-                    + " <TOKEN> | (<USERNAME> <PASSWORD>)");
+            System.out.println(
+                "Usage: java " + PnetSpringRestClientTemplate.class.getName() + " <TOKEN> | (<USERNAME> <PASSWORD>)");
             System.exit(-1);
             return;
         }
 
-        try (AnnotationConfigApplicationContext context =
-            new AnnotationConfigApplicationContext(PnetSpringRestClientTemplate.class))
+        try (
+            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+                PnetSpringRestClientTemplate.class)
+        )
         {
             context
                 .getBean(CompanyDataClient.class)

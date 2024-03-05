@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts company numbers.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictCompanyNumber<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictCompanyNumber<SELF extends Restrict<SELF>> extends Rest
 
     default SELF companyNumbers(Collection<String> companyNumbers)
     {
-        return companyNumber(companyNumbers.toArray(new String[companyNumbers.size()]));
+        return companyNumber(companyNumbers.toArray(new String[0]));
     }
 
 }

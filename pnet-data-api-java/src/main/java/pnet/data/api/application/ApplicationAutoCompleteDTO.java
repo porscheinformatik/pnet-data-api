@@ -14,6 +14,8 @@
  */
 package pnet.data.api.application;
 
+import java.io.Serial;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,6 +25,7 @@ import pnet.data.api.util.WithMatchcode;
 @Schema(description = "Holds the auto-complete results for an application")
 public class ApplicationAutoCompleteDTO extends AbstractAutoCompleteDTO implements WithMatchcode
 {
+    @Serial
     private static final long serialVersionUID = 4192447495591502655L;
 
     @Schema(description = "The unique matchcode of the application.")
@@ -45,8 +48,8 @@ public class ApplicationAutoCompleteDTO extends AbstractAutoCompleteDTO implemen
     @Override
     public String toString()
     {
-        return String
-            .format("ApplicationAutoCompleteDTO [matchcode=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
-                matchcode, getLabel(), getDescription(), getScore());
+        return String.format(
+            "ApplicationAutoCompleteDTO [matchcode=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]", matchcode,
+            getLabel(), getDescription(), getScore());
     }
 }

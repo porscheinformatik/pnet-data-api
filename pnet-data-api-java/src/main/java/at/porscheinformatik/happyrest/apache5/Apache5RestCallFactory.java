@@ -38,9 +38,8 @@ public class Apache5RestCallFactory implements RestCallFactory
     public static Apache5RestCallFactory create(RestLoggerAdapter loggerAdapter, ObjectMapper mapper)
     {
         RestFormatter formatter = RestFormatter.of(new JacksonBasedFormatter(mapper), new TextPlainFormatter());
-        RestParser parser = RestParser
-            .of(StringParser.INSTANCE, NumberParser.INSTANCE, CharArrayParser.INSTANCE, ByteArrayParser.INSTANCE,
-                new JacksonBasedParser(mapper));
+        RestParser parser = RestParser.of(StringParser.INSTANCE, NumberParser.INSTANCE, CharArrayParser.INSTANCE,
+            ByteArrayParser.INSTANCE, new JacksonBasedParser(mapper));
 
         return new Apache5RestCallFactory(loggerAdapter, formatter, parser);
     }
@@ -117,16 +116,15 @@ public class Apache5RestCallFactory implements RestCallFactory
 
             if (proxySelector != null)
             {
-                builder = builder.setRoutePlanner(new SystemDefaultRoutePlanner(proxySelector));
+                builder.setRoutePlanner(new SystemDefaultRoutePlanner(proxySelector));
             }
 
             if (timeout != null)
             {
-                builder = builder
-                    .setDefaultRequestConfig(RequestConfig
-                        .custom()
-                        .setConnectionRequestTimeout((int) timeout.toMillis(), TimeUnit.MILLISECONDS)
-                        .build());
+                builder.setDefaultRequestConfig(RequestConfig
+                    .custom()
+                    .setConnectionRequestTimeout((int) timeout.toMillis(), TimeUnit.MILLISECONDS)
+                    .build());
             }
 
             if (userAgent != null)

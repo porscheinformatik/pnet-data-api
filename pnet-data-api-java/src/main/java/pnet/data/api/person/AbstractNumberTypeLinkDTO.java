@@ -1,5 +1,6 @@
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,7 +17,7 @@ import pnet.data.api.util.WithCompanyId;
  */
 public abstract class AbstractNumberTypeLinkDTO extends AbstractLinkDTO implements WithCompanyId
 {
-
+    @Serial
     private static final long serialVersionUID = 5799256161583182636L;
 
     @Schema(description = "The id of the company the person has the number at.")
@@ -109,10 +110,10 @@ public abstract class AbstractNumberTypeLinkDTO extends AbstractLinkDTO implemen
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "AbstractNumberTypeLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, number=%s, tenant=%s, matchcode=%s]",
-                companyId, companyMatchcode, companyNumber, number, tenant, matchcode);
+        return String.format(
+            "AbstractNumberTypeLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, number=%s, tenant=%s, "
+                + "matchcode=%s]",
+            companyId, companyMatchcode, companyNumber, number, tenant, matchcode);
     }
 
 }

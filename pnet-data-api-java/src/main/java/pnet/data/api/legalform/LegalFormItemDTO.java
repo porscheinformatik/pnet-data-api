@@ -14,6 +14,7 @@
  */
 package pnet.data.api.legalform;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -33,7 +34,7 @@ import pnet.data.api.util.WithScore;
 @Schema(description = "Holds basic information about a legal form as used with companies.")
 public class LegalFormItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -3404509259945335365L;
 
     @Schema(description = "The unique matchcode of the legal form.")
@@ -85,9 +86,8 @@ public class LegalFormItemDTO implements WithMatchcode, WithLabel, WithLastUpdat
     @Override
     public String toString()
     {
-        return String
-            .format("LegalFormItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label, lastUpdate,
-                score);
+        return String.format("LegalFormItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
+            lastUpdate, score);
     }
 
 }

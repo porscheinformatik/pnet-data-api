@@ -46,8 +46,9 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds all information about a function")
-public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks,
-    WithCompanyTypeLinks, WithContractTypeLinks, WithNumberTypeLinks, WithLastUpdate, Serializable
+public class FunctionDataDTO
+    implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks, WithCompanyTypeLinks,
+    WithContractTypeLinks, WithNumberTypeLinks, WithLastUpdate, Serializable
 {
 
     private static final long serialVersionUID = -3654140715367585861L;
@@ -245,12 +246,10 @@ public class FunctionDataDTO implements WithMatchcode, WithLabels, WithDescripti
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
-                    + "contractTypes=%s, numberTypes=%s, activities=%s, settings=%s, lastUpdate=%s]",
-                matchcode, labels, descriptions, tenants, brands, companyTypes, contractTypes, numberTypes, activities,
-                settings, lastUpdate);
+        return String.format(
+            "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
+                + "contractTypes=%s, numberTypes=%s, activities=%s, settings=%s, lastUpdate=%s]", matchcode, labels,
+            descriptions, tenants, brands, companyTypes, contractTypes, numberTypes, activities, settings, lastUpdate);
     }
 
 }

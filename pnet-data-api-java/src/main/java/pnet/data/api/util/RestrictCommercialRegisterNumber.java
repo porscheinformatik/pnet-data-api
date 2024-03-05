@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts the commercial register number.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictCommercialRegisterNumber<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -17,6 +17,6 @@ public interface RestrictCommercialRegisterNumber<SELF extends Restrict<SELF>> e
 
     default SELF commercialRegisterNumbers(Collection<String> numbers)
     {
-        return commercialRegisterNumber(numbers.toArray(new String[numbers.size()]));
+        return commercialRegisterNumber(numbers.toArray(new String[0]));
     }
 }

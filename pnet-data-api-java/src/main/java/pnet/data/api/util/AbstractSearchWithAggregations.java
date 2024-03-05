@@ -16,12 +16,13 @@ import pnet.data.api.client.PnetDataClientResultPageWithAggregations;
 /**
  * Abstract implementation of a search query.
  *
- * @author ham
  * @param <DTO> the type of the DTO
  * @param <AggregationsDTO> the type of aggregations DTO
  * @param <SELF> the type of the filter itself for fluent interface
+ * @author ham
  */
-public abstract class AbstractSearchWithAggregations<DTO, AggregationsDTO, SELF extends AbstractSearchWithAggregations<DTO, AggregationsDTO, SELF>>
+public abstract class AbstractSearchWithAggregations<DTO, AggregationsDTO,
+    SELF extends AbstractSearchWithAggregations<DTO, AggregationsDTO, SELF>>
     extends AbstractSearch<DTO, SELF> implements SearchWithAggregations<DTO, AggregationsDTO>
 {
     private final SearchWithAggregationsFunction<DTO, AggregationsDTO> searchFunction;
@@ -63,7 +64,7 @@ public abstract class AbstractSearchWithAggregations<DTO, AggregationsDTO, SELF 
     {
         PnetDataClientResultPageWithAggregations<DTO, AggregationsDTO> results = execute(language, query, 0, 1);
 
-        return results.size() > 0 ? results.get(0) : null;
+        return !results.isEmpty() ? results.get(0) : null;
     }
 
     @Override

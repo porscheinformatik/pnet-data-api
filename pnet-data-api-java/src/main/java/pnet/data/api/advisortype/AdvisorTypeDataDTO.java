@@ -14,6 +14,7 @@
  */
 package pnet.data.api.advisortype;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -35,7 +36,7 @@ import pnet.data.api.util.WithMatchcode;
 @Schema(description = "Holds all information about an advisor type")
 public class AdvisorTypeDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithLastUpdate, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 5417685364928597785L;
 
     @Schema(description = "The unique matchcode of the advisor type")
@@ -97,9 +98,7 @@ public class AdvisorTypeDataDTO implements WithMatchcode, WithLabels, WithDescri
     @Override
     public String toString()
     {
-        return String
-            .format("AdvisorTypeDataDTO [matchcode=%s, labels=%s, descriptions=%s, lastUpdate=%s]", matchcode, labels,
-                descriptions, lastUpdate);
+        return String.format("AdvisorTypeDataDTO [matchcode=%s, labels=%s, descriptions=%s, lastUpdate=%s]", matchcode,
+            labels, descriptions, lastUpdate);
     }
-
 }

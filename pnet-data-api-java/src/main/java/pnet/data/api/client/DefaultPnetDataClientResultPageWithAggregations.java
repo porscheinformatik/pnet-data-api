@@ -10,15 +10,16 @@ import pnet.data.api.SearchAfter;
 /**
  * A {@link ResultPage} with a link to the next page
  *
- * @author ham
  * @param <T> the type of items
  * @param <AggregationsT> the type of the aggregation object
+ * @author ham
  */
 public class DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT>
     extends DefaultPnetDataClientResultPage<T> implements PnetDataClientResultPageWithAggregations<T, AggregationsT>
 {
     private final AggregationsT aggregations;
 
+    @SuppressWarnings("java:S107")
     public DefaultPnetDataClientResultPageWithAggregations(@JsonProperty("items") List<T> items,
         @JsonProperty("aggregations") AggregationsT aggregations, @JsonProperty("itemsPerPage") int itemsPerPage,
         @JsonProperty("totalNumberOfItems") int totalNumberOfItems, @JsonProperty("pageIndex") int pageIndex,

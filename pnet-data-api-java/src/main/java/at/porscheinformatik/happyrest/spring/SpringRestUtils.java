@@ -10,8 +10,9 @@ public class SpringRestUtils
     public static org.springframework.http.MediaType convertMediaType(MediaType contentType,
         org.springframework.http.MediaType defaulType)
     {
-        return contentType != null ? org.springframework.http.MediaType.parseMediaType(contentType.toString())
-            : defaulType;
+        return contentType != null ?
+            org.springframework.http.MediaType.parseMediaType(contentType.toString()) :
+            defaulType;
     }
 
     public static List<org.springframework.http.MediaType> convertMediaTypes(List<MediaType> contentTypes)

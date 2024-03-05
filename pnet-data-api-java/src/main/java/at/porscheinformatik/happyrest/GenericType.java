@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
  * Or you can used an anonymous subtype: <code>new GenericType.Of&lt;List&lt;String&gt;&gt;(){}</code><br>
  * <br>
  *
- * @author ham
  * @param <T> the generic type
+ * @author ham
  */
 public interface GenericType<T> extends ParameterizedType
 {
@@ -123,8 +123,8 @@ public interface GenericType<T> extends ParameterizedType
     /**
      * Create a generic type by subtyping it.
      *
-     * @author ham
      * @param <S> the generic type
+     * @author ham
      */
     class Of<S> implements GenericType<S>
     {
@@ -156,10 +156,9 @@ public interface GenericType<T> extends ParameterizedType
         Of(String name, Type ownerType, Class<?> rawType, Type[] lowerBounds, Type[] upperBounds,
             Type... actualTypeArguments)
         {
-            this(name, ownerType, rawType,
-                rawType != null && rawType.getComponentType() != null
-                    ? GenericType.build(rawType.getComponentType()).implementedBy(rawType.getComponentType()) : null,
-                lowerBounds, upperBounds, actualTypeArguments);
+            this(name, ownerType, rawType, rawType != null && rawType.getComponentType() != null ?
+                GenericType.build(rawType.getComponentType()).implementedBy(rawType.getComponentType()) :
+                null, lowerBounds, upperBounds, actualTypeArguments);
         }
 
         Of(String name, Type ownerType, Class<?> rawType, GenericType<?> componentType, Type[] lowerBounds,
@@ -256,12 +255,10 @@ public interface GenericType<T> extends ParameterizedType
                 return true;
             }
 
-            if (!(obj instanceof Of))
+            if (!(obj instanceof Of<?> other))
             {
                 return false;
             }
-
-            Of<?> other = (Of<?>) obj;
 
             return Arrays.equals(arguments, other.arguments)
                 && Objects.equals(ownerType, other.ownerType)
@@ -279,13 +276,9 @@ public interface GenericType<T> extends ParameterizedType
             {
                 builder.append(rawType.getTypeName());
             }
-            else if (name != null)
-            {
-                builder.append(name);
-            }
             else
             {
-                builder.append("?");
+                builder.append(Objects.requireNonNullElse(name, "?"));
             }
 
             if (arguments.length > 0)
@@ -317,8 +310,8 @@ public interface GenericType<T> extends ParameterizedType
     /**
      * A builder for GenericTypes.
      *
-     * @author ham
      * @param <T> the type
+     * @author ham
      */
     class Builder<T>
     {
@@ -421,9 +414,9 @@ public interface GenericType<T> extends ParameterizedType
 
             Type[] parameters;
 
-            if (genericType instanceof ParameterizedType)
+            if (genericType instanceof ParameterizedType parameterizedType)
             {
-                parameters = ((ParameterizedType) genericType).getActualTypeArguments();
+                parameters = parameterizedType.getActualTypeArguments();
             }
             else if (genericType instanceof Class<?>)
             {
@@ -475,9 +468,9 @@ public interface GenericType<T> extends ParameterizedType
                 return typeVariable;
             }
 
-            if (parameter instanceof ParameterizedType)
+            if (parameter instanceof ParameterizedType parameterizedType)
             {
-                Type[] actualTypeArguments = ((ParameterizedType) parameter).getActualTypeArguments();
+                Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
 
                 for (int i = 0; i < actualTypeArguments.length; ++i)
                 {
@@ -526,12 +519,7 @@ public interface GenericType<T> extends ParameterizedType
 
             if (superclass != null)
             {
-                Type result = findGenericType(type, superclass);
-
-                if (result != null)
-                {
-                    return result;
-                }
+                return findGenericType(type, superclass);
             }
 
             return null;
@@ -611,11 +599,11 @@ public interface GenericType<T> extends ParameterizedType
                 return GenericType.of(type);
             }
 
-            if (type instanceof ParameterizedType)
+            if (type instanceof ParameterizedType parameterizedType)
             {
                 return GenericType
-                    .build((Class<?>) ((ParameterizedType) type).getRawType())
-                    .with(resolve(((ParameterizedType) type).getActualTypeArguments()));
+                    .build((Class<?>) parameterizedType.getRawType())
+                    .with(resolve(parameterizedType.getActualTypeArguments()));
             }
 
             if (type instanceof TypeVariable<?>)
@@ -623,15 +611,14 @@ public interface GenericType<T> extends ParameterizedType
                 return resolve(((TypeVariable<?>) type).getName());
             }
 
-            if (type instanceof WildcardType)
+            if (type instanceof WildcardType wildcardType)
             {
-                return GenericType
-                    .wildcard(((WildcardType) type).getLowerBounds(), ((WildcardType) type).getUpperBounds());
+                return GenericType.wildcard(wildcardType.getLowerBounds(), ((WildcardType) type).getUpperBounds());
             }
 
-            if (type instanceof GenericArrayType)
+            if (type instanceof GenericArrayType genericArrayType)
             {
-                return GenericType.of(((GenericArrayType) type).getGenericComponentType());
+                return GenericType.of(genericArrayType.getGenericComponentType());
             }
 
             throw new UnsupportedOperationException("Unsupported type of " + type.getClass());

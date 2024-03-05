@@ -18,8 +18,9 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class LegalFormDataClientMock extends LegalFormDataClient implements
-    ItemClientMock<LegalFormItemDTO, LegalFormDataClientMock>, DataClientMock<LegalFormDataDTO, LegalFormDataClientMock>
+public class LegalFormDataClientMock extends LegalFormDataClient
+    implements ItemClientMock<LegalFormItemDTO, LegalFormDataClientMock>,
+    DataClientMock<LegalFormDataDTO, LegalFormDataClientMock>
 {
 
     public LegalFormDataClientMock()

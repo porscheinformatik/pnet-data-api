@@ -1,5 +1,7 @@
 package pnet.data.api.company;
 
+import java.io.Serial;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,7 +16,7 @@ import pnet.data.api.util.PnetDataApiUtils;
  */
 public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO
 {
-
+    @Serial
     private static final long serialVersionUID = -6275336068143194073L;
 
     @Schema(description = "The unique id of the company.")
@@ -32,6 +34,7 @@ public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO
     @Schema(description = "The logitude and latitude of the companies location.")
     private final GeoPoint location;
 
+    @SuppressWarnings("java:S107")
     public CompanyAutoCompleteDTO(@JsonProperty("companyId") Integer companyId,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("administrativeTenant") String administrativeTenant,
         @JsonProperty("label") String label, @JsonProperty("description") String description,
@@ -79,12 +82,10 @@ public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "CompanyAutoCompleteDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, companyNumber=%s, "
-                    + "location=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
-                companyId, matchcode, administrativeTenant, companyNumber, location, getLabel(), getDescription(),
-                getScore());
+        return String.format(
+            "CompanyAutoCompleteDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, companyNumber=%s, "
+                + "location=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]", companyId, matchcode,
+            administrativeTenant, companyNumber, location, getLabel(), getDescription(), getScore());
     }
 
 }

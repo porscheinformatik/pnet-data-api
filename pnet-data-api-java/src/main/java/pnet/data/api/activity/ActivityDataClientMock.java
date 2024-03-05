@@ -18,8 +18,9 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class ActivityDataClientMock extends ActivityDataClient implements
-    ItemClientMock<ActivityItemDTO, ActivityDataClientMock>, DataClientMock<ActivityDataDTO, ActivityDataClientMock>
+public class ActivityDataClientMock extends ActivityDataClient
+    implements ItemClientMock<ActivityItemDTO, ActivityDataClientMock>,
+    DataClientMock<ActivityDataDTO, ActivityDataClientMock>
 {
 
     public ActivityDataClientMock()

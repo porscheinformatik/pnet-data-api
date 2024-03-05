@@ -14,6 +14,7 @@
  */
 package pnet.data.api.companytype;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -37,7 +38,7 @@ import pnet.data.api.util.WithTenants;
 @Schema(description = "Holds all information about a company type")
 public class CompanyTypeDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -5837538753457547027L;
 
     @Schema(description = "The unique matchcode of the company type")
@@ -104,7 +105,7 @@ public class CompanyTypeDataDTO implements WithMatchcode, WithTenants, WithLabel
 
     /**
      * @return True, if contract types have to be checked as prerequisite along with this company type. False, if it's
-     *         enough, that company has this company type.
+     * enough, that company has this company type.
      */
     public boolean isContractSpecific()
     {
@@ -130,9 +131,8 @@ public class CompanyTypeDataDTO implements WithMatchcode, WithTenants, WithLabel
     @Override
     public String toString()
     {
-        return String
-            .format("CompanyTypeDataDTO [matchcode=%s, tenants=%s, labels=%s, level=%s, contractSpecific=%s]",
-                matchcode, tenants, labels, level, contractSpecific);
+        return String.format("CompanyTypeDataDTO [matchcode=%s, tenants=%s, labels=%s, level=%s, contractSpecific=%s]",
+            matchcode, tenants, labels, level, contractSpecific);
     }
 
 }

@@ -15,8 +15,8 @@ import pnet.data.api.util.Pair;
 /**
  * A {@link ResultPage} with a link to the next page
  *
- * @author ham
  * @param <T> the type of items
+ * @author ham
  */
 public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultPage<T>
 {

@@ -16,9 +16,9 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * Abstract implementation of a find query.
  *
- * @author ham
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the restriction itself for fluent interface
+ * @author ham
  */
 public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> extends AbstractRestricable<SELF>
     implements Find<DTO>, Restrict<SELF>
@@ -61,7 +61,7 @@ public abstract class AbstractFind<DTO, SELF extends AbstractFind<DTO, SELF>> ex
     {
         PnetDataClientResultPage<DTO> results = execute(language, 0, 1);
 
-        return results.size() > 0 ? results.get(0) : null;
+        return !results.isEmpty() ? results.get(0) : null;
     }
 
     @Override

@@ -18,10 +18,11 @@ import pnet.data.api.util.SearchFunction;
  *
  * @author ham
  */
-public class ActivityDataSearch extends AbstractSearch<ActivityItemDTO, ActivityDataSearch> implements
-    RestrictTenant<ActivityDataSearch>, RestrictBrand<ActivityDataSearch>, RestrictCompanyType<ActivityDataSearch>,
-    RestrictContractType<ActivityDataSearch>, RestrictVisibility<ActivityDataSearch>,
-    RestrictApprovalNeeded<ActivityDataSearch>, IncludeInactive<ActivityDataSearch>
+public class ActivityDataSearch extends AbstractSearch<ActivityItemDTO, ActivityDataSearch>
+    implements RestrictTenant<ActivityDataSearch>, RestrictBrand<ActivityDataSearch>,
+    RestrictCompanyType<ActivityDataSearch>, RestrictContractType<ActivityDataSearch>,
+    RestrictVisibility<ActivityDataSearch>, RestrictApprovalNeeded<ActivityDataSearch>,
+    IncludeInactive<ActivityDataSearch>
 {
 
     public ActivityDataSearch(SearchFunction<ActivityItemDTO> searchFunction, List<Pair<String, Object>> restricts)

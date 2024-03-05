@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts reference ids.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictReferenceId<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictReferenceId<SELF extends Restrict<SELF>> extends Restri
 
     default SELF referenceIds(Collection<Integer> referenceIds)
     {
-        return referenceId(referenceIds.toArray(new Integer[referenceIds.size()]));
+        return referenceId(referenceIds.toArray(new Integer[0]));
     }
 
 }

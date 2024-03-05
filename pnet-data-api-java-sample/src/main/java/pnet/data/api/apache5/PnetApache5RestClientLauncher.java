@@ -21,15 +21,16 @@ public final class PnetApache5RestClientLauncher
         MutablePnetDataApiLoginMethod loginMethod = MutablePnetDataApiLoginMethod.createFromPrefs(Prefs.DEFAULT_KEY);
         Apache5ClientFactory clientFactory = Apache5ClientFactory.of(loginMethod).loggingToSystemOut();
 
-        PnetRestClient client = new PnetRestClient(loginMethod, clientFactory.getAboutDataClient(),
-            clientFactory.getActivityDataClient(), clientFactory.getAdvisorTypeDataClient(),
-            clientFactory.getApplicationDataClient(), clientFactory.getBrandDataClient(),
-            clientFactory.getCompanyDataClient(), clientFactory.getCompanyGroupDataClient(),
-            clientFactory.getCompanyGroupTypeDataClient(), clientFactory.getCompanyNumberTypeDataClient(),
-            clientFactory.getCompanyTypeDataClient(), clientFactory.getContractStateDataClient(),
-            clientFactory.getContractTypeDataClient(), clientFactory.getExternalBrandDataClient(),
-            clientFactory.getFunctionDataClient(), clientFactory.getLegalFormDataClient(),
-            clientFactory.getNumberTypeDataClient(), clientFactory.getPersonDataClient(), clientFactory.getContext());
+        PnetRestClient client =
+            new PnetRestClient(loginMethod, clientFactory.getAboutDataClient(), clientFactory.getActivityDataClient(),
+                clientFactory.getAdvisorTypeDataClient(), clientFactory.getApplicationDataClient(),
+                clientFactory.getBrandDataClient(), clientFactory.getCompanyDataClient(),
+                clientFactory.getCompanyGroupDataClient(), clientFactory.getCompanyGroupTypeDataClient(),
+                clientFactory.getCompanyNumberTypeDataClient(), clientFactory.getCompanyTypeDataClient(),
+                clientFactory.getContractStateDataClient(), clientFactory.getContractTypeDataClient(),
+                clientFactory.getExternalBrandDataClient(), clientFactory.getFunctionDataClient(),
+                clientFactory.getLegalFormDataClient(), clientFactory.getNumberTypeDataClient(),
+                clientFactory.getPersonDataClient(), clientFactory.getContext());
 
         client.consume();
     }

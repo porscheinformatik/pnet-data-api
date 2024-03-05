@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts cost centers.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictCostCenter<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictCostCenter<SELF extends Restrict<SELF>> extends Restric
 
     default SELF costCenters(Collection<String> costCenters)
     {
-        return costCenter(costCenters.toArray(new String[costCenters.size()]));
+        return costCenter(costCenters.toArray(new String[0]));
     }
 
 }

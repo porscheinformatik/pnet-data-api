@@ -14,9 +14,9 @@ import pnet.data.api.PnetDataClientException;
 /**
  * Abstract implementation of an autoComplete query.
  *
- * @author ham
  * @param <DTO> the type of the DTO
  * @param <SELF> the type of the filter itself for fluent interface
+ * @author ham
  */
 public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplete<DTO, SELF>>
     extends AbstractRestricable<SELF> implements AutoComplete<DTO>, Restrict<SELF>, Aggregate<SELF>

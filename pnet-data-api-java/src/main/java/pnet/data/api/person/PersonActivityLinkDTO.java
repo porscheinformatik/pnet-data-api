@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -35,7 +36,7 @@ import pnet.data.api.util.WithCompanyId;
 @Schema(description = "Holds minimal information about a activity of the person.")
 public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
 {
-
+    @Serial
     private static final long serialVersionUID = 4247336068734009775L;
 
     @Schema(description = "The unique id of the company the person has the activity at.")
@@ -64,10 +65,11 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompan
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
-    @Schema(
-        description = "The flag that declares, whether this activity is assigned to the person due to a function or not.")
+    @Schema(description = "The flag that declares, whether this activity is assigned to the person due to a function "
+        + "or not.")
     private final boolean dueToFunction;
 
+    @SuppressWarnings("java:S107")
     public PersonActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
@@ -183,11 +185,11 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompan
     @Override
     public String toString()
     {
-        return String
-            .format("PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
+        return String.format(
+            "PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
                 + "approved=%s, approvalState=%s, validFrom=%s, validTo=%s, dueToFunction=%s, tenant=%s, matchcode=%s]",
-                companyId, companyMatchcode, companyNumber, brandMatchcode, approved, approvalState, validFrom, validTo,
-                dueToFunction, tenant, matchcode);
+            companyId, companyMatchcode, companyNumber, brandMatchcode, approved, approvalState, validFrom, validTo,
+            dueToFunction, tenant, matchcode);
     }
 
 }

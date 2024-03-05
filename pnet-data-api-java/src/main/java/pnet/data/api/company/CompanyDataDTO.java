@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -38,7 +39,7 @@ import pnet.data.api.util.WithTenants;
 @Schema(description = "Holds all information about one company.")
 public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 4995140302871305715L;
 
     @Schema(description = "The unique id of the company (also known as GP-ID).")
@@ -71,18 +72,18 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "Valid tenants of the company (also known as Portal-ID).")
     private Collection<String> tenants;
 
-    @Schema(
-        description = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
+    @Schema(description =
+        "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
             + "interface.")
     private Collection<CompanyBrandLinkDTO> brands;
 
-    @Schema(
-        description = "All contract types assigned to the company. The matchcode of each item fits to the matchcodes of the "
+    @Schema(description =
+        "All contract types assigned to the company. The matchcode of each item fits to the matchcodes of the "
             + "contract types interface.")
     private Collection<CompanyContractTypeLinkDTO> contractTypes;
 
-    @Schema(
-        description = "All contract states assigned to the company. The matchcode of each item fits to the matchcodes of the "
+    @Schema(description =
+        "All contract states assigned to the company. The matchcode of each item fits to the matchcodes of the "
             + "contract states interface.")
     private Collection<CompanyContractStateLinkDTO> contractStates;
 
@@ -104,8 +105,8 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "The company number. In most cases, this is the same as the SAP number.")
     private String companyNumber;
 
-    @Schema(
-        description = "All additional numbers of the company. The matchcode of each item fits to the matchcodes of the "
+    @Schema(description =
+        "All additional numbers of the company. The matchcode of each item fits to the matchcodes of the "
             + "company number types interface.")
     private Collection<CompanyNumberLinkDTO> additionalNumbers;
 
@@ -199,8 +200,8 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "The venue jurisdiction the company is part of because of its geographical position.")
     private String jurisdiction;
 
-    @Schema(
-        description = "The provision in a company's constitution stating the purpose and range of activities for which the "
+    @Schema(description =
+        "The provision in a company's constitution stating the purpose and range of activities for which the "
             + "company is carried on (part of the impressum).")
     private String objectsClause;
 
@@ -409,8 +410,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public Optional<CompanyContractDistributionStructureLinkDTO> findContractDistributionStructure(
         Predicate<? super CompanyContractDistributionStructureLinkDTO> predicate)
     {
-        return contractDistributionStructure == null ? Optional.empty()
-            : contractDistributionStructure.stream().filter(predicate).findFirst();
+        return contractDistributionStructure == null ?
+            Optional.empty() :
+            contractDistributionStructure.stream().filter(predicate).findFirst();
     }
 
     public void setContractDistributionStructure(
@@ -903,28 +905,26 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, label=%s, name=%s, nameAffix=%s, "
-                    + "additionalNameAffix=%s, marketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, "
-                    + "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, "
-                    + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, "
-                    + "country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, speedDial=%s, "
-                    + "faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, facebookLink=%s, youTubeLink=%s, "
-                    + "instagramLink=%s, viberLink=%s, telegramLink=%s, legalFormMatchcode=%s, "
-                    + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
-                    + "certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
-                    + "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, "
-                    + "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, "
-                    + "externalBrands=%s, lastUpdate=%s]",
-                companyId, matchcode, administrativeTenant, label, name, nameAffix, additionalNameAffix, marketingName,
-                groupMembers, tenants, brands, contractTypes, contractStates, contractDistributionStructure,
-                vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city, postalCode, countryCode,
-                country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial, faxNumber, email, leadEmail,
-                homepage, postal, facebookLink, youTubeLink, instagramLink, viberLink, telegramLink, legalFormMatchcode,
-                dataProcessingRegisterNumber, commercialRegisterNumber, certificateType, certificateNumber,
-                jurisdiction, objectsClause, generalPartner, registeredOffice, chamberAffiliation,
-                commercialRegulations, regulatoryAuthority, arbitrationBoard, additionalImprintInfo,
-                businessInformationNumber, location, externalBrands, lastUpdate);
+        return String.format(
+            "CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, label=%s, name=%s, nameAffix=%s, "
+                + "additionalNameAffix=%s, marketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, "
+                + "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, "
+                + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, "
+                + "country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, speedDial=%s, "
+                + "faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, facebookLink=%s, youTubeLink=%s, "
+                + "instagramLink=%s, viberLink=%s, telegramLink=%s, legalFormMatchcode=%s, "
+                + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
+                + "certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
+                + "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, "
+                + "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, "
+                + "externalBrands=%s, lastUpdate=%s]", companyId, matchcode, administrativeTenant, label, name,
+            nameAffix, additionalNameAffix, marketingName, groupMembers, tenants, brands, contractTypes, contractStates,
+            contractDistributionStructure, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city,
+            postalCode, countryCode, country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial, faxNumber,
+            email, leadEmail, homepage, postal, facebookLink, youTubeLink, instagramLink, viberLink, telegramLink,
+            legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber, certificateType,
+            certificateNumber, jurisdiction, objectsClause, generalPartner, registeredOffice, chamberAffiliation,
+            commercialRegulations, regulatoryAuthority, arbitrationBoard, additionalImprintInfo,
+            businessInformationNumber, location, externalBrands, lastUpdate);
     }
 }

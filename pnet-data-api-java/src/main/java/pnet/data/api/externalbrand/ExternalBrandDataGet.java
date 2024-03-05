@@ -11,8 +11,9 @@ import pnet.data.api.util.Pair;
 /**
  * @author cet
  */
-public class ExternalBrandDataGet extends AbstractGet<ExternalBrandDataDTO, ExternalBrandDataGet> implements
-    ByMatchcode<ExternalBrandDataDTO, ExternalBrandDataGet>, ById<String, ExternalBrandDataDTO, ExternalBrandDataGet>
+public class ExternalBrandDataGet extends AbstractGet<ExternalBrandDataDTO, ExternalBrandDataGet>
+    implements ByMatchcode<ExternalBrandDataDTO, ExternalBrandDataGet>,
+    ById<String, ExternalBrandDataDTO, ExternalBrandDataGet>
 {
 
     public ExternalBrandDataGet(GetFunction<ExternalBrandDataDTO> getFunction, List<Pair<String, Object>> restricts)

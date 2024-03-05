@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts number types.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 @SuppressWarnings("deprecation")
 public interface RestrictNumberType<SELF extends Restrict<SELF>> extends RestrictNumbersType<SELF>
@@ -18,6 +18,6 @@ public interface RestrictNumberType<SELF extends Restrict<SELF>> extends Restric
 
     default SELF numberTypes(Collection<String> numberTypeMatchcodes)
     {
-        return numberType(numberTypeMatchcodes.toArray(new String[numberTypeMatchcodes.size()]));
+        return numberType(numberTypeMatchcodes.toArray(new String[0]));
     }
 }

@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,7 +31,7 @@ import pnet.data.api.util.WithValidPeriod;
 @Schema(description = "Holds one employment dependent number of a person.")
 public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implements WithValidPeriod
 {
-
+    @Serial
     private static final long serialVersionUID = -3446430282367218468L;
 
     @Schema(description = "True, if the number has been approved already, false otherwise.")
@@ -47,6 +48,7 @@ public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implement
         + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
     private final LocalDateTime validTo;
 
+    @SuppressWarnings("java:S107")
     public PersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber, @JsonProperty("approved") boolean approved,
@@ -86,11 +88,10 @@ public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implement
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "PersonNumberTypeLinkDTO [approved=%s, approvalState=%s, companyId=%s, companyMatchcode=%s, "
-                    + "companyNumber=%s, validFrom=%s, validTo=%s, number=%s]",
-                approved, approvalState, companyId, companyMatchcode, companyNumber, validFrom, validTo, number);
+        return String.format(
+            "PersonNumberTypeLinkDTO [approved=%s, approvalState=%s, companyId=%s, companyMatchcode=%s, "
+                + "companyNumber=%s, validFrom=%s, validTo=%s, number=%s]", approved, approvalState, companyId,
+            companyMatchcode, companyNumber, validFrom, validTo, number);
     }
 
 }

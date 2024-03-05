@@ -49,10 +49,8 @@ public final class PnetApacheRestClientTemplate
         }
         else
         {
-            System.out
-                .println("Usage: java "
-                    + PnetApacheRestClientTemplate.class.getName()
-                    + " <TOKEN> | (<USERNAME> <PASSWORD>)");
+            System.out.println(
+                "Usage: java " + PnetApacheRestClientTemplate.class.getName() + " <TOKEN> | (<USERNAME> <PASSWORD>)");
             System.exit(-1);
             return;
         }

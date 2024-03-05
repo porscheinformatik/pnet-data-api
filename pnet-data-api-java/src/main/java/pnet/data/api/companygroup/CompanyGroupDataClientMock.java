@@ -30,15 +30,12 @@ public class CompanyGroupDataClientMock extends CompanyGroupDataClient
         dataStore.addFilter("leadingCompanyId", whenEquals(CompanyGroupDataDTO::getLeadingCompanyId));
         dataStore.addFilter("leadingCompanyNumber", whenEquals(CompanyGroupDataDTO::getLeadingCompanyNumber));
         dataStore.addFilter("leadingCompany", whenEquals(CompanyGroupDataDTO::getLeadingCompanyMatchcode));
-        dataStore
-            .addFilter("companyId",
-                withCollection(CompanyGroupDataDTO::getMembers, whenEquals(CompanyGroupMemberLinkDTO::getCompanyId)));
-        dataStore
-            .addFilter("companyNumber", withCollection(CompanyGroupDataDTO::getMembers,
-                whenEquals(CompanyGroupMemberLinkDTO::getCompanyNumber)));
-        dataStore
-            .addFilter("company", withCollection(CompanyGroupDataDTO::getMembers,
-                whenEquals(CompanyGroupMemberLinkDTO::getCompanyMatchcode)));
+        dataStore.addFilter("companyId",
+            withCollection(CompanyGroupDataDTO::getMembers, whenEquals(CompanyGroupMemberLinkDTO::getCompanyId)));
+        dataStore.addFilter("companyNumber",
+            withCollection(CompanyGroupDataDTO::getMembers, whenEquals(CompanyGroupMemberLinkDTO::getCompanyNumber)));
+        dataStore.addFilter("company", withCollection(CompanyGroupDataDTO::getMembers,
+            whenEquals(CompanyGroupMemberLinkDTO::getCompanyMatchcode)));
 
         addDefaultScrollDummy(dataStore);
     }

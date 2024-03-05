@@ -14,6 +14,7 @@
  */
 package pnet.data.api.brand;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -35,7 +36,7 @@ import pnet.data.api.util.WithTenants;
 @Schema(description = "Holds basic information about a brand")
 public class BrandItemDTO implements WithMatchcode, WithLabel, WithTenants, WithLastUpdate, WithScore, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 4547030944469871555L;
 
     @Schema(description = "The unique matchcode of the brand.")
@@ -98,9 +99,8 @@ public class BrandItemDTO implements WithMatchcode, WithLabel, WithTenants, With
     @Override
     public String toString()
     {
-        return String
-            .format("BrandItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, tenants,
-                label, lastUpdate, score);
+        return String.format("BrandItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s, score=%s]", matchcode,
+            tenants, label, lastUpdate, score);
     }
 
 }

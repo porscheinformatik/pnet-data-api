@@ -14,6 +14,7 @@
  */
 package pnet.data.api.company;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -40,7 +41,7 @@ import pnet.data.api.util.WithTenants;
 public class CompanyItemDTO
     implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate, WithScore, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 8371146988245636569L;
 
     @Schema(description = "The unique id of the company (also known as GP-ID).")
@@ -70,8 +71,8 @@ public class CompanyItemDTO
     @Schema(description = "Valid tenants of the company (also known as Portal-ID).")
     private final Collection<String> tenants;
 
-    @Schema(
-        description = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
+    @Schema(description =
+        "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
             + "interface.")
     private final Collection<CompanyBrandLinkDTO> brands;
 
@@ -109,6 +110,7 @@ public class CompanyItemDTO
     @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
+    @SuppressWarnings("java:S107")
     public CompanyItemDTO(@JsonProperty("companyId") Integer companyId, @JsonProperty("matchcode") String matchcode,
         @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("label") String label,
         @JsonProperty("name") String name, @JsonProperty("nameAffix") String nameAffix,
@@ -281,14 +283,12 @@ public class CompanyItemDTO
     @Override
     public String toString()
     {
-        return String
-            .format(
-                "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
-                    + "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, "
-                    + "countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, score=%s]",
-                companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants, brands,
-                companyNumber, street, city, postalCode, countryCode, country, region, types, location, lastUpdate,
-                score);
+        return String.format(
+            "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
+                + "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, "
+                + "countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, score=%s]", companyId,
+            matchcode, administrativeTenant, name, nameAffix, marketingName, tenants, brands, companyNumber, street,
+            city, postalCode, countryCode, country, region, types, location, lastUpdate, score);
     }
 
 }

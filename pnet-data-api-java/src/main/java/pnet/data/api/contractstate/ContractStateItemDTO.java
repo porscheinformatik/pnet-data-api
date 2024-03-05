@@ -14,6 +14,7 @@
  */
 package pnet.data.api.contractstate;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -33,7 +34,7 @@ import pnet.data.api.util.WithScore;
 @Schema(description = "Holds basic information about a contract state")
 public class ContractStateItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = 3798249954761818352L;
 
     @Schema(description = "The unique matchcode of the contract state.")
@@ -86,9 +87,8 @@ public class ContractStateItemDTO implements WithMatchcode, WithLabel, WithLastU
     @Override
     public String toString()
     {
-        return String
-            .format("ContractStateItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
-                lastUpdate, score);
+        return String.format("ContractStateItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
+            lastUpdate, score);
     }
 
 }

@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts leading company matchcodes.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictLeadingCompany<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictLeadingCompany<SELF extends Restrict<SELF>> extends Res
 
     default SELF leadingCompanies(Collection<String> companies)
     {
-        return leadingCompany(companies.toArray(new String[companies.size()]));
+        return leadingCompany(companies.toArray(new String[0]));
     }
 
 }

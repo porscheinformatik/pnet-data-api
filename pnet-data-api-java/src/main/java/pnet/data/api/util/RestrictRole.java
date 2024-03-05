@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts functions and activities.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictRole<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -36,7 +36,7 @@ public interface RestrictRole<SELF extends Restrict<SELF>> extends Restrict<SELF
      */
     default SELF roles(Collection<String> roleMatchcodes)
     {
-        return role(roleMatchcodes.toArray(new String[roleMatchcodes.size()]));
+        return role(roleMatchcodes.toArray(new String[0]));
     }
 
 }

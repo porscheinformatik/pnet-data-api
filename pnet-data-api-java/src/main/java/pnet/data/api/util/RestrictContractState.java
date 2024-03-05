@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts contract states.
  *
- * @author ham
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictContractState<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictContractState<SELF extends Restrict<SELF>> extends Rest
 
     default SELF contractStates(Collection<String> contractStateMatchcodes)
     {
-        return contractState(contractStateMatchcodes.toArray(new String[contractStateMatchcodes.size()]));
+        return contractState(contractStateMatchcodes.toArray(new String[0]));
     }
 
 }

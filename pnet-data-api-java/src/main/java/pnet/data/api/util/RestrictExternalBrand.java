@@ -5,8 +5,8 @@ import java.util.Collection;
 /**
  * Restricts external brands.
  *
- * @author ham
  * @param <SELF> the type of the restrict for chaining
+ * @author ham
  */
 public interface RestrictExternalBrand<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -18,7 +18,7 @@ public interface RestrictExternalBrand<SELF extends Restrict<SELF>> extends Rest
 
     default SELF externalBrands(Collection<String> externalBrandMatchcodes)
     {
-        return externalBrand(externalBrandMatchcodes.toArray(new String[externalBrandMatchcodes.size()]));
+        return externalBrand(externalBrandMatchcodes.toArray(new String[0]));
     }
 
 }

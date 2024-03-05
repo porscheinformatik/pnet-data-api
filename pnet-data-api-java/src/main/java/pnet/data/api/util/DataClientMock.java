@@ -8,9 +8,9 @@ import at.porscheinformatik.happyrest.GenericType;
 /**
  * A client mock that handles datas
  *
- * @author HAM
  * @param <DataT> the type of data
  * @param <SELF> the class for self-references
+ * @author HAM
  */
 public interface DataClientMock<DataT, SELF extends DataClientMock<DataT, SELF>> extends Self<SELF>
 {

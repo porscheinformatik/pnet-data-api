@@ -3,8 +3,8 @@ package pnet.data.api.util;
 /**
  * Restricts archivation flags.
  *
- * @author ham
  * @param <SELF> the state of the filter for chaining
+ * @author ham
  */
 public interface RestrictArchived<SELF extends Restrict<SELF>> extends Restrict<SELF>
 {

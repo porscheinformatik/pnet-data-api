@@ -8,8 +8,8 @@ import pnet.data.api.client.PnetDataClientResultPage;
 /**
  * A find query.
  *
- * @author ham
  * @param <DTO> the type of DTO
+ * @author ham
  */
 public interface ScrollableFind<DTO> extends Find<DTO>
 {

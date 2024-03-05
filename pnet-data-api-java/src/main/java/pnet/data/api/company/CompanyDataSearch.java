@@ -29,14 +29,15 @@ import pnet.data.api.util.SearchWithAggregationsFunction;
  * @author HAM
  */
 public class CompanyDataSearch
-    extends AbstractSearchWithAggregations<CompanyItemDTO, CompanyAggregationsDTO, CompanyDataSearch> implements
-    RestrictTenant<CompanyDataSearch>, RestrictBrand<CompanyDataSearch>, RestrictCompanyId<CompanyDataSearch>,
-    RestrictCountryCode<CompanyDataSearch>, RestrictType<CompanyDataSearch>, RestrictContractType<CompanyDataSearch>,
-    RestrictContractState<CompanyDataSearch>, RestrictLocation<CompanyDataSearch>,
-    RestrictExternalBrand<CompanyDataSearch>, RestrictDatedBackUntil<CompanyDataSearch>,
-    IncludeInactive<CompanyDataSearch>, CompanyMergable<CompanyDataSearch>, AggregateNumberPerTenant<CompanyDataSearch>,
-    AggregateNumberPerBrand<CompanyDataSearch>, AggregateNumberPerType<CompanyDataSearch>,
-    AggregateNumberPerContractType<CompanyDataSearch>, RestrictQueryField<CompanyDataSearch>
+    extends AbstractSearchWithAggregations<CompanyItemDTO, CompanyAggregationsDTO, CompanyDataSearch>
+    implements RestrictTenant<CompanyDataSearch>, RestrictBrand<CompanyDataSearch>,
+    RestrictCompanyId<CompanyDataSearch>, RestrictCountryCode<CompanyDataSearch>, RestrictType<CompanyDataSearch>,
+    RestrictContractType<CompanyDataSearch>, RestrictContractState<CompanyDataSearch>,
+    RestrictLocation<CompanyDataSearch>, RestrictExternalBrand<CompanyDataSearch>,
+    RestrictDatedBackUntil<CompanyDataSearch>, IncludeInactive<CompanyDataSearch>, CompanyMergable<CompanyDataSearch>,
+    AggregateNumberPerTenant<CompanyDataSearch>, AggregateNumberPerBrand<CompanyDataSearch>,
+    AggregateNumberPerType<CompanyDataSearch>, AggregateNumberPerContractType<CompanyDataSearch>,
+    RestrictQueryField<CompanyDataSearch>
 {
 
     public CompanyDataSearch(SearchWithAggregationsFunction<CompanyItemDTO, CompanyAggregationsDTO> searchFunction,

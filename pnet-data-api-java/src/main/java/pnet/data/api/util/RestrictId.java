@@ -5,9 +5,9 @@ import java.util.Collection;
 /**
  * Restricts ids.
  *
- * @author ham
  * @param <IdT> the type of id
  * @param <SELF> the type of the filter for chaining
+ * @author ham
  */
 public interface RestrictId<IdT, SELF extends Restrict<SELF>> extends Restrict<SELF>
 {
@@ -19,7 +19,7 @@ public interface RestrictId<IdT, SELF extends Restrict<SELF>> extends Restrict<S
 
     default SELF ids(Collection<IdT> ids)
     {
-        return restrict("id", ids.toArray(new Object[ids.size()]));
+        return restrict("id", ids.toArray(new Object[0]));
     }
 
 }
