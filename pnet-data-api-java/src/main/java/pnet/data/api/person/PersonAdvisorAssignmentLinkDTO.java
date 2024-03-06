@@ -14,6 +14,7 @@
  */
 package pnet.data.api.person;
 
+import java.io.Serial;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -32,6 +33,7 @@ import pnet.data.api.util.WithCompanyId;
 @Schema(description = "Holds an advisor assignment of the person.")
 public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
 {
+    @Serial
     private static final long serialVersionUID = 4247336068734009775L;
 
     @Schema(description = "The unique id of the company the person is advisor for.")
@@ -56,6 +58,7 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     @Schema(description = "The label of the advisor division.")
     private final String divisionLabel;
 
+    @SuppressWarnings("java:S107")
     public PersonAdvisorAssignmentLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
@@ -156,11 +159,7 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
         {
             return false;
         }
-        if (!Objects.equals(companyId, other.companyId))
-        {
-            return false;
-        }
-        return true;
+        return Objects.equals(companyId, other.companyId);
     }
 
     @Override

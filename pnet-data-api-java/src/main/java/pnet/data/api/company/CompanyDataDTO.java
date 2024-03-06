@@ -235,6 +235,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "All external brands assigned to the company.")
     private Collection<CompanyExternalBrandDataDTO> externalBrands;
 
+    @Schema(description = "Add advisors assigned to the company.")
+    private Collection<CompanyAdvisorAssignmentLinkDTO> advisorAssignments;
+
     @Schema(description = "The time and date of the last occasion, when the data of the this company has been "
         + "modified.")
     private LocalDateTime lastUpdate;
@@ -892,6 +895,24 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.externalBrands = externalBrands;
     }
 
+    public Collection<CompanyAdvisorAssignmentLinkDTO> getAdvisorAssignments()
+    {
+        return advisorAssignments;
+    }
+
+    public Optional<CompanyAdvisorAssignmentLinkDTO> findAdvisorAssignment(
+        Predicate<? super CompanyAdvisorAssignmentLinkDTO> predicate)
+    {
+        return advisorAssignments == null ?
+            Optional.empty() :
+            advisorAssignments.stream().filter(predicate).findFirst();
+    }
+
+    public void setAdvisorAssignments(Collection<CompanyAdvisorAssignmentLinkDTO> advisorAssignments)
+    {
+        this.advisorAssignments = advisorAssignments;
+    }
+
     public LocalDateTime getLastUpdate()
     {
         return lastUpdate;
@@ -917,14 +938,14 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                 + "certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
                 + "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, "
                 + "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, "
-                + "externalBrands=%s, lastUpdate=%s]", companyId, matchcode, administrativeTenant, label, name,
-            nameAffix, additionalNameAffix, marketingName, groupMembers, tenants, brands, contractTypes, contractStates,
-            contractDistributionStructure, vatIdNumber, sapNumber, companyNumber, additionalNumbers, street, city,
-            postalCode, countryCode, country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial, faxNumber,
-            email, leadEmail, homepage, postal, facebookLink, youTubeLink, instagramLink, viberLink, telegramLink,
-            legalFormMatchcode, dataProcessingRegisterNumber, commercialRegisterNumber, certificateType,
-            certificateNumber, jurisdiction, objectsClause, generalPartner, registeredOffice, chamberAffiliation,
-            commercialRegulations, regulatoryAuthority, arbitrationBoard, additionalImprintInfo,
-            businessInformationNumber, location, externalBrands, lastUpdate);
+                + "externalBrands=%s, advisorAssignments=%s, lastUpdate=%s]", companyId, matchcode,
+            administrativeTenant, label, name, nameAffix, additionalNameAffix, marketingName, groupMembers, tenants,
+            brands, contractTypes, contractStates, contractDistributionStructure, vatIdNumber, sapNumber, companyNumber,
+            additionalNumbers, street, city, postalCode, countryCode, country, region, iban, bic, types, phoneNumber,
+            mobileNumber, speedDial, faxNumber, email, leadEmail, homepage, postal, facebookLink, youTubeLink,
+            instagramLink, viberLink, telegramLink, legalFormMatchcode, dataProcessingRegisterNumber,
+            commercialRegisterNumber, certificateType, certificateNumber, jurisdiction, objectsClause, generalPartner,
+            registeredOffice, chamberAffiliation, commercialRegulations, regulatoryAuthority, arbitrationBoard,
+            additionalImprintInfo, businessInformationNumber, location, externalBrands, advisorAssignments, lastUpdate);
     }
 }
