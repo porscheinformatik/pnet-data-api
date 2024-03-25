@@ -1,16 +1,16 @@
 # Partner.&#78;et Data API
 
-This project contains the definition of the API for accessing the data stock of the Partner.&#78;et and clients for the various platforms.
+This project contains the definition of the API for accessing the dataset of the Partner.&#78;et and clients for different platforms.
 
-The Partner.&#78;et Data API provides access to the data of the Partner.&#78;et. This data contains:
+The Partner.&#78;et Data API provides access to the data of the Partner.&#78;et. This data includes:
 
 -   persons and companies
 -   employments (the link between persons and companies)
 -   roles (the area of activity of a person)
 -   hosted applications
--   and all necessary base data needed by the above items
+-   and all necessary basic data required by the above items
 
-The access conforms the General Data Protection Regulation.
+Access is compilant witht the General Data Protection Regulation.
 
 # Contents
 
@@ -26,9 +26,7 @@ The access conforms the General Data Protection Regulation.
 
 # REST Interface
 
-The data is available by a REST interface. Check the current version (production) of [Swagger-Documentation](https://data.auto-partner.net/data/swagger-ui.html) for more information. The QA environment contains the
-[upcoming Swagger-Documentation](https://qa-data.auto-partner.net/data/swagger-ui.html), that might differ
-a little bit.
+The data is available through a REST interface. See the current production version of the [Swagger documentation](https://data.auto-partner.net/data/swagger-ui.html) for more information. The QA environment contains the [upcoming Swagger documentation](https://qa-data.auto-partner.net/data/swagger-ui.html), which may differ slightly.
 
 # Available Data
 
@@ -39,11 +37,13 @@ The available data consists of:
     -   Contact information (email, phone, ...)
     -   Employments (companies, personnel number, department, ...)
     -   Roles (functions and activities)
+    -   Advisor assignments
 -   Companies
     -   Ids and the name
     -   Contract information (email, phone, ...)
     -   Address
     -   Bands, company types and contracts
+    -   Advisor assignments
 -   Company Groups
 
 The data of persons and companies contains references to some master data, that can be access, too:
@@ -64,29 +64,29 @@ The data of persons and companies contains references to some master data, that 
 
 Most of the data interfaces provide three methods:
 
--   details - For accessing all available information about one or more data items (e.g. the person with the id 100).
--   search - For accessing a reduced amount of information per data item, but supporting fuzzy searches
--   find - For accessing a reduced amount of information per data item, but with fast filters (e.g. all persons with a defined function or at specific companies).
+-   **details**: for accessing all available information about one or more data elements (e.g. the person with ID 100).
+-   **search**: for accessing a reduced amount of information per data item, but with support for fuzzy searches
+-   **find**: for accessing a reduced amount of information per record, but with fast filters (e.g. all persons with a certain function or in certain companies).
 
-The person data is filtered by default. Persons will have to give their consent, otherwise, no personal information will be shared with your application.
+Personal data is filtered by default. Persons must give their consent, otherwise, no personal information will be shared with your application.
 
 # Considerations
 
-**When using the Data API, please consider following important aspects.**
+**When using the Data API, please be aware of the following important issues.**
 
 ## Performance
 
-The Partner.&#78;et Data API is a scalable application hosted in a cloud environment and is based on an NoSQL-Database in the background. Requests are fast and the data is accurate. The data from the Partner.&#78;et gets synced every few seconds and is up-to-date most of the time.
+The Partner.&#78;et Data API is a scalable application hosted in a cloud environment and is based on an NoSQL database in the background. Requests are fast and the data is accurate. Partner.&#78;et data is synchronized every few seconds and is up to date most of the time.
 
-The REST Interface provides the data as fast as it can. Currently we don't have performance issues because of too many users or too many requests. **Generally, it is better to make multiple smaller requests, than fewer larger ones.**
+The REST interface delivers the data as fast as possible. Currently, we don't have any performance issues due to too many users or too many requests. **In general, it is better to have more smaller requests, than fewer larger ones.**
 
-**Consider caching relevant information!** Most of the data does not change very often. We encourage you to store results locally and reuse the information instead of performing the same request over and over again.
+**Consider caching relevant information!** Most of the data does not change very often. We encourage you to store results locally and reuse the information instead of making the same request over and over again.
 
 ## Paging
 
 The result of each request is paged, that means, that it splits the result into multiple pages. You can add the desired page size to each request (`pp` parameter), but the server may reduce it, if it is too large. Currently, each page is limited to, at most, 100 items, **but do not bet on it. We may decide to return fewer items (for reasons), make sure your code can cope with that**.
 
-You can request subsequent pages by adding a page (`p`) or a search after (`sa`) parameter, but the rest of the request must be exactly the same. 
+You can request subsequent pages by adding a page (`p`) or a search after (`sa`) parameter, but the rest of the request must be exactly the same.
 
 **If you are requesting multiple pages, we recommend that you to use the `sa` parameter instead of the `p` parameter.** Each response will return a `searchAfter` value. When you make the request for the next page, add the search after parameter as `&sa=...` (instead of the `p` parameter). This will ensure that the response contains the results of the next page. If you use the `p` parameter instead, you may miss items or get duplicates, if the underlying data has changed in the meantime.
 
@@ -122,7 +122,7 @@ The `details` requests return more information per item, but the request is slow
 
 # User for Access
 
-You will need a system user for accessing the data. You can request such a user with a [Partner.&#78;et Wartungsantrag](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_MAINT_PROP). Just create a new document and select "Sonstiges".
+You will need a peronalized system user for accessing the data. You can request such a user with a [Partner.&#78;et Wartungsantrag](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_MAINT_PROP). Just create a new document and select "Sonstiges".
 
 Bezeichnung: The name of the user, something like: "My Application System User"
 
@@ -130,9 +130,22 @@ Informationen und Freigaben: We need the name of the application, that will use 
 
 Additionally, we will enter your own user as manager for the system user. This means that you, and nobody else, can request a password for the user. If more users should be allowed to do this, please add a list.
 
-After the system user has been created, you can use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)) for requesting a password.
+After the system user has been created, you can use the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)) for requesting a password or a secret token.
 
-# Available Instances
+## Logging in
+
+Before making any requests to the Data API, you must perform a login request using either the username/password combination or the secret token. If the login is successful, a JWT is returned that's valid for about an hour (but it may be less for internal reasons).
+
+Use this JWT for all subsequent requests.
+
+**To prevent massive amounts of logins, the number of logins is limited to 30 per two minutes.**
+
+# Available InstancesLogin
+Before executing requests to the Data API, you have to perform a login request by either using the username/password combination or the secret token. If the login is successful, a JWT will be returned, that's valid for about one hour (but it may be less for internal reasons).
+
+Use this JWT for any subsequent request.
+
+In order to prevent massive amounts of logins, the number of logins is limited to 30 per two minutes.
 
 Following instances are accessible:
 
@@ -366,6 +379,12 @@ A common pitfall is, that if you are using other conditions in the same query: t
 This will result in a search that's more like: `(TA_ACT_1 OR TA_ACT_2) AND (FU_FUN_1 OR FU_FUN_2)`.
 
 To avoid this common pitfall, there is a search for `role`s now, searching for both, functions and activities, using an `OR` query.
+
+## What's the problem with scolling
+
+The use of "scrolling" as mentioned in earlier versions of this documentation has been deprecated by our NoSQL database vendor. As a result, we no longer recommend using it. Please refer to the [Paging documentation](#paging) for alternatives.
+
+For security reasons, the access to scrolling requests has been limited to 16 parallel scrolls per user, and the maximum time a scroll ID remains valid has been limited to 60 minutes.
 
 # I Still Need Help
 
