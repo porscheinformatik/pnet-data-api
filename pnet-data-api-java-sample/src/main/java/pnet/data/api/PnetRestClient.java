@@ -315,6 +315,7 @@ public final class PnetRestClient
     private CurrentResult<?> currentResult = null;
     private Locale language = Locale.getDefault();
     private boolean includeInactive = false;
+    private boolean scroll = false;
 
     @SuppressWarnings("java:S107") // Too many parameters
     public PnetRestClient(MutablePnetDataApiLoginMethod loginMethod, AboutDataClient aboutDataClient,
@@ -393,7 +394,8 @@ public final class PnetRestClient
     public void exportAllActivities() throws PnetDataClientException
     {
         ActivityDataFind query = restrict(activityDataClient.find());
-        PnetDataClientResultPage<ActivityItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<ActivityItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -403,7 +405,8 @@ public final class PnetRestClient
     public void exportAllUpdatedActivities(String updatedAfter) throws PnetDataClientException
     {
         ActivityDataFind query = restrict(activityDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
-        PnetDataClientResultPage<ActivityItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<ActivityItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -524,7 +527,8 @@ public final class PnetRestClient
     public void exportAllApplications() throws PnetDataClientException
     {
         ApplicationDataFind query = restrict(applicationDataClient.find());
-        PnetDataClientResultPage<ApplicationItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<ApplicationItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -535,7 +539,8 @@ public final class PnetRestClient
     {
         ApplicationDataFind query =
             restrict(applicationDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
-        PnetDataClientResultPage<ApplicationItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<ApplicationItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -735,7 +740,8 @@ public final class PnetRestClient
     public void exportAllCompanies() throws PnetDataClientException
     {
         CompanyDataFind query = restrict(companyDataClient.find());
-        PnetDataClientResultPage<CompanyItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<CompanyItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -745,7 +751,8 @@ public final class PnetRestClient
     public void exportAllUpdatedCompanies(String updatedAfter) throws PnetDataClientException
     {
         CompanyDataFind query = restrict(companyDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
-        PnetDataClientResultPage<CompanyItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<CompanyItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1158,7 +1165,8 @@ public final class PnetRestClient
             restrict(find).execute(language, 0, pageSize).stream().map(CompanyGroupTypeItemDTO::getMatchcode).toList();
 
         CompanyGroupDataGet query = restrict(companyGroupDataClient.get().types(companyGroupTypeMatchcodes));
-        PnetDataClientResultPage<CompanyGroupDataDTO> result = query.executeAndScroll(25);
+        PnetDataClientResultPage<CompanyGroupDataDTO> result =
+            scroll ? query.executeAndScroll(25) : query.execute(0, 25);
 
         printAllResults(result, this::populateTable);
     }
@@ -1555,7 +1563,8 @@ public final class PnetRestClient
     public void exportAllFunctions() throws PnetDataClientException
     {
         FunctionDataFind query = restrict(functionDataClient.find());
-        PnetDataClientResultPage<FunctionItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<FunctionItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1565,7 +1574,8 @@ public final class PnetRestClient
     public void exportAllUpdatedFunctions(String updatedAfter) throws PnetDataClientException
     {
         FunctionDataFind query = restrict(functionDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
-        PnetDataClientResultPage<FunctionItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<FunctionItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1802,7 +1812,8 @@ public final class PnetRestClient
     public void exportAllPersons() throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find());
-        PnetDataClientResultPage<PersonItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<PersonItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -1812,7 +1823,8 @@ public final class PnetRestClient
     public void exportAllUpdatedPersons(String updatedAfter) throws PnetDataClientException
     {
         PersonDataFind query = restrict(personDataClient.find().updatedAfter(parseUpdatedAfter(updatedAfter)));
-        PnetDataClientResultPage<PersonItemDTO> result = query.executeAndScroll(language, pageSize);
+        PnetDataClientResultPage<PersonItemDTO> result =
+            scroll ? query.executeAndScroll(language, pageSize) : query.execute(language, 0, pageSize);
 
         printAllResults(result, this::populateTable);
     }
@@ -2652,6 +2664,17 @@ public final class PnetRestClient
         language = languageTag == null ? Locale.getDefault() : Locale.forLanguageTag(languageTag);
 
         cli.info("Language set to: %s", language);
+    }
+
+    @CLI.Command(format = "<true|false>", description = "Toggle the use of the scrolling feature.")
+    public void scroll(Boolean scroll)
+    {
+        if (scroll != null)
+        {
+            this.scroll = scroll;
+        }
+
+        cli.info("Scrolling is %s.", this.scroll ? "enabled" : "disabled");
     }
 
     @CLI.Command(description = "Prints the next page of the last result.")
