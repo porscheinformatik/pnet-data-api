@@ -52,7 +52,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The tenants where the person is valid (no scope needed).")
     private final Collection<String> tenants;
 
-    @Schema(description = "The form of the adress the person prefers (needed scope: SC_GENDER).")
+    @Schema(description = "The type of user (no scope needed).")
+    private final PersonType type;
+
+    @Schema(description = "The form of the address the person prefers (needed scope: SC_GENDER).")
     private final FormOfAddress formOfAddress;
 
     @Schema(description = "The academic title of the person (needed scope: SC_NAME).")
@@ -150,7 +153,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @SuppressWarnings("java:S107")
     public PersonItemDTO(@JsonProperty("personId") Integer personId,
         @JsonProperty("administrativeTenant") String administrativeTenant,
-        @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
+        @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("type") PersonType type,
+        @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
         @JsonProperty("academicTitle") String academicTitle,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
@@ -177,6 +182,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.personId = personId;
         this.administrativeTenant = administrativeTenant;
         this.tenants = tenants;
+        this.type = type;
         this.formOfAddress = formOfAddress;
         this.academicTitle = academicTitle;
         this.academicTitlePostNominal = academicTitlePostNominal;
@@ -222,6 +228,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     public Collection<String> getTenants()
     {
         return tenants;
+    }
+
+    public PersonType getType()
+    {
+        return type;
     }
 
     public FormOfAddress getFormOfAddress()
@@ -388,13 +399,13 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     public String toString()
     {
         return String.format(
-            "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, credentialsAvailable=%s, "
-                + "approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, personnelNumber=%s, "
-                + "birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, languages=%s, companies=%s, "
-                + "functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
+            "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, "
+                + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
+                + "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, "
+                + "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, languages=%s, "
+                + "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
                 + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]", personId,
-            administrativeTenant, tenants, formOfAddress, academicTitle, academicTitlePostNominal, firstName, lastName,
+            administrativeTenant, tenants, type, formOfAddress, academicTitle, academicTitlePostNominal, firstName, lastName,
             username, credentialsAvailable, approved, approvalState, externalId, guid, preferredUserId, personnelNumber,
             birthdate, email, phoneNumber, mobileNumber, languages, companies, functions, numbers, contactCompanyId,
             contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate, score);

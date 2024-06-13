@@ -31,9 +31,11 @@ import pnet.data.api.util.RestrictGuid;
 import pnet.data.api.util.RestrictId;
 import pnet.data.api.util.RestrictNumber;
 import pnet.data.api.util.RestrictNumberType;
+import pnet.data.api.util.RestrictPersonType;
 import pnet.data.api.util.RestrictPersonnelDepartment;
 import pnet.data.api.util.RestrictPersonnelNumber;
 import pnet.data.api.util.RestrictPreferredUserId;
+import pnet.data.api.util.RestrictPersonHierarchy;
 import pnet.data.api.util.RestrictRole;
 import pnet.data.api.util.RestrictSupervisorPersonnelNumber;
 import pnet.data.api.util.RestrictTenant;
@@ -46,8 +48,8 @@ import pnet.data.api.util.RestrictUpdatedAfter;
  */
 public class PersonDataFind extends AbstractScrollableFind<PersonItemDTO, PersonDataFind>
     implements RestrictId<Integer, PersonDataFind>, RestrictExternalId<PersonDataFind>, RestrictTenant<PersonDataFind>,
-    RestrictGuid<PersonDataFind>, RestrictPreferredUserId<PersonDataFind>, RestrictEmail<PersonDataFind>,
-    RestrictCostCenter<PersonDataFind>, RestrictPersonnelNumber<PersonDataFind>,
+    RestrictPersonType<PersonDataFind>, RestrictGuid<PersonDataFind>, RestrictPreferredUserId<PersonDataFind>,
+    RestrictEmail<PersonDataFind>, RestrictCostCenter<PersonDataFind>, RestrictPersonnelNumber<PersonDataFind>,
     RestrictSupervisorPersonnelNumber<PersonDataFind>, RestrictControllingArea<PersonDataFind>,
     RestrictPersonnelDepartment<PersonDataFind>, RestrictCompanyId<PersonDataFind>,
     RestrictCompanyNumber<PersonDataFind>, RestrictCompany<PersonDataFind>, RestrictBrand<PersonDataFind>,
@@ -55,8 +57,9 @@ public class PersonDataFind extends AbstractScrollableFind<PersonItemDTO, Person
     RestrictNumberType<PersonDataFind>, RestrictNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompanyId<PersonDataFind>, RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompany<PersonDataFind>, RestrictAdvisorAssignmentType<PersonDataFind>,
-    RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictCredentialsAvailable<PersonDataFind>,
-    RestrictApproved<PersonDataFind>, RestrictUpdatedAfter<PersonDataFind>, RestrictDatedBackUntil<PersonDataFind>,
+    RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictPersonHierarchy<PersonDataFind>,
+    RestrictCredentialsAvailable<PersonDataFind>, RestrictApproved<PersonDataFind>,
+    RestrictUpdatedAfter<PersonDataFind>, RestrictDatedBackUntil<PersonDataFind>,
     IncludeInactive<PersonDataFind>, IncludeAllFunctions<PersonDataFind>, CompanyMergable<PersonDataFind>,
     Orderable<PersonDataFind, PersonOrderBy>
 {

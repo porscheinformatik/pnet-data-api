@@ -23,6 +23,9 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
     @Schema(description = "The tenant, in which this person is administrated.")
     private final String administrativeTenant;
 
+    @Schema(description = "The type of user (no scope needed).")
+    private final PersonType type;
+
     @Schema(description = "The external id of the person.")
     private final String externalId;
 
@@ -40,9 +43,10 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
 
     @SuppressWarnings("java:S107")
     public PersonAutoCompleteDTO(@JsonProperty("personId") Integer personId,
-        @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("label") String label,
-        @JsonProperty("description") String description, @JsonProperty("externalId") String externalId,
-        @JsonProperty("guid") String guid, @JsonProperty("preferredUserId") String preferredUserId,
+        @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("type") PersonType type,
+        @JsonProperty("label") String label, @JsonProperty("description") String description,
+        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
+        @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("email") String email,
         @JsonProperty("score") double score)
     {
@@ -50,6 +54,7 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
 
         this.personId = personId;
         this.administrativeTenant = administrativeTenant;
+        this.type = type;
         this.externalId = externalId;
         this.guid = guid;
         this.preferredUserId = preferredUserId;
@@ -65,6 +70,11 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
     public String getAdministrativeTenant()
     {
         return administrativeTenant;
+    }
+
+    public PersonType getType()
+    {
+        return type;
     }
 
     public String getExternalId()
@@ -95,10 +105,10 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
     @Override
     public String toString()
     {
-        return String.format("PersonAutoCompleteDTO [personId=%s, administrativeTenant=%s, externalId=%s, guid=%s, "
-                + "preferredUserId=%s, personnelNumber=%s, email=%s, getLabel()=%s, getDescription()=%s, getScore()"
-                + "=%s]",
-            personId, administrativeTenant, externalId, guid, preferredUserId, personnelNumber, email, getLabel(),
+        return String.format("PersonAutoCompleteDTO [personId=%s, administrativeTenant=%s, type=%s, externalId=%s, "
+                + "guid=%s, preferredUserId=%s, personnelNumber=%s, email=%s, getLabel()=%s, getDescription()=%s, "
+                + "getScore()=%s]",
+            personId, administrativeTenant, type, externalId, guid, preferredUserId, personnelNumber, email, getLabel(),
             getDescription(), getScore());
     }
 

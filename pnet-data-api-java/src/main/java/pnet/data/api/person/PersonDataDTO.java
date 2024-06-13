@@ -57,6 +57,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The tenants where the person is valid (no scope needed).")
     private Collection<String> tenants;
 
+    @Schema(description = "The type of user (no scope needed).")
+    private PersonType type;
+
     @Schema(description = "The form of the adress the person prefers (needed scope: SC_GENDER).")
     private FormOfAddress formOfAddress;
 
@@ -180,6 +183,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         + "SC_ADVISOR_ASSIGNMENT).")
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
+    @Schema(description = "The hierarchy of persons, e.g. responsible persons for bots and test users (needed scope: SC_HIERARCHY).")
+    private List<PersonHierarchyLinkDTO> hierarchies;
+
     @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
     private Boolean portraitAvailable;
 
@@ -234,6 +240,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public Collection<String> getTenants()
     {
         return tenants;
+    }
+
+    public PersonType getType()
+    {
+        return type;
+    }
+
+    public void setType(PersonType type)
+    {
+        this.type = type;
     }
 
     public void setTenants(Collection<String> tenants)
@@ -653,6 +669,24 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.advisorAssignments = advisorAssignments;
     }
 
+    public List<PersonHierarchyLinkDTO> getHierarchies()
+    {
+        return hierarchies;
+    }
+
+    public Optional<PersonHierarchyLinkDTO> findHierarchy(
+        Predicate<? super PersonHierarchyLinkDTO> predicate)
+    {
+        return hierarchies == null ?
+            Optional.empty() :
+            hierarchies.stream().filter(predicate).findFirst();
+    }
+
+    public void setHierarchies(List<PersonHierarchyLinkDTO> hierarchies)
+    {
+        this.hierarchies = hierarchies;
+    }
+
     public boolean isAutomaticDeletion()
     {
         return automaticDeletion;
@@ -701,20 +735,20 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public String toString()
     {
         return String.format(
-            "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, formOfAddress=%s, academicTitle=%s, "
-                + "academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, "
+            "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, "
+                + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, "
                 + "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, "
                 + "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, "
                 + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, "
                 + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
                 + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, settings=%s, languages=%s, companies=%s, "
-                + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, portraitAvailable=%s, "
-                + "automaticDeletion=%s, checksum=%s, lastUpdate=%s]", personId, administrativeTenant, tenants,
+                + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, "
+                + "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]", personId, administrativeTenant, tenants, type,
             formOfAddress, academicTitle, academicTitlePostNominal, firstName, lastName, credentialsAvailable,
             multifactorEnabled, approved, approvalState, birthdate, externalId, guid, preferredUserId, phoneNumber,
             extensionNumber, mobileNumber, faxNumber, email, contactCompanyId, contactCompanyMatchcode,
             contactCompanyNumber, costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea,
             personnelDepartment, jobDescription, teamMatchcode, teamLabel, settings, languages, companies, numbers,
-            functions, activities, advisorAssignments, portraitAvailable, automaticDeletion, checksum, lastUpdate);
+            functions, activities, advisorAssignments, hierarchies, portraitAvailable, automaticDeletion, checksum, lastUpdate);
     }
 }
