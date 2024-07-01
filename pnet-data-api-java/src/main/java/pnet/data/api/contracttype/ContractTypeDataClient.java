@@ -73,6 +73,23 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
         });
     }
 
+    public ContractTypeDataAutoComplete autoComplete()
+    {
+        return new ContractTypeDataAutoComplete(this::autoComplete, Collections.emptyList());
+    }
+
+    protected List<ContractTypeAutoCompleteDTO> autoComplete(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
+    {
+        return invoke(restCall -> restCall
+            .parameters(restricts)
+            .path("/api/v1/contracttypes/autocomplete")
+            .get(new GenericType.Of<List<ContractTypeAutoCompleteDTO>>()
+            {
+                // intentionally left blank
+            }));
+    }
+
     public ContractTypeDataFind find()
     {
         return new ContractTypeDataFind(this::find, Collections.emptyList());

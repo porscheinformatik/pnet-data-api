@@ -5,6 +5,7 @@ Needs Partner.Net 6.46.
 
 * Add person type and person hierarchy.
 * Add autocomplete to company types.
+* Add autocomplete to contract types.
 
 pnet-data-api 2.7.0
 ===================
