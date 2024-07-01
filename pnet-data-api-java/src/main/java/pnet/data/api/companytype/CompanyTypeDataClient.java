@@ -12,6 +12,8 @@ import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.AbstractPnetDataApiClient;
 import pnet.data.api.client.context.PnetDataApiContext;
+import pnet.data.api.function.FunctionAutoCompleteDTO;
+import pnet.data.api.function.FunctionDataAutoComplete;
 import pnet.data.api.util.Pair;
 
 /**
@@ -72,6 +74,23 @@ public class CompanyTypeDataClient extends AbstractPnetDataApiClient<CompanyType
 
             return resultPage;
         });
+    }
+
+    public CompanyTypeDataAutoComplete autoComplete()
+    {
+        return new CompanyTypeDataAutoComplete(this::autoComplete, Collections.emptyList());
+    }
+
+    protected List<CompanyTypeAutoCompleteDTO> autoComplete(List<Pair<String, Object>> restricts)
+        throws PnetDataClientException
+    {
+        return invoke(restCall -> restCall
+            .parameters(restricts)
+            .path("/api/v1/companytypes/autocomplete")
+            .get(new GenericType.Of<List<CompanyTypeAutoCompleteDTO>>()
+            {
+                // intentionally left blank
+            }));
     }
 
     public CompanyTypeDataFind find()

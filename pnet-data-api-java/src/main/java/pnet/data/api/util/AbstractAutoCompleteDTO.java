@@ -1,5 +1,6 @@
 package pnet.data.api.util;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Holds the result of an autoComplete query.")
 public abstract class AbstractAutoCompleteDTO implements Serializable
 {
-
+    @Serial
     private static final long serialVersionUID = -6206196144565929843L;
 
     @Schema(description = "The context dependent label of the item.")

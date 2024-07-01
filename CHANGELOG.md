@@ -3,7 +3,8 @@ pnet-data-api 2.8.0
 
 Needs Partner.Net 6.46.
 
-* Add person type and person hierarchy
+* Add person type and person hierarchy.
+* Add autocomplete to company types.
 
 pnet-data-api 2.7.0
 ===================
