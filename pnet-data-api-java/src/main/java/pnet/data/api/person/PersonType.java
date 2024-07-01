@@ -2,9 +2,18 @@ package pnet.data.api.person;
 
 public enum PersonType
 {
-    REGULAR,
+    /**
+     * A regular person, physically existing.
+     */
+    PERSON,
 
+    /**
+     * A user for automated tasks, e.g. for automatically executed tests.
+     */
     BOT,
 
-    TEST
+    /**
+     * A user for manual tests.
+     */
+    TEST_USER
 }
