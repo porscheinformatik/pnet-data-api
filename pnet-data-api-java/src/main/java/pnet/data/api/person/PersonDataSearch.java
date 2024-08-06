@@ -21,6 +21,7 @@ import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
+import pnet.data.api.util.RestrictInternal;
 import pnet.data.api.util.RestrictPersonType;
 import pnet.data.api.util.RestrictQueryField;
 import pnet.data.api.util.RestrictPersonHierarchy;
@@ -40,8 +41,8 @@ public class PersonDataSearch
     RestrictCompanyNumber<PersonDataSearch>, RestrictCompany<PersonDataSearch>, RestrictBrand<PersonDataSearch>,
     RestrictFunction<PersonDataSearch>, RestrictActivity<PersonDataSearch>, RestrictRole<PersonDataSearch>,
     RestrictPersonHierarchy<PersonDataSearch>, RestrictCredentialsAvailable<PersonDataSearch>,
-    RestrictApproved<PersonDataSearch>, RestrictDatedBackUntil<PersonDataSearch>, IncludeInactive<PersonDataSearch>,
-    IncludeAllFunctions<PersonDataSearch>, CompanyMergable<PersonDataSearch>,
+    RestrictInternal<PersonDataSearch>, RestrictApproved<PersonDataSearch>, RestrictDatedBackUntil<PersonDataSearch>,
+    IncludeInactive<PersonDataSearch>, IncludeAllFunctions<PersonDataSearch>, CompanyMergable<PersonDataSearch>,
     AggregateNumberPerTenant<PersonDataSearch>, AggregateNumberPerCompany<PersonDataSearch>,
     AggregateNumberPerFunction<PersonDataSearch>, AggregateNumberPerActivity<PersonDataSearch>,
     RestrictQueryField<PersonDataSearch>
