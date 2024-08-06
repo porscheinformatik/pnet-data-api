@@ -29,6 +29,7 @@ import pnet.data.api.util.RestrictExternalId;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictGuid;
 import pnet.data.api.util.RestrictId;
+import pnet.data.api.util.RestrictInternal;
 import pnet.data.api.util.RestrictNumber;
 import pnet.data.api.util.RestrictNumberType;
 import pnet.data.api.util.RestrictPersonType;
@@ -58,7 +59,7 @@ public class PersonDataFind extends AbstractScrollableFind<PersonItemDTO, Person
     RestrictAdvisorAssignmentCompanyId<PersonDataFind>, RestrictAdvisorAssignmentCompanyNumber<PersonDataFind>,
     RestrictAdvisorAssignmentCompany<PersonDataFind>, RestrictAdvisorAssignmentType<PersonDataFind>,
     RestrictAdvisorAssignmentDivision<PersonDataFind>, RestrictPersonHierarchy<PersonDataFind>,
-    RestrictCredentialsAvailable<PersonDataFind>, RestrictApproved<PersonDataFind>,
+    RestrictCredentialsAvailable<PersonDataFind>, RestrictInternal<PersonDataFind>, RestrictApproved<PersonDataFind>,
     RestrictUpdatedAfter<PersonDataFind>, RestrictDatedBackUntil<PersonDataFind>,
     IncludeInactive<PersonDataFind>, IncludeAllFunctions<PersonDataFind>, CompanyMergable<PersonDataFind>,
     Orderable<PersonDataFind, PersonOrderBy>
