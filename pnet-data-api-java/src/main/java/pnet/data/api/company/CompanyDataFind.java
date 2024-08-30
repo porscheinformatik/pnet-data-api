@@ -7,6 +7,8 @@ import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictBpcmLocationUuid;
+import pnet.data.api.util.RestrictBpcmManaged;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCommercialRegisterNumber;
 import pnet.data.api.util.RestrictCompanyNumber;
@@ -36,7 +38,8 @@ import pnet.data.api.util.RestrictVatIdNumber;
 public class CompanyDataFind extends AbstractScrollableFind<CompanyItemDTO, CompanyDataFind>
     implements RestrictId<Integer, CompanyDataFind>, RestrictMatchcode<CompanyDataFind>,
     RestrictTenant<CompanyDataFind>, RestrictBrand<CompanyDataFind>, RestrictVatIdNumber<CompanyDataFind>,
-    RestrictSapNumber<CompanyDataFind>, RestrictCompanyNumber<CompanyDataFind>, RestrictIban<CompanyDataFind>,
+    RestrictSapNumber<CompanyDataFind>, RestrictCompanyNumber<CompanyDataFind>,
+    RestrictBpcmLocationUuid<CompanyDataFind>, RestrictBpcmManaged<CompanyDataFind>, RestrictIban<CompanyDataFind>,
     RestrictEmail<CompanyDataFind>, RestrictDataProcessingRegisterNumber<CompanyDataFind>,
     RestrictCommercialRegisterNumber<CompanyDataFind>, RestrictPostalCode<CompanyDataFind>,
     RestrictCountryCode<CompanyDataFind>, RestrictType<CompanyDataFind>, RestrictContractType<CompanyDataFind>,

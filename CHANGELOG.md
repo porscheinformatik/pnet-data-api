@@ -1,3 +1,10 @@
+pnet-data-api 2.9.0
+===================
+
+Needs Partner.Net 6.47.
+
+* Add BPCM relevant fields to companies.
+
 pnet-data-api 2.8.0
 ===================
 
@@ -34,7 +41,12 @@ pnet-data-api 2.4.0
 
 * Updated dependencies.
 * Added an Rest Client adapter for the the Apache HTTP Client version 5.
-* Added a new paging option by using "searchAfter". Since we have switched to Elasticsearch 8 as our document store, the process of iterating over pages has been discouraged by the manufacturer. Unfortunately, this has to be reflected in our client. Some properties in the result, like "pageIndex" and "numberOfPages", are not reliable anymore. You may add the system property "-Dpnet-data-api.avoid-search-after=true" to make sure, that the "nextPage" method is using the pageIndex to load the next page (as a consequence, the pageIndex property will be filled correctly - with your given value).
+* Added a new paging option by using "searchAfter". Since we have switched to Elasticsearch 8 as our document store, the
+  process of iterating over pages has been discouraged by the manufacturer. Unfortunately, this has to be reflected in
+  our client. Some properties in the result, like "pageIndex" and "numberOfPages", are not reliable anymore. You may add
+  the system property "-Dpnet-data-api.avoid-search-after=true" to make sure, that the "nextPage" method is using the
+  pageIndex to load the next page (as a consequence, the pageIndex property will be filled correctly - with your given
+  value).
 * Removed an incompatible slash at end of the "about" URL.
 
 pnet-data-api 2.3.0
@@ -178,7 +190,9 @@ pnet-data-api 1.20.1
 pnet-data-api 1.20.0
 ====================
 
-* Added possibility to use authentication tokens for Systemusers. Have a look at https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java#readme for detailed instructions. Some code has been deprecated, notably the PnetDataApiPrefs were replaced by PnetDataApiLoginMethod.
+* Added possibility to use authentication tokens for Systemusers. Have a look
+  at https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java#readme for detailed instructions.
+  Some code has been deprecated, notably the PnetDataApiPrefs were replaced by PnetDataApiLoginMethod.
 * Fix compatibility issues with different types of RestCall implementations.
 * Add Scopes to Application
 * Add multifactorEnabled to persons.
@@ -252,11 +266,12 @@ pnet-data-api 1.18.1
 pnet-data-api 1.18.0
 ====================
 
-* Replaced any "String contentType" with a "MediaType contentType". This is a breaking change. It should be rarely used by any application
-  and it is an internal change, basically. In case, you did you the contentType, just use the at.porscheinformatik.happyrest.MediaType
+* Replaced any "String contentType" with a "MediaType contentType". This is a breaking change. It should be rarely used
+  by any application
+  and it is an internal change, basically. In case, you did you the contentType, just use the
+  at.porscheinformatik.happyrest.MediaType
   class instead.
 * Add a NumberParser to the Rest framework to improve interoparability between technologies.
-
 
 pnet-data-api 1.17.2
 ====================
@@ -485,9 +500,9 @@ pnet-data-api 1.10.13
 =====================
 
 * Additional fields for the PersonItemDTO:
- * phoneNumber
- * mobileNumber
- * languages
+* phoneNumber
+* mobileNumber
+* languages
 
 pnet-data-api 1.10.12
 =====================
@@ -617,12 +632,14 @@ pnet-data-api 1.9.2
 ===================
 
 * Added aggregations to fluent search API.
-* Added `streamAll()` and `interatorAll()` to result pages to iterate over all result items of this page and all subsequent pages (calls `nextPage()` automatically).
+* Added `streamAll()` and `interatorAll()` to result pages to iterate over all result items of this page and all
+  subsequent pages (calls `nextPage()` automatically).
 * Added restrictions (filter) to the sample client.
 
 Known Bugs:
 
-* When using scrolling and the `next` interface, the `pageIndex` keeps being zero. This is a problem caused by a third-party library and will not be fixed right now.
+* When using scrolling and the `next` interface, the `pageIndex` keeps being zero. This is a problem caused by a
+  third-party library and will not be fixed right now.
 
 pnet-data-api 1.9.1
 ===================
@@ -776,12 +793,12 @@ pnet-data-api 1.4.0
 **Changes to the API:**
 
 * Support for faster (scrolling) mass queries in:
-  * activities (find)
-  * applications (find)
-  * companies (find)
-  * company groups (get)
-  * functions (find)
-  * persons (find)
+    * activities (find)
+    * applications (find)
+    * companies (find)
+    * company groups (get)
+    * functions (find)
+    * persons (find)
 
 **Changes to the Java client:**
 

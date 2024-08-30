@@ -1,6 +1,7 @@
 package pnet.data.api.company;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import pnet.data.api.PnetDataClientException;
@@ -12,6 +13,7 @@ import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.GetFunction;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictBpcmLocationUuid;
 import pnet.data.api.util.RestrictCommercialRegisterNumber;
 import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictDataProcessingRegisterNumber;
@@ -28,9 +30,10 @@ import pnet.data.api.util.RestrictVatIdNumber;
 public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     implements RestrictTenant<CompanyDataGet>, ById<Integer, CompanyDataDTO, CompanyDataGet>,
     ByMatchcode<CompanyDataDTO, CompanyDataGet>, RestrictVatIdNumber<CompanyDataGet>, RestrictSapNumber<CompanyDataGet>,
-    RestrictCompanyNumber<CompanyDataGet>, RestrictIban<CompanyDataGet>, RestrictEmail<CompanyDataGet>,
-    RestrictDataProcessingRegisterNumber<CompanyDataGet>, RestrictCommercialRegisterNumber<CompanyDataGet>,
-    RestrictDatedBackUntil<CompanyDataGet>, IncludeInactive<CompanyDataGet>, CompanyMergable<CompanyDataGet>
+    RestrictCompanyNumber<CompanyDataGet>, RestrictBpcmLocationUuid<CompanyDataGet>, RestrictIban<CompanyDataGet>,
+    RestrictEmail<CompanyDataGet>, RestrictDataProcessingRegisterNumber<CompanyDataGet>,
+    RestrictCommercialRegisterNumber<CompanyDataGet>, RestrictDatedBackUntil<CompanyDataGet>,
+    IncludeInactive<CompanyDataGet>, CompanyMergable<CompanyDataGet>
 {
 
     public CompanyDataGet(GetFunction<CompanyDataDTO> getFunction, List<Pair<String, Object>> restricts)
@@ -40,7 +43,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
 
     public CompanyDataDTO byVatIdNumber(String vatIdNumber) throws PnetDataClientException
     {
-        return allByVatIdNumbers(Arrays.asList(vatIdNumber), 0, 1).first();
+        return allByVatIdNumbers(Collections.singletonList(vatIdNumber), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> allByVatIdNumbers(List<String> vatIdNumbers, int pageIndex,
@@ -51,7 +54,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
 
     public CompanyDataDTO bySapNumber(String sapNumber) throws PnetDataClientException
     {
-        return allBySapNumbers(Arrays.asList(sapNumber), 0, 1).first();
+        return allBySapNumbers(Collections.singletonList(sapNumber), 0, 1).first();
     }
 
     @SuppressWarnings("deprecation")
@@ -63,7 +66,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
 
     public CompanyDataDTO byCompanyNumber(String companyNumber) throws PnetDataClientException
     {
-        return allByCompanyNumbers(Arrays.asList(companyNumber), 0, 1).first();
+        return allByCompanyNumbers(Collections.singletonList(companyNumber), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> allByCompanyNumbers(List<String> companyNumbers, int pageIndex,
@@ -72,9 +75,20 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
         return companyNumbers(companyNumbers).execute(pageIndex, itemsPerPage);
     }
 
+    public CompanyDataDTO byBpcmLocationUuid(String bpcmLocationUuid) throws PnetDataClientException
+    {
+        return allByBpcmLocationUuids(Collections.singletonList(bpcmLocationUuid), 0, 1).first();
+    }
+
+    public PnetDataClientResultPage<CompanyDataDTO> allByBpcmLocationUuids(List<String> bpcmLocationUuids,
+        int pageIndex, int itemsPerPage) throws PnetDataClientException
+    {
+        return bpcmLocationUuids(bpcmLocationUuids).execute(pageIndex, itemsPerPage);
+    }
+
     public CompanyDataDTO byIban(String iban) throws PnetDataClientException
     {
-        return allByIbans(Arrays.asList(iban), 0, 1).first();
+        return allByIbans(Collections.singletonList(iban), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> allByIbans(List<String> ibans, int pageIndex, int itemsPerPage)
@@ -85,7 +99,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
 
     public CompanyDataDTO byEmail(String email) throws PnetDataClientException
     {
-        return allByEmails(Arrays.asList(email), 0, 1).first();
+        return allByEmails(Collections.singletonList(email), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> allByEmails(List<String> emails, int pageIndex, int itemsPerPage)
@@ -97,7 +111,8 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
     public CompanyDataDTO byDataProcessingRegisterNumber(String dataProcessingRegisterNumber)
         throws PnetDataClientException
     {
-        return allByDataProcessingRegisterNumbers(Arrays.asList(dataProcessingRegisterNumber), 0, 1).first();
+        return allByDataProcessingRegisterNumbers(Collections.singletonList(dataProcessingRegisterNumber), 0,
+            1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> allByDataProcessingRegisterNumbers(
@@ -108,7 +123,7 @@ public class CompanyDataGet extends AbstractGet<CompanyDataDTO, CompanyDataGet>
 
     public CompanyDataDTO byCommercialRegisterNumber(String commercialRegisterNumber) throws PnetDataClientException
     {
-        return allByCommercialRegisterNumbers(Arrays.asList(commercialRegisterNumber), 0, 1).first();
+        return allByCommercialRegisterNumbers(Collections.singletonList(commercialRegisterNumber), 0, 1).first();
     }
 
     public PnetDataClientResultPage<CompanyDataDTO> allByCommercialRegisterNumbers(

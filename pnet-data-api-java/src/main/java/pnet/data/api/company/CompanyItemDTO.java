@@ -79,6 +79,9 @@ public class CompanyItemDTO
     @Schema(description = "The company number. In most cases, this is the same as the SAP number.")
     private final String companyNumber;
 
+    @Schema(description = "The UUID of the company as specified in the BPCM system.")
+    private final String bpcmLocationUuid;
+
     @Schema(description = "The name of the street as defined in the address of the company.")
     private final String street;
 
@@ -117,12 +120,12 @@ public class CompanyItemDTO
         @JsonProperty("additionalNameAffix") String additionalNameAffix,
         @JsonProperty("marketingName") String marketingName, @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<CompanyBrandLinkDTO> brands,
-        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("street") String street,
-        @JsonProperty("city") String city, @JsonProperty("postalCode") String postalCode,
-        @JsonProperty("countryCode") String countryCode, @JsonProperty("country") String country,
-        @JsonProperty("region") String region, @JsonProperty("types") Collection<CompanyTypeLinkDTO> types,
-        @JsonProperty("location") GeoPoint location, @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
-        @JsonProperty("score") double score)
+        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("bpcmLocationUuid") String bpcmLocationUuid,
+        @JsonProperty("street") String street, @JsonProperty("city") String city,
+        @JsonProperty("postalCode") String postalCode, @JsonProperty("countryCode") String countryCode,
+        @JsonProperty("country") String country, @JsonProperty("region") String region,
+        @JsonProperty("types") Collection<CompanyTypeLinkDTO> types, @JsonProperty("location") GeoPoint location,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
     {
         super();
         this.companyId = companyId;
@@ -136,6 +139,7 @@ public class CompanyItemDTO
         this.tenants = tenants;
         this.brands = brands;
         this.companyNumber = companyNumber;
+        this.bpcmLocationUuid = bpcmLocationUuid;
         this.street = street;
         this.city = city;
         this.postalCode = postalCode;
@@ -223,6 +227,11 @@ public class CompanyItemDTO
         return companyNumber;
     }
 
+    public String getBpcmLocationUuid()
+    {
+        return bpcmLocationUuid;
+    }
+
     public String getStreet()
     {
         return street;
@@ -285,10 +294,11 @@ public class CompanyItemDTO
     {
         return String.format(
             "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
-                + "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, street=%s, city=%s, postalCode=%s, "
-                + "countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, score=%s]", companyId,
-            matchcode, administrativeTenant, name, nameAffix, marketingName, tenants, brands, companyNumber, street,
-            city, postalCode, countryCode, country, region, types, location, lastUpdate, score);
+                + "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, bpcmLocationUuid=%s, street=%s, city=%s, "
+                + "postalCode=%s, countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, "
+                + "score=%s]", companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants,
+            brands, companyNumber, bpcmLocationUuid, street, city, postalCode, countryCode, country, region, types,
+            location, lastUpdate, score);
     }
 
 }

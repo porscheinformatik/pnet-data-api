@@ -105,6 +105,12 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "The company number. In most cases, this is the same as the SAP number.")
     private String companyNumber;
 
+    @Schema(description = "The UUID of the company as specified in the BPCM system.")
+    private String bpcmLocationUuid;
+
+    @Schema(description = "If true, the company is partly configured and managed by the BPCM system.")
+    private boolean bpcmManaged;
+
     @Schema(description =
         "All additional numbers of the company. The matchcode of each item fits to the matchcodes of the "
             + "company number types interface.")
@@ -465,6 +471,26 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public void setCompanyNumber(String companyNumber)
     {
         this.companyNumber = companyNumber;
+    }
+
+    public String getBpcmLocationUuid()
+    {
+        return bpcmLocationUuid;
+    }
+
+    public void setBpcmLocationUuid(String bpcmLocationUuid)
+    {
+        this.bpcmLocationUuid = bpcmLocationUuid;
+    }
+
+    public boolean isBpcmManaged()
+    {
+        return bpcmManaged;
+    }
+
+    public void setBpcmManaged(boolean bpcmManaged)
+    {
+        this.bpcmManaged = bpcmManaged;
     }
 
     public Collection<CompanyNumberLinkDTO> getAdditionalNumbers()
@@ -930,22 +956,23 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
             "CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, label=%s, name=%s, nameAffix=%s, "
                 + "additionalNameAffix=%s, marketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, "
                 + "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, "
-                + "companyNumber=%s, additionalNumbers=%s, street=%s, city=%s, postalCode=%s, countryCode=%s, "
-                + "country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, mobileNumber=%s, speedDial=%s, "
-                + "faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, facebookLink=%s, youTubeLink=%s, "
-                + "instagramLink=%s, viberLink=%s, telegramLink=%s, legalFormMatchcode=%s, "
-                + "dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, certificateType=%s, "
-                + "certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
+                + "companyNumber=%s, bpcmLocationUuid=%s, bpcmManaged=%s, additionalNumbers=%s, street=%s, city=%s, "
+                + "postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, "
+                + "mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, "
+                + "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, telegramLink=%s, "
+                + "legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, "
+                + "certificateType=%s, certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
                 + "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, "
                 + "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, "
                 + "externalBrands=%s, advisorAssignments=%s, lastUpdate=%s]", companyId, matchcode,
             administrativeTenant, label, name, nameAffix, additionalNameAffix, marketingName, groupMembers, tenants,
             brands, contractTypes, contractStates, contractDistributionStructure, vatIdNumber, sapNumber, companyNumber,
-            additionalNumbers, street, city, postalCode, countryCode, country, region, iban, bic, types, phoneNumber,
-            mobileNumber, speedDial, faxNumber, email, leadEmail, homepage, postal, facebookLink, youTubeLink,
-            instagramLink, viberLink, telegramLink, legalFormMatchcode, dataProcessingRegisterNumber,
-            commercialRegisterNumber, certificateType, certificateNumber, jurisdiction, objectsClause, generalPartner,
-            registeredOffice, chamberAffiliation, commercialRegulations, regulatoryAuthority, arbitrationBoard,
-            additionalImprintInfo, businessInformationNumber, location, externalBrands, advisorAssignments, lastUpdate);
+            bpcmLocationUuid, bpcmManaged, additionalNumbers, street, city, postalCode, countryCode, country, region,
+            iban, bic, types, phoneNumber, mobileNumber, speedDial, faxNumber, email, leadEmail, homepage, postal,
+            facebookLink, youTubeLink, instagramLink, viberLink, telegramLink, legalFormMatchcode,
+            dataProcessingRegisterNumber, commercialRegisterNumber, certificateType, certificateNumber, jurisdiction,
+            objectsClause, generalPartner, registeredOffice, chamberAffiliation, commercialRegulations,
+            regulatoryAuthority, arbitrationBoard, additionalImprintInfo, businessInformationNumber, location,
+            externalBrands, advisorAssignments, lastUpdate);
     }
 }
