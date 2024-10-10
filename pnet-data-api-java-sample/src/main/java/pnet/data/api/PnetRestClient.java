@@ -137,6 +137,7 @@ import pnet.data.api.person.PersonDataFind;
 import pnet.data.api.person.PersonDataGet;
 import pnet.data.api.person.PersonDataSearch;
 import pnet.data.api.person.PersonItemDTO;
+import pnet.data.api.person.PersonTypeFilter;
 import pnet.data.api.settings.Visibility;
 import pnet.data.api.spring.PnetSpringRestClientLauncher;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
@@ -174,6 +175,7 @@ import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictFunction;
 import pnet.data.api.util.RestrictNumberType;
+import pnet.data.api.util.RestrictPersonType;
 import pnet.data.api.util.RestrictQueryField;
 import pnet.data.api.util.RestrictRejected;
 import pnet.data.api.util.RestrictTenant;
@@ -299,6 +301,7 @@ public final class PnetRestClient
     private final List<String> restrictedCompanyTypeMatchcodes = new ArrayList<>();
     private final List<String> restrictedContractTypeMatchcodes = new ArrayList<>();
     private final List<String> restrictedContractStateMatchcodes = new ArrayList<>();
+    private final List<PersonTypeFilter> restrictedPersonTypes = new ArrayList<>();
     private final List<Visibility> restrictedVisibilities = new ArrayList<>();
     private final List<String> restrictedQueryFields = new ArrayList<>();
 
@@ -1962,6 +1965,27 @@ public final class PnetRestClient
         showImage("Portrait thumbnail of Person " + id, portrait.get().toImage());
     }
 
+    @CLI.Command(name = {
+        "restrict person types", "restrict person type"
+    }, format = "[<FIELDS>...]", description = "Places a restriction for person types.")
+    public void restrictPersonTypes(PersonTypeFilter... personTypes)
+    {
+        if (personTypes != null && personTypes.length > 0)
+        {
+            restrictedPersonTypes.addAll(Arrays.asList(personTypes));
+        }
+
+        cli.info("Persons are restricted to following types: %s", restrictedPersonTypes);
+    }
+
+    @CLI.Command(name = "clear person type restriction", description = "Removes all restrictions to person types.")
+    public void clearPersonTypeRestrictions()
+    {
+        cli.info("Remove person type restrictions.");
+
+        restrictedPersonTypes.clear();
+    }
+
     private void populateTable(Table table, AbstractAutoCompleteDTO dto)
     {
         if (dto instanceof WithMatchcode dtoWithMatchcode)
@@ -2186,6 +2210,7 @@ public final class PnetRestClient
     private <T extends Restrict<T>> T restrict(T request)
     {
         request = applyCompanyRestrictions(request);
+        request = applyPersonRestrictions(request);
         request = applyAuthorityRestrictions(request);
         request = applyBaseDataRestrictions(request);
         request = applyBaseTypeRestrictions(request);
@@ -2218,6 +2243,19 @@ public final class PnetRestClient
             cli.info("A restriction for company numbers is in place: %s", restrictedCompanyNumbers);
 
             request = ((RestrictCompanyNumber<T>) request).companyNumbers(restrictedCompanyNumbers);
+        }
+
+        return request;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends Restrict<T>> T applyPersonRestrictions(T request)
+    {
+        if (request instanceof RestrictPersonType<?> && !restrictedPersonTypes.isEmpty())
+        {
+            cli.info("A restriction for person types is in place: %s", restrictedPersonTypes);
+
+            request = ((RestrictPersonType<T>) request).types(restrictedPersonTypes);
         }
 
         return request;
@@ -2458,6 +2496,7 @@ public final class PnetRestClient
         restrictedCompanyTypeMatchcodes.clear();
         restrictedContractTypeMatchcodes.clear();
         restrictedContractStateMatchcodes.clear();
+        restrictedPersonTypes.clear();
         restrictedVisibilities.clear();
         restrictedQueryFields.clear();
         restrictArchived = null;
