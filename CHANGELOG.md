@@ -1,5 +1,10 @@
+pnet-data-api 2.10.1
+====================
+
+* Add privileged accounts to PersonTypes.
+
 pnet-data-api 2.10.0
-===================
+====================
 
 * PersonType queries now support more filter options. This is a breaking change. Use the
   `pnet.data.api.person.PersonTypeFilter` class instead of the `pnet.data.api.person.PersonType` enum for the filter
