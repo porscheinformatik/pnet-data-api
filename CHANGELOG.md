@@ -1,3 +1,8 @@
+pnet-data-api 2.10.2
+====================
+
+* Add helper methods for PersonTypes.
+
 pnet-data-api 2.10.1
 ====================
 

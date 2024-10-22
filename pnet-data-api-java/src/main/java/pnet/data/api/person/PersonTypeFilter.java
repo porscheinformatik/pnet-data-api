@@ -27,4 +27,9 @@ public enum PersonTypeFilter
     {
         return personTypes;
     }
+
+    public boolean contains(PersonType personType)
+    {
+        return personTypes.contains(personType);
+    }
 }
