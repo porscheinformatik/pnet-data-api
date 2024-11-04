@@ -7,6 +7,8 @@ import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictApprovalNeeded;
+import pnet.data.api.util.RestrictAssignableToPrivileged;
+import pnet.data.api.util.RestrictAssignableToRegular;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompanyType;
 import pnet.data.api.util.RestrictContractType;
@@ -20,12 +22,12 @@ import pnet.data.api.util.SearchFunction;
  *
  * @author HAM
  */
-public class FunctionDataSearch extends AbstractSearch<FunctionItemDTO, FunctionDataSearch>
-    implements RestrictTenant<FunctionDataSearch>, RestrictBrand<FunctionDataSearch>,
-    RestrictCompanyType<FunctionDataSearch>, RestrictContractType<FunctionDataSearch>,
-    RestrictActivity<FunctionDataSearch>, RestrictNumberType<FunctionDataSearch>,
-    RestrictVisibility<FunctionDataSearch>, RestrictApprovalNeeded<FunctionDataSearch>,
-    IncludeInactive<FunctionDataSearch>
+public class FunctionDataSearch extends AbstractSearch<FunctionItemDTO, FunctionDataSearch> implements
+    RestrictTenant<FunctionDataSearch>, RestrictBrand<FunctionDataSearch>, RestrictCompanyType<FunctionDataSearch>,
+    RestrictContractType<FunctionDataSearch>, RestrictActivity<FunctionDataSearch>,
+    RestrictNumberType<FunctionDataSearch>, RestrictVisibility<FunctionDataSearch>,
+    RestrictAssignableToRegular<FunctionDataSearch>, RestrictAssignableToPrivileged<FunctionDataSearch>,
+    RestrictApprovalNeeded<FunctionDataSearch>, IncludeInactive<FunctionDataSearch>
 {
     public FunctionDataSearch(SearchFunction<FunctionItemDTO> searchFunction, List<Pair<String, Object>> restricts)
     {

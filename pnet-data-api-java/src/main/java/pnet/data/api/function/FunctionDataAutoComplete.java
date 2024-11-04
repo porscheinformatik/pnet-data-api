@@ -8,6 +8,8 @@ import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictApprovalNeeded;
+import pnet.data.api.util.RestrictAssignableToPrivileged;
+import pnet.data.api.util.RestrictAssignableToRegular;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompanyType;
 import pnet.data.api.util.RestrictContractType;
@@ -24,7 +26,8 @@ public class FunctionDataAutoComplete extends AbstractAutoComplete<FunctionAutoC
     implements RestrictTenant<FunctionDataAutoComplete>, RestrictBrand<FunctionDataAutoComplete>,
     RestrictCompanyType<FunctionDataAutoComplete>, RestrictContractType<FunctionDataAutoComplete>,
     RestrictActivity<FunctionDataAutoComplete>, RestrictNumberType<FunctionDataAutoComplete>,
-    RestrictVisibility<FunctionDataAutoComplete>, RestrictApprovalNeeded<FunctionDataAutoComplete>,
+    RestrictVisibility<FunctionDataAutoComplete>, RestrictAssignableToRegular<FunctionDataAutoComplete>,
+    RestrictAssignableToPrivileged<FunctionDataAutoComplete>, RestrictApprovalNeeded<FunctionDataAutoComplete>,
     IncludeInactive<FunctionDataAutoComplete>
 {
     public FunctionDataAutoComplete(AutoCompleteFunction<FunctionAutoCompleteDTO> autoCompleteFunction,

@@ -10,10 +10,13 @@ public class ActivitySettingsLinkDTO extends AbstractQualificationSettingsLinkDT
 
     private static final long serialVersionUID = -1305175682271191556L;
 
-    public ActivitySettingsLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("visibility") Visibility visibility, @JsonProperty("approvalNeeded") boolean approvalNeeded)
+    public ActivitySettingsLinkDTO(@JsonProperty(value = "tenant") String tenant,
+        @JsonProperty(value = "visibility") Visibility visibility,
+        @JsonProperty(value = "assignableToRegular") boolean assignableToRegular,
+        @JsonProperty(value = "assignableToPrivileged") boolean assignableToPrivileged,
+        @JsonProperty(value = "approvalNeeded") boolean approvalNeeded)
     {
-        super(tenant, visibility, approvalNeeded);
+        super(tenant, visibility, assignableToRegular, assignableToPrivileged, approvalNeeded);
     }
 
 }

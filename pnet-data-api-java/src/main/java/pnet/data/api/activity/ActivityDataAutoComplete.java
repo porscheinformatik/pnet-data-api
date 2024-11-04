@@ -7,6 +7,8 @@ import pnet.data.api.util.AutoCompleteFunction;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictApprovalNeeded;
+import pnet.data.api.util.RestrictAssignableToPrivileged;
+import pnet.data.api.util.RestrictAssignableToRegular;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompanyType;
 import pnet.data.api.util.RestrictContractType;
@@ -21,7 +23,8 @@ import pnet.data.api.util.RestrictVisibility;
 public class ActivityDataAutoComplete extends AbstractAutoComplete<ActivityAutoCompleteDTO, ActivityDataAutoComplete>
     implements RestrictTenant<ActivityDataAutoComplete>, RestrictBrand<ActivityDataAutoComplete>,
     RestrictCompanyType<ActivityDataAutoComplete>, RestrictContractType<ActivityDataAutoComplete>,
-    RestrictVisibility<ActivityDataAutoComplete>, RestrictApprovalNeeded<ActivityDataAutoComplete>,
+    RestrictVisibility<ActivityDataAutoComplete>, RestrictAssignableToRegular<ActivityDataAutoComplete>,
+    RestrictAssignableToPrivileged<ActivityDataAutoComplete>, RestrictApprovalNeeded<ActivityDataAutoComplete>,
     IncludeInactive<ActivityDataAutoComplete>
 {
     public ActivityDataAutoComplete(AutoCompleteFunction<ActivityAutoCompleteDTO> autoCompleteFunction,
