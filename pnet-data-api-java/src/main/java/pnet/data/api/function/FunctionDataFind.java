@@ -8,6 +8,8 @@ import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
 import pnet.data.api.util.RestrictApprovalNeeded;
+import pnet.data.api.util.RestrictAssignableToPrivileged;
+import pnet.data.api.util.RestrictAssignableToRegular;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictCompanyType;
 import pnet.data.api.util.RestrictContractType;
@@ -26,6 +28,7 @@ public class FunctionDataFind extends AbstractScrollableFind<FunctionItemDTO, Fu
     implements RestrictMatchcode<FunctionDataFind>, RestrictTenant<FunctionDataFind>, RestrictBrand<FunctionDataFind>,
     RestrictCompanyType<FunctionDataFind>, RestrictContractType<FunctionDataFind>, RestrictActivity<FunctionDataFind>,
     RestrictNumberType<FunctionDataFind>, RestrictVisibility<FunctionDataFind>,
+    RestrictAssignableToRegular<FunctionDataFind>, RestrictAssignableToPrivileged<FunctionDataFind>,
     RestrictApprovalNeeded<FunctionDataFind>, RestrictUpdatedAfter<FunctionDataFind>, IncludeInactive<FunctionDataFind>
 {
     public FunctionDataFind(FindFunction<FunctionItemDTO> findFunction, List<Pair<String, Object>> restricts)
