@@ -6,5 +6,8 @@
     },
     "java.configuration.updateBuildConfiguration": "interactive",
     "java.format.settings.url": ".vscode/eclipse-formatter.xml",
-    "java.compile.nullAnalysis.mode": "disabled"
+    "java.compile.nullAnalysis.mode": "disabled",
+    "[java]": {
+        "editor.defaultFormatter": "redhat.java"
+    }
 }
