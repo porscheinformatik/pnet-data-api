@@ -96,8 +96,9 @@ public abstract class AbstractContextPnetDataApiClientConfig
             @Override
             public String convert(GeoDistance source)
             {
-                return String.format(locale, "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}", source.getLat(),
-                    source.getLon(), source.getDistance());
+                return String
+                    .format(locale, "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}", source.getLat(), source.getLon(),
+                        source.getDistance());
             }
         };
     }

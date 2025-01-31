@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import pnet.data.api.PnetRestClient;
-import pnet.data.api.client.PnetDataClientConfig;
+import pnet.data.api.client.EnablePnetDataClient;
 import pnet.data.api.util.MutablePnetDataApiLoginMethod;
 import pnet.data.api.util.Prefs;
 
@@ -18,7 +18,8 @@ import pnet.data.api.util.Prefs;
  * @author ham
  */
 @Configuration
-@Import({PnetDataClientConfig.class, PnetRestClient.class})
+@EnablePnetDataClient
+@Import({PnetRestClient.class})
 @ComponentScan(basePackageClasses = {PnetSpringRestClientConfig.class})
 public class PnetSpringRestClientConfig
 {

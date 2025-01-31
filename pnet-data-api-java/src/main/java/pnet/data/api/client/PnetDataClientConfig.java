@@ -27,6 +27,7 @@ import pnet.data.api.person.PersonPnetDataApiClientConfig;
  */
 @Configuration
 @Import({
+    ContextPnetDataApiClientConfig.class,
     AboutPnetDataApiClientConfig.class,
     ActivityPnetDataApiClientConfig.class,
     AdvisorTypePnetDataApiClientConfig.class,
@@ -37,15 +38,13 @@ import pnet.data.api.person.PersonPnetDataApiClientConfig;
     CompanyGroupTypePnetDataApiClientConfig.class,
     CompanyNumberTypePnetDataApiClientConfig.class,
     CompanyTypePnetDataApiClientConfig.class,
-    ContextPnetDataApiClientConfig.class,
     ContractStatePnetDataApiClientConfig.class,
     ContractTypePnetDataApiClientConfig.class,
     ExternalBrandPnetDataApiClientConfig.class,
     LegalFormPnetDataApiClientConfig.class,
     FunctionPnetDataApiClientConfig.class,
     NumberTypePnetDataApiClientConfig.class,
-    PersonPnetDataApiClientConfig.class
-})
+    PersonPnetDataApiClientConfig.class})
 public class PnetDataClientConfig
 {
 

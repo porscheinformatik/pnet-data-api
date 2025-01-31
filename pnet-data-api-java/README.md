@@ -12,8 +12,8 @@ An up-to-date version is available in the corporate Maven repository. If you do 
 
 Currently we are maintaining two branches:
 
-* `master`: Contains the version 2 of the Java client, that needs at least Java 17 and, if you are using Spring, it needs Spring 6.
-* `java-11`: Contains the version 1 of the Java client, that's suited for Java 11 and, if you are using Spring, it's only compatible with Spring 5.
+-   `master`: Contains the version 2 of the Java client, that needs at least Java 17 and, if you are using Spring, it needs Spring 6.
+-   `java-11`: Contains the version 1 of the Java client, that's suited for Java 11 and, if you are using Spring, it's only compatible with Spring 5.
 
 # Using the Java client
 
@@ -266,6 +266,11 @@ You will need the following dependencies:
 </dependency>
 
 <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-autoconfigure</artifactId>
+</dependency>
+
+<dependency>
     <groupId>com.fasterxml.jackson.core</groupId>
     <artifactId>jackson-databind</artifactId>
 </dependency>
@@ -276,7 +281,7 @@ You will need the following dependencies:
 </dependency>
 ```
 
-Import the `PnetDataClientConfig` to your existing configuration. First, you will need to provide a `PnetDataApiLoginMethod`. Use your preferred one.
+Add the `@EnablePnetDataClient` to your existing configuration and provide a `PnetDataApiLoginMethod`. Use your preferred one.
 
 ### Login via Token
 
