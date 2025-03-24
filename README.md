@@ -140,7 +140,8 @@ Use this JWT for all subsequent requests.
 
 **To prevent massive amounts of logins, the number of logins is limited to 30 per two minutes.**
 
-# Available InstancesLogin
+# Available Instances
+
 Before executing requests to the Data API, you have to perform a login request by either using the username/password combination or the secret token. If the login is successful, a JWT will be returned, that's valid for about one hour (but it may be less for internal reasons).
 
 Use this JWT for any subsequent request.
@@ -153,7 +154,19 @@ PROD: https://data.auto-partner.net/data
 
 QA: https://qa-data.auto-partner.net/data
 
-First, perform a login:
+## Login with Auth Token (JSON Web Token)
+
+The preferred way to log in is by using a [JSON Web Token](https://jwt.io/) generated in the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)).
+
+```
+POST /data/login --authorization "Bearer {{auth-token}}"
+```
+
+You will receive a response with a short lived [JSON Web Token](https://jwt.io/) as "Authorization" header field. The new token is valid for one hour. Add the "Authorization" header field with the new token to all your subsequent requests!
+
+## Login with Username/Password
+
+You can aquire the username/password with the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)).
 
 ```
 POST /data/login {
@@ -176,7 +189,13 @@ This will return some information about the server and your user. It's a perfect
 
 The simplest way to access the data, is by using the [cURL-Tool](https://curl.haxx.se/). It's available on most Linux installation, and even in Windows, it's quite common and easy to install.
 
-### Perform a login
+### Perform a login via auth-token
+
+```
+curl -i -X POST https://qa-data.auto-partner.net/data/login -H "Authorization: Bearer {{auth-token}}"
+```
+
+### Perform a login via username/password
 
 ```
 curl -i -X POST https://qa-data.auto-partner.net/data/login -d '{"username":"...","password":"..."}'
@@ -215,14 +234,28 @@ Example for searching a `function`:
 
 ```
 curl -H "$JWT" -X GET https://qa-data.auto-partner.net/data/api/v1/functions/search?q=test\&t=AT\&l=de
-
 ```
 
 You should be aware that the ampersand has to be escaped.
 
 ## Using Powershell
 
-### Perform a login
+### Perform a login with authentication token
+
+```
+$headers = @{
+    "Authorization" = "Bearer <AUTH_TOKEN>"
+}
+$url = "https://qa-data.auto-partner.net/data"
+$result = Invoke-WebRequest -Uri "$url/login" -Method Post -Headers $headers -UseBasicParsing
+$jwt = @{ Authorization = $result.Headers.Authorization }
+
+echo $jwt
+```
+
+This should store the authorization token to `jwt` and print it. The token is valid for one hour.
+
+### Perform a login with username/password
 
 ```
 $body = @{
@@ -310,7 +343,16 @@ CompanyGroups only contain the `details` interface.
 
 ### Perform a login
 
-First, execute the "Login" request. In order to do so, edit the collection in the sidebar, open the variables tab and enter the credentials at the appropriate variables. Execute the Login request afterwards. It should return with `200 OK`. The "Headers" tab contains the `Authorization` header field. The Login request will automatically copy this bearer code to the appropriate collection variable. The token is valid for one hour.
+First, execute the "Login via Token" or "Login via Username/Password" request. In order to do so, edit the collection in the sidebar, open the variables tab and enter the following properties:
+
+| Name       | Description                                                                                                                                                                                                                                                                                                            |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| url        | The URL, either https://qa-data.auto-partner.net/data or https://data.auto-partner.net/data                                                                                                                                                                                                                            |
+| auth-token | Needed fro the token login. The token from the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF))                          |
+| username   | Needed for the username/password login. The username from the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF))           |
+| password   | Needed for the username/password login. The generated password from the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)) |
+
+Execute the Login request afterwards. It should return with `200 OK`. The "Headers" tab contains the `Authorization` header field. The Login request will automatically copy this bearer code to the appropriate collection variable. The token is valid for one hour.
 
 ### Access data
 

@@ -1,17 +1,17 @@
 {
 	"info": {
-		"_postman_id": "639e9372-d8c7-4eb9-97ff-bf5ed7c79e08",
+		"_postman_id": "4dfd4144-1c7c-45d8-8e74-3c7b04a3a4ad",
 		"name": "Partner.Net Data API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22363690"
 	},
 	"item": [
 		{
-			"name": "Login",
+			"name": "Login via Username/Password",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "2119176e-97af-4f15-af8d-8fb525de7eba",
 						"exec": [
 							"pm.collectionVariables.set(\"token\", pm.response.headers.get(\"Authorization\").substring(7));\r",
 							""
@@ -29,6 +29,56 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\"username\":\"{{username}}\", \"password\":\"{{password}}\"}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Performs a login.\r\n\r\nTo specify the URL, username and password, please use the collection variables `url`, `username` and `password`. You can find these when you edit the `Partner.Net Data API` Collection.\r\nIf the request succeeds, it will set the authentication token to a collection variable called `token`."
+			},
+			"response": []
+		},
+		{
+			"name": "Login via Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"token\", pm.response.headers.get(\"Authorization\").substring(7));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth-token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2455,7 +2505,6 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "540ca877-2ceb-4b52-9629-f335ef3930a4",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -2465,7 +2514,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "f3a8841d-9b29-43e4-a518-6a4aacb6f5dc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -2475,25 +2523,20 @@
 	],
 	"variable": [
 		{
-			"id": "54938b0b-3f96-4e1f-9544-a3436acd6fd1",
 			"key": "url",
 			"value": "https://qa-data.auto-partner.net/data"
 		},
 		{
-			"id": "1dd2c72a-9643-4607-9b11-c8724f2a40e1",
 			"key": "username",
 			"value": ""
 		},
 		{
-			"id": "99fa869c-6d1d-4f6b-9e77-614f0d212362",
 			"key": "password",
 			"value": ""
 		},
 		{
-			"id": "c3da7ada-0eb7-48c9-8ba7-0cf23ea2e3d3",
 			"key": "token",
 			"value": ""
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
