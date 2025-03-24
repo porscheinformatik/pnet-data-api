@@ -1,6 +1,9 @@
 package pnet.data.api.util;
 
-import static pnet.data.api.PnetDataConstants.*;
+import static pnet.data.api.PnetDataConstants.ITEMS_PER_PAGE_KEY;
+import static pnet.data.api.PnetDataConstants.LANGUAGE_KEY;
+import static pnet.data.api.PnetDataConstants.PAGE_INDEX_KEY;
+import static pnet.data.api.PnetDataConstants.SEARCH_AFTER_KEY;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

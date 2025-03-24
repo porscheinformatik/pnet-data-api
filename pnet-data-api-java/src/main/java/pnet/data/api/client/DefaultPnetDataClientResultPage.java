@@ -1,6 +1,7 @@
 package pnet.data.api.client;
 
-import static pnet.data.api.PnetDataConstants.*;
+import static pnet.data.api.PnetDataConstants.PAGE_INDEX_KEY;
+import static pnet.data.api.PnetDataConstants.SEARCH_AFTER_KEY;
 
 import java.util.ArrayList;
 import java.util.List;
