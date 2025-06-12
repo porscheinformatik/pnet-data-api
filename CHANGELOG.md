@@ -1,3 +1,8 @@
+# pnet-data-api 2.11.1
+
+-   Support TikTok in company contacts.
+-   Support X(Twitter) in company contacts.
+
 # pnet-data-api 2.11.0
 
 -   Update dependencies
