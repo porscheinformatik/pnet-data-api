@@ -760,11 +760,13 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.tikTokLink = tikTokLink;
     }
 
+    @JsonProperty("xTwitterLink")
     public String getXTwitterLink()
     {
         return xTwitterLink;
     }
 
+    @JsonProperty("xTwitterLink")
     public void setXTwitterLink(String xTwitterLink)
     {
         this.xTwitterLink = xTwitterLink;

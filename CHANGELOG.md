@@ -1,3 +1,7 @@
+# pnet-data-api 2.11.2
+
+-   Fix X(Twitter) property in JSONs, it should be `xTwitterLink`. Breaking change to last minor version!
+
 # pnet-data-api 2.11.1
 
 -   Support TikTok in company contacts.
