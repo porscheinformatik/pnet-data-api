@@ -44,13 +44,6 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     @Schema(description = "The number of the company the person has/had is advisor for.")
     private final String companyNumber;
 
-    @Schema(description = "The matchcode of the brand where the person is advisor for. "
-        + "NOTE: Do not use. Value will be any brand matchcode that this division and advisor type "
-        + "matchcode combination can be registered for. Because of that, it may return a brand matchcode "
-        + "that is not even active for the company of this assignment.")
-    @Deprecated(since = "2.5.0")
-    private final String brandMatchcode;
-
     @Schema(description = "The matchcode of the advisor division.")
     private final String divisionMatchcode;
 
@@ -61,7 +54,6 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     public PersonAdvisorAssignmentLinkDTO(@JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("brandMatchcode") @Deprecated(since = "2.5.0") String brandMatchcode,
         @JsonProperty("divisionMatchcode") String divisionMatchcode,
         @JsonProperty("divisionLabel") String divisionLabel)
     {
@@ -70,7 +62,6 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
         this.companyId = companyId;
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
-        this.brandMatchcode = brandMatchcode;
         this.divisionMatchcode = divisionMatchcode;
         this.divisionLabel = divisionLabel;
     }
@@ -90,15 +81,15 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     }
 
     /**
-     * @deprecated Do not use. Value will be any brand matchcode that this division and advisor type matchcode
-     * combination can be registered for. Because of that, it may return a brand matchcode that is not even
-     * active for the company of this assignment.
+     * @deprecated Do not use. Value is hardcoded to NULL and the property will at some point be removed.
      */
+    @Schema(description = "The matchcode of the brand where the person is advisor for. "
+        + "NOTE: Do not use. Value is hardcoded to NULL and the property will at some point be removed.")
     @Override
     @Deprecated(since = "2.5.0")
     public String getBrandMatchcode()
     {
-        return brandMatchcode;
+        return null;
     }
 
     @Override
@@ -134,8 +125,10 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((brandMatchcode == null) ? 0 : brandMatchcode.hashCode());
+        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
         result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
+        result = prime * result + ((divisionMatchcode == null) ? 0 : divisionMatchcode.hashCode());
+        result = prime * result + ((matchcode == null) ? 0 : matchcode.hashCode());
         return result;
     }
 
@@ -154,11 +147,10 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
         {
             return false;
         }
-        if (!Objects.equals(brandMatchcode, other.brandMatchcode))
-        {
-            return false;
-        }
-        return Objects.equals(companyId, other.companyId);
+        return Objects.equals(tenant, other.tenant)
+            && Objects.equals(companyId, other.companyId)
+            && Objects.equals(divisionMatchcode, other.divisionMatchcode)
+            && Objects.equals(matchcode, other.matchcode);
     }
 
     @Override
@@ -166,8 +158,7 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     {
         return String
             .format(
-                "PersonAdvisorAssignmentLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, "
-                    + "brandMatchcode=%s, divisionMatchcode=%s, divisionLabel=%s]",
-                companyId, companyMatchcode, companyNumber, brandMatchcode, divisionMatchcode, divisionLabel);
+                "PersonAdvisorAssignmentLinkDTO [tenant=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, divisionMatchcode=%s, divisionLabel=%s, advisorTypeMatchcode=%s]",
+                tenant, companyId, companyMatchcode, companyNumber, divisionMatchcode, divisionLabel, matchcode);
     }
 }
