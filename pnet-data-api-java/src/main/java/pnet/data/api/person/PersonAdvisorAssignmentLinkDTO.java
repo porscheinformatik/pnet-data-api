@@ -18,7 +18,6 @@ import java.io.Serial;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
@@ -76,14 +75,14 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
         this.divisionLabel = divisionLabel;
     }
 
-    @JsonPropertyDescription("A tenant where the advisor assignment is valid.")
+    @Schema(description = "A tenant where the advisor assignment is valid.")
     @Override
     public String getTenant()
     {
         return super.getTenant();
     }
 
-    @JsonPropertyDescription("The matchcode of the advisor type.")
+    @Schema(description = "The matchcode of the advisor type.")
     @Override
     public String getMatchcode()
     {
@@ -92,8 +91,8 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
 
     /**
      * @deprecated Do not use. Value will be any brand matchcode that this division and advisor type matchcode
-     * combination can be registered for. Because of that, it may return a brand matchcode that is not even active for
-     * the company of this assignment.
+     * combination can be registered for. Because of that, it may return a brand matchcode that is not even
+     * active for the company of this assignment.
      */
     @Override
     @Deprecated(since = "2.5.0")
@@ -165,9 +164,10 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     @Override
     public String toString()
     {
-        return String.format("PersonAdvisorAssignmentLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, "
-                + "brandMatchcode=%s, divisionMatchcode=%s, divisionLabel=%s]", companyId, companyMatchcode,
-            companyNumber,
-            brandMatchcode, divisionMatchcode, divisionLabel);
+        return String
+            .format(
+                "PersonAdvisorAssignmentLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, "
+                    + "brandMatchcode=%s, divisionMatchcode=%s, divisionLabel=%s]",
+                companyId, companyMatchcode, companyNumber, brandMatchcode, divisionMatchcode, divisionLabel);
     }
 }
