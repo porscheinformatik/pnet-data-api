@@ -9,5 +9,9 @@
     "java.compile.nullAnalysis.mode": "disabled",
     "[java]": {
         "editor.defaultFormatter": "redhat.java"
+    },
+    "sonarlint.connectedMode.project": {
+        "connectionId": "sonarqube-porscheinformatik-com",
+        "projectKey": "at.porscheinformatik.pnet:pnet-data-api"
     }
 }
