@@ -764,15 +764,15 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
                 + "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, "
                 + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, "
                 + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
-                + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, settings=%s, languages=%s, companies=%s, "
+                + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, settings=%s, languages=%s, companies=%s, "
                 + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, "
                 + "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]", personId,
                 administrativeTenant, tenants, type, formOfAddress, academicTitle, academicTitlePostNominal, firstName,
                 lastName, credentialsAvailable, multifactorEnabled, approved, approvalState, birthdate, externalId,
                 guid, preferredUserId, phoneNumber, extensionNumber, mobileNumber, faxNumber, email, contactCompanyId,
                 contactCompanyMatchcode, contactCompanyNumber, costCenter, personnelNumber, supervisorPersonnelNumber,
-                controllingArea, personnelDepartment, jobDescription, teamMatchcode, teamLabel, settings, languages,
-                companies, numbers, functions, activities, advisorAssignments, hierarchies, portraitAvailable,
-                automaticDeletion, checksum, lastUpdate);
+                controllingArea, personnelDepartment, jobDescription, teamMatchcode, teamLabel, personLocks, settings,
+                languages, companies, numbers, functions, activities, advisorAssignments, hierarchies,
+                portraitAvailable, automaticDeletion, checksum, lastUpdate);
     }
 }
