@@ -1,6 +1,7 @@
 # pnet-data-api 2.11.4
 
--   `PersonDataDTO`, `PersonItemDTO` now have a `isLocked()` getter and a Collection of `PersonLockLinkDTO` to check if the persons login is locked and the reasons why.
+-   `PersonDataDTO` now has a `isLocked()`, to check if the persons login is locked, and a Collection of `PersonLockLinkDTO` for the reasons FOR the lock.
+-   `PersonItemDTO` now has a `isLocked()`, to check if the persons login is locked.
 
 # pnet-data-api 2.11.3
 
