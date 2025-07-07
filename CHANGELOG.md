@@ -1,6 +1,10 @@
+# pnet-data-api 2.11.4
+
+-   `PersonDataDTO`, `PersonItemDTO` now have a `isLocked()` getter and a Collection of `PersonLockLinkDTO` to check if the persons login is locked and the reasons why.
+
 # pnet-data-api 2.11.3
 
-- `pnet.data.api.person.PersonAdvisorAssignmentLinkDTO` will now always return `null` for `getBrandMatchcode()`.
+-   `pnet.data.api.person.PersonAdvisorAssignmentLinkDTO` will now always return `null` for `getBrandMatchcode()`.
 
 # pnet-data-api 2.11.2
 

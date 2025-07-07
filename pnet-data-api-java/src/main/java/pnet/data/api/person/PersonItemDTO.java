@@ -79,8 +79,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "True, if the user has (or had) additional authentication factors enabled.")
     private final Boolean multifactorEnabled;
 
-    @Schema(description =
-        "True, if the person has been fully approved by authorities, false if the approval process is still "
+    @Schema(
+        description = "True, if the person has been fully approved by authorities, false if the approval process is still "
             + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
             + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The"
             + " value "
@@ -88,8 +88,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Deprecated(since = "22.01.2024")
     private final boolean approved;
 
-    @Schema(description =
-        "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
+    @Schema(
+        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
             + "The value will always be set to 'ApprovalState.DONE'.")
     @Deprecated(since = "22.01.2024")
     private final ApprovalState approvalState;
@@ -117,6 +117,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Schema(description = "The mobile phone number of the person (needed scope: SC_PHONE_NUMBER).")
     private final String mobileNumber;
+
+    @Schema(description = "Is the login of the person locked? (no scope needed).")
+    private Boolean isLocked;
 
     @Schema(description = "The languages the person speaks (needed scope: SC_LANGUAGE).")
     private final Collection<Locale> languages;
@@ -153,10 +156,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @SuppressWarnings("java:S107")
     public PersonItemDTO(@JsonProperty("personId") Integer personId,
         @JsonProperty("administrativeTenant") String administrativeTenant,
-        @JsonProperty("tenants") Collection<String> tenants,
-        @JsonProperty("type") PersonType type,
-        @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
-        @JsonProperty("academicTitle") String academicTitle,
+        @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("type") PersonType type,
+        @JsonProperty("formOfAddress") FormOfAddress formOfAddress, @JsonProperty("academicTitle") String academicTitle,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
         @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
         @JsonProperty("username") String username, @JsonProperty("credentialsAvailable") Boolean credentialsAvailable,
@@ -167,7 +168,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
         @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber,
-        @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("languages") Collection<Locale> languages,
+        @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("isLocked") Boolean isLocked,
+        @JsonProperty("languages") Collection<Locale> languages,
         @JsonProperty("companies") Collection<ActivePersonCompanyLinkDTO> companies,
         @JsonProperty("functions") Collection<ActivePersonFunctionLinkDTO> functions,
         @JsonProperty("numbers") Collection<ActivePersonNumberTypeLinkDTO> numbers,
@@ -201,6 +203,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.mobileNumber = mobileNumber;
+        this.isLocked = isLocked;
         this.languages = languages;
         this.companies = companies;
         this.functions = functions;
@@ -327,6 +330,16 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return mobileNumber;
     }
 
+    public void setLocked(Boolean isLocked)
+    {
+        this.isLocked = isLocked;
+    }
+
+    public Boolean isLocked()
+    {
+        return isLocked;
+    }
+
     public Collection<Locale> getLanguages()
     {
         return languages;
@@ -398,16 +411,17 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Override
     public String toString()
     {
-        return String.format(
-            "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, "
+        return String
+            .format("PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, "
                 + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
                 + "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, "
-                + "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, languages=%s, "
+                + "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, isLocked=%s, languages=%s, "
                 + "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
                 + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]", personId,
-            administrativeTenant, tenants, type, formOfAddress, academicTitle, academicTitlePostNominal, firstName, lastName,
-            username, credentialsAvailable, approved, approvalState, externalId, guid, preferredUserId, personnelNumber,
-            birthdate, email, phoneNumber, mobileNumber, languages, companies, functions, numbers, contactCompanyId,
-            contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate, score);
+                administrativeTenant, tenants, type, formOfAddress, academicTitle, academicTitlePostNominal, firstName,
+                lastName, username, credentialsAvailable, approved, approvalState, externalId, guid, preferredUserId,
+                personnelNumber, birthdate, email, phoneNumber, mobileNumber, isLocked, languages, companies, functions,
+                numbers, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate,
+                score);
     }
 }
