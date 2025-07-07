@@ -84,17 +84,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "True, if the user has (or had) additional authentication factors enabled.")
     private Boolean multifactorEnabled;
 
-    @Schema(description =
-        "True, if the person has been fully approved by authorities, false if the approval process is still "
+    @Schema(
+        description = "True, if the person has been fully approved by authorities, false if the approval process is still "
             + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
-            + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The"
-            + " value "
-            + "will always be set to 'true'.")
+            + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
+            + "The value will always be set to 'true'.")
     @Deprecated(since = "22.01.2024")
     private boolean approved;
 
-    @Schema(description =
-        "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
+    @Schema(
+        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
             + "The value will always be set to 'ApprovalState.DONE'.")
     @Deprecated(since = "22.01.2024")
     private ApprovalState approvalState;
@@ -161,6 +160,12 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The name of the team the person is part of (needed scope: SC_ORGANIZATION_UNIT).")
     private String teamLabel;
 
+    @Schema(description = "The explicit login locks of the person (needed scope: SC_PERSON_LOCKS).")
+    private Collection<PersonLockLinkDTO> personLocks;
+
+    @Schema(description = "Is the login of the person locked? (needed scope: SC_IDENTIFIER).")
+    private Boolean isLocked;
+
     @Schema(description = "The tenant specific settings of the user (needed scope: SC_PREFERRED_COMPANY).")
     private Collection<PersonSettingsLinkDTO> settings;
 
@@ -183,7 +188,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         + "SC_ADVISOR_ASSIGNMENT).")
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
-    @Schema(description = "The hierarchy of persons, e.g. responsible persons for bots and test users (needed scope: SC_HIERARCHY).")
+    @Schema(
+        description = "The hierarchy of persons, e.g. responsible persons for bots and test users (needed scope: SC_HIERARCHY).")
     private List<PersonHierarchyLinkDTO> hierarchies;
 
     @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
@@ -561,6 +567,26 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.teamLabel = teamLabel;
     }
 
+    public Collection<PersonLockLinkDTO> getPersonLocks()
+    {
+        return personLocks;
+    }
+
+    public void setPersonLocks(Collection<PersonLockLinkDTO> personLocks)
+    {
+        this.personLocks = personLocks;
+    }
+
+    public void setLocked(Boolean isLocked)
+    {
+        this.isLocked = isLocked;
+    }
+
+    public Boolean isLocked()
+    {
+        return isLocked;
+    }
+
     public Collection<PersonSettingsLinkDTO> getSettings()
     {
         return settings;
@@ -659,9 +685,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public Optional<PersonAdvisorAssignmentLinkDTO> findAdvisorAssignment(
         Predicate<? super PersonAdvisorAssignmentLinkDTO> predicate)
     {
-        return advisorAssignments == null ?
-            Optional.empty() :
-            advisorAssignments.stream().filter(predicate).findFirst();
+        return advisorAssignments == null ? Optional.empty()
+            : advisorAssignments.stream().filter(predicate).findFirst();
     }
 
     public void setAdvisorAssignments(Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments)
@@ -674,12 +699,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         return hierarchies;
     }
 
-    public Optional<PersonHierarchyLinkDTO> findHierarchy(
-        Predicate<? super PersonHierarchyLinkDTO> predicate)
+    public Optional<PersonHierarchyLinkDTO> findHierarchy(Predicate<? super PersonHierarchyLinkDTO> predicate)
     {
-        return hierarchies == null ?
-            Optional.empty() :
-            hierarchies.stream().filter(predicate).findFirst();
+        return hierarchies == null ? Optional.empty() : hierarchies.stream().filter(predicate).findFirst();
     }
 
     public void setHierarchies(List<PersonHierarchyLinkDTO> hierarchies)
@@ -734,21 +756,22 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Override
     public String toString()
     {
-        return String.format(
-            "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, "
+        return String
+            .format("PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, "
                 + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, "
                 + "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, "
                 + "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, "
                 + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, "
                 + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
-                + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, settings=%s, languages=%s, companies=%s, "
+                + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, "
                 + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, "
-                + "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]", personId, administrativeTenant, tenants, type,
-            formOfAddress, academicTitle, academicTitlePostNominal, firstName, lastName, credentialsAvailable,
-            multifactorEnabled, approved, approvalState, birthdate, externalId, guid, preferredUserId, phoneNumber,
-            extensionNumber, mobileNumber, faxNumber, email, contactCompanyId, contactCompanyMatchcode,
-            contactCompanyNumber, costCenter, personnelNumber, supervisorPersonnelNumber, controllingArea,
-            personnelDepartment, jobDescription, teamMatchcode, teamLabel, settings, languages, companies, numbers,
-            functions, activities, advisorAssignments, hierarchies, portraitAvailable, automaticDeletion, checksum, lastUpdate);
+                + "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]", personId,
+                administrativeTenant, tenants, type, formOfAddress, academicTitle, academicTitlePostNominal, firstName,
+                lastName, credentialsAvailable, multifactorEnabled, approved, approvalState, birthdate, externalId,
+                guid, preferredUserId, phoneNumber, extensionNumber, mobileNumber, faxNumber, email, contactCompanyId,
+                contactCompanyMatchcode, contactCompanyNumber, costCenter, personnelNumber, supervisorPersonnelNumber,
+                controllingArea, personnelDepartment, jobDescription, teamMatchcode, teamLabel, personLocks, isLocked,
+                settings, languages, companies, numbers, functions, activities, advisorAssignments, hierarchies,
+                portraitAvailable, automaticDeletion, checksum, lastUpdate);
     }
 }
