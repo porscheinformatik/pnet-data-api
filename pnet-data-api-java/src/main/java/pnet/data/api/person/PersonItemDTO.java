@@ -70,10 +70,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The last name of the person (needed scope: SC_NAME).")
     private final String lastName;
 
-    @Schema(description = "The username of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final String username;
 
-    @Schema(description = "The username of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final Boolean credentialsAvailable;
 
     @Schema(description = "True, if the user has (or had) additional authentication factors enabled.")

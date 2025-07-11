@@ -1,3 +1,7 @@
+# pnet-data-api 2.11.5
+
+-   Adjust username and credentialsAvailable descriptions in `PersonDataDTO` and `PersonItemDTO` to require SC_PNET_ACCOUNT scope.
+
 # pnet-data-api 2.11.4
 
 -   `PersonDataDTO` now has a `isLocked()`, to check if the persons login is locked, and a Collection of `PersonLockLinkDTO` for the reasons FOR the lock.

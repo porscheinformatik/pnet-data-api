@@ -75,10 +75,10 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The last name of the person (needed scope: SC_NAME).")
     private String lastName;
 
-    @Schema(description = "The username of the person (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private String username;
 
-    @Schema(description = "The person is able to access the Partner.Net (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "The person is able to access the Partner.Net (needed scope: SC_PNET_ACCOUNT).")
     private Boolean credentialsAvailable;
 
     @Schema(description = "True, if the user has (or had) additional authentication factors enabled.")
