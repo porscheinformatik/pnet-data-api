@@ -14,14 +14,12 @@
  */
 package pnet.data.api.externalbrand;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -32,8 +30,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @Schema(description = "Holds all information about an external brand")
-public class ExternalBrandDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
-{
+public class ExternalBrandDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable {
 
     private static final long serialVersionUID = -5466024519780832525L;
 
@@ -49,56 +46,50 @@ public class ExternalBrandDataDTO implements WithMatchcode, WithLabels, WithLast
     @Schema(description = "The time and date when the external brand was last changed")
     private LocalDateTime lastUpdate;
 
-    public ExternalBrandDataDTO(@JsonProperty("matchcode") String matchcode)
-    {
+    public ExternalBrandDataDTO(@JsonProperty("matchcode") String matchcode) {
         super();
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
-    public void setLabels(Map<Locale, String> labels)
-    {
+    public void setLabels(Map<Locale, String> labels) {
         this.labels = labels;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("ExternalBrandDataDTO [matchcode=%s, id=%s, labels=%s, lastUpdate=%s]", matchcode, id,
-            labels, lastUpdate);
+    public String toString() {
+        return String.format(
+            "ExternalBrandDataDTO [matchcode=%s, id=%s, labels=%s, lastUpdate=%s]",
+            matchcode,
+            id,
+            labels,
+            lastUpdate
+        );
     }
-
 }

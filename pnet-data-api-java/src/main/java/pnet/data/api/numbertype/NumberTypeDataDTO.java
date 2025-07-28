@@ -14,14 +14,12 @@
  */
 package pnet.data.api.numbertype;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -32,8 +30,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @Schema(description = "Holds all information about a function")
-public class NumberTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
-{
+public class NumberTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable {
 
     private static final long serialVersionUID = 8121115362492515187L;
 
@@ -42,48 +39,40 @@ public class NumberTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpd
 
     @Schema(description = "The label of the function with all existing translations")
     private Map<Locale, String> labels;
+
     @Schema(description = "The time and date when the function was last changed")
     private LocalDateTime lastUpdate;
 
-    public NumberTypeDataDTO(@JsonProperty("matchcode") String matchcode)
-    {
+    public NumberTypeDataDTO(@JsonProperty("matchcode") String matchcode) {
         super();
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
-    public void setLabels(Map<Locale, String> labels)
-    {
+    public void setLabels(Map<Locale, String> labels) {
         this.labels = labels;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("NumberTypeDataDTO [matchcode=%s, labels=%s]", matchcode, labels);
     }
-
 }

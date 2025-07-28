@@ -4,8 +4,7 @@ import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import pnet.data.api.PnetDataClientException;
 
-public interface PnetDataApiLoginMethod
-{
+public interface PnetDataApiLoginMethod {
     /**
      * Performs a login and returns a {@link RestCall} object, that can be used for successive requests.
      *

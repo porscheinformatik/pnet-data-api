@@ -5,12 +5,11 @@ package pnet.data.api.company;
  *
  * @author HAM
  */
-public enum CompanyMerge
-{
-
+public enum CompanyMerge {
     NONE,
 
-    @Deprecated INTERET_GROUP,
+    @Deprecated
+    INTERET_GROUP,
 
     INTERNET_GROUP,
 }

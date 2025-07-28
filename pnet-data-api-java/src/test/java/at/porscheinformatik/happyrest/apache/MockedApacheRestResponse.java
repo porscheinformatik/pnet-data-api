@@ -1,80 +1,65 @@
 package at.porscheinformatik.happyrest.apache;
 
+import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.MockedRestResponse;
+import at.porscheinformatik.happyrest.RestUtils;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.http.Header;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 
-import at.porscheinformatik.happyrest.GenericType;
-import at.porscheinformatik.happyrest.MockedRestResponse;
-import at.porscheinformatik.happyrest.RestUtils;
+public class MockedApacheRestResponse<T> extends MockedRestResponse<T> {
 
-public class MockedApacheRestResponse<T> extends MockedRestResponse<T>
-{
     private final GenericType<T> responseType;
     private final HttpRequestBase request;
     private final String requestBody;
 
-    public MockedApacheRestResponse(GenericType<T> responseType, HttpRequestBase request)
-    {
+    public MockedApacheRestResponse(GenericType<T> responseType, HttpRequestBase request) {
         super();
-
         this.responseType = responseType;
         this.request = request;
 
-        try
-        {
-            if (request instanceof HttpEntityEnclosingRequestBase)
-            {
+        try {
+            if (request instanceof HttpEntityEnclosingRequestBase) {
                 requestBody = new String(
                     RestUtils.readAllBytes(((HttpEntityEnclosingRequestBase) request).getEntity().getContent()),
-                    StandardCharsets.UTF_8);
-            }
-            else
-            {
+                    StandardCharsets.UTF_8
+                );
+            } else {
                 requestBody = null;
             }
-        }
-        catch (UnsupportedOperationException | IOException e)
-        {
+        } catch (UnsupportedOperationException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public HttpRequestBase getRequest()
-    {
+    public HttpRequestBase getRequest() {
         return request;
     }
 
-    public GenericType<T> getResponseType()
-    {
+    public GenericType<T> getResponseType() {
         return responseType;
     }
 
     @Override
-    public String getRequestMethod()
-    {
+    public String getRequestMethod() {
         return request.getMethod();
     }
 
     @Override
-    public String getRequestUrl()
-    {
+    public String getRequestUrl() {
         return request.getURI().toString();
     }
 
     @Override
-    public List<String> getRequestHeader(String key)
-    {
+    public List<String> getRequestHeader(String key) {
         Header[] headers = request.getHeaders(key);
 
-        if (headers == null || headers.length == 0)
-        {
+        if (headers == null || headers.length == 0) {
             return Collections.emptyList();
         }
 
@@ -82,8 +67,7 @@ public class MockedApacheRestResponse<T> extends MockedRestResponse<T>
     }
 
     @Override
-    public String getRequestBody()
-    {
+    public String getRequestBody() {
         return requestBody;
     }
 }

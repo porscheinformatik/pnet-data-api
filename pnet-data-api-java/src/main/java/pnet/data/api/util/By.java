@@ -10,9 +10,6 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <SELF> the type of the filter, for chaining
  * @author ham
  */
-public interface By<DTO, SELF extends By<DTO, SELF>> extends Restrict<SELF>
-{
-
+public interface By<DTO, SELF extends By<DTO, SELF>> extends Restrict<SELF> {
     PnetDataClientResultPage<DTO> execute(int pageIndex, int itemsPerPage) throws PnetDataClientException;
-
 }

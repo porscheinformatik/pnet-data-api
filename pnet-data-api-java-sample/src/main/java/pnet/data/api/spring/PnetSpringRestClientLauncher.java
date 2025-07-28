@@ -1,7 +1,6 @@
 package pnet.data.api.spring;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import pnet.data.api.PnetRestClient;
 
 /**
@@ -9,20 +8,18 @@ import pnet.data.api.PnetRestClient;
  *
  * @author ham
  */
-public final class PnetSpringRestClientLauncher
-{
-    private PnetSpringRestClientLauncher()
-    {
+public final class PnetSpringRestClientLauncher {
+
+    private PnetSpringRestClientLauncher() {
         super();
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         try (
             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-                PnetSpringRestClientConfig.class)
-        )
-        {
+                PnetSpringRestClientConfig.class
+            );
+        ) {
             context.getBean(PnetRestClient.class).consume();
         }
     }

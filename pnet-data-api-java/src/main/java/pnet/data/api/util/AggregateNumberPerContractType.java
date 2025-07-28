@@ -6,12 +6,8 @@ package pnet.data.api.util;
  * @param <SELF> the type of the aggregate for chaining
  * @author ham
  */
-public interface AggregateNumberPerContractType<SELF extends Aggregate<SELF>> extends Aggregate<SELF>
-{
-
-    default SELF aggregateNumberPerContractType()
-    {
+public interface AggregateNumberPerContractType<SELF extends Aggregate<SELF>> extends Aggregate<SELF> {
+    default SELF aggregateNumberPerContractType() {
         return aggregate("number-per-contract-type");
     }
-
 }

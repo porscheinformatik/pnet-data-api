@@ -9,15 +9,12 @@ import java.util.Locale;
  * @param <T> the type of the body
  * @author ham
  */
-public interface RestResponse<T>
-{
-
+public interface RestResponse<T> {
     int getStatusCode();
 
     String getStatusMessage();
 
-    default String getStatus()
-    {
+    default String getStatus() {
         return getStatusCode() + " " + getStatusMessage();
     }
 
@@ -48,5 +45,4 @@ public interface RestResponse<T>
     long getExpiresDate();
 
     long getLastModified();
-
 }

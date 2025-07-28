@@ -1,7 +1,6 @@
 package pnet.data.api;
 
-public interface PnetDataConstants
-{
+public interface PnetDataConstants {
     String QUERY_KEY = "q";
 
     String PAGE_INDEX_KEY = "p";

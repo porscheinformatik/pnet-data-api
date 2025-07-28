@@ -6,22 +6,16 @@ package pnet.data.api.util;
  * @param <SELF> the state of the filter for chaining
  * @author ham
  */
-public interface RestrictArchived<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
-    default SELF archivedOnly()
-    {
+public interface RestrictArchived<SELF extends Restrict<SELF>> extends Restrict<SELF> {
+    default SELF archivedOnly() {
         return archived(Boolean.TRUE);
     }
 
-    default SELF notArchivedOnly()
-    {
+    default SELF notArchivedOnly() {
         return archived(Boolean.FALSE);
     }
 
-    default SELF archived(Boolean archived)
-    {
+    default SELF archived(Boolean archived) {
         return restrict("archived", archived);
     }
-
 }

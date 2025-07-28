@@ -10,17 +10,12 @@ import java.util.Collection;
  * @deprecated use {@link RestrictNumberType} instead
  */
 @Deprecated
-public interface RestrictNumbersType<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
-    default SELF numbersType(String... numbersTypeMatchcodes)
-    {
+public interface RestrictNumbersType<SELF extends Restrict<SELF>> extends Restrict<SELF> {
+    default SELF numbersType(String... numbersTypeMatchcodes) {
         return restrict("numberType", (Object[]) numbersTypeMatchcodes);
     }
 
-    default SELF numbersTypes(Collection<String> numbersTypeMatchcodes)
-    {
+    default SELF numbersTypes(Collection<String> numbersTypeMatchcodes) {
         return numbersType(numbersTypeMatchcodes.toArray(new String[0]));
     }
-
 }

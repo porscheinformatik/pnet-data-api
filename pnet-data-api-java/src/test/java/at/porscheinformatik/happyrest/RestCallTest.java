@@ -7,12 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-class RestCallTest
-{
+class RestCallTest {
+
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testVariable(MockedRestCallFactory factory) throws RestException
-    {
+    void testVariable(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/data/{variable}/list")
             .variable("variable", "oldValue")
@@ -25,8 +24,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testVariableWithSpaces(MockedRestCallFactory factory) throws RestException
-    {
+    void testVariableWithSpaces(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/data/{variable}/list")
             .variable("variable", "variable with spaces")
@@ -38,8 +36,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testVariableWithSlashes(MockedRestCallFactory factory) throws RestException
-    {
+    void testVariableWithSlashes(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/data/{variable}/list?key=value")
             .variable("variable", "variable/slash")
@@ -51,8 +48,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testVariableWithApostrophes(MockedRestCallFactory factory) throws RestException
-    {
+    void testVariableWithApostrophes(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/data/{variable}")
             .variable("variable", "\"value\"")
@@ -64,8 +60,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testVariableWithCurlies(MockedRestCallFactory factory) throws RestException
-    {
+    void testVariableWithCurlies(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/data/{variable}/list")
             .variable("variable", "{value}")
@@ -78,30 +73,30 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testVariableWithUmlaut(MockedRestCallFactory factory) throws RestException
-    {
+    void testVariableWithUmlaut(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/data/{variable}/list")
             .variable("variable", "äöüÄÖÜß")
             .invoke(RestMethod.GET, Void.class);
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(),
-            equalTo("https://example.com/data/%C3%A4%C3%B6%C3%BC%C3%84%C3%96%C3%9C%C3%9F/list"));
+        assertThat(
+            response.getRequestUrl(),
+            equalTo("https://example.com/data/%C3%A4%C3%B6%C3%BC%C3%84%C3%96%C3%9C%C3%9F/list")
+        );
     }
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testMissingVariable(MockedRestCallFactory factory) throws RestException
-    {
-        assertThrows(RestException.class,
-            () -> factory.url("https://example.com/data/{variable}").invoke(RestMethod.GET, Void.class));
+    void testMissingVariable(MockedRestCallFactory factory) throws RestException {
+        assertThrows(RestException.class, () ->
+            factory.url("https://example.com/data/{variable}").invoke(RestMethod.GET, Void.class)
+        );
     }
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testParameter(MockedRestCallFactory factory) throws RestException
-    {
+    void testParameter(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .parameter("key", "value")
@@ -109,20 +104,16 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
         }
     }
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testReplaceParameter(MockedRestCallFactory factory) throws RestException
-    {
+    void testReplaceParameter(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .parameter("key", "value")
@@ -131,20 +122,16 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=otherValue"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com?key=otherValue"));
         }
     }
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testRemoveParameter(MockedRestCallFactory factory) throws RestException
-    {
+    void testRemoveParameter(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .parameter("key", "value")
@@ -153,20 +140,16 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com"));
         }
     }
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testParameterWithSpaces(MockedRestCallFactory factory) throws RestException
-    {
+    void testParameterWithSpaces(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/")
             .parameter("key with spaces", "value with spaces")
@@ -174,20 +157,19 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        switch (factory)
-        {
+        switch (factory) {
             case APACHE:
             case JAVA:
                 // Apache and Java use Java's URLEncodes, which uses + for spaces
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/?key+with+spaces=value+with+spaces"));
                 break;
-
             case APACHE_5:
             case SPRING:
-                assertThat(response.getRequestUrl(),
-                    equalTo("https://example.com/?key%20with%20spaces=value%20with%20spaces"));
+                assertThat(
+                    response.getRequestUrl(),
+                    equalTo("https://example.com/?key%20with%20spaces=value%20with%20spaces")
+                );
                 break;
-
             default:
                 throw new UnsupportedOperationException("Factory not supported: " + factory.name());
         }
@@ -195,8 +177,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testParameterWithSlashes(MockedRestCallFactory factory) throws RestException
-    {
+    void testParameterWithSlashes(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/list")
             .parameter("key/key", "value/value")
@@ -204,20 +185,17 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        switch (factory)
-        {
+        switch (factory) {
             case APACHE:
             case APACHE_5:
             case JAVA:
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/list?key%2Fkey=value%2Fvalue"));
                 break;
-
             case SPRING:
                 // Spring does not encode / for unknown reasons - a quick Google search shows some controversy about
                 // this
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/list?key/key=value/value"));
                 break;
-
             default:
                 throw new UnsupportedOperationException("Factory not supported: " + factory.name());
         }
@@ -225,8 +203,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testParameterWithApostrophes(MockedRestCallFactory factory) throws RestException
-    {
+    void testParameterWithApostrophes(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/list/")
             .parameter("\"key\"", "'value'")
@@ -234,22 +211,19 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        switch (factory)
-        {
+        switch (factory) {
             case APACHE:
             case APACHE_5:
             case JAVA:
                 // Uses Java's URLEncoder
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/list/?%22key%22=%27value%27"));
                 break;
-
             case SPRING:
                 // Uses Spring's own encoder
                 // Spring does not encode / for unknown reasons - a quick Google search shows some controversy about
                 // this
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/list/?%22key%22='value'"));
                 break;
-
             default:
                 throw new UnsupportedOperationException("Factory not supported: " + factory.name());
         }
@@ -257,8 +231,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testParameterWithCurlies(MockedRestCallFactory factory) throws RestException
-    {
+    void testParameterWithCurlies(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .parameter("{key}", "{value}")
@@ -268,22 +241,18 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        switch (factory)
-        {
+        switch (factory) {
             case APACHE_5:
                 assertThat(response.getRequestUrl(), equalTo("https://example.com/?%7Bkey%7D=%7Bvalue%7D"));
                 break;
-
             case APACHE:
             case JAVA:
                 assertThat(response.getRequestUrl(), equalTo("https://example.com?%7Bkey%7D=%7Bvalue%7D"));
                 break;
-
             case SPRING:
                 // Spring does not encode the parameter key and thus replaces the placeholder. Strange behavior :/
                 assertThat(response.getRequestUrl(), equalTo("https://example.com?anotherKey=%7Bvalue%7D"));
                 break;
-
             default:
                 throw new UnsupportedOperationException("Factory not supported: " + factory.name());
         }
@@ -291,8 +260,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testParameterWithUmlaut(MockedRestCallFactory factory) throws RestException
-    {
+    void testParameterWithUmlaut(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .parameter("äöüß", "ÄÖÜß")
@@ -300,22 +268,22 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
-            assertThat(response.getRequestUrl(),
-                equalTo("https://example.com/?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F"));
-        }
-        else
-        {
-            assertThat(response.getRequestUrl(),
-                equalTo("https://example.com?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F"));
+        if (factory == MockedRestCallFactory.APACHE_5) {
+            assertThat(
+                response.getRequestUrl(),
+                equalTo("https://example.com/?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F")
+            );
+        } else {
+            assertThat(
+                response.getRequestUrl(),
+                equalTo("https://example.com?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F")
+            );
         }
     }
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testParameterWithParametersInUrl(MockedRestCallFactory factory) throws RestException
-    {
+    void testParameterWithParametersInUrl(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com?key=value")
             .parameter("anotherKey", "anotherValue")
@@ -323,20 +291,16 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value&anotherKey=anotherValue"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value&anotherKey=anotherValue"));
         }
     }
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testFormParameter(MockedRestCallFactory factory) throws RestException
-    {
+    void testFormParameter(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .contentTypeForm()
@@ -345,12 +309,9 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("POST"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com"));
         }
 
@@ -359,8 +320,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testFormParameterWithSpaces(MockedRestCallFactory factory) throws RestException
-    {
+    void testFormParameterWithSpaces(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/")
             .contentTypeForm()
@@ -374,8 +334,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testFormParameterWithSlashes(MockedRestCallFactory factory) throws RestException
-    {
+    void testFormParameterWithSlashes(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/list")
             .contentTypeForm()
@@ -389,8 +348,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testFormParameterWithApostrophes(MockedRestCallFactory factory) throws RestException
-    {
+    void testFormParameterWithApostrophes(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com/list/")
             .contentTypeForm()
@@ -404,8 +362,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testFormParameterWithCurlies(MockedRestCallFactory factory) throws RestException
-    {
+    void testFormParameterWithCurlies(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .contentTypeForm()
@@ -416,12 +373,9 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("POST"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com"));
         }
 
@@ -430,8 +384,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testFormParameterWithUmlaut(MockedRestCallFactory factory) throws RestException
-    {
+    void testFormParameterWithUmlaut(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .contentTypeForm()
@@ -440,12 +393,9 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("POST"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com"));
         }
 
@@ -454,8 +404,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testFormParameterWithParametersInUrl(MockedRestCallFactory factory) throws RestException
-    {
+    void testFormParameterWithParametersInUrl(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com?key=value")
             .contentTypeForm()
@@ -464,12 +413,9 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("POST"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
         }
 
@@ -478,8 +424,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testHeader(MockedRestCallFactory factory) throws RestException
-    {
+    void testHeader(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .header("key", "value")
@@ -487,12 +432,9 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com"));
         }
 
@@ -501,8 +443,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testHeaderWithSpaces(MockedRestCallFactory factory) throws RestException
-    {
+    void testHeaderWithSpaces(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .header("key", "value with spaces")
@@ -510,12 +451,9 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com"));
         }
 
@@ -524,8 +462,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testDuplicateHeader(MockedRestCallFactory factory) throws RestException
-    {
+    void testDuplicateHeader(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .header("key", "value1")
@@ -534,12 +471,9 @@ class RestCallTest
 
         assertThat(response.getRequestMethod(), equalTo("GET"));
 
-        if (factory == MockedRestCallFactory.APACHE_5)
-        {
+        if (factory == MockedRestCallFactory.APACHE_5) {
             assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
-        }
-        else
-        {
+        } else {
             assertThat(response.getRequestUrl(), equalTo("https://example.com"));
         }
 
@@ -548,8 +482,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testJsonStringBody(MockedRestCallFactory factory) throws RestException
-    {
+    void testJsonStringBody(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com")
             .body("Foobar")
@@ -561,8 +494,7 @@ class RestCallTest
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
-    void testJsonObjectBody(MockedRestCallFactory factory) throws RestException
-    {
+    void testJsonObjectBody(MockedRestCallFactory factory) throws RestException {
         TestObject object = TestObject.of("key", "value");
 
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
@@ -573,5 +505,4 @@ class RestCallTest
         assertThat(response.getRequestMethod(), equalTo("POST"));
         assertThat(response.getRequestBody(), equalTo(object.toJsonString()));
     }
-
 }

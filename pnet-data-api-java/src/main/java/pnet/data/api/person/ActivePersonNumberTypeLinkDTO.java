@@ -14,11 +14,9 @@
  */
 package pnet.data.api.person;
 
-import java.io.Serial;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 
 /**
  * Holds one employment dependent number of a person.
@@ -26,35 +24,43 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author ham
  */
 @Schema(description = "Holds one employment dependent number of a person.")
-public class ActivePersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO
-{
+public class ActivePersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO {
+
     @Serial
     private static final long serialVersionUID = -3446430282367218468L;
 
     @Schema(description = "True if currently active (ignores future settings).")
     protected final boolean currentlyActive;
 
-    public ActivePersonNumberTypeLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
-        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("number") String number, @JsonProperty("currentlyActive") boolean currentlyActive)
-    {
+    public ActivePersonNumberTypeLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("number") String number,
+        @JsonProperty("currentlyActive") boolean currentlyActive
+    ) {
         super(tenant, matchcode, companyId, companyMatchcode, companyNumber, number);
-
         this.currentlyActive = currentlyActive;
     }
 
-    public boolean isCurrentlyActive()
-    {
+    public boolean isCurrentlyActive() {
         return currentlyActive;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("ActivePersonNumberTypeLinkDTO [currentlyActive=%s, companyId=%s, companyMatchcode=%s, "
-                + "companyNumber=%s, number=%s, tenant=%s, matchcode=%s]", currentlyActive, companyId, companyMatchcode,
-            companyNumber, number, tenant, matchcode);
+    public String toString() {
+        return String.format(
+            "ActivePersonNumberTypeLinkDTO [currentlyActive=%s, companyId=%s, companyMatchcode=%s, " +
+            "companyNumber=%s, number=%s, tenant=%s, matchcode=%s]",
+            currentlyActive,
+            companyId,
+            companyMatchcode,
+            companyNumber,
+            number,
+            tenant,
+            matchcode
+        );
     }
-
 }

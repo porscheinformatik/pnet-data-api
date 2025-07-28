@@ -6,12 +6,8 @@ package pnet.data.api.util;
  * @param <SELF> the type of the aggregate for chaining
  * @author cet
  */
-public interface AggregateNumberPerState<SELF extends Aggregate<SELF>> extends Aggregate<SELF>
-{
-
-    default SELF aggregateNumberPerState()
-    {
+public interface AggregateNumberPerState<SELF extends Aggregate<SELF>> extends Aggregate<SELF> {
+    default SELF aggregateNumberPerState() {
         return aggregate("number-per-state");
     }
-
 }

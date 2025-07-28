@@ -18,8 +18,7 @@ import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
 
-public interface ClientProvider
-{
+public interface ClientProvider {
     AboutDataClient getAboutDataClient();
 
     ActivityDataClient getActivityDataClient();

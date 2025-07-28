@@ -1,7 +1,6 @@
 package pnet.data.api.company;
 
 import java.util.List;
-
 import pnet.data.api.util.AbstractSearchWithAggregations;
 import pnet.data.api.util.AggregateNumberPerBrand;
 import pnet.data.api.util.AggregateNumberPerContractType;
@@ -31,19 +30,30 @@ import pnet.data.api.util.SearchWithAggregationsFunction;
  */
 public class CompanyDataSearch
     extends AbstractSearchWithAggregations<CompanyItemDTO, CompanyAggregationsDTO, CompanyDataSearch>
-    implements RestrictTenant<CompanyDataSearch>, RestrictBrand<CompanyDataSearch>,
-    RestrictCompanyId<CompanyDataSearch>, RestrictBpcmManaged<CompanyDataSearch>,
-    RestrictCountryCode<CompanyDataSearch>, RestrictType<CompanyDataSearch>, RestrictContractType<CompanyDataSearch>,
-    RestrictContractState<CompanyDataSearch>, RestrictLocation<CompanyDataSearch>,
-    RestrictExternalBrand<CompanyDataSearch>, RestrictDatedBackUntil<CompanyDataSearch>,
-    IncludeInactive<CompanyDataSearch>, CompanyMergable<CompanyDataSearch>, AggregateNumberPerTenant<CompanyDataSearch>,
-    AggregateNumberPerBrand<CompanyDataSearch>, AggregateNumberPerType<CompanyDataSearch>,
-    AggregateNumberPerContractType<CompanyDataSearch>, RestrictQueryField<CompanyDataSearch>
-{
+    implements
+        RestrictTenant<CompanyDataSearch>,
+        RestrictBrand<CompanyDataSearch>,
+        RestrictCompanyId<CompanyDataSearch>,
+        RestrictBpcmManaged<CompanyDataSearch>,
+        RestrictCountryCode<CompanyDataSearch>,
+        RestrictType<CompanyDataSearch>,
+        RestrictContractType<CompanyDataSearch>,
+        RestrictContractState<CompanyDataSearch>,
+        RestrictLocation<CompanyDataSearch>,
+        RestrictExternalBrand<CompanyDataSearch>,
+        RestrictDatedBackUntil<CompanyDataSearch>,
+        IncludeInactive<CompanyDataSearch>,
+        CompanyMergable<CompanyDataSearch>,
+        AggregateNumberPerTenant<CompanyDataSearch>,
+        AggregateNumberPerBrand<CompanyDataSearch>,
+        AggregateNumberPerType<CompanyDataSearch>,
+        AggregateNumberPerContractType<CompanyDataSearch>,
+        RestrictQueryField<CompanyDataSearch> {
 
-    public CompanyDataSearch(SearchWithAggregationsFunction<CompanyItemDTO, CompanyAggregationsDTO> searchFunction,
-        List<Pair<String, Object>> restricts)
-    {
+    public CompanyDataSearch(
+        SearchWithAggregationsFunction<CompanyItemDTO, CompanyAggregationsDTO> searchFunction,
+        List<Pair<String, Object>> restricts
+    ) {
         super(searchFunction, restricts);
     }
 }

@@ -14,15 +14,13 @@
  */
 package pnet.data.api.advisortype;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -34,8 +32,8 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @Schema(description = "Holds all information about an advisor type")
-public class AdvisorTypeDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithLastUpdate, Serializable
-{
+public class AdvisorTypeDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithLastUpdate, Serializable {
+
     @Serial
     private static final long serialVersionUID = 5417685364928597785L;
 
@@ -44,61 +42,58 @@ public class AdvisorTypeDataDTO implements WithMatchcode, WithLabels, WithDescri
 
     @Schema(description = "The label of the advisor type with all existing translations")
     private Map<Locale, String> labels;
+
     @Schema(description = "The description of the advisor type with all existing translations")
     private Map<Locale, String> descriptions;
+
     @Schema(description = "The time and date when the advisor type was last changed")
     private LocalDateTime lastUpdate;
 
-    public AdvisorTypeDataDTO(@JsonProperty("matchcode") String matchcode)
-    {
+    public AdvisorTypeDataDTO(@JsonProperty("matchcode") String matchcode) {
         super();
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
-    public void setLabels(Map<Locale, String> labels)
-    {
+    public void setLabels(Map<Locale, String> labels) {
         this.labels = labels;
     }
 
     @Override
-    public Map<Locale, String> getDescriptions()
-    {
+    public Map<Locale, String> getDescriptions() {
         return descriptions;
     }
 
-    public void setDescriptions(Map<Locale, String> descriptions)
-    {
+    public void setDescriptions(Map<Locale, String> descriptions) {
         this.descriptions = descriptions;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("AdvisorTypeDataDTO [matchcode=%s, labels=%s, descriptions=%s, lastUpdate=%s]", matchcode,
-            labels, descriptions, lastUpdate);
+    public String toString() {
+        return String.format(
+            "AdvisorTypeDataDTO [matchcode=%s, labels=%s, descriptions=%s, lastUpdate=%s]",
+            matchcode,
+            labels,
+            descriptions,
+            lastUpdate
+        );
     }
 }

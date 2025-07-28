@@ -14,42 +14,44 @@
  */
 package pnet.data.api.application;
 
-import java.io.Serial;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.WithMatchcode;
 
 @Schema(description = "Holds the auto-complete results for an application")
-public class ApplicationAutoCompleteDTO extends AbstractAutoCompleteDTO implements WithMatchcode
-{
+public class ApplicationAutoCompleteDTO extends AbstractAutoCompleteDTO implements WithMatchcode {
+
     @Serial
     private static final long serialVersionUID = 4192447495591502655L;
 
     @Schema(description = "The unique matchcode of the application.")
     private final String matchcode;
 
-    public ApplicationAutoCompleteDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description, @JsonProperty("score") double score)
-    {
+    public ApplicationAutoCompleteDTO(
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("label") String label,
+        @JsonProperty("description") String description,
+        @JsonProperty("score") double score
+    ) {
         super(label, description, score);
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "ApplicationAutoCompleteDTO [matchcode=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]", matchcode,
-            getLabel(), getDescription(), getScore());
+            "ApplicationAutoCompleteDTO [matchcode=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
+            matchcode,
+            getLabel(),
+            getDescription(),
+            getScore()
+        );
     }
 }

@@ -14,11 +14,9 @@
  */
 package pnet.data.api.person;
 
-import java.io.Serial;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import pnet.data.api.util.WithLabel;
 
 /**
@@ -26,10 +24,12 @@ import pnet.data.api.util.WithLabel;
  *
  * @author ham
  */
-@Schema(description = "The assignment of a function to a person, for a specific company, tenant and brand. "
-    + "Related to the datedBackUnitl parameter.")
-public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithLabel
-{
+@Schema(
+    description = "The assignment of a function to a person, for a specific company, tenant and brand. " +
+    "Related to the datedBackUnitl parameter."
+)
+public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithLabel {
+
     @Serial
     private static final long serialVersionUID = -5572016715722241376L;
 
@@ -40,36 +40,44 @@ public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO i
     protected final boolean currentlyActive;
 
     @SuppressWarnings("java:S107")
-    public ActivePersonFunctionLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
-        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
-        @JsonProperty("mainFunction") boolean mainFunction, @JsonProperty("currentlyActive") boolean currentlyActive)
-    {
+    public ActivePersonFunctionLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("label") String label,
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("mainFunction") boolean mainFunction,
+        @JsonProperty("currentlyActive") boolean currentlyActive
+    ) {
         super(tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
-
         this.label = label;
         this.currentlyActive = currentlyActive;
     }
 
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
-    public boolean isCurrentlyActive()
-    {
+    public boolean isCurrentlyActive() {
         return currentlyActive;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("ActivePersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, "
-                + "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, currentlyActive=%s]", tenant, matchcode,
+    public String toString() {
+        return String.format(
+            "ActivePersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, " +
+            "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, currentlyActive=%s]",
+            tenant,
+            matchcode,
             companyId,
-            companyMatchcode, companyNumber, brandMatchcode, mainFunction, currentlyActive);
+            companyMatchcode,
+            companyNumber,
+            brandMatchcode,
+            mainFunction,
+            currentlyActive
+        );
     }
-
 }

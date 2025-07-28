@@ -5,9 +5,6 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithTenant
-{
-
+public interface WithTenant {
     String getTenant();
-
 }

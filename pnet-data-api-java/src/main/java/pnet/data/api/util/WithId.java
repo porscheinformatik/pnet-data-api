@@ -21,14 +21,11 @@ package pnet.data.api.util;
  * @deprecated replaced by {@link WithPersonId}
  */
 @Deprecated
-public interface WithId
-{
-
+public interface WithId {
     /**
      * @return The id of the item.
      * @deprecated replaced by {@link WithPersonId#getPersonId()}
      */
     @Deprecated
     Integer getId();
-
 }

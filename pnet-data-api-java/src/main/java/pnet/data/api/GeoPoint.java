@@ -14,12 +14,10 @@
  */
 package pnet.data.api;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Locale;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * A point on the globe.
@@ -27,13 +25,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author ham
  */
 @Schema(description = "Holds information about a geographical point on the earth")
-public class GeoPoint implements Serializable
-{
+public class GeoPoint implements Serializable {
 
     private static final long serialVersionUID = 6055660640364446760L;
 
-    public static GeoPoint of(double lat, double lon)
-    {
+    public static GeoPoint of(double lat, double lon) {
         return new GeoPoint(lat, lon);
     }
 
@@ -43,31 +39,26 @@ public class GeoPoint implements Serializable
     @Schema(description = "The longitude of the geographical point")
     private final double lon;
 
-    public GeoPoint(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon)
-    {
+    public GeoPoint(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon) {
         super();
         this.lat = lat;
         this.lon = lon;
     }
 
-    public double getLat()
-    {
+    public double getLat() {
         return lat;
     }
 
-    public double getLon()
-    {
+    public double getLon() {
         return lon;
     }
 
-    public double distanceTo(GeoPoint point)
-    {
+    public double distanceTo(GeoPoint point) {
         return distance(lat, point.lat, lon, point.lon, 0, 0);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(String.format(Locale.ENGLISH, "{\"lat\":%.6f,\"lon\":%.6f}", getLat(), getLon()));
     }
 
@@ -86,14 +77,17 @@ public class GeoPoint implements Serializable
      * @return the distance
      * @returns distance in meters
      */
-    private static double distance(double lat1, double lat2, double lon1, double lon2, double el1, double el2)
-    {
+    private static double distance(double lat1, double lat2, double lon1, double lon2, double el1, double el2) {
         final int r = 6371; // Radius of the earth
 
         double latDistance = Math.toRadians(lat2 - lat1);
         double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(
-            Math.toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double a =
+            Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
+            Math.cos(Math.toRadians(lat1)) *
+            Math.cos(Math.toRadians(lat2)) *
+            Math.sin(lonDistance / 2) *
+            Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = r * c * 1000; // convert to meters
 
@@ -103,5 +97,4 @@ public class GeoPoint implements Serializable
 
         return Math.sqrt(distance);
     }
-
 }

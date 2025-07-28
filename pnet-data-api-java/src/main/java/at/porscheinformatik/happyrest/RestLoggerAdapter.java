@@ -5,11 +5,8 @@ package at.porscheinformatik.happyrest;
  *
  * @author HAM
  */
-public interface RestLoggerAdapter
-{
-
+public interface RestLoggerAdapter {
     void logRequest(RestMethod method, String uri);
 
     void warning(String message, Exception exception);
-
 }

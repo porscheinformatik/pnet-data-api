@@ -6,10 +6,8 @@ package pnet.data.api.util;
  * @param <SELF> the type of the restrict for chaining
  * @author scar
  */
-public interface IncludeAllFunctions<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-    default SELF includeAllFunctions()
-    {
+public interface IncludeAllFunctions<SELF extends Restrict<SELF>> extends Restrict<SELF> {
+    default SELF includeAllFunctions() {
         return restrict("includeAllFunctions", true);
     }
 }

@@ -9,20 +9,17 @@ import pnet.data.api.client.context.PnetDataApiLoginMethod;
  * @deprecated provide a {@link PnetDataApiLoginMethod} instead of this Prefs
  */
 @Deprecated
-public class MutablePnetDataClientPrefs implements PnetDataClientPrefs
-{
+public class MutablePnetDataClientPrefs implements PnetDataClientPrefs {
 
     private String url;
     private String username;
     private String password;
 
-    public MutablePnetDataClientPrefs()
-    {
+    public MutablePnetDataClientPrefs() {
         super();
     }
 
-    public MutablePnetDataClientPrefs(String url, String username, String password)
-    {
+    public MutablePnetDataClientPrefs(String url, String username, String password) {
         super();
         this.url = url;
         this.username = username;
@@ -30,36 +27,29 @@ public class MutablePnetDataClientPrefs implements PnetDataClientPrefs
     }
 
     @Override
-    public String getPnetDataApiUrl()
-    {
+    public String getPnetDataApiUrl() {
         return url;
     }
 
-    public void setPnetDataApiUrl(String url)
-    {
+    public void setPnetDataApiUrl(String url) {
         this.url = url;
     }
 
     @Override
-    public String getPnetDataApiUsername()
-    {
+    public String getPnetDataApiUsername() {
         return username;
     }
 
-    public void setPnetDataApiUsername(String username)
-    {
+    public void setPnetDataApiUsername(String username) {
         this.username = username;
     }
 
     @Override
-    public String getPnetDataApiPassword()
-    {
+    public String getPnetDataApiPassword() {
         return password;
     }
 
-    public void setPnetDataApiPassword(String password)
-    {
+    public void setPnetDataApiPassword(String password) {
         this.password = password;
     }
-
 }

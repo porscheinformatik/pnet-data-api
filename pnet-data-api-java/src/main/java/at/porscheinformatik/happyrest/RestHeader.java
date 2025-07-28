@@ -5,10 +5,9 @@ package at.porscheinformatik.happyrest;
  *
  * @author ham
  */
-public final class RestHeader extends AbstractRestAttribute
-{
-    protected RestHeader(String name, String value)
-    {
+public final class RestHeader extends AbstractRestAttribute {
+
+    protected RestHeader(String name, String value) {
         super(name, value);
     }
 }

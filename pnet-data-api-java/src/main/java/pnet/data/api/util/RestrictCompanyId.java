@@ -8,16 +8,12 @@ import java.util.Collection;
  * @param <SELF> the type of the filter for chaining
  * @author ham
  */
-public interface RestrictCompanyId<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
-    default SELF companyId(Integer... companyIds)
-    {
+public interface RestrictCompanyId<SELF extends Restrict<SELF>> extends Restrict<SELF> {
+    default SELF companyId(Integer... companyIds) {
         return restrict("companyId", (Object[]) companyIds);
     }
 
-    default SELF companyIds(Collection<Integer> companyIds)
-    {
+    default SELF companyIds(Collection<Integer> companyIds) {
         return companyId(companyIds.toArray(new Integer[0]));
     }
 }

@@ -9,7 +9,6 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the type of DTO
  * @author ham
  */
-public interface ScrollableGet<DTO> extends Get<DTO>
-{
+public interface ScrollableGet<DTO> extends Get<DTO> {
     PnetDataClientResultPage<DTO> executeAndScroll(int itemsPerPage) throws PnetDataClientException;
 }

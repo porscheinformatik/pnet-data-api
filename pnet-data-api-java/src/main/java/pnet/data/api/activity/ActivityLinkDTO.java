@@ -14,12 +14,10 @@
  */
 package pnet.data.api.activity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithMatchcode;
 import pnet.data.api.util.WithTenant;
 
@@ -29,69 +27,58 @@ import pnet.data.api.util.WithTenant;
  * @author ham
  */
 @Schema(description = "Holds minimal information about an activity")
-public class ActivityLinkDTO implements WithTenant, WithMatchcode, Serializable
-{
+public class ActivityLinkDTO implements WithTenant, WithMatchcode, Serializable {
 
     private static final long serialVersionUID = -5441503535879450447L;
 
     @Schema(description = "A tenant where the activity is valid")
     private final String tenant;
+
     @Schema(description = "The unique matchcode of the activity")
     private final String matchcode;
 
-    public ActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
-    {
+    public ActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode) {
         super();
-
         this.tenant = tenant;
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return tenant;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(matchcode, tenant);
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-        if (obj == null)
-        {
+        if (obj == null) {
             return false;
         }
 
-        if (getClass() != obj.getClass())
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
 
         ActivityLinkDTO other = (ActivityLinkDTO) obj;
 
-        if (!Objects.equals(matchcode, other.matchcode))
-        {
+        if (!Objects.equals(matchcode, other.matchcode)) {
             return false;
         }
 
-        if (!Objects.equals(tenant, other.tenant))
-        {
+        if (!Objects.equals(tenant, other.tenant)) {
             return false;
         }
 
@@ -99,9 +86,7 @@ public class ActivityLinkDTO implements WithTenant, WithMatchcode, Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s(%s)", matchcode, tenant);
     }
-
 }

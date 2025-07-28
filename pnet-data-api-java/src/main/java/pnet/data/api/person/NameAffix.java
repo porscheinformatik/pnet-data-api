@@ -19,10 +19,7 @@ package pnet.data.api.person;
  *
  * @author ham
  */
-public enum NameAffix
-{
-
+public enum NameAffix {
     JUNIOR,
-    SENIOR
-
+    SENIOR,
 }

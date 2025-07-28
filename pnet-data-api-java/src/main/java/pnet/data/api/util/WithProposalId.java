@@ -19,12 +19,9 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithProposalId
-{
-
+public interface WithProposalId {
     /**
      * @return The id of the proposal. The id may vary on different environments.
      */
     Integer getProposalId();
-
 }

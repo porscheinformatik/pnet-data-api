@@ -1,9 +1,7 @@
 package pnet.data.api.client;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.util.List;
 import pnet.data.api.ResultPage;
 import pnet.data.api.SearchAfter;
 
@@ -15,26 +13,38 @@ import pnet.data.api.SearchAfter;
  * @author ham
  */
 public class DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT>
-    extends DefaultPnetDataClientResultPage<T> implements PnetDataClientResultPageWithAggregations<T, AggregationsT>
-{
+    extends DefaultPnetDataClientResultPage<T>
+    implements PnetDataClientResultPageWithAggregations<T, AggregationsT> {
+
     private final AggregationsT aggregations;
 
     @SuppressWarnings("java:S107")
-    public DefaultPnetDataClientResultPageWithAggregations(@JsonProperty("items") List<T> items,
-        @JsonProperty("aggregations") AggregationsT aggregations, @JsonProperty("itemsPerPage") int itemsPerPage,
-        @JsonProperty("totalNumberOfItems") int totalNumberOfItems, @JsonProperty("pageIndex") int pageIndex,
-        @JsonProperty("numberOfPages") int numberOfPages, @JsonProperty("searchAfter") SearchAfter searchAfter,
-        @JsonProperty("scrollId") String scrollId, @JsonProperty("mayProvideMoreResults") boolean mayProvideMoreResults)
-    {
-        super(items, itemsPerPage, totalNumberOfItems, pageIndex, numberOfPages, searchAfter, scrollId,
-            mayProvideMoreResults);
-
+    public DefaultPnetDataClientResultPageWithAggregations(
+        @JsonProperty("items") List<T> items,
+        @JsonProperty("aggregations") AggregationsT aggregations,
+        @JsonProperty("itemsPerPage") int itemsPerPage,
+        @JsonProperty("totalNumberOfItems") int totalNumberOfItems,
+        @JsonProperty("pageIndex") int pageIndex,
+        @JsonProperty("numberOfPages") int numberOfPages,
+        @JsonProperty("searchAfter") SearchAfter searchAfter,
+        @JsonProperty("scrollId") String scrollId,
+        @JsonProperty("mayProvideMoreResults") boolean mayProvideMoreResults
+    ) {
+        super(
+            items,
+            itemsPerPage,
+            totalNumberOfItems,
+            pageIndex,
+            numberOfPages,
+            searchAfter,
+            scrollId,
+            mayProvideMoreResults
+        );
         this.aggregations = aggregations;
     }
 
     @Override
-    public AggregationsT getAggregations()
-    {
+    public AggregationsT getAggregations() {
         return aggregations;
     }
 }

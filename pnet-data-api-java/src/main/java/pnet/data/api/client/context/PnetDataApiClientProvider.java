@@ -2,7 +2,6 @@ package pnet.data.api.client.context;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
-
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.activity.ActivityDataClient;
 import pnet.data.api.advisortype.AdvisorTypeDataClient;
@@ -28,8 +27,8 @@ import pnet.data.api.util.ClientProvider;
  * @author HAM
  */
 @Service
-public class PnetDataApiClientProvider implements ClientProvider
-{
+public class PnetDataApiClientProvider implements ClientProvider {
+
     private final AboutDataClient aboutDataClient;
     private final ActivityDataClient activityDataClient;
     private final AdvisorTypeDataClient advisorTypeDataClient;
@@ -48,17 +47,25 @@ public class PnetDataApiClientProvider implements ClientProvider
     private final NumberTypeDataClient numberTypeDataClient;
     private final PersonDataClient personDataClient;
 
-    public PnetDataApiClientProvider(@Lazy AboutDataClient aboutDataClient, @Lazy ActivityDataClient activityDataClient,
-        @Lazy AdvisorTypeDataClient advisorTypeDataClient, @Lazy ApplicationDataClient applicationDataClient,
-        @Lazy BrandDataClient brandDataClient, @Lazy CompanyDataClient companyDataClient,
+    public PnetDataApiClientProvider(
+        @Lazy AboutDataClient aboutDataClient,
+        @Lazy ActivityDataClient activityDataClient,
+        @Lazy AdvisorTypeDataClient advisorTypeDataClient,
+        @Lazy ApplicationDataClient applicationDataClient,
+        @Lazy BrandDataClient brandDataClient,
+        @Lazy CompanyDataClient companyDataClient,
         @Lazy CompanyGroupDataClient companyGroupDataClient,
         @Lazy CompanyGroupTypeDataClient companyGroupTypeDataClient,
         @Lazy CompanyNumberTypeDataClient companyNumberTypeDataClient,
-        @Lazy CompanyTypeDataClient companyTypeDataClient, @Lazy ContractStateDataClient contractStateDataClient,
-        @Lazy ContractTypeDataClient contractTypeDataClient, @Lazy ExternalBrandDataClient externalBrandDataClient,
-        @Lazy FunctionDataClient functionDataClient, @Lazy LegalFormDataClient legalFormDataClient,
-        @Lazy NumberTypeDataClient numberTypeDataClient, @Lazy PersonDataClient personDataClient)
-    {
+        @Lazy CompanyTypeDataClient companyTypeDataClient,
+        @Lazy ContractStateDataClient contractStateDataClient,
+        @Lazy ContractTypeDataClient contractTypeDataClient,
+        @Lazy ExternalBrandDataClient externalBrandDataClient,
+        @Lazy FunctionDataClient functionDataClient,
+        @Lazy LegalFormDataClient legalFormDataClient,
+        @Lazy NumberTypeDataClient numberTypeDataClient,
+        @Lazy PersonDataClient personDataClient
+    ) {
         super();
         this.aboutDataClient = aboutDataClient;
         this.activityDataClient = activityDataClient;
@@ -80,104 +87,87 @@ public class PnetDataApiClientProvider implements ClientProvider
     }
 
     @Override
-    public AboutDataClient getAboutDataClient()
-    {
+    public AboutDataClient getAboutDataClient() {
         return aboutDataClient;
     }
 
     @Override
-    public ActivityDataClient getActivityDataClient()
-    {
+    public ActivityDataClient getActivityDataClient() {
         return activityDataClient;
     }
 
     @Override
-    public AdvisorTypeDataClient getAdvisorTypeDataClient()
-    {
+    public AdvisorTypeDataClient getAdvisorTypeDataClient() {
         return advisorTypeDataClient;
     }
 
     @Override
-    public ApplicationDataClient getApplicationDataClient()
-    {
+    public ApplicationDataClient getApplicationDataClient() {
         return applicationDataClient;
     }
 
     @Override
-    public BrandDataClient getBrandDataClient()
-    {
+    public BrandDataClient getBrandDataClient() {
         return brandDataClient;
     }
 
     @Override
-    public CompanyDataClient getCompanyDataClient()
-    {
+    public CompanyDataClient getCompanyDataClient() {
         return companyDataClient;
     }
 
     @Override
-    public CompanyGroupDataClient getCompanyGroupDataClient()
-    {
+    public CompanyGroupDataClient getCompanyGroupDataClient() {
         return companyGroupDataClient;
     }
 
     @Override
-    public CompanyGroupTypeDataClient getCompanyGroupTypeDataClient()
-    {
+    public CompanyGroupTypeDataClient getCompanyGroupTypeDataClient() {
         return companyGroupTypeDataClient;
     }
 
     @Override
-    public CompanyNumberTypeDataClient getCompanyNumberTypeDataClient()
-    {
+    public CompanyNumberTypeDataClient getCompanyNumberTypeDataClient() {
         return companyNumberTypeDataClient;
     }
 
     @Override
-    public CompanyTypeDataClient getCompanyTypeDataClient()
-    {
+    public CompanyTypeDataClient getCompanyTypeDataClient() {
         return companyTypeDataClient;
     }
 
     @Override
-    public ContractStateDataClient getContractStateDataClient()
-    {
+    public ContractStateDataClient getContractStateDataClient() {
         return contractStateDataClient;
     }
 
     @Override
-    public ContractTypeDataClient getContractTypeDataClient()
-    {
+    public ContractTypeDataClient getContractTypeDataClient() {
         return contractTypeDataClient;
     }
 
     @Override
-    public ExternalBrandDataClient getExternalBrandDataClient()
-    {
+    public ExternalBrandDataClient getExternalBrandDataClient() {
         return externalBrandDataClient;
     }
 
     @Override
-    public FunctionDataClient getFunctionDataClient()
-    {
+    public FunctionDataClient getFunctionDataClient() {
         return functionDataClient;
     }
 
     @Override
-    public LegalFormDataClient getLegalFormDataClient()
-    {
+    public LegalFormDataClient getLegalFormDataClient() {
         return legalFormDataClient;
     }
 
     @Override
-    public NumberTypeDataClient getNumberTypeDataClient()
-    {
+    public NumberTypeDataClient getNumberTypeDataClient() {
         return numberTypeDataClient;
     }
 
     @Override
-    public PersonDataClient getPersonDataClient()
-    {
+    public PersonDataClient getPersonDataClient() {
         return personDataClient;
     }
 }

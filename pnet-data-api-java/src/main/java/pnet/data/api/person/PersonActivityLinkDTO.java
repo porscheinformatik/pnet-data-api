@@ -14,14 +14,12 @@
  */
 package pnet.data.api.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.PnetDataApiUtils;
@@ -34,8 +32,8 @@ import pnet.data.api.util.WithCompanyId;
  * @author ham
  */
 @Schema(description = "Holds minimal information about a activity of the person.")
-public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
-{
+public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode {
+
     @Serial
     private static final long serialVersionUID = 4247336068734009775L;
 
@@ -57,28 +55,39 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompan
     @Schema(description = "The current state of the audit process.")
     protected final ApprovalState approvalState;
 
-    @Schema(description = "The date and time from when this person has/had an actvitiy. "
-        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
+    @Schema(
+        description = "The date and time from when this person has/had an actvitiy. " +
+        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+    )
     private final LocalDateTime validFrom;
 
-    @Schema(description = "The date and time till when this brand has/had an actvitiy. "
-        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
+    @Schema(
+        description = "The date and time till when this brand has/had an actvitiy. " +
+        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+    )
     private final LocalDateTime validTo;
 
-    @Schema(description = "The flag that declares, whether this activity is assigned to the person due to a function "
-        + "or not.")
+    @Schema(
+        description = "The flag that declares, whether this activity is assigned to the person due to a function " +
+        "or not."
+    )
     private final boolean dueToFunction;
 
     @SuppressWarnings("java:S107")
-    public PersonActivityLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
-        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
-        @JsonProperty("approved") boolean approved, @JsonProperty("approvalState") ApprovalState approvalState,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("dueToFunction") boolean dueToFunction)
-    {
+    public PersonActivityLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("approved") boolean approved,
+        @JsonProperty("approvalState") ApprovalState approvalState,
+        @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("dueToFunction") boolean dueToFunction
+    ) {
         super(tenant, matchcode);
-
         this.companyId = companyId;
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
@@ -92,70 +101,58 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompan
 
     @JsonPropertyDescription("A tenant where the activity is valid")
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return super.getTenant();
     }
 
     @JsonPropertyDescription("The unique matchcode of the activity")
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return super.getMatchcode();
     }
 
     @Override
-    public String getBrandMatchcode()
-    {
+    public String getBrandMatchcode() {
         return brandMatchcode;
     }
 
     @Override
-    public Integer getCompanyId()
-    {
+    public Integer getCompanyId() {
         return companyId;
     }
 
     @Override
-    public String getCompanyMatchcode()
-    {
+    public String getCompanyMatchcode() {
         return companyMatchcode;
     }
 
     @Override
-    public String getCompanyNumber()
-    {
+    public String getCompanyNumber() {
         return companyNumber;
     }
 
-    public boolean isApproved()
-    {
+    public boolean isApproved() {
         return approved;
     }
 
-    public ApprovalState getApprovalState()
-    {
+    public ApprovalState getApprovalState() {
         return approvalState;
     }
 
-    public LocalDateTime getValidFrom()
-    {
+    public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
-    public LocalDateTime getValidTo()
-    {
+    public LocalDateTime getValidTo() {
         return validTo;
     }
 
-    public boolean isDueToFunction()
-    {
+    public boolean isDueToFunction() {
         return dueToFunction;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + Objects.hash(brandMatchcode, companyId, validFrom);
@@ -163,33 +160,39 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompan
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!super.equals(obj))
-        {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof PersonActivityLinkDTO other))
-        {
+        if (!(obj instanceof PersonActivityLinkDTO other)) {
             return false;
         }
-        return Objects.equals(brandMatchcode, other.brandMatchcode)
-            && Objects.equals(companyId, other.companyId)
-            && PnetDataApiUtils.equals(validFrom, other.validFrom);
+        return (
+            Objects.equals(brandMatchcode, other.brandMatchcode) &&
+            Objects.equals(companyId, other.companyId) &&
+            PnetDataApiUtils.equals(validFrom, other.validFrom)
+        );
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, "
-                + "approved=%s, approvalState=%s, validFrom=%s, validTo=%s, dueToFunction=%s, tenant=%s, matchcode=%s]",
-            companyId, companyMatchcode, companyNumber, brandMatchcode, approved, approvalState, validFrom, validTo,
-            dueToFunction, tenant, matchcode);
+            "PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, " +
+            "approved=%s, approvalState=%s, validFrom=%s, validTo=%s, dueToFunction=%s, tenant=%s, matchcode=%s]",
+            companyId,
+            companyMatchcode,
+            companyNumber,
+            brandMatchcode,
+            approved,
+            approvalState,
+            validFrom,
+            validTo,
+            dueToFunction,
+            tenant,
+            matchcode
+        );
     }
-
 }

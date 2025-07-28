@@ -1,13 +1,11 @@
 package pnet.data.api.spring;
 
+import at.porscheinformatik.happyrest.RestLoggerAdapter;
+import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import java.util.Locale;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-
-import at.porscheinformatik.happyrest.RestLoggerAdapter;
-import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientConfig;
 import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
@@ -24,12 +22,11 @@ import pnet.data.api.company.CompanyDataClient;
  * @author HAM
  */
 @Import(PnetDataClientConfig.class)
-public final class PnetSpringRestClientTemplate
-{
+public final class PnetSpringRestClientTemplate {
+
     private static PnetDataApiLoginMethod loginMethod = null;
 
-    private PnetSpringRestClientTemplate()
-    {
+    private PnetSpringRestClientTemplate() {
         super();
     }
 
@@ -37,37 +34,33 @@ public final class PnetSpringRestClientTemplate
      * @param args API user name and password.
      * @throws PnetDataClientException in case of errors.
      */
-    public static void main(String[] args) throws PnetDataClientException
-    {
+    public static void main(String[] args) throws PnetDataClientException {
         String url = "https://qa-data.auto-partner.net/data";
 
-        if (args.length == 1)
-        {
+        if (args.length == 1) {
             String token = args[0];
 
             loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> token);
-        }
-        else if (args.length == 2)
-        {
+        } else if (args.length == 2) {
             String username = args[0];
             String password = args[1];
 
-            loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url,
-                () -> new UsernamePasswordCredentials(username, password));
-        }
-        else
-        {
+            loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () ->
+                new UsernamePasswordCredentials(username, password)
+            );
+        } else {
             System.out.println(
-                "Usage: java " + PnetSpringRestClientTemplate.class.getName() + " <TOKEN> | (<USERNAME> <PASSWORD>)");
+                "Usage: java " + PnetSpringRestClientTemplate.class.getName() + " <TOKEN> | (<USERNAME> <PASSWORD>)"
+            );
             System.exit(-1);
             return;
         }
 
         try (
             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
-                PnetSpringRestClientTemplate.class)
-        )
-        {
+                PnetSpringRestClientTemplate.class
+            );
+        ) {
             context
                 .getBean(CompanyDataClient.class)
                 .find()
@@ -80,14 +73,12 @@ public final class PnetSpringRestClientTemplate
     }
 
     @Bean
-    public PnetDataApiLoginMethod loginMethod()
-    {
+    public PnetDataApiLoginMethod loginMethod() {
         return loginMethod;
     }
 
     @Bean
-    public RestLoggerAdapter restLoggerAdapter()
-    {
+    public RestLoggerAdapter restLoggerAdapter() {
         return SystemRestLoggerAdapter.INSTANCE;
     }
 }

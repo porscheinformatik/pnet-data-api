@@ -1,23 +1,19 @@
 package at.porscheinformatik.happyrest.spring;
 
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.Map.Entry;
-
-import org.springframework.http.HttpEntity;
-import org.springframework.util.LinkedMultiValueMap;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.MockedRestResponse;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestUtilsTest;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.Map.Entry;
+import org.springframework.http.HttpEntity;
+import org.springframework.util.LinkedMultiValueMap;
 
-public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
-{
+public class MockedSpringRestResponse<T> extends MockedRestResponse<T> {
 
     private final RestMethod requestMethod;
     private final GenericType<T> responseType;
@@ -26,9 +22,12 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
     private final String requestContentType;
     private final String requestBody;
 
-    public MockedSpringRestResponse(RestMethod requestMethod, GenericType<T> responseType, URI uri,
-        HttpEntity<Object> entity)
-    {
+    public MockedSpringRestResponse(
+        RestMethod requestMethod,
+        GenericType<T> responseType,
+        URI uri,
+        HttpEntity<Object> entity
+    ) {
         super();
         this.requestMethod = requestMethod;
         this.responseType = responseType;
@@ -38,35 +37,25 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
         requestContentType = entity.getHeaders().getFirst("Content-Type");
 
         // we have to fake Spring's content building
-        if (requestContentType != null && requestContentType.contains("application/json"))
-        {
-            try
-            {
+        if (requestContentType != null && requestContentType.contains("application/json")) {
+            try {
                 requestBody = RestUtilsTest.OBJECT_MAPPER.writeValueAsString(entity.getBody());
-            }
-            catch (JsonProcessingException e)
-            {
+            } catch (JsonProcessingException e) {
                 throw new RuntimeException("Failed to format JSON", e);
             }
-        }
-        else if (requestContentType != null && requestContentType.contains("application/x-www-form-urlencoded"))
-        {
-            @SuppressWarnings("unchecked") LinkedMultiValueMap<String, String> map =
-                (LinkedMultiValueMap<String, String>) entity.getBody();
+        } else if (requestContentType != null && requestContentType.contains("application/x-www-form-urlencoded")) {
+            @SuppressWarnings("unchecked")
+            LinkedMultiValueMap<String, String> map = (LinkedMultiValueMap<String, String>) entity.getBody();
 
             StringBuilder builder = new StringBuilder();
 
-            if (map != null)
-            {
-                for (Entry<String, List<String>> entries : map.entrySet())
-                {
-                    if (!builder.isEmpty())
-                    {
+            if (map != null) {
+                for (Entry<String, List<String>> entries : map.entrySet()) {
+                    if (!builder.isEmpty()) {
                         builder.append("&");
                     }
 
-                    for (String value : entries.getValue())
-                    {
+                    for (String value : entries.getValue()) {
                         builder
                             .append(RestUtils.encodeString(entries.getKey(), StandardCharsets.UTF_8))
                             .append("=")
@@ -76,54 +65,44 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T>
             }
 
             requestBody = builder.toString();
-        }
-        else
-        {
+        } else {
             requestBody = String.valueOf(entity.getBody());
         }
     }
 
-    public RestMethod getMethod()
-    {
+    public RestMethod getMethod() {
         return requestMethod;
     }
 
-    public GenericType<T> getResponseType()
-    {
+    public GenericType<T> getResponseType() {
         return responseType;
     }
 
-    public URI getUri()
-    {
+    public URI getUri() {
         return uri;
     }
 
-    public HttpEntity<Object> getEntity()
-    {
+    public HttpEntity<Object> getEntity() {
         return entity;
     }
 
     @Override
-    public String getRequestMethod()
-    {
+    public String getRequestMethod() {
         return requestMethod.name();
     }
 
     @Override
-    public String getRequestUrl()
-    {
+    public String getRequestUrl() {
         return getUri().toString();
     }
 
     @Override
-    public List<String> getRequestHeader(String key)
-    {
+    public List<String> getRequestHeader(String key) {
         return entity.getHeaders().get(key);
     }
 
     @Override
-    public String getRequestBody()
-    {
+    public String getRequestBody() {
         return requestBody;
     }
 }

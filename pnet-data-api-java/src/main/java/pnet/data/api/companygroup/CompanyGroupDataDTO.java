@@ -14,15 +14,13 @@
  */
 package pnet.data.api.companygroup;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Holds a group of companies.
@@ -30,8 +28,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author ham
  */
 @Schema(description = "Holds all information about a company group.")
-public class CompanyGroupDataDTO implements Serializable
-{
+public class CompanyGroupDataDTO implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 9149727074935636956L;
 
@@ -47,53 +45,50 @@ public class CompanyGroupDataDTO implements Serializable
     @Schema(description = "The members of the company group")
     private Collection<CompanyGroupMemberLinkDTO> members;
 
-    public CompanyGroupDataDTO(@JsonProperty("leadingCompanyId") Integer leadingCompanyId,
+    public CompanyGroupDataDTO(
+        @JsonProperty("leadingCompanyId") Integer leadingCompanyId,
         @JsonProperty("leadingCompanyMatchcode") String leadingCompanyMatchcode,
-        @JsonProperty("leadingCompanyNumber") String leadingCompanyNumber)
-    {
+        @JsonProperty("leadingCompanyNumber") String leadingCompanyNumber
+    ) {
         super();
-
         this.leadingCompanyId = leadingCompanyId;
         this.leadingCompanyMatchcode = leadingCompanyMatchcode;
         this.leadingCompanyNumber = leadingCompanyNumber;
     }
 
-    public Integer getLeadingCompanyId()
-    {
+    public Integer getLeadingCompanyId() {
         return leadingCompanyId;
     }
 
-    public String getLeadingCompanyMatchcode()
-    {
+    public String getLeadingCompanyMatchcode() {
         return leadingCompanyMatchcode;
     }
 
-    public String getLeadingCompanyNumber()
-    {
+    public String getLeadingCompanyNumber() {
         return leadingCompanyNumber;
     }
 
-    public Collection<CompanyGroupMemberLinkDTO> getMembers()
-    {
+    public Collection<CompanyGroupMemberLinkDTO> getMembers() {
         return members;
     }
 
-    public Optional<CompanyGroupMemberLinkDTO> findMember(Predicate<? super CompanyGroupMemberLinkDTO> predicate)
-    {
+    public Optional<CompanyGroupMemberLinkDTO> findMember(Predicate<? super CompanyGroupMemberLinkDTO> predicate) {
         return members == null ? Optional.empty() : members.stream().filter(predicate).findFirst();
     }
 
-    public void setMembers(Collection<CompanyGroupMemberLinkDTO> members)
-    {
+    public void setMembers(Collection<CompanyGroupMemberLinkDTO> members) {
         this.members = members;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "CompanyGroupDataDTO [leadingCompanyId=%s, leadingCompanyMatchcode=%s, leadingCompanyNumber=%s, "
-                + "members=%s]", leadingCompanyId, leadingCompanyMatchcode, leadingCompanyNumber, members);
+            "CompanyGroupDataDTO [leadingCompanyId=%s, leadingCompanyMatchcode=%s, leadingCompanyNumber=%s, " +
+            "members=%s]",
+            leadingCompanyId,
+            leadingCompanyMatchcode,
+            leadingCompanyNumber,
+            members
+        );
     }
-
 }

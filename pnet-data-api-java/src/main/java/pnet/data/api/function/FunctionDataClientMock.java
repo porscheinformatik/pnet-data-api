@@ -3,7 +3,6 @@ package pnet.data.api.function;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.PnetDataApiContextMock;
@@ -18,14 +17,14 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class FunctionDataClientMock extends FunctionDataClient
-    implements ItemClientMock<FunctionItemDTO, FunctionDataClientMock>,
-    DataClientMock<FunctionDataDTO, FunctionDataClientMock>
-{
-    public FunctionDataClientMock()
-    {
-        super(new PnetDataApiContextMock());
+public class FunctionDataClientMock
+    extends FunctionDataClient
+    implements
+        ItemClientMock<FunctionItemDTO, FunctionDataClientMock>,
+        DataClientMock<FunctionDataDTO, FunctionDataClientMock> {
 
+    public FunctionDataClientMock() {
+        super(new PnetDataApiContextMock());
         MockStore<FunctionItemDTO> itemStore = getItemStore();
 
         addDefaultLabelQueryFilter(itemStore);
@@ -43,8 +42,7 @@ public class FunctionDataClientMock extends FunctionDataClient
 
     @Override
     protected PnetDataClientResultPage<FunctionDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<FunctionDataDTO> entries = findDatas(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -52,8 +50,7 @@ public class FunctionDataClientMock extends FunctionDataClient
 
     @Override
     protected PnetDataClientResultPage<FunctionItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<FunctionItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -61,8 +58,7 @@ public class FunctionDataClientMock extends FunctionDataClient
 
     @Override
     protected PnetDataClientResultPage<FunctionItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<FunctionItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);

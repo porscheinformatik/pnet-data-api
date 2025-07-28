@@ -5,50 +5,41 @@ import java.util.Objects;
 /**
  * @author yda
  */
-public abstract class AbstractRestAttribute implements RestAttribute
-{
+public abstract class AbstractRestAttribute implements RestAttribute {
+
     private final String name;
     private final Object value;
 
-    protected AbstractRestAttribute(String name, Object value)
-    {
+    protected AbstractRestAttribute(String name, Object value) {
         super();
-
         this.name = name;
         this.value = value;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public Object getValue()
-    {
+    public Object getValue() {
         return value;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(name, value);
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass())
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         AbstractRestAttribute other = (AbstractRestAttribute) obj;
@@ -56,8 +47,7 @@ public abstract class AbstractRestAttribute implements RestAttribute
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s %s = %s", getClass().getSimpleName(), getName(), getValue());
     }
 }

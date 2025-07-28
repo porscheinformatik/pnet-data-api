@@ -30,13 +30,11 @@ import java.util.stream.Collectors;
  *
  * @author Manfred Hantschel
  */
-public class CLI
-{
+public class CLI {
 
     private static final Collator DICTIONARY_COLLATOR;
 
-    static
-    {
+    static {
         DICTIONARY_COLLATOR = Collator.getInstance();
 
         DICTIONARY_COLLATOR.setStrength(Collator.PRIMARY);
@@ -49,24 +47,19 @@ public class CLI
     @Documented
     @Retention(RUNTIME)
     @Target(METHOD)
-    public @interface Command
-    {
-
+    public @interface Command {
         String[] name() default {};
 
-        String format()
-
-            default "";
+        String format() default "";
 
         String description() default "";
-
     }
 
     /**
      * A scanner for the shell
      */
-    protected static class Scanner
-    {
+    protected static class Scanner {
+
         private final Reader reader;
 
         private int offset = 0;
@@ -77,49 +70,38 @@ public class CLI
         private boolean skipLF = false;
         private boolean lookedAhead = false;
 
-        public Scanner(Reader reader)
-        {
+        public Scanner(Reader reader) {
             super();
-
             this.reader = reader;
         }
 
-        public int getOffset()
-        {
+        public int getOffset() {
             return offset;
         }
 
-        public int getLine()
-        {
+        public int getLine() {
             return line;
         }
 
-        public int getColumn()
-        {
+        public int getColumn() {
             return column;
         }
 
-        public int get()
-        {
+        public int get() {
             return ch;
         }
 
-        public int next() throws IOException
-        {
-            if (lookedAhead)
-            {
+        public int next() throws IOException {
+            if (lookedAhead) {
                 ch = nextCh;
                 lookedAhead = false;
-            }
-            else
-            {
+            } else {
                 ch = read();
             }
 
             offset += 1;
 
-            if (ch == '\n')
-            {
+            if (ch == '\n') {
                 line += 1;
                 column = 0;
             }
@@ -127,10 +109,8 @@ public class CLI
             return ch;
         }
 
-        public int lookAhead() throws IOException
-        {
-            if (lookedAhead)
-            {
+        public int lookAhead() throws IOException {
+            if (lookedAhead) {
                 return nextCh;
             }
 
@@ -140,19 +120,16 @@ public class CLI
             return nextCh;
         }
 
-        protected int read() throws IOException
-        {
+        protected int read() throws IOException {
             int c = reader.read();
 
-            if ((c == '\n') && (skipLF))
-            {
+            if ((c == '\n') && (skipLF)) {
                 c = reader.read();
             }
 
             skipLF = false;
 
-            if (c == '\r')
-            {
+            if (c == '\r') {
                 c = '\n';
                 skipLF = true;
             }
@@ -161,11 +138,9 @@ public class CLI
         }
     }
 
-    protected static class Token
-    {
+    protected static class Token {
 
-        public enum Type
-        {
+        public enum Type {
             END_OF_FILE,
 
             END_OF_LINE,
@@ -182,90 +157,73 @@ public class CLI
         private final int column;
         private final String value;
 
-        public Token(Type type, int line, int column, String value)
-        {
+        public Token(Type type, int line, int column, String value) {
             super();
-
             this.type = type;
             this.line = line;
             this.column = column;
             this.value = value;
         }
 
-        public Type getType()
-        {
+        public Type getType() {
             return type;
         }
 
-        public int getLine()
-        {
+        public int getLine() {
             return line;
         }
 
-        public int getColumn()
-        {
+        public int getColumn() {
             return column;
         }
 
-        public String getValue()
-        {
+        public String getValue() {
             return value;
         }
-
     }
 
     /**
      * A tokenizer for the shell
      */
-    protected static class Tokenizer
-    {
+    protected static class Tokenizer {
+
         private final Scanner scanner;
 
-        public Tokenizer(Scanner scanner)
-        {
+        public Tokenizer(Scanner scanner) {
             super();
-
             this.scanner = scanner;
         }
 
-        public Token read() throws IOException
-        {
+        public Token read() throws IOException {
             int ch;
             int line;
             int column;
 
-            do
-            {
+            do {
                 ch = scanner.next();
                 line = scanner.getLine();
                 column = scanner.getColumn();
             } while (ch == ' ');
 
-            if (ch < 0)
-            {
+            if (ch < 0) {
                 return new Token(Token.Type.END_OF_FILE, line, column, null);
             }
 
-            return switch (ch)
-            {
+            return switch (ch) {
                 case '\n', ';' -> new Token(Token.Type.END_OF_LINE, line, column, String.valueOf((char) ch));
                 case '\'' -> readString(line, column, '\'');
                 case '\"' -> readString(line, column, '\"');
                 default -> readCommand(ch, line, column);
             };
-
         }
 
-        private Token readString(int line, int column, char delimiter) throws IOException
-        {
+        private Token readString(int line, int column, char delimiter) throws IOException {
             StringBuilder builder = new StringBuilder();
 
-            while (true)
-            {
+            while (true) {
                 int ch = scanner.next();
 
-                if (ch == delimiter)
-                {
+                if (ch == delimiter) {
                     return new Token(Token.Type.STRING, line, column, builder.toString());
                 }
 
@@ -273,14 +231,11 @@ public class CLI
             }
         }
 
-        private Token readCommand(int ch, int line, int column) throws IOException
-        {
+        private Token readCommand(int ch, int line, int column) throws IOException {
             StringBuilder builder = new StringBuilder();
 
-            while (true)
-            {
-                if (ch == '\\')
-                {
+            while (true) {
+                if (ch == '\\') {
                     ch = scanner.next();
                 }
 
@@ -288,8 +243,7 @@ public class CLI
 
                 ch = scanner.lookAhead();
 
-                if ((ch == ' ') || (ch == '\n') || (ch == ';'))
-                {
+                if ((ch == ' ') || (ch == '\n') || (ch == ';')) {
                     return new Token(Token.Type.COMMAND, line, column, builder.toString());
                 }
 
@@ -297,8 +251,7 @@ public class CLI
             }
         }
 
-        protected static boolean isWhitespace(char ch)
-        {
+        protected static boolean isWhitespace(char ch) {
             return (ch == ' ') || (ch == '\t') || (ch == '\r') || (ch == '\n');
         }
     }
@@ -306,34 +259,26 @@ public class CLI
     /**
      * The parser
      */
-    protected static class Parser
-    {
+    protected static class Parser {
 
         private final Tokenizer tokenizer;
 
-        public Parser(Tokenizer tokenizer)
-        {
+        public Parser(Tokenizer tokenizer) {
             super();
-
             this.tokenizer = tokenizer;
         }
 
-        public Arguments parse() throws IOException
-        {
+        public Arguments parse() throws IOException {
             List<String> tokens = new ArrayList<>();
 
-            while (true)
-            {
+            while (true) {
                 Token token = tokenizer.read();
 
-                switch (token.getType())
-                {
-                    case END_OF_FILE ->
-                    {
+                switch (token.getType()) {
+                    case END_OF_FILE -> {
                         return null;
                     }
-                    case END_OF_LINE, SEPARATOR ->
-                    {
+                    case END_OF_LINE, SEPARATOR -> {
                         return new Arguments(tokens);
                     }
                     case STRING, COMMAND -> tokens.add(token.getValue());
@@ -346,25 +291,20 @@ public class CLI
     /**
      * Accessor for arguments. The common concept is, that when consuming an argument, it will be removed.
      */
-    public static class Arguments implements Iterable<String>
-    {
+    public static class Arguments implements Iterable<String> {
 
         private final List<String> args;
 
-        public Arguments(String... args)
-        {
+        public Arguments(String... args) {
             this(new ArrayList<>(Arrays.asList(args)));
         }
 
-        public Arguments(List<String> args)
-        {
+        public Arguments(List<String> args) {
             super();
-
             this.args = args;
         }
 
-        public Arguments copy()
-        {
+        public Arguments copy() {
             return new Arguments(new ArrayList<>(args));
         }
 
@@ -374,8 +314,7 @@ public class CLI
          * @param argument the argument
          * @return the {@link Arguments} itself
          */
-        public Arguments add(String argument)
-        {
+        public Arguments add(String argument) {
             return add(args.size(), argument);
         }
 
@@ -386,8 +325,7 @@ public class CLI
          * @param argument the argument
          * @return the {@link Arguments} itself
          */
-        public Arguments add(int index, String argument)
-        {
+        public Arguments add(int index, String argument) {
             args.add(index, argument);
 
             return this;
@@ -398,8 +336,7 @@ public class CLI
          *
          * @return true if empty
          */
-        public boolean isEmpty()
-        {
+        public boolean isEmpty() {
             return args.isEmpty();
         }
 
@@ -408,8 +345,7 @@ public class CLI
          *
          * @return the number of (remaining) arguments
          */
-        public int size()
-        {
+        public int size() {
             return args.size();
         }
 
@@ -419,16 +355,13 @@ public class CLI
          * @param keys the arguments
          * @return the first index, -1 if none was found
          */
-        public int indexOf(String... keys)
-        {
+        public int indexOf(String... keys) {
             int index = Integer.MAX_VALUE;
 
-            for (String key : keys)
-            {
+            for (String key : keys) {
                 int currentIndex = args.indexOf(key);
 
-                if ((currentIndex >= 0) && (currentIndex < index))
-                {
+                if ((currentIndex >= 0) && (currentIndex < index)) {
                     index = currentIndex;
                 }
             }
@@ -442,16 +375,13 @@ public class CLI
          * @param keys the arguments
          * @return the last index, -1 if none was found
          */
-        public int lastIndexOf(String... keys)
-        {
+        public int lastIndexOf(String... keys) {
             int index = -1;
 
-            for (String key : keys)
-            {
+            for (String key : keys) {
                 int currentIndex = args.lastIndexOf(key);
 
-                if (currentIndex > index)
-                {
+                if (currentIndex > index) {
                     index = currentIndex;
                 }
             }
@@ -465,71 +395,57 @@ public class CLI
          * @see java.lang.Iterable#iterator()
          */
         @Override
-        public Iterator<String> iterator()
-        {
+        public Iterator<String> iterator() {
             return args.iterator();
         }
 
         @SuppressWarnings("unchecked")
-        protected <Any, T extends Enum<T>> Any convert(String value, Class<Any> type)
-        {
-            if (value == null)
-            {
+        protected <Any, T extends Enum<T>> Any convert(String value, Class<Any> type) {
+            if (value == null) {
                 return null;
             }
 
-            if (String.class.isAssignableFrom(type))
-            {
+            if (String.class.isAssignableFrom(type)) {
                 return (Any) value;
             }
 
-            if (Boolean.class.isAssignableFrom(type))
-            {
+            if (Boolean.class.isAssignableFrom(type)) {
                 return (Any) Boolean.valueOf(Boolean.parseBoolean(value));
             }
 
-            if (Byte.class.isAssignableFrom(type))
-            {
+            if (Byte.class.isAssignableFrom(type)) {
                 return (Any) Byte.decode(value);
             }
 
-            if (Short.class.isAssignableFrom(type))
-            {
+            if (Short.class.isAssignableFrom(type)) {
                 return (Any) Short.decode(value);
             }
 
-            if (Integer.class.isAssignableFrom(type))
-            {
+            if (Integer.class.isAssignableFrom(type)) {
                 return (Any) Integer.decode(value);
             }
 
-            if (Long.class.isAssignableFrom(type))
-            {
+            if (Long.class.isAssignableFrom(type)) {
                 return (Any) Long.decode(value);
             }
 
-            if (Float.class.isAssignableFrom(type))
-            {
+            if (Float.class.isAssignableFrom(type)) {
                 return (Any) Float.valueOf(Float.parseFloat(value));
             }
 
-            if (Double.class.isAssignableFrom(type))
-            {
+            if (Double.class.isAssignableFrom(type)) {
                 return (Any) Double.valueOf(Double.parseDouble(value));
             }
 
-            if (Character.class.isAssignableFrom(type))
-            {
-                if (value.length() > 1)
-                {
+            if (Character.class.isAssignableFrom(type)) {
+                if (value.length() > 1) {
                     throw new IllegalArgumentException("Character expected");
                 }
 
                 return (Any) Character.valueOf(value.charAt(0));
             }
 
-            if (Enum.class.isAssignableFrom(type))
-            {
+            if (Enum.class.isAssignableFrom(type)) {
                 return (Any) Enum.valueOf((Class<T>) type, value);
             }
 
@@ -542,8 +458,7 @@ public class CLI
          *
          * @return a new {@link Arguments} object
          */
-        public Arguments consumeAll()
-        {
+        public Arguments consumeAll() {
             return consumeAll(0);
         }
 
@@ -554,38 +469,31 @@ public class CLI
          * @param startIndex the start index
          * @return a new {@link Arguments} object
          */
-        public Arguments consumeAll(int startIndex)
-        {
+        public Arguments consumeAll(int startIndex) {
             List<String> result = new ArrayList<>();
 
-            while (startIndex < args.size())
-            {
+            while (startIndex < args.size()) {
                 result.add(args.remove(startIndex));
             }
 
             return new Arguments(result);
         }
 
-        public <Any> Optional<Any> consume(Class<Any> type)
-        {
+        public <Any> Optional<Any> consume(Class<Any> type) {
             return consume(0, type);
         }
 
         @SuppressWarnings("unchecked")
-        public <Any> Optional<Any> consume(int index, Class<Any> type)
-        {
-            if (isEmpty())
-            {
+        public <Any> Optional<Any> consume(int index, Class<Any> type) {
+            if (isEmpty()) {
                 return Optional.empty();
             }
 
-            if (index >= size())
-            {
+            if (index >= size()) {
                 return Optional.empty();
             }
 
-            if (type.isArray())
-            {
+            if (type.isArray()) {
                 return (Optional<Any>) consumeArray(index, type.getComponentType());
             }
 
@@ -593,19 +501,16 @@ public class CLI
         }
 
         @SuppressWarnings("unchecked")
-        public <Any> Optional<Any[]> consumeArray(int index, Class<Any> componentType)
-        {
+        public <Any> Optional<Any[]> consumeArray(int index, Class<Any> componentType) {
             Optional<Any> value = consume(index, componentType);
 
-            if (value.isEmpty())
-            {
+            if (value.isEmpty()) {
                 return Optional.empty();
             }
 
             List<Any> list = new ArrayList<>();
 
-            while (value.isPresent())
-            {
+            while (value.isPresent()) {
                 list.add(value.get());
                 value = consume(index, componentType);
             }
@@ -621,19 +526,16 @@ public class CLI
          * @param type the type of the argument
          * @return the value part (next argument), null if key was not found
          */
-        public <Any> Optional<Any> consume(String key, Class<Any> type)
-        {
+        public <Any> Optional<Any> consume(String key, Class<Any> type) {
             int indexOf = args.indexOf(key);
 
-            if (indexOf < 0)
-            {
+            if (indexOf < 0) {
                 return Optional.empty();
             }
 
             args.remove(indexOf);
 
-            if (indexOf >= args.size())
-            {
+            if (indexOf >= args.size()) {
                 throw new IllegalArgumentException(String.format("Invalid argument: %s. Value is missing.", key));
             }
 
@@ -646,8 +548,7 @@ public class CLI
          * @param flag the argument
          * @return true if the argument was found, false otherwise.
          */
-        public boolean consumeFlag(String flag)
-        {
+        public boolean consumeFlag(String flag) {
             return args.remove(flag);
         }
 
@@ -657,14 +558,11 @@ public class CLI
          * @see java.lang.Object#toString()
          */
         @Override
-        public String toString()
-        {
+        public String toString() {
             StringBuilder builder = new StringBuilder();
 
-            for (String arg : args)
-            {
-                if (!builder.isEmpty())
-                {
+            for (String arg : args) {
+                if (!builder.isEmpty()) {
                     builder.append(" ");
                 }
 
@@ -675,8 +573,8 @@ public class CLI
         }
     }
 
-    protected static class Handler
-    {
+    protected static class Handler {
+
         private final List<Handler> subHandlers = new ArrayList<>();
 
         private final String name;
@@ -685,44 +583,37 @@ public class CLI
         private String description;
         private Consumer<Arguments> consumer;
 
-        public Handler(String name)
-        {
+        public Handler(String name) {
             super();
-
             this.name = name;
         }
 
-        public String getName()
-        {
+        public String getName() {
             return name;
         }
 
-        public String getFormat()
-        {
+        public String getFormat() {
             return null;
         }
 
-        public String getDescription()
-        {
+        public String getDescription() {
             return null;
         }
 
-        public String getHelp(String prefix, String... qs)
-        {
+        public String getHelp(String prefix, String... qs) {
             StringBuilder builder = new StringBuilder(getConsumerHelp(prefix, qs));
             List<Handler> handlers = new ArrayList<>(subHandlers);
 
             handlers.sort((a, b) -> DICTIONARY_COLLATOR.compare(a.getName(), b.getName()));
 
-            for (Handler handler : handlers)
-            {
-                String help =
-                    handler.getHelp((prefix != null && !prefix.isEmpty() ? prefix + " " : "") + handler.getName(), qs);
+            for (Handler handler : handlers) {
+                String help = handler.getHelp(
+                    (prefix != null && !prefix.isEmpty() ? prefix + " " : "") + handler.getName(),
+                    qs
+                );
 
-                if (help != null && !help.isEmpty())
-                {
-                    if (!builder.isEmpty())
-                    {
+                if (help != null && !help.isEmpty()) {
+                    if (!builder.isEmpty()) {
                         builder.append("\n\n");
                     }
 
@@ -735,17 +626,14 @@ public class CLI
             return containsEach(result, qs) ? result : null;
         }
 
-        protected String getConsumerHelp(String prefix, String... qs)
-        {
-            if (consumer == null)
-            {
+        protected String getConsumerHelp(String prefix, String... qs) {
+            if (consumer == null) {
                 return "";
             }
 
             StringBuilder builder = new StringBuilder(prefix);
 
-            if (format != null)
-            {
+            if (format != null) {
                 builder.append(" ");
                 builder.append(format);
             }
@@ -758,39 +646,34 @@ public class CLI
             return containsEach(result, qs) ? result : "";
         }
 
-        public void register(Object instance)
-        {
+        public void register(Object instance) {
             Class<?> type = instance.getClass();
 
             Method[] methods = type.getMethods();
 
-            for (Method method : methods)
-            {
+            for (Method method : methods) {
                 register(instance, method);
             }
         }
 
-        private void register(Object instance, Method method)
-        {
+        private void register(Object instance, Method method) {
             Command command = method.getAnnotation(Command.class);
 
-            if (command != null)
-            {
+            if (command != null) {
                 Class<?>[] parameterTypes = method.getParameterTypes();
 
                 String[] names = command.name();
 
-                if (names == null || names.length == 0)
-                {
-                    names = new String[]{method.getName()};
+                if (names == null || names.length == 0) {
+                    names = new String[] { method.getName() };
                 }
 
                 String currentFormat = command.format();
 
-                if ((currentFormat == null || currentFormat.isEmpty()) && (parameterTypes.length > 0))
-                {
-                    currentFormat =
-                        Arrays.stream(parameterTypes).map(Class::getSimpleName).collect(Collectors.joining(" "));
+                if ((currentFormat == null || currentFormat.isEmpty()) && (parameterTypes.length > 0)) {
+                    currentFormat = Arrays.stream(parameterTypes)
+                        .map(Class::getSimpleName)
+                        .collect(Collectors.joining(" "));
                 }
 
                 String currentDescription = command.description();
@@ -799,59 +682,59 @@ public class CLI
             }
         }
 
-        protected void register(Object instance, Method method, Class<?>[] parameterTypes, String[] names,
-            String format, String description)
-        {
-            for (String currentName : names)
-            {
+        protected void register(
+            Object instance,
+            Method method,
+            Class<?>[] parameterTypes,
+            String[] names,
+            String format,
+            String description
+        ) {
+            for (String currentName : names) {
                 register(instance, method, parameterTypes, currentName, format, description);
             }
         }
 
-        protected void register(Object instance, Method method, Class<?>[] parameterTypes, String name, String format,
-            String description)
-        {
-            if (name == null)
-            {
+        protected void register(
+            Object instance,
+            Method method,
+            Class<?>[] parameterTypes,
+            String name,
+            String format,
+            String description
+        ) {
+            if (name == null) {
                 this.format = format;
                 this.description = description;
 
                 consumer = arguments -> {
                     Object[] args = new Object[parameterTypes.length];
 
-                    for (int i = 0; i < parameterTypes.length; i++)
-                    {
+                    for (int i = 0; i < parameterTypes.length; i++) {
                         args[i] = arguments.consume(parameterTypes[i]).orElse(null);
                     }
 
-                    try
-                    {
+                    try {
                         method.invoke(instance, args);
-                    }
-                    catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
-                    {
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
                         throw new RuntimeException("Invocation failed", e);
                     }
                 };
-            }
-            else
-            {
+            } else {
                 String command = null;
 
                 name = name.trim();
 
                 int index = name.indexOf(' ');
 
-                if (index >= 0)
-                {
+                if (index >= 0) {
                     command = name.substring(index);
                     name = name.substring(0, index);
                 }
 
                 Handler handler = find(name).orElse(null);
 
-                if (handler == null)
-                {
+                if (handler == null) {
                     handler = register(new Handler(name));
                 }
 
@@ -859,15 +742,13 @@ public class CLI
             }
         }
 
-        protected <AnyHandler extends Handler> AnyHandler register(AnyHandler handler)
-        {
+        protected <AnyHandler extends Handler> AnyHandler register(AnyHandler handler) {
             subHandlers.add(handler);
 
             return handler;
         }
 
-        protected Optional<Handler> find(String name)
-        {
+        protected Optional<Handler> find(String name) {
             String simplifiedName = simplify(name);
 
             return subHandlers
@@ -876,27 +757,23 @@ public class CLI
                 .findFirst();
         }
 
-        public void handle(Arguments arguments)
-        {
+        public void handle(Arguments arguments) {
             Arguments argumentsCopy = arguments.copy();
             Optional<String> optionalCommand = argumentsCopy.consume(String.class);
 
-            if (optionalCommand.isPresent())
-            {
+            if (optionalCommand.isPresent()) {
                 String command = optionalCommand.get().trim();
 
                 Optional<Handler> optionalHandler = find(command);
 
-                if (optionalHandler.isPresent())
-                {
+                if (optionalHandler.isPresent()) {
                     optionalHandler.get().handle(argumentsCopy);
 
                     return;
                 }
             }
 
-            if (consumer != null)
-            {
+            if (consumer != null) {
                 consumer.accept(arguments);
 
                 return;
@@ -906,8 +783,7 @@ public class CLI
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return simplify(name);
         }
     }
@@ -920,15 +796,12 @@ public class CLI
 
     private final Parser parser;
 
-    public CLI()
-    {
+    public CLI() {
         this(System.in, System.out, System.err);
     }
 
-    public CLI(InputStream in, PrintStream out, PrintStream err)
-    {
+    public CLI(InputStream in, PrintStream out, PrintStream err) {
         super();
-
         this.in = in;
         this.out = out;
         this.err = err;
@@ -942,38 +815,28 @@ public class CLI
         register(this);
     }
 
-    public void register(Object instance)
-    {
+    public void register(Object instance) {
         handler.register(instance);
     }
 
-    public Arguments consume(String prompt)
-    {
-        if (prompt != null && !prompt.isEmpty())
-        {
+    public Arguments consume(String prompt) {
+        if (prompt != null && !prompt.isEmpty()) {
             writeOut("\n%s", prompt);
-        }
-        else
-        {
+        } else {
             writeOut("\n> ");
         }
 
-        try
-        {
+        try {
             return parser.parse();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new IllegalStateException("Failed to read command", e);
         }
     }
 
-    public boolean consumeCommand(String prompt)
-    {
+    public boolean consumeCommand(String prompt) {
         Arguments command = consume(prompt);
 
-        if (command == null)
-        {
+        if (command == null) {
             return false;
         }
 
@@ -982,119 +845,93 @@ public class CLI
         return true;
     }
 
-    @CLI.Command(name = {"help", "?"}, format = "[q]", description = "Prints this help.")
-    public void help(String... qs)
-    {
+    @CLI.Command(name = { "help", "?" }, format = "[q]", description = "Prints this help.")
+    public void help(String... qs) {
         String help = handler.getHelp("", qs);
 
-        if (help == null || help.isEmpty())
-        {
+        if (help == null || help.isEmpty()) {
             info("No help found for: %s", String.join(" ", qs));
-        }
-        else
-        {
+        } else {
             info(help);
         }
     }
 
     @CLI.Command(description = "Exit this program.")
-    public void exit()
-    {
+    public void exit() {
         info("Good bye.");
         System.exit(0);
     }
 
-    protected void writeOut(String message, Object... args)
-    {
-        if (args == null || args.length == 0)
-        {
+    protected void writeOut(String message, Object... args) {
+        if (args == null || args.length == 0) {
             out.print(message);
-        }
-        else
-        {
+        } else {
             out.printf(message, args);
         }
     }
 
-    protected void writeOut(Throwable ex)
-    {
-        if (ex != null)
-        {
+    protected void writeOut(Throwable ex) {
+        if (ex != null) {
             out.print("\n");
             ex.printStackTrace(out);
         }
     }
 
-    protected void writeErr(Object message, Object... args)
-    {
+    protected void writeErr(Object message, Object... args) {
         err.printf(String.valueOf(message), args);
     }
 
-    protected void writeErr(Throwable ex)
-    {
-        if (ex != null)
-        {
+    protected void writeErr(Throwable ex) {
+        if (ex != null) {
             ex.printStackTrace(err);
             err.print("\n");
         }
     }
 
-    public void info(Object message, Object... args)
-    {
+    public void info(Object message, Object... args) {
         info(message, (Throwable) null, args);
     }
 
-    public void info(Object message, Throwable ex, Object... args)
-    {
+    public void info(Object message, Throwable ex, Object... args) {
         writeOut(message + "\n", args);
         writeOut(ex);
     }
 
-    public void warn(Object message, Object... args)
-    {
+    public void warn(Object message, Object... args) {
         warn(message, (Throwable) null, args);
     }
 
-    public void warn(Object message, Throwable ex, Object... args)
-    {
+    public void warn(Object message, Throwable ex, Object... args) {
         writeErr(message + "\n", args);
         writeErr(ex);
     }
 
-    public void error(Object message, Object... args)
-    {
+    public void error(Object message, Object... args) {
         error(message, (Throwable) null, args);
     }
 
-    public void error(Object message, Throwable ex, Object... args)
-    {
+    public void error(Object message, Throwable ex, Object... args) {
         writeErr(message + "\n", args);
         writeErr(ex);
     }
 
-    private static String simplify(String s)
-    {
+    private static String simplify(String s) {
         return s.toLowerCase();
     }
 
-    private static boolean containsEach(String s, String... qs)
-    {
-        if (qs == null || qs.length == 0)
-        {
+    private static boolean containsEach(String s, String... qs) {
+        if (qs == null || qs.length == 0) {
             return true;
         }
 
         s = s.toLowerCase();
 
-        for (String q : qs)
-        {
-            if (!s.contains(q.toLowerCase()))
-            {
+        for (String q : qs) {
+            if (!s.contains(q.toLowerCase())) {
                 return false;
             }
         }
 
         return true;
     }
-
 }

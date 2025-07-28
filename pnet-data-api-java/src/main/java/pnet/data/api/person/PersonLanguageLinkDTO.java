@@ -1,12 +1,10 @@
 package pnet.data.api.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Locale;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Known languages of the user.
@@ -14,8 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author HAM
  */
 @Schema(description = "Holds a language of the person.")
-public class PersonLanguageLinkDTO implements Serializable
-{
+public class PersonLanguageLinkDTO implements Serializable {
 
     private static final long serialVersionUID = 5456631116216468972L;
 
@@ -25,50 +22,43 @@ public class PersonLanguageLinkDTO implements Serializable
     @Schema(description = "The level of competence.")
     private final LanguageLevel level;
 
-    public PersonLanguageLinkDTO(@JsonProperty("language") Locale language, @JsonProperty("level") LanguageLevel level)
-    {
+    public PersonLanguageLinkDTO(
+        @JsonProperty("language") Locale language,
+        @JsonProperty("level") LanguageLevel level
+    ) {
         super();
         this.language = language;
         this.level = level;
     }
 
-    public Locale getLanguage()
-    {
+    public Locale getLanguage() {
         return language;
     }
 
-    public LanguageLevel getLevel()
-    {
+    public LanguageLevel getLevel() {
         return level;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(language, level);
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        if (!(obj instanceof PersonLanguageLinkDTO other))
-        {
+        if (!(obj instanceof PersonLanguageLinkDTO other)) {
             return false;
         }
-        if (!Objects.equals(language, other.language))
-        {
+        if (!Objects.equals(language, other.language)) {
             return false;
         }
-        if (level != other.level)
-        {
+        if (level != other.level) {
             return false;
         }
         return true;

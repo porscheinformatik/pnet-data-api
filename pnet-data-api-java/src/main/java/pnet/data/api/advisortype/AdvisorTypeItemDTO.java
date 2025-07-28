@@ -14,13 +14,11 @@
  */
 package pnet.data.api.advisortype;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithDescription;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
@@ -34,8 +32,8 @@ import pnet.data.api.util.WithScore;
  */
 @Schema(description = "Holds basic information about an advisor type")
 public class AdvisorTypeItemDTO
-    implements WithMatchcode, WithLabel, WithDescription, WithLastUpdate, WithScore, Serializable
-{
+    implements WithMatchcode, WithLabel, WithDescription, WithLastUpdate, WithScore, Serializable {
+
     @Serial
     private static final long serialVersionUID = -5385814018859561810L;
 
@@ -54,10 +52,13 @@ public class AdvisorTypeItemDTO
     @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
-    public AdvisorTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description, @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
-        @JsonProperty("score") double score)
-    {
+    public AdvisorTypeItemDTO(
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("label") String label,
+        @JsonProperty("description") String description,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score
+    ) {
         super();
         this.matchcode = matchcode;
         this.label = label;
@@ -67,40 +68,39 @@ public class AdvisorTypeItemDTO
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
     @Override
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
     @Override
-    public double getScore()
-    {
+    public double getScore() {
         return score;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("AdvisorTypeItemDTO [matchcode=%s, label=%s, description=%s, lastUpdate=%s, score=%s]",
-            matchcode, label, description, lastUpdate, score);
+    public String toString() {
+        return String.format(
+            "AdvisorTypeItemDTO [matchcode=%s, label=%s, description=%s, lastUpdate=%s, score=%s]",
+            matchcode,
+            label,
+            description,
+            lastUpdate,
+            score
+        );
     }
-
 }

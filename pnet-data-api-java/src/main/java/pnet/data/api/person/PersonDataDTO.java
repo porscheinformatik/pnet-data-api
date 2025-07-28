@@ -14,6 +14,8 @@
  */
 package pnet.data.api.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -22,10 +24,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.WithId;
 import pnet.data.api.util.WithLastUpdate;
@@ -39,8 +37,8 @@ import pnet.data.api.util.WithTenants;
  */
 @SuppressWarnings("deprecation")
 @Schema(description = "Holds all information about a person")
-public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLastUpdate, Serializable
-{
+public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLastUpdate, Serializable {
+
     @Serial
     private static final long serialVersionUID = -2096202204327773391L;
 
@@ -85,16 +83,18 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     private Boolean multifactorEnabled;
 
     @Schema(
-        description = "True, if the person has been fully approved by authorities, false if the approval process is still "
-            + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
-            + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
-            + "The value will always be set to 'true'.")
+        description = "True, if the person has been fully approved by authorities, false if the approval process is still " +
+        "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, " +
+        "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. " +
+        "The value will always be set to 'true'."
+    )
     @Deprecated(since = "22.01.2024")
     private boolean approved;
 
     @Schema(
-        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
-            + "The value will always be set to 'ApprovalState.DONE'.")
+        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. " +
+        "The value will always be set to 'ApprovalState.DONE'."
+    )
     @Deprecated(since = "22.01.2024")
     private ApprovalState approvalState;
 
@@ -128,12 +128,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The id of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private Integer contactCompanyId;
 
-    @Schema(description = "The matchcode of the company the person is mainly busy at (needed scope: "
-        + "SC_PREFERRED_COMPANY).")
+    @Schema(
+        description = "The matchcode of the company the person is mainly busy at (needed scope: " +
+        "SC_PREFERRED_COMPANY)."
+    )
     private String contactCompanyMatchcode;
 
-    @Schema(description = "The number of the company the person is mainly busy at (needed scope: "
-        + "SC_PREFERRED_COMPANY).")
+    @Schema(
+        description = "The number of the company the person is mainly busy at (needed scope: " +
+        "SC_PREFERRED_COMPANY)."
+    )
     private String contactCompanyNumber;
 
     @Schema(description = "The cost center of the person (needed scope: SC_ORGANIZATION_UNIT).")
@@ -184,19 +188,24 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The activities the person has at specific companies (needed scope: SC_ROLE).")
     private Collection<PersonActivityLinkDTO> activities;
 
-    @Schema(description = "The advisor assignments of the person for specific companies (needed scope: "
-        + "SC_ADVISOR_ASSIGNMENT).")
+    @Schema(
+        description = "The advisor assignments of the person for specific companies (needed scope: " +
+        "SC_ADVISOR_ASSIGNMENT)."
+    )
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
     @Schema(
-        description = "The hierarchy of persons, e.g. responsible persons for bots and test users (needed scope: SC_HIERARCHY).")
+        description = "The hierarchy of persons, e.g. responsible persons for bots and test users (needed scope: SC_HIERARCHY)."
+    )
     private List<PersonHierarchyLinkDTO> hierarchies;
 
     @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
     private Boolean portraitAvailable;
 
-    @Schema(description = "Indicates, whether the person will get deleted automatically in the near future (no scope "
-        + "needed).")
+    @Schema(
+        description = "Indicates, whether the person will get deleted automatically in the near future (no scope " +
+        "needed)."
+    )
     private boolean automaticDeletion;
 
     @Schema(description = "The checksum of all data of a person, which is needed to detect changes (no scope needed).")
@@ -205,10 +214,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The time and date when the person was last changed (no scope needed).")
     private LocalDateTime lastUpdate;
 
-    public PersonDataDTO(@JsonProperty("id") Integer id, @JsonProperty("personId") Integer personId)
-    {
+    public PersonDataDTO(@JsonProperty("id") Integer id, @JsonProperty("personId") Integer personId) {
         super();
-
         this.id = id != null ? id : personId;
         this.personId = personId != null ? personId : id;
     }
@@ -221,521 +228,421 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
      */
     @Override
     @Deprecated
-    public Integer getId()
-    {
+    public Integer getId() {
         return id;
     }
 
     @Override
-    public Integer getPersonId()
-    {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public String getAdministrativeTenant()
-    {
+    public String getAdministrativeTenant() {
         return administrativeTenant;
     }
 
-    public void setAdministrativeTenant(String administrativeTenant)
-    {
+    public void setAdministrativeTenant(String administrativeTenant) {
         this.administrativeTenant = administrativeTenant;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
-    public PersonType getType()
-    {
+    public PersonType getType() {
         return type;
     }
 
-    public void setType(PersonType type)
-    {
+    public void setType(PersonType type) {
         this.type = type;
     }
 
-    public void setTenants(Collection<String> tenants)
-    {
+    public void setTenants(Collection<String> tenants) {
         this.tenants = tenants;
     }
 
-    public FormOfAddress getFormOfAddress()
-    {
+    public FormOfAddress getFormOfAddress() {
         return formOfAddress;
     }
 
-    public void setFormOfAddress(FormOfAddress formOfAddress)
-    {
+    public void setFormOfAddress(FormOfAddress formOfAddress) {
         this.formOfAddress = formOfAddress;
     }
 
-    public String getAcademicTitle()
-    {
+    public String getAcademicTitle() {
         return academicTitle;
     }
 
-    public void setAcademicTitle(String academicTitle)
-    {
+    public void setAcademicTitle(String academicTitle) {
         this.academicTitle = academicTitle;
     }
 
-    public String getAcademicTitlePostNominal()
-    {
+    public String getAcademicTitlePostNominal() {
         return academicTitlePostNominal;
     }
 
-    public void setAcademicTitlePostNominal(String academicTitlePostNominal)
-    {
+    public void setAcademicTitlePostNominal(String academicTitlePostNominal) {
         this.academicTitlePostNominal = academicTitlePostNominal;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName)
-    {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName)
-    {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username)
-    {
+    public void setUsername(String username) {
         this.username = username;
     }
 
-    public Boolean getCredentialsAvailable()
-    {
+    public Boolean getCredentialsAvailable() {
         return credentialsAvailable;
     }
 
-    public void setCredentialsAvailable(Boolean credentialsAvailable)
-    {
+    public void setCredentialsAvailable(Boolean credentialsAvailable) {
         this.credentialsAvailable = credentialsAvailable;
     }
 
-    public Boolean getMultifactorEnabled()
-    {
+    public Boolean getMultifactorEnabled() {
         return multifactorEnabled;
     }
 
-    public void setMultifactorEnabled(Boolean multifactorEnabled)
-    {
+    public void setMultifactorEnabled(Boolean multifactorEnabled) {
         this.multifactorEnabled = multifactorEnabled;
     }
 
     @Deprecated(since = "22.01.2024")
-    public boolean isApproved()
-    {
+    public boolean isApproved() {
         return approved;
     }
 
     @Deprecated(since = "22.01.2024")
-    public void setApproved(boolean approved)
-    {
+    public void setApproved(boolean approved) {
         this.approved = approved;
     }
 
     @Deprecated(since = "22.01.2024")
-    public ApprovalState getApprovalState()
-    {
+    public ApprovalState getApprovalState() {
         return approvalState;
     }
 
     @Deprecated(since = "22.01.2024")
-    public void setApprovalState(ApprovalState approvalState)
-    {
+    public void setApprovalState(ApprovalState approvalState) {
         this.approvalState = approvalState;
     }
 
-    public LocalDate getBirthdate()
-    {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(LocalDate birthdate)
-    {
+    public void setBirthdate(LocalDate birthdate) {
         this.birthdate = birthdate;
     }
 
-    public String getExternalId()
-    {
+    public String getExternalId() {
         return externalId;
     }
 
-    public void setExternalId(String externalId)
-    {
+    public void setExternalId(String externalId) {
         this.externalId = externalId;
     }
 
-    public String getGuid()
-    {
+    public String getGuid() {
         return guid;
     }
 
-    public void setGuid(String guid)
-    {
+    public void setGuid(String guid) {
         this.guid = guid;
     }
 
-    public String getPreferredUserId()
-    {
+    public String getPreferredUserId() {
         return preferredUserId;
     }
 
-    public void setPreferredUserId(String preferredUserId)
-    {
+    public void setPreferredUserId(String preferredUserId) {
         this.preferredUserId = preferredUserId;
     }
 
-    public String getPhoneNumber()
-    {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber)
-    {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getExtensionNumber()
-    {
+    public String getExtensionNumber() {
         return extensionNumber;
     }
 
-    public void setExtensionNumber(String extensionNumber)
-    {
+    public void setExtensionNumber(String extensionNumber) {
         this.extensionNumber = extensionNumber;
     }
 
-    public String getMobileNumber()
-    {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(String mobileNumber)
-    {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 
-    public String getFaxNumber()
-    {
+    public String getFaxNumber() {
         return faxNumber;
     }
 
-    public void setFaxNumber(String faxNumber)
-    {
+    public void setFaxNumber(String faxNumber) {
         this.faxNumber = faxNumber;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public Integer getContactCompanyId()
-    {
+    public Integer getContactCompanyId() {
         return contactCompanyId;
     }
 
-    public void setContactCompanyId(Integer contactCompanyId)
-    {
+    public void setContactCompanyId(Integer contactCompanyId) {
         this.contactCompanyId = contactCompanyId;
     }
 
-    public String getContactCompanyMatchcode()
-    {
+    public String getContactCompanyMatchcode() {
         return contactCompanyMatchcode;
     }
 
-    public void setContactCompanyMatchcode(String contactCompanyMatchcode)
-    {
+    public void setContactCompanyMatchcode(String contactCompanyMatchcode) {
         this.contactCompanyMatchcode = contactCompanyMatchcode;
     }
 
-    public String getContactCompanyNumber()
-    {
+    public String getContactCompanyNumber() {
         return contactCompanyNumber;
     }
 
-    public void setContactCompanyNumber(String contactCompanyNumber)
-    {
+    public void setContactCompanyNumber(String contactCompanyNumber) {
         this.contactCompanyNumber = contactCompanyNumber;
     }
 
-    public String getCostCenter()
-    {
+    public String getCostCenter() {
         return costCenter;
     }
 
-    public void setCostCenter(String costCenter)
-    {
+    public void setCostCenter(String costCenter) {
         this.costCenter = costCenter;
     }
 
-    public String getPersonnelNumber()
-    {
+    public String getPersonnelNumber() {
         return personnelNumber;
     }
 
-    public void setPersonnelNumber(String personnelNumber)
-    {
+    public void setPersonnelNumber(String personnelNumber) {
         this.personnelNumber = personnelNumber;
     }
 
-    public String getSupervisorPersonnelNumber()
-    {
+    public String getSupervisorPersonnelNumber() {
         return supervisorPersonnelNumber;
     }
 
-    public void setSupervisorPersonnelNumber(String supervisorPersonnelNumber)
-    {
+    public void setSupervisorPersonnelNumber(String supervisorPersonnelNumber) {
         this.supervisorPersonnelNumber = supervisorPersonnelNumber;
     }
 
-    public String getControllingArea()
-    {
+    public String getControllingArea() {
         return controllingArea;
     }
 
-    public void setControllingArea(String controllingArea)
-    {
+    public void setControllingArea(String controllingArea) {
         this.controllingArea = controllingArea;
     }
 
-    public String getPersonnelDepartment()
-    {
+    public String getPersonnelDepartment() {
         return personnelDepartment;
     }
 
-    public void setPersonnelDepartment(String personnelDepartment)
-    {
+    public void setPersonnelDepartment(String personnelDepartment) {
         this.personnelDepartment = personnelDepartment;
     }
 
-    public String getJobDescription()
-    {
+    public String getJobDescription() {
         return jobDescription;
     }
 
-    public void setJobDescription(String jobDescription)
-    {
+    public void setJobDescription(String jobDescription) {
         this.jobDescription = jobDescription;
     }
 
-    public String getTeamMatchcode()
-    {
+    public String getTeamMatchcode() {
         return teamMatchcode;
     }
 
-    public void setTeamMatchcode(String teamMatchcode)
-    {
+    public void setTeamMatchcode(String teamMatchcode) {
         this.teamMatchcode = teamMatchcode;
     }
 
-    public String getTeamLabel()
-    {
+    public String getTeamLabel() {
         return teamLabel;
     }
 
-    public void setTeamLabel(String teamLabel)
-    {
+    public void setTeamLabel(String teamLabel) {
         this.teamLabel = teamLabel;
     }
 
-    public Collection<PersonLockLinkDTO> getPersonLocks()
-    {
+    public Collection<PersonLockLinkDTO> getPersonLocks() {
         return personLocks;
     }
 
-    public void setPersonLocks(Collection<PersonLockLinkDTO> personLocks)
-    {
+    public void setPersonLocks(Collection<PersonLockLinkDTO> personLocks) {
         this.personLocks = personLocks;
     }
 
-    public void setLocked(Boolean isLocked)
-    {
+    public void setLocked(Boolean isLocked) {
         this.isLocked = isLocked;
     }
 
-    public Boolean isLocked()
-    {
+    public Boolean isLocked() {
         return isLocked;
     }
 
-    public Collection<PersonSettingsLinkDTO> getSettings()
-    {
+    public Collection<PersonSettingsLinkDTO> getSettings() {
         return settings;
     }
 
-    public Optional<PersonSettingsLinkDTO> findSettings(Predicate<? super PersonSettingsLinkDTO> predicate)
-    {
+    public Optional<PersonSettingsLinkDTO> findSettings(Predicate<? super PersonSettingsLinkDTO> predicate) {
         return settings == null ? Optional.empty() : settings.stream().filter(predicate).findFirst();
     }
 
-    public void setSettings(Collection<PersonSettingsLinkDTO> settings)
-    {
+    public void setSettings(Collection<PersonSettingsLinkDTO> settings) {
         this.settings = settings;
     }
 
-    public List<PersonLanguageLinkDTO> getLanguages()
-    {
+    public List<PersonLanguageLinkDTO> getLanguages() {
         return languages;
     }
 
-    public Optional<PersonLanguageLinkDTO> findLanguage(Predicate<? super PersonLanguageLinkDTO> predicate)
-    {
+    public Optional<PersonLanguageLinkDTO> findLanguage(Predicate<? super PersonLanguageLinkDTO> predicate) {
         return languages == null ? Optional.empty() : languages.stream().filter(predicate).findFirst();
     }
 
-    public void setLanguages(List<PersonLanguageLinkDTO> languages)
-    {
+    public void setLanguages(List<PersonLanguageLinkDTO> languages) {
         this.languages = languages;
     }
 
-    public Collection<PersonCompanyLinkDTO> getCompanies()
-    {
+    public Collection<PersonCompanyLinkDTO> getCompanies() {
         return companies;
     }
 
-    public Optional<PersonCompanyLinkDTO> findCompany(Predicate<? super PersonCompanyLinkDTO> predicate)
-    {
+    public Optional<PersonCompanyLinkDTO> findCompany(Predicate<? super PersonCompanyLinkDTO> predicate) {
         return companies == null ? Optional.empty() : companies.stream().filter(predicate).findFirst();
     }
 
-    public void setCompanies(Collection<PersonCompanyLinkDTO> companies)
-    {
+    public void setCompanies(Collection<PersonCompanyLinkDTO> companies) {
         this.companies = companies;
     }
 
-    public Collection<PersonNumberTypeLinkDTO> getNumbers()
-    {
+    public Collection<PersonNumberTypeLinkDTO> getNumbers() {
         return numbers;
     }
 
-    public Optional<PersonNumberTypeLinkDTO> findNumber(Predicate<? super PersonNumberTypeLinkDTO> predicate)
-    {
+    public Optional<PersonNumberTypeLinkDTO> findNumber(Predicate<? super PersonNumberTypeLinkDTO> predicate) {
         return numbers == null ? Optional.empty() : numbers.stream().filter(predicate).findFirst();
     }
 
-    public void setNumbers(Collection<PersonNumberTypeLinkDTO> numbers)
-    {
+    public void setNumbers(Collection<PersonNumberTypeLinkDTO> numbers) {
         this.numbers = numbers;
     }
 
-    public Collection<PersonFunctionLinkDTO> getFunctions()
-    {
+    public Collection<PersonFunctionLinkDTO> getFunctions() {
         return functions;
     }
 
-    public Optional<PersonFunctionLinkDTO> findFunction(Predicate<? super PersonFunctionLinkDTO> predicate)
-    {
+    public Optional<PersonFunctionLinkDTO> findFunction(Predicate<? super PersonFunctionLinkDTO> predicate) {
         return functions == null ? Optional.empty() : functions.stream().filter(predicate).findFirst();
     }
 
-    public void setFunctions(Collection<PersonFunctionLinkDTO> functions)
-    {
+    public void setFunctions(Collection<PersonFunctionLinkDTO> functions) {
         this.functions = functions;
     }
 
-    public Collection<PersonActivityLinkDTO> getActivities()
-    {
+    public Collection<PersonActivityLinkDTO> getActivities() {
         return activities;
     }
 
-    public Optional<PersonActivityLinkDTO> findActivity(Predicate<? super PersonActivityLinkDTO> predicate)
-    {
+    public Optional<PersonActivityLinkDTO> findActivity(Predicate<? super PersonActivityLinkDTO> predicate) {
         return activities == null ? Optional.empty() : activities.stream().filter(predicate).findFirst();
     }
 
-    public void setActivities(Collection<PersonActivityLinkDTO> activities)
-    {
+    public void setActivities(Collection<PersonActivityLinkDTO> activities) {
         this.activities = activities;
     }
 
-    public Collection<PersonAdvisorAssignmentLinkDTO> getAdvisorAssignments()
-    {
+    public Collection<PersonAdvisorAssignmentLinkDTO> getAdvisorAssignments() {
         return advisorAssignments;
     }
 
     public Optional<PersonAdvisorAssignmentLinkDTO> findAdvisorAssignment(
-        Predicate<? super PersonAdvisorAssignmentLinkDTO> predicate)
-    {
-        return advisorAssignments == null ? Optional.empty()
+        Predicate<? super PersonAdvisorAssignmentLinkDTO> predicate
+    ) {
+        return advisorAssignments == null
+            ? Optional.empty()
             : advisorAssignments.stream().filter(predicate).findFirst();
     }
 
-    public void setAdvisorAssignments(Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments)
-    {
+    public void setAdvisorAssignments(Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments) {
         this.advisorAssignments = advisorAssignments;
     }
 
-    public List<PersonHierarchyLinkDTO> getHierarchies()
-    {
+    public List<PersonHierarchyLinkDTO> getHierarchies() {
         return hierarchies;
     }
 
-    public Optional<PersonHierarchyLinkDTO> findHierarchy(Predicate<? super PersonHierarchyLinkDTO> predicate)
-    {
+    public Optional<PersonHierarchyLinkDTO> findHierarchy(Predicate<? super PersonHierarchyLinkDTO> predicate) {
         return hierarchies == null ? Optional.empty() : hierarchies.stream().filter(predicate).findFirst();
     }
 
-    public void setHierarchies(List<PersonHierarchyLinkDTO> hierarchies)
-    {
+    public void setHierarchies(List<PersonHierarchyLinkDTO> hierarchies) {
         this.hierarchies = hierarchies;
     }
 
-    public boolean isAutomaticDeletion()
-    {
+    public boolean isAutomaticDeletion() {
         return automaticDeletion;
     }
 
-    public void setAutomaticDeletion(boolean automaticDeletion)
-    {
+    public void setAutomaticDeletion(boolean automaticDeletion) {
         this.automaticDeletion = automaticDeletion;
     }
 
-    public Boolean getPortraitAvailable()
-    {
+    public Boolean getPortraitAvailable() {
         return portraitAvailable;
     }
 
-    public void setPortraitAvailable(Boolean portraitAvailable)
-    {
+    public void setPortraitAvailable(Boolean portraitAvailable) {
         this.portraitAvailable = portraitAvailable;
     }
 
-    public String getChecksum()
-    {
+    public String getChecksum() {
         return checksum;
     }
 
-    public void setChecksum(String checksum)
-    {
+    public void setChecksum(String checksum) {
         this.checksum = checksum;
     }
 
@@ -743,35 +650,73 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
      * @return The date/time of the last update to this item.
      */
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
-        return String
-            .format("PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, "
-                + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, "
-                + "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, "
-                + "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, "
-                + "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, "
-                + "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, "
-                + "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, "
-                + "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, "
-                + "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]", personId,
-                administrativeTenant, tenants, type, formOfAddress, academicTitle, academicTitlePostNominal, firstName,
-                lastName, credentialsAvailable, multifactorEnabled, approved, approvalState, birthdate, externalId,
-                guid, preferredUserId, phoneNumber, extensionNumber, mobileNumber, faxNumber, email, contactCompanyId,
-                contactCompanyMatchcode, contactCompanyNumber, costCenter, personnelNumber, supervisorPersonnelNumber,
-                controllingArea, personnelDepartment, jobDescription, teamMatchcode, teamLabel, personLocks, isLocked,
-                settings, languages, companies, numbers, functions, activities, advisorAssignments, hierarchies,
-                portraitAvailable, automaticDeletion, checksum, lastUpdate);
+    public String toString() {
+        return String.format(
+            "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
+            "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, " +
+            "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, " +
+            "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, " +
+            "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, " +
+            "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, " +
+            "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, " +
+            "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, " +
+            "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
+            personId,
+            administrativeTenant,
+            tenants,
+            type,
+            formOfAddress,
+            academicTitle,
+            academicTitlePostNominal,
+            firstName,
+            lastName,
+            credentialsAvailable,
+            multifactorEnabled,
+            approved,
+            approvalState,
+            birthdate,
+            externalId,
+            guid,
+            preferredUserId,
+            phoneNumber,
+            extensionNumber,
+            mobileNumber,
+            faxNumber,
+            email,
+            contactCompanyId,
+            contactCompanyMatchcode,
+            contactCompanyNumber,
+            costCenter,
+            personnelNumber,
+            supervisorPersonnelNumber,
+            controllingArea,
+            personnelDepartment,
+            jobDescription,
+            teamMatchcode,
+            teamLabel,
+            personLocks,
+            isLocked,
+            settings,
+            languages,
+            companies,
+            numbers,
+            functions,
+            activities,
+            advisorAssignments,
+            hierarchies,
+            portraitAvailable,
+            automaticDeletion,
+            checksum,
+            lastUpdate
+        );
     }
 }

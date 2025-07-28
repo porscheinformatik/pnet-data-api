@@ -19,12 +19,9 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithContractTypeMatchcode
-{
-
+public interface WithContractTypeMatchcode {
     /**
      * @return The contract type.
      */
     String getContractTypeMatchcode();
-
 }

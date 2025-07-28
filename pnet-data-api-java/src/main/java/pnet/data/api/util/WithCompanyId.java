@@ -19,9 +19,7 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithCompanyId
-{
-
+public interface WithCompanyId {
     /**
      * @return the id of the company. The id may vary on different environments.
      */
@@ -36,5 +34,4 @@ public interface WithCompanyId
      * @return the optional, not unique number of the company.
      */
     String getCompanyNumber();
-
 }

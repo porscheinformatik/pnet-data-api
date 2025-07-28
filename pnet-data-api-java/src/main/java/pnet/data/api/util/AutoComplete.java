@@ -2,7 +2,6 @@ package pnet.data.api.util;
 
 import java.util.List;
 import java.util.Locale;
-
 import pnet.data.api.PnetDataClientException;
 
 /**
@@ -11,7 +10,6 @@ import pnet.data.api.PnetDataClientException;
  * @param <DTO> the type of DTO
  * @author ham
  */
-public interface AutoComplete<DTO>
-{
+public interface AutoComplete<DTO> {
     List<DTO> execute(Locale language, String query) throws PnetDataClientException;
 }

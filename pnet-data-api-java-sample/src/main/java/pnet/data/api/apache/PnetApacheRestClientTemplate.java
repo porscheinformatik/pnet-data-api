@@ -1,7 +1,6 @@
 package pnet.data.api.apache;
 
 import java.util.Locale;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
 import pnet.data.api.client.context.UsernamePasswordCredentials;
@@ -14,10 +13,9 @@ import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
  * @author KRC
  * @author HAM
  */
-public final class PnetApacheRestClientTemplate
-{
-    private PnetApacheRestClientTemplate()
-    {
+public final class PnetApacheRestClientTemplate {
+
+    private PnetApacheRestClientTemplate() {
         super();
     }
 
@@ -25,32 +23,30 @@ public final class PnetApacheRestClientTemplate
      * @param args API user name and password.
      * @throws PnetDataClientException in case of errors.
      */
-    public static void main(String[] args) throws PnetDataClientException
-    {
+    public static void main(String[] args) throws PnetDataClientException {
         String url = "https://qa-data.auto-partner.net/data";
         ApacheClientFactory clientFactory;
 
-        if (args.length == 1)
-        {
+        if (args.length == 1) {
             String token = args[0];
-            AuthenticationTokenPnetDataApiLoginMethod loginMethod =
-                new AuthenticationTokenPnetDataApiLoginMethod(url, () -> token);
+            AuthenticationTokenPnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(
+                url,
+                () -> token
+            );
 
             clientFactory = ApacheClientFactory.of(loginMethod);
-        }
-        else if (args.length == 2)
-        {
+        } else if (args.length == 2) {
             String username = args[0];
             String password = args[1];
-            UsernamePasswordPnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url,
-                () -> new UsernamePasswordCredentials(username, password));
+            UsernamePasswordPnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () ->
+                new UsernamePasswordCredentials(username, password)
+            );
 
             clientFactory = ApacheClientFactory.of(loginMethod);
-        }
-        else
-        {
+        } else {
             System.out.println(
-                "Usage: java " + PnetApacheRestClientTemplate.class.getName() + " <TOKEN> | (<USERNAME> <PASSWORD>)");
+                "Usage: java " + PnetApacheRestClientTemplate.class.getName() + " <TOKEN> | (<USERNAME> <PASSWORD>)"
+            );
             System.exit(-1);
             return;
         }

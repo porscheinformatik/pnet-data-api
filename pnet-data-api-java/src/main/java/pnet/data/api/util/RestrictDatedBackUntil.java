@@ -8,17 +8,12 @@ import java.time.LocalDateTime;
  * @param <SELF> the type of the restrict for chaining
  * @author ham
  */
-public interface RestrictDatedBackUntil<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
-    default SELF datedBackUntil(LocalDateTime datedBackUntil)
-    {
+public interface RestrictDatedBackUntil<SELF extends Restrict<SELF>> extends Restrict<SELF> {
+    default SELF datedBackUntil(LocalDateTime datedBackUntil) {
         return restrict("datedBackUntil", datedBackUntil);
     }
 
-    default SELF datedBackByDays(int days)
-    {
+    default SELF datedBackByDays(int days) {
         return datedBackUntil(LocalDateTime.now().minusDays(days));
     }
-
 }

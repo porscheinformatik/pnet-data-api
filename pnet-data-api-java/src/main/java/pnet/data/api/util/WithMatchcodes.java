@@ -21,12 +21,9 @@ import java.util.Collection;
  *
  * @author ham
  */
-public interface WithMatchcodes
-{
-
+public interface WithMatchcodes {
     /**
      * @return A collection of unique, alpha-numeric keys. These keys are the same in all environments.
      */
     Collection<String> getMatchcodes();
-
 }

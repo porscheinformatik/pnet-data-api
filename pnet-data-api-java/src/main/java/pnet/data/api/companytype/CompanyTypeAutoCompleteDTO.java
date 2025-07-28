@@ -15,35 +15,37 @@
 package pnet.data.api.companytype;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.WithMatchcode;
 
 @Schema(description = "Holds the auto-complete results for a company type")
-public class CompanyTypeAutoCompleteDTO extends AbstractAutoCompleteDTO implements WithMatchcode
-{
+public class CompanyTypeAutoCompleteDTO extends AbstractAutoCompleteDTO implements WithMatchcode {
+
     @Schema(description = "The unique matchcode of the company type.")
     private final String matchcode;
 
-    public CompanyTypeAutoCompleteDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,@JsonProperty("score") double score)
-    {
+    public CompanyTypeAutoCompleteDTO(
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("label") String label,
+        @JsonProperty("score") double score
+    ) {
         super(label, null, score);
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "CompanyTypeAutoCompleteDTO [matchcode=%s, getLabel()=%s, getScore()=%s]", matchcode,
-            getLabel(), getScore());
+            "CompanyTypeAutoCompleteDTO [matchcode=%s, getLabel()=%s, getScore()=%s]",
+            matchcode,
+            getLabel(),
+            getScore()
+        );
     }
 }

@@ -14,15 +14,13 @@
  */
 package pnet.data.api.function;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.util.WithDescription;
@@ -40,9 +38,15 @@ import pnet.data.api.util.WithTenants;
  */
 @Schema(description = "Holds basic information about a function")
 public class FunctionItemDTO
-    implements WithMatchcode, WithTenants, WithLabel, WithDescription, WithBrandLinks, WithLastUpdate, WithScore,
-    Serializable
-{
+    implements
+        WithMatchcode,
+        WithTenants,
+        WithLabel,
+        WithDescription,
+        WithBrandLinks,
+        WithLastUpdate,
+        WithScore,
+        Serializable {
 
     private static final long serialVersionUID = 8278014048912826651L;
 
@@ -67,13 +71,16 @@ public class FunctionItemDTO
     @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
-    public FunctionItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("description") String description, @JsonProperty("tenants") Collection<String> tenants,
-        @JsonProperty("brands") Collection<BrandLinkDTO> brands, @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
-        @JsonProperty("score") double score)
-    {
+    public FunctionItemDTO(
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("label") String label,
+        @JsonProperty("description") String description,
+        @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("brands") Collection<BrandLinkDTO> brands,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score
+    ) {
         super();
-
         this.matchcode = matchcode;
         this.label = label;
         this.description = description;
@@ -84,8 +91,7 @@ public class FunctionItemDTO
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
@@ -93,8 +99,7 @@ public class FunctionItemDTO
      * @return The label in the requested language.
      */
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
@@ -102,46 +107,46 @@ public class FunctionItemDTO
      * @return The description in the requested language.
      */
     @Override
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
     @Override
-    public Collection<BrandLinkDTO> getBrands()
-    {
+    public Collection<BrandLinkDTO> getBrands() {
         return brands;
     }
 
-    public Optional<BrandLinkDTO> findBrand(Predicate<? super BrandLinkDTO> predicate)
-    {
+    public Optional<BrandLinkDTO> findBrand(Predicate<? super BrandLinkDTO> predicate) {
         return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public double getScore()
-    {
+    public double getScore() {
         return score;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "FunctionItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, "
-                + "score=%s]", matchcode, label, description, tenants, brands, lastUpdate, score);
+            "FunctionItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, " +
+            "score=%s]",
+            matchcode,
+            label,
+            description,
+            tenants,
+            brands,
+            lastUpdate,
+            score
+        );
     }
-
 }

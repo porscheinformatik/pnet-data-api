@@ -12,18 +12,18 @@ An up-to-date version is available in the corporate Maven repository. If you do 
 
 Currently we are maintaining two branches:
 
--   `master`: Contains the version 2 of the Java client, that needs at least Java 17 and, if you are using Spring, it needs Spring 6.
--   `java-11`: Contains the version 1 of the Java client, that's suited for Java 11 and, if you are using Spring, it's only compatible with Spring 5.
+- `master`: Contains the version 2 of the Java client, that needs at least Java 17 and, if you are using Spring, it needs Spring 6.
+- `java-11`: Contains the version 1 of the Java client, that's suited for Java 11 and, if you are using Spring, it's only compatible with Spring 5.
 
 # Using the Java client
 
 The Java client has been designed to **reduce its dependencies to a minimum**. All dependencies are "provided", which means, you have to define them on your own - within your project. Currently you have the following options:
 
--   **[Just use the DTOs](#just-use-the-dtos)**: You don't need any dependencies for this. You don't need Spring for this.
--   **[Java HTTP Client](#java-http-client)**: Use the Java HTTP Client introduced with Java 9 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
--   **[Apache HTTP Client 5](#apache-http-client-5)**: Use the Apache HTTP Client 5 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
--   **[(Old) Apache HTTP Client](#old-apache-http-client)**: Use the legacy Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
--   **[Spring](#spring)**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible. For older Spring version, please use the version in the `java-11` branch.
+- **[Just use the DTOs](#just-use-the-dtos)**: You don't need any dependencies for this. You don't need Spring for this.
+- **[Java HTTP Client](#java-http-client)**: Use the Java HTTP Client introduced with Java 9 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
+- **[Apache HTTP Client 5](#apache-http-client-5)**: Use the Apache HTTP Client 5 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
+- **[(Old) Apache HTTP Client](#old-apache-http-client)**: Use the legacy Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
+- **[Spring](#spring)**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible. For older Spring version, please use the version in the `java-11` branch.
 
 **Recommendation:** If your project uses Spring, the [Spring](#spring) client is the recommended implementation. If you don't use Spring then pick the [Java HTTP Client](#java-http-client).
 
@@ -385,30 +385,30 @@ Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pn
 
 There is one client class for each REST interface:
 
--   `AboutDataClient`
--   `ActivityDataClient`
--   `AdvisorTypeDataClient`
--   `ApplicationDataClient`
--   `BrandDataClient`
--   `CompanyDataClient`
--   `CompanyGroupDataClient`
--   `CompanyGroupTypeDataClient`
--   `CompanyNumberTypeDataClient`
--   `CompanyTypeDataClient`
--   `ContractStateDataClient`
--   `ContractTypeDataClient`
--   `ExternalBrandDataClient`
--   `FunctionDataClient`
--   `LegalFormDataClient`
--   `NumberTypeDataClient`
--   `PersonDataClient`
+- `AboutDataClient`
+- `ActivityDataClient`
+- `AdvisorTypeDataClient`
+- `ApplicationDataClient`
+- `BrandDataClient`
+- `CompanyDataClient`
+- `CompanyGroupDataClient`
+- `CompanyGroupTypeDataClient`
+- `CompanyNumberTypeDataClient`
+- `CompanyTypeDataClient`
+- `ContractStateDataClient`
+- `ContractTypeDataClient`
+- `ExternalBrandDataClient`
+- `FunctionDataClient`
+- `LegalFormDataClient`
+- `NumberTypeDataClient`
+- `PersonDataClient`
 
 The clients and all methods are stateless and threadsafe! You can access the three basic methods by using the fluent interface:
 
--   `get()` for the details
--   `search()` for search operations
--   `find()` for find operations
--   `autocomplete()` for non-fuzzy search operations
+- `get()` for the details
+- `search()` for search operations
+- `find()` for find operations
+- `autocomplete()` for non-fuzzy search operations
 
 Execute all requests by calling the `execute(..)` method.
 

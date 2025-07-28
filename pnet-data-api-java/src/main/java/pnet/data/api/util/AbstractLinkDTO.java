@@ -14,80 +14,65 @@
  */
 package pnet.data.api.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Abstract implementation of a link.
  *
  * @author ham
  */
-public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Serializable
-{
+public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Serializable {
 
     private static final long serialVersionUID = -2028835160784471478L;
 
     protected final String tenant;
     protected final String matchcode;
 
-    public AbstractLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
-    {
+    public AbstractLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode) {
         super();
-
         this.tenant = tenant;
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return tenant;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(matchcode, tenant);
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        if (!(obj instanceof AbstractLinkDTO other))
-        {
+        if (!(obj instanceof AbstractLinkDTO other)) {
             return false;
         }
-        if (!Objects.equals(matchcode, other.matchcode))
-        {
+        if (!Objects.equals(matchcode, other.matchcode)) {
             return false;
         }
-        if (!Objects.equals(tenant, other.tenant))
-        {
+        if (!Objects.equals(tenant, other.tenant)) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s(%s)", matchcode, tenant);
     }
-
 }

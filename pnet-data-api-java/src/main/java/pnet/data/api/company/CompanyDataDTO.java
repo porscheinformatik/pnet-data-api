@@ -14,16 +14,14 @@
  */
 package pnet.data.api.company;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.GeoPoint;
 import pnet.data.api.companygroup.CompanyGroupMemberLinkDTO;
 import pnet.data.api.util.PnetDataApiUtils;
@@ -37,8 +35,8 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds all information about one company.")
-public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants, Serializable
-{
+public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants, Serializable {
+
     @Serial
     private static final long serialVersionUID = 4995140302871305715L;
 
@@ -73,18 +71,21 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     private Collection<String> tenants;
 
     @Schema(
-        description = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
-            + "interface.")
+        description = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands " +
+        "interface."
+    )
     private Collection<CompanyBrandLinkDTO> brands;
 
     @Schema(
-        description = "All contract types assigned to the company. The matchcode of each item fits to the matchcodes of the "
-            + "contract types interface.")
+        description = "All contract types assigned to the company. The matchcode of each item fits to the matchcodes of the " +
+        "contract types interface."
+    )
     private Collection<CompanyContractTypeLinkDTO> contractTypes;
 
     @Schema(
-        description = "All contract states assigned to the company. The matchcode of each item fits to the matchcodes of the "
-            + "contract states interface.")
+        description = "All contract states assigned to the company. The matchcode of each item fits to the matchcodes of the " +
+        "contract states interface."
+    )
     private Collection<CompanyContractStateLinkDTO> contractStates;
 
     @Schema(description = "All contract distribution structures assigned to the company.")
@@ -112,8 +113,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     private boolean bpcmManaged;
 
     @Schema(
-        description = "All additional numbers of the company. The matchcode of each item fits to the matchcodes of the "
-            + "company number types interface.")
+        description = "All additional numbers of the company. The matchcode of each item fits to the matchcodes of the " +
+        "company number types interface."
+    )
     private Collection<CompanyNumberLinkDTO> additionalNumbers;
 
     @Schema(description = "The name of the street as defined in the address of the company.")
@@ -140,8 +142,10 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "The BIC of the company.")
     private String bic;
 
-    @Schema(description = "All company types assigned to the company. The matchcode of each item fits to the "
-        + "matchcodes of the company types interface.")
+    @Schema(
+        description = "All company types assigned to the company. The matchcode of each item fits to the " +
+        "matchcodes of the company types interface."
+    )
     private Collection<CompanyTypeLinkDTO> types;
 
     @Schema(description = "The phone number of the company.")
@@ -169,8 +173,10 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "The homepage of the company.")
     private String homepage;
 
-    @Schema(description = "The postal address of the company. In contrast to the other address fields, this may "
-        + "contain a simplifcation of the address, like a post office box.")
+    @Schema(
+        description = "The postal address of the company. In contrast to the other address fields, this may " +
+        "contain a simplifcation of the address, like a post office box."
+    )
     private String postal;
 
     @Schema(description = "A link to the Facebook page of the company.")
@@ -213,8 +219,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     private String jurisdiction;
 
     @Schema(
-        description = "The provision in a company's constitution stating the purpose and range of activities for which the "
-            + "company is carried on (part of the impressum).")
+        description = "The provision in a company's constitution stating the purpose and range of activities for which the " +
+        "company is carried on (part of the impressum)."
+    )
     private String objectsClause;
 
     @Schema(description = "The general partner of the company (part of the impressum).")
@@ -250,198 +257,168 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "Add advisors assigned to the company.")
     private Collection<CompanyAdvisorAssignmentLinkDTO> advisorAssignments;
 
-    @Schema(description = "The time and date of the last occasion, when the data of the this company has been "
-        + "modified.")
+    @Schema(
+        description = "The time and date of the last occasion, when the data of the this company has been " +
+        "modified."
+    )
     private LocalDateTime lastUpdate;
 
-    public CompanyDataDTO(@JsonProperty("companyId") Integer companyId)
-    {
+    public CompanyDataDTO(@JsonProperty("companyId") Integer companyId) {
         super();
-
         this.companyId = companyId;
     }
 
     @Override
-    public Integer getCompanyId()
-    {
+    public Integer getCompanyId() {
         return companyId;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return getCompanyMatchcode();
     }
 
     @Override
-    public String getCompanyMatchcode()
-    {
+    public String getCompanyMatchcode() {
         return matchcode;
     }
 
-    public void setMatchcode(String matchcode)
-    {
+    public void setMatchcode(String matchcode) {
         this.matchcode = matchcode;
     }
 
-    public String getAdministrativeTenant()
-    {
+    public String getAdministrativeTenant() {
         return administrativeTenant;
     }
 
-    public void setAdministrativeTenant(String administrativeTenant)
-    {
+    public void setAdministrativeTenant(String administrativeTenant) {
         this.administrativeTenant = administrativeTenant;
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
-    public String getLabelWithNumber()
-    {
+    public String getLabelWithNumber() {
         return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, label);
     }
 
-    public void setLabel(String label)
-    {
+    public void setLabel(String label) {
         this.label = label;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getNameAffix()
-    {
+    public String getNameAffix() {
         return nameAffix;
     }
 
-    public void setNameAffix(String nameAffix)
-    {
+    public void setNameAffix(String nameAffix) {
         this.nameAffix = nameAffix;
     }
 
-    public String getAdditionalNameAffix()
-    {
+    public String getAdditionalNameAffix() {
         return additionalNameAffix;
     }
 
-    public void setAdditionalNameAffix(String additionalNameAffix)
-    {
+    public void setAdditionalNameAffix(String additionalNameAffix) {
         this.additionalNameAffix = additionalNameAffix;
     }
 
-    public String getMarketingName()
-    {
+    public String getMarketingName() {
         return marketingName;
     }
 
-    public void setMarketingName(String marketingName)
-    {
+    public void setMarketingName(String marketingName) {
         this.marketingName = marketingName;
     }
 
-    public Collection<CompanyGroupMemberLinkDTO> getGroupMembers()
-    {
+    public Collection<CompanyGroupMemberLinkDTO> getGroupMembers() {
         return groupMembers;
     }
 
-    public void setGroupMembers(Collection<CompanyGroupMemberLinkDTO> groupMembers)
-    {
+    public void setGroupMembers(Collection<CompanyGroupMemberLinkDTO> groupMembers) {
         this.groupMembers = groupMembers;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
-    public void setTenants(Collection<String> tenants)
-    {
+    public void setTenants(Collection<String> tenants) {
         this.tenants = tenants;
     }
 
-    public Collection<CompanyBrandLinkDTO> getBrands()
-    {
+    public Collection<CompanyBrandLinkDTO> getBrands() {
         return brands;
     }
 
-    public Optional<CompanyBrandLinkDTO> findBrand(Predicate<? super CompanyBrandLinkDTO> predicate)
-    {
+    public Optional<CompanyBrandLinkDTO> findBrand(Predicate<? super CompanyBrandLinkDTO> predicate) {
         return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
-    public void setBrands(Collection<CompanyBrandLinkDTO> brands)
-    {
+    public void setBrands(Collection<CompanyBrandLinkDTO> brands) {
         this.brands = brands;
     }
 
-    public Collection<CompanyContractTypeLinkDTO> getContractTypes()
-    {
+    public Collection<CompanyContractTypeLinkDTO> getContractTypes() {
         return contractTypes;
     }
 
     public Optional<CompanyContractTypeLinkDTO> findContractType(
-        Predicate<? super CompanyContractTypeLinkDTO> predicate)
-    {
+        Predicate<? super CompanyContractTypeLinkDTO> predicate
+    ) {
         return contractTypes == null ? Optional.empty() : contractTypes.stream().filter(predicate).findFirst();
     }
 
-    public void setContractTypes(Collection<CompanyContractTypeLinkDTO> contractTypes)
-    {
+    public void setContractTypes(Collection<CompanyContractTypeLinkDTO> contractTypes) {
         this.contractTypes = contractTypes;
     }
 
-    public Collection<CompanyContractStateLinkDTO> getContractStates()
-    {
+    public Collection<CompanyContractStateLinkDTO> getContractStates() {
         return contractStates;
     }
 
     public Optional<CompanyContractStateLinkDTO> findContractState(
-        Predicate<? super CompanyContractStateLinkDTO> predicate)
-    {
+        Predicate<? super CompanyContractStateLinkDTO> predicate
+    ) {
         return contractStates == null ? Optional.empty() : contractStates.stream().filter(predicate).findFirst();
     }
 
-    public void setContractStates(Collection<CompanyContractStateLinkDTO> contractStates)
-    {
+    public void setContractStates(Collection<CompanyContractStateLinkDTO> contractStates) {
         this.contractStates = contractStates;
     }
 
-    public Collection<CompanyContractDistributionStructureLinkDTO> getContractDistributionStructure()
-    {
+    public Collection<CompanyContractDistributionStructureLinkDTO> getContractDistributionStructure() {
         return contractDistributionStructure;
     }
 
     public Optional<CompanyContractDistributionStructureLinkDTO> findContractDistributionStructure(
-        Predicate<? super CompanyContractDistributionStructureLinkDTO> predicate)
-    {
-        return contractDistributionStructure == null ? Optional.empty()
+        Predicate<? super CompanyContractDistributionStructureLinkDTO> predicate
+    ) {
+        return contractDistributionStructure == null
+            ? Optional.empty()
             : contractDistributionStructure.stream().filter(predicate).findFirst();
     }
 
     public void setContractDistributionStructure(
-        Collection<CompanyContractDistributionStructureLinkDTO> contractDistributionStructure)
-    {
+        Collection<CompanyContractDistributionStructureLinkDTO> contractDistributionStructure
+    ) {
         this.contractDistributionStructure = contractDistributionStructure;
     }
 
-    public String getVatIdNumber()
-    {
+    public String getVatIdNumber() {
         return vatIdNumber;
     }
 
-    public void setVatIdNumber(String vatIdNumber)
-    {
+    public void setVatIdNumber(String vatIdNumber) {
         this.vatIdNumber = vatIdNumber;
     }
 
@@ -450,8 +427,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
      * @deprecated use {@link #getCompanyNumber()} instead
      */
     @Deprecated
-    public String getSapNumber()
-    {
+    public String getSapNumber() {
         return sapNumber;
     }
 
@@ -462,169 +438,136 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
      * @deprecated use {@link #setCompanyNumber(String)} instead
      */
     @Deprecated
-    public void setSapNumber(String sapNumber)
-    {
+    public void setSapNumber(String sapNumber) {
         this.sapNumber = sapNumber;
     }
 
     @Override
-    public String getCompanyNumber()
-    {
+    public String getCompanyNumber() {
         return companyNumber;
     }
 
-    public void setCompanyNumber(String companyNumber)
-    {
+    public void setCompanyNumber(String companyNumber) {
         this.companyNumber = companyNumber;
     }
 
-    public String getBpcmLocationUuid()
-    {
+    public String getBpcmLocationUuid() {
         return bpcmLocationUuid;
     }
 
-    public void setBpcmLocationUuid(String bpcmLocationUuid)
-    {
+    public void setBpcmLocationUuid(String bpcmLocationUuid) {
         this.bpcmLocationUuid = bpcmLocationUuid;
     }
 
-    public boolean isBpcmManaged()
-    {
+    public boolean isBpcmManaged() {
         return bpcmManaged;
     }
 
-    public void setBpcmManaged(boolean bpcmManaged)
-    {
+    public void setBpcmManaged(boolean bpcmManaged) {
         this.bpcmManaged = bpcmManaged;
     }
 
-    public Collection<CompanyNumberLinkDTO> getAdditionalNumbers()
-    {
+    public Collection<CompanyNumberLinkDTO> getAdditionalNumbers() {
         return additionalNumbers;
     }
 
-    public Optional<CompanyNumberLinkDTO> findAdditionalNumber(Predicate<? super CompanyNumberLinkDTO> predicate)
-    {
+    public Optional<CompanyNumberLinkDTO> findAdditionalNumber(Predicate<? super CompanyNumberLinkDTO> predicate) {
         return additionalNumbers == null ? Optional.empty() : additionalNumbers.stream().filter(predicate).findFirst();
     }
 
-    public void setAdditionalNumbers(Collection<CompanyNumberLinkDTO> additionalNumbers)
-    {
+    public void setAdditionalNumbers(Collection<CompanyNumberLinkDTO> additionalNumbers) {
         this.additionalNumbers = additionalNumbers;
     }
 
-    public String getStreet()
-    {
+    public String getStreet() {
         return street;
     }
 
-    public void setStreet(String street)
-    {
+    public void setStreet(String street) {
         this.street = street;
     }
 
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(String city)
-    {
+    public void setCity(String city) {
         this.city = city;
     }
 
-    public String getPostalCode()
-    {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode)
-    {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 
-    public String getCountryCode()
-    {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(String countryCode)
-    {
+    public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
 
-    public String getCountry()
-    {
+    public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country)
-    {
+    public void setCountry(String country) {
         this.country = country;
     }
 
-    public String getRegion()
-    {
+    public String getRegion() {
         return region;
     }
 
-    public void setRegion(String region)
-    {
+    public void setRegion(String region) {
         this.region = region;
     }
 
-    public String getIban()
-    {
+    public String getIban() {
         return iban;
     }
 
-    public void setIban(String iban)
-    {
+    public void setIban(String iban) {
         this.iban = iban;
     }
 
-    public String getBic()
-    {
+    public String getBic() {
         return bic;
     }
 
-    public void setBic(String bic)
-    {
+    public void setBic(String bic) {
         this.bic = bic;
     }
 
-    public Collection<CompanyTypeLinkDTO> getTypes()
-    {
+    public Collection<CompanyTypeLinkDTO> getTypes() {
         return types;
     }
 
-    public Optional<CompanyTypeLinkDTO> findType(Predicate<? super CompanyTypeLinkDTO> predicate)
-    {
+    public Optional<CompanyTypeLinkDTO> findType(Predicate<? super CompanyTypeLinkDTO> predicate) {
         return types == null ? Optional.empty() : types.stream().filter(predicate).findFirst();
     }
 
-    public void setTypes(Collection<CompanyTypeLinkDTO> types)
-    {
+    public void setTypes(Collection<CompanyTypeLinkDTO> types) {
         this.types = types;
     }
 
-    public String getPhoneNumber()
-    {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber)
-    {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getMobileNumber()
-    {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setMobileNumber(String mobileNumber)
-    {
+    public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 
@@ -633,8 +576,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
      * @deprecated will be removed in future
      */
     @Deprecated
-    public String getSpeedDial()
-    {
+    public String getSpeedDial() {
         return speedDial;
     }
 
@@ -645,362 +587,352 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
      * @deprecated will be removed in future
      */
     @Deprecated
-    public void setSpeedDial(String speedDial)
-    {
+    public void setSpeedDial(String speedDial) {
         this.speedDial = speedDial;
     }
 
-    public String getFaxNumber()
-    {
+    public String getFaxNumber() {
         return faxNumber;
     }
 
-    public void setFaxNumber(String faxNumber)
-    {
+    public void setFaxNumber(String faxNumber) {
         this.faxNumber = faxNumber;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getLeadEmail()
-    {
+    public String getLeadEmail() {
         return leadEmail;
     }
 
-    public void setLeadEmail(String leadEmail)
-    {
+    public void setLeadEmail(String leadEmail) {
         this.leadEmail = leadEmail;
     }
 
-    public String getHomepage()
-    {
+    public String getHomepage() {
         return homepage;
     }
 
-    public void setHomepage(String homepage)
-    {
+    public void setHomepage(String homepage) {
         this.homepage = homepage;
     }
 
-    public String getPostal()
-    {
+    public String getPostal() {
         return postal;
     }
 
-    public void setPostal(String postal)
-    {
+    public void setPostal(String postal) {
         this.postal = postal;
     }
 
-    public String getFacebookLink()
-    {
+    public String getFacebookLink() {
         return facebookLink;
     }
 
-    public void setFacebookLink(String facebookLink)
-    {
+    public void setFacebookLink(String facebookLink) {
         this.facebookLink = facebookLink;
     }
 
-    public String getYouTubeLink()
-    {
+    public String getYouTubeLink() {
         return youTubeLink;
     }
 
-    public void setYouTubeLink(String youTubeLink)
-    {
+    public void setYouTubeLink(String youTubeLink) {
         this.youTubeLink = youTubeLink;
     }
 
-    public String getInstagramLink()
-    {
+    public String getInstagramLink() {
         return instagramLink;
     }
 
-    public void setInstagramLink(String instagramLink)
-    {
+    public void setInstagramLink(String instagramLink) {
         this.instagramLink = instagramLink;
     }
 
-    public String getViberLink()
-    {
+    public String getViberLink() {
         return viberLink;
     }
 
-    public void setViberLink(String viberLink)
-    {
+    public void setViberLink(String viberLink) {
         this.viberLink = viberLink;
     }
 
-    public String getTelegramLink()
-    {
+    public String getTelegramLink() {
         return telegramLink;
     }
 
-    public void setTelegramLink(String telegramLink)
-    {
+    public void setTelegramLink(String telegramLink) {
         this.telegramLink = telegramLink;
     }
 
-    public String getTikTokLink()
-    {
+    public String getTikTokLink() {
         return tikTokLink;
     }
 
-    public void setTikTokLink(String tikTokLink)
-    {
+    public void setTikTokLink(String tikTokLink) {
         this.tikTokLink = tikTokLink;
     }
 
     @JsonProperty("xTwitterLink")
-    public String getXTwitterLink()
-    {
+    public String getXTwitterLink() {
         return xTwitterLink;
     }
 
     @JsonProperty("xTwitterLink")
-    public void setXTwitterLink(String xTwitterLink)
-    {
+    public void setXTwitterLink(String xTwitterLink) {
         this.xTwitterLink = xTwitterLink;
     }
 
-    public String getLegalFormMatchcode()
-    {
+    public String getLegalFormMatchcode() {
         return legalFormMatchcode;
     }
 
-    public void setLegalFormMatchcode(String legalFormMatchcode)
-    {
+    public void setLegalFormMatchcode(String legalFormMatchcode) {
         this.legalFormMatchcode = legalFormMatchcode;
     }
 
-    public String getDataProcessingRegisterNumber()
-    {
+    public String getDataProcessingRegisterNumber() {
         return dataProcessingRegisterNumber;
     }
 
-    public void setDataProcessingRegisterNumber(String dataProcessingRegisterNumber)
-    {
+    public void setDataProcessingRegisterNumber(String dataProcessingRegisterNumber) {
         this.dataProcessingRegisterNumber = dataProcessingRegisterNumber;
     }
 
-    public String getCommercialRegisterNumber()
-    {
+    public String getCommercialRegisterNumber() {
         return commercialRegisterNumber;
     }
 
-    public void setCommercialRegisterNumber(String commercialRegisterNumber)
-    {
+    public void setCommercialRegisterNumber(String commercialRegisterNumber) {
         this.commercialRegisterNumber = commercialRegisterNumber;
     }
 
-    public String getCertificateType()
-    {
+    public String getCertificateType() {
         return certificateType;
     }
 
-    public void setCertificateType(String certificateType)
-    {
+    public void setCertificateType(String certificateType) {
         this.certificateType = certificateType;
     }
 
-    public String getCertificateNumber()
-    {
+    public String getCertificateNumber() {
         return certificateNumber;
     }
 
-    public void setCertificateNumber(String certificateNumber)
-    {
+    public void setCertificateNumber(String certificateNumber) {
         this.certificateNumber = certificateNumber;
     }
 
-    public String getJurisdiction()
-    {
+    public String getJurisdiction() {
         return jurisdiction;
     }
 
-    public void setJurisdiction(String jurisdiction)
-    {
+    public void setJurisdiction(String jurisdiction) {
         this.jurisdiction = jurisdiction;
     }
 
-    public String getObjectsClause()
-    {
+    public String getObjectsClause() {
         return objectsClause;
     }
 
-    public void setObjectsClause(String objectsClause)
-    {
+    public void setObjectsClause(String objectsClause) {
         this.objectsClause = objectsClause;
     }
 
-    public String getGeneralPartner()
-    {
+    public String getGeneralPartner() {
         return generalPartner;
     }
 
-    public void setGeneralPartner(String generalPartner)
-    {
+    public void setGeneralPartner(String generalPartner) {
         this.generalPartner = generalPartner;
     }
 
-    public String getRegisteredOffice()
-    {
+    public String getRegisteredOffice() {
         return registeredOffice;
     }
 
-    public void setRegisteredOffice(String registeredOffice)
-    {
+    public void setRegisteredOffice(String registeredOffice) {
         this.registeredOffice = registeredOffice;
     }
 
-    public String getChamberAffiliation()
-    {
+    public String getChamberAffiliation() {
         return chamberAffiliation;
     }
 
-    public void setChamberAffiliation(String chamberAffiliation)
-    {
+    public void setChamberAffiliation(String chamberAffiliation) {
         this.chamberAffiliation = chamberAffiliation;
     }
 
-    public String getCommercialRegulations()
-    {
+    public String getCommercialRegulations() {
         return commercialRegulations;
     }
 
-    public void setCommercialRegulations(String commercialRegulations)
-    {
+    public void setCommercialRegulations(String commercialRegulations) {
         this.commercialRegulations = commercialRegulations;
     }
 
-    public String getRegulatoryAuthority()
-    {
+    public String getRegulatoryAuthority() {
         return regulatoryAuthority;
     }
 
-    public void setRegulatoryAuthority(String regulatoryAuthority)
-    {
+    public void setRegulatoryAuthority(String regulatoryAuthority) {
         this.regulatoryAuthority = regulatoryAuthority;
     }
 
-    public String getArbitrationBoard()
-    {
+    public String getArbitrationBoard() {
         return arbitrationBoard;
     }
 
-    public void setArbitrationBoard(String arbitrationBoard)
-    {
+    public void setArbitrationBoard(String arbitrationBoard) {
         this.arbitrationBoard = arbitrationBoard;
     }
 
-    public String getAdditionalImprintInfo()
-    {
+    public String getAdditionalImprintInfo() {
         return additionalImprintInfo;
     }
 
-    public void setAdditionalImprintInfo(String additionalImprintInfo)
-    {
+    public void setAdditionalImprintInfo(String additionalImprintInfo) {
         this.additionalImprintInfo = additionalImprintInfo;
     }
 
-    public String getBusinessInformationNumber()
-    {
+    public String getBusinessInformationNumber() {
         return businessInformationNumber;
     }
 
-    public void setBusinessInformationNumber(String businessInformationNumber)
-    {
+    public void setBusinessInformationNumber(String businessInformationNumber) {
         this.businessInformationNumber = businessInformationNumber;
     }
 
-    public GeoPoint getLocation()
-    {
+    public GeoPoint getLocation() {
         return location;
     }
 
-    public void setLocation(GeoPoint location)
-    {
+    public void setLocation(GeoPoint location) {
         this.location = location;
     }
 
-    public Collection<CompanyExternalBrandDataDTO> getExternalBrands()
-    {
+    public Collection<CompanyExternalBrandDataDTO> getExternalBrands() {
         return externalBrands;
     }
 
     public Optional<CompanyExternalBrandDataDTO> findExternalBrand(
-        Predicate<? super CompanyExternalBrandDataDTO> predicate)
-    {
+        Predicate<? super CompanyExternalBrandDataDTO> predicate
+    ) {
         return externalBrands == null ? Optional.empty() : externalBrands.stream().filter(predicate).findFirst();
     }
 
-    public void setExternalBrands(Collection<CompanyExternalBrandDataDTO> externalBrands)
-    {
+    public void setExternalBrands(Collection<CompanyExternalBrandDataDTO> externalBrands) {
         this.externalBrands = externalBrands;
     }
 
-    public Collection<CompanyAdvisorAssignmentLinkDTO> getAdvisorAssignments()
-    {
+    public Collection<CompanyAdvisorAssignmentLinkDTO> getAdvisorAssignments() {
         return advisorAssignments;
     }
 
     public Optional<CompanyAdvisorAssignmentLinkDTO> findAdvisorAssignment(
-        Predicate<? super CompanyAdvisorAssignmentLinkDTO> predicate)
-    {
-        return advisorAssignments == null ? Optional.empty()
+        Predicate<? super CompanyAdvisorAssignmentLinkDTO> predicate
+    ) {
+        return advisorAssignments == null
+            ? Optional.empty()
             : advisorAssignments.stream().filter(predicate).findFirst();
     }
 
-    public void setAdvisorAssignments(Collection<CompanyAdvisorAssignmentLinkDTO> advisorAssignments)
-    {
+    public void setAdvisorAssignments(Collection<CompanyAdvisorAssignmentLinkDTO> advisorAssignments) {
         this.advisorAssignments = advisorAssignments;
     }
 
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
-        return String
-            .format(
-                "CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, label=%s, name=%s, nameAffix=%s, "
-                    + "additionalNameAffix=%s, marketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, "
-                    + "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, "
-                    + "companyNumber=%s, bpcmLocationUuid=%s, bpcmManaged=%s, additionalNumbers=%s, street=%s, city=%s, "
-                    + "postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, "
-                    + "mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, "
-                    + "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, telegramLink=%s, tikTokLink=%s, "
-                    + "xTwitterLink=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, "
-                    + "certificateType=%s, certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, "
-                    + "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, "
-                    + "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, "
-                    + "externalBrands=%s, advisorAssignments=%s, lastUpdate=%s]",
-                companyId, matchcode, administrativeTenant, label, name, nameAffix, additionalNameAffix, marketingName,
-                groupMembers, tenants, brands, contractTypes, contractStates, contractDistributionStructure,
-                vatIdNumber, sapNumber, companyNumber, bpcmLocationUuid, bpcmManaged, additionalNumbers, street, city,
-                postalCode, countryCode, country, region, iban, bic, types, phoneNumber, mobileNumber, speedDial,
-                faxNumber, email, leadEmail, homepage, postal, facebookLink, youTubeLink, instagramLink, viberLink,
-                telegramLink, tikTokLink, xTwitterLink, legalFormMatchcode, dataProcessingRegisterNumber,
-                commercialRegisterNumber, certificateType, certificateNumber, jurisdiction, objectsClause,
-                generalPartner, registeredOffice, chamberAffiliation, commercialRegulations, regulatoryAuthority,
-                arbitrationBoard, additionalImprintInfo, businessInformationNumber, location, externalBrands,
-                advisorAssignments, lastUpdate);
+    public String toString() {
+        return String.format(
+            "CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, label=%s, name=%s, nameAffix=%s, " +
+            "additionalNameAffix=%s, marketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, " +
+            "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, " +
+            "companyNumber=%s, bpcmLocationUuid=%s, bpcmManaged=%s, additionalNumbers=%s, street=%s, city=%s, " +
+            "postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, " +
+            "mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, " +
+            "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, telegramLink=%s, tikTokLink=%s, " +
+            "xTwitterLink=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, " +
+            "certificateType=%s, certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, " +
+            "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, " +
+            "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, " +
+            "externalBrands=%s, advisorAssignments=%s, lastUpdate=%s]",
+            companyId,
+            matchcode,
+            administrativeTenant,
+            label,
+            name,
+            nameAffix,
+            additionalNameAffix,
+            marketingName,
+            groupMembers,
+            tenants,
+            brands,
+            contractTypes,
+            contractStates,
+            contractDistributionStructure,
+            vatIdNumber,
+            sapNumber,
+            companyNumber,
+            bpcmLocationUuid,
+            bpcmManaged,
+            additionalNumbers,
+            street,
+            city,
+            postalCode,
+            countryCode,
+            country,
+            region,
+            iban,
+            bic,
+            types,
+            phoneNumber,
+            mobileNumber,
+            speedDial,
+            faxNumber,
+            email,
+            leadEmail,
+            homepage,
+            postal,
+            facebookLink,
+            youTubeLink,
+            instagramLink,
+            viberLink,
+            telegramLink,
+            tikTokLink,
+            xTwitterLink,
+            legalFormMatchcode,
+            dataProcessingRegisterNumber,
+            commercialRegisterNumber,
+            certificateType,
+            certificateNumber,
+            jurisdiction,
+            objectsClause,
+            generalPartner,
+            registeredOffice,
+            chamberAffiliation,
+            commercialRegulations,
+            regulatoryAuthority,
+            arbitrationBoard,
+            additionalImprintInfo,
+            businessInformationNumber,
+            location,
+            externalBrands,
+            advisorAssignments,
+            lastUpdate
+        );
     }
 }

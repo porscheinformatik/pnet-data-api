@@ -1,6 +1,5 @@
 package pnet.data.api.person;
 
-public enum PersonHierarchyType
-{
-    RESPONSIBLE
+public enum PersonHierarchyType {
+    RESPONSIBLE,
 }

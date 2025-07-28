@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import pnet.data.api.util.Pair;
 
 /**
@@ -15,9 +14,7 @@ import pnet.data.api.util.Pair;
  *
  * @author ham
  */
-public interface RestCall
-{
-
+public interface RestCall {
     String AUTHORIZATION_HEADER_NAME = "Authorization";
 
     String getUrl();
@@ -62,43 +59,36 @@ public interface RestCall
 
     RestCall accept(MediaType... mediaTypes);
 
-    default RestCall acceptJson()
-    {
+    default RestCall acceptJson() {
         return accept(MediaType.APPLICATION_JSON_UTF8);
     }
 
-    default RestCall acceptXML()
-    {
+    default RestCall acceptXML() {
         return accept(MediaType.APPLICATION_XML);
     }
 
-    default RestCall basicAuthorization(String username, String password)
-    {
+    default RestCall basicAuthorization(String username, String password) {
         Charset charset = StandardCharsets.UTF_8;
         String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes(charset));
 
         return header(AUTHORIZATION_HEADER_NAME, "Basic " + credentials);
     }
 
-    default RestCall bearerAuthorization(String token)
-    {
+    default RestCall bearerAuthorization(String token) {
         return header(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
     }
 
-    default String getAuthorization()
-    {
+    default String getAuthorization() {
         return getHeader(AUTHORIZATION_HEADER_NAME);
     }
 
     List<RestAttribute> getAttributes();
 
-    default boolean containsAttributes(Class<? extends RestAttribute> type)
-    {
+    default boolean containsAttributes(Class<? extends RestAttribute> type) {
         return getAttributes().stream().anyMatch(type::isInstance);
     }
 
-    default Optional<Object> getAttribute(Class<? extends RestAttribute> type, String name)
-    {
+    default Optional<Object> getAttribute(Class<? extends RestAttribute> type, String name) {
         return getAttributes()
             .stream()
             .filter(type::isInstance)
@@ -107,8 +97,7 @@ public interface RestCall
             .map(RestAttribute::getValue);
     }
 
-    default List<Object> getAttributes(Class<? extends RestAttribute> type, String name)
-    {
+    default List<Object> getAttributes(Class<? extends RestAttribute> type, String name) {
         return getAttributes()
             .stream()
             .filter(type::isInstance)
@@ -118,8 +107,7 @@ public interface RestCall
     }
 
     @SuppressWarnings("unchecked")
-    default <T extends RestAttribute> List<T> getAttributes(Class<T> type)
-    {
+    default <T extends RestAttribute> List<T> getAttributes(Class<T> type) {
         return (List<T>) getAttributes().stream().filter(type::isInstance).toList();
     }
 
@@ -127,25 +115,21 @@ public interface RestCall
 
     RestCall contentType(MediaType contentType);
 
-    default RestCall contentTypeJson()
-    {
+    default RestCall contentTypeJson() {
         return contentType(MediaType.APPLICATION_JSON);
     }
 
-    default RestCall contentTypeXML()
-    {
+    default RestCall contentTypeXML() {
         return contentType(MediaType.APPLICATION_XML);
     }
 
-    default RestCall contentTypeForm()
-    {
+    default RestCall contentTypeForm() {
         return contentType(MediaType.APPLICATION_FORM);
     }
 
     RestCall header(String name, String... value);
 
-    default String getHeader(String name)
-    {
+    default String getHeader(String name) {
         return (String) getAttribute(RestHeader.class, name).orElse(null);
     }
 
@@ -157,24 +141,20 @@ public interface RestCall
 
     RestCall removeHeaders(String... names);
 
-    default boolean containsHeaders()
-    {
+    default boolean containsHeaders() {
         return containsAttributes(RestHeader.class);
     }
 
-    default List<Object> getHeaders(String name)
-    {
+    default List<Object> getHeaders(String name) {
         return getAttributes(RestHeader.class, name);
     }
 
-    default List<RestHeader> getHeaders()
-    {
+    default List<RestHeader> getHeaders() {
         return getAttributes(RestHeader.class);
     }
 
-    default RestCall variable(String name, Object value)
-    {
-        return variable(name, new Object[]{value});
+    default RestCall variable(String name, Object value) {
+        return variable(name, new Object[] { value });
     }
 
     /**
@@ -189,25 +169,21 @@ public interface RestCall
     @Deprecated
     RestCall variable(String name, Object... values);
 
-    default boolean containsVariables()
-    {
+    default boolean containsVariables() {
         return containsAttributes(RestVariable.class);
     }
 
-    default Object getVariable(String name)
-    {
+    default Object getVariable(String name) {
         return getAttribute(RestVariable.class, name).orElse(null);
     }
 
-    default List<RestVariable> getVariables()
-    {
+    default List<RestVariable> getVariables() {
         return getAttributes(RestVariable.class);
     }
 
     RestCall parameter(String name, Object... value);
 
-    default Object getParameter(String name)
-    {
+    default Object getParameter(String name) {
         return getAttribute(RestParameter.class, name).orElse(null);
     }
 
@@ -223,150 +199,123 @@ public interface RestCall
 
     RestCall removeParameters(String... names);
 
-    default boolean containsParameters()
-    {
+    default boolean containsParameters() {
         return containsAttributes(RestParameter.class);
     }
 
-    default List<Object> getParameters(String name)
-    {
+    default List<Object> getParameters(String name) {
         return getAttributes(RestParameter.class, name);
     }
 
-    default List<RestParameter> getParameters()
-    {
+    default List<RestParameter> getParameters() {
         return getAttributes(RestParameter.class);
     }
 
-    default <T> T get(Class<T> responseType) throws RestException
-    {
+    default <T> T get(Class<T> responseType) throws RestException {
         return invoke(RestMethod.GET, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T get(String path, Class<T> responseType) throws RestException
-    {
+    default <T> T get(String path, Class<T> responseType) throws RestException {
         return invoke(RestMethod.GET, path, responseType).getBody();
     }
 
-    default <T> T get(GenericType<T> responseType) throws RestException
-    {
+    default <T> T get(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.GET, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T get(String path, GenericType<T> responseType) throws RestException
-    {
+    default <T> T get(String path, GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.GET, path, responseType).getBody();
     }
 
-    default <T> T put(Class<T> responseType) throws RestException
-    {
+    default <T> T put(Class<T> responseType) throws RestException {
         return invoke(RestMethod.PUT, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T put(String path, Class<T> responseType) throws RestException
-    {
+    default <T> T put(String path, Class<T> responseType) throws RestException {
         return invoke(RestMethod.PUT, path, responseType).getBody();
     }
 
-    default <T> T put(GenericType<T> responseType) throws RestException
-    {
+    default <T> T put(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.PUT, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T put(String path, GenericType<T> responseType) throws RestException
-    {
+    default <T> T put(String path, GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.PUT, path, responseType).getBody();
     }
 
-    default <T> T post(Class<T> responseType) throws RestException
-    {
+    default <T> T post(Class<T> responseType) throws RestException {
         return invoke(RestMethod.POST, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T post(String path, Class<T> responseType) throws RestException
-    {
+    default <T> T post(String path, Class<T> responseType) throws RestException {
         return invoke(RestMethod.POST, path, responseType).getBody();
     }
 
-    default <T> T post(GenericType<T> responseType) throws RestException
-    {
+    default <T> T post(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.POST, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T post(String path, GenericType<T> responseType) throws RestException
-    {
+    default <T> T post(String path, GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.POST, path, responseType).getBody();
     }
 
-    default <T> T delete(Class<T> responseType) throws RestException
-    {
+    default <T> T delete(Class<T> responseType) throws RestException {
         return invoke(RestMethod.DELETE, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T delete(String path, Class<T> responseType) throws RestException
-    {
+    default <T> T delete(String path, Class<T> responseType) throws RestException {
         return invoke(RestMethod.DELETE, path, responseType).getBody();
     }
 
-    default <T> T delete(GenericType<T> responseType) throws RestException
-    {
+    default <T> T delete(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.DELETE, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T delete(String path, GenericType<T> responseType) throws RestException
-    {
+    default <T> T delete(String path, GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.DELETE, path, responseType).getBody();
     }
 
-    default <T> T options(Class<T> responseType) throws RestException
-    {
+    default <T> T options(Class<T> responseType) throws RestException {
         return invoke(RestMethod.OPTIONS, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T options(String path, Class<T> responseType) throws RestException
-    {
+    default <T> T options(String path, Class<T> responseType) throws RestException {
         return invoke(RestMethod.OPTIONS, path, responseType).getBody();
     }
 
-    default <T> T options(GenericType<T> responseType) throws RestException
-    {
+    default <T> T options(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.OPTIONS, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T options(String path, GenericType<T> responseType) throws RestException
-    {
+    default <T> T options(String path, GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.OPTIONS, path, responseType).getBody();
     }
 
-    default <T> T patch(Class<T> responseType) throws RestException
-    {
+    default <T> T patch(Class<T> responseType) throws RestException {
         return invoke(RestMethod.PATCH, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T patch(String path, Class<T> responseType) throws RestException
-    {
+    default <T> T patch(String path, Class<T> responseType) throws RestException {
         return invoke(RestMethod.PATCH, path, responseType).getBody();
     }
 
-    default <T> T patch(GenericType<T> responseType) throws RestException
-    {
+    default <T> T patch(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.PATCH, responseType).getBody();
     }
 
     @Deprecated
-    default <T> T patch(String path, GenericType<T> responseType) throws RestException
-    {
+    default <T> T patch(String path, GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.PATCH, path, responseType).getBody();
     }
 

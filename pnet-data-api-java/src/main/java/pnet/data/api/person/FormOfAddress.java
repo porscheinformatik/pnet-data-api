@@ -19,11 +19,8 @@ package pnet.data.api.person;
  *
  * @author ham
  */
-public enum FormOfAddress
-{
-
+public enum FormOfAddress {
     UNIVERSAL,
     FEMININE,
-    MASCULINE
-
+    MASCULINE,
 }

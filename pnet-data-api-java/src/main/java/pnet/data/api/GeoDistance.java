@@ -14,51 +14,51 @@
  */
 package pnet.data.api;
 
-import java.util.Locale;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Locale;
 
 /**
  * A point on the globe with a distance (in m).
  *
  * @author ham
  */
-public class GeoDistance extends GeoPoint
-{
+public class GeoDistance extends GeoPoint {
 
     private static final long serialVersionUID = 5927413577348524173L;
 
-    public static GeoDistance of(double lat, double lon, double distance)
-    {
+    public static GeoDistance of(double lat, double lon, double distance) {
         return new GeoDistance(lat, lon, distance);
     }
 
     private final double distance;
 
-    public GeoDistance(@JsonProperty("lat") double lat, @JsonProperty("lon") double lon,
-        @JsonProperty("distance") double distance)
-    {
+    public GeoDistance(
+        @JsonProperty("lat") double lat,
+        @JsonProperty("lon") double lon,
+        @JsonProperty("distance") double distance
+    ) {
         super(lat, lon);
-
         this.distance = distance;
     }
 
-    public double getDistance()
-    {
+    public double getDistance() {
         return distance;
     }
 
-    public boolean contains(GeoPoint point)
-    {
+    public boolean contains(GeoPoint point) {
         return point.distanceTo(this) <= distance;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            String.format(Locale.ENGLISH, "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}", getLat(), getLon(),
-                getDistance()));
+            String.format(
+                Locale.ENGLISH,
+                "{\"lat\":%.6f,\"lon\":%.6f,\"distance\":%.6f}",
+                getLat(),
+                getLon(),
+                getDistance()
+            )
+        );
     }
-
 }

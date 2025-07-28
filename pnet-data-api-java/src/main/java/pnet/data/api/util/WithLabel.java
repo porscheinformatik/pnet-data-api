@@ -19,12 +19,9 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithLabel
-{
-
+public interface WithLabel {
     /**
      * @return the label
      */
     String getLabel();
-
 }

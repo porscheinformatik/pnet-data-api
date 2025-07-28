@@ -1,12 +1,10 @@
 package pnet.data.api.companygrouptype;
 
+import at.porscheinformatik.happyrest.GenericType;
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -20,30 +18,28 @@ import pnet.data.api.util.Pair;
  * @author cet
  */
 @Service
-public class CompanyGroupTypeDataClient extends AbstractPnetDataApiClient<CompanyGroupTypeDataClient>
-{
+public class CompanyGroupTypeDataClient extends AbstractPnetDataApiClient<CompanyGroupTypeDataClient> {
+
     @Autowired
-    public CompanyGroupTypeDataClient(PnetDataApiContext context)
-    {
+    public CompanyGroupTypeDataClient(PnetDataApiContext context) {
         super(context);
     }
 
-    public CompanyGroupTypeDataGet get()
-    {
+    public CompanyGroupTypeDataGet get() {
         return new CompanyGroupTypeDataGet(this::get, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<CompanyGroupTypeDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyGroupTypeDataDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/companygrouptypes/details")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupTypeDataDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupTypeDataDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::get);
 
@@ -51,22 +47,21 @@ public class CompanyGroupTypeDataClient extends AbstractPnetDataApiClient<Compan
         });
     }
 
-    public CompanyGroupTypeDataSearch search()
-    {
+    public CompanyGroupTypeDataSearch search() {
         return new CompanyGroupTypeDataSearch(this::search, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<CompanyGroupTypeItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyGroupTypeItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/companygrouptypes/search")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupTypeItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupTypeItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::search);
 
@@ -74,22 +69,21 @@ public class CompanyGroupTypeDataClient extends AbstractPnetDataApiClient<Compan
         });
     }
 
-    public CompanyGroupTypeDataFind find()
-    {
+    public CompanyGroupTypeDataFind find() {
         return new CompanyGroupTypeDataFind(this::find, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<CompanyGroupTypeItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<CompanyGroupTypeItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/companygrouptypes/find")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupTypeItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<CompanyGroupTypeItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::find);
 

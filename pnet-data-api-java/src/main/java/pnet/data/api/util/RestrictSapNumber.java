@@ -8,9 +8,7 @@ import java.util.Collection;
  * @param <SELF> the type of the filter for chaining
  * @author ham
  */
-public interface RestrictSapNumber<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
+public interface RestrictSapNumber<SELF extends Restrict<SELF>> extends Restrict<SELF> {
     /**
      * Restricts the SAP number.
      *
@@ -19,8 +17,7 @@ public interface RestrictSapNumber<SELF extends Restrict<SELF>> extends Restrict
      * @deprecated use the restriction for companyNumber instead
      */
     @Deprecated
-    default SELF sapNumber(String... numbers)
-    {
+    default SELF sapNumber(String... numbers) {
         return restrict("sapNumber", (Object[]) numbers);
     }
 
@@ -32,9 +29,7 @@ public interface RestrictSapNumber<SELF extends Restrict<SELF>> extends Restrict
      * @deprecated use the restriction for companyNumber instead
      */
     @Deprecated
-    default SELF sapNumbers(Collection<String> numbers)
-    {
+    default SELF sapNumbers(Collection<String> numbers) {
         return sapNumber(numbers.toArray(new String[0]));
     }
-
 }

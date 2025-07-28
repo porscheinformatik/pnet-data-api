@@ -8,37 +8,32 @@ import pnet.data.api.PnetDataClientException;
  *
  * @author HAM
  */
-public class PnetDataApiContextMock implements PnetDataApiContext
-{
+public class PnetDataApiContextMock implements PnetDataApiContext {
+
     @Override
-    public PnetDataApiContext withLoginMethod(PnetDataApiLoginMethod loginMethod)
-    {
+    public PnetDataApiContext withLoginMethod(PnetDataApiLoginMethod loginMethod) {
         throw new UnsupportedOperationException("Method \"withLoginMethod(..)\" not implemented");
     }
 
     @Override
     @Deprecated
-    public PnetDataApiContext withUrl(String url)
-    {
+    public PnetDataApiContext withUrl(String url) {
         throw new UnsupportedOperationException("Method \"withUrl(..)\" not implemented");
     }
 
     @Override
     @Deprecated
-    public PnetDataApiContext withCredentials(String username, String password)
-    {
+    public PnetDataApiContext withCredentials(String username, String password) {
         throw new UnsupportedOperationException("Method \"withCredentials(..)\" not implemented");
     }
 
     @Override
-    public RestCall restCall() throws PnetDataClientException
-    {
+    public RestCall restCall() throws PnetDataClientException {
         throw new UnsupportedOperationException("Method \"restCall(..)\" not implemented");
     }
 
     @Override
-    public void invalidateLogin() throws PnetDataClientException
-    {
+    public void invalidateLogin() throws PnetDataClientException {
         throw new UnsupportedOperationException("Method \"invalidateLogin(..)\" not implemented");
     }
 }

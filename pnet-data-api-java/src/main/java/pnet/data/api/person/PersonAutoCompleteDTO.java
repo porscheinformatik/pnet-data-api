@@ -1,10 +1,8 @@
 package pnet.data.api.person;
 
-import java.io.Serial;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 
 /**
@@ -12,8 +10,8 @@ import pnet.data.api.util.AbstractAutoCompleteDTO;
  *
  * @author HAM
  */
-public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
-{
+public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO {
+
     @Serial
     private static final long serialVersionUID = -6275336068143194073L;
 
@@ -42,16 +40,20 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
     private final String email;
 
     @SuppressWarnings("java:S107")
-    public PersonAutoCompleteDTO(@JsonProperty("personId") Integer personId,
-        @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("type") PersonType type,
-        @JsonProperty("label") String label, @JsonProperty("description") String description,
-        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
+    public PersonAutoCompleteDTO(
+        @JsonProperty("personId") Integer personId,
+        @JsonProperty("administrativeTenant") String administrativeTenant,
+        @JsonProperty("type") PersonType type,
+        @JsonProperty("label") String label,
+        @JsonProperty("description") String description,
+        @JsonProperty("externalId") String externalId,
+        @JsonProperty("guid") String guid,
         @JsonProperty("preferredUserId") String preferredUserId,
-        @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("email") String email,
-        @JsonProperty("score") double score)
-    {
+        @JsonProperty("personnelNumber") String personnelNumber,
+        @JsonProperty("email") String email,
+        @JsonProperty("score") double score
+    ) {
         super(label, description, score);
-
         this.personId = personId;
         this.administrativeTenant = administrativeTenant;
         this.type = type;
@@ -62,54 +64,55 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO
         this.email = email;
     }
 
-    public Integer getPersonId()
-    {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public String getAdministrativeTenant()
-    {
+    public String getAdministrativeTenant() {
         return administrativeTenant;
     }
 
-    public PersonType getType()
-    {
+    public PersonType getType() {
         return type;
     }
 
-    public String getExternalId()
-    {
+    public String getExternalId() {
         return externalId;
     }
 
-    public String getGuid()
-    {
+    public String getGuid() {
         return guid;
     }
 
-    public String getPreferredUserId()
-    {
+    public String getPreferredUserId() {
         return preferredUserId;
     }
 
-    public String getPersonnelNumber()
-    {
+    public String getPersonnelNumber() {
         return personnelNumber;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("PersonAutoCompleteDTO [personId=%s, administrativeTenant=%s, type=%s, externalId=%s, "
-                + "guid=%s, preferredUserId=%s, personnelNumber=%s, email=%s, getLabel()=%s, getDescription()=%s, "
-                + "getScore()=%s]",
-            personId, administrativeTenant, type, externalId, guid, preferredUserId, personnelNumber, email, getLabel(),
-            getDescription(), getScore());
+    public String toString() {
+        return String.format(
+            "PersonAutoCompleteDTO [personId=%s, administrativeTenant=%s, type=%s, externalId=%s, " +
+            "guid=%s, preferredUserId=%s, personnelNumber=%s, email=%s, getLabel()=%s, getDescription()=%s, " +
+            "getScore()=%s]",
+            personId,
+            administrativeTenant,
+            type,
+            externalId,
+            guid,
+            preferredUserId,
+            personnelNumber,
+            email,
+            getLabel(),
+            getDescription(),
+            getScore()
+        );
     }
-
 }

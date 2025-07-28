@@ -9,9 +9,7 @@ import pnet.data.api.client.context.PnetDataApiLoginMethod;
  * @deprecated provide a {@link PnetDataApiLoginMethod} instead of this Prefs
  */
 @Deprecated
-public interface PnetDataClientPrefs
-{
-
+public interface PnetDataClientPrefs {
     /**
      * @return the (default) URL of the Partner.Net Data API.
      */
@@ -26,5 +24,4 @@ public interface PnetDataClientPrefs
      * @return the (default) password of the SystemUser for accessing the Partner.Net Data API.
      */
     String getPnetDataApiPassword();
-
 }

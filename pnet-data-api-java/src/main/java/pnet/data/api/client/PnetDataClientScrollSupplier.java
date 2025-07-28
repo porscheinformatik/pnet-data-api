@@ -9,9 +9,6 @@ import pnet.data.api.PnetDataClientException;
  * @author ham
  */
 @FunctionalInterface
-public interface PnetDataClientScrollSupplier<T>
-{
-
+public interface PnetDataClientScrollSupplier<T> {
     PnetDataClientResultPage<T> get(String scrollId) throws PnetDataClientException;
-
 }

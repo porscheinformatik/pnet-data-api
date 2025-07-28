@@ -16,7 +16,6 @@ package pnet.data.api.companytype;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 
@@ -26,27 +25,23 @@ import pnet.data.api.util.AbstractLinkDTO;
  * @author ham
  */
 @Schema(description = "Holds minimal information about a company type")
-public class CompanyTypeLinkDTO extends AbstractLinkDTO
-{
+public class CompanyTypeLinkDTO extends AbstractLinkDTO {
 
     private static final long serialVersionUID = 4825498983415614109L;
 
-    public CompanyTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
-    {
+    public CompanyTypeLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode) {
         super(tenant, matchcode);
     }
 
     @JsonPropertyDescription("A tenant where the company type is valid")
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return super.getTenant();
     }
 
     @JsonPropertyDescription("The unique matchcode of the company type")
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return super.getMatchcode();
     }
 }

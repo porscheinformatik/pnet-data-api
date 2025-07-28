@@ -1,7 +1,6 @@
 package pnet.data.api.function;
 
 import java.util.List;
-
 import pnet.data.api.util.AbstractAutoComplete;
 import pnet.data.api.util.AutoCompleteFunction;
 import pnet.data.api.util.IncludeInactive;
@@ -22,17 +21,25 @@ import pnet.data.api.util.RestrictVisibility;
  *
  * @author ham
  */
-public class FunctionDataAutoComplete extends AbstractAutoComplete<FunctionAutoCompleteDTO, FunctionDataAutoComplete>
-    implements RestrictTenant<FunctionDataAutoComplete>, RestrictBrand<FunctionDataAutoComplete>,
-    RestrictCompanyType<FunctionDataAutoComplete>, RestrictContractType<FunctionDataAutoComplete>,
-    RestrictActivity<FunctionDataAutoComplete>, RestrictNumberType<FunctionDataAutoComplete>,
-    RestrictVisibility<FunctionDataAutoComplete>, RestrictAssignableToRegular<FunctionDataAutoComplete>,
-    RestrictAssignableToPrivileged<FunctionDataAutoComplete>, RestrictApprovalNeeded<FunctionDataAutoComplete>,
-    IncludeInactive<FunctionDataAutoComplete>
-{
-    public FunctionDataAutoComplete(AutoCompleteFunction<FunctionAutoCompleteDTO> autoCompleteFunction,
-        List<Pair<String, Object>> restrictItems)
-    {
+public class FunctionDataAutoComplete
+    extends AbstractAutoComplete<FunctionAutoCompleteDTO, FunctionDataAutoComplete>
+    implements
+        RestrictTenant<FunctionDataAutoComplete>,
+        RestrictBrand<FunctionDataAutoComplete>,
+        RestrictCompanyType<FunctionDataAutoComplete>,
+        RestrictContractType<FunctionDataAutoComplete>,
+        RestrictActivity<FunctionDataAutoComplete>,
+        RestrictNumberType<FunctionDataAutoComplete>,
+        RestrictVisibility<FunctionDataAutoComplete>,
+        RestrictAssignableToRegular<FunctionDataAutoComplete>,
+        RestrictAssignableToPrivileged<FunctionDataAutoComplete>,
+        RestrictApprovalNeeded<FunctionDataAutoComplete>,
+        IncludeInactive<FunctionDataAutoComplete> {
+
+    public FunctionDataAutoComplete(
+        AutoCompleteFunction<FunctionAutoCompleteDTO> autoCompleteFunction,
+        List<Pair<String, Object>> restrictItems
+    ) {
         super(autoCompleteFunction, restrictItems);
     }
 }

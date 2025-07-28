@@ -14,6 +14,8 @@
  */
 package pnet.data.api.activity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,10 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.brand.BrandLinkDTO;
 import pnet.data.api.brand.WithBrandLinks;
 import pnet.data.api.companytype.CompanyTypeLinkDTO;
@@ -45,9 +43,17 @@ import pnet.data.api.util.WithTenants;
  */
 @Schema(description = "Holds all information about an activity")
 public class ActivityDataDTO
-    implements WithMatchcode, WithLabels, WithDescriptions, WithTenants, WithBrandLinks, WithCompanyTypeLinks,
-    WithContractTypeLinks, WithLastUpdate, Serializable
-{
+    implements
+        WithMatchcode,
+        WithLabels,
+        WithDescriptions,
+        WithTenants,
+        WithBrandLinks,
+        WithCompanyTypeLinks,
+        WithContractTypeLinks,
+        WithLastUpdate,
+        Serializable {
+
     @Serial
     private static final long serialVersionUID = 5133673955487263429L;
 
@@ -78,81 +84,66 @@ public class ActivityDataDTO
     @Schema(description = "The time and date when the activity was last changed")
     private LocalDateTime lastUpdate;
 
-    public ActivityDataDTO(@JsonProperty("matchcode") String matchcode)
-    {
+    public ActivityDataDTO(@JsonProperty("matchcode") String matchcode) {
         super();
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
-    public void setLabels(Map<Locale, String> labels)
-    {
+    public void setLabels(Map<Locale, String> labels) {
         this.labels = labels;
     }
 
     @Override
-    public Map<Locale, String> getDescriptions()
-    {
+    public Map<Locale, String> getDescriptions() {
         return descriptions;
     }
 
-    public void setDescriptions(Map<Locale, String> descriptions)
-    {
+    public void setDescriptions(Map<Locale, String> descriptions) {
         this.descriptions = descriptions;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
-    public void setTenants(Collection<String> tenants)
-    {
+    public void setTenants(Collection<String> tenants) {
         this.tenants = tenants;
     }
 
     @Override
-    public Collection<BrandLinkDTO> getBrands()
-    {
+    public Collection<BrandLinkDTO> getBrands() {
         return brands;
     }
 
-    public Optional<BrandLinkDTO> findBrand(Predicate<? super BrandLinkDTO> predicate)
-    {
+    public Optional<BrandLinkDTO> findBrand(Predicate<? super BrandLinkDTO> predicate) {
         return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
-    public void setBrands(Collection<BrandLinkDTO> brands)
-    {
+    public void setBrands(Collection<BrandLinkDTO> brands) {
         this.brands = brands;
     }
 
     @Override
-    public Collection<CompanyTypeLinkDTO> getCompanyTypes()
-    {
+    public Collection<CompanyTypeLinkDTO> getCompanyTypes() {
         return companyTypes;
     }
 
-    public Optional<CompanyTypeLinkDTO> findCompanyType(Predicate<? super CompanyTypeLinkDTO> predicate)
-    {
+    public Optional<CompanyTypeLinkDTO> findCompanyType(Predicate<? super CompanyTypeLinkDTO> predicate) {
         return companyTypes == null ? Optional.empty() : companyTypes.stream().filter(predicate).findFirst();
     }
 
-    public void setCompanyTypes(Collection<CompanyTypeLinkDTO> companyTypes)
-    {
+    public void setCompanyTypes(Collection<CompanyTypeLinkDTO> companyTypes) {
         this.companyTypes = companyTypes;
     }
 
@@ -161,54 +152,53 @@ public class ActivityDataDTO
      * relevant, if the company type of the company says so.
      */
     @Override
-    public Collection<ContractTypeLinkDTO> getContractTypes()
-    {
+    public Collection<ContractTypeLinkDTO> getContractTypes() {
         return contractTypes;
     }
 
-    public Optional<ContractTypeLinkDTO> findContractType(Predicate<? super ContractTypeLinkDTO> predicate)
-    {
+    public Optional<ContractTypeLinkDTO> findContractType(Predicate<? super ContractTypeLinkDTO> predicate) {
         return contractTypes == null ? Optional.empty() : contractTypes.stream().filter(predicate).findFirst();
     }
 
-    public void setContractTypes(Collection<ContractTypeLinkDTO> contractTypes)
-    {
+    public void setContractTypes(Collection<ContractTypeLinkDTO> contractTypes) {
         this.contractTypes = contractTypes;
     }
 
-    public Collection<ActivitySettingsLinkDTO> getSettings()
-    {
+    public Collection<ActivitySettingsLinkDTO> getSettings() {
         return settings;
     }
 
-    public Optional<ActivitySettingsLinkDTO> findSettings(Predicate<? super ActivitySettingsLinkDTO> predicate)
-    {
+    public Optional<ActivitySettingsLinkDTO> findSettings(Predicate<? super ActivitySettingsLinkDTO> predicate) {
         return settings == null ? Optional.empty() : settings.stream().filter(predicate).findFirst();
     }
 
-    public void setSettings(Collection<ActivitySettingsLinkDTO> settings)
-    {
+    public void setSettings(Collection<ActivitySettingsLinkDTO> settings) {
         this.settings = settings;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, "
-                + "contractTypes=%s, settings=%s, lastUpdate=%s]", matchcode, labels, descriptions, tenants, brands,
-            companyTypes, contractTypes, settings, lastUpdate);
+            "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, " +
+            "contractTypes=%s, settings=%s, lastUpdate=%s]",
+            matchcode,
+            labels,
+            descriptions,
+            tenants,
+            brands,
+            companyTypes,
+            contractTypes,
+            settings,
+            lastUpdate
+        );
     }
-
 }

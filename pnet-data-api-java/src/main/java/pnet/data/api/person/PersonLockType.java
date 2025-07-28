@@ -10,11 +10,10 @@ package pnet.data.api.person;
  * <li>{@link #MANUAL}: The person's data was locked manually</li>
  * </ul>
  */
-public enum PersonLockType
-{
+public enum PersonLockType {
     RECERTIFICATION_EXPIRED,
 
     SAP_INACTIVE_STATE,
 
-    MANUAL
+    MANUAL,
 }

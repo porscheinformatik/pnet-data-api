@@ -5,14 +5,11 @@ package at.porscheinformatik.happyrest;
  *
  * @author ham
  */
-public enum RestMethod
-{
-
+public enum RestMethod {
     GET,
     POST,
     PUT,
     PATCH,
     DELETE,
-    OPTIONS;
-
+    OPTIONS,
 }

@@ -14,14 +14,12 @@
  */
 package pnet.data.api.brand;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -34,8 +32,8 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds basic information about a brand")
-public class BrandItemDTO implements WithMatchcode, WithLabel, WithTenants, WithLastUpdate, WithScore, Serializable
-{
+public class BrandItemDTO implements WithMatchcode, WithLabel, WithTenants, WithLastUpdate, WithScore, Serializable {
+
     @Serial
     private static final long serialVersionUID = 4547030944469871555L;
 
@@ -54,10 +52,13 @@ public class BrandItemDTO implements WithMatchcode, WithLabel, WithTenants, With
     @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
-    public BrandItemDTO(@JsonProperty("matchcode") String matchcode,
-        @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("label") String label,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
-    {
+    public BrandItemDTO(
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("label") String label,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score
+    ) {
         super();
         this.matchcode = matchcode;
         this.tenants = tenants;
@@ -67,40 +68,39 @@ public class BrandItemDTO implements WithMatchcode, WithLabel, WithTenants, With
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public double getScore()
-    {
+    public double getScore() {
         return score;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("BrandItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s, score=%s]", matchcode,
-            tenants, label, lastUpdate, score);
+    public String toString() {
+        return String.format(
+            "BrandItemDTO [matchcode=%s, tenants=%s, label=%s, lastUpdate=%s, score=%s]",
+            matchcode,
+            tenants,
+            label,
+            lastUpdate,
+            score
+        );
     }
-
 }

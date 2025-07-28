@@ -1,20 +1,18 @@
 package pnet.data.api.application;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithMatchcode;
 
-public class ApplicationScopeLinkDTO implements WithMatchcode, WithLabels, WithDescriptions, Serializable
-{
+public class ApplicationScopeLinkDTO implements WithMatchcode, WithLabels, WithDescriptions, Serializable {
+
     @Serial
     private static final long serialVersionUID = -8772509501184236662L;
 
@@ -30,11 +28,12 @@ public class ApplicationScopeLinkDTO implements WithMatchcode, WithLabels, WithD
     @Schema(description = "The matchcodes of all categories, this scope belongs to.")
     private final Collection<String> categoryMatchcodes;
 
-    public ApplicationScopeLinkDTO(@JsonProperty("matchcode") String matchcode,
+    public ApplicationScopeLinkDTO(
+        @JsonProperty("matchcode") String matchcode,
         @JsonProperty("labels") Map<Locale, String> labels,
         @JsonProperty("descriptions") Map<Locale, String> descriptions,
-        @JsonProperty("categoryMatchcodes") Collection<String> categoryMatchcodes)
-    {
+        @JsonProperty("categoryMatchcodes") Collection<String> categoryMatchcodes
+    ) {
         super();
         this.matchcode = matchcode;
         this.labels = labels;
@@ -43,33 +42,32 @@ public class ApplicationScopeLinkDTO implements WithMatchcode, WithLabels, WithD
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
     @Override
-    public Map<Locale, String> getDescriptions()
-    {
+    public Map<Locale, String> getDescriptions() {
         return descriptions;
     }
 
-    public Collection<String> getCategoryMatchcodes()
-    {
+    public Collection<String> getCategoryMatchcodes() {
         return categoryMatchcodes;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "ApplicationScopeLinkDTO [matchcode=%s, labels=%s, descriptions=%s, categoryMatchcodes=%s]", matchcode,
-            labels, descriptions, categoryMatchcodes);
+            "ApplicationScopeLinkDTO [matchcode=%s, labels=%s, descriptions=%s, categoryMatchcodes=%s]",
+            matchcode,
+            labels,
+            descriptions,
+            categoryMatchcodes
+        );
     }
 }

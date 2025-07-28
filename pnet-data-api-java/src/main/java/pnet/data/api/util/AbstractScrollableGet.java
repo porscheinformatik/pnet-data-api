@@ -3,7 +3,6 @@ package pnet.data.api.util;
 import static pnet.data.api.PnetDataConstants.*;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 
@@ -16,16 +15,15 @@ import pnet.data.api.client.PnetDataClientResultPage;
  */
 @SuppressWarnings("deprecation")
 public abstract class AbstractScrollableGet<DTO, SELF extends AbstractScrollableGet<DTO, SELF>>
-    extends AbstractGet<DTO, SELF> implements ScrollableGet<DTO>, Scrollable<SELF>
-{
-    protected AbstractScrollableGet(GetFunction<DTO> getFunction, List<Pair<String, Object>> restricts)
-    {
+    extends AbstractGet<DTO, SELF>
+    implements ScrollableGet<DTO>, Scrollable<SELF> {
+
+    protected AbstractScrollableGet(GetFunction<DTO> getFunction, List<Pair<String, Object>> restricts) {
         super(getFunction, restricts);
     }
 
     @Override
-    public PnetDataClientResultPage<DTO> executeAndScroll(int itemsPerPage) throws PnetDataClientException
-    {
+    public PnetDataClientResultPage<DTO> executeAndScroll(int itemsPerPage) throws PnetDataClientException {
         return restrict(SCROLL_KEY, true).execute(0, itemsPerPage);
     }
 }

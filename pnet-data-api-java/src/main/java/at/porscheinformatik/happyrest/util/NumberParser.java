@@ -1,5 +1,10 @@
 package at.porscheinformatik.happyrest.util;
 
+import at.porscheinformatik.happyrest.GenericType;
+import at.porscheinformatik.happyrest.MediaType;
+import at.porscheinformatik.happyrest.RestParser;
+import at.porscheinformatik.happyrest.RestParserException;
+import at.porscheinformatik.happyrest.RestUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -9,14 +14,8 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import at.porscheinformatik.happyrest.GenericType;
-import at.porscheinformatik.happyrest.MediaType;
-import at.porscheinformatik.happyrest.RestParser;
-import at.porscheinformatik.happyrest.RestParserException;
-import at.porscheinformatik.happyrest.RestUtils;
+public class NumberParser implements RestParser {
 
-public class NumberParser implements RestParser
-{
     public static final NumberParser INSTANCE = new NumberParser();
 
     private static final GenericType<String> NUMBER_TYPE = GenericType.of(Number.class);
@@ -30,89 +29,70 @@ public class NumberParser implements RestParser
     private static final GenericType<String> BIG_INTEGER_TYPE = GenericType.of(BigInteger.class);
     private static final GenericType<String> BIG_DECIMAL_TYPE = GenericType.of(BigDecimal.class);
 
-    protected NumberParser()
-    {
+    protected NumberParser() {
         super();
     }
 
     @Override
-    public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
-    {
+    public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type) {
         return type.isAssignableFrom(NUMBER_TYPE);
     }
 
     @Override
-    public Number parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException
-    {
-        try
-        {
-            if (type.isAssignableFrom(BYTE_TYPE))
-            {
+    public Number parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException {
+        try {
+            if (type.isAssignableFrom(BYTE_TYPE)) {
                 return Byte.decode(s);
             }
 
-            if (type.isAssignableFrom(SHORT_TYPE))
-            {
+            if (type.isAssignableFrom(SHORT_TYPE)) {
                 return Short.decode(s);
             }
 
-            if (type.isAssignableFrom(INTEGER_TYPE))
-            {
+            if (type.isAssignableFrom(INTEGER_TYPE)) {
                 return Integer.decode(s);
             }
 
-            if (type.isAssignableFrom(LONG_TYPE))
-            {
+            if (type.isAssignableFrom(LONG_TYPE)) {
                 return Long.decode(s);
             }
 
-            if (type.isAssignableFrom(FLOAT_TYPE))
-            {
+            if (type.isAssignableFrom(FLOAT_TYPE)) {
                 return Float.parseFloat(s);
             }
 
-            if (type.isAssignableFrom(DOUBLE_TYPE))
-            {
+            if (type.isAssignableFrom(DOUBLE_TYPE)) {
                 return Double.parseDouble(s);
             }
 
-            if (type.isAssignableFrom(BIG_INTEGER_TYPE))
-            {
+            if (type.isAssignableFrom(BIG_INTEGER_TYPE)) {
                 return new BigInteger(s);
             }
 
-            if (type.isAssignableFrom(BIG_DECIMAL_TYPE))
-            {
+            if (type.isAssignableFrom(BIG_DECIMAL_TYPE)) {
                 return new BigDecimal(s);
             }
 
             throw new IllegalArgumentException("Unsupported type: " + type);
-        }
-        catch (NumberFormatException e)
-        {
+        } catch (NumberFormatException e) {
             throw new RestParserException("Failed to parse number: " + s, e);
         }
     }
 
     @Override
-    public Number parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException
-    {
+    public Number parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException {
         Charset charset = contentType != null ? contentType.getCharset(StandardCharsets.UTF_8) : StandardCharsets.UTF_8;
 
         return parse(contentType, type, new String(bytes, charset));
     }
 
     @Override
-    public Number parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
-    {
+    public Number parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException {
         Charset charset = contentType != null ? contentType.getCharset(StandardCharsets.UTF_8) : StandardCharsets.UTF_8;
 
-        try (Reader reader = new InputStreamReader(in, charset))
-        {
+        try (Reader reader = new InputStreamReader(in, charset)) {
             return parse(contentType, type, RestUtils.readFully(reader));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new RestParserException("Failed to read chars", e);
         }
     }

@@ -5,9 +5,7 @@ package pnet.data.api.person;
  *
  * @author HAM
  */
-public enum LanguageLevel
-{
-
+public enum LanguageLevel {
     UNDEFINED,
 
     A1,
@@ -17,6 +15,5 @@ public enum LanguageLevel
     B2,
 
     C1,
-    C2
-
+    C2,
 }

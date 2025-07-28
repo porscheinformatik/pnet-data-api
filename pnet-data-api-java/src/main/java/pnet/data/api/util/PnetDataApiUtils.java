@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-
 import pnet.data.api.PnetDataClientTechnicalException;
 
 /**
@@ -36,8 +35,7 @@ import pnet.data.api.PnetDataClientTechnicalException;
  *
  * @author ham
  */
-public final class PnetDataApiUtils
-{
+public final class PnetDataApiUtils {
 
     private static String version;
 
@@ -50,46 +48,39 @@ public final class PnetDataApiUtils
 
     public static final String WILDCARD = "*";
 
-    static
-    {
+    static {
         DICTIONARY_COLLATOR = Collator.getInstance();
 
         DICTIONARY_COLLATOR.setStrength(Collator.PRIMARY);
         DICTIONARY_COLLATOR.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
     }
 
-    public static String getVersion()
-    {
+    public static String getVersion() {
         String version = PnetDataApiUtils.version;
 
-        if (version == null)
-        {
+        if (version == null) {
             version = "UNDEFINED";
 
             try (
-                InputStream stream = PnetDataApiUtils.class
-                    .getClassLoader()
-                    .getResourceAsStream("META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties")
-            )
-            {
-                if (stream != null)
-                {
+                InputStream stream = PnetDataApiUtils.class.getClassLoader().getResourceAsStream(
+                    "META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"
+                );
+            ) {
+                if (stream != null) {
                     Properties properties = new Properties();
 
                     properties.load(stream);
 
                     version = properties.getProperty("version");
-                }
-                else
-                {
+                } else {
                     System.err.println(
-                        "Failed to determine version of Pnet Data API Java client. Using \"UNDEFINED\" as version.");
+                        "Failed to determine version of Pnet Data API Java client. Using \"UNDEFINED\" as version."
+                    );
                 }
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 System.err.println(
-                    "Failed to determine version of Pnet Data API Java client (using \"UNDEFINED\" as version): " + e);
+                    "Failed to determine version of Pnet Data API Java client (using \"UNDEFINED\" as version): " + e
+                );
             }
 
             PnetDataApiUtils.version = version;
@@ -98,15 +89,19 @@ public final class PnetDataApiUtils
         return version;
     }
 
-    public static String getUserAgent(String technology)
-    {
-        return String.format("Pnet Data API Java Client %s using %s (%s; %s) %s %s", getVersion(),
-            System.getProperty("os.name"), technology, System.getProperty("os.arch"),
-            System.getProperty("java.runtime.name"), System.getProperty("java.runtime.version"));
+    public static String getUserAgent(String technology) {
+        return String.format(
+            "Pnet Data API Java Client %s using %s (%s; %s) %s %s",
+            getVersion(),
+            System.getProperty("os.name"),
+            technology,
+            System.getProperty("os.arch"),
+            System.getProperty("java.runtime.name"),
+            System.getProperty("java.runtime.version")
+        );
     }
 
-    private PnetDataApiUtils()
-    {
+    private PnetDataApiUtils() {
         super();
     }
 
@@ -116,8 +111,7 @@ public final class PnetDataApiUtils
      * @param s the string
      * @return true if empty
      */
-    public static boolean isEmpty(String s)
-    {
+    public static boolean isEmpty(String s) {
         return s == null || s.trim().isEmpty();
     }
 
@@ -129,21 +123,17 @@ public final class PnetDataApiUtils
      * @param right the right value
      * @return true if compares to 0 or if equal.
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static <Any> boolean equals(Any left, Any right)
-    {
-        if (left == right)
-        {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public static <Any> boolean equals(Any left, Any right) {
+        if (left == right) {
             return true;
         }
 
-        if (left == null || right == null)
-        {
+        if (left == null || right == null) {
             return false;
         }
 
-        if (left instanceof Comparable leftComparable && right instanceof Comparable)
-        {
+        if (left instanceof Comparable leftComparable && right instanceof Comparable) {
             return leftComparable.compareTo(right) == 0;
         }
 
@@ -159,19 +149,15 @@ public final class PnetDataApiUtils
      * @param right the second object
      * @return the result of the compare function
      */
-    public static <TYPE extends Comparable<TYPE>> int compare(final TYPE left, final TYPE right)
-    {
-        if (left != null)
-        {
-            if (right != null)
-            {
+    public static <TYPE extends Comparable<TYPE>> int compare(final TYPE left, final TYPE right) {
+        if (left != null) {
+            if (right != null) {
                 return left.compareTo(right);
             }
 
             return -1;
         }
-        if (right != null)
-        {
+        if (right != null) {
             return 1;
         }
 
@@ -188,19 +174,15 @@ public final class PnetDataApiUtils
      * @param right the second object
      * @return the result of the compare function
      */
-    public static <TYPE> int compare(final Comparator<TYPE> comparator, final TYPE left, final TYPE right)
-    {
-        if (left != null)
-        {
-            if (right != null)
-            {
+    public static <TYPE> int compare(final Comparator<TYPE> comparator, final TYPE left, final TYPE right) {
+        if (left != null) {
+            if (right != null) {
                 return comparator.compare(left, right);
             }
 
             return -1;
         }
-        if (right != null)
-        {
+        if (right != null) {
             return 1;
         }
 
@@ -215,8 +197,7 @@ public final class PnetDataApiUtils
      * @param right the second string
      * @return the result of the compare function
      */
-    public static int dictionaryCompare(final String left, final String right)
-    {
+    public static int dictionaryCompare(final String left, final String right) {
         return compare(DICTIONARY_COLLATOR, left, right);
     }
 
@@ -227,24 +208,19 @@ public final class PnetDataApiUtils
      * @param texts the texts, may be null
      * @return the text, null if not found
      */
-    public static String getText(Locale language, Map<Locale, String> texts)
-    {
-        if (texts == null || texts.isEmpty())
-        {
+    public static String getText(Locale language, Map<Locale, String> texts) {
+        if (texts == null || texts.isEmpty()) {
             return null;
         }
 
-        while (true)
-        {
+        while (true) {
             String text = texts.get(language);
 
-            if (text != null)
-            {
+            if (text != null) {
                 return text;
             }
 
-            if (language == null)
-            {
+            if (language == null) {
                 return null;
             }
             language = getParentLanguage(language);
@@ -257,8 +233,7 @@ public final class PnetDataApiUtils
      * @param language the language
      * @return the locale, never null
      */
-    public static Locale ensureLanguage(Locale language)
-    {
+    public static Locale ensureLanguage(Locale language) {
         return (language != null) ? language : Locale.ROOT;
     }
 
@@ -268,54 +243,40 @@ public final class PnetDataApiUtils
      * @param language the language, may be null
      * @return the parent, may be null
      */
-    public static Locale getParentLanguage(Locale language)
-    {
-        if (language == null)
-        {
+    public static Locale getParentLanguage(Locale language) {
+        if (language == null) {
             return null;
         }
 
-        if (Locale.ROOT.equals(language))
-        {
+        if (Locale.ROOT.equals(language)) {
             return null;
         }
 
-        if (!isEmpty(language.getVariant()))
-        {
+        if (!isEmpty(language.getVariant())) {
             return new Locale(language.getLanguage(), language.getCountry());
         }
 
-        if (!isEmpty(language.getCountry()))
-        {
+        if (!isEmpty(language.getCountry())) {
             return new Locale(language.getLanguage());
         }
 
-        if (!isEmpty(language.getLanguage()))
-        {
+        if (!isEmpty(language.getLanguage())) {
             return Locale.ROOT;
         }
 
         return null;
     }
 
-    public static <T> boolean contains(final T[] array, final T value)
-    {
-        if (value == null)
-        {
-            for (T item : array)
-            {
-                if (item == null)
-                {
+    public static <T> boolean contains(final T[] array, final T value) {
+        if (value == null) {
+            for (T item : array) {
+                if (item == null) {
                     return true;
                 }
             }
-        }
-        else
-        {
-            for (T item : array)
-            {
-                if (item == value || value.equals(item))
-                {
+        } else {
+            for (T item : array) {
+                if (item == value || value.equals(item)) {
                     return true;
                 }
             }
@@ -331,63 +292,50 @@ public final class PnetDataApiUtils
      * @param array the array
      * @return true if null or empty
      */
-    public static <T> boolean isEmpty(T[] array)
-    {
+    public static <T> boolean isEmpty(T[] array) {
         return (array == null) || (Array.getLength(array) <= 0);
     }
 
-    public static <T> List<T> unmodifiable(List<T> list)
-    {
-        if (list == null)
-        {
+    public static <T> List<T> unmodifiable(List<T> list) {
+        if (list == null) {
             return null;
         }
 
-        if (list.getClass().getSimpleName().contains("Unmodifiable"))
-        {
+        if (list.getClass().getSimpleName().contains("Unmodifiable")) {
             return list;
         }
 
         return Collections.unmodifiableList(list);
     }
 
-    public static String toCompanyLabelWithNumber(String number, String label)
-    {
+    public static String toCompanyLabelWithNumber(String number, String label) {
         return number != null ? String.format("(%s) %s", leftPad(number, 5, '0'), label) : label;
     }
 
-    public static String leftPad(String s, int length, char ch)
-    {
-        if (s == null)
-        {
+    public static String leftPad(String s, int length, char ch) {
+        if (s == null) {
             return null;
         }
 
-        if (s.length() >= length)
-        {
+        if (s.length() >= length) {
             return s;
         }
 
         StringBuilder b = new StringBuilder();
 
-        while (b.length() + s.length() < length)
-        {
+        while (b.length() + s.length() < length) {
             b.append(ch);
         }
 
         return b.append(s).toString();
     }
 
-    public static String checksum(String s)
-    {
+    public static String checksum(String s) {
         MessageDigest digest;
 
-        try
-        {
+        try {
             digest = MessageDigest.getInstance("SHA-256");
-        }
-        catch (NoSuchAlgorithmException e)
-        {
+        } catch (NoSuchAlgorithmException e) {
             throw new PnetDataClientTechnicalException("Standard digest is unexpectedly missing");
         }
 

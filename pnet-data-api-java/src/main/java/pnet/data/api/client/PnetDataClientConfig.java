@@ -2,7 +2,6 @@ package pnet.data.api.client;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import pnet.data.api.about.AboutPnetDataApiClientConfig;
 import pnet.data.api.activity.ActivityPnetDataApiClientConfig;
 import pnet.data.api.advisortype.AdvisorTypePnetDataApiClientConfig;
@@ -26,28 +25,28 @@ import pnet.data.api.person.PersonPnetDataApiClientConfig;
  * Spring configuration for the PnetDataApiClient module
  */
 @Configuration
-@Import({
-    ContextPnetDataApiClientConfig.class,
-    AboutPnetDataApiClientConfig.class,
-    ActivityPnetDataApiClientConfig.class,
-    AdvisorTypePnetDataApiClientConfig.class,
-    ApplicationPnetDataApiClientConfig.class,
-    BrandPnetDataApiClientConfig.class,
-    CompanyPnetDataApiClientConfig.class,
-    CompanyGroupPnetDataApiClientConfig.class,
-    CompanyGroupTypePnetDataApiClientConfig.class,
-    CompanyNumberTypePnetDataApiClientConfig.class,
-    CompanyTypePnetDataApiClientConfig.class,
-    ContractStatePnetDataApiClientConfig.class,
-    ContractTypePnetDataApiClientConfig.class,
-    ExternalBrandPnetDataApiClientConfig.class,
-    LegalFormPnetDataApiClientConfig.class,
-    FunctionPnetDataApiClientConfig.class,
-    NumberTypePnetDataApiClientConfig.class,
-    PersonPnetDataApiClientConfig.class})
-public class PnetDataClientConfig
-{
-
+@Import(
+    {
+        ContextPnetDataApiClientConfig.class,
+        AboutPnetDataApiClientConfig.class,
+        ActivityPnetDataApiClientConfig.class,
+        AdvisorTypePnetDataApiClientConfig.class,
+        ApplicationPnetDataApiClientConfig.class,
+        BrandPnetDataApiClientConfig.class,
+        CompanyPnetDataApiClientConfig.class,
+        CompanyGroupPnetDataApiClientConfig.class,
+        CompanyGroupTypePnetDataApiClientConfig.class,
+        CompanyNumberTypePnetDataApiClientConfig.class,
+        CompanyTypePnetDataApiClientConfig.class,
+        ContractStatePnetDataApiClientConfig.class,
+        ContractTypePnetDataApiClientConfig.class,
+        ExternalBrandPnetDataApiClientConfig.class,
+        LegalFormPnetDataApiClientConfig.class,
+        FunctionPnetDataApiClientConfig.class,
+        NumberTypePnetDataApiClientConfig.class,
+        PersonPnetDataApiClientConfig.class,
+    }
+)
+public class PnetDataClientConfig {
     // intentionally left blank
-
 }

@@ -1,7 +1,6 @@
 package pnet.data.api.company;
 
 import java.util.List;
-
 import pnet.data.api.util.AbstractAutoComplete;
 import pnet.data.api.util.AutoCompleteFunction;
 import pnet.data.api.util.CompanyMergable;
@@ -22,18 +21,25 @@ import pnet.data.api.util.RestrictType;
  *
  * @author HAM
  */
-public class CompanyDataAutoComplete extends AbstractAutoComplete<CompanyAutoCompleteDTO, CompanyDataAutoComplete>
-    implements RestrictTenant<CompanyDataAutoComplete>, RestrictBrand<CompanyDataAutoComplete>,
-    RestrictBpcmManaged<CompanyDataAutoComplete>, RestrictCountryCode<CompanyDataAutoComplete>,
-    RestrictType<CompanyDataAutoComplete>, RestrictContractType<CompanyDataAutoComplete>,
-    RestrictContractState<CompanyDataAutoComplete>, RestrictLocation<CompanyDataAutoComplete>,
-    IncludeInactive<CompanyDataAutoComplete>, RestrictDatedBackUntil<CompanyDataAutoComplete>,
-    CompanyMergable<CompanyDataAutoComplete>
-{
+public class CompanyDataAutoComplete
+    extends AbstractAutoComplete<CompanyAutoCompleteDTO, CompanyDataAutoComplete>
+    implements
+        RestrictTenant<CompanyDataAutoComplete>,
+        RestrictBrand<CompanyDataAutoComplete>,
+        RestrictBpcmManaged<CompanyDataAutoComplete>,
+        RestrictCountryCode<CompanyDataAutoComplete>,
+        RestrictType<CompanyDataAutoComplete>,
+        RestrictContractType<CompanyDataAutoComplete>,
+        RestrictContractState<CompanyDataAutoComplete>,
+        RestrictLocation<CompanyDataAutoComplete>,
+        IncludeInactive<CompanyDataAutoComplete>,
+        RestrictDatedBackUntil<CompanyDataAutoComplete>,
+        CompanyMergable<CompanyDataAutoComplete> {
 
-    public CompanyDataAutoComplete(AutoCompleteFunction<CompanyAutoCompleteDTO> autoCompleteFunction,
-        List<Pair<String, Object>> restricts)
-    {
+    public CompanyDataAutoComplete(
+        AutoCompleteFunction<CompanyAutoCompleteDTO> autoCompleteFunction,
+        List<Pair<String, Object>> restricts
+    ) {
         super(autoCompleteFunction, restricts);
     }
 }

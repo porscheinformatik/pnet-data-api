@@ -7,9 +7,6 @@ package pnet.data.api.util;
  * @author ham
  */
 @FunctionalInterface
-public interface Restrict<SELF extends Restrict<SELF>>
-{
-
+public interface Restrict<SELF extends Restrict<SELF>> {
     SELF restrict(String parameterName, Object... values);
-
 }

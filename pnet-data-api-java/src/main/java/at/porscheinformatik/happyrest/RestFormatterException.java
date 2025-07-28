@@ -7,18 +7,16 @@ import java.io.Serial;
  *
  * @author ham
  */
-public class RestFormatterException extends RestException
-{
+public class RestFormatterException extends RestException {
+
     @Serial
     private static final long serialVersionUID = -3314554757798478103L;
 
-    public RestFormatterException(String message, Throwable cause)
-    {
+    public RestFormatterException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public RestFormatterException(String message)
-    {
+    public RestFormatterException(String message) {
         super(message);
     }
 }

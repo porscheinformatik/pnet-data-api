@@ -1,24 +1,22 @@
 package at.porscheinformatik.happyrest.spring;
 
+import at.porscheinformatik.happyrest.MediaType;
 import java.util.List;
 import java.util.Objects;
 
-import at.porscheinformatik.happyrest.MediaType;
+public class SpringRestUtils {
 
-public class SpringRestUtils
-{
-    public static org.springframework.http.MediaType convertMediaType(MediaType contentType,
-        org.springframework.http.MediaType defaulType)
-    {
-        return contentType != null ?
-            org.springframework.http.MediaType.parseMediaType(contentType.toString()) :
-            defaulType;
+    public static org.springframework.http.MediaType convertMediaType(
+        MediaType contentType,
+        org.springframework.http.MediaType defaulType
+    ) {
+        return contentType != null
+            ? org.springframework.http.MediaType.parseMediaType(contentType.toString())
+            : defaulType;
     }
 
-    public static List<org.springframework.http.MediaType> convertMediaTypes(List<MediaType> contentTypes)
-    {
-        if (contentTypes == null)
-        {
+    public static List<org.springframework.http.MediaType> convertMediaTypes(List<MediaType> contentTypes) {
+        if (contentTypes == null) {
             return null;
         }
 
@@ -29,8 +27,7 @@ public class SpringRestUtils
             .toList();
     }
 
-    public static MediaType convertMediaType(org.springframework.http.MediaType contentType, MediaType defaultType)
-    {
+    public static MediaType convertMediaType(org.springframework.http.MediaType contentType, MediaType defaultType) {
         return contentType != null ? MediaType.parse(contentType.toString()) : defaultType;
     }
 }

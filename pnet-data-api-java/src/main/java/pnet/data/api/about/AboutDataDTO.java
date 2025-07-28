@@ -14,13 +14,11 @@
  */
 package pnet.data.api.about;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Holds information about the Partner.Net Data API and the connected user.
@@ -28,8 +26,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author ham
  */
 @Schema(description = "Holds information about the Partner.Net Data API and the connected user.")
-public class AboutDataDTO implements Serializable
-{
+public class AboutDataDTO implements Serializable {
+
     @Serial
     private static final long serialVersionUID = -6140129628280468919L;
 
@@ -48,13 +46,14 @@ public class AboutDataDTO implements Serializable
     @Schema(description = "All rights of the system user used for this request.")
     private final Collection<String> authorities;
 
-    public AboutDataDTO(@JsonProperty("partnerNetVersion") String partnerNetVersion,
-        @JsonProperty("dataApiVersion") String dataApiVersion, @JsonProperty("userId") Integer userId,
+    public AboutDataDTO(
+        @JsonProperty("partnerNetVersion") String partnerNetVersion,
+        @JsonProperty("dataApiVersion") String dataApiVersion,
+        @JsonProperty("userId") Integer userId,
         @JsonProperty("tenants") Collection<String> tenants,
-        @JsonProperty("authorities") Collection<String> authorities)
-    {
+        @JsonProperty("authorities") Collection<String> authorities
+    ) {
         super();
-
         this.partnerNetVersion = partnerNetVersion;
         this.dataApiVersion = dataApiVersion;
         this.userId = userId;
@@ -65,49 +64,47 @@ public class AboutDataDTO implements Serializable
     /**
      * @return the version of the Partner.Net
      */
-    public String getPartnerNetVersion()
-    {
+    public String getPartnerNetVersion() {
         return partnerNetVersion;
     }
 
     /**
      * @return the supported version Partner.Net Data API
      */
-    public String getDataApiVersion()
-    {
+    public String getDataApiVersion() {
         return dataApiVersion;
     }
 
     /**
      * @return the id of the system user used for this request
      */
-    public Integer getUserId()
-    {
+    public Integer getUserId() {
         return userId;
     }
 
     /**
      * @return all available tenants of the system user used for this request
      */
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
     /**
      * @return all rights of the system user used for this request
      */
-    public Collection<String> getAuthorities()
-    {
+    public Collection<String> getAuthorities() {
         return authorities;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
             "AboutDataDTO [partnerNetVersion=%s, dataApiVersion=%s, userId=%s, tenants=%s, authorities=%s]",
-            partnerNetVersion, dataApiVersion, userId, tenants, authorities);
+            partnerNetVersion,
+            dataApiVersion,
+            userId,
+            tenants,
+            authorities
+        );
     }
-
 }

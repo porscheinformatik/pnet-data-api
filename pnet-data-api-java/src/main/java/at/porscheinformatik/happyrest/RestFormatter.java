@@ -5,21 +5,13 @@ package at.porscheinformatik.happyrest;
  *
  * @author ham
  */
-public interface RestFormatter
-{
-
-    static RestFormatter of(RestFormatter... formatters)
-    {
-        return new RestFormatter()
-        {
-
+public interface RestFormatter {
+    static RestFormatter of(RestFormatter... formatters) {
+        return new RestFormatter() {
             @Override
-            public boolean isContentTypeSupported(MediaType contentType)
-            {
-                for (RestFormatter formatter : formatters)
-                {
-                    if (formatter.isContentTypeSupported(contentType))
-                    {
+            public boolean isContentTypeSupported(MediaType contentType) {
+                for (RestFormatter formatter : formatters) {
+                    if (formatter.isContentTypeSupported(contentType)) {
                         return true;
                     }
                 }
@@ -28,24 +20,19 @@ public interface RestFormatter
             }
 
             @Override
-            public String format(MediaType contentType, Object value) throws RestFormatterException
-            {
-                for (RestFormatter formatter : formatters)
-                {
-                    if (formatter.isContentTypeSupported(contentType))
-                    {
+            public String format(MediaType contentType, Object value) throws RestFormatterException {
+                for (RestFormatter formatter : formatters) {
+                    if (formatter.isContentTypeSupported(contentType)) {
                         return formatter.format(contentType, value);
                     }
                 }
 
                 throw new RestFormatterException("Unsupported content type: " + contentType);
             }
-
         };
     }
 
     boolean isContentTypeSupported(MediaType contentType);
 
     String format(MediaType contentType, Object value) throws RestFormatterException;
-
 }

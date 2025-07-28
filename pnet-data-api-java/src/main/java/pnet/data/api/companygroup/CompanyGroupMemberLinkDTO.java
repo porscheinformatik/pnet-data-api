@@ -1,11 +1,9 @@
 package pnet.data.api.companygroup;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithCompanyId;
 
 /**
@@ -14,8 +12,8 @@ import pnet.data.api.util.WithCompanyId;
  * @author cet
  */
 @Schema(description = "Holds minimal information about a company group member")
-public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
-{
+public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable {
+
     private static final long serialVersionUID = 1202524288584163184L;
 
     @Schema(description = "The unique id of the company that is in the company group.")
@@ -30,10 +28,12 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
     @Schema(description = "The unique matchcode of the company group type of the company group")
     private final String groupType;
 
-    public CompanyGroupMemberLinkDTO(@JsonProperty("companyId") Integer companyId,
-        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("groupType") String groupType)
-    {
+    public CompanyGroupMemberLinkDTO(
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("groupType") String groupType
+    ) {
         super();
         this.companyId = companyId;
         this.companyMatchcode = companyMatchcode;
@@ -42,31 +42,26 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
     }
 
     @Override
-    public Integer getCompanyId()
-    {
+    public Integer getCompanyId() {
         return companyId;
     }
 
     @Override
-    public String getCompanyMatchcode()
-    {
+    public String getCompanyMatchcode() {
         return companyMatchcode;
     }
 
     @Override
-    public String getCompanyNumber()
-    {
+    public String getCompanyNumber() {
         return companyNumber;
     }
 
-    public String getGroupType()
-    {
+    public String getGroupType() {
         return groupType;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
 
@@ -77,27 +72,21 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!super.equals(obj))
-        {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof CompanyGroupMemberLinkDTO other))
-        {
+        if (!(obj instanceof CompanyGroupMemberLinkDTO other)) {
             return false;
         }
 
-        if (!Objects.equals(groupType, other.groupType))
-        {
+        if (!Objects.equals(groupType, other.groupType)) {
             return false;
         }
-        if (!Objects.equals(companyId, other.companyId))
-        {
+        if (!Objects.equals(companyId, other.companyId)) {
             return false;
         }
 
@@ -105,9 +94,7 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s:%s", groupType, companyId);
     }
-
 }

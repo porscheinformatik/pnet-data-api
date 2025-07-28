@@ -4,7 +4,6 @@ import static pnet.data.api.PnetDataConstants.*;
 
 import java.util.Collections;
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 
@@ -15,17 +14,13 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <SELF> the type of the restrict for chaining
  * @author cet
  */
-public interface ByMatchcode<DTO, SELF extends By<DTO, SELF>> extends By<DTO, SELF>
-{
-    default DTO byMatchcode(String matchcode) throws PnetDataClientException
-    {
+public interface ByMatchcode<DTO, SELF extends By<DTO, SELF>> extends By<DTO, SELF> {
+    default DTO byMatchcode(String matchcode) throws PnetDataClientException {
         return allByMatchcodes(Collections.singletonList(matchcode), 0, 1).first();
     }
 
     default PnetDataClientResultPage<DTO> allByMatchcodes(List<String> matchcodes, int pageIndex, int itemsPerPage)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return restrict(MATCHCODE_KEY, matchcodes).execute(pageIndex, itemsPerPage);
     }
-
 }

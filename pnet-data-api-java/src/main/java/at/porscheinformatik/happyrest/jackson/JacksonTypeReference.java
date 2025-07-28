@@ -1,10 +1,8 @@
 package at.porscheinformatik.happyrest.jackson;
 
-import java.lang.reflect.Type;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import at.porscheinformatik.happyrest.GenericType;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.lang.reflect.Type;
 
 /**
  * A wrapper for the {@link TypeReference} ... least hacky as possible.
@@ -12,45 +10,36 @@ import at.porscheinformatik.happyrest.GenericType;
  * @param <T> the type
  * @author ham
  */
-public class JacksonTypeReference<T> extends TypeReference<T>
-{
+public class JacksonTypeReference<T> extends TypeReference<T> {
 
-    public static <T> JacksonTypeReference<T> of(GenericType<T> generic)
-    {
+    public static <T> JacksonTypeReference<T> of(GenericType<T> generic) {
         return new JacksonTypeReference<>(generic);
     }
 
     private final GenericType<T> generic;
 
-    public JacksonTypeReference(GenericType<T> generic)
-    {
+    public JacksonTypeReference(GenericType<T> generic) {
         super();
-
         this.generic = generic;
     }
 
     @Override
-    public Type getType()
-    {
+    public Type getType() {
         return generic;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         return (this == obj || (obj instanceof TypeReference && getType().equals(((TypeReference<?>) obj).getType())));
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return getType().hashCode();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "GenericTypeReference<" + getType() + ">";
     }
-
 }

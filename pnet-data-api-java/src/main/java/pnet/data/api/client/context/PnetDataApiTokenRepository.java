@@ -1,12 +1,10 @@
 package pnet.data.api.client.context;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.stereotype.Service;
-
 import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
+import java.util.HashMap;
+import java.util.Map;
+import org.springframework.stereotype.Service;
 import pnet.data.api.PnetDataClientException;
 
 /**
@@ -17,20 +15,17 @@ import pnet.data.api.PnetDataClientException;
  */
 @Deprecated
 @Service
-public class PnetDataApiTokenRepository
-{
+public class PnetDataApiTokenRepository {
+
     private final Map<String, RestCall> restCalls = new HashMap<>();
     private final RestCallFactory factory;
 
-    public PnetDataApiTokenRepository(RestCallFactory factory)
-    {
+    public PnetDataApiTokenRepository(RestCallFactory factory) {
         super();
-
         this.factory = factory;
     }
 
-    public void invalidate(PnetDataApiLoginMethod loginMethod)
-    {
+    public void invalidate(PnetDataApiLoginMethod loginMethod) {
         restCalls.remove(String.valueOf(loginMethod.hashCode()));
     }
 
@@ -41,13 +36,11 @@ public class PnetDataApiTokenRepository
      * @return the rest call, never null
      * @throws PnetDataClientException on occasion
      */
-    public RestCall restCall(PnetDataApiLoginMethod loginMethod) throws PnetDataClientException
-    {
+    public RestCall restCall(PnetDataApiLoginMethod loginMethod) throws PnetDataClientException {
         String key = String.valueOf(loginMethod.hashCode());
         RestCall restCall = restCalls.get(key);
 
-        if (restCall == null)
-        {
+        if (restCall == null) {
             restCall = loginMethod.performLogin(factory);
 
             cacheRestCall(key, restCall);
@@ -62,8 +55,7 @@ public class PnetDataApiTokenRepository
      * @param key the key
      * @param restCall the rest call object
      */
-    protected void cacheRestCall(String key, RestCall restCall)
-    {
+    protected void cacheRestCall(String key, RestCall restCall) {
         restCalls.put(key, restCall);
     }
 }

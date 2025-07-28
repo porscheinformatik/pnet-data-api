@@ -6,12 +6,6 @@ var SwaggerUIStandalonePreset = require("swagger-ui-dist").SwaggerUIStandalonePr
 const ui = SwaggerUIBundle({
     spec: require("./../swagger/pnet-data-api-swagger.json"),
     dom_id: "#swagger-ui",
-    presets: [
-        SwaggerUIBundle.presets.apis,
-        SwaggerUIStandalonePreset
-    ],
-    layout: "StandaloneLayout"
+    presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+    layout: "StandaloneLayout",
 });
-
-
-

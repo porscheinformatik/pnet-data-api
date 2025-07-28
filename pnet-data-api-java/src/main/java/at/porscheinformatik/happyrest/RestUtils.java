@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import pnet.data.api.ErrorResult;
 
 /**
@@ -22,14 +21,13 @@ import pnet.data.api.ErrorResult;
  *
  * @author ham
  */
-public final class RestUtils
-{
+public final class RestUtils {
+
     private static final Map<Integer, String> HTTP_STATUS_MESSAGES;
 
     private static String version;
 
-    static
-    {
+    static {
         Map<Integer, String> httpStatusMessages = new HashMap<>();
 
         httpStatusMessages.put(100, "Continue");
@@ -102,40 +100,31 @@ public final class RestUtils
         HTTP_STATUS_MESSAGES = Collections.unmodifiableMap(httpStatusMessages);
     }
 
-    private RestUtils()
-    {
+    private RestUtils() {
         super();
     }
 
-    public static String getVersion()
-    {
+    public static String getVersion() {
         String version = RestUtils.version;
 
-        if (version == null)
-        {
+        if (version == null) {
             version = "UNDEFINED";
 
             try (
-                InputStream stream = RestUtils.class
-                    .getClassLoader()
-                    .getResourceAsStream("META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties")
-            )
-            {
-                if (stream != null)
-                {
+                InputStream stream = RestUtils.class.getClassLoader().getResourceAsStream(
+                    "META-INF/maven/at.porscheinformatik.pnet/pnet-data-api-java/pom.properties"
+                );
+            ) {
+                if (stream != null) {
                     Properties properties = new Properties();
 
                     properties.load(stream);
 
                     version = properties.getProperty("version");
-                }
-                else
-                {
+                } else {
                     System.err.println("Failed to determine version of HappyRest. Using \"UNDEFINED\" as version.");
                 }
-            }
-            catch (IOException e)
-            {
+            } catch (IOException e) {
                 System.err.println("Failed to determine version of HappyRest (using \"UNDEFINED\" as version): " + e);
             }
 
@@ -145,107 +134,104 @@ public final class RestUtils
         return version;
     }
 
-    public static String getUserAgent(String technology)
-    {
-        return String.format("HappyRest %s using %s (%s; %s) %s %s", getVersion(), technology,
-            System.getProperty("os.name"), System.getProperty("os.arch"), System.getProperty("java.runtime.name"),
-            System.getProperty("java.runtime.version"));
+    public static String getUserAgent(String technology) {
+        return String.format(
+            "HappyRest %s using %s (%s; %s) %s %s",
+            getVersion(),
+            technology,
+            System.getProperty("os.name"),
+            System.getProperty("os.arch"),
+            System.getProperty("java.runtime.name"),
+            System.getProperty("java.runtime.version")
+        );
     }
 
     // CHECKSTYLE:OFF
-    private static boolean isAllowedInPathSegment(byte c)
-    {
-        return (c >= 'a' && c <= 'z')
-            || (c >= 'A' && c <= 'Z')
-            || (c >= '0' && c <= '9')
-            || '-' == c
-            || '.' == c
-            || '_' == c
-            || '~' == c
-            || '!' == c
-            || '$' == c
-            || '&' == c
-            || '\'' == c
-            || '(' == c
-            || ')' == c
-            || '*' == c
-            || '+' == c
-            || ',' == c
-            || ';' == c
-            || '=' == c
-            || ':' == c
-            || '@' == c;
+    private static boolean isAllowedInPathSegment(byte c) {
+        return (
+            (c >= 'a' && c <= 'z') ||
+            (c >= 'A' && c <= 'Z') ||
+            (c >= '0' && c <= '9') ||
+            '-' == c ||
+            '.' == c ||
+            '_' == c ||
+            '~' == c ||
+            '!' == c ||
+            '$' == c ||
+            '&' == c ||
+            '\'' == c ||
+            '(' == c ||
+            ')' == c ||
+            '*' == c ||
+            '+' == c ||
+            ',' == c ||
+            ';' == c ||
+            '=' == c ||
+            ':' == c ||
+            '@' == c
+        );
     }
+
     // CHECKSTYLE:ON
 
-    public static String encodePathSegment(String pathSegment, Charset charset, boolean ignorePathSeparator,
-        boolean ignorePlaceholders)
-    {
-        if (pathSegment == null)
-        {
+    public static String encodePathSegment(
+        String pathSegment,
+        Charset charset,
+        boolean ignorePathSeparator,
+        boolean ignorePlaceholders
+    ) {
+        if (pathSegment == null) {
             return null;
         }
 
         byte[] bytes = pathSegment.getBytes(charset);
         boolean original = true;
 
-        for (byte b : bytes)
-        {
-            if (!isAllowedInPathSegment(b))
-            {
+        for (byte b : bytes) {
+            if (!isAllowedInPathSegment(b)) {
                 original = false;
                 break;
             }
         }
 
-        if (original)
-        {
+        if (original) {
             return pathSegment;
         }
 
         boolean inPlaceholder = false;
         ByteArrayOutputStream baos = new ByteArrayOutputStream(bytes.length);
 
-        for (byte b : bytes)
-        {
+        for (byte b : bytes) {
             inPlaceholder = encodeByte(baos, b, ignorePathSeparator, ignorePlaceholders, inPlaceholder);
         }
 
         return baos.toString(charset);
     }
 
-    public static String encodeString(String s, Charset charset)
-    {
+    public static String encodeString(String s, Charset charset) {
         return URLEncoder.encode(s, charset);
     }
 
-    private static boolean encodeByte(ByteArrayOutputStream baos, byte b, boolean ignorePathSeparator,
-        boolean ignorePlaceholders, boolean inPlaceholder)
-    {
-        if (isAllowedInPathSegment(b))
-        {
+    private static boolean encodeByte(
+        ByteArrayOutputStream baos,
+        byte b,
+        boolean ignorePathSeparator,
+        boolean ignorePlaceholders,
+        boolean inPlaceholder
+    ) {
+        if (isAllowedInPathSegment(b)) {
             baos.write(b);
-        }
-        else if (ignorePlaceholders && '{' == b)
-        {
+        } else if (ignorePlaceholders && '{' == b) {
             inPlaceholder = true;
             baos.write(b);
-        }
-        else if (ignorePlaceholders && inPlaceholder && '}' == b)
-        {
+        } else if (ignorePlaceholders && inPlaceholder && '}' == b) {
             inPlaceholder = false;
             baos.write(b);
-        }
-        else if (ignorePlaceholders && inPlaceholder)
-        {
+        } else if (ignorePlaceholders && inPlaceholder) {
             baos.write(b);
-        }
-        else if (ignorePathSeparator && '/' == b)
-        {
+        } else if (ignorePathSeparator && '/' == b) {
             baos.write(b);
-        }
-        else
-        {
+        } else {
             baos.write('%');
             char hex1 = Character.toUpperCase(Character.forDigit((b >> 4) & 0xF, 16));
             char hex2 = Character.toUpperCase(Character.forDigit(b & 0xF, 16));
@@ -256,68 +242,63 @@ public final class RestUtils
         return inPlaceholder;
     }
 
-    public static String appendPathWithPlaceholders(String uri, String path)
-    {
+    public static String appendPathWithPlaceholders(String uri, String path) {
         return appendPath(uri, true, true, path);
     }
 
-    public static String appendPath(String uri, String path)
-    {
+    public static String appendPath(String uri, String path) {
         return appendPath(uri, true, false, path);
     }
 
-    private static String appendPath(String uri, boolean encode, boolean ignorePlaceholders, String path)
-    {
-        if (path == null || path.isEmpty())
-        {
+    private static String appendPath(String uri, boolean encode, boolean ignorePlaceholders, String path) {
+        if (path == null || path.isEmpty()) {
             return uri;
         }
 
-        if (path.startsWith("/"))
-        {
+        if (path.startsWith("/")) {
             path = path.substring(1);
         }
 
         return appendPathSegments(uri, encode, true, ignorePlaceholders, path);
     }
 
-    public static String appendPathSegmentsWithPlaceholders(String uri, String... pathSegments)
-    {
+    public static String appendPathSegmentsWithPlaceholders(String uri, String... pathSegments) {
         return appendPathSegments(uri, true, false, true, pathSegments);
     }
 
-    public static String appendPathSegments(String uri, String... pathSegments)
-    {
+    public static String appendPathSegments(String uri, String... pathSegments) {
         return appendPathSegments(uri, true, false, false, pathSegments);
     }
 
-    public static String appendEncodedPathSegments(String uri, String... pathSegments)
-    {
+    public static String appendEncodedPathSegments(String uri, String... pathSegments) {
         return appendPathSegments(uri, false, false, true, pathSegments);
     }
 
-    private static String appendPathSegments(String url, boolean encode, boolean ignorePathSeparator,
-        boolean ignorePlaceholders, String... pathSegments)
-    {
-        if (pathSegments == null || pathSegments.length == 0)
-        {
+    private static String appendPathSegments(
+        String url,
+        boolean encode,
+        boolean ignorePathSeparator,
+        boolean ignorePlaceholders,
+        String... pathSegments
+    ) {
+        if (pathSegments == null || pathSegments.length == 0) {
             return url;
         }
 
         StringBuilder builder = new StringBuilder(url);
 
-        for (String pathSegment : pathSegments)
-        {
-            if (pathSegment != null)
-            {
-                if (encode)
-                {
-                    pathSegment = RestUtils.encodePathSegment(pathSegment, StandardCharsets.UTF_8, ignorePathSeparator,
-                        ignorePlaceholders);
+        for (String pathSegment : pathSegments) {
+            if (pathSegment != null) {
+                if (encode) {
+                    pathSegment = RestUtils.encodePathSegment(
+                        pathSegment,
+                        StandardCharsets.UTF_8,
+                        ignorePathSeparator,
+                        ignorePlaceholders
+                    );
                 }
 
-                if (!pathSegment.startsWith("/") && !builder.isEmpty() && builder.charAt(builder.length() - 1) != '/')
-                {
+                if (!pathSegment.startsWith("/") && !builder.isEmpty() && builder.charAt(builder.length() - 1) != '/') {
                     builder.append("/");
                 }
 
@@ -328,67 +309,54 @@ public final class RestUtils
         return builder.toString();
     }
 
-    public static String getHttpStatusMessage(int code)
-    {
+    public static String getHttpStatusMessage(int code) {
         String result = HTTP_STATUS_MESSAGES.get(code);
 
         return result != null ? result : "undefined";
     }
 
-    public static String getHttpStatusMessage(int statusCode, String statusMessage)
-    {
-        if (statusMessage != null && !statusMessage.isEmpty())
-        {
+    public static String getHttpStatusMessage(int statusCode, String statusMessage) {
+        if (statusMessage != null && !statusMessage.isEmpty()) {
             String statusCodeAsString = String.valueOf(statusCode);
 
-            if (statusMessage.startsWith(statusCodeAsString))
-            {
+            if (statusMessage.startsWith(statusCodeAsString)) {
                 statusMessage = statusMessage.substring(statusCodeAsString.length()).trim();
             }
         }
 
-        if (statusMessage == null || statusMessage.isEmpty())
-        {
+        if (statusMessage == null || statusMessage.isEmpty()) {
             statusMessage = RestUtils.getHttpStatusMessage(statusCode);
         }
 
         return statusMessage;
     }
 
-    public static String getHttpStatus(int statusCode, String statusMessage)
-    {
+    public static String getHttpStatus(int statusCode, String statusMessage) {
         return statusCode + " " + getHttpStatusMessage(statusCode, statusMessage);
     }
 
-    public static String abbreviate(String s, int length)
-    {
-        if (s == null)
-        {
+    public static String abbreviate(String s, int length) {
+        if (s == null) {
             return null;
         }
 
-        if (s.length() < length)
-        {
+        if (s.length() < length) {
             return s;
         }
 
         return s.substring(0, Math.max(length - 3, 0)) + "...";
     }
 
-    public static String readFully(Reader reader) throws IOException
-    {
+    public static String readFully(Reader reader) throws IOException {
         return String.valueOf(readAllChars(reader));
     }
 
-    public static byte[] readAllBytes(InputStream in) throws IOException
-    {
+    public static byte[] readAllBytes(InputStream in) throws IOException {
         byte[] buffer = new byte[8192];
         int length;
 
-        try (ByteArrayOutputStream result = new ByteArrayOutputStream())
-        {
-            while ((length = in.read(buffer)) >= 0)
-            {
+        try (ByteArrayOutputStream result = new ByteArrayOutputStream()) {
+            while ((length = in.read(buffer)) >= 0) {
                 result.write(buffer, 0, length);
             }
 
@@ -400,15 +368,12 @@ public final class RestUtils
         // return in.readAllBytes();
     }
 
-    public static char[] readAllChars(Reader reader) throws IOException
-    {
+    public static char[] readAllChars(Reader reader) throws IOException {
         char[] buffer = new char[8192];
         int length;
 
-        try (CharArrayWriter result = new CharArrayWriter())
-        {
-            while ((length = reader.read(buffer)) >= 0)
-            {
+        try (CharArrayWriter result = new CharArrayWriter()) {
+            while ((length = reader.read(buffer)) >= 0) {
                 result.write(buffer, 0, length);
             }
 
@@ -416,50 +381,40 @@ public final class RestUtils
         }
     }
 
-    public static Class<?> cultivate(Class<?> type)
-    {
-        if (type == null)
-        {
+    public static Class<?> cultivate(Class<?> type) {
+        if (type == null) {
             return null;
         }
 
-        if (type == Void.TYPE)
-        {
+        if (type == Void.TYPE) {
             return Void.class;
         }
 
-        if (type == Byte.TYPE)
-        {
+        if (type == Byte.TYPE) {
             return Byte.class;
         }
 
-        if (type == Short.TYPE)
-        {
+        if (type == Short.TYPE) {
             return Short.class;
         }
 
-        if (type == Integer.TYPE)
-        {
+        if (type == Integer.TYPE) {
             return Integer.class;
         }
 
-        if (type == Long.TYPE)
-        {
+        if (type == Long.TYPE) {
             return Long.class;
         }
 
-        if (type == Float.TYPE)
-        {
+        if (type == Float.TYPE) {
             return Float.class;
         }
 
-        if (type == Double.TYPE)
-        {
+        if (type == Double.TYPE) {
             return Double.class;
         }
 
-        if (type == Character.TYPE)
-        {
+        if (type == Character.TYPE) {
             return Character.class;
         }
 
@@ -467,31 +422,30 @@ public final class RestUtils
     }
 
     public static ErrorResult toErrorResult(RestParser parser, int statusCode, String statusMessage, InputStream stream)
-        throws IOException
-    {
-        try (var reader = new InputStreamReader(stream))
-        {
+        throws IOException {
+        try (var reader = new InputStreamReader(stream)) {
             return toErrorResult(parser, statusCode, statusMessage, RestUtils.readFully(reader));
         }
     }
 
-    public static ErrorResult toErrorResult(RestParser parser, int statusCode, String statusMessage, String message)
-    {
+    public static ErrorResult toErrorResult(RestParser parser, int statusCode, String statusMessage, String message) {
         var type = GenericType.of(ErrorResult.class);
 
-        if (parser.isContentTypeSupported(MediaType.APPLICATION_JSON, type))
-        {
-            try
-            {
+        if (parser.isContentTypeSupported(MediaType.APPLICATION_JSON, type)) {
+            try {
                 return (ErrorResult) parser.parse(MediaType.APPLICATION_JSON, type, message);
-            }
-            catch (RestParserException e)
-            {
+            } catch (RestParserException e) {
                 // ignore
             }
         }
 
-        return new ErrorResult(getHttpStatus(statusCode, statusMessage), null, message, null, null,
-            ZonedDateTime.now());
+        return new ErrorResult(
+            getHttpStatus(statusCode, statusMessage),
+            null,
+            message,
+            null,
+            null,
+            ZonedDateTime.now()
+        );
     }
 }

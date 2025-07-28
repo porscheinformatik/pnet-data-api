@@ -19,12 +19,9 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithMatchcode
-{
-
+public interface WithMatchcode {
     /**
      * @return The unique, alpha-numeric key of the item. This key is the same in all environments.
      */
     String getMatchcode();
-
 }

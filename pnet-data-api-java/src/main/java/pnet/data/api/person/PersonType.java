@@ -1,7 +1,6 @@
 package pnet.data.api.person;
 
-public enum PersonType
-{
+public enum PersonType {
     /**
      * A regular person, physically existing.
      */
@@ -25,5 +24,5 @@ public enum PersonType
     /**
      * A user for manual tests with privileged rights.
      */
-    PRIVILEGED_TEST_USER
+    PRIVILEGED_TEST_USER,
 }

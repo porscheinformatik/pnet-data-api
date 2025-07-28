@@ -1,43 +1,36 @@
 package pnet.data.api.person;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 
 /**
  * Holds the one aggregation
  *
  * @author HAM
  */
-public class PersonTenantAggregationDTO implements Serializable
-{
+public class PersonTenantAggregationDTO implements Serializable {
 
     private static final long serialVersionUID = -4022467263764264661L;
 
     private final String tenant;
     private final long count;
 
-    public PersonTenantAggregationDTO(@JsonProperty("tenant") String tenant, @JsonProperty("count") Long count)
-    {
+    public PersonTenantAggregationDTO(@JsonProperty("tenant") String tenant, @JsonProperty("count") Long count) {
         super();
-
         this.tenant = tenant;
         this.count = count != null ? count : 0;
     }
 
-    public String getTenant()
-    {
+    public String getTenant() {
         return tenant;
     }
 
-    public long getCount()
-    {
+    public long getCount() {
         return count;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s: %s", tenant, count);
     }
 }

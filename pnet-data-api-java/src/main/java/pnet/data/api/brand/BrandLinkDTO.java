@@ -16,7 +16,6 @@ package pnet.data.api.brand;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 
@@ -26,28 +25,23 @@ import pnet.data.api.util.AbstractLinkDTO;
  * @author ham
  */
 @Schema(description = "Holds minimal information about a brand")
-public class BrandLinkDTO extends AbstractLinkDTO
-{
+public class BrandLinkDTO extends AbstractLinkDTO {
 
     private static final long serialVersionUID = -5756014789178869166L;
 
-    public BrandLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
-    {
+    public BrandLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode) {
         super(tenant, matchcode);
     }
 
     @Override
     @JsonPropertyDescription("A tenant where the brand is valid")
-    public String getTenant()
-    {
+    public String getTenant() {
         return super.getTenant();
     }
 
     @Override
     @JsonPropertyDescription("The unique matchcode of the brand")
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return super.getMatchcode();
     }
-
 }

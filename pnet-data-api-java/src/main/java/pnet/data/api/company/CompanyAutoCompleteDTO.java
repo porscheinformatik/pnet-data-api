@@ -1,10 +1,8 @@
 package pnet.data.api.company;
 
-import java.io.Serial;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
 import pnet.data.api.GeoPoint;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.PnetDataApiUtils;
@@ -14,8 +12,8 @@ import pnet.data.api.util.PnetDataApiUtils;
  *
  * @author HAM
  */
-public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO
-{
+public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO {
+
     @Serial
     private static final long serialVersionUID = -6275336068143194073L;
 
@@ -35,12 +33,16 @@ public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO
     private final GeoPoint location;
 
     @SuppressWarnings("java:S107")
-    public CompanyAutoCompleteDTO(@JsonProperty("companyId") Integer companyId,
-        @JsonProperty("matchcode") String matchcode, @JsonProperty("administrativeTenant") String administrativeTenant,
-        @JsonProperty("label") String label, @JsonProperty("description") String description,
-        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("location") GeoPoint location,
-        @JsonProperty("score") double score)
-    {
+    public CompanyAutoCompleteDTO(
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("administrativeTenant") String administrativeTenant,
+        @JsonProperty("label") String label,
+        @JsonProperty("description") String description,
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("location") GeoPoint location,
+        @JsonProperty("score") double score
+    ) {
         super(label, description, score);
         this.companyId = companyId;
         this.matchcode = matchcode;
@@ -49,43 +51,43 @@ public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO
         this.location = location;
     }
 
-    public Integer getCompanyId()
-    {
+    public Integer getCompanyId() {
         return companyId;
     }
 
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
-    public String getAdministrativeTenant()
-    {
+    public String getAdministrativeTenant() {
         return administrativeTenant;
     }
 
-    public String getLabelWithNumber()
-    {
+    public String getLabelWithNumber() {
         return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, getLabel());
     }
 
-    public String getCompanyNumber()
-    {
+    public String getCompanyNumber() {
         return companyNumber;
     }
 
-    public GeoPoint getLocation()
-    {
+    public GeoPoint getLocation() {
         return location;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "CompanyAutoCompleteDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, companyNumber=%s, "
-                + "location=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]", companyId, matchcode,
-            administrativeTenant, companyNumber, location, getLabel(), getDescription(), getScore());
+            "CompanyAutoCompleteDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, companyNumber=%s, " +
+            "location=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
+            companyId,
+            matchcode,
+            administrativeTenant,
+            companyNumber,
+            location,
+            getLabel(),
+            getDescription(),
+            getScore()
+        );
     }
-
 }

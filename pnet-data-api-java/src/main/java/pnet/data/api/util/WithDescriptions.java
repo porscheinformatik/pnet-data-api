@@ -22,9 +22,7 @@ import java.util.Map;
  *
  * @author ham
  */
-public interface WithDescriptions
-{
-
+public interface WithDescriptions {
     /**
      * @return A map of strings by locale, holding the description of the item in multiple languages.
      */
@@ -34,9 +32,7 @@ public interface WithDescriptions
      * @param language the language, may be null
      * @return The description in the specified language, null if not found.
      */
-    default String getDescription(Locale language)
-    {
+    default String getDescription(Locale language) {
         return PnetDataApiUtils.getText(language, getDescriptions());
     }
-
 }

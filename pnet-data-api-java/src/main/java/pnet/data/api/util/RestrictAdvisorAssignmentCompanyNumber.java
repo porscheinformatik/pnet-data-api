@@ -8,17 +8,12 @@ import java.util.Collection;
  * @param <SELF> the type of the filter for chaining
  * @author ham
  */
-public interface RestrictAdvisorAssignmentCompanyNumber<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
-    default SELF advisorAssignmentCompanyNumber(String... advisorAssignmentCompanyNumbers)
-    {
+public interface RestrictAdvisorAssignmentCompanyNumber<SELF extends Restrict<SELF>> extends Restrict<SELF> {
+    default SELF advisorAssignmentCompanyNumber(String... advisorAssignmentCompanyNumbers) {
         return restrict("advisorAssignmentCompanyNumber", (Object[]) advisorAssignmentCompanyNumbers);
     }
 
-    default SELF advisorAssignmentCompanyNumbers(Collection<String> advisorAssignmentCompanyNumberMatchcodes)
-    {
+    default SELF advisorAssignmentCompanyNumbers(Collection<String> advisorAssignmentCompanyNumberMatchcodes) {
         return advisorAssignmentCompanyNumber(advisorAssignmentCompanyNumberMatchcodes.toArray(new String[0]));
     }
-
 }

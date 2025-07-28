@@ -2,8 +2,7 @@ package pnet.data.api.person;
 
 import java.util.Set;
 
-public enum PersonTypeFilter
-{
+public enum PersonTypeFilter {
     PERSON(PersonType.PERSON),
     PRIVILEGED(PersonType.PRIVILEGED),
     BOT(PersonType.BOT),
@@ -13,23 +12,25 @@ public enum PersonTypeFilter
     VIRTUAL(PersonType.BOT, PersonType.TEST_USER),
     NON_PRIVILEGED(PersonType.PERSON, PersonType.BOT, PersonType.TEST_USER),
     PRIVILEGED_ONLY(PersonType.PRIVILEGED, PersonType.PRIVILEGED_TEST_USER),
-    ALL(PersonType.PERSON, PersonType.PRIVILEGED, PersonType.BOT, PersonType.TEST_USER,
-        PersonType.PRIVILEGED_TEST_USER);
+    ALL(
+        PersonType.PERSON,
+        PersonType.PRIVILEGED,
+        PersonType.BOT,
+        PersonType.TEST_USER,
+        PersonType.PRIVILEGED_TEST_USER
+    );
 
     private final Set<PersonType> personTypes;
 
-    PersonTypeFilter(PersonType... personTypes)
-    {
+    PersonTypeFilter(PersonType... personTypes) {
         this.personTypes = Set.of(personTypes);
     }
 
-    public Set<PersonType> getPersonTypes()
-    {
+    public Set<PersonType> getPersonTypes() {
         return personTypes;
     }
 
-    public boolean contains(PersonType personType)
-    {
+    public boolean contains(PersonType personType) {
         return personTypes.contains(personType);
     }
 }

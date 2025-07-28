@@ -3,7 +3,6 @@ package pnet.data.api.activity;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.PnetDataApiContextMock;
@@ -18,15 +17,14 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class ActivityDataClientMock extends ActivityDataClient
-    implements ItemClientMock<ActivityItemDTO, ActivityDataClientMock>,
-    DataClientMock<ActivityDataDTO, ActivityDataClientMock>
-{
+public class ActivityDataClientMock
+    extends ActivityDataClient
+    implements
+        ItemClientMock<ActivityItemDTO, ActivityDataClientMock>,
+        DataClientMock<ActivityDataDTO, ActivityDataClientMock> {
 
-    public ActivityDataClientMock()
-    {
+    public ActivityDataClientMock() {
         super(new PnetDataApiContextMock());
-
         MockStore<ActivityItemDTO> itemStore = getItemStore();
 
         addDefaultLabelQueryFilter(itemStore);
@@ -44,8 +42,7 @@ public class ActivityDataClientMock extends ActivityDataClient
 
     @Override
     protected PnetDataClientResultPage<ActivityDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<ActivityDataDTO> entries = findDatas(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -53,8 +50,7 @@ public class ActivityDataClientMock extends ActivityDataClient
 
     @Override
     protected PnetDataClientResultPage<ActivityItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<ActivityItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -62,8 +58,7 @@ public class ActivityDataClientMock extends ActivityDataClient
 
     @Override
     protected PnetDataClientResultPage<ActivityItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<ActivityItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);

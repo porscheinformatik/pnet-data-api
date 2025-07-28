@@ -14,12 +14,10 @@
  */
 package pnet.data.api.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithValidPeriod;
@@ -30,8 +28,7 @@ import pnet.data.api.util.WithValidPeriod;
  * @author ham
  */
 @Schema(description = "The assignment of a function to a person, for a specific company, tenant and brand.")
-public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithValidPeriod
-{
+public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithValidPeriod {
 
     private static final long serialVersionUID = -5572016715722241376L;
 
@@ -41,55 +38,59 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     @Schema(description = "The current state of the audit process.")
     protected final ApprovalState approvalState;
 
-    @Schema(description = "The starting date and time of this function assignment. "
-        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
+    @Schema(
+        description = "The starting date and time of this function assignment. " +
+        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+    )
     private final LocalDateTime validFrom;
 
-    @Schema(description = "The ending date and time of this function assignment. "
-        + "A missing value indicates an ongoing assignment. "
-        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
+    @Schema(
+        description = "The ending date and time of this function assignment. " +
+        "A missing value indicates an ongoing assignment. " +
+        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+    )
     private final LocalDateTime validTo;
 
-    public PersonFunctionLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("companyId") Integer companyId, @JsonProperty("companyMatchcode") String companyMatchcode,
-        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("brandMatchcode") String brandMatchcode,
-        @JsonProperty("approved") boolean approved, @JsonProperty("approvalState") ApprovalState approvalState,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo,
-        @JsonProperty("mainFunction") boolean mainFunction)
-    {
+    public PersonFunctionLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("approved") boolean approved,
+        @JsonProperty("approvalState") ApprovalState approvalState,
+        @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo,
+        @JsonProperty("mainFunction") boolean mainFunction
+    ) {
         super(tenant, matchcode, companyId, companyMatchcode, companyNumber, brandMatchcode, mainFunction);
-
         this.approved = approved;
         this.approvalState = approvalState;
         this.validFrom = validFrom;
         this.validTo = validTo;
     }
 
-    public boolean isApproved()
-    {
+    public boolean isApproved() {
         return approved;
     }
 
-    public ApprovalState getApprovalState()
-    {
+    public ApprovalState getApprovalState() {
         return approvalState;
     }
 
     @Override
-    public LocalDateTime getValidFrom()
-    {
+    public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
     @Override
-    public LocalDateTime getValidTo()
-    {
+    public LocalDateTime getValidTo() {
         return validTo;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + Objects.hash(validFrom);
@@ -97,31 +98,35 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!super.equals(obj))
-        {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof PersonFunctionLinkDTO other))
-        {
+        if (!(obj instanceof PersonFunctionLinkDTO other)) {
             return false;
         }
         return PnetDataApiUtils.equals(validFrom, other.validFrom);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "PersonFunctionLinkDTO [approved=%s, approvalState=%s, validFrom=%s, validTo=%s, companyId=%s, "
-                + "companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, mainFunction=%s, tenant=%s, matchcode=%s]",
-            approved, approvalState, validFrom, validTo, companyId, companyMatchcode, companyNumber, brandMatchcode,
-            mainFunction, tenant, matchcode);
+            "PersonFunctionLinkDTO [approved=%s, approvalState=%s, validFrom=%s, validTo=%s, companyId=%s, " +
+            "companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, mainFunction=%s, tenant=%s, matchcode=%s]",
+            approved,
+            approvalState,
+            validFrom,
+            validTo,
+            companyId,
+            companyMatchcode,
+            companyNumber,
+            brandMatchcode,
+            mainFunction,
+            tenant,
+            matchcode
+        );
     }
-
 }

@@ -1,7 +1,6 @@
 package at.porscheinformatik.happyrest;
 
 import java.io.Serial;
-
 import pnet.data.api.ErrorResult;
 
 /**
@@ -9,8 +8,8 @@ import pnet.data.api.ErrorResult;
  *
  * @author ham
  */
-public class RestResponseException extends RestException
-{
+public class RestResponseException extends RestException {
+
     @Serial
     private static final long serialVersionUID = 2832735845570939626L;
 
@@ -18,37 +17,30 @@ public class RestResponseException extends RestException
     private final int statusCode;
     private final String statusMessage;
 
-    public RestResponseException(String description, int statusCode, String statusMessage, Throwable cause)
-    {
+    public RestResponseException(String description, int statusCode, String statusMessage, Throwable cause) {
         super(RestUtils.getHttpStatus(statusCode, statusMessage) + " - " + description, cause);
-
         this.description = description;
         this.statusCode = statusCode;
         this.statusMessage = RestUtils.getHttpStatusMessage(statusCode, statusMessage);
     }
 
-    public RestResponseException(ErrorResult errorResult, int statusCode, String statusMessage, Throwable cause)
-    {
+    public RestResponseException(ErrorResult errorResult, int statusCode, String statusMessage, Throwable cause) {
         this(errorResult.toDescription(), statusCode, statusMessage, cause);
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public int getStatusCode()
-    {
+    public int getStatusCode() {
         return statusCode;
     }
 
-    public String getStatusMessage()
-    {
+    public String getStatusMessage() {
         return statusMessage;
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return statusCode + " " + statusMessage;
     }
 }

@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-
 import pnet.data.api.util.Pair;
 
 /**
@@ -18,8 +17,8 @@ import pnet.data.api.util.Pair;
  *
  * @author ham
  */
-public abstract class AbstractRestCall implements RestCall
-{
+public abstract class AbstractRestCall implements RestCall {
+
     private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     private final RestLoggerAdapter loggerAdapter;
@@ -30,11 +29,16 @@ public abstract class AbstractRestCall implements RestCall
     private final RestFormatter formatter;
     private final Object body;
 
-    protected AbstractRestCall(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
-        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body)
-    {
+    protected AbstractRestCall(
+        RestLoggerAdapter loggerAdapter,
+        String url,
+        List<MediaType> acceptableMediaTypes,
+        MediaType contentType,
+        List<RestAttribute> attributes,
+        RestFormatter formatter,
+        Object body
+    ) {
         super();
-
         this.loggerAdapter = loggerAdapter;
         this.url = url;
         this.acceptableMediaTypes = acceptableMediaTypes;
@@ -44,270 +48,318 @@ public abstract class AbstractRestCall implements RestCall
         this.body = body;
     }
 
-    protected abstract RestCall copy(RestLoggerAdapter loggerAdapter, String url, List<MediaType> acceptableMediaTypes,
-        MediaType contentType, List<RestAttribute> attributes, RestFormatter formatter, Object body);
+    protected abstract RestCall copy(
+        RestLoggerAdapter loggerAdapter,
+        String url,
+        List<MediaType> acceptableMediaTypes,
+        MediaType contentType,
+        List<RestAttribute> attributes,
+        RestFormatter formatter,
+        Object body
+    );
 
-    protected RestLoggerAdapter getLoggerAdapter()
-    {
+    protected RestLoggerAdapter getLoggerAdapter() {
         return loggerAdapter;
     }
 
     @Override
-    public String getUrl()
-    {
+    public String getUrl() {
         return url;
     }
 
     @Override
-    public RestCall url(String url)
-    {
+    public RestCall url(String url) {
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
     @Override
-    public RestCall path(String path)
-    {
-        if (path == null || path.isEmpty())
-        {
+    public RestCall path(String path) {
+        if (path == null || path.isEmpty()) {
             return this;
         }
 
-        return copy(loggerAdapter,
+        return copy(
+            loggerAdapter,
             RestUtils.appendPathWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"), path),
-            acceptableMediaTypes, contentType, attributes, formatter, body);
+            acceptableMediaTypes,
+            contentType,
+            attributes,
+            formatter,
+            body
+        );
     }
 
     @Override
-    public RestCall pathSegment(String... pathSegments)
-    {
-        if (pathSegments == null || pathSegments.length == 0)
-        {
+    public RestCall pathSegment(String... pathSegments) {
+        if (pathSegments == null || pathSegments.length == 0) {
             return this;
         }
 
-        return copy(loggerAdapter,
-            RestUtils.appendPathSegmentsWithPlaceholders(Objects.requireNonNull(url, "Cannot add path to missing URL"),
-                pathSegments), acceptableMediaTypes, contentType, attributes, formatter, body);
+        return copy(
+            loggerAdapter,
+            RestUtils.appendPathSegmentsWithPlaceholders(
+                Objects.requireNonNull(url, "Cannot add path to missing URL"),
+                pathSegments
+            ),
+            acceptableMediaTypes,
+            contentType,
+            attributes,
+            formatter,
+            body
+        );
     }
 
     @Override
-    public RestCall encodedPathSegment(String... pathSegments)
-    {
-        if (pathSegments == null || pathSegments.length == 0)
-        {
+    public RestCall encodedPathSegment(String... pathSegments) {
+        if (pathSegments == null || pathSegments.length == 0) {
             return this;
         }
 
-        return copy(loggerAdapter,
-            RestUtils.appendEncodedPathSegments(Objects.requireNonNull(url, "Cannot add path to missing URL"),
-                pathSegments), acceptableMediaTypes, contentType, attributes, formatter, body);
+        return copy(
+            loggerAdapter,
+            RestUtils.appendEncodedPathSegments(
+                Objects.requireNonNull(url, "Cannot add path to missing URL"),
+                pathSegments
+            ),
+            acceptableMediaTypes,
+            contentType,
+            attributes,
+            formatter,
+            body
+        );
     }
 
     @Override
-    public List<MediaType> getAcceptableMediaTypes()
-    {
+    public List<MediaType> getAcceptableMediaTypes() {
         return acceptableMediaTypes;
     }
 
     @Override
-    public RestCall accept(MediaType... mediaTypes)
-    {
+    public RestCall accept(MediaType... mediaTypes) {
         ArrayList<MediaType> currentAcceptableMediaTypes = new ArrayList<>(Arrays.asList(mediaTypes));
 
-        if (acceptableMediaTypes != null)
-        {
+        if (acceptableMediaTypes != null) {
             currentAcceptableMediaTypes.addAll(0, acceptableMediaTypes);
         }
 
-        return copy(loggerAdapter, url, Collections.unmodifiableList(currentAcceptableMediaTypes), contentType,
-            attributes, formatter, body);
+        return copy(
+            loggerAdapter,
+            url,
+            Collections.unmodifiableList(currentAcceptableMediaTypes),
+            contentType,
+            attributes,
+            formatter,
+            body
+        );
     }
 
     @Override
-    public List<RestAttribute> getAttributes()
-    {
+    public List<RestAttribute> getAttributes() {
         return attributes;
     }
 
     @Override
-    public RestCall header(String name, String... values)
-    {
-        if (values == null || values.length == 0)
-        {
+    public RestCall header(String name, String... values) {
+        if (values == null || values.length == 0) {
             return this;
         }
 
         return attribute(
-            Arrays.stream(values).map(value -> RestAttribute.header(name, value)).toArray(RestAttribute[]::new));
+            Arrays.stream(values)
+                .map(value -> RestAttribute.header(name, value))
+                .toArray(RestAttribute[]::new)
+        );
     }
 
     @Override
-    public RestCall headers(String name, Collection<String> values)
-    {
-        if (values == null || values.isEmpty())
-        {
+    public RestCall headers(String name, Collection<String> values) {
+        if (values == null || values.isEmpty()) {
             return this;
         }
 
-        return attribute(values.stream().map(value -> RestAttribute.header(name, value)).toArray(RestAttribute[]::new));
+        return attribute(
+            values
+                .stream()
+                .map(value -> RestAttribute.header(name, value))
+                .toArray(RestAttribute[]::new)
+        );
     }
 
     @Override
-    public RestCall replaceHeader(String name, String... values)
-    {
-        if (values == null || values.length == 0)
-        {
-            return this;
-        }
-
-        return replaceAttribute(
-            Arrays.stream(values).map(value -> RestAttribute.header(name, value)).toArray(RestAttribute[]::new));
-    }
-
-    @Override
-    public RestCall replaceHeaders(String name, Collection<String> values)
-    {
-        if (values == null || values.isEmpty())
-        {
+    public RestCall replaceHeader(String name, String... values) {
+        if (values == null || values.length == 0) {
             return this;
         }
 
         return replaceAttribute(
-            values.stream().map(value -> RestAttribute.header(name, value)).toArray(RestAttribute[]::new));
+            Arrays.stream(values)
+                .map(value -> RestAttribute.header(name, value))
+                .toArray(RestAttribute[]::new)
+        );
     }
 
     @Override
-    public RestCall removeHeaders(String... names)
-    {
+    public RestCall replaceHeaders(String name, Collection<String> values) {
+        if (values == null || values.isEmpty()) {
+            return this;
+        }
+
+        return replaceAttribute(
+            values
+                .stream()
+                .map(value -> RestAttribute.header(name, value))
+                .toArray(RestAttribute[]::new)
+        );
+    }
+
+    @Override
+    public RestCall removeHeaders(String... names) {
         return removeAttributesByName(RestHeader.class, names);
     }
 
     @Override
-    public RestCall variable(String name, Object... values)
-    {
+    public RestCall variable(String name, Object... values) {
         return replaceAttribute(RestAttribute.variable(name, values[0]));
     }
 
     @Override
-    public RestCall parameter(String name, Object... values)
-    {
-        if (values == null || values.length == 0)
-        {
+    public RestCall parameter(String name, Object... values) {
+        if (values == null || values.length == 0) {
             return this;
         }
 
         return attribute(
-            Arrays.stream(values).map(value -> RestAttribute.parameter(name, value)).toArray(RestAttribute[]::new));
+            Arrays.stream(values)
+                .map(value -> RestAttribute.parameter(name, value))
+                .toArray(RestAttribute[]::new)
+        );
     }
 
     @Override
-    public RestCall parameters(String name, Collection<?> values)
-    {
-        if (values == null || values.isEmpty())
-        {
+    public RestCall parameters(String name, Collection<?> values) {
+        if (values == null || values.isEmpty()) {
             return this;
         }
 
         return attribute(
-            values.stream().map(value -> RestAttribute.parameter(name, value)).toArray(RestAttribute[]::new));
+            values
+                .stream()
+                .map(value -> RestAttribute.parameter(name, value))
+                .toArray(RestAttribute[]::new)
+        );
     }
 
     @Override
-    public RestCall parameters(Collection<? extends Pair<String, ?>> values)
-    {
-        if (values == null || values.isEmpty())
-        {
+    public RestCall parameters(Collection<? extends Pair<String, ?>> values) {
+        if (values == null || values.isEmpty()) {
             return this;
         }
 
-        return attribute(values
-            .stream()
-            .map(value -> RestAttribute.parameter(value.getLeft(), value.getRight()))
-            .toArray(RestAttribute[]::new));
+        return attribute(
+            values
+                .stream()
+                .map(value -> RestAttribute.parameter(value.getLeft(), value.getRight()))
+                .toArray(RestAttribute[]::new)
+        );
     }
 
     @Override
-    public RestCall replaceParameter(String name, String... values)
-    {
-        if (values == null || values.length == 0)
-        {
-            return this;
-        }
-
-        return replaceAttribute(
-            Arrays.stream(values).map(value -> RestAttribute.parameter(name, value)).toArray(RestAttribute[]::new));
-    }
-
-    @Override
-    public RestCall replaceParameters(String name, Collection<String> values)
-    {
-        if (values == null || values.isEmpty())
-        {
+    public RestCall replaceParameter(String name, String... values) {
+        if (values == null || values.length == 0) {
             return this;
         }
 
         return replaceAttribute(
-            values.stream().map(value -> RestAttribute.parameter(name, value)).toArray(RestAttribute[]::new));
+            Arrays.stream(values)
+                .map(value -> RestAttribute.parameter(name, value))
+                .toArray(RestAttribute[]::new)
+        );
     }
 
     @Override
-    public RestCall replaceParameters(Collection<? extends Pair<String, ?>> values)
-    {
-        if (values == null || values.isEmpty())
-        {
+    public RestCall replaceParameters(String name, Collection<String> values) {
+        if (values == null || values.isEmpty()) {
             return this;
         }
 
-        return replaceAttribute(values
-            .stream()
-            .map(value -> RestAttribute.parameter(value.getLeft(), value.getRight()))
-            .toArray(RestAttribute[]::new));
+        return replaceAttribute(
+            values
+                .stream()
+                .map(value -> RestAttribute.parameter(name, value))
+                .toArray(RestAttribute[]::new)
+        );
     }
 
     @Override
-    public RestCall removeParameters(String... names)
-    {
+    public RestCall replaceParameters(Collection<? extends Pair<String, ?>> values) {
+        if (values == null || values.isEmpty()) {
+            return this;
+        }
+
+        return replaceAttribute(
+            values
+                .stream()
+                .map(value -> RestAttribute.parameter(value.getLeft(), value.getRight()))
+                .toArray(RestAttribute[]::new)
+        );
+    }
+
+    @Override
+    public RestCall removeParameters(String... names) {
         return removeAttributesByName(RestParameter.class, names);
     }
 
-    protected RestCall attribute(RestAttribute... attributesToAdd)
-    {
+    protected RestCall attribute(RestAttribute... attributesToAdd) {
         ArrayList<RestAttribute> currentAttributes = new ArrayList<>(Arrays.asList(attributesToAdd));
 
-        if (attributes != null)
-        {
+        if (attributes != null) {
             currentAttributes.addAll(0, attributes);
         }
 
-        return copy(loggerAdapter, url, acceptableMediaTypes, contentType,
-            Collections.unmodifiableList(currentAttributes), formatter, body);
+        return copy(
+            loggerAdapter,
+            url,
+            acceptableMediaTypes,
+            contentType,
+            Collections.unmodifiableList(currentAttributes),
+            formatter,
+            body
+        );
     }
 
-    protected RestCall replaceAttribute(RestAttribute... attributesToAdd)
-    {
+    protected RestCall replaceAttribute(RestAttribute... attributesToAdd) {
         List<RestAttribute> currentAttributes = new ArrayList<>(Arrays.asList(attributesToAdd));
 
-        if (attributes != null)
-        {
+        if (attributes != null) {
             Collection<RestAttribute> attributesToRemove = Arrays.asList(attributesToAdd);
             ArrayList<RestAttribute> attributesToKeep = new ArrayList<>(attributes);
 
-            attributesToKeep.removeIf(attribute -> attributesToRemove
-                .stream()
-                .anyMatch(attributeToRemove -> attributeToRemove.getClass().isInstance(attribute) && Objects.equals(
-                    attributeToRemove.getName(), attribute.getName())));
+            attributesToKeep.removeIf(attribute ->
+                attributesToRemove
+                    .stream()
+                    .anyMatch(
+                        attributeToRemove ->
+                            attributeToRemove.getClass().isInstance(attribute) &&
+                            Objects.equals(attributeToRemove.getName(), attribute.getName())
+                    )
+            );
 
             currentAttributes.addAll(attributesToKeep);
         }
 
-        return copy(loggerAdapter, url, acceptableMediaTypes, contentType,
-            Collections.unmodifiableList(currentAttributes), formatter, body);
+        return copy(
+            loggerAdapter,
+            url,
+            acceptableMediaTypes,
+            contentType,
+            Collections.unmodifiableList(currentAttributes),
+            formatter,
+            body
+        );
     }
 
-    protected RestCall removeAttributesByName(Class<? extends RestAttribute> attributeType, String... attributeNames)
-    {
-        if (attributes == null)
-        {
+    protected RestCall removeAttributesByName(Class<? extends RestAttribute> attributeType, String... attributeNames) {
+        if (attributes == null) {
             return this;
         }
 
@@ -315,75 +367,72 @@ public abstract class AbstractRestCall implements RestCall
         List<RestAttribute> currentAttributes = new ArrayList<>(attributes);
 
         currentAttributes.removeIf(
-            attribute -> attributeType.isInstance(attribute) && attributeNameCollection.contains(attribute.getName()));
+            attribute -> attributeType.isInstance(attribute) && attributeNameCollection.contains(attribute.getName())
+        );
 
-        return copy(loggerAdapter, url, acceptableMediaTypes, contentType,
-            Collections.unmodifiableList(currentAttributes), formatter, body);
+        return copy(
+            loggerAdapter,
+            url,
+            acceptableMediaTypes,
+            contentType,
+            Collections.unmodifiableList(currentAttributes),
+            formatter,
+            body
+        );
     }
 
-    protected RestFormatter getFormatter()
-    {
+    protected RestFormatter getFormatter() {
         return formatter;
     }
 
-    protected String format(MediaType contentType, Object value)
-    {
-        try
-        {
+    protected String format(MediaType contentType, Object value) {
+        try {
             return getFormatter().format(contentType, value);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new IllegalArgumentException("Failed to convert " + value + " to " + contentType, e);
         }
     }
 
-    public RestCall formatter(RestFormatter formatter)
-    {
+    public RestCall formatter(RestFormatter formatter) {
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
-    public MediaType getContentType()
-    {
+    public MediaType getContentType() {
         return contentType;
     }
 
     @Override
-    public RestCall contentType(MediaType contentType)
-    {
+    public RestCall contentType(MediaType contentType) {
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
-    public Object getBody()
-    {
+    public Object getBody() {
         return body;
     }
 
     @Override
-    public RestCall body(Object body)
-    {
+    public RestCall body(Object body) {
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
-    protected boolean isForm()
-    {
+    protected boolean isForm() {
         return MediaType.APPLICATION_FORM.isCompatible(getContentType()) && containsParameters();
     }
 
-    protected boolean verify(RestMethod method) throws RestRequestException
-    {
-        if (body != null && (method == RestMethod.GET || method == RestMethod.OPTIONS))
-        {
+    protected boolean verify(RestMethod method) throws RestRequestException {
+        if (body != null && (method == RestMethod.GET || method == RestMethod.OPTIONS)) {
             throw new RestRequestException("A " + method + " request does not allow a body.");
         }
 
         boolean form = isForm();
 
-        if (form && (method == RestMethod.GET
-            || method == RestMethod.PUT
-            || method == RestMethod.DELETE
-            || method == RestMethod.OPTIONS))
-        {
+        if (
+            form &&
+            (method == RestMethod.GET ||
+                method == RestMethod.PUT ||
+                method == RestMethod.DELETE ||
+                method == RestMethod.OPTIONS)
+        ) {
             throw new RestRequestException("A " + method + " request does not allow form values.");
         }
 
@@ -391,90 +440,85 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public final <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException
-    {
+    public final <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType)
+        throws RestException {
         return path(path).invoke(method, responseType);
     }
 
     @Override
     public final <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
-        throws RestException
-    {
+        throws RestException {
         return path(path).invoke(method, responseType);
     }
 
-    protected Charset getCharset()
-    {
+    protected Charset getCharset() {
         return DEFAULT_CHARSET;
     }
 
     @SuppressWarnings("java:S135")
-    protected List<String> collectParameters()
-    {
+    protected List<String> collectParameters() {
         List<String> parameters = new ArrayList<>();
         Charset charset = getCharset();
 
-        for (RestParameter parameter : getParameters())
-        {
+        for (RestParameter parameter : getParameters()) {
             Object value = parameter.getValue();
 
-            if (value == null)
-            {
+            if (value == null) {
                 continue;
             }
 
-            if (value.getClass().isArray())
-            {
-                for (int i = 0; i < Array.getLength(value); i++)
-                {
-                    parameters.add(RestUtils.encodeString(parameter.getName(), charset) + "=" + RestUtils.encodeString(
-                        format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset));
+            if (value.getClass().isArray()) {
+                for (int i = 0; i < Array.getLength(value); i++) {
+                    parameters.add(
+                        RestUtils.encodeString(parameter.getName(), charset) +
+                        "=" +
+                        RestUtils.encodeString(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset)
+                    );
                 }
 
                 continue;
             }
 
-            if (value instanceof Iterable<?>)
-            {
-                for (Object element : ((Iterable<?>) value))
-                {
-                    parameters.add(RestUtils.encodeString(parameter.getName(), charset) + "=" + RestUtils.encodeString(
-                        format(MediaType.TEXT_PLAIN, element), charset));
+            if (value instanceof Iterable<?>) {
+                for (Object element : ((Iterable<?>) value)) {
+                    parameters.add(
+                        RestUtils.encodeString(parameter.getName(), charset) +
+                        "=" +
+                        RestUtils.encodeString(format(MediaType.TEXT_PLAIN, element), charset)
+                    );
                 }
 
                 continue;
             }
 
-            parameters.add(RestUtils.encodeString(parameter.getName(), charset) + "=" + RestUtils.encodeString(
-                format(MediaType.TEXT_PLAIN, value), charset));
+            parameters.add(
+                RestUtils.encodeString(parameter.getName(), charset) +
+                "=" +
+                RestUtils.encodeString(format(MediaType.TEXT_PLAIN, value), charset)
+            );
         }
 
         return parameters;
     }
 
-    protected String buildUrl(boolean form)
-    {
+    protected String buildUrl(boolean form) {
         String currentUrl = getUrl();
         Charset charset = getCharset();
 
-        for (RestVariable variable : getVariables())
-        {
-            currentUrl = currentUrl.replace("{" + variable.getName() + "}",
-                RestUtils.encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false));
+        for (RestVariable variable : getVariables()) {
+            currentUrl = currentUrl.replace(
+                "{" + variable.getName() + "}",
+                RestUtils.encodePathSegment(format(MediaType.TEXT_PLAIN, variable.getValue()), charset, false, false)
+            );
         }
 
-        if (!form)
-        {
+        if (!form) {
             List<String> parameters = collectParameters();
 
-            if (!parameters.isEmpty())
-            {
-                if (currentUrl.contains("?"))
-                {
+            if (!parameters.isEmpty()) {
+                if (currentUrl.contains("?")) {
                     currentUrl += "&";
-                }
-                else
-                {
+                } else {
                     currentUrl += "?";
                 }
 
@@ -486,8 +530,7 @@ public abstract class AbstractRestCall implements RestCall
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return buildUrl(false);
     }
 }

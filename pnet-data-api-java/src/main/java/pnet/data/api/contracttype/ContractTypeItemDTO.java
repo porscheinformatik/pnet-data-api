@@ -14,16 +14,14 @@
  */
 package pnet.data.api.contracttype;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -38,8 +36,8 @@ import pnet.data.api.util.WithTenants;
  */
 @Schema(description = "Holds basic information about a contract type")
 public class ContractTypeItemDTO
-    implements WithMatchcode, WithTenants, WithLabel, WithLastUpdate, WithScore, Serializable
-{
+    implements WithMatchcode, WithTenants, WithLabel, WithLastUpdate, WithScore, Serializable {
+
     @Serial
     private static final long serialVersionUID = -6345795957251172952L;
 
@@ -64,13 +62,16 @@ public class ContractTypeItemDTO
     @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
-    public ContractTypeItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
+    public ContractTypeItemDTO(
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("label") String label,
         @JsonProperty("tenants") Collection<String> tenants,
-        @JsonProperty("brands") Collection<ContractTypeBrandLinkDTO> brands, @JsonProperty("type") String type,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
-    {
+        @JsonProperty("brands") Collection<ContractTypeBrandLinkDTO> brands,
+        @JsonProperty("type") String type,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score
+    ) {
         super();
-
         this.matchcode = matchcode;
         this.label = label;
         this.tenants = tenants;
@@ -81,56 +82,53 @@ public class ContractTypeItemDTO
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
-    public Collection<ContractTypeBrandLinkDTO> getBrands()
-    {
+    public Collection<ContractTypeBrandLinkDTO> getBrands() {
         return brands;
     }
 
-    public Optional<ContractTypeBrandLinkDTO> findBrand(Predicate<? super ContractTypeBrandLinkDTO> predicate)
-    {
+    public Optional<ContractTypeBrandLinkDTO> findBrand(Predicate<? super ContractTypeBrandLinkDTO> predicate) {
         return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public double getScore()
-    {
+    public double getScore() {
         return score;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
             "ContractTypeItemDTO [matchcode=%s, label=%s, tenants=%s, brands=%s, type=%s, lastUpdate=%s, score=%s]",
-            matchcode, label, tenants, brands, type, lastUpdate, score);
+            matchcode,
+            label,
+            tenants,
+            brands,
+            type,
+            lastUpdate,
+            score
+        );
     }
-
 }

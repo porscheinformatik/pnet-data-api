@@ -19,12 +19,9 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithBrandMatchcode
-{
-
+public interface WithBrandMatchcode {
     /**
      * @return The brand.
      */
     String getBrandMatchcode();
-
 }

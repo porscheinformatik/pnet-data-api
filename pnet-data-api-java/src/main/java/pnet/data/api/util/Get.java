@@ -10,8 +10,7 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the type of DTO
  * @author ham
  */
-public interface Get<DTO>
-{
+public interface Get<DTO> {
     DTO firstOnly() throws PnetDataClientException;
 
     PnetDataClientResultPage<DTO> execute() throws PnetDataClientException;

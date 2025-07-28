@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
 import pnet.data.api.PnetDataClientException;
 
 /**
@@ -19,44 +18,43 @@ import pnet.data.api.PnetDataClientException;
  * @author ham
  */
 public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplete<DTO, SELF>>
-    extends AbstractRestricable<SELF> implements AutoComplete<DTO>, Restrict<SELF>, Aggregate<SELF>
-{
+    extends AbstractRestricable<SELF>
+    implements AutoComplete<DTO>, Restrict<SELF>, Aggregate<SELF> {
+
     private final AutoCompleteFunction<DTO> autoCompleteFunction;
 
-    protected AbstractAutoComplete(AutoCompleteFunction<DTO> autoCompleteFunction, List<Pair<String, Object>> restricts)
-    {
+    protected AbstractAutoComplete(
+        AutoCompleteFunction<DTO> autoCompleteFunction,
+        List<Pair<String, Object>> restricts
+    ) {
         super(restricts);
-
         this.autoCompleteFunction = autoCompleteFunction;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected SELF newInstance(List<Pair<String, Object>> restricts)
-    {
+    protected SELF newInstance(List<Pair<String, Object>> restricts) {
         Constructor<?> constructor;
-        try
-        {
+        try {
             constructor = getClass().getConstructor(AutoCompleteFunction.class, List.class);
-        }
-        catch (NoSuchMethodException | SecurityException e)
-        {
+        } catch (NoSuchMethodException | SecurityException e) {
             throw new UnsupportedOperationException("Necessary constructor in " + getClass() + " is missing", e);
         }
 
-        try
-        {
+        try {
             return (SELF) constructor.newInstance(autoCompleteFunction, restricts);
-        }
-        catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
-        {
+        } catch (
+            InstantiationException
+            | IllegalAccessException
+            | IllegalArgumentException
+            | InvocationTargetException e
+        ) {
             throw new IllegalArgumentException("Failed to invoke constructor", e);
         }
     }
 
     @Override
-    public List<DTO> execute(Locale language, String query) throws PnetDataClientException
-    {
+    public List<DTO> execute(Locale language, String query) throws PnetDataClientException {
         List<Pair<String, Object>> restricts = new ArrayList<>(getRestricts());
 
         restricts.add(Pair.of(LANGUAGE_KEY, language));
@@ -64,5 +62,4 @@ public abstract class AbstractAutoComplete<DTO, SELF extends AbstractAutoComplet
 
         return autoCompleteFunction.autoComplete(Collections.unmodifiableList(restricts));
     }
-
 }

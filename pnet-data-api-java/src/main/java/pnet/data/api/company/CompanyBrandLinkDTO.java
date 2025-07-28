@@ -14,11 +14,9 @@
  */
 package pnet.data.api.company;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.time.LocalDateTime;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithValidPeriod;
@@ -28,59 +26,61 @@ import pnet.data.api.util.WithValidPeriod;
  *
  * @author ham
  */
-@Schema(description = "Holds minimal information about the brand of a company. The matchcode fits the matchcodes of "
-    + "the brands interface.")
-public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPeriod
-{
+@Schema(
+    description = "Holds minimal information about the brand of a company. The matchcode fits the matchcodes of " +
+    "the brands interface."
+)
+public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPeriod {
 
     private static final long serialVersionUID = 7506202638418892087L;
 
-    @Schema(description = "The date and time from when this brand is/was valid for the company. "
-        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
+    @Schema(
+        description = "The date and time from when this brand is/was valid for the company. " +
+        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+    )
     private final LocalDateTime validFrom;
 
-    @Schema(description = "The date and time till when this brand is/was valid for the company. "
-        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
+    @Schema(
+        description = "The date and time till when this brand is/was valid for the company. " +
+        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+    )
     private final LocalDateTime validTo;
 
-    public CompanyBrandLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("validFrom") LocalDateTime validFrom, @JsonProperty("validTo") LocalDateTime validTo)
-    {
+    public CompanyBrandLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo
+    ) {
         super(tenant, matchcode);
-
         this.validFrom = validFrom;
         this.validTo = validTo;
     }
 
     @Schema(description = "The tenant (Portal-ID) where this brand is valid.")
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return super.getTenant();
     }
 
     @Schema(description = "The matchcode of the brand (fits the matchcodes of the brands interface)")
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return super.getMatchcode();
     }
 
     @Override
-    public LocalDateTime getValidFrom()
-    {
+    public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
     @Override
-    public LocalDateTime getValidTo()
-    {
+    public LocalDateTime getValidTo() {
         return validTo;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((validFrom == null) ? 0 : validFrom.hashCode());
@@ -88,31 +88,24 @@ public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPer
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!super.equals(obj))
-        {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof CompanyBrandLinkDTO other))
-        {
+        if (!(obj instanceof CompanyBrandLinkDTO other)) {
             return false;
         }
-        if (!PnetDataApiUtils.equals(validFrom, other.validFrom))
-        {
+        if (!PnetDataApiUtils.equals(validFrom, other.validFrom)) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s(%s) [validFrom=%s, validTo=%s]", getMatchcode(), getTenant(), validFrom, validTo);
     }
-
 }

@@ -14,13 +14,11 @@
  */
 package pnet.data.api.legalform;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -32,8 +30,8 @@ import pnet.data.api.util.WithScore;
  * @author ham
  */
 @Schema(description = "Holds basic information about a legal form as used with companies.")
-public class LegalFormItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
-{
+public class LegalFormItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable {
+
     @Serial
     private static final long serialVersionUID = -3404509259945335365L;
 
@@ -49,9 +47,12 @@ public class LegalFormItemDTO implements WithMatchcode, WithLabel, WithLastUpdat
     @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
-    public LegalFormItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
-    {
+    public LegalFormItemDTO(
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("label") String label,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score
+    ) {
         super();
         this.matchcode = matchcode;
         this.label = label;
@@ -60,34 +61,33 @@ public class LegalFormItemDTO implements WithMatchcode, WithLabel, WithLastUpdat
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public double getScore()
-    {
+    public double getScore() {
         return score;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("LegalFormItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
-            lastUpdate, score);
+    public String toString() {
+        return String.format(
+            "LegalFormItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]",
+            matchcode,
+            label,
+            lastUpdate,
+            score
+        );
     }
-
 }

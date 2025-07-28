@@ -1,7 +1,6 @@
 package pnet.data.api.contracttype;
 
 import java.util.List;
-
 import pnet.data.api.util.AbstractAutoComplete;
 import pnet.data.api.util.AutoCompleteFunction;
 import pnet.data.api.util.Pair;
@@ -15,11 +14,12 @@ import pnet.data.api.util.RestrictTenant;
  */
 public class ContractTypeDataAutoComplete
     extends AbstractAutoComplete<ContractTypeAutoCompleteDTO, ContractTypeDataAutoComplete>
-    implements RestrictTenant<ContractTypeDataAutoComplete>, RestrictBrand<ContractTypeDataAutoComplete>
-{
-    public ContractTypeDataAutoComplete(AutoCompleteFunction<ContractTypeAutoCompleteDTO> autoCompleteFunction,
-        List<Pair<String, Object>> restrictItems)
-    {
+    implements RestrictTenant<ContractTypeDataAutoComplete>, RestrictBrand<ContractTypeDataAutoComplete> {
+
+    public ContractTypeDataAutoComplete(
+        AutoCompleteFunction<ContractTypeAutoCompleteDTO> autoCompleteFunction,
+        List<Pair<String, Object>> restrictItems
+    ) {
         super(autoCompleteFunction, restrictItems);
     }
 }

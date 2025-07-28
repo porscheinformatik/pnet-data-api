@@ -1,7 +1,6 @@
 package pnet.data.api.util;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 
@@ -12,7 +11,6 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @author ham
  */
 @FunctionalInterface
-public interface SearchFunction<DTO>
-{
+public interface SearchFunction<DTO> {
     PnetDataClientResultPage<DTO> search(List<Pair<String, Object>> restricts) throws PnetDataClientException;
 }

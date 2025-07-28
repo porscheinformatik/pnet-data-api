@@ -8,17 +8,12 @@ import java.util.Collection;
  * @param <SELF> the type of the filter for chaining
  * @author ham
  */
-public interface RestrictType<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
-    default SELF type(String... typeMatchcodes)
-    {
+public interface RestrictType<SELF extends Restrict<SELF>> extends Restrict<SELF> {
+    default SELF type(String... typeMatchcodes) {
         return restrict("type", (Object[]) typeMatchcodes);
     }
 
-    default SELF types(Collection<String> typeMatchcodes)
-    {
+    default SELF types(Collection<String> typeMatchcodes) {
         return type(typeMatchcodes.toArray(new String[0]));
     }
-
 }

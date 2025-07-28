@@ -11,10 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * </pre>
  */
 @Configuration
-@ComponentScan(basePackageClasses = {CompanyTypePnetDataApiClientConfig.class})
-public class CompanyTypePnetDataApiClientConfig
-{
-
+@ComponentScan(basePackageClasses = { CompanyTypePnetDataApiClientConfig.class })
+public class CompanyTypePnetDataApiClientConfig {
     // intentionally left blank
-
 }

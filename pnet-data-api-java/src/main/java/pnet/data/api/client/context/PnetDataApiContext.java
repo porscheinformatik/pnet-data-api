@@ -8,8 +8,7 @@ import pnet.data.api.PnetDataClientException;
  *
  * @author ham
  */
-public interface PnetDataApiContext extends PnetDataApiContextAware<PnetDataApiContext>
-{
+public interface PnetDataApiContext extends PnetDataApiContextAware<PnetDataApiContext> {
     /**
      * Create a REST call by either using an existing short-lived authentication token or by getting a new one using the
      * {@link PnetDataApiLoginMethod} of this context.

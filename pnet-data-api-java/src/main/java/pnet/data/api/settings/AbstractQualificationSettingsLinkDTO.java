@@ -1,11 +1,10 @@
 package pnet.data.api.settings;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serial;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+public abstract class AbstractQualificationSettingsLinkDTO extends AbstractSettingsLinkDTO {
 
-public abstract class AbstractQualificationSettingsLinkDTO extends AbstractSettingsLinkDTO
-{
     @Serial
     private static final long serialVersionUID = 9056664712077208202L;
 
@@ -14,12 +13,13 @@ public abstract class AbstractQualificationSettingsLinkDTO extends AbstractSetti
     protected final boolean assignableToPrivileged;
     protected final boolean approvalNeeded;
 
-    protected AbstractQualificationSettingsLinkDTO(@JsonProperty(value = "tenant") String tenant,
+    protected AbstractQualificationSettingsLinkDTO(
+        @JsonProperty(value = "tenant") String tenant,
         @JsonProperty(value = "visibility") Visibility visibility,
         @JsonProperty(value = "assignableToRegular") boolean assignableToRegular,
         @JsonProperty(value = "assignableToPrivileged") boolean assignableToPrivileged,
-        @JsonProperty(value = "approvalNeeded") boolean approvalNeeded)
-    {
+        @JsonProperty(value = "approvalNeeded") boolean approvalNeeded
+    ) {
         super(tenant);
         this.visibility = visibility;
         this.assignableToRegular = assignableToRegular;
@@ -27,34 +27,31 @@ public abstract class AbstractQualificationSettingsLinkDTO extends AbstractSetti
         this.approvalNeeded = approvalNeeded;
     }
 
-    public Visibility getVisibility()
-    {
+    public Visibility getVisibility() {
         return this.visibility;
     }
 
-    public boolean isAssignableToRegular()
-    {
+    public boolean isAssignableToRegular() {
         return this.assignableToRegular;
     }
 
-    public boolean isAssignableToPrivileged()
-    {
+    public boolean isAssignableToPrivileged() {
         return this.assignableToPrivileged;
     }
 
-    public boolean isApprovalNeeded()
-    {
+    public boolean isApprovalNeeded() {
         return this.approvalNeeded;
     }
 
     @Override
-    public String toString()
-    {
-        return String
-            .format(
-                "AbstractQualificationSettingsLinkDTO [tenant=%s, visibility=%s, assignableToRegular=%s, assignableToPrivileged=%s, approvalNeeded=%s]",
-                this.tenant, this.visibility, this.assignableToRegular, this.assignableToPrivileged,
-                this.approvalNeeded);
+    public String toString() {
+        return String.format(
+            "AbstractQualificationSettingsLinkDTO [tenant=%s, visibility=%s, assignableToRegular=%s, assignableToPrivileged=%s, approvalNeeded=%s]",
+            this.tenant,
+            this.visibility,
+            this.assignableToRegular,
+            this.assignableToPrivileged,
+            this.approvalNeeded
+        );
     }
-
 }

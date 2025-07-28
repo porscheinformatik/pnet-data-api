@@ -5,8 +5,7 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public enum ApprovalState
-{
+public enum ApprovalState {
     /**
      * Temporal state after the creation of an item, until the Caretaker (or whoever) sets the corrent state. Can be
      * used when creating items directly in the database.
@@ -51,56 +50,45 @@ public enum ApprovalState
     private final boolean open;
     private final boolean inWork;
 
-    ApprovalState(boolean open, boolean inWork)
-    {
+    ApprovalState(boolean open, boolean inWork) {
         this.open = open;
         this.inWork = inWork;
     }
 
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         return open;
     }
 
-    public boolean isInWork()
-    {
+    public boolean isInWork() {
         return inWork;
     }
 
-    public ApprovalState higher(ApprovalState otherState)
-    {
-        if (otherState == null)
-        {
+    public ApprovalState higher(ApprovalState otherState) {
+        if (otherState == null) {
             return this;
         }
 
         return isHigherThan(otherState) ? this : otherState;
     }
 
-    public boolean isHigherThan(ApprovalState otherState)
-    {
-        if (otherState == null)
-        {
+    public boolean isHigherThan(ApprovalState otherState) {
+        if (otherState == null) {
             return false;
         }
 
         return ordinal() > otherState.ordinal();
     }
 
-    public boolean isSameOrHigherThan(ApprovalState otherState)
-    {
-        if (otherState == null)
-        {
+    public boolean isSameOrHigherThan(ApprovalState otherState) {
+        if (otherState == null) {
             return false;
         }
 
         return ordinal() >= otherState.ordinal();
     }
 
-    public ApprovalState covering(ApprovalState otherState)
-    {
-        if (otherState == null)
-        {
+    public ApprovalState covering(ApprovalState otherState) {
+        if (otherState == null) {
             return this;
         }
 
@@ -114,25 +102,20 @@ public enum ApprovalState
      * @param otherState the other state, may be null
      * @return true if this state is covering the other state
      */
-    public boolean isCovering(ApprovalState otherState)
-    {
-        if (otherState == null)
-        {
+    public boolean isCovering(ApprovalState otherState) {
+        if (otherState == null) {
             return false;
         }
 
-        if (otherState == this)
-        {
+        if (otherState == this) {
             return true;
         }
 
-        if (this == REJECTED)
-        {
+        if (this == REJECTED) {
             return otherState == REJECTED;
         }
 
-        if (otherState == REJECTED)
-        {
+        if (otherState == REJECTED) {
             return true;
         }
 

@@ -14,13 +14,11 @@
  */
 package pnet.data.api.contractstate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabel;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -32,8 +30,8 @@ import pnet.data.api.util.WithScore;
  * @author ham
  */
 @Schema(description = "Holds basic information about a contract state")
-public class ContractStateItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable
-{
+public class ContractStateItemDTO implements WithMatchcode, WithLabel, WithLastUpdate, WithScore, Serializable {
+
     @Serial
     private static final long serialVersionUID = 3798249954761818352L;
 
@@ -49,11 +47,13 @@ public class ContractStateItemDTO implements WithMatchcode, WithLabel, WithLastU
     @Schema(description = "The score this item accomplished in the search operation.")
     private final double score;
 
-    public ContractStateItemDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("label") String label,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
-    {
+    public ContractStateItemDTO(
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("label") String label,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score
+    ) {
         super();
-
         this.matchcode = matchcode;
         this.label = label;
         this.lastUpdate = lastUpdate;
@@ -61,34 +61,33 @@ public class ContractStateItemDTO implements WithMatchcode, WithLabel, WithLastU
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public double getScore()
-    {
+    public double getScore() {
         return score;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("ContractStateItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]", matchcode, label,
-            lastUpdate, score);
+    public String toString() {
+        return String.format(
+            "ContractStateItemDTO [matchcode=%s, label=%s, lastUpdate=%s, score=%s]",
+            matchcode,
+            label,
+            lastUpdate,
+            score
+        );
     }
-
 }

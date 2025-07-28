@@ -1,10 +1,9 @@
 package pnet.data.api.settings;
 
-public enum Visibility
-{
+public enum Visibility {
     HIDDEN,
 
     PARTIALLY,
 
-    VISIBLE
+    VISIBLE,
 }

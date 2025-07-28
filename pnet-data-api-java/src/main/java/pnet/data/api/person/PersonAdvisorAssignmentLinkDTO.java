@@ -14,12 +14,10 @@
  */
 package pnet.data.api.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
@@ -30,8 +28,8 @@ import pnet.data.api.util.WithCompanyId;
  * @author ham
  */
 @Schema(description = "Holds an advisor assignment of the person.")
-public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode
-{
+public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements WithCompanyId, WithBrandMatchcode {
+
     @Serial
     private static final long serialVersionUID = 4247336068734009775L;
 
@@ -51,14 +49,16 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     private final String divisionLabel;
 
     @SuppressWarnings("java:S107")
-    public PersonAdvisorAssignmentLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("matchcode") String matchcode, @JsonProperty("companyId") Integer companyId,
-        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
+    public PersonAdvisorAssignmentLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("divisionMatchcode") String divisionMatchcode,
-        @JsonProperty("divisionLabel") String divisionLabel)
-    {
+        @JsonProperty("divisionLabel") String divisionLabel
+    ) {
         super(tenant, matchcode);
-
         this.companyId = companyId;
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
@@ -68,61 +68,54 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
 
     @Schema(description = "A tenant where the advisor assignment is valid.")
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return super.getTenant();
     }
 
     @Schema(description = "The matchcode of the advisor type.")
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return super.getMatchcode();
     }
 
     /**
      * @deprecated Do not use. Value is hardcoded to NULL and the property will at some point be removed.
      */
-    @Schema(description = "The matchcode of the brand where the person is advisor for. "
-        + "NOTE: Do not use. Value is hardcoded to NULL and the property will at some point be removed.")
+    @Schema(
+        description = "The matchcode of the brand where the person is advisor for. " +
+        "NOTE: Do not use. Value is hardcoded to NULL and the property will at some point be removed."
+    )
     @Override
     @Deprecated(since = "2.5.0")
-    public String getBrandMatchcode()
-    {
+    public String getBrandMatchcode() {
         return null;
     }
 
     @Override
-    public Integer getCompanyId()
-    {
+    public Integer getCompanyId() {
         return companyId;
     }
 
     @Override
-    public String getCompanyMatchcode()
-    {
+    public String getCompanyMatchcode() {
         return companyMatchcode;
     }
 
     @Override
-    public String getCompanyNumber()
-    {
+    public String getCompanyNumber() {
         return companyNumber;
     }
 
-    public String getDivisionMatchcode()
-    {
+    public String getDivisionMatchcode() {
         return divisionMatchcode;
     }
 
-    public String getDivisionLabel()
-    {
+    public String getDivisionLabel() {
         return divisionLabel;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
@@ -133,32 +126,35 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!super.equals(obj))
-        {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof PersonAdvisorAssignmentLinkDTO other))
-        {
+        if (!(obj instanceof PersonAdvisorAssignmentLinkDTO other)) {
             return false;
         }
-        return Objects.equals(tenant, other.tenant)
-            && Objects.equals(companyId, other.companyId)
-            && Objects.equals(divisionMatchcode, other.divisionMatchcode)
-            && Objects.equals(matchcode, other.matchcode);
+        return (
+            Objects.equals(tenant, other.tenant) &&
+            Objects.equals(companyId, other.companyId) &&
+            Objects.equals(divisionMatchcode, other.divisionMatchcode) &&
+            Objects.equals(matchcode, other.matchcode)
+        );
     }
 
     @Override
-    public String toString()
-    {
-        return String
-            .format(
-                "PersonAdvisorAssignmentLinkDTO [tenant=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, divisionMatchcode=%s, divisionLabel=%s, advisorTypeMatchcode=%s]",
-                tenant, companyId, companyMatchcode, companyNumber, divisionMatchcode, divisionLabel, matchcode);
+    public String toString() {
+        return String.format(
+            "PersonAdvisorAssignmentLinkDTO [tenant=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, divisionMatchcode=%s, divisionLabel=%s, advisorTypeMatchcode=%s]",
+            tenant,
+            companyId,
+            companyMatchcode,
+            companyNumber,
+            divisionMatchcode,
+            divisionLabel,
+            matchcode
+        );
     }
 }

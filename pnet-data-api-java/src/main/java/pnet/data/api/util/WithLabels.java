@@ -22,9 +22,7 @@ import java.util.Map;
  *
  * @author ham
  */
-public interface WithLabels
-{
-
+public interface WithLabels {
     /**
      * @return A map of strings by locale, holding the label of the item in multiple languages.
      */
@@ -34,9 +32,7 @@ public interface WithLabels
      * @param language the language, may be null
      * @return The label in the specified language, null if not found.
      */
-    default String getLabel(Locale language)
-    {
+    default String getLabel(Locale language) {
         return PnetDataApiUtils.getText(language, getLabels());
     }
-
 }

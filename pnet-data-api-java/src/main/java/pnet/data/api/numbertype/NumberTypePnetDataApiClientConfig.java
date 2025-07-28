@@ -9,8 +9,7 @@ import org.springframework.context.annotation.Configuration;
  * @author cet
  */
 @Configuration
-@ComponentScan(basePackageClasses = {NumberTypePnetDataApiClientConfig.class})
-public class NumberTypePnetDataApiClientConfig
-{
+@ComponentScan(basePackageClasses = { NumberTypePnetDataApiClientConfig.class })
+public class NumberTypePnetDataApiClientConfig {
     // intentionally left blank
 }

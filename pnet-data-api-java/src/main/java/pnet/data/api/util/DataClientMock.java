@@ -1,9 +1,8 @@
 package pnet.data.api.util;
 
+import at.porscheinformatik.happyrest.GenericType;
 import java.util.List;
 import java.util.function.BiPredicate;
-
-import at.porscheinformatik.happyrest.GenericType;
 
 /**
  * A client mock that handles datas
@@ -12,21 +11,16 @@ import at.porscheinformatik.happyrest.GenericType;
  * @param <SELF> the class for self-references
  * @author HAM
  */
-public interface DataClientMock<DataT, SELF extends DataClientMock<DataT, SELF>> extends Self<SELF>
-{
-
-    default Class<DataT> getDataType()
-    {
+public interface DataClientMock<DataT, SELF extends DataClientMock<DataT, SELF>> extends Self<SELF> {
+    default Class<DataT> getDataType() {
         return GenericType.build(DataClientMock.class).instancedBy(this).getArgumentClass(0);
     }
 
-    default MockStore<DataT> getDataStore()
-    {
+    default MockStore<DataT> getDataStore() {
         return MockStore.get(this, getDataType());
     }
 
-    default SELF addData(DataT dto)
-    {
+    default SELF addData(DataT dto) {
         getDataStore().add(dto);
 
         return self();
@@ -40,15 +34,13 @@ public interface DataClientMock<DataT, SELF extends DataClientMock<DataT, SELF>>
      * @param predicate the filter function, the data will be kept, if this function returns true
      * @return the mock itself
      */
-    default <ValueT> SELF addDataFilter(String key, BiPredicate<DataT, ValueT> predicate)
-    {
+    default <ValueT> SELF addDataFilter(String key, BiPredicate<DataT, ValueT> predicate) {
         getDataStore().addFilter(key, predicate);
 
         return self();
     }
 
-    default List<DataT> findDatas(List<Pair<String, Object>> restricts)
-    {
+    default List<DataT> findDatas(List<Pair<String, Object>> restricts) {
         return getDataStore().find(restricts);
     }
 }

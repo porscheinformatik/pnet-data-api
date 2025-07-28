@@ -8,9 +8,7 @@ import java.util.Collection;
  * @param <SELF> the type of the filter for chaining
  * @author ham
  */
-public interface RestrictRole<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
+public interface RestrictRole<SELF extends Restrict<SELF>> extends Restrict<SELF> {
     /**
      * Restrict the result to functions or activities with the specified matchcode. When using
      * {@link RestrictFunction#function(String...)} in combination with {@link RestrictActivity#activity(String...)}, a
@@ -20,8 +18,7 @@ public interface RestrictRole<SELF extends Restrict<SELF>> extends Restrict<SELF
      * @param roleMatchcodes the function and activity matchcodes
      * @return the request itself
      */
-    default SELF role(String... roleMatchcodes)
-    {
+    default SELF role(String... roleMatchcodes) {
         return restrict("role", (Object[]) roleMatchcodes);
     }
 
@@ -34,9 +31,7 @@ public interface RestrictRole<SELF extends Restrict<SELF>> extends Restrict<SELF
      * @param roleMatchcodes the function and activity matchcodes
      * @return the request itself
      */
-    default SELF roles(Collection<String> roleMatchcodes)
-    {
+    default SELF roles(Collection<String> roleMatchcodes) {
         return role(roleMatchcodes.toArray(new String[0]));
     }
-
 }

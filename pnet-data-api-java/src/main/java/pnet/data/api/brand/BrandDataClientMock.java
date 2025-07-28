@@ -3,7 +3,6 @@ package pnet.data.api.brand;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.PnetDataApiContextMock;
@@ -18,14 +17,12 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class BrandDataClientMock extends BrandDataClient
-    implements ItemClientMock<BrandItemDTO, BrandDataClientMock>, DataClientMock<BrandDataDTO, BrandDataClientMock>
-{
+public class BrandDataClientMock
+    extends BrandDataClient
+    implements ItemClientMock<BrandItemDTO, BrandDataClientMock>, DataClientMock<BrandDataDTO, BrandDataClientMock> {
 
-    public BrandDataClientMock()
-    {
+    public BrandDataClientMock() {
         super(new PnetDataApiContextMock());
-
         MockStore<BrandItemDTO> itemStore = getItemStore();
 
         addDefaultLabelQueryFilter(itemStore);
@@ -40,8 +37,7 @@ public class BrandDataClientMock extends BrandDataClient
 
     @Override
     protected PnetDataClientResultPage<BrandDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<BrandDataDTO> entries = findDatas(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -49,8 +45,7 @@ public class BrandDataClientMock extends BrandDataClient
 
     @Override
     protected PnetDataClientResultPage<BrandItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<BrandItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -58,8 +53,7 @@ public class BrandDataClientMock extends BrandDataClient
 
     @Override
     protected PnetDataClientResultPage<BrandItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<BrandItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);

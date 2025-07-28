@@ -3,7 +3,6 @@ package pnet.data.api.contractstate;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.PnetDataApiContextMock;
@@ -18,15 +17,14 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class ContractStateDataClientMock extends ContractStateDataClient
-    implements ItemClientMock<ContractStateItemDTO, ContractStateDataClientMock>,
-    DataClientMock<ContractStateDataDTO, ContractStateDataClientMock>
-{
+public class ContractStateDataClientMock
+    extends ContractStateDataClient
+    implements
+        ItemClientMock<ContractStateItemDTO, ContractStateDataClientMock>,
+        DataClientMock<ContractStateDataDTO, ContractStateDataClientMock> {
 
-    public ContractStateDataClientMock()
-    {
+    public ContractStateDataClientMock() {
         super(new PnetDataApiContextMock());
-
         MockStore<ContractStateItemDTO> itemStore = getItemStore();
 
         addDefaultLabelQueryFilter(itemStore);
@@ -39,8 +37,7 @@ public class ContractStateDataClientMock extends ContractStateDataClient
 
     @Override
     protected PnetDataClientResultPage<ContractStateDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<ContractStateDataDTO> entries = findDatas(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -48,8 +45,7 @@ public class ContractStateDataClientMock extends ContractStateDataClient
 
     @Override
     protected PnetDataClientResultPage<ContractStateItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<ContractStateItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -57,8 +53,7 @@ public class ContractStateDataClientMock extends ContractStateDataClient
 
     @Override
     protected PnetDataClientResultPage<ContractStateItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<ContractStateItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);

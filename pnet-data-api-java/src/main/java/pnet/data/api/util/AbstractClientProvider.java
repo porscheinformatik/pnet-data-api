@@ -19,8 +19,8 @@ import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
 
-public abstract class AbstractClientProvider implements ClientProvider
-{
+public abstract class AbstractClientProvider implements ClientProvider {
+
     private AboutDataClient aboutDataClient = null;
     private ActivityDataClient activityDataClient = null;
     private AdvisorTypeDataClient advisorTypeDataClient = null;
@@ -42,10 +42,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     protected abstract PnetDataApiContext getContext();
 
     @Override
-    public synchronized AboutDataClient getAboutDataClient()
-    {
-        if (aboutDataClient == null)
-        {
+    public synchronized AboutDataClient getAboutDataClient() {
+        if (aboutDataClient == null) {
             aboutDataClient = new AboutDataClient(getContext());
         }
 
@@ -53,10 +51,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized ActivityDataClient getActivityDataClient()
-    {
-        if (activityDataClient == null)
-        {
+    public synchronized ActivityDataClient getActivityDataClient() {
+        if (activityDataClient == null) {
             activityDataClient = new ActivityDataClient(getContext());
         }
 
@@ -64,10 +60,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized AdvisorTypeDataClient getAdvisorTypeDataClient()
-    {
-        if (advisorTypeDataClient == null)
-        {
+    public synchronized AdvisorTypeDataClient getAdvisorTypeDataClient() {
+        if (advisorTypeDataClient == null) {
             advisorTypeDataClient = new AdvisorTypeDataClient(getContext());
         }
 
@@ -75,10 +69,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized ApplicationDataClient getApplicationDataClient()
-    {
-        if (applicationDataClient == null)
-        {
+    public synchronized ApplicationDataClient getApplicationDataClient() {
+        if (applicationDataClient == null) {
             applicationDataClient = new ApplicationDataClient(getContext());
         }
 
@@ -86,10 +78,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized BrandDataClient getBrandDataClient()
-    {
-        if (brandDataClient == null)
-        {
+    public synchronized BrandDataClient getBrandDataClient() {
+        if (brandDataClient == null) {
             brandDataClient = new BrandDataClient(getContext());
         }
 
@@ -97,10 +87,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized CompanyDataClient getCompanyDataClient()
-    {
-        if (companyDataClient == null)
-        {
+    public synchronized CompanyDataClient getCompanyDataClient() {
+        if (companyDataClient == null) {
             companyDataClient = new CompanyDataClient(getContext());
         }
 
@@ -108,10 +96,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized CompanyGroupDataClient getCompanyGroupDataClient()
-    {
-        if (companyGroupDataClient == null)
-        {
+    public synchronized CompanyGroupDataClient getCompanyGroupDataClient() {
+        if (companyGroupDataClient == null) {
             companyGroupDataClient = new CompanyGroupDataClient(getContext());
         }
 
@@ -119,10 +105,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized CompanyGroupTypeDataClient getCompanyGroupTypeDataClient()
-    {
-        if (companyGroupTypeDataClient == null)
-        {
+    public synchronized CompanyGroupTypeDataClient getCompanyGroupTypeDataClient() {
+        if (companyGroupTypeDataClient == null) {
             companyGroupTypeDataClient = new CompanyGroupTypeDataClient(getContext());
         }
 
@@ -130,10 +114,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized CompanyNumberTypeDataClient getCompanyNumberTypeDataClient()
-    {
-        if (companyNumberTypeDataClient == null)
-        {
+    public synchronized CompanyNumberTypeDataClient getCompanyNumberTypeDataClient() {
+        if (companyNumberTypeDataClient == null) {
             companyNumberTypeDataClient = new CompanyNumberTypeDataClient(getContext());
         }
 
@@ -141,10 +123,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized CompanyTypeDataClient getCompanyTypeDataClient()
-    {
-        if (companyTypeDataClient == null)
-        {
+    public synchronized CompanyTypeDataClient getCompanyTypeDataClient() {
+        if (companyTypeDataClient == null) {
             companyTypeDataClient = new CompanyTypeDataClient(getContext());
         }
 
@@ -152,10 +132,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized ContractStateDataClient getContractStateDataClient()
-    {
-        if (contractStateDataClient == null)
-        {
+    public synchronized ContractStateDataClient getContractStateDataClient() {
+        if (contractStateDataClient == null) {
             contractStateDataClient = new ContractStateDataClient(getContext());
         }
 
@@ -163,10 +141,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized ContractTypeDataClient getContractTypeDataClient()
-    {
-        if (contractTypeDataClient == null)
-        {
+    public synchronized ContractTypeDataClient getContractTypeDataClient() {
+        if (contractTypeDataClient == null) {
             contractTypeDataClient = new ContractTypeDataClient(getContext());
         }
 
@@ -174,10 +150,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized ExternalBrandDataClient getExternalBrandDataClient()
-    {
-        if (externalBrandDataClient == null)
-        {
+    public synchronized ExternalBrandDataClient getExternalBrandDataClient() {
+        if (externalBrandDataClient == null) {
             externalBrandDataClient = new ExternalBrandDataClient(getContext());
         }
 
@@ -185,10 +159,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized FunctionDataClient getFunctionDataClient()
-    {
-        if (functionDataClient == null)
-        {
+    public synchronized FunctionDataClient getFunctionDataClient() {
+        if (functionDataClient == null) {
             functionDataClient = new FunctionDataClient(getContext());
         }
 
@@ -196,10 +168,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized LegalFormDataClient getLegalFormDataClient()
-    {
-        if (legalFormDataClient == null)
-        {
+    public synchronized LegalFormDataClient getLegalFormDataClient() {
+        if (legalFormDataClient == null) {
             legalFormDataClient = new LegalFormDataClient(getContext());
         }
 
@@ -207,10 +177,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized NumberTypeDataClient getNumberTypeDataClient()
-    {
-        if (numberTypeDataClient == null)
-        {
+    public synchronized NumberTypeDataClient getNumberTypeDataClient() {
+        if (numberTypeDataClient == null) {
             numberTypeDataClient = new NumberTypeDataClient(getContext());
         }
 
@@ -218,10 +186,8 @@ public abstract class AbstractClientProvider implements ClientProvider
     }
 
     @Override
-    public synchronized PersonDataClient getPersonDataClient()
-    {
-        if (personDataClient == null)
-        {
+    public synchronized PersonDataClient getPersonDataClient() {
+        if (personDataClient == null) {
             personDataClient = new PersonDataClient(getContext());
         }
 

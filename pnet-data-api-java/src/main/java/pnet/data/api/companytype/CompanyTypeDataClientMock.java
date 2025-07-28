@@ -3,7 +3,6 @@ package pnet.data.api.companytype;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.PnetDataApiContextMock;
@@ -18,15 +17,14 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class CompanyTypeDataClientMock extends CompanyTypeDataClient
-    implements ItemClientMock<CompanyTypeItemDTO, CompanyTypeDataClientMock>,
-    DataClientMock<CompanyTypeDataDTO, CompanyTypeDataClientMock>
-{
+public class CompanyTypeDataClientMock
+    extends CompanyTypeDataClient
+    implements
+        ItemClientMock<CompanyTypeItemDTO, CompanyTypeDataClientMock>,
+        DataClientMock<CompanyTypeDataDTO, CompanyTypeDataClientMock> {
 
-    public CompanyTypeDataClientMock()
-    {
+    public CompanyTypeDataClientMock() {
         super(new PnetDataApiContextMock());
-
         MockStore<CompanyTypeItemDTO> itemStore = getItemStore();
 
         addDefaultLabelQueryFilter(itemStore);
@@ -41,8 +39,7 @@ public class CompanyTypeDataClientMock extends CompanyTypeDataClient
 
     @Override
     protected PnetDataClientResultPage<CompanyTypeDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<CompanyTypeDataDTO> entries = findDatas(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -50,8 +47,7 @@ public class CompanyTypeDataClientMock extends CompanyTypeDataClient
 
     @Override
     protected PnetDataClientResultPage<CompanyTypeItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<CompanyTypeItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -59,8 +55,7 @@ public class CompanyTypeDataClientMock extends CompanyTypeDataClient
 
     @Override
     protected PnetDataClientResultPage<CompanyTypeItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<CompanyTypeItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);

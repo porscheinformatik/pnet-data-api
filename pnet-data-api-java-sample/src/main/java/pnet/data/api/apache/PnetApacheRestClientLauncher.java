@@ -9,28 +9,37 @@ import pnet.data.api.util.Prefs;
  *
  * @author HAM
  */
-public final class PnetApacheRestClientLauncher
-{
-    private PnetApacheRestClientLauncher()
-    {
+public final class PnetApacheRestClientLauncher {
+
+    private PnetApacheRestClientLauncher() {
         super();
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         MutablePnetDataApiLoginMethod loginMethod = MutablePnetDataApiLoginMethod.createFromPrefs(Prefs.DEFAULT_KEY);
         ApacheClientFactory clientFactory = ApacheClientFactory.of(loginMethod).loggingToSystemOut();
 
-        PnetRestClient client =
-            new PnetRestClient(loginMethod, clientFactory.getAboutDataClient(), clientFactory.getActivityDataClient(),
-                clientFactory.getAdvisorTypeDataClient(), clientFactory.getApplicationDataClient(),
-                clientFactory.getBrandDataClient(), clientFactory.getCompanyDataClient(),
-                clientFactory.getCompanyGroupDataClient(), clientFactory.getCompanyGroupTypeDataClient(),
-                clientFactory.getCompanyNumberTypeDataClient(), clientFactory.getCompanyTypeDataClient(),
-                clientFactory.getContractStateDataClient(), clientFactory.getContractTypeDataClient(),
-                clientFactory.getExternalBrandDataClient(), clientFactory.getFunctionDataClient(),
-                clientFactory.getLegalFormDataClient(), clientFactory.getNumberTypeDataClient(),
-                clientFactory.getPersonDataClient(), clientFactory.getContext());
+        PnetRestClient client = new PnetRestClient(
+            loginMethod,
+            clientFactory.getAboutDataClient(),
+            clientFactory.getActivityDataClient(),
+            clientFactory.getAdvisorTypeDataClient(),
+            clientFactory.getApplicationDataClient(),
+            clientFactory.getBrandDataClient(),
+            clientFactory.getCompanyDataClient(),
+            clientFactory.getCompanyGroupDataClient(),
+            clientFactory.getCompanyGroupTypeDataClient(),
+            clientFactory.getCompanyNumberTypeDataClient(),
+            clientFactory.getCompanyTypeDataClient(),
+            clientFactory.getContractStateDataClient(),
+            clientFactory.getContractTypeDataClient(),
+            clientFactory.getExternalBrandDataClient(),
+            clientFactory.getFunctionDataClient(),
+            clientFactory.getLegalFormDataClient(),
+            clientFactory.getNumberTypeDataClient(),
+            clientFactory.getPersonDataClient(),
+            clientFactory.getContext()
+        );
 
         client.consume();
     }

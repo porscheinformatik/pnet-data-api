@@ -11,7 +11,6 @@ import pnet.data.api.ResultPageWithAggregations;
  * @author ham
  */
 public interface PnetDataClientResultPageWithAggregations<T, AggregationsT>
-    extends PnetDataClientResultPage<T>, ResultPageWithAggregations<T, AggregationsT>
-{
+    extends PnetDataClientResultPage<T>, ResultPageWithAggregations<T, AggregationsT> {
     // intentionally left blank
 }

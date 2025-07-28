@@ -2,7 +2,6 @@ package pnet.data.api.client;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
 import pnet.data.api.about.AboutPnetDataApiClientConfig;
 import pnet.data.api.activity.ActivityPnetDataApiClientConfig;
 import pnet.data.api.advisortype.AdvisorTypePnetDataApiClientConfig;
@@ -28,30 +27,29 @@ import pnet.data.api.person.PersonPnetDataApiClientConfig;
  * @deprecated will be removed soon. Switch to the java-11 branch, if you need this feature!
  */
 @Configuration
-@Import({
-    AboutPnetDataApiClientConfig.class,
-    ActivityPnetDataApiClientConfig.class,
-    AdvisorTypePnetDataApiClientConfig.class,
-    ApplicationPnetDataApiClientConfig.class,
-    BrandPnetDataApiClientConfig.class,
-    CompanyPnetDataApiClientConfig.class,
-    CompanyGroupPnetDataApiClientConfig.class,
-    CompanyGroupTypePnetDataApiClientConfig.class,
-    CompanyNumberTypePnetDataApiClientConfig.class,
-    CompanyTypePnetDataApiClientConfig.class,
-    ContextPnetDataApiClientSpring4Config.class,
-    ContractStatePnetDataApiClientConfig.class,
-    ContractTypePnetDataApiClientConfig.class,
-    ExternalBrandPnetDataApiClientConfig.class,
-    LegalFormPnetDataApiClientConfig.class,
-    FunctionPnetDataApiClientConfig.class,
-    NumberTypePnetDataApiClientConfig.class,
-    PersonPnetDataApiClientConfig.class
-})
+@Import(
+    {
+        AboutPnetDataApiClientConfig.class,
+        ActivityPnetDataApiClientConfig.class,
+        AdvisorTypePnetDataApiClientConfig.class,
+        ApplicationPnetDataApiClientConfig.class,
+        BrandPnetDataApiClientConfig.class,
+        CompanyPnetDataApiClientConfig.class,
+        CompanyGroupPnetDataApiClientConfig.class,
+        CompanyGroupTypePnetDataApiClientConfig.class,
+        CompanyNumberTypePnetDataApiClientConfig.class,
+        CompanyTypePnetDataApiClientConfig.class,
+        ContextPnetDataApiClientSpring4Config.class,
+        ContractStatePnetDataApiClientConfig.class,
+        ContractTypePnetDataApiClientConfig.class,
+        ExternalBrandPnetDataApiClientConfig.class,
+        LegalFormPnetDataApiClientConfig.class,
+        FunctionPnetDataApiClientConfig.class,
+        NumberTypePnetDataApiClientConfig.class,
+        PersonPnetDataApiClientConfig.class,
+    }
+)
 @Deprecated
-public class PnetDataClientSpring4Config
-{
-
+public class PnetDataClientSpring4Config {
     // intentionally left blank
-
 }

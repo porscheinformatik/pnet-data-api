@@ -9,9 +9,6 @@ import pnet.data.api.client.PnetDataClientResultPage;
  * @param <DTO> the DTO
  * @author ham
  */
-public interface NextFunction<DTO>
-{
-
+public interface NextFunction<DTO> {
     PnetDataClientResultPage<DTO> next(String scrollId) throws PnetDataClientException;
-
 }

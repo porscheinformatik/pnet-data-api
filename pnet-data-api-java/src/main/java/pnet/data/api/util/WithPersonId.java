@@ -19,12 +19,9 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithPersonId
-{
-
+public interface WithPersonId {
     /**
      * @return The id of the person. The id may vary on different environments.
      */
     Integer getPersonId();
-
 }

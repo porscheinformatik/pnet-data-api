@@ -1,7 +1,6 @@
 package pnet.data.api.company;
 
 import java.util.List;
-
 import pnet.data.api.util.AbstractScrollableFind;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
@@ -35,21 +34,35 @@ import pnet.data.api.util.RestrictVatIdNumber;
  *
  * @author HAM
  */
-public class CompanyDataFind extends AbstractScrollableFind<CompanyItemDTO, CompanyDataFind>
-    implements RestrictId<Integer, CompanyDataFind>, RestrictMatchcode<CompanyDataFind>,
-    RestrictTenant<CompanyDataFind>, RestrictBrand<CompanyDataFind>, RestrictVatIdNumber<CompanyDataFind>,
-    RestrictSapNumber<CompanyDataFind>, RestrictCompanyNumber<CompanyDataFind>,
-    RestrictBpcmLocationUuid<CompanyDataFind>, RestrictBpcmManaged<CompanyDataFind>, RestrictIban<CompanyDataFind>,
-    RestrictEmail<CompanyDataFind>, RestrictDataProcessingRegisterNumber<CompanyDataFind>,
-    RestrictCommercialRegisterNumber<CompanyDataFind>, RestrictPostalCode<CompanyDataFind>,
-    RestrictCountryCode<CompanyDataFind>, RestrictType<CompanyDataFind>, RestrictContractType<CompanyDataFind>,
-    RestrictContractState<CompanyDataFind>, RestrictLocation<CompanyDataFind>, RestrictExternalBrand<CompanyDataFind>,
-    RestrictUpdatedAfter<CompanyDataFind>, RestrictDatedBackUntil<CompanyDataFind>, IncludeInactive<CompanyDataFind>,
-    CompanyMergable<CompanyDataFind>
-{
+public class CompanyDataFind
+    extends AbstractScrollableFind<CompanyItemDTO, CompanyDataFind>
+    implements
+        RestrictId<Integer, CompanyDataFind>,
+        RestrictMatchcode<CompanyDataFind>,
+        RestrictTenant<CompanyDataFind>,
+        RestrictBrand<CompanyDataFind>,
+        RestrictVatIdNumber<CompanyDataFind>,
+        RestrictSapNumber<CompanyDataFind>,
+        RestrictCompanyNumber<CompanyDataFind>,
+        RestrictBpcmLocationUuid<CompanyDataFind>,
+        RestrictBpcmManaged<CompanyDataFind>,
+        RestrictIban<CompanyDataFind>,
+        RestrictEmail<CompanyDataFind>,
+        RestrictDataProcessingRegisterNumber<CompanyDataFind>,
+        RestrictCommercialRegisterNumber<CompanyDataFind>,
+        RestrictPostalCode<CompanyDataFind>,
+        RestrictCountryCode<CompanyDataFind>,
+        RestrictType<CompanyDataFind>,
+        RestrictContractType<CompanyDataFind>,
+        RestrictContractState<CompanyDataFind>,
+        RestrictLocation<CompanyDataFind>,
+        RestrictExternalBrand<CompanyDataFind>,
+        RestrictUpdatedAfter<CompanyDataFind>,
+        RestrictDatedBackUntil<CompanyDataFind>,
+        IncludeInactive<CompanyDataFind>,
+        CompanyMergable<CompanyDataFind> {
 
-    public CompanyDataFind(FindFunction<CompanyItemDTO> findFunction, List<Pair<String, Object>> restricts)
-    {
+    public CompanyDataFind(FindFunction<CompanyItemDTO> findFunction, List<Pair<String, Object>> restricts) {
         super(findFunction, restricts);
     }
 }

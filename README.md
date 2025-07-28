@@ -4,25 +4,25 @@ This project contains the definition of the API for accessing the dataset of the
 
 The Partner.&#78;et Data API provides access to the data of the Partner.&#78;et. This data includes:
 
--   persons and companies
--   employments (the link between persons and companies)
--   roles (the area of activity of a person)
--   hosted applications
--   and all necessary basic data required by the above items
+- persons and companies
+- employments (the link between persons and companies)
+- roles (the area of activity of a person)
+- hosted applications
+- and all necessary basic data required by the above items
 
 Access is compilant witht the General Data Protection Regulation.
 
 # Contents
 
--   [REST Interface](#rest-interface)
--   [Available Data](#available-data)
--   [Considerations](#considerations)
--   [User for Access](#user-for-access)
--   [Available Instances](#available-instances)
--   [Testing](#testing)
--   [Testing with Postman](#testing-with-postman)
--   [Java Client Library](#java-client-library)
--   [Common Problems](#common-problems)
+- [REST Interface](#rest-interface)
+- [Available Data](#available-data)
+- [Considerations](#considerations)
+- [User for Access](#user-for-access)
+- [Available Instances](#available-instances)
+- [Testing](#testing)
+- [Testing with Postman](#testing-with-postman)
+- [Java Client Library](#java-client-library)
+- [Common Problems](#common-problems)
 
 # REST Interface
 
@@ -32,41 +32,41 @@ The data is available through a REST interface. See the current production versi
 
 The available data consists of:
 
--   Persons
-    -   Ids and the name
-    -   Contact information (email, phone, ...)
-    -   Employments (companies, personnel number, department, ...)
-    -   Roles (functions and activities)
-    -   Advisor assignments
--   Companies
-    -   Ids and the name
-    -   Contract information (email, phone, ...)
-    -   Address
-    -   Bands, company types and contracts
-    -   Advisor assignments
--   Company Groups
+- Persons
+    - Ids and the name
+    - Contact information (email, phone, ...)
+    - Employments (companies, personnel number, department, ...)
+    - Roles (functions and activities)
+    - Advisor assignments
+- Companies
+    - Ids and the name
+    - Contract information (email, phone, ...)
+    - Address
+    - Bands, company types and contracts
+    - Advisor assignments
+- Company Groups
 
 The data of persons and companies contains references to some master data, that can be access, too:
 
--   Activities
--   Advisor Types
--   Applications
--   Brands
--   Company Group Types
--   Company Number Types
--   Company Types
--   Contract States
--   Contract Types
--   External Brands
--   Functions
--   Legal Forms
--   Number Types
+- Activities
+- Advisor Types
+- Applications
+- Brands
+- Company Group Types
+- Company Number Types
+- Company Types
+- Contract States
+- Contract Types
+- External Brands
+- Functions
+- Legal Forms
+- Number Types
 
 Most of the data interfaces provide three methods:
 
--   **details**: for accessing all available information about one or more data elements (e.g. the person with ID 100).
--   **search**: for accessing a reduced amount of information per data item, but with support for fuzzy searches
--   **find**: for accessing a reduced amount of information per record, but with fast filters (e.g. all persons with a certain function or in certain companies).
+- **details**: for accessing all available information about one or more data elements (e.g. the person with ID 100).
+- **search**: for accessing a reduced amount of information per data item, but with support for fuzzy searches
+- **find**: for accessing a reduced amount of information per record, but with fast filters (e.g. all persons with a certain function or in certain companies).
 
 Personal data is filtered by default. Persons must give their consent, otherwise, no personal information will be shared with your application.
 
@@ -315,27 +315,27 @@ Invoke-WebRequest -uri "$url/api/v1/functions/details/FU_ST_USER" -Headers $jwt
 
 This will return the details of the function. You can do the same for a lot of other interfaces:
 
--   `activities`
--   `advisortypes`
--   `applications`
--   `brands`
--   `companygrouptypes`
--   `companynumbertypes`
--   `companytypes`
--   `contractstates`
--   `contracttypes`
--   `externalbrands`
--   `functions`
--   `numbertypes`
+- `activities`
+- `advisortypes`
+- `applications`
+- `brands`
+- `companygrouptypes`
+- `companynumbertypes`
+- `companytypes`
+- `contractstates`
+- `contracttypes`
+- `externalbrands`
+- `functions`
+- `numbertypes`
 
 With companies and persons, you have to use the `id` instead of the `matchcode`.
 
--   `companies`
--   `persons`
+- `companies`
+- `persons`
 
 CompanyGroups only contain the `details` interface.
 
--   `companygroups`
+- `companygroups`
 
 ## Testing with Postman
 

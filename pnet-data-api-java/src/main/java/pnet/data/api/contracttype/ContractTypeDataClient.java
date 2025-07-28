@@ -1,11 +1,9 @@
 package pnet.data.api.contracttype;
 
+import at.porscheinformatik.happyrest.GenericType;
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
-import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -19,30 +17,27 @@ import pnet.data.api.util.Pair;
  * @author cet
  */
 @Service
-public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTypeDataClient>
-{
+public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTypeDataClient> {
 
-    public ContractTypeDataClient(PnetDataApiContext context)
-    {
+    public ContractTypeDataClient(PnetDataApiContext context) {
         super(context);
     }
 
-    public ContractTypeDataGet get()
-    {
+    public ContractTypeDataGet get() {
         return new ContractTypeDataGet(this::get, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<ContractTypeDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeDataDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/contracttypes/details")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeDataDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeDataDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::get);
 
@@ -50,22 +45,21 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
         });
     }
 
-    public ContractTypeDataSearch search()
-    {
+    public ContractTypeDataSearch search() {
         return new ContractTypeDataSearch(this::search, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<ContractTypeItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/contracttypes/search")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::search);
 
@@ -73,39 +67,39 @@ public class ContractTypeDataClient extends AbstractPnetDataApiClient<ContractTy
         });
     }
 
-    public ContractTypeDataAutoComplete autoComplete()
-    {
+    public ContractTypeDataAutoComplete autoComplete() {
         return new ContractTypeDataAutoComplete(this::autoComplete, Collections.emptyList());
     }
 
     protected List<ContractTypeAutoCompleteDTO> autoComplete(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
-        return invoke(restCall -> restCall
-            .parameters(restricts)
-            .path("/api/v1/contracttypes/autocomplete")
-            .get(new GenericType.Of<List<ContractTypeAutoCompleteDTO>>()
-            {
-                // intentionally left blank
-            }));
+        throws PnetDataClientException {
+        return invoke(restCall ->
+            restCall
+                .parameters(restricts)
+                .path("/api/v1/contracttypes/autocomplete")
+                .get(
+                    new GenericType.Of<List<ContractTypeAutoCompleteDTO>>() {
+                        // intentionally left blank
+                    }
+                )
+        );
     }
 
-    public ContractTypeDataFind find()
-    {
+    public ContractTypeDataFind find() {
         return new ContractTypeDataFind(this::find, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<ContractTypeItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractTypeItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/contracttypes/find")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractTypeItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::find);
 

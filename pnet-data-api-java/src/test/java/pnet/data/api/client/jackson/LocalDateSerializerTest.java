@@ -3,22 +3,20 @@ package pnet.data.api.client.jackson;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import java.io.IOException;
-import java.time.LocalDate;
-
-import org.junit.jupiter.api.Test;
-
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.io.IOException;
+import java.time.LocalDate;
+import org.junit.jupiter.api.Test;
 
-public class LocalDateSerializerTest
-{
+public class LocalDateSerializerTest {
+
     @Test
-    public void testNull() throws JsonGenerationException, IOException
-    {
-        ObjectMapper objectMapper =
-            new ObjectMapper().registerModule(new SimpleModule().addSerializer(new LocalDateSerializer()));
+    public void testNull() throws JsonGenerationException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addSerializer(new LocalDateSerializer())
+        );
 
         String json = objectMapper.writeValueAsString((LocalDate) null);
 
@@ -26,10 +24,10 @@ public class LocalDateSerializerTest
     }
 
     @Test
-    public void testUtc() throws JsonGenerationException, IOException
-    {
-        ObjectMapper objectMapper =
-            new ObjectMapper().registerModule(new SimpleModule().addSerializer(new LocalDateSerializer()));
+    public void testUtc() throws JsonGenerationException, IOException {
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(
+            new SimpleModule().addSerializer(new LocalDateSerializer())
+        );
 
         String json = objectMapper.writeValueAsString(LocalDate.of(2000, 01, 01));
 

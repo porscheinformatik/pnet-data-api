@@ -8,9 +8,7 @@ import java.util.Objects;
  *
  * @author ham
  */
-public interface WithBrandLinks
-{
-
+public interface WithBrandLinks {
     /**
      * Returns all {@link BrandLinkDTO}.
      *
@@ -24,9 +22,10 @@ public interface WithBrandLinks
      * @param tenant the tenant
      * @return a collection, never null
      */
-    default Collection<BrandLinkDTO> getBrandsOfTenant(String tenant)
-    {
-        return getBrands().stream().filter($ -> Objects.equals(tenant, $.getTenant())).toList();
+    default Collection<BrandLinkDTO> getBrandsOfTenant(String tenant) {
+        return getBrands()
+            .stream()
+            .filter($ -> Objects.equals(tenant, $.getTenant()))
+            .toList();
     }
-
 }

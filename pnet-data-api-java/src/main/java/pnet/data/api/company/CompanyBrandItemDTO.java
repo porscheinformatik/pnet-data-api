@@ -15,7 +15,6 @@
 package pnet.data.api.company;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.AbstractLinkDTO;
 
@@ -24,30 +23,27 @@ import pnet.data.api.util.AbstractLinkDTO;
  *
  * @author ham
  */
-@Schema(description = "Holds the refrence to a brand of a company. The matchcode fits the matchcodes of the brands "
-    + "interface.")
-public class CompanyBrandItemDTO extends AbstractLinkDTO
-{
+@Schema(
+    description = "Holds the refrence to a brand of a company. The matchcode fits the matchcodes of the brands " +
+    "interface."
+)
+public class CompanyBrandItemDTO extends AbstractLinkDTO {
 
     private static final long serialVersionUID = 3718076879527390575L;
 
-    public CompanyBrandItemDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode)
-    {
+    public CompanyBrandItemDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode) {
         super(tenant, matchcode);
     }
 
     @Schema(description = "The tenant (Portal-ID) where this brand is valid.")
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return super.getTenant();
     }
 
     @Schema(description = "The matchcode of the brand (fits the matchcodes of the brands interface)")
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return super.getMatchcode();
     }
-
 }

@@ -1,12 +1,10 @@
 package pnet.data.api.contractstate;
 
+import at.porscheinformatik.happyrest.GenericType;
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -20,31 +18,28 @@ import pnet.data.api.util.Pair;
  * @author cet
  */
 @Service
-public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractStateDataClient>
-{
+public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractStateDataClient> {
 
     @Autowired
-    public ContractStateDataClient(PnetDataApiContext context)
-    {
+    public ContractStateDataClient(PnetDataApiContext context) {
         super(context);
     }
 
-    public ContractStateDataGet get()
-    {
+    public ContractStateDataGet get() {
         return new ContractStateDataGet(this::get, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<ContractStateDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractStateDataDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/contractstates/details")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateDataDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateDataDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::get);
 
@@ -52,22 +47,21 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
         });
     }
 
-    public ContractStateDataSearch search()
-    {
+    public ContractStateDataSearch search() {
         return new ContractStateDataSearch(this::search, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<ContractStateItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractStateItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/contractstates/search")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::search);
 
@@ -75,22 +69,21 @@ public class ContractStateDataClient extends AbstractPnetDataApiClient<ContractS
         });
     }
 
-    public ContractStateDataFind find()
-    {
+    public ContractStateDataFind find() {
         return new ContractStateDataFind(this::find, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<ContractStateItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<ContractStateItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/contractstates/find")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<ContractStateItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::find);
 

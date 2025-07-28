@@ -7,19 +7,13 @@ import java.io.InputStream;
  *
  * @author HAM
  */
-public interface RestParser
-{
-    static RestParser of(RestParser... parsers)
-    {
-        return new RestParser()
-        {
+public interface RestParser {
+    static RestParser of(RestParser... parsers) {
+        return new RestParser() {
             @Override
-            public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type)
-            {
-                for (RestParser parser : parsers)
-                {
-                    if (parser.isContentTypeSupported(contentType, type))
-                    {
+            public boolean isContentTypeSupported(MediaType contentType, GenericType<?> type) {
+                for (RestParser parser : parsers) {
+                    if (parser.isContentTypeSupported(contentType, type)) {
                         return true;
                     }
                 }
@@ -28,12 +22,9 @@ public interface RestParser
             }
 
             @Override
-            public Object parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException
-            {
-                for (RestParser parser : parsers)
-                {
-                    if (parser.isContentTypeSupported(contentType, type))
-                    {
+            public Object parse(MediaType contentType, GenericType<?> type, String s) throws RestParserException {
+                for (RestParser parser : parsers) {
+                    if (parser.isContentTypeSupported(contentType, type)) {
                         return parser.parse(contentType, type, s);
                     }
                 }
@@ -42,12 +33,9 @@ public interface RestParser
             }
 
             @Override
-            public Object parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException
-            {
-                for (RestParser parser : parsers)
-                {
-                    if (parser.isContentTypeSupported(contentType, type))
-                    {
+            public Object parse(MediaType contentType, GenericType<?> type, byte[] bytes) throws RestParserException {
+                for (RestParser parser : parsers) {
+                    if (parser.isContentTypeSupported(contentType, type)) {
                         return parser.parse(contentType, type, bytes);
                     }
                 }
@@ -56,12 +44,9 @@ public interface RestParser
             }
 
             @Override
-            public Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException
-            {
-                for (RestParser parser : parsers)
-                {
-                    if (parser.isContentTypeSupported(contentType, type))
-                    {
+            public Object parse(MediaType contentType, GenericType<?> type, InputStream in) throws RestParserException {
+                for (RestParser parser : parsers) {
+                    if (parser.isContentTypeSupported(contentType, type)) {
                         return parser.parse(contentType, type, in);
                     }
                 }

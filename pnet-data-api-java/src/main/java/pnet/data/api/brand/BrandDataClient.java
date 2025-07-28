@@ -1,12 +1,10 @@
 package pnet.data.api.brand;
 
+import at.porscheinformatik.happyrest.GenericType;
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -20,31 +18,28 @@ import pnet.data.api.util.Pair;
  * @author ham
  */
 @Service
-public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
-{
+public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient> {
 
     @Autowired
-    public BrandDataClient(PnetDataApiContext context)
-    {
+    public BrandDataClient(PnetDataApiContext context) {
         super(context);
     }
 
-    public BrandDataGet get()
-    {
+    public BrandDataGet get() {
         return new BrandDataGet(this::get, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<BrandDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<BrandDataDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/brands/details")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<BrandDataDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::get);
 
@@ -52,22 +47,21 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
         });
     }
 
-    public BrandDataSearch search()
-    {
+    public BrandDataSearch search() {
         return new BrandDataSearch(this::search, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<BrandItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<BrandItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/brands/search")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::search);
 
@@ -75,22 +69,21 @@ public class BrandDataClient extends AbstractPnetDataApiClient<BrandDataClient>
         });
     }
 
-    public BrandDataFind find()
-    {
+    public BrandDataFind find() {
         return new BrandDataFind(this::find, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<BrandItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<BrandItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/brands/find")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<BrandItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::find);
 

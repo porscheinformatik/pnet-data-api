@@ -14,6 +14,8 @@
  */
 package pnet.data.api.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -22,10 +24,6 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.ApprovalState;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithPersonId;
@@ -38,8 +36,8 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds basic information about a person")
-public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate, WithScore, Serializable
-{
+public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate, WithScore, Serializable {
+
     @Serial
     private static final long serialVersionUID = -481025382258675738L;
 
@@ -80,17 +78,19 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     private final Boolean multifactorEnabled;
 
     @Schema(
-        description = "True, if the person has been fully approved by authorities, false if the approval process is still "
-            + "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, "
-            + "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The"
-            + " value "
-            + "will always be set to 'true'.")
+        description = "True, if the person has been fully approved by authorities, false if the approval process is still " +
+        "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, " +
+        "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The" +
+        " value " +
+        "will always be set to 'true'."
+    )
     @Deprecated(since = "22.01.2024")
     private final boolean approved;
 
     @Schema(
-        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. "
-            + "The value will always be set to 'ApprovalState.DONE'.")
+        description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. " +
+        "The value will always be set to 'ApprovalState.DONE'."
+    )
     @Deprecated(since = "22.01.2024")
     private final ApprovalState approvalState;
 
@@ -136,12 +136,16 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The id of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY).")
     private final Integer contactCompanyId;
 
-    @Schema(description = "The matchcode of the company the person is mainly busy at (needed scope: "
-        + "SC_PREFERRED_COMPANY).")
+    @Schema(
+        description = "The matchcode of the company the person is mainly busy at (needed scope: " +
+        "SC_PREFERRED_COMPANY)."
+    )
     private final String contactCompanyMatchcode;
 
-    @Schema(description = "The number of the company the person is mainly busy at (needed scope: "
-        + "SC_PREFERRED_COMPANY).")
+    @Schema(
+        description = "The number of the company the person is mainly busy at (needed scope: " +
+        "SC_PREFERRED_COMPANY)."
+    )
     private final String contactCompanyNumber;
 
     @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
@@ -154,21 +158,30 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     private final double score;
 
     @SuppressWarnings("java:S107")
-    public PersonItemDTO(@JsonProperty("personId") Integer personId,
+    public PersonItemDTO(
+        @JsonProperty("personId") Integer personId,
         @JsonProperty("administrativeTenant") String administrativeTenant,
-        @JsonProperty("tenants") Collection<String> tenants, @JsonProperty("type") PersonType type,
-        @JsonProperty("formOfAddress") FormOfAddress formOfAddress, @JsonProperty("academicTitle") String academicTitle,
+        @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("type") PersonType type,
+        @JsonProperty("formOfAddress") FormOfAddress formOfAddress,
+        @JsonProperty("academicTitle") String academicTitle,
         @JsonProperty("academicTitlePostNominal") String academicTitlePostNominal,
-        @JsonProperty("firstName") String firstName, @JsonProperty("lastName") String lastName,
-        @JsonProperty("username") String username, @JsonProperty("credentialsAvailable") Boolean credentialsAvailable,
+        @JsonProperty("firstName") String firstName,
+        @JsonProperty("lastName") String lastName,
+        @JsonProperty("username") String username,
+        @JsonProperty("credentialsAvailable") Boolean credentialsAvailable,
         @JsonProperty("multifactorEnabled") Boolean multifactorEnabled,
         @JsonProperty("approved") @Deprecated(since = "22.01.2024") boolean approved,
         @JsonProperty("approvalState") @Deprecated(since = "22.01.2024") ApprovalState approvalState,
-        @JsonProperty("externalId") String externalId, @JsonProperty("guid") String guid,
+        @JsonProperty("externalId") String externalId,
+        @JsonProperty("guid") String guid,
         @JsonProperty("preferredUserId") String preferredUserId,
-        @JsonProperty("personnelNumber") String personnelNumber, @JsonProperty("birthdate") LocalDate birthdate,
-        @JsonProperty("email") String email, @JsonProperty("phoneNumber") String phoneNumber,
-        @JsonProperty("mobileNumber") String mobileNumber, @JsonProperty("isLocked") Boolean isLocked,
+        @JsonProperty("personnelNumber") String personnelNumber,
+        @JsonProperty("birthdate") LocalDate birthdate,
+        @JsonProperty("email") String email,
+        @JsonProperty("phoneNumber") String phoneNumber,
+        @JsonProperty("mobileNumber") String mobileNumber,
+        @JsonProperty("isLocked") Boolean isLocked,
         @JsonProperty("languages") Collection<Locale> languages,
         @JsonProperty("companies") Collection<ActivePersonCompanyLinkDTO> companies,
         @JsonProperty("functions") Collection<ActivePersonFunctionLinkDTO> functions,
@@ -177,10 +190,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("contactCompanyMatchcode") String contactCompanyMatchcode,
         @JsonProperty("contactCompanyNumber") String contactCompanyNumber,
         @JsonProperty("portraitAvailable") Boolean portraitAvailable,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
-    {
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score
+    ) {
         super();
-
         this.personId = personId;
         this.administrativeTenant = administrativeTenant;
         this.tenants = tenants;
@@ -217,211 +230,204 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     }
 
     @Override
-    public Integer getPersonId()
-    {
+    public Integer getPersonId() {
         return personId;
     }
 
-    public String getAdministrativeTenant()
-    {
+    public String getAdministrativeTenant() {
         return administrativeTenant;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
-    public PersonType getType()
-    {
+    public PersonType getType() {
         return type;
     }
 
-    public FormOfAddress getFormOfAddress()
-    {
+    public FormOfAddress getFormOfAddress() {
         return formOfAddress;
     }
 
-    public String getAcademicTitle()
-    {
+    public String getAcademicTitle() {
         return academicTitle;
     }
 
-    public String getAcademicTitlePostNominal()
-    {
+    public String getAcademicTitlePostNominal() {
         return academicTitlePostNominal;
     }
 
-    public String getFirstName()
-    {
+    public String getFirstName() {
         return firstName;
     }
 
-    public String getLastName()
-    {
+    public String getLastName() {
         return lastName;
     }
 
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
-    public Boolean getCredentialsAvailable()
-    {
+    public Boolean getCredentialsAvailable() {
         return credentialsAvailable;
     }
 
-    public Boolean getMultifactorEnabled()
-    {
+    public Boolean getMultifactorEnabled() {
         return multifactorEnabled;
     }
 
     @Deprecated(since = "22.01.2024")
-    public boolean isApproved()
-    {
+    public boolean isApproved() {
         return approved;
     }
 
     @Deprecated(since = "22.01.2024")
-    public ApprovalState getApprovalState()
-    {
+    public ApprovalState getApprovalState() {
         return approvalState;
     }
 
-    public String getExternalId()
-    {
+    public String getExternalId() {
         return externalId;
     }
 
-    public String getGuid()
-    {
+    public String getGuid() {
         return guid;
     }
 
-    public String getPreferredUserId()
-    {
+    public String getPreferredUserId() {
         return preferredUserId;
     }
 
-    public String getPersonnelNumber()
-    {
+    public String getPersonnelNumber() {
         return personnelNumber;
     }
 
-    public LocalDate getBirthdate()
-    {
+    public LocalDate getBirthdate() {
         return birthdate;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public String getPhoneNumber()
-    {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public String getMobileNumber()
-    {
+    public String getMobileNumber() {
         return mobileNumber;
     }
 
-    public void setLocked(Boolean isLocked)
-    {
+    public void setLocked(Boolean isLocked) {
         this.isLocked = isLocked;
     }
 
-    public Boolean isLocked()
-    {
+    public Boolean isLocked() {
         return isLocked;
     }
 
-    public Collection<Locale> getLanguages()
-    {
+    public Collection<Locale> getLanguages() {
         return languages;
     }
 
-    public Collection<ActivePersonCompanyLinkDTO> getCompanies()
-    {
+    public Collection<ActivePersonCompanyLinkDTO> getCompanies() {
         return companies;
     }
 
-    public Optional<ActivePersonCompanyLinkDTO> findCompany(Predicate<? super ActivePersonCompanyLinkDTO> predicate)
-    {
+    public Optional<ActivePersonCompanyLinkDTO> findCompany(Predicate<? super ActivePersonCompanyLinkDTO> predicate) {
         return companies == null ? Optional.empty() : companies.stream().filter(predicate).findFirst();
     }
 
-    public Collection<ActivePersonFunctionLinkDTO> getFunctions()
-    {
+    public Collection<ActivePersonFunctionLinkDTO> getFunctions() {
         return functions;
     }
 
-    public Optional<ActivePersonFunctionLinkDTO> findFunction(Predicate<? super ActivePersonFunctionLinkDTO> predicate)
-    {
+    public Optional<ActivePersonFunctionLinkDTO> findFunction(
+        Predicate<? super ActivePersonFunctionLinkDTO> predicate
+    ) {
         return functions == null ? Optional.empty() : functions.stream().filter(predicate).findFirst();
     }
 
-    public Collection<ActivePersonNumberTypeLinkDTO> getNumbers()
-    {
+    public Collection<ActivePersonNumberTypeLinkDTO> getNumbers() {
         return numbers;
     }
 
     public Optional<ActivePersonNumberTypeLinkDTO> findNumber(
-        Predicate<? super ActivePersonNumberTypeLinkDTO> predicate)
-    {
+        Predicate<? super ActivePersonNumberTypeLinkDTO> predicate
+    ) {
         return numbers == null ? Optional.empty() : numbers.stream().filter(predicate).findFirst();
     }
 
-    public Integer getContactCompanyId()
-    {
+    public Integer getContactCompanyId() {
         return contactCompanyId;
     }
 
-    public String getContactCompanyMatchcode()
-    {
+    public String getContactCompanyMatchcode() {
         return contactCompanyMatchcode;
     }
 
-    public String getContactCompanyNumber()
-    {
+    public String getContactCompanyNumber() {
         return contactCompanyNumber;
     }
 
-    public Boolean getPortraitAvailable()
-    {
+    public Boolean getPortraitAvailable() {
         return portraitAvailable;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public double getScore()
-    {
+    public double getScore() {
         return score;
     }
 
     @Override
-    public String toString()
-    {
-        return String
-            .format("PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, "
-                + "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, "
-                + "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, "
-                + "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, isLocked=%s, languages=%s, "
-                + "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, "
-                + "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]", personId,
-                administrativeTenant, tenants, type, formOfAddress, academicTitle, academicTitlePostNominal, firstName,
-                lastName, username, credentialsAvailable, approved, approvalState, externalId, guid, preferredUserId,
-                personnelNumber, birthdate, email, phoneNumber, mobileNumber, isLocked, languages, companies, functions,
-                numbers, contactCompanyId, contactCompanyMatchcode, contactCompanyNumber, portraitAvailable, lastUpdate,
-                score);
+    public String toString() {
+        return String.format(
+            "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
+            "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, " +
+            "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
+            "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, isLocked=%s, languages=%s, " +
+            "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
+            "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
+            personId,
+            administrativeTenant,
+            tenants,
+            type,
+            formOfAddress,
+            academicTitle,
+            academicTitlePostNominal,
+            firstName,
+            lastName,
+            username,
+            credentialsAvailable,
+            approved,
+            approvalState,
+            externalId,
+            guid,
+            preferredUserId,
+            personnelNumber,
+            birthdate,
+            email,
+            phoneNumber,
+            mobileNumber,
+            isLocked,
+            languages,
+            companies,
+            functions,
+            numbers,
+            contactCompanyId,
+            contactCompanyMatchcode,
+            contactCompanyNumber,
+            portraitAvailable,
+            lastUpdate,
+            score
+        );
     }
 }

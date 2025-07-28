@@ -5,10 +5,9 @@ package at.porscheinformatik.happyrest;
  *
  * @author ham
  */
-public final class RestVariable extends AbstractRestAttribute
-{
-    protected RestVariable(String name, Object value)
-    {
+public final class RestVariable extends AbstractRestAttribute {
+
+    protected RestVariable(String name, Object value) {
         super(name, value);
     }
 }

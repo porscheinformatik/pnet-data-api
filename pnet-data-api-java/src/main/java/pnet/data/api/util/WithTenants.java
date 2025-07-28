@@ -21,9 +21,7 @@ import java.util.Collection;
  *
  * @author ham
  */
-public interface WithTenants
-{
-
+public interface WithTenants {
     /**
      * @return A list of all tenants that support this item.
      */
@@ -35,9 +33,7 @@ public interface WithTenants
      * @param tenant the tenant
      * @return true if present
      */
-    default boolean containsTenant(String tenant)
-    {
+    default boolean containsTenant(String tenant) {
         return getTenants().contains(tenant);
     }
-
 }

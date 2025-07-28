@@ -5,11 +5,8 @@ package at.porscheinformatik.happyrest;
  *
  * @author ham
  */
-public interface RestCallFactory
-{
-
-    default RestCall create()
-    {
+public interface RestCallFactory {
+    default RestCall create() {
         return url(null);
     }
 
@@ -20,5 +17,4 @@ public interface RestCallFactory
      * @return a REST call
      */
     RestCall url(String url);
-
 }

@@ -14,12 +14,10 @@
  */
 package pnet.data.api.company;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithMatchcode;
 
 /**
@@ -27,71 +25,62 @@ import pnet.data.api.util.WithMatchcode;
  *
  * @author ham
  */
-@Schema(description = "Holds minimal information about an additional company number of the company. The matchode fits "
-    + "the matchcodes of the company number type interface.")
-public class CompanyNumberLinkDTO implements WithMatchcode, Serializable
-{
+@Schema(
+    description = "Holds minimal information about an additional company number of the company. The matchode fits " +
+    "the matchcodes of the company number type interface."
+)
+public class CompanyNumberLinkDTO implements WithMatchcode, Serializable {
 
     private static final long serialVersionUID = 2495670532285085314L;
 
-    @Schema(description = "The matchcode of the additional company number (fits the matchcodes of the company "
-        + "number type interface.")
+    @Schema(
+        description = "The matchcode of the additional company number (fits the matchcodes of the company " +
+        "number type interface."
+    )
     private final String matchcode;
 
     @Schema(description = "The actual additional company number.")
     private final String number;
 
-    public CompanyNumberLinkDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("number") String number)
-    {
+    public CompanyNumberLinkDTO(@JsonProperty("matchcode") String matchcode, @JsonProperty("number") String number) {
         super();
-
         this.matchcode = matchcode;
         this.number = number;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
-    public String getNumber()
-    {
+    public String getNumber() {
         return number;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(matchcode);
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        if (!(obj instanceof CompanyNumberLinkDTO other))
-        {
+        if (!(obj instanceof CompanyNumberLinkDTO other)) {
             return false;
         }
-        if (!Objects.equals(matchcode, other.matchcode))
-        {
+        if (!Objects.equals(matchcode, other.matchcode)) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s [number=%s]", super.toString(), number);
     }
-
 }

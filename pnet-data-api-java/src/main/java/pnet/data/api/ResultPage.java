@@ -14,14 +14,12 @@
  */
 package pnet.data.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * Holding results of a search or find operation with paging information.
@@ -30,57 +28,54 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author ham
  */
 @Schema(description = "Holds results of a search or find operation with paging information")
-public interface ResultPage<T> extends Iterable<T>
-{
-    static <T> ResultPage<T> of(List<T> items, int itemsPerPage, int totalNumberOfItems, int pageIndex,
-        int numberOfPages, SearchAfter searchAfter, String scrollId, boolean complete)
-    {
-        return new ResultPage<>() //
-        {
+public interface ResultPage<T> extends Iterable<T> {
+    static <T> ResultPage<T> of(
+        List<T> items,
+        int itemsPerPage,
+        int totalNumberOfItems,
+        int pageIndex,
+        int numberOfPages,
+        SearchAfter searchAfter,
+        String scrollId,
+        boolean complete
+    ) {
+        return new ResultPage<>() {
             @Override
-            public List<T> getItems()
-            {
+            public List<T> getItems() {
                 return items;
             }
 
             @Override
-            public int getItemsPerPage()
-            {
+            public int getItemsPerPage() {
                 return itemsPerPage;
             }
 
             @Override
-            public int getTotalNumberOfItems()
-            {
+            public int getTotalNumberOfItems() {
                 return totalNumberOfItems;
             }
 
             @Override
-            public int getPageIndex()
-            {
+            public int getPageIndex() {
                 return pageIndex;
             }
 
             @Override
-            public int getNumberOfPages()
-            {
+            public int getNumberOfPages() {
                 return numberOfPages;
             }
 
-            public SearchAfter getSearchAfter()
-            {
+            public SearchAfter getSearchAfter() {
                 return searchAfter;
             }
 
             @Override
-            public String getScrollId()
-            {
+            public String getScrollId() {
                 return scrollId;
             }
 
             @Override
-            public boolean isComplete()
-            {
+            public boolean isComplete() {
                 return complete;
             }
         };
@@ -95,8 +90,7 @@ public interface ResultPage<T> extends Iterable<T>
      * @return a stream of the items of this page, never null
      */
     @JsonIgnore
-    default Stream<T> stream()
-    {
+    default Stream<T> stream() {
         List<T> items = getItems();
 
         return items != null ? items.stream() : Stream.<T>empty();
@@ -106,8 +100,7 @@ public interface ResultPage<T> extends Iterable<T>
      * @return the first item of this page, null if there isn't one
      */
     @JsonIgnore
-    default T first()
-    {
+    default T first() {
         List<T> items = getItems();
 
         return items != null && !items.isEmpty() ? items.get(0) : null;
@@ -118,12 +111,10 @@ public interface ResultPage<T> extends Iterable<T>
      * @throws IllegalStateException if there are more than one items
      */
     @JsonIgnore
-    default T unique()
-    {
+    default T unique() {
         int totalNumberOfItems = getTotalNumberOfItems();
 
-        if (totalNumberOfItems > 1)
-        {
+        if (totalNumberOfItems > 1) {
             throw new IllegalStateException("Multiple items found");
         }
 
@@ -134,15 +125,13 @@ public interface ResultPage<T> extends Iterable<T>
      * @param index the index
      * @return the item at the specified index of this page, null if there isn't one
      */
-    default T get(int index)
-    {
+    default T get(int index) {
         List<T> items = getItems();
 
         return items != null && index < items.size() ? items.get(index) : null;
     }
 
-    default boolean isEmpty()
-    {
+    default boolean isEmpty() {
         return size() == 0;
     }
 
@@ -150,8 +139,7 @@ public interface ResultPage<T> extends Iterable<T>
      * @return the number of items of this page
      */
     @JsonIgnore
-    default int size()
-    {
+    default int size() {
         List<T> items = getItems();
 
         return items != null ? items.size() : 0;
@@ -162,8 +150,7 @@ public interface ResultPage<T> extends Iterable<T>
      */
     @Override
     @JsonIgnore
-    default Iterator<T> iterator()
-    {
+    default Iterator<T> iterator() {
         List<T> items = getItems();
 
         return items != null ? items.iterator() : Collections.emptyIterator();
@@ -222,8 +209,7 @@ public interface ResultPage<T> extends Iterable<T>
      * {@link #getPageIndex()} and {@link #getNumberOfPages()}).
      */
     @Deprecated
-    default boolean hasNextPage()
-    {
+    default boolean hasNextPage() {
         return !isEmpty() && getPageIndex() + 1 < getNumberOfPages();
     }
 

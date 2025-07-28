@@ -8,17 +8,12 @@ import java.util.Collection;
  * @param <SELF> the type of the filter for chaining
  * @author ham
  */
-public interface RestrictDataProcessingRegisterNumber<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
-
-    default SELF dataProcessingRegisterNumber(String... numbers)
-    {
+public interface RestrictDataProcessingRegisterNumber<SELF extends Restrict<SELF>> extends Restrict<SELF> {
+    default SELF dataProcessingRegisterNumber(String... numbers) {
         return restrict("dataProcessingRegisterNumber", (Object[]) numbers);
     }
 
-    default SELF dataProcessingRegisterNumbers(Collection<String> numbers)
-    {
+    default SELF dataProcessingRegisterNumbers(Collection<String> numbers) {
         return dataProcessingRegisterNumber(numbers.toArray(new String[0]));
     }
-
 }

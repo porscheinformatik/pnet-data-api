@@ -1,9 +1,8 @@
 package pnet.data.api.util;
 
+import at.porscheinformatik.happyrest.GenericType;
 import java.util.List;
 import java.util.function.BiPredicate;
-
-import at.porscheinformatik.happyrest.GenericType;
 
 /**
  * A client mock that handles items
@@ -12,21 +11,16 @@ import at.porscheinformatik.happyrest.GenericType;
  * @param <SELF> the class for self-references
  * @author HAM
  */
-public interface ItemClientMock<ItemT, SELF extends ItemClientMock<ItemT, SELF>> extends Self<SELF>
-{
-
-    default Class<ItemT> getItemType()
-    {
+public interface ItemClientMock<ItemT, SELF extends ItemClientMock<ItemT, SELF>> extends Self<SELF> {
+    default Class<ItemT> getItemType() {
         return GenericType.build(ItemClientMock.class).instancedBy(this).getArgumentClass(0);
     }
 
-    default MockStore<ItemT> getItemStore()
-    {
+    default MockStore<ItemT> getItemStore() {
         return MockStore.get(this, getItemType());
     }
 
-    default SELF addItem(ItemT dto)
-    {
+    default SELF addItem(ItemT dto) {
         getItemStore().add(dto);
 
         return self();
@@ -40,15 +34,13 @@ public interface ItemClientMock<ItemT, SELF extends ItemClientMock<ItemT, SELF>>
      * @param predicate the filter function, the item will be kept, if this function returns true
      * @return the mock itself
      */
-    default <ValueT> SELF addItemFilter(String key, BiPredicate<ItemT, ValueT> predicate)
-    {
+    default <ValueT> SELF addItemFilter(String key, BiPredicate<ItemT, ValueT> predicate) {
         getItemStore().addFilter(key, predicate);
 
         return self();
     }
 
-    default List<ItemT> findItems(List<Pair<String, Object>> restricts)
-    {
+    default List<ItemT> findItems(List<Pair<String, Object>> restricts) {
         return getItemStore().find(restricts);
     }
 }

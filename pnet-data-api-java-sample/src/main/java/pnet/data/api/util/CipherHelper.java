@@ -11,7 +11,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -21,8 +20,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-public abstract class CipherHelper
-{
+public abstract class CipherHelper {
+
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     /**
@@ -33,14 +32,11 @@ public abstract class CipherHelper
      * @deprecated Non-compliant as criticized by Sonar
      */
     @Deprecated
-    public static CipherHelper ofBlowfishKey(String base64EncodedKey)
-    {
-        return new CipherHelper(new SecretKeySpec(Base64.getDecoder().decode(base64EncodedKey), "Blowfish"), 0)
-        {
+    public static CipherHelper ofBlowfishKey(String base64EncodedKey) {
+        return new CipherHelper(new SecretKeySpec(Base64.getDecoder().decode(base64EncodedKey), "Blowfish"), 0) {
             @Override
             protected Cipher buildCipher(SecretKey secretKey, int mode, byte[] iv)
-                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException
-            {
+                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
                 Cipher cipher = Cipher.getInstance("Blowfish");
 
                 cipher.init(mode, secretKey);
@@ -56,15 +52,11 @@ public abstract class CipherHelper
      * @param base64EncodedKey the key, 256 bits
      * @return the CipherHelper
      */
-    public static CipherHelper ofAesKey(String base64EncodedKey)
-    {
-        return new CipherHelper(new SecretKeySpec(Base64.getDecoder().decode(base64EncodedKey), "AES"), 12)
-        {
+    public static CipherHelper ofAesKey(String base64EncodedKey) {
+        return new CipherHelper(new SecretKeySpec(Base64.getDecoder().decode(base64EncodedKey), "AES"), 12) {
             @Override
             protected Cipher buildCipher(SecretKey secretKey, int mode, byte[] iv)
-                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
-                InvalidAlgorithmParameterException
-            {
+                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException {
                 Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
                 GCMParameterSpec parameterSpec = new GCMParameterSpec(128, iv);
 
@@ -79,35 +71,28 @@ public abstract class CipherHelper
     private final SecretKey secretKey;
     private final int ivLength;
 
-    protected CipherHelper(SecretKey secretKey, int ivLength)
-    {
+    protected CipherHelper(SecretKey secretKey, int ivLength) {
         super();
-
         this.secretKey = secretKey;
         this.ivLength = ivLength;
     }
 
     protected abstract Cipher buildCipher(SecretKey secretKey, int mode, byte[] iv)
-        throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException,
-        InvalidAlgorithmParameterException;
+        throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException;
 
-    public String encode(String s)
-    {
-        if (s == null || s.length() == 0)
-        {
+    public String encode(String s) {
+        if (s == null || s.length() == 0) {
             return null;
         }
 
         return Base64.getEncoder().encodeToString(encode(s.getBytes(CHARSET)));
     }
 
-    public byte[] encode(byte[] bytes)
-    {
+    public byte[] encode(byte[] bytes) {
         byte[] encodedBytes;
         byte[] iv = null;
 
-        if (ivLength > 0)
-        {
+        if (ivLength > 0) {
             iv = new byte[ivLength];
 
             random.nextBytes(iv);
@@ -115,27 +100,24 @@ public abstract class CipherHelper
 
         Cipher cipher;
 
-        try
-        {
+        try {
             cipher = buildCipher(secretKey, Cipher.ENCRYPT_MODE, iv);
-        }
-        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
-               InvalidAlgorithmParameterException e)
-        {
+        } catch (
+            NoSuchAlgorithmException
+            | NoSuchPaddingException
+            | InvalidKeyException
+            | InvalidAlgorithmParameterException e
+        ) {
             throw new IllegalArgumentException("Invalid cipher", e);
         }
 
-        try
-        {
+        try {
             encodedBytes = cipher.doFinal(bytes);
-        }
-        catch (IllegalBlockSizeException | BadPaddingException e)
-        {
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
             throw new IllegalArgumentException("Invalid input", e);
         }
 
-        if (iv != null)
-        {
+        if (iv != null) {
             ByteBuffer byteBuffer = ByteBuffer.allocate(4 + iv.length + encodedBytes.length);
 
             byteBuffer.putInt(iv.length);
@@ -148,28 +130,23 @@ public abstract class CipherHelper
         return encodedBytes;
     }
 
-    public String decode(String base64EncodedBytes)
-    {
-        if (base64EncodedBytes == null || base64EncodedBytes.length() == 0)
-        {
+    public String decode(String base64EncodedBytes) {
+        if (base64EncodedBytes == null || base64EncodedBytes.length() == 0) {
             return null;
         }
 
         return new String(decode(Base64.getDecoder().decode(base64EncodedBytes)));
     }
 
-    public byte[] decode(byte[] bytes)
-    {
+    public byte[] decode(byte[] bytes) {
         byte[] iv = null;
 
-        if (ivLength > 0)
-        {
+        if (ivLength > 0) {
             ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
 
             int currentIvLength = byteBuffer.getInt();
 
-            if (currentIvLength != ivLength)
-            {
+            if (currentIvLength != ivLength) {
                 throw new IllegalArgumentException("Invalid iv length");
             }
 
@@ -184,37 +161,31 @@ public abstract class CipherHelper
 
         Cipher cipher;
 
-        try
-        {
+        try {
             cipher = buildCipher(secretKey, Cipher.DECRYPT_MODE, iv);
-        }
-        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException |
-               InvalidAlgorithmParameterException e)
-        {
+        } catch (
+            NoSuchAlgorithmException
+            | NoSuchPaddingException
+            | InvalidKeyException
+            | InvalidAlgorithmParameterException e
+        ) {
             throw new IllegalArgumentException("Invalid cipher", e);
         }
 
-        try
-        {
+        try {
             return cipher.doFinal(bytes);
-        }
-        catch (IllegalBlockSizeException | BadPaddingException e)
-        {
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
             throw new IllegalArgumentException("Invalid input", e);
         }
     }
 
-    public static void main(String[] args) throws NoSuchAlgorithmException, IOException
-    {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)))
-        {
-
+    public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.print("Generate key using algorithm? ");
 
             String algorithm = reader.readLine();
 
-            if (algorithm == null || algorithm.length() == 0)
-            {
+            if (algorithm == null || algorithm.length() == 0) {
                 return;
             }
 

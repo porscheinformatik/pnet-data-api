@@ -14,12 +14,10 @@
  */
 package pnet.data.api.person;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithPersonId;
 
 /**
@@ -28,8 +26,8 @@ import pnet.data.api.util.WithPersonId;
  * @author ham
  */
 @Schema(description = "Holds person-person references, e.g. responsible persons for bots and test users.")
-public class PersonHierarchyLinkDTO implements WithPersonId, Serializable
-{
+public class PersonHierarchyLinkDTO implements WithPersonId, Serializable {
+
     @Schema(description = "The unique id of the referenced person.")
     private final Integer referencedPersonId;
 
@@ -39,56 +37,57 @@ public class PersonHierarchyLinkDTO implements WithPersonId, Serializable
     @Schema(description = "The name of the referenced person.")
     private final String referencedPersonName;
 
-    public PersonHierarchyLinkDTO(@JsonProperty("personId") Integer personId,
-        @JsonProperty("type") PersonHierarchyType type, @JsonProperty("personName") String personName)
-    {
+    public PersonHierarchyLinkDTO(
+        @JsonProperty("personId") Integer personId,
+        @JsonProperty("type") PersonHierarchyType type,
+        @JsonProperty("personName") String personName
+    ) {
         this.referencedPersonId = personId;
         this.type = type;
         this.referencedPersonName = personName;
     }
 
     @Override
-    public Integer getPersonId()
-    {
+    public Integer getPersonId() {
         return referencedPersonId;
     }
 
-    public PersonHierarchyType getType()
-    {
+    public PersonHierarchyType getType() {
         return type;
     }
 
-    public String getReferencedPersonName()
-    {
+    public String getReferencedPersonName() {
         return referencedPersonName;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
-        if (this == o)
-        {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass())
-        {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         PersonHierarchyLinkDTO that = (PersonHierarchyLinkDTO) o;
-        return Objects.equals(referencedPersonId, that.referencedPersonId) && type == that.type && Objects.equals(
-            referencedPersonName, that.referencedPersonName);
+        return (
+            Objects.equals(referencedPersonId, that.referencedPersonId) &&
+            type == that.type &&
+            Objects.equals(referencedPersonName, that.referencedPersonName)
+        );
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(referencedPersonId, type, referencedPersonName);
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("PersonHierarchyLinkDTO [referencedPersonId=%s, type=%s, referencedPersonName=%s]",
-            referencedPersonId, type, referencedPersonName);
+    public String toString() {
+        return String.format(
+            "PersonHierarchyLinkDTO [referencedPersonId=%s, type=%s, referencedPersonName=%s]",
+            referencedPersonId,
+            type,
+            referencedPersonName
+        );
     }
 }

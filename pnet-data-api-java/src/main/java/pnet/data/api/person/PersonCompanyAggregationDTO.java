@@ -1,9 +1,7 @@
 package pnet.data.api.person;
 
-import java.io.Serializable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import java.io.Serializable;
 import pnet.data.api.util.PnetDataApiUtils;
 
 /**
@@ -11,8 +9,7 @@ import pnet.data.api.util.PnetDataApiUtils;
  *
  * @author HAM
  */
-public class PersonCompanyAggregationDTO implements Serializable
-{
+public class PersonCompanyAggregationDTO implements Serializable {
 
     private static final long serialVersionUID = -2588191893345417781L;
 
@@ -22,12 +19,14 @@ public class PersonCompanyAggregationDTO implements Serializable
     private final String companyLabel;
     private final long count;
 
-    public PersonCompanyAggregationDTO(@JsonProperty("companyId") Integer companyId,
-        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("companyLabel") String companyLabel, @JsonProperty("count") long count)
-    {
+    public PersonCompanyAggregationDTO(
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("companyLabel") String companyLabel,
+        @JsonProperty("count") long count
+    ) {
         super();
-
         this.companyId = companyId;
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
@@ -36,39 +35,32 @@ public class PersonCompanyAggregationDTO implements Serializable
         this.count = count;
     }
 
-    public Integer getCompanyId()
-    {
+    public Integer getCompanyId() {
         return companyId;
     }
 
-    public String getCompanyMatchcode()
-    {
+    public String getCompanyMatchcode() {
         return companyMatchcode;
     }
 
-    public String getCompanyNumber()
-    {
+    public String getCompanyNumber() {
         return companyNumber;
     }
 
-    public String getCompanyLabel()
-    {
+    public String getCompanyLabel() {
         return companyLabel;
     }
 
-    public String getCompanyLabelWithNumber()
-    {
+    public String getCompanyLabelWithNumber() {
         return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, companyLabel);
     }
 
-    public long getCount()
-    {
+    public long getCount() {
         return count;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s: %s", getCompanyLabelWithNumber(), count);
     }
 }

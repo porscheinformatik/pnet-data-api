@@ -5,10 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-public class TestObject
-{
-    public static TestObject of(String key, String value)
-    {
+public class TestObject {
+
+    public static TestObject of(String key, String value) {
         TestObject result = new TestObject(key);
 
         result.setValue(value);
@@ -21,44 +20,34 @@ public class TestObject
     private String value;
 
     @JsonCreator
-    public TestObject(@JsonProperty("key") String key)
-    {
+    public TestObject(@JsonProperty("key") String key) {
         super();
         this.key = key;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(String value)
-    {
+    public void setValue(String value) {
         this.value = value;
     }
 
-    public String getKey()
-    {
+    public String getKey() {
         return key;
     }
 
     @JsonIgnore
-    public String toJsonString()
-    {
-        try
-        {
+    public String toJsonString() {
+        try {
             return RestUtilsTest.OBJECT_MAPPER.writeValueAsString(this);
-        }
-        catch (JsonProcessingException e)
-        {
+        } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to write JSON", e);
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("TestObject [key=%s, value=%s]", key, value);
     }
-
 }

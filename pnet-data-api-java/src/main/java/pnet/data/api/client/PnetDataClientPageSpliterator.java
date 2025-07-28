@@ -3,7 +3,6 @@ package pnet.data.api.client;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.PnetDataClientTechnicalException;
 
@@ -13,47 +12,36 @@ import pnet.data.api.PnetDataClientTechnicalException;
  * @param <T> the type of item
  * @author HAM
  */
-public class PnetDataClientPageSpliterator<T> implements Spliterator<T>
-{
+public class PnetDataClientPageSpliterator<T> implements Spliterator<T> {
 
     private PnetDataClientResultPage<T> page;
     private Iterator<T> iterator;
 
-    public PnetDataClientPageSpliterator(PnetDataClientResultPage<T> page)
-    {
+    public PnetDataClientPageSpliterator(PnetDataClientResultPage<T> page) {
         super();
-
         this.page = page;
 
         iterator = page.iterator();
     }
 
     @Override
-    public boolean tryAdvance(Consumer<? super T> action)
-    {
-        while (!iterator.hasNext())
-        {
-            if (page.isEmpty())
-            {
+    public boolean tryAdvance(Consumer<? super T> action) {
+        while (!iterator.hasNext()) {
+            if (page.isEmpty()) {
                 return false;
             }
 
-            if (page.isComplete())
-            {
+            if (page.isComplete()) {
                 return false;
             }
 
-            try
-            {
+            try {
                 page = page.nextPage();
-            }
-            catch (PnetDataClientException e)
-            {
+            } catch (PnetDataClientException e) {
                 throw new PnetDataClientTechnicalException("Failed to scroll results", e);
             }
 
-            if (page == null)
-            {
+            if (page == null) {
                 return false;
             }
 
@@ -66,20 +54,17 @@ public class PnetDataClientPageSpliterator<T> implements Spliterator<T>
     }
 
     @Override
-    public Spliterator<T> trySplit()
-    {
+    public Spliterator<T> trySplit() {
         return null;
     }
 
     @Override
-    public long estimateSize()
-    {
+    public long estimateSize() {
         return page.getTotalNumberOfItems();
     }
 
     @Override
-    public int characteristics()
-    {
+    public int characteristics() {
         return Spliterator.IMMUTABLE | Spliterator.NONNULL;
     }
 }

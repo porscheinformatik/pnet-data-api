@@ -8,9 +8,7 @@ import java.util.Objects;
  *
  * @author ham
  */
-public interface WithContractTypeLinks
-{
-
+public interface WithContractTypeLinks {
     /**
      * Returns all {@link ContractTypeLinkDTO}.
      *
@@ -24,9 +22,10 @@ public interface WithContractTypeLinks
      * @param tenant the tenant
      * @return a collection, never null
      */
-    default Collection<ContractTypeLinkDTO> getContractTypesOfTenant(String tenant)
-    {
-        return getContractTypes().stream().filter(ct -> Objects.equals(tenant, ct.getTenant())).toList();
+    default Collection<ContractTypeLinkDTO> getContractTypesOfTenant(String tenant) {
+        return getContractTypes()
+            .stream()
+            .filter(ct -> Objects.equals(tenant, ct.getTenant()))
+            .toList();
     }
-
 }

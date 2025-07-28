@@ -7,18 +7,16 @@ import java.io.Serial;
  *
  * @author ham
  */
-public class RestException extends Exception
-{
+public class RestException extends Exception {
+
     @Serial
     private static final long serialVersionUID = 6828148858084801707L;
 
-    public RestException(String message)
-    {
+    public RestException(String message) {
         super(message);
     }
 
-    public RestException(String message, Throwable cause)
-    {
+    public RestException(String message, Throwable cause) {
         super(message, cause);
     }
 }

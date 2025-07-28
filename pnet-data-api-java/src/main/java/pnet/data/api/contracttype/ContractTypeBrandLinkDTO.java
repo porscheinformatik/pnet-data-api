@@ -14,11 +14,9 @@
  */
 package pnet.data.api.contracttype;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Collection;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import pnet.data.api.util.AbstractLinkDTO;
 
 /**
@@ -26,29 +24,27 @@ import pnet.data.api.util.AbstractLinkDTO;
  *
  * @author ham
  */
-public class ContractTypeBrandLinkDTO extends AbstractLinkDTO
-{
+public class ContractTypeBrandLinkDTO extends AbstractLinkDTO {
 
     private static final long serialVersionUID = -4749964162640876397L;
 
     private final Collection<String> states;
 
-    public ContractTypeBrandLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("states") Collection<String> states)
-    {
+    public ContractTypeBrandLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("states") Collection<String> states
+    ) {
         super(tenant, matchcode);
-
         this.states = states;
     }
 
-    public Collection<String> getStates()
-    {
+    public Collection<String> getStates() {
         return states;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((states == null) ? 0 : states.hashCode());
@@ -56,31 +52,24 @@ public class ContractTypeBrandLinkDTO extends AbstractLinkDTO
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!super.equals(obj))
-        {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof ContractTypeBrandLinkDTO other))
-        {
+        if (!(obj instanceof ContractTypeBrandLinkDTO other)) {
             return false;
         }
-        if (!Objects.equals(states, other.states))
-        {
+        if (!Objects.equals(states, other.states)) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("%s(%s) [states=%s]", getMatchcode(), getTenant(), states);
     }
-
 }

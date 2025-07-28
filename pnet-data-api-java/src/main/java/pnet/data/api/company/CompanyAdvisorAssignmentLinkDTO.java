@@ -14,13 +14,11 @@
  */
 package pnet.data.api.company;
 
-import java.io.Serial;
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serial;
+import java.util.Objects;
 import pnet.data.api.util.AbstractLinkDTO;
 import pnet.data.api.util.WithPersonId;
 
@@ -30,8 +28,8 @@ import pnet.data.api.util.WithPersonId;
  * @author ham
  */
 @Schema(description = "Holds an advisor assignment to the company.")
-public class CompanyAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements WithPersonId
-{
+public class CompanyAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements WithPersonId {
+
     @Serial
     private static final long serialVersionUID = 4247336068734009775L;
 
@@ -47,13 +45,15 @@ public class CompanyAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements 
     @Schema(description = "The label of the advisor division.")
     private final String divisionLabel;
 
-    public CompanyAdvisorAssignmentLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("matchcode") String matchcode, @JsonProperty("personId") Integer personId,
-        @JsonProperty("personName") String personName, @JsonProperty("divisionMatchcode") String divisionMatchcode,
-        @JsonProperty("divisionLabel") String divisionLabel)
-    {
+    public CompanyAdvisorAssignmentLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("personId") Integer personId,
+        @JsonProperty("personName") String personName,
+        @JsonProperty("divisionMatchcode") String divisionMatchcode,
+        @JsonProperty("divisionLabel") String divisionLabel
+    ) {
         super(tenant, matchcode);
-
         this.personId = personId;
         this.personName = personName;
         this.divisionMatchcode = divisionMatchcode;
@@ -62,44 +62,37 @@ public class CompanyAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements 
 
     @JsonPropertyDescription("A tenant where the advisor assignment is valid.")
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return super.getTenant();
     }
 
     @JsonPropertyDescription("The matchcode of the advisor type.")
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return super.getMatchcode();
     }
 
     @JsonPropertyDescription("The id of the person.")
     @Override
-    public Integer getPersonId()
-    {
+    public Integer getPersonId() {
         return personId;
     }
 
     @JsonPropertyDescription("The name of the person.")
-    public String getPersonName()
-    {
+    public String getPersonName() {
         return personName;
     }
 
-    public String getDivisionMatchcode()
-    {
+    public String getDivisionMatchcode() {
         return divisionMatchcode;
     }
 
-    public String getDivisionLabel()
-    {
+    public String getDivisionLabel() {
         return divisionLabel;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
         result = prime * result + ((personId == null) ? 0 : personId.hashCode());
@@ -107,29 +100,30 @@ public class CompanyAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements 
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!super.equals(obj))
-        {
+        if (!super.equals(obj)) {
             return false;
         }
-        if (!(obj instanceof CompanyAdvisorAssignmentLinkDTO other))
-        {
+        if (!(obj instanceof CompanyAdvisorAssignmentLinkDTO other)) {
             return false;
         }
         return Objects.equals(personId, other.personId);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "CompanyAdvisorAssignmentLinkDTO [personId=%s, personName=%s, divisionMatchcode=%s, divisionLabel=%s, "
-                + "tenant=%s, matchcode=%s]", this.personId, this.personName, this.divisionMatchcode,
-            this.divisionLabel, this.tenant, this.matchcode);
+            "CompanyAdvisorAssignmentLinkDTO [personId=%s, personName=%s, divisionMatchcode=%s, divisionLabel=%s, " +
+            "tenant=%s, matchcode=%s]",
+            this.personId,
+            this.personName,
+            this.divisionMatchcode,
+            this.divisionLabel,
+            this.tenant,
+            this.matchcode
+        );
     }
 }

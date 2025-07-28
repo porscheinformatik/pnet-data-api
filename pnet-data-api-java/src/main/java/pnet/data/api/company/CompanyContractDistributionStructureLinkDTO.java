@@ -14,14 +14,12 @@
  */
 package pnet.data.api.company;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithBrandMatchcode;
 import pnet.data.api.util.WithCompanyId;
@@ -36,8 +34,8 @@ import pnet.data.api.util.WithValidPeriod;
  */
 @Schema(description = "Holds minimal information about the contract distribution structure of a company.")
 public class CompanyContractDistributionStructureLinkDTO
-    implements WithTenant, WithCompanyId, WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod, Serializable
-{
+    implements WithTenant, WithCompanyId, WithBrandMatchcode, WithContractTypeMatchcode, WithValidPeriod, Serializable {
+
     @Serial
     private static final long serialVersionUID = 5212128752932674480L;
 
@@ -59,21 +57,29 @@ public class CompanyContractDistributionStructureLinkDTO
     @Schema(description = "The matchcode of the contract type this distribution structure state is assigned to.")
     private final String contractTypeMatchcode;
 
-    @Schema(description = "The date and time from when this contract state is/was valid for the company. "
-        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
+    @Schema(
+        description = "The date and time from when this contract state is/was valid for the company. " +
+        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+    )
     private final LocalDateTime validFrom;
 
-    @Schema(description = "The date and time till when this contract state is/was valid for the company. "
-        + "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information.")
+    @Schema(
+        description = "The date and time till when this contract state is/was valid for the company. " +
+        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+    )
     private final LocalDateTime validTo;
 
     @SuppressWarnings("java:S107")
-    public CompanyContractDistributionStructureLinkDTO(@JsonProperty("tenant") String tenant,
-        @JsonProperty("companyId") Integer companyId, @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("companyMatchcode") String companyMatchcode, @JsonProperty("brand") String brandMatchcode,
-        @JsonProperty("contractType") String contractTypeMatchcode, @JsonProperty("validFrom") LocalDateTime validFrom,
-        @JsonProperty("validTo") LocalDateTime validTo)
-    {
+    public CompanyContractDistributionStructureLinkDTO(
+        @JsonProperty("tenant") String tenant,
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("companyMatchcode") String companyMatchcode,
+        @JsonProperty("brand") String brandMatchcode,
+        @JsonProperty("contractType") String contractTypeMatchcode,
+        @JsonProperty("validFrom") LocalDateTime validFrom,
+        @JsonProperty("validTo") LocalDateTime validTo
+    ) {
         this.tenant = tenant;
         this.companyId = companyId;
         this.companyNumber = companyNumber;
@@ -85,85 +91,90 @@ public class CompanyContractDistributionStructureLinkDTO
     }
 
     @Override
-    public String getTenant()
-    {
+    public String getTenant() {
         return tenant;
     }
 
     @Override
-    public Integer getCompanyId()
-    {
+    public Integer getCompanyId() {
         return companyId;
     }
 
     @Override
-    public String getCompanyNumber()
-    {
+    public String getCompanyNumber() {
         return companyNumber;
     }
 
     @Override
-    public String getCompanyMatchcode()
-    {
+    public String getCompanyMatchcode() {
         return companyMatchcode;
     }
 
     @Override
-    public String getBrandMatchcode()
-    {
+    public String getBrandMatchcode() {
         return brandMatchcode;
     }
 
     @Override
-    public String getContractTypeMatchcode()
-    {
+    public String getContractTypeMatchcode() {
         return contractTypeMatchcode;
     }
 
     @Override
-    public LocalDateTime getValidFrom()
-    {
+    public LocalDateTime getValidFrom() {
         return validFrom;
     }
 
     @Override
-    public LocalDateTime getValidTo()
-    {
+    public LocalDateTime getValidTo() {
         return validTo;
     }
 
     @Override
-    public int hashCode()
-    {
-        return Objects.hash(brandMatchcode, companyId, companyNumber, contractTypeMatchcode, tenant, validFrom,
-            validTo);
+    public int hashCode() {
+        return Objects.hash(
+            brandMatchcode,
+            companyId,
+            companyNumber,
+            contractTypeMatchcode,
+            tenant,
+            validFrom,
+            validTo
+        );
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (!(obj instanceof CompanyContractDistributionStructureLinkDTO other))
-        {
+        if (!(obj instanceof CompanyContractDistributionStructureLinkDTO other)) {
             return false;
         }
-        return Objects.equals(brandMatchcode, other.brandMatchcode)
-            && Objects.equals(companyId, other.companyId)
-            && Objects.equals(companyNumber, other.companyNumber)
-            && Objects.equals(contractTypeMatchcode, other.contractTypeMatchcode)
-            && Objects.equals(tenant, other.tenant)
-            && PnetDataApiUtils.equals(validFrom, other.validFrom)
-            && PnetDataApiUtils.equals(validTo, other.validTo);
+        return (
+            Objects.equals(brandMatchcode, other.brandMatchcode) &&
+            Objects.equals(companyId, other.companyId) &&
+            Objects.equals(companyNumber, other.companyNumber) &&
+            Objects.equals(contractTypeMatchcode, other.contractTypeMatchcode) &&
+            Objects.equals(tenant, other.tenant) &&
+            PnetDataApiUtils.equals(validFrom, other.validFrom) &&
+            PnetDataApiUtils.equals(validTo, other.validTo)
+        );
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("CompanyContractDistributionStructureLinkDTO [tenant=%s, companyId=%s, companyNumber=%s, "
-                + "companyMatchcode=%s, brandMatchcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]", tenant,
-            companyId, companyNumber, companyMatchcode, brandMatchcode, contractTypeMatchcode, validFrom, validTo);
+    public String toString() {
+        return String.format(
+            "CompanyContractDistributionStructureLinkDTO [tenant=%s, companyId=%s, companyNumber=%s, " +
+            "companyMatchcode=%s, brandMatchcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]",
+            tenant,
+            companyId,
+            companyNumber,
+            companyMatchcode,
+            brandMatchcode,
+            contractTypeMatchcode,
+            validFrom,
+            validTo
+        );
     }
 }

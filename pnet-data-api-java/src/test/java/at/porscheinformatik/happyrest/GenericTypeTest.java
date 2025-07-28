@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import at.porscheinformatik.happyrest.GenericType.Of;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -11,126 +12,104 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 
-import at.porscheinformatik.happyrest.GenericType.Of;
+public class GenericTypeTest {
 
-public class GenericTypeTest
-{
-
-    public interface A<V>
-    {
+    public interface A<V> {
         Optional<V> getValue();
     }
 
-    public interface B<K, V> extends A<V>
-    {
+    public interface B<K, V> extends A<V> {
         K getKey();
     }
 
-    public static class C<V> implements B<Integer, V>
-    {
+    public static class C<V> implements B<Integer, V> {
+
         private final Integer key;
         private final Optional<V> value;
 
-        public C(Integer key, Optional<V> value)
-        {
+        public C(Integer key, Optional<V> value) {
             super();
-
             this.key = key;
             this.value = value;
         }
 
         @Override
-        public Integer getKey()
-        {
+        public Integer getKey() {
             return key;
         }
 
         @Override
-        public Optional<V> getValue()
-        {
+        public Optional<V> getValue() {
             return value;
         }
     }
 
-    public static class D extends C<String>
-    {
-        public D(Integer key, Optional<String> value)
-        {
+    public static class D extends C<String> {
+
+        public D(Integer key, Optional<String> value) {
             super(key, value);
         }
 
-        public String getDescription()
-        {
+        public String getDescription() {
             return null;
         }
     }
 
-    public interface E extends A<List<String>>
-    {
+    public interface E extends A<List<String>> {
         // intentionally left blank
     }
 
-    public abstract static class AbstractF<K, V>
-    {
+    public abstract static class AbstractF<K, V> {
         // intentionally left blank
     }
 
-    public abstract static class AbstractG<T> extends AbstractF<Integer, A<T>>
-    {
+    public abstract static class AbstractG<T> extends AbstractF<Integer, A<T>> {
         // intentionally left blank
     }
 
-    public static class H extends AbstractG<String>
-    {
+    public static class H extends AbstractG<String> {
         // intentionally left blank
     }
 
-    public static class I extends D
-    {
-        public I(Integer key, Optional<String> value)
-        {
+    public static class I extends D {
+
+        public I(Integer key, Optional<String> value) {
             super(key, value);
         }
     }
 
-    public static class AbstractClassWithInnerType<T>
-    {
-        public class InnerType
-        {
-            public T getT()
-            {
+    public static class AbstractClassWithInnerType<T> {
+
+        public class InnerType {
+
+            public T getT() {
                 return null;
             }
         }
     }
 
-    public static class ConcreteClassWithInheritedInnerType extends AbstractClassWithInnerType<Byte>
-    {
+    public static class ConcreteClassWithInheritedInnerType extends AbstractClassWithInnerType<Byte> {
         // intentionally left blank
     }
 
     /**
      * For testing
      */
-    public static class ListOfIntegers extends ArrayList<Integer>
-    {
+    public static class ListOfIntegers extends ArrayList<Integer> {
+
         private static final long serialVersionUID = 8852725659573380898L;
 
-        public ListOfIntegers()
-        {
+        public ListOfIntegers() {
             super();
         }
 
-        public ListOfIntegers(Collection<? extends Integer> c)
-        {
+        public ListOfIntegers(Collection<? extends Integer> c) {
             super(c);
         }
 
-        public ListOfIntegers(int initialCapacity)
-        {
+        public ListOfIntegers(int initialCapacity) {
             super(initialCapacity);
         }
     }
@@ -138,29 +117,25 @@ public class GenericTypeTest
     /**
      * For testing
      */
-    public static class ListOfStrings extends ArrayList<String>
-    {
+    public static class ListOfStrings extends ArrayList<String> {
+
         private static final long serialVersionUID = 8852725659573380898L;
 
-        public ListOfStrings()
-        {
+        public ListOfStrings() {
             super();
         }
 
-        public ListOfStrings(Collection<? extends String> c)
-        {
+        public ListOfStrings(Collection<? extends String> c) {
             super(c);
         }
 
-        public ListOfStrings(int initialCapacity)
-        {
+        public ListOfStrings(int initialCapacity) {
             super(initialCapacity);
         }
     }
 
     @Test
-    public void testImplementedByNonGeneric()
-    {
+    public void testImplementedByNonGeneric() {
         GenericType<CharSequence> genericJavaType = GenericType.build(CharSequence.class).implementedBy(String.class);
 
         assertThat(genericJavaType.getType(), equalTo(CharSequence.class));
@@ -172,8 +147,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testImplementedBy() throws NoSuchFieldException, SecurityException
-    {
+    public void testImplementedBy() throws NoSuchFieldException, SecurityException {
         GenericType<A<?>> genericJavaType = GenericType.build(A.class).implementedBy(D.class);
 
         assertThat(genericJavaType.getType(), equalTo(A.class));
@@ -198,27 +172,32 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testTypes() throws NoSuchFieldException, SecurityException, NoSuchMethodException
-    {
+    public void testTypes() throws NoSuchFieldException, SecurityException, NoSuchMethodException {
         GenericType<Object> cClass = GenericType.build(C.class).implementedBy(D.class);
         GenericType<Object> dClass = GenericType.of(D.class);
 
         Field valueField = C.class.getDeclaredField("value");
 
-        assertThat(GenericType
-            .build(valueField.getDeclaringClass())
-            .implementedBy(D.class)
-            .resolve(valueField.getGenericType()), is(GenericType.build(Optional.class).with(String.class)));
+        assertThat(
+            GenericType.build(valueField.getDeclaringClass())
+                .implementedBy(D.class)
+                .resolve(valueField.getGenericType()),
+            is(GenericType.build(Optional.class).with(String.class))
+        );
 
-        assertThat(cClass.resolve(valueField.getGenericType()),
-            is(GenericType.build(Optional.class).with(String.class)));
+        assertThat(
+            cClass.resolve(valueField.getGenericType()),
+            is(GenericType.build(Optional.class).with(String.class))
+        );
 
         Method keyMethod = D.class.getMethod("getKey");
 
-        assertThat(GenericType
-            .build(keyMethod.getDeclaringClass())
-            .implementedBy(D.class)
-            .resolve(keyMethod.getGenericReturnType()), is(GenericType.INTEGER));
+        assertThat(
+            GenericType.build(keyMethod.getDeclaringClass())
+                .implementedBy(D.class)
+                .resolve(keyMethod.getGenericReturnType()),
+            is(GenericType.INTEGER)
+        );
 
         assertThat(cClass.resolve(keyMethod.getGenericReturnType()), is(GenericType.INTEGER));
 
@@ -226,27 +205,32 @@ public class GenericTypeTest
 
         Method valueMethod = D.class.getMethod("getValue");
 
-        assertThat(GenericType
-            .build(valueMethod.getDeclaringClass())
-            .implementedBy(D.class)
-            .resolve(valueMethod.getGenericReturnType()), is(GenericType.build(Optional.class).with(String.class)));
+        assertThat(
+            GenericType.build(valueMethod.getDeclaringClass())
+                .implementedBy(D.class)
+                .resolve(valueMethod.getGenericReturnType()),
+            is(GenericType.build(Optional.class).with(String.class))
+        );
 
-        assertThat(cClass.resolve(valueMethod.getGenericReturnType()),
-            is(GenericType.build(Optional.class).with(String.class)));
+        assertThat(
+            cClass.resolve(valueMethod.getGenericReturnType()),
+            is(GenericType.build(Optional.class).with(String.class))
+        );
 
         Method descriptionMethod = D.class.getMethod("getDescription");
 
-        assertThat(GenericType
-            .build(descriptionMethod.getDeclaringClass())
-            .implementedBy(D.class)
-            .resolve(descriptionMethod.getGenericReturnType()), is(GenericType.STRING));
+        assertThat(
+            GenericType.build(descriptionMethod.getDeclaringClass())
+                .implementedBy(D.class)
+                .resolve(descriptionMethod.getGenericReturnType()),
+            is(GenericType.STRING)
+        );
 
         assertThat(dClass.resolve(descriptionMethod.getGenericReturnType()), is(GenericType.STRING));
     }
 
     @Test
-    public void testInstanceBy()
-    {
+    public void testInstanceBy() {
         D d = new D(1, Optional.of("value"));
         GenericType<D> genericJavaType = GenericType.build(B.class).instancedBy(d);
 
@@ -274,8 +258,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testMissingType()
-    {
+    public void testMissingType() {
         C<Double> c = new C<>(1, Optional.of(Math.PI));
         GenericType<A<?>> genericJavaType = GenericType.build(A.class).instancedBy(c);
 
@@ -294,8 +277,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testDoppeltGemoppelt()
-    {
+    public void testDoppeltGemoppelt() {
         GenericType<A<?>> genericJavaType = GenericType.build(A.class).implementedBy(E.class);
 
         assertThat(genericJavaType.getType(), equalTo(A.class));
@@ -319,8 +301,7 @@ public class GenericTypeTest
         assertThat(innerGenericJavaType.getTypeName(), is("java.lang.String"));
         assertThat(innerGenericJavaType.getSimpleTypeName(), is("String"));
 
-        GenericType.Of<A<List<String>>> GenericJavaTypeOfOf = new GenericType.Of<>()
-        {
+        GenericType.Of<A<List<String>>> GenericJavaTypeOfOf = new GenericType.Of<>() {
             // intentionally left blank
         };
 
@@ -330,10 +311,8 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testOfString()
-    {
-        Of<String> type = new Of<>()
-        {
+    public void testOfString() {
+        Of<String> type = new Of<>() {
             // intentionally left blank
         };
 
@@ -357,10 +336,8 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testOfObject()
-    {
-        Of<Object> type = new Of<>()
-        {
+    public void testOfObject() {
+        Of<Object> type = new Of<>() {
             // intentionally left blank
         };
 
@@ -384,10 +361,8 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testDoppeltGemoppeltOf()
-    {
-        Of<List<String>> genericJavaType = new Of<>()
-        {
+    public void testDoppeltGemoppeltOf() {
+        Of<List<String>> genericJavaType = new Of<>() {
             // intentionally left blank
         };
 
@@ -411,8 +386,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testSimpleInstanceOf()
-    {
+    public void testSimpleInstanceOf() {
         assertThat(GenericType.INTEGER.isInstance(1), is(true));
         assertThat(GenericType.NUMBER.isInstance(1), is(true));
         assertThat(GenericType.STRING.isInstance(1), is(false));
@@ -432,8 +406,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testInstanceOfKnownType()
-    {
+    public void testInstanceOfKnownType() {
         ListOfIntegers nullListOfIntegers = null;
         ListOfStrings nullListOfStrings = null;
         ListOfIntegers emptyListOfIntegers = new ListOfIntegers();
@@ -452,16 +425,14 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testInstanceOf()
-    {
+    public void testInstanceOf() {
         assertThat(GenericType.STRING.isInstance(null), is(true));
         assertThat(GenericType.STRING.isInstance("string"), is(true));
         assertThat(GenericType.STRING.isInstance(1), is(false));
     }
 
     @Test
-    public void testInstanceOfList()
-    {
+    public void testInstanceOfList() {
         GenericType<Object> type = GenericType.build(Collection.class).with(Integer.class);
         List<Object> nullList = null;
         List<Integer> emptyIntegerList = new ArrayList<>();
@@ -481,8 +452,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testDoubleInstancedBy()
-    {
+    public void testDoubleInstancedBy() {
         GenericType<Object> type = GenericType.build(AbstractF.class).instancedBy(new H());
 
         assertThat(type.getArgument(0), is(GenericType.INTEGER));
@@ -490,8 +460,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testDoubleImplementedBy()
-    {
+    public void testDoubleImplementedBy() {
         GenericType<Object> type = GenericType.build(AbstractF.class).implementedBy(H.class);
 
         assertThat(type.getArgument(0), is(GenericType.INTEGER));
@@ -499,40 +468,37 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testImplementedByGenericJavaType()
-    {
+    public void testImplementedByGenericJavaType() {
         GenericType<Object> type = GenericType.build(A.class).implementedBy(GenericType.of(E.class));
 
         assertThat(type.getArgument(0), is(GenericType.build(List.class).with(String.class)));
     }
 
     @Test
-    public void testImplementedBySelfGenericJavaType()
-    {
-        GenericType<Object> type =
-            GenericType.build(A.class).implementedBy(GenericType.build(A.class).with(String.class));
+    public void testImplementedBySelfGenericJavaType() {
+        GenericType<Object> type = GenericType.build(A.class).implementedBy(
+            GenericType.build(A.class).with(String.class)
+        );
 
         assertThat(type.getArgument(0), is(GenericType.STRING));
     }
 
     @Test
-    public void testNonGenericBuild()
-    {
+    public void testNonGenericBuild() {
         assertThat(GenericType.build(String.class).with(), is(GenericType.STRING));
     }
 
     @Test
-    public void testInvalidNumberOfParameters()
-    {
+    public void testInvalidNumberOfParameters() {
         assertThrows(IllegalArgumentException.class, () -> GenericType.build(B.class).with());
         assertThrows(IllegalArgumentException.class, () -> GenericType.build(B.class).with(String.class));
-        assertThrows(IllegalArgumentException.class,
-            () -> GenericType.build(B.class).with(String.class, String.class, String.class));
+        assertThrows(IllegalArgumentException.class, () ->
+            GenericType.build(B.class).with(String.class, String.class, String.class)
+        );
     }
 
     @Test
-    public void testComponentTypeOfIntArray()
-    {
+    public void testComponentTypeOfIntArray() {
         int[] array = new int[0];
         GenericType<int[]> type = GenericType.of(array.getClass());
 
@@ -540,8 +506,7 @@ public class GenericTypeTest
     }
 
     @Test
-    public void testComponentTypeOfIntegerArray()
-    {
+    public void testComponentTypeOfIntegerArray() {
         Integer[] array = new Integer[0];
         GenericType<Integer[]> type = GenericType.of(array.getClass());
 

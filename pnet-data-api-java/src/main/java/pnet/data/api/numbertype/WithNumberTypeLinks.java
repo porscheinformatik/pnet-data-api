@@ -8,9 +8,7 @@ import java.util.Objects;
  *
  * @author ham
  */
-public interface WithNumberTypeLinks
-{
-
+public interface WithNumberTypeLinks {
     /**
      * Returns all {@link NumberTypeLinkDTO}.
      *
@@ -24,9 +22,10 @@ public interface WithNumberTypeLinks
      * @param tenant the tenant
      * @return a collection, never null
      */
-    default Collection<NumberTypeLinkDTO> getNumberTypesOfTenant(String tenant)
-    {
-        return getNumberTypes().stream().filter(nt -> Objects.equals(tenant, nt.getTenant())).toList();
+    default Collection<NumberTypeLinkDTO> getNumberTypesOfTenant(String tenant) {
+        return getNumberTypes()
+            .stream()
+            .filter(nt -> Objects.equals(tenant, nt.getTenant()))
+            .toList();
     }
-
 }

@@ -3,7 +3,6 @@ package pnet.data.api.util;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 /**
@@ -11,36 +10,29 @@ import javax.imageio.ImageIO;
  *
  * @author HAM
  */
-public class Resource
-{
+public class Resource {
+
     private final String type;
     private final byte[] data;
 
-    public Resource(String type, byte[] data)
-    {
+    public Resource(String type, byte[] data) {
         super();
         this.type = type;
         this.data = data;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public byte[] getData()
-    {
+    public byte[] getData() {
         return data;
     }
 
-    public Image toImage()
-    {
-        try (ByteArrayInputStream stream = new ByteArrayInputStream(data))
-        {
+    public Image toImage() {
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(data)) {
             return ImageIO.read(stream);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new IllegalArgumentException("Failed to read image", e);
         }
     }

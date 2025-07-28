@@ -10,8 +10,7 @@ import static pnet.data.api.PnetDataConstants.*;
  * @deprecated Use {@link ScrollableFind}, {@link ScrollableSearch}, {@link ScrollableGet} instead
  */
 @Deprecated
-public interface Scrollable<SELF extends Restrict<SELF>> extends Restrict<SELF>
-{
+public interface Scrollable<SELF extends Restrict<SELF>> extends Restrict<SELF> {
     /**
      * Enables scrolling.
      *
@@ -19,8 +18,7 @@ public interface Scrollable<SELF extends Restrict<SELF>> extends Restrict<SELF>
      * @deprecated use executeAndScroll(..) instead
      */
     @Deprecated
-    default SELF scroll()
-    {
+    default SELF scroll() {
         return restrict(SCROLL_KEY, true);
     }
 }

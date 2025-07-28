@@ -10,14 +10,12 @@ import pnet.data.api.PnetDataClientException;
  * @deprecated use the {@link SimplePnetDataApiContext} instead, since it does not depend on a repository.
  */
 @Deprecated
-public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
-{
+public abstract class AbstractPnetDataApiContext implements PnetDataApiContext {
+
     protected final PnetDataApiTokenRepository repository;
 
-    protected AbstractPnetDataApiContext(PnetDataApiTokenRepository repository)
-    {
+    protected AbstractPnetDataApiContext(PnetDataApiTokenRepository repository) {
         super();
-
         this.repository = repository;
     }
 
@@ -25,59 +23,57 @@ public abstract class AbstractPnetDataApiContext implements PnetDataApiContext
 
     @Override
     @Deprecated
-    public PnetDataApiContext withUrl(String url)
-    {
+    public PnetDataApiContext withUrl(String url) {
         PnetDataApiLoginMethod loginMethod = getLoginMethod();
 
-        if (loginMethod instanceof AuthenticationTokenPnetDataApiLoginMethod authenticationTokenPnetDataApiLoginMethod)
-        {
+        if (
+            loginMethod instanceof AuthenticationTokenPnetDataApiLoginMethod authenticationTokenPnetDataApiLoginMethod
+        ) {
             return withLoginMethod(authenticationTokenPnetDataApiLoginMethod.withUrl(url));
         }
 
-        if (loginMethod instanceof UsernamePasswordPnetDataApiLoginMethod usernamePasswordPnetDataApiLoginMethod)
-        {
+        if (loginMethod instanceof UsernamePasswordPnetDataApiLoginMethod usernamePasswordPnetDataApiLoginMethod) {
             return withLoginMethod(usernamePasswordPnetDataApiLoginMethod.withUrl(url));
         }
 
-        if (loginMethod instanceof PnetDataApiTokenKey pnetDataApiTokenKey)
-        {
+        if (loginMethod instanceof PnetDataApiTokenKey pnetDataApiTokenKey) {
             return withLoginMethod(pnetDataApiTokenKey.withUrl(url));
         }
 
         throw new UnsupportedOperationException(
-            "This method is deprecated and does not support loginMethods of type " + loginMethod.getClass());
+            "This method is deprecated and does not support loginMethods of type " + loginMethod.getClass()
+        );
     }
 
     @Override
     @Deprecated
-    public PnetDataApiContext withCredentials(String username, String password)
-    {
+    public PnetDataApiContext withCredentials(String username, String password) {
         PnetDataApiLoginMethod loginMethod = getLoginMethod();
 
-        if (loginMethod instanceof UsernamePasswordPnetDataApiLoginMethod usernamePasswordPnetDataApiLoginMethod)
-        {
-            return withLoginMethod(usernamePasswordPnetDataApiLoginMethod.withUsernamePasswordSupplier(
-                () -> new UsernamePasswordCredentials(username, password)));
+        if (loginMethod instanceof UsernamePasswordPnetDataApiLoginMethod usernamePasswordPnetDataApiLoginMethod) {
+            return withLoginMethod(
+                usernamePasswordPnetDataApiLoginMethod.withUsernamePasswordSupplier(() ->
+                    new UsernamePasswordCredentials(username, password)
+                )
+            );
         }
 
-        if (loginMethod instanceof PnetDataApiTokenKey pnetDataApiTokenKey)
-        {
+        if (loginMethod instanceof PnetDataApiTokenKey pnetDataApiTokenKey) {
             return withLoginMethod(pnetDataApiTokenKey.withCredentials(username, password));
         }
 
         throw new UnsupportedOperationException(
-            "This method is deprecated and does not support loginMethods of type " + loginMethod.getClass());
+            "This method is deprecated and does not support loginMethods of type " + loginMethod.getClass()
+        );
     }
 
     @Override
-    public RestCall restCall() throws PnetDataClientException
-    {
+    public RestCall restCall() throws PnetDataClientException {
         return repository.restCall(getLoginMethod());
     }
 
     @Override
-    public void invalidateLogin()
-    {
+    public void invalidateLogin() {
         repository.invalidate(getLoginMethod());
     }
 }

@@ -1,12 +1,10 @@
 package pnet.data.api.function;
 
+import at.porscheinformatik.happyrest.GenericType;
 import java.util.Collections;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import at.porscheinformatik.happyrest.GenericType;
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.DefaultPnetDataClientResultPage;
 import pnet.data.api.client.PnetDataClientResultPage;
@@ -18,31 +16,28 @@ import pnet.data.api.util.Pair;
  * Data-API client for {@link FunctionDataDTO}s.
  */
 @Service
-public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataClient>
-{
+public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataClient> {
 
     @Autowired
-    public FunctionDataClient(PnetDataApiContext context)
-    {
+    public FunctionDataClient(PnetDataApiContext context) {
         super(context);
     }
 
-    public FunctionDataGet get()
-    {
+    public FunctionDataGet get() {
         return new FunctionDataGet(this::get, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<FunctionDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<FunctionDataDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/functions/details")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionDataDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<FunctionDataDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::get);
 
@@ -50,22 +45,21 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
         });
     }
 
-    public FunctionDataSearch search()
-    {
+    public FunctionDataSearch search() {
         return new FunctionDataSearch(this::search, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<FunctionItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<FunctionItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/functions/search")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::search);
 
@@ -73,39 +67,39 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
         });
     }
 
-    public FunctionDataAutoComplete autoComplete()
-    {
+    public FunctionDataAutoComplete autoComplete() {
         return new FunctionDataAutoComplete(this::autoComplete, Collections.emptyList());
     }
 
     protected List<FunctionAutoCompleteDTO> autoComplete(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
-        return invoke(restCall -> restCall
-            .parameters(restricts)
-            .path("/api/v1/functions/autocomplete")
-            .get(new GenericType.Of<List<FunctionAutoCompleteDTO>>()
-            {
-                // intentionally left blank
-            }));
+        throws PnetDataClientException {
+        return invoke(restCall ->
+            restCall
+                .parameters(restricts)
+                .path("/api/v1/functions/autocomplete")
+                .get(
+                    new GenericType.Of<List<FunctionAutoCompleteDTO>>() {
+                        // intentionally left blank
+                    }
+                )
+        );
     }
 
-    public FunctionDataFind find()
-    {
+    public FunctionDataFind find() {
         return new FunctionDataFind(this::find, Collections.emptyList());
     }
 
     protected PnetDataClientResultPage<FunctionItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<FunctionItemDTO> resultPage = restCall
                 .parameters(restricts)
                 .path("/api/v1/functions/find")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setPageSupplier(restricts, this::find);
             resultPage.setScrollSupplier(this::next);
@@ -114,16 +108,16 @@ public class FunctionDataClient extends AbstractPnetDataApiClient<FunctionDataCl
         });
     }
 
-    protected PnetDataClientResultPage<FunctionItemDTO> next(String scrollId) throws PnetDataClientException
-    {
+    protected PnetDataClientResultPage<FunctionItemDTO> next(String scrollId) throws PnetDataClientException {
         return invoke(restCall -> {
             DefaultPnetDataClientResultPage<FunctionItemDTO> resultPage = restCall
                 .variable("scrollId", scrollId)
                 .path("/api/v1/functions/next/{scrollId}")
-                .get(new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>()
-                {
-                    // intentionally left blank
-                });
+                .get(
+                    new GenericType.Of<DefaultPnetDataClientResultPage<FunctionItemDTO>>() {
+                        // intentionally left blank
+                    }
+                );
 
             resultPage.setScrollSupplier(this::next);
 

@@ -5,10 +5,7 @@ package pnet.data.api.util;
  *
  * @author HAM
  */
-public enum ImageType
-{
-
+public enum ImageType {
     THUMBNAIL,
-    ORIGINAL
-
+    ORIGINAL,
 }

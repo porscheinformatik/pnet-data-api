@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * Client for Person.
  */
 @Configuration
-@ComponentScan(basePackageClasses = {PersonPnetDataApiClientConfig.class})
-public class PersonPnetDataApiClientConfig
-{
+@ComponentScan(basePackageClasses = { PersonPnetDataApiClientConfig.class })
+public class PersonPnetDataApiClientConfig {
     // intentionally left blank
 }

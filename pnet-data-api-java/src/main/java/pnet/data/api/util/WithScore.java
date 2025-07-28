@@ -5,9 +5,6 @@ package pnet.data.api.util;
  *
  * @author HAM
  */
-public interface WithScore
-{
-
+public interface WithScore {
     double getScore();
-
 }

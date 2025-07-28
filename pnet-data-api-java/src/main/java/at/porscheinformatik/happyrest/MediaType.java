@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MediaType
-{
+public class MediaType {
+
     private static final String WILDCARD = "*";
 
     public static MediaType ANY = parse("*");
@@ -36,23 +36,19 @@ public class MediaType
     public static MediaType TEXT_PLAIN_UTF8 = parse("text/plain;charset=UTF-8");
     public static MediaType TEXT_XML = parse("text/xml");
 
-    public static MediaType parse(String mediaType)
-    {
-        if (mediaType == null)
-        {
+    public static MediaType parse(String mediaType) {
+        if (mediaType == null) {
             return null;
         }
 
-        if (mediaType.trim().isEmpty())
-        {
+        if (mediaType.trim().isEmpty()) {
             return ANY;
         }
 
         List<String> parameters = new ArrayList<>();
         int parameterIndex = mediaType.lastIndexOf(";");
 
-        while (parameterIndex >= 0)
-        {
+        while (parameterIndex >= 0) {
             parameters.add(mediaType.substring(parameterIndex + 1));
             mediaType = mediaType.substring(0, parameterIndex);
 
@@ -62,43 +58,34 @@ public class MediaType
         String suffix;
         int suffixIndex = mediaType.lastIndexOf("+");
 
-        if (suffixIndex >= 0)
-        {
+        if (suffixIndex >= 0) {
             suffix = mediaType.substring(suffixIndex + 1);
             mediaType = mediaType.substring(0, suffixIndex);
-        }
-        else
-        {
+        } else {
             suffix = WILDCARD;
         }
 
         String subtype;
         int subtypeIndex = mediaType.indexOf("/");
 
-        if (subtypeIndex >= 0)
-        {
+        if (subtypeIndex >= 0) {
             subtype = mediaType.substring(subtypeIndex + 1);
             mediaType = mediaType.substring(0, subtypeIndex);
-        }
-        else
-        {
+        } else {
             subtype = WILDCARD;
         }
 
         return new MediaType(mediaType, subtype, suffix, parameters.toArray(new String[parameters.size()]));
     }
 
-    public static String format(Iterable<MediaType> mediaTypes)
-    {
+    public static String format(Iterable<MediaType> mediaTypes) {
         StringBuilder builder = new StringBuilder();
         Iterator<MediaType> iterator = mediaTypes.iterator();
 
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             builder.append(iterator.next().toString());
 
-            if (iterator.hasNext())
-            {
+            if (iterator.hasNext()) {
                 builder.append(", ");
             }
         }
@@ -111,8 +98,7 @@ public class MediaType
     private final String suffix;
     private final String[] parameters;
 
-    public MediaType(String type, String subtype, String suffix, String... parameters)
-    {
+    public MediaType(String type, String subtype, String suffix, String... parameters) {
         super();
         this.type = type;
         this.subtype = subtype;
@@ -120,34 +106,27 @@ public class MediaType
         this.parameters = parameters;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public String getSubtype()
-    {
+    public String getSubtype() {
         return subtype;
     }
 
-    public String getSuffix()
-    {
+    public String getSuffix() {
         return suffix;
     }
 
-    public String[] getParameters()
-    {
+    public String[] getParameters() {
         return parameters;
     }
 
-    public String getParameter(String name)
-    {
-        for (String parameter : parameters)
-        {
+    public String getParameter(String name) {
+        for (String parameter : parameters) {
             String key = getKey(parameter);
 
-            if (name.equalsIgnoreCase(key))
-            {
+            if (name.equalsIgnoreCase(key)) {
                 return getValue(parameter);
             }
         }
@@ -155,39 +134,30 @@ public class MediaType
         return null;
     }
 
-    public Charset getCharset(Charset defaultCharset)
-    {
+    public Charset getCharset(Charset defaultCharset) {
         String charset = getParameter("charset");
 
-        if (charset == null || charset.trim().isEmpty())
-        {
+        if (charset == null || charset.trim().isEmpty()) {
             return defaultCharset;
         }
 
-        try
-        {
+        try {
             return Charset.forName(charset);
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             return defaultCharset;
         }
     }
 
-    public boolean isCompatible(MediaType other)
-    {
-        if ((other == null) || (!type.equals(WILDCARD) && !type.equalsIgnoreCase(other.type)))
-        {
+    public boolean isCompatible(MediaType other) {
+        if ((other == null) || (!type.equals(WILDCARD) && !type.equalsIgnoreCase(other.type))) {
             return false;
         }
 
-        if (!subtype.equals(WILDCARD) && !subtype.equalsIgnoreCase(other.subtype))
-        {
+        if (!subtype.equals(WILDCARD) && !subtype.equalsIgnoreCase(other.subtype)) {
             return false;
         }
 
-        if (!suffix.equals(WILDCARD) && !suffix.equalsIgnoreCase(other.suffix))
-        {
+        if (!suffix.equals(WILDCARD) && !suffix.equalsIgnoreCase(other.suffix)) {
             return false;
         }
 
@@ -195,55 +165,45 @@ public class MediaType
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder(type).append("/").append(subtype);
 
-        if (!suffix.equals(WILDCARD))
-        {
+        if (!suffix.equals(WILDCARD)) {
             builder.append("+").append(suffix);
         }
 
-        for (String parameter : parameters)
-        {
+        for (String parameter : parameters) {
             builder.append(";").append(parameter);
         }
 
         return builder.toString();
     }
 
-    private static String getKey(String s)
-    {
-        if (s == null)
-        {
+    private static String getKey(String s) {
+        if (s == null) {
             return null;
         }
 
         int index = s.indexOf("=");
 
-        if (index < 0)
-        {
+        if (index < 0) {
             return s;
         }
 
         return s.substring(0, index).trim();
     }
 
-    private static String getValue(String s)
-    {
-        if (s == null)
-        {
+    private static String getValue(String s) {
+        if (s == null) {
             return null;
         }
 
         int index = s.indexOf("=");
 
-        if (index < 0)
-        {
+        if (index < 0) {
             return null;
         }
 
         return s.substring(index + 1).trim();
     }
-
 }

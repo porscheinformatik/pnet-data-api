@@ -5,13 +5,12 @@ package pnet.data.api.person;
  *
  * @author scar
  */
-public enum PersonOrderBy
-{
+public enum PersonOrderBy {
     RELEVANCE,
 
     ID,
 
     FIRST_NAME,
 
-    LAST_NAME
+    LAST_NAME,
 }

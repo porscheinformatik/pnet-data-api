@@ -21,9 +21,7 @@ import java.time.LocalDateTime;
  *
  * @author ham
  */
-public interface WithLastUpdate
-{
-
+public interface WithLastUpdate {
     /**
      * @return The date/time of the last update to this item.
      */

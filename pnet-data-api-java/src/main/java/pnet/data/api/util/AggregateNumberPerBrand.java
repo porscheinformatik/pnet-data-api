@@ -6,12 +6,8 @@ package pnet.data.api.util;
  * @param <SELF> the type of the aggregate for chaining
  * @author ham
  */
-public interface AggregateNumberPerBrand<SELF extends Aggregate<SELF>> extends Aggregate<SELF>
-{
-
-    default SELF aggregateNumberPerBrand()
-    {
+public interface AggregateNumberPerBrand<SELF extends Aggregate<SELF>> extends Aggregate<SELF> {
+    default SELF aggregateNumberPerBrand() {
         return aggregate("number-per-brand");
     }
-
 }

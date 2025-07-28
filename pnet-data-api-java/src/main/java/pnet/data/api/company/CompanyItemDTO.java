@@ -14,16 +14,14 @@
  */
 package pnet.data.api.company;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.GeoPoint;
 import pnet.data.api.util.PnetDataApiUtils;
 import pnet.data.api.util.WithCompanyId;
@@ -39,8 +37,8 @@ import pnet.data.api.util.WithTenants;
  */
 @Schema(description = "Holds basic information about one company.")
 public class CompanyItemDTO
-    implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate, WithScore, Serializable
-{
+    implements WithCompanyId, WithTenants, WithMatchcode, WithLastUpdate, WithScore, Serializable {
+
     @Serial
     private static final long serialVersionUID = 8371146988245636569L;
 
@@ -71,9 +69,10 @@ public class CompanyItemDTO
     @Schema(description = "Valid tenants of the company (also known as Portal-ID).")
     private final Collection<String> tenants;
 
-    @Schema(description =
-        "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands "
-            + "interface.")
+    @Schema(
+        description = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands " +
+        "interface."
+    )
     private final Collection<CompanyBrandLinkDTO> brands;
 
     @Schema(description = "The company number. In most cases, this is the same as the SAP number.")
@@ -100,8 +99,10 @@ public class CompanyItemDTO
     @Schema(description = "The region as defined in the address of the company.")
     private final String region;
 
-    @Schema(description = "All company types assigned to the company. The matchcode of each item fits to the "
-        + "matchcodes of the company types interface.")
+    @Schema(
+        description = "All company types assigned to the company. The matchcode of each item fits to the " +
+        "matchcodes of the company types interface."
+    )
     private final Collection<CompanyTypeLinkDTO> types;
 
     @Schema(description = "The logitude and latitude of the companies location.")
@@ -114,19 +115,30 @@ public class CompanyItemDTO
     private final double score;
 
     @SuppressWarnings("java:S107")
-    public CompanyItemDTO(@JsonProperty("companyId") Integer companyId, @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("administrativeTenant") String administrativeTenant, @JsonProperty("label") String label,
-        @JsonProperty("name") String name, @JsonProperty("nameAffix") String nameAffix,
+    public CompanyItemDTO(
+        @JsonProperty("companyId") Integer companyId,
+        @JsonProperty("matchcode") String matchcode,
+        @JsonProperty("administrativeTenant") String administrativeTenant,
+        @JsonProperty("label") String label,
+        @JsonProperty("name") String name,
+        @JsonProperty("nameAffix") String nameAffix,
         @JsonProperty("additionalNameAffix") String additionalNameAffix,
-        @JsonProperty("marketingName") String marketingName, @JsonProperty("tenants") Collection<String> tenants,
+        @JsonProperty("marketingName") String marketingName,
+        @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<CompanyBrandLinkDTO> brands,
-        @JsonProperty("companyNumber") String companyNumber, @JsonProperty("bpcmLocationUuid") String bpcmLocationUuid,
-        @JsonProperty("street") String street, @JsonProperty("city") String city,
-        @JsonProperty("postalCode") String postalCode, @JsonProperty("countryCode") String countryCode,
-        @JsonProperty("country") String country, @JsonProperty("region") String region,
-        @JsonProperty("types") Collection<CompanyTypeLinkDTO> types, @JsonProperty("location") GeoPoint location,
-        @JsonProperty("lastUpdate") LocalDateTime lastUpdate, @JsonProperty("score") double score)
-    {
+        @JsonProperty("companyNumber") String companyNumber,
+        @JsonProperty("bpcmLocationUuid") String bpcmLocationUuid,
+        @JsonProperty("street") String street,
+        @JsonProperty("city") String city,
+        @JsonProperty("postalCode") String postalCode,
+        @JsonProperty("countryCode") String countryCode,
+        @JsonProperty("country") String country,
+        @JsonProperty("region") String region,
+        @JsonProperty("types") Collection<CompanyTypeLinkDTO> types,
+        @JsonProperty("location") GeoPoint location,
+        @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
+        @JsonProperty("score") double score
+    ) {
         super();
         this.companyId = companyId;
         this.matchcode = matchcode;
@@ -153,152 +165,143 @@ public class CompanyItemDTO
     }
 
     @Override
-    public Integer getCompanyId()
-    {
+    public Integer getCompanyId() {
         return companyId;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return getCompanyMatchcode();
     }
 
     @Override
-    public String getCompanyMatchcode()
-    {
+    public String getCompanyMatchcode() {
         return matchcode;
     }
 
-    public String getAdministrativeTenant()
-    {
+    public String getAdministrativeTenant() {
         return administrativeTenant;
     }
 
-    public String getLabel()
-    {
+    public String getLabel() {
         return label;
     }
 
-    public String getLabelWithNumber()
-    {
+    public String getLabelWithNumber() {
         return PnetDataApiUtils.toCompanyLabelWithNumber(companyNumber, label);
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public String getNameAffix()
-    {
+    public String getNameAffix() {
         return nameAffix;
     }
 
-    public String getAdditionalNameAffix()
-    {
+    public String getAdditionalNameAffix() {
         return additionalNameAffix;
     }
 
-    public String getMarketingName()
-    {
+    public String getMarketingName() {
         return marketingName;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
-    public Collection<CompanyBrandLinkDTO> getBrands()
-    {
+    public Collection<CompanyBrandLinkDTO> getBrands() {
         return brands;
     }
 
-    public Optional<CompanyBrandLinkDTO> findBrand(Predicate<? super CompanyBrandLinkDTO> predicate)
-    {
+    public Optional<CompanyBrandLinkDTO> findBrand(Predicate<? super CompanyBrandLinkDTO> predicate) {
         return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
     @Override
-    public String getCompanyNumber()
-    {
+    public String getCompanyNumber() {
         return companyNumber;
     }
 
-    public String getBpcmLocationUuid()
-    {
+    public String getBpcmLocationUuid() {
         return bpcmLocationUuid;
     }
 
-    public String getStreet()
-    {
+    public String getStreet() {
         return street;
     }
 
-    public String getCity()
-    {
+    public String getCity() {
         return city;
     }
 
-    public String getPostalCode()
-    {
+    public String getPostalCode() {
         return postalCode;
     }
 
-    public String getCountryCode()
-    {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public String getCountry()
-    {
+    public String getCountry() {
         return country;
     }
 
-    public String getRegion()
-    {
+    public String getRegion() {
         return region;
     }
 
-    public Collection<CompanyTypeLinkDTO> getTypes()
-    {
+    public Collection<CompanyTypeLinkDTO> getTypes() {
         return types;
     }
 
-    public Optional<CompanyTypeLinkDTO> findType(Predicate<? super CompanyTypeLinkDTO> predicate)
-    {
+    public Optional<CompanyTypeLinkDTO> findType(Predicate<? super CompanyTypeLinkDTO> predicate) {
         return types == null ? Optional.empty() : types.stream().filter(predicate).findFirst();
     }
 
-    public GeoPoint getLocation()
-    {
+    public GeoPoint getLocation() {
         return location;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
     @Override
-    public double getScore()
-    {
+    public double getScore() {
         return score;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format(
-            "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, "
-                + "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, bpcmLocationUuid=%s, street=%s, city=%s, "
-                + "postalCode=%s, countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, "
-                + "score=%s]", companyId, matchcode, administrativeTenant, name, nameAffix, marketingName, tenants,
-            brands, companyNumber, bpcmLocationUuid, street, city, postalCode, countryCode, country, region, types,
-            location, lastUpdate, score);
+            "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, " +
+            "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, bpcmLocationUuid=%s, street=%s, city=%s, " +
+            "postalCode=%s, countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, " +
+            "score=%s]",
+            companyId,
+            matchcode,
+            administrativeTenant,
+            name,
+            nameAffix,
+            marketingName,
+            tenants,
+            brands,
+            companyNumber,
+            bpcmLocationUuid,
+            street,
+            city,
+            postalCode,
+            countryCode,
+            country,
+            region,
+            types,
+            location,
+            lastUpdate,
+            score
+        );
     }
-
 }

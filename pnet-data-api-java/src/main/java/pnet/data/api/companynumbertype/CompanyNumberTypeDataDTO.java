@@ -14,15 +14,13 @@
  */
 package pnet.data.api.companynumbertype;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -33,8 +31,8 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @Schema(description = "Holds all information about a company number type")
-public class CompanyNumberTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable
-{
+public class CompanyNumberTypeDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable {
+
     @Serial
     private static final long serialVersionUID = 8523314179106137587L;
 
@@ -43,49 +41,45 @@ public class CompanyNumberTypeDataDTO implements WithMatchcode, WithLabels, With
 
     @Schema(description = "The label of the company number type with all existing translations")
     private Map<Locale, String> labels;
+
     @Schema(description = "The time and date when the company number type was last changed")
     private LocalDateTime lastUpdate;
 
-    public CompanyNumberTypeDataDTO(@JsonProperty("matchcode") String matchcode)
-    {
+    public CompanyNumberTypeDataDTO(@JsonProperty("matchcode") String matchcode) {
         super();
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
-    public void setLabels(Map<Locale, String> labels)
-    {
+    public void setLabels(Map<Locale, String> labels) {
         this.labels = labels;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("CompanyNumberTypeDataDTO [matchcode=%s, labels=%s, lastUpdate=%s]", matchcode, labels,
-            lastUpdate);
+    public String toString() {
+        return String.format(
+            "CompanyNumberTypeDataDTO [matchcode=%s, labels=%s, lastUpdate=%s]",
+            matchcode,
+            labels,
+            lastUpdate
+        );
     }
-
 }

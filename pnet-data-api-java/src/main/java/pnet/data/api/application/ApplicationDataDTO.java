@@ -14,6 +14,8 @@
  */
 package pnet.data.api.application;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,10 +24,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
@@ -37,8 +35,8 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @Schema(description = "Holds all information about an application")
-public class ApplicationDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithLastUpdate, Serializable
-{
+public class ApplicationDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithLastUpdate, Serializable {
+
     @Serial
     private static final long serialVersionUID = -8043695004224267387L;
 
@@ -57,71 +55,64 @@ public class ApplicationDataDTO implements WithMatchcode, WithLabels, WithDescri
     @Schema(description = "The time and date when the application was last changed.")
     private LocalDateTime lastUpdate;
 
-    public ApplicationDataDTO(@JsonProperty("matchcode") String matchcode)
-    {
+    public ApplicationDataDTO(@JsonProperty("matchcode") String matchcode) {
         super();
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
-    public void setLabels(Map<Locale, String> labels)
-    {
+    public void setLabels(Map<Locale, String> labels) {
         this.labels = labels;
     }
 
     @Override
-    public Map<Locale, String> getDescriptions()
-    {
+    public Map<Locale, String> getDescriptions() {
         return descriptions;
     }
 
-    public void setDescriptions(Map<Locale, String> descriptions)
-    {
+    public void setDescriptions(Map<Locale, String> descriptions) {
         this.descriptions = descriptions;
     }
 
-    public Collection<ApplicationScopeLinkDTO> getScopes()
-    {
+    public Collection<ApplicationScopeLinkDTO> getScopes() {
         return scopes;
     }
 
-    public Optional<ApplicationScopeLinkDTO> findScope(Predicate<? super ApplicationScopeLinkDTO> predicate)
-    {
+    public Optional<ApplicationScopeLinkDTO> findScope(Predicate<? super ApplicationScopeLinkDTO> predicate) {
         return scopes == null ? Optional.empty() : scopes.stream().filter(predicate).findFirst();
     }
 
-    public void setScopes(Collection<ApplicationScopeLinkDTO> scopes)
-    {
+    public void setScopes(Collection<ApplicationScopeLinkDTO> scopes) {
         this.scopes = scopes;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("ApplicationDataDTO [matchcode=%s, labels=%s, descriptions=%s, scopes=%s, lastUpdate=%s]",
-            matchcode, labels, descriptions, scopes, lastUpdate);
+    public String toString() {
+        return String.format(
+            "ApplicationDataDTO [matchcode=%s, labels=%s, descriptions=%s, scopes=%s, lastUpdate=%s]",
+            matchcode,
+            labels,
+            descriptions,
+            scopes,
+            lastUpdate
+        );
     }
 }

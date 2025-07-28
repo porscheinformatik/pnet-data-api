@@ -5,11 +5,10 @@ import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.Test;
 
-public class MediaTypeTest
-{
+public class MediaTypeTest {
+
     @Test
-    public void testToString()
-    {
+    public void testToString() {
         assertThat(MediaType.ANY.toString(), is("*/*"));
 
         assertThat(MediaType.APPLICATION.toString(), is("application/*"));
@@ -38,8 +37,7 @@ public class MediaTypeTest
     }
 
     @Test
-    public void testCompatibility()
-    {
+    public void testCompatibility() {
         assertThat(MediaType.ANY.isCompatible(MediaType.ANY), is(true));
         assertThat(MediaType.ANY.isCompatible(MediaType.APPLICATION), is(true));
         assertThat(MediaType.ANY.isCompatible(MediaType.APPLICATION_JSON), is(true));

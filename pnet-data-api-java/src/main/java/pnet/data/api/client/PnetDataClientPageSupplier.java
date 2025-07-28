@@ -1,7 +1,6 @@
 package pnet.data.api.client;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.util.Pair;
 
@@ -12,7 +11,6 @@ import pnet.data.api.util.Pair;
  * @author ham
  */
 @FunctionalInterface
-public interface PnetDataClientPageSupplier<T>
-{
+public interface PnetDataClientPageSupplier<T> {
     PnetDataClientResultPage<T> get(List<Pair<String, Object>> restricts) throws PnetDataClientException;
 }

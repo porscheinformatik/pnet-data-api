@@ -14,16 +14,14 @@
  */
 package pnet.data.api.brand;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -35,8 +33,8 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds all information about a brand")
-public class BrandDataDTO implements WithMatchcode, WithLabels, WithTenants, WithLastUpdate, Serializable
-{
+public class BrandDataDTO implements WithMatchcode, WithLabels, WithTenants, WithLastUpdate, Serializable {
+
     @Serial
     private static final long serialVersionUID = -5392033900534170882L;
 
@@ -45,92 +43,87 @@ public class BrandDataDTO implements WithMatchcode, WithLabels, WithTenants, Wit
 
     @Schema(description = "The tenants where the brand is valid")
     private Collection<String> tenants;
+
     @Schema(description = "The label of the brand with all existing translations")
     private Map<Locale, String> labels;
+
     @Schema(description = "The ordinal of the brand for sorting")
     private int ordinal;
+
     @Schema(description = "The simplified name of the brand when used as path, e.g. 'vw', 'audi', 'vwlnf'")
     private String path;
+
     @Schema(description = "The time and date when the brand was last changed")
     private LocalDateTime lastUpdate;
 
-    public BrandDataDTO(@JsonProperty("matchcode") String matchcode)
-    {
+    public BrandDataDTO(@JsonProperty("matchcode") String matchcode) {
         super();
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
-    public void setTenants(Collection<String> tenants)
-    {
+    public void setTenants(Collection<String> tenants) {
         this.tenants = tenants;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
-    public void setLabels(Map<Locale, String> labels)
-    {
+    public void setLabels(Map<Locale, String> labels) {
         this.labels = labels;
     }
 
     /**
      * @return The ordinal of the brand for sorting.
      */
-    public int getOrdinal()
-    {
+    public int getOrdinal() {
         return ordinal;
     }
 
-    public void setOrdinal(int ordinal)
-    {
+    public void setOrdinal(int ordinal) {
         this.ordinal = ordinal;
     }
 
     /**
      * @return The simplified name when used as path, e.g. "vw", "audi", "vwlnf".
      */
-    public String getPath()
-    {
+    public String getPath() {
         return path;
     }
 
-    public void setPath(String path)
-    {
+    public void setPath(String path) {
         this.path = path;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("BrandDataDTO [matchcode=%s, tenants=%s, labels=%s, ordinal=%s, path=%s]", matchcode,
-            tenants, labels, ordinal, path);
+    public String toString() {
+        return String.format(
+            "BrandDataDTO [matchcode=%s, tenants=%s, labels=%s, ordinal=%s, path=%s]",
+            matchcode,
+            tenants,
+            labels,
+            ordinal,
+            path
+        );
     }
-
 }

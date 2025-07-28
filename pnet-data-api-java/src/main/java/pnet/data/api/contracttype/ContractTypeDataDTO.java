@@ -14,6 +14,8 @@
  */
 package pnet.data.api.contracttype;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -23,10 +25,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import io.swagger.v3.oas.annotations.media.Schema;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -39,8 +37,8 @@ import pnet.data.api.util.WithTenants;
  * @author ham
  */
 @Schema(description = "Holds all information about a contract type")
-public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable
-{
+public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabels, WithLastUpdate, Serializable {
+
     @Serial
     private static final long serialVersionUID = -1947283275602928634L;
 
@@ -62,87 +60,79 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
     @Schema(description = "The time and date when the contract type was last changed")
     private LocalDateTime lastUpdate;
 
-    public ContractTypeDataDTO(@JsonProperty("matchcode") String matchcode)
-    {
+    public ContractTypeDataDTO(@JsonProperty("matchcode") String matchcode) {
         super();
-
         this.matchcode = matchcode;
     }
 
     @Override
-    public String getMatchcode()
-    {
+    public String getMatchcode() {
         return matchcode;
     }
 
     @Override
-    public Map<Locale, String> getLabels()
-    {
+    public Map<Locale, String> getLabels() {
         return labels;
     }
 
-    public void setLabels(Map<Locale, String> labels)
-    {
+    public void setLabels(Map<Locale, String> labels) {
         this.labels = labels;
     }
 
     @Override
-    public Collection<String> getTenants()
-    {
+    public Collection<String> getTenants() {
         return tenants;
     }
 
-    public void setTenants(Collection<String> tenants)
-    {
+    public void setTenants(Collection<String> tenants) {
         this.tenants = tenants;
     }
 
-    public Collection<ContractTypeBrandLinkDTO> getBrands()
-    {
+    public Collection<ContractTypeBrandLinkDTO> getBrands() {
         return brands;
     }
 
-    public Optional<ContractTypeBrandLinkDTO> findBrand(Predicate<? super ContractTypeBrandLinkDTO> predicate)
-    {
+    public Optional<ContractTypeBrandLinkDTO> findBrand(Predicate<? super ContractTypeBrandLinkDTO> predicate) {
         return brands == null ? Optional.empty() : brands.stream().filter(predicate).findFirst();
     }
 
-    public Collection<ContractTypeBrandLinkDTO> getBrandsOfTenant(String tenant)
-    {
-        return getBrands().stream().filter($ -> Objects.equals(tenant, $.getTenant())).toList();
+    public Collection<ContractTypeBrandLinkDTO> getBrandsOfTenant(String tenant) {
+        return getBrands()
+            .stream()
+            .filter($ -> Objects.equals(tenant, $.getTenant()))
+            .toList();
     }
 
-    public void setBrands(Collection<ContractTypeBrandLinkDTO> brands)
-    {
+    public void setBrands(Collection<ContractTypeBrandLinkDTO> brands) {
         this.brands = brands;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 
-    public void setType(String type)
-    {
+    public void setType(String type) {
         this.type = type;
     }
 
     @Override
-    public LocalDateTime getLastUpdate()
-    {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(LocalDateTime lastUpdate)
-    {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
     @Override
-    public String toString()
-    {
-        return String.format("ContractTypeDataDTO [matchcode=%s, labels=%s, tenants=%s, brands=%s, type=%s]", matchcode,
-            labels, tenants, brands, type);
+    public String toString() {
+        return String.format(
+            "ContractTypeDataDTO [matchcode=%s, labels=%s, tenants=%s, brands=%s, type=%s]",
+            matchcode,
+            labels,
+            tenants,
+            brands,
+            type
+        );
     }
-
 }

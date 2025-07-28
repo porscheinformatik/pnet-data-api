@@ -3,7 +3,6 @@ package pnet.data.api.numbertype;
 import static pnet.data.api.util.MockFilters.*;
 
 import java.util.List;
-
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.PnetDataApiContextMock;
@@ -18,15 +17,14 @@ import pnet.data.api.util.Pair;
  *
  * @author HAM
  */
-public class NumberTypeDataClientMock extends NumberTypeDataClient
-    implements ItemClientMock<NumberTypeItemDTO, NumberTypeDataClientMock>,
-    DataClientMock<NumberTypeDataDTO, NumberTypeDataClientMock>
-{
+public class NumberTypeDataClientMock
+    extends NumberTypeDataClient
+    implements
+        ItemClientMock<NumberTypeItemDTO, NumberTypeDataClientMock>,
+        DataClientMock<NumberTypeDataDTO, NumberTypeDataClientMock> {
 
-    public NumberTypeDataClientMock()
-    {
+    public NumberTypeDataClientMock() {
         super(new PnetDataApiContextMock());
-
         MockStore<NumberTypeItemDTO> itemStore = getItemStore();
 
         addDefaultLabelQueryFilter(itemStore);
@@ -40,8 +38,7 @@ public class NumberTypeDataClientMock extends NumberTypeDataClient
 
     @Override
     protected PnetDataClientResultPage<NumberTypeDataDTO> get(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<NumberTypeDataDTO> entries = findDatas(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -49,8 +46,7 @@ public class NumberTypeDataClientMock extends NumberTypeDataClient
 
     @Override
     protected PnetDataClientResultPage<NumberTypeItemDTO> find(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<NumberTypeItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);
@@ -58,8 +54,7 @@ public class NumberTypeDataClientMock extends NumberTypeDataClient
 
     @Override
     protected PnetDataClientResultPage<NumberTypeItemDTO> search(List<Pair<String, Object>> restricts)
-        throws PnetDataClientException
-    {
+        throws PnetDataClientException {
         List<NumberTypeItemDTO> entries = findItems(restricts);
 
         return MockUtils.mockResultPage(restricts, entries);

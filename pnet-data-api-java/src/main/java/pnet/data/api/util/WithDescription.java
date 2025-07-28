@@ -19,12 +19,9 @@ package pnet.data.api.util;
  *
  * @author ham
  */
-public interface WithDescription
-{
-
+public interface WithDescription {
     /**
      * @return the description
      */
     String getDescription();
-
 }

@@ -14,9 +14,8 @@
  */
 package pnet.data.api;
 
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import pnet.data.api.util.WithAggregations;
 
 /**
@@ -27,65 +26,61 @@ import pnet.data.api.util.WithAggregations;
  * @author ham
  */
 @Schema(description = "Holds results of a search or find operation with paging information and aggregations.")
-public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage<T>, WithAggregations<AggregationsT>
-{
-    static <T, AggregationsT> ResultPageWithAggregations<T, AggregationsT> of(List<T> items, AggregationsT aggregations,
-        int itemsPerPage, int totalNumberOfItems, int pageIndex, int numberOfPages, SearchAfter searchAfter,
-        String scrollId, boolean complete)
-    {
-        return new ResultPageWithAggregations<>() //
-        {
+public interface ResultPageWithAggregations<T, AggregationsT> extends ResultPage<T>, WithAggregations<AggregationsT> {
+    static <T, AggregationsT> ResultPageWithAggregations<T, AggregationsT> of(
+        List<T> items,
+        AggregationsT aggregations,
+        int itemsPerPage,
+        int totalNumberOfItems,
+        int pageIndex,
+        int numberOfPages,
+        SearchAfter searchAfter,
+        String scrollId,
+        boolean complete
+    ) {
+        return new ResultPageWithAggregations<>() {
             @Override
-            public List<T> getItems()
-            {
+            public List<T> getItems() {
                 return items;
             }
 
             @Override
-            public AggregationsT getAggregations()
-            {
+            public AggregationsT getAggregations() {
                 return aggregations;
             }
 
             @Override
-            public int getItemsPerPage()
-            {
+            public int getItemsPerPage() {
                 return itemsPerPage;
             }
 
             @Override
-            public int getTotalNumberOfItems()
-            {
+            public int getTotalNumberOfItems() {
                 return totalNumberOfItems;
             }
 
             @Override
-            public int getPageIndex()
-            {
+            public int getPageIndex() {
                 return pageIndex;
             }
 
             @Override
-            public int getNumberOfPages()
-            {
+            public int getNumberOfPages() {
                 return numberOfPages;
             }
 
             @Override
-            public SearchAfter getSearchAfter()
-            {
+            public SearchAfter getSearchAfter() {
                 return searchAfter;
             }
 
             @Override
-            public String getScrollId()
-            {
+            public String getScrollId() {
                 return scrollId;
             }
 
             @Override
-            public boolean isComplete()
-            {
+            public boolean isComplete() {
                 return complete;
             }
         };

@@ -5,14 +5,11 @@ package at.porscheinformatik.happyrest;
  *
  * @author HAM
  */
-public class SystemRestLoggerAdapter extends PrintStreamLoggerAdapter
-{
+public class SystemRestLoggerAdapter extends PrintStreamLoggerAdapter {
 
     public static final SystemRestLoggerAdapter INSTANCE = new SystemRestLoggerAdapter();
 
-    public SystemRestLoggerAdapter()
-    {
+    public SystemRestLoggerAdapter() {
         super(System.out);
     }
-
 }
