@@ -167,7 +167,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The explicit login locks of the person (needed scope: SC_PERSON_LOCKS).")
     private Collection<PersonLockLinkDTO> personLocks;
 
-    @Schema(description = "Is the login of the person locked? (needed scope: SC_IDENTIFIER).")
+    @Schema(description = "Indicates whether the user account is locked, preventing the user from logging in via Partner.Net. Additional details about the lock reason can be found in the `personLocks` field. (needed scope: SC_IDENTIFIER).")
     private Boolean isLocked;
 
     @Schema(description = "The tenant specific settings of the user (needed scope: SC_PREFERRED_COMPANY).")

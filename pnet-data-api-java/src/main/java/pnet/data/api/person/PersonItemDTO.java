@@ -118,7 +118,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The mobile phone number of the person (needed scope: SC_PHONE_NUMBER).")
     private final String mobileNumber;
 
-    @Schema(description = "Is the login of the person locked? (no scope needed).")
+    @Schema(description = "Indicates whether the user account is locked, preventing the user from logging in via Partner.Net. (needed scope: SC_IDENTIFIER).")
     private Boolean isLocked;
 
     @Schema(description = "The languages the person speaks (needed scope: SC_LANGUAGE).")
