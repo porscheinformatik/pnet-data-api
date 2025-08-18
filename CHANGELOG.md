@@ -1,3 +1,7 @@
+# pnet-data-api 2.11.6
+
+- REVERTED: `pnet.data.api.person.PersonAdvisorAssignmentLinkDTO` will now always return `null` for `getBrandMatchcode()`.
+
 # pnet-data-api 2.11.5
 
 - Adjust username and credentialsAvailable descriptions in `PersonDataDTO` and `PersonItemDTO` to require SC_PNET_ACCOUNT scope.
