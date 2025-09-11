@@ -167,8 +167,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The explicit login locks of the person (needed scope: SC_PERSON_LOCKS).")
     private Collection<PersonLockLinkDTO> personLocks;
 
-    @Schema(description = "Is the login of the person locked? (needed scope: SC_IDENTIFIER).")
-    private Boolean isLocked;
+    @Schema(description = "Indicates whether the user account is locked, preventing the user from logging in via Partner.Net. Additional details about the lock reason can be found in the `personLocks` field. (needed scope: SC_IDENTIFIER).")
+    private Boolean locked;
 
     @Schema(description = "The tenant specific settings of the user (needed scope: SC_PREFERRED_COMPANY).")
     private Collection<PersonSettingsLinkDTO> settings;
@@ -514,12 +514,20 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.personLocks = personLocks;
     }
 
-    public void setLocked(Boolean isLocked) {
-        this.isLocked = isLocked;
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
+        /**
+     * @deprecated since 2.11.7, use {@link #getLocked()} instead.
+     */
+    @Deprecated(since = "2.11.7", forRemoval = false)
     public Boolean isLocked() {
-        return isLocked;
+        return locked;
+    }
+
+    public Boolean getLocked() {
+        return locked;
     }
 
     public Collection<PersonSettingsLinkDTO> getSettings() {
@@ -704,7 +712,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
             teamMatchcode,
             teamLabel,
             personLocks,
-            isLocked,
+            locked,
             settings,
             languages,
             companies,
