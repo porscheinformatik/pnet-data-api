@@ -118,8 +118,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The mobile phone number of the person (needed scope: SC_PHONE_NUMBER).")
     private final String mobileNumber;
 
-    @Schema(description = "Is the login of the person locked? (no scope needed).")
-    private Boolean isLocked;
+    @Schema(description = "Indicates whether the user account is locked, preventing the user from logging in via Partner.Net. (needed scope: SC_IDENTIFIER).")
+    private Boolean locked;
 
     @Schema(description = "The languages the person speaks (needed scope: SC_LANGUAGE).")
     private final Collection<Locale> languages;
@@ -181,7 +181,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("email") String email,
         @JsonProperty("phoneNumber") String phoneNumber,
         @JsonProperty("mobileNumber") String mobileNumber,
-        @JsonProperty("isLocked") Boolean isLocked,
+        @JsonProperty("locked") Boolean locked,
         @JsonProperty("languages") Collection<Locale> languages,
         @JsonProperty("companies") Collection<ActivePersonCompanyLinkDTO> companies,
         @JsonProperty("functions") Collection<ActivePersonFunctionLinkDTO> functions,
@@ -216,7 +216,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.mobileNumber = mobileNumber;
-        this.isLocked = isLocked;
+        this.locked = locked;
         this.languages = languages;
         this.companies = companies;
         this.functions = functions;
@@ -321,12 +321,20 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return mobileNumber;
     }
 
-    public void setLocked(Boolean isLocked) {
-        this.isLocked = isLocked;
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
+    /**
+     * @deprecated since 2.11.7, use {@link #getLocked()} instead.
+     */
+    @Deprecated(since = "2.11.7", forRemoval = false)
     public Boolean isLocked() {
-        return isLocked;
+        return locked;
+    }
+
+    public Boolean getLocked() {
+        return locked;
     }
 
     public Collection<Locale> getLanguages() {
