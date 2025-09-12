@@ -1,3 +1,7 @@
+# pnet-data-api 2.11.8
+
+- Add additionalMarketingName to companies.
+
 # pnet-data-api 2.11.7
 
 - Update internal representation of "locked"
