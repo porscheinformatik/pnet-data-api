@@ -64,6 +64,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "The marketing name of the company.")
     private String marketingName;
 
+    @Schema(description = "An optional additional marketing name for certain companies.")
+    private String additionalMarketingName;
+
     @Schema(description = "Groups this company is part of.")
     private Collection<CompanyGroupMemberLinkDTO> groupMembers;
 
@@ -337,6 +340,14 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 
     public void setMarketingName(String marketingName) {
         this.marketingName = marketingName;
+    }
+
+    public String getAdditionalMarketingName() {
+        return additionalMarketingName;
+    }
+
+    public void setAdditionalMarketingName(String additionalMarketingName) {
+        this.additionalMarketingName = additionalMarketingName;
     }
 
     public Collection<CompanyGroupMemberLinkDTO> getGroupMembers() {
@@ -859,7 +870,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public String toString() {
         return String.format(
             "CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, label=%s, name=%s, nameAffix=%s, " +
-            "additionalNameAffix=%s, marketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, " +
+            "additionalNameAffix=%s, marketingName=%s, additionalMarketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, " +
             "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, " +
             "companyNumber=%s, bpcmLocationUuid=%s, bpcmManaged=%s, additionalNumbers=%s, street=%s, city=%s, " +
             "postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, " +
@@ -878,6 +889,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
             nameAffix,
             additionalNameAffix,
             marketingName,
+            additionalMarketingName,
             groupMembers,
             tenants,
             brands,

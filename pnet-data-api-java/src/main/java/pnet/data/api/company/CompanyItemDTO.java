@@ -66,6 +66,9 @@ public class CompanyItemDTO
     @Schema(description = "The marketing name of the company.")
     private final String marketingName;
 
+    @Schema(description = "An optional additional marketing name for certain companies.")
+    private final String additionalMarketingName;
+
     @Schema(description = "Valid tenants of the company (also known as Portal-ID).")
     private final Collection<String> tenants;
 
@@ -124,6 +127,7 @@ public class CompanyItemDTO
         @JsonProperty("nameAffix") String nameAffix,
         @JsonProperty("additionalNameAffix") String additionalNameAffix,
         @JsonProperty("marketingName") String marketingName,
+        @JsonProperty("additionalMarketingName") String additionalMarketingName,
         @JsonProperty("tenants") Collection<String> tenants,
         @JsonProperty("brands") Collection<CompanyBrandLinkDTO> brands,
         @JsonProperty("companyNumber") String companyNumber,
@@ -148,6 +152,7 @@ public class CompanyItemDTO
         this.nameAffix = nameAffix;
         this.additionalNameAffix = additionalNameAffix;
         this.marketingName = marketingName;
+        this.additionalMarketingName = additionalMarketingName;
         this.tenants = tenants;
         this.brands = brands;
         this.companyNumber = companyNumber;
@@ -205,6 +210,11 @@ public class CompanyItemDTO
 
     public String getMarketingName() {
         return marketingName;
+    }
+
+    public String getAdditionalMarketingName()
+    {
+        return additionalMarketingName;
     }
 
     @Override
@@ -279,7 +289,7 @@ public class CompanyItemDTO
     public String toString() {
         return String.format(
             "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, " +
-            "marketingName=%s, tenants=%s, brands=%s, companyNumber=%s, bpcmLocationUuid=%s, street=%s, city=%s, " +
+            "marketingName=%s, additionalMarketingName=%s, tenants=%s, brands=%s, companyNumber=%s, bpcmLocationUuid=%s, street=%s, city=%s, " +
             "postalCode=%s, countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, " +
             "score=%s]",
             companyId,
@@ -288,6 +298,7 @@ public class CompanyItemDTO
             name,
             nameAffix,
             marketingName,
+            additionalMarketingName,
             tenants,
             brands,
             companyNumber,
