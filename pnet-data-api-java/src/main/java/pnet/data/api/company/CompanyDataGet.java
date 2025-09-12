@@ -1,6 +1,5 @@
 package pnet.data.api.company;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import pnet.data.api.PnetDataClientException;

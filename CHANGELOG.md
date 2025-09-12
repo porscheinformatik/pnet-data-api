@@ -1,3 +1,7 @@
+# pnet-data-api 2.11.7
+
+- Update internal representation of "locked"
+
 # pnet-data-api 2.11.6
 
 - REVERTED: `pnet.data.api.person.PersonAdvisorAssignmentLinkDTO` will now always return `null` for `getBrandMatchcode()`.

@@ -118,7 +118,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The mobile phone number of the person (needed scope: SC_PHONE_NUMBER).")
     private final String mobileNumber;
 
-    @Schema(description = "Indicates whether the user account is locked, preventing the user from logging in via Partner.Net. (needed scope: SC_IDENTIFIER).")
+    @Schema(
+        description = "Indicates whether the user account is locked, preventing the user from logging in via Partner.Net. (needed scope: SC_IDENTIFIER)."
+    )
     private Boolean locked;
 
     @Schema(description = "The languages the person speaks (needed scope: SC_LANGUAGE).")
@@ -401,7 +403,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
             "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, " +
             "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
-            "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, isLocked=%s, languages=%s, " +
+            "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
             "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
             "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
             personId,
@@ -425,7 +427,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             email,
             phoneNumber,
             mobileNumber,
-            isLocked,
+            locked,
             languages,
             companies,
             functions,

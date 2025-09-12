@@ -51,8 +51,8 @@ public final class PnetDataApiUtils {
     static {
         DICTIONARY_COLLATOR = Collator.getInstance();
 
-        DICTIONARY_COLLATOR.setStrength(Collator.PRIMARY);
-        DICTIONARY_COLLATOR.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
+        PnetDataApiUtils.DICTIONARY_COLLATOR.setStrength(Collator.PRIMARY);
+        PnetDataApiUtils.DICTIONARY_COLLATOR.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
     }
 
     public static String getVersion() {
@@ -92,7 +92,7 @@ public final class PnetDataApiUtils {
     public static String getUserAgent(String technology) {
         return String.format(
             "Pnet Data API Java Client %s using %s (%s; %s) %s %s",
-            getVersion(),
+            PnetDataApiUtils.getVersion(),
             System.getProperty("os.name"),
             technology,
             System.getProperty("os.arch"),
@@ -101,9 +101,7 @@ public final class PnetDataApiUtils {
         );
     }
 
-    private PnetDataApiUtils() {
-        super();
-    }
+    private PnetDataApiUtils() {}
 
     /**
      * Nullsafe empty and blank check for strings
@@ -123,7 +121,7 @@ public final class PnetDataApiUtils {
      * @param right the right value
      * @return true if compares to 0 or if equal.
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked" })
     public static <Any> boolean equals(Any left, Any right) {
         if (left == right) {
             return true;
@@ -198,7 +196,7 @@ public final class PnetDataApiUtils {
      * @return the result of the compare function
      */
     public static int dictionaryCompare(final String left, final String right) {
-        return compare(DICTIONARY_COLLATOR, left, right);
+        return PnetDataApiUtils.compare(PnetDataApiUtils.DICTIONARY_COLLATOR, left, right);
     }
 
     /**
@@ -223,7 +221,7 @@ public final class PnetDataApiUtils {
             if (language == null) {
                 return null;
             }
-            language = getParentLanguage(language);
+            language = PnetDataApiUtils.getParentLanguage(language);
         }
     }
 
@@ -252,15 +250,15 @@ public final class PnetDataApiUtils {
             return null;
         }
 
-        if (!isEmpty(language.getVariant())) {
+        if (!PnetDataApiUtils.isEmpty(language.getVariant())) {
             return new Locale(language.getLanguage(), language.getCountry());
         }
 
-        if (!isEmpty(language.getCountry())) {
+        if (!PnetDataApiUtils.isEmpty(language.getCountry())) {
             return new Locale(language.getLanguage());
         }
 
-        if (!isEmpty(language.getLanguage())) {
+        if (!PnetDataApiUtils.isEmpty(language.getLanguage())) {
             return Locale.ROOT;
         }
 
@@ -309,7 +307,7 @@ public final class PnetDataApiUtils {
     }
 
     public static String toCompanyLabelWithNumber(String number, String label) {
-        return number != null ? String.format("(%s) %s", leftPad(number, 5, '0'), label) : label;
+        return number != null ? String.format("(%s) %s", PnetDataApiUtils.leftPad(number, 5, '0'), label) : label;
     }
 
     public static String leftPad(String s, int length, char ch) {

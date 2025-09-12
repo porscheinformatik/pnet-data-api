@@ -1,7 +1,6 @@
 package pnet.data.api.util;
 
 import java.util.Collection;
-import pnet.data.api.person.PersonType;
 import pnet.data.api.person.PersonTypeFilter;
 
 /**

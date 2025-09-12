@@ -1,8 +1,7 @@
 package pnet.data.api;
 
-import static pnet.data.api.util.PrettyPrint.prettyPrint;
+import static pnet.data.api.util.PrettyPrint.*;
 
-import at.porscheinformatik.happyrest.RestException;
 import java.awt.Canvas;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -26,8 +25,11 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
+import at.porscheinformatik.happyrest.RestException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
 import pnet.data.api.activity.ActivityAutoCompleteDTO;
