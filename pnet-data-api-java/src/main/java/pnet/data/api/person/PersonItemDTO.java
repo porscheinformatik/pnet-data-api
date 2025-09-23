@@ -71,6 +71,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final String username;
 
+    @Schema(description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries")
+    private String taxNumber;
+
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final Boolean credentialsAvailable;
 
@@ -193,7 +196,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("contactCompanyNumber") String contactCompanyNumber,
         @JsonProperty("portraitAvailable") Boolean portraitAvailable,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
-        @JsonProperty("score") double score
+        @JsonProperty("score") double score,
+        @JsonProperty("taxNumber") String taxNumber
     ) {
         super();
         this.personId = personId;
@@ -229,6 +233,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.portraitAvailable = portraitAvailable;
         this.lastUpdate = lastUpdate;
         this.score = score;
+        this.taxNumber = taxNumber;
     }
 
     @Override
@@ -271,6 +276,14 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     public String getUsername() {
         return username;
+    }
+
+    public String getTaxNumber() {
+        return taxNumber;
+    }
+
+    public void setTaxNumber(String taxNumber) {
+        this.taxNumber = taxNumber;
     }
 
     public Boolean getCredentialsAvailable() {
@@ -405,7 +418,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
             "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
             "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
-            "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s]",
+            "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s, taxNumber=%s]",
             personId,
             administrativeTenant,
             tenants,
@@ -437,7 +450,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             contactCompanyNumber,
             portraitAvailable,
             lastUpdate,
-            score
+            score,
+            taxNumber
         );
     }
 }
