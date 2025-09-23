@@ -2222,6 +2222,7 @@ public final class PnetRestClient {
             dto.getLastName(),
             dto.getAcademicTitlePostNominal(),
             dto.getAdministrativeTenant(),
+            dto.getTaxNumber(),
             dto.getCompanies() != null
                 ? dto
                     .getCompanies()

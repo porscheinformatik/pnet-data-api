@@ -76,6 +76,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private String username;
 
+    @Schema(description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries")
+    private String taxNumber;
+
     @Schema(description = "The person is able to access the Partner.Net (needed scope: SC_PNET_ACCOUNT).")
     private Boolean credentialsAvailable;
 
@@ -308,6 +311,14 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getTaxNumber() {
+        return taxNumber;
+    }
+
+    public void setTaxNumber(String taxNumber) {
+        this.taxNumber = taxNumber;
     }
 
     public Boolean getCredentialsAvailable() {
@@ -677,7 +688,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
             "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, " +
             "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, " +
             "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, " +
-            "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s]",
+            "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s]",
             personId,
             administrativeTenant,
             tenants,
@@ -724,7 +735,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
             portraitAvailable,
             automaticDeletion,
             checksum,
-            lastUpdate
+            lastUpdate,
+            taxNumber
         );
     }
 }
