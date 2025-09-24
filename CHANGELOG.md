@@ -1,3 +1,7 @@
+# pnet-data-api 2.11.9
+
+- Add taxNumber to persons.
+
 # pnet-data-api 2.11.8
 
 - Add additionalMarketingName to companies.
