@@ -1,3 +1,7 @@
+# pnet-data-api 2.12.0
+
+- Update dependencies
+
 # pnet-data-api 2.11.9
 
 - Add taxNumber to persons.
