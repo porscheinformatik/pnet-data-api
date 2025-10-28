@@ -266,6 +266,16 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     )
     private LocalDateTime lastUpdate;
 
+    @Schema(
+        description = "The date when the companies employees need to be recertified"
+    )
+    private LocalDateTime recertValidTo;
+
+    @Schema(
+        description = "The date when the companies re-certifiers where last notified about recertification"
+    )
+    private LocalDateTime recertNotified;
+
     public CompanyDataDTO(@JsonProperty("companyId") Integer companyId) {
         super();
         this.companyId = companyId;
@@ -866,6 +876,22 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.lastUpdate = lastUpdate;
     }
 
+    public LocalDateTime getRecertValidTo() {
+        return recertValidTo;
+    }
+
+    public void setRecertValidTo(LocalDateTime recertValidTo) {
+        this.recertValidTo = recertValidTo;
+    }
+
+    public LocalDateTime getRecertNotified() {
+        return recertNotified;
+    }
+
+    public void setRecertNotified(LocalDateTime recertNotified) {
+        this.recertNotified = recertNotified;
+    }
+
     @Override
     public String toString() {
         return String.format(
@@ -880,7 +906,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
             "certificateType=%s, certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, " +
             "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, " +
             "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, " +
-            "externalBrands=%s, advisorAssignments=%s, lastUpdate=%s]",
+            "externalBrands=%s, advisorAssignments=%s, lastUpdate=%s, recertValidTo=%s, recertNotified=%s]",
             companyId,
             matchcode,
             administrativeTenant,
@@ -944,7 +970,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
             location,
             externalBrands,
             advisorAssignments,
-            lastUpdate
+            lastUpdate,
+            recertValidTo,
+            recertNotified
         );
     }
 }
