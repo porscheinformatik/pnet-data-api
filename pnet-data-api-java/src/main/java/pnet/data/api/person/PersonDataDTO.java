@@ -217,6 +217,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The time and date when the person was last changed (no scope needed).")
     private LocalDateTime lastUpdate;
 
+    @Schema(description = "The date, when the user needs to be recertified the next time")
+    private LocalDateTime recertValidTo;
+
     public PersonDataDTO(@JsonProperty("id") Integer id, @JsonProperty("personId") Integer personId) {
         super();
         this.id = id != null ? id : personId;
@@ -677,6 +680,14 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.lastUpdate = lastUpdate;
     }
 
+    public LocalDateTime getRecertValidTo() {
+        return recertValidTo;
+    }
+
+    public void setRecertValidTo(LocalDateTime recertValidTo) {
+        this.recertValidTo = recertValidTo;
+    }
+
     @Override
     public String toString() {
         return String.format(
@@ -688,7 +699,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
             "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, " +
             "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, " +
             "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, " +
-            "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s]",
+            "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s," +
+            "recertValidTo=%s]",
             personId,
             administrativeTenant,
             tenants,
@@ -736,7 +748,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
             automaticDeletion,
             checksum,
             lastUpdate,
-            taxNumber
+            taxNumber,
+            recertValidTo
         );
     }
 }
