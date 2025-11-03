@@ -162,6 +162,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The score this item accomplished in the search operation (no scope needed).")
     private final double score;
 
+    @Schema(description = "The date, when the user needs to be recertified the next time")
+    private LocalDateTime recertValidTo;
+
     @SuppressWarnings("java:S107")
     public PersonItemDTO(
         @JsonProperty("personId") Integer personId,
@@ -197,7 +200,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("portraitAvailable") Boolean portraitAvailable,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
         @JsonProperty("score") double score,
-        @JsonProperty("taxNumber") String taxNumber
+        @JsonProperty("taxNumber") String taxNumber,
+        @JsonProperty("recertValidTo") LocalDateTime recertValidTo
     ) {
         super();
         this.personId = personId;
@@ -234,6 +238,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.lastUpdate = lastUpdate;
         this.score = score;
         this.taxNumber = taxNumber;
+        this.recertValidTo = recertValidTo;
     }
 
     @Override
@@ -408,6 +413,14 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Override
     public double getScore() {
         return score;
+    }
+
+    public LocalDateTime getRecertValidTo() {
+        return recertValidTo;
+    }
+
+    public void setRecertValidTo(LocalDateTime recertValidTo) {
+        this.recertValidTo = recertValidTo;
     }
 
     @Override
