@@ -1,3 +1,7 @@
+# pnet-data-api 2.12.4
+
+- Add bdo-ID to persons.
+
 # pnet-data-api 2.12.0
 
 - Update dependencies

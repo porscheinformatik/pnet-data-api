@@ -74,6 +74,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries")
     private String taxNumber;
 
+    @Schema(description = "The bdoId references the user-id in BDO (needed scope: SC_IDENTIFIER).")
+    private String bdoId;
+
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final Boolean credentialsAvailable;
 
@@ -201,6 +204,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
         @JsonProperty("score") double score,
         @JsonProperty("taxNumber") String taxNumber,
+        @JsonProperty("bdoId") String bdoId,
         @JsonProperty("recertValidTo") LocalDateTime recertValidTo
     ) {
         super();
@@ -238,6 +242,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.lastUpdate = lastUpdate;
         this.score = score;
         this.taxNumber = taxNumber;
+        this.bdoId = bdoId;
         this.recertValidTo = recertValidTo;
     }
 
@@ -289,6 +294,16 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     public void setTaxNumber(String taxNumber) {
         this.taxNumber = taxNumber;
+    }
+
+    public String getBdoId()
+    {
+        return bdoId;
+    }
+
+    public void setBdoId(String bdoId)
+    {
+        this.bdoId = bdoId;
     }
 
     public Boolean getCredentialsAvailable() {
@@ -431,7 +446,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
             "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
             "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
-            "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s, taxNumber=%s]",
+            "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s, taxNumber=%s, bdoId=%s]",
             personId,
             administrativeTenant,
             tenants,
@@ -464,7 +479,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             portraitAvailable,
             lastUpdate,
             score,
-            taxNumber
+            taxNumber,
+            bdoId
         );
     }
 }
