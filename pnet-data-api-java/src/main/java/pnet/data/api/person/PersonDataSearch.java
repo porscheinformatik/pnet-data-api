@@ -26,6 +26,7 @@ import pnet.data.api.util.RestrictPersonType;
 import pnet.data.api.util.RestrictQueryField;
 import pnet.data.api.util.RestrictRole;
 import pnet.data.api.util.RestrictTenant;
+import pnet.data.api.util.RecertifyAfterPerson;
 import pnet.data.api.util.SearchWithAggregationsFunction;
 
 /**
@@ -58,6 +59,7 @@ public class PersonDataSearch
         AggregateNumberPerCompany<PersonDataSearch>,
         AggregateNumberPerFunction<PersonDataSearch>,
         AggregateNumberPerActivity<PersonDataSearch>,
+        RecertifyAfterPerson<PersonDataSearch>,
         RestrictQueryField<PersonDataSearch> {
 
     public PersonDataSearch(
