@@ -40,6 +40,7 @@ import pnet.data.api.util.RestrictRole;
 import pnet.data.api.util.RestrictSupervisorPersonnelNumber;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictUpdatedAfter;
+import pnet.data.api.util.RecertifyAfterPerson;
 
 /**
  * Find interface for persons.
@@ -84,6 +85,7 @@ public class PersonDataFind
         IncludeInactive<PersonDataFind>,
         IncludeAllFunctions<PersonDataFind>,
         CompanyMergable<PersonDataFind>,
+        RecertifyAfterPerson<PersonDataFind>,
         Orderable<PersonDataFind, PersonOrderBy> {
 
     public PersonDataFind(FindFunction<PersonItemDTO> findFunction, List<Pair<String, Object>> restrictItems) {
