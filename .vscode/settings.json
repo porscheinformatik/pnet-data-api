@@ -11,7 +11,7 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "sonarlint.connectedMode.project": {
-        "connectionId": "sonarqube-porscheinformatik-com",
+        "connectionId": "https-sonarqube-porscheinformatik-com",
         "projectKey": "at.porscheinformatik.pnet:pnet-data-api"
     },
     "editor.formatOnSave": true,

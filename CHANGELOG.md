@@ -1,3 +1,7 @@
+# pnet-data-api 2.13.0
+
+- Update to Spring Boot 3.5.8
+
 # pnet-data-api 2.12.4
 
 - Add bdo-ID to persons.
