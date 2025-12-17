@@ -5,23 +5,23 @@ import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import java.util.Locale;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import pnet.data.api.PnetDataClientException;
-import pnet.data.api.client.PnetDataClientConfig;
 import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
 import pnet.data.api.client.context.PnetDataApiLoginMethod;
 import pnet.data.api.client.context.UsernamePasswordCredentials;
 import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
 import pnet.data.api.company.CompanyDataClient;
+import pnet.data.api.resttemplate.EnableRestTemplateBasedPnetDataClient;
 
 /**
  * A template for a simple query using Spring. You can start it by either providing one argument containing your
  * authentication token or use two arguments containing username and password.
  *
+ * @deprecated use specific WebClient or RestTemplate based template instead
  * @author KRC
  * @author HAM
  */
-@Import(PnetDataClientConfig.class)
+@EnableRestTemplateBasedPnetDataClient
 public final class PnetSpringRestClientTemplate {
 
     private static PnetDataApiLoginMethod loginMethod = null;

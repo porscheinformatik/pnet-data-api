@@ -1,8 +1,9 @@
 package at.porscheinformatik.happyrest.spring;
 
-import at.porscheinformatik.happyrest.MediaType;
 import java.util.List;
 import java.util.Objects;
+
+import at.porscheinformatik.happyrest.MediaType;
 
 public class SpringRestUtils {
 
@@ -30,4 +31,6 @@ public class SpringRestUtils {
     public static MediaType convertMediaType(org.springframework.http.MediaType contentType, MediaType defaultType) {
         return contentType != null ? MediaType.parse(contentType.toString()) : defaultType;
     }
+
+    private SpringRestUtils() {}
 }

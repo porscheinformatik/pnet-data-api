@@ -1,6 +1,21 @@
 # pnet-data-api 2.13.0
 
 - Update to Spring Boot 3.5.8
+- Add support for WebClient-based RestCallFactory
+- Removed deprecated code before upgrading to Spring Boot 4
+
+There are some breaking changes:
+
+- Spring 4 support has been dropped. Sorry, it's time to move on.
+- Deprecated code has been removed, this includes the old authentication methods used with Spring initialization. Provide one of the following beans to define a LoginMethod:
+    - `AuthenticationTokenPnetDataApiLoginMethod`
+    - `UsernamePasswordPnetDataApiLoginMethod`
+- The PnetDataClientConfig does not contain the initialization of the RestClientFactory anymore. Replace the Import of the config with one of the following annotations:
+    - `@EnableApacheHttpClientBasedPnetDataClient` to use Apache HTTP Client 4
+    - `@EnableApache5HttpClientBasedPnetDataClient` to use Apache HTTP Client 5
+    - `@EnableJavaClientBasedPnetDataClient` to use Java's HttpClient
+    - `@EnableRestTemplateBasedPnetDataClient` to use Spring's RestTemplate
+    - `@EnableWebClientBasedPnetDataClient` to use Spring's WebClient
 
 # pnet-data-api 2.12.4
 

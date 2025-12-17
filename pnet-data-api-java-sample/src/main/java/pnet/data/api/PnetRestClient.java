@@ -1,5 +1,6 @@
 package pnet.data.api;
 
+import at.porscheinformatik.happyrest.RestException;
 import java.awt.Canvas;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -23,11 +24,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
-
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
-
-import at.porscheinformatik.happyrest.RestException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
 import pnet.data.api.activity.ActivityAutoCompleteDTO;
@@ -142,7 +140,6 @@ import pnet.data.api.person.PersonDataSearch;
 import pnet.data.api.person.PersonItemDTO;
 import pnet.data.api.person.PersonTypeFilter;
 import pnet.data.api.settings.Visibility;
-import pnet.data.api.spring.PnetSpringRestClientLauncher;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.AggregateNumberPerActivity;
 import pnet.data.api.util.AggregateNumberPerBrand;
@@ -187,10 +184,11 @@ import pnet.data.api.util.RestrictType;
 import pnet.data.api.util.RestrictVisibility;
 import pnet.data.api.util.Table;
 import pnet.data.api.util.WithMatchcode;
+import pnet.data.api.webclient.PnetSpringWebClientLauncher;
 
 /**
  * The client with all commands. See {@link PnetApache5RestClientLauncher}, {@link PnetJavaRestClientLauncher} or
- * {@link PnetSpringRestClientLauncher} on how to launch this client.
+ * {@link PnetSpringWebClientLauncher} on how to launch this client.
  *
  * @author ham
  */
@@ -419,7 +417,9 @@ public final class PnetRestClient {
         description = "Exports all activities" + " updated since yesterday."
     )
     public void exportAllUpdatedActivities(String updatedAfter) throws PnetDataClientException {
-        ActivityDataFind query = restrict(activityDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter)));
+        ActivityDataFind query = restrict(
+            activityDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter))
+        );
         PnetDataClientResultPage<ActivityItemDTO> result = scroll
             ? query.executeAndScroll(language, pageSize)
             : query.execute(language, page, pageSize);
@@ -647,7 +647,9 @@ public final class PnetRestClient {
         description = "Export all brands updated " + "since yesterday."
     )
     public void exportAllUpdatedBrands(String updatedAfter) throws PnetDataClientException {
-        BrandDataFind query = restrict(brandDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter)));
+        BrandDataFind query = restrict(
+            brandDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter))
+        );
         PnetDataClientResultPage<BrandItemDTO> result = query.execute(language, page, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -819,7 +821,9 @@ public final class PnetRestClient {
         description = "Exports all companies " + "updated since yesterday."
     )
     public void exportAllUpdatedCompanies(String updatedAfter) throws PnetDataClientException {
-        CompanyDataFind query = restrict(companyDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter)));
+        CompanyDataFind query = restrict(
+            companyDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter))
+        );
         PnetDataClientResultPage<CompanyItemDTO> result = scroll
             ? query.executeAndScroll(language, pageSize)
             : query.execute(language, page, pageSize);
@@ -1021,9 +1025,9 @@ public final class PnetRestClient {
         cli.info(
             "Removed %s company restrictions.",
             restrictedCompanyIds.size() +
-            restrictedCompanyMatchcodes.size() +
-            restrictedCompanyNumbers.size() +
-            restrictedCountryCodes.size()
+                restrictedCompanyMatchcodes.size() +
+                restrictedCompanyNumbers.size() +
+                restrictedCountryCodes.size()
         );
 
         restrictedCompanyIds.clear();
@@ -1372,7 +1376,10 @@ public final class PnetRestClient {
     )
     public void searchCompanyGroupTypes(String... qs) throws PnetDataClientException {
         CompanyGroupTypeDataSearch query = restrict(companyGroupTypeDataClient.search());
-        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(language, PnetRestClient.joinQuery(qs));
+        PnetDataClientResultPage<CompanyGroupTypeItemDTO> result = query.execute(
+            language,
+            PnetRestClient.joinQuery(qs)
+        );
 
         printResults(result, this::populateTable);
     }
@@ -1440,7 +1447,10 @@ public final class PnetRestClient {
     )
     public void searchCompanyNumberTypes(String... qs) throws PnetDataClientException {
         CompanyNumberTypeDataSearch query = restrict(companyNumberTypeDataClient.search());
-        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(language, PnetRestClient.joinQuery(qs));
+        PnetDataClientResultPage<CompanyNumberTypeItemDTO> result = query.execute(
+            language,
+            PnetRestClient.joinQuery(qs)
+        );
 
         printResults(result, this::populateTable);
     }
@@ -1751,7 +1761,9 @@ public final class PnetRestClient {
         description = "Exports all functions " + "updated since yesterday."
     )
     public void exportAllUpdatedFunctions(String updatedAfter) throws PnetDataClientException {
-        FunctionDataFind query = restrict(functionDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter)));
+        FunctionDataFind query = restrict(
+            functionDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter))
+        );
         PnetDataClientResultPage<FunctionItemDTO> result = scroll
             ? query.executeAndScroll(language, pageSize)
             : query.execute(language, page, pageSize);
@@ -1835,7 +1847,9 @@ public final class PnetRestClient {
         description = "Exports all legal " + "forms updated since yesterday."
     )
     public void exportAllUpdatedLegalForms(String updatedAfter) throws PnetDataClientException {
-        LegalFormDataFind query = restrict(legalFormDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter)));
+        LegalFormDataFind query = restrict(
+            legalFormDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter))
+        );
         PnetDataClientResultPage<LegalFormItemDTO> result = query.execute(language, page, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -1901,7 +1915,9 @@ public final class PnetRestClient {
         description = "Exports all number " + "types updated since yesterday."
     )
     public void exportAllUpdatedNumberTypes(String updatedAfter) throws PnetDataClientException {
-        NumberTypeDataFind query = restrict(numberTypeDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter)));
+        NumberTypeDataFind query = restrict(
+            numberTypeDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter))
+        );
         PnetDataClientResultPage<NumberTypeItemDTO> result = query.execute(language, page, pageSize);
 
         printAllResults(result, this::populateTable);
@@ -2037,7 +2053,9 @@ public final class PnetRestClient {
         description = "Exports all persons " + "available for the current user, that have been updated since yesterday."
     )
     public void exportAllUpdatedPersons(String updatedAfter) throws PnetDataClientException {
-        PersonDataFind query = restrict(personDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter)));
+        PersonDataFind query = restrict(
+            personDataClient.find().updatedAfter(PnetRestClient.parseUpdatedAfter(updatedAfter))
+        );
         PnetDataClientResultPage<PersonItemDTO> result = scroll
             ? query.executeAndScroll(language, pageSize)
             : query.execute(language, page, pageSize);
@@ -2222,19 +2240,19 @@ public final class PnetRestClient {
             dto.getBdoId(),
             dto.getCompanies() != null
                 ? dto
-                    .getCompanies()
-                    .stream()
-                    .filter(link -> Objects.equals(dto.getContactCompanyId(), link.getCompanyId()))
-                    .map(ActivePersonCompanyLinkDTO::getCompanyLabelWithNumber)
-                    .collect(Collectors.joining(", "))
+                      .getCompanies()
+                      .stream()
+                      .filter(link -> Objects.equals(dto.getContactCompanyId(), link.getCompanyId()))
+                      .map(ActivePersonCompanyLinkDTO::getCompanyLabelWithNumber)
+                      .collect(Collectors.joining(", "))
                 : null,
             dto.getFunctions() != null
                 ? dto
-                    .getFunctions()
-                    .stream()
-                    .filter(ActivePersonFunctionLinkDTO::isMainFunction)
-                    .map(ActivePersonFunctionLinkDTO::getLabel)
-                    .collect(Collectors.joining(", "))
+                      .getFunctions()
+                      .stream()
+                      .filter(ActivePersonFunctionLinkDTO::isMainFunction)
+                      .map(ActivePersonFunctionLinkDTO::getLabel)
+                      .collect(Collectors.joining(", "))
                 : null,
             dto.getLastUpdate(),
             dto.getScore()
@@ -2266,7 +2284,11 @@ public final class PnetRestClient {
         description = "Performs a full migration for the " + "specified index."
     )
     public void migrateFull(String indexName) throws RestException, PnetDataClientException {
-        context.restCall().variable(PnetRestClient.INDEX_NAME, indexName).path("/api/v1/migrator/full/{indexName}").post(Void.class);
+        context
+            .restCall()
+            .variable(PnetRestClient.INDEX_NAME, indexName)
+            .path("/api/v1/migrator/full/{indexName}")
+            .post(Void.class);
 
         cli.info("Performing a full migration on index: %s.", indexName);
     }
@@ -2277,7 +2299,11 @@ public final class PnetRestClient {
         description = "Performs a delta migration for the " + "specified index."
     )
     public void migrateDelta(String indexName) throws RestException, PnetDataClientException {
-        context.restCall().variable(PnetRestClient.INDEX_NAME, indexName).path("/api/v1/migrator/delta/{indexName}").post(Void.class);
+        context
+            .restCall()
+            .variable(PnetRestClient.INDEX_NAME, indexName)
+            .path("/api/v1/migrator/delta/{indexName}")
+            .post(Void.class);
 
         cli.info("Performing a delta migration on index: %s.", indexName);
     }
@@ -3090,8 +3116,8 @@ public final class PnetRestClient {
                 } catch (DateTimeParseException e3) {
                     throw new IllegalArgumentException(
                         "Failed to parse " +
-                        updatedAfter +
-                        ". Try using a time like 13:22:10, a date like 2020-03-21 or a duration like 10M."
+                            updatedAfter +
+                            ". Try using a time like 13:22:10, a date like 2020-03-21 or a duration like 10M."
                     );
                 }
             }

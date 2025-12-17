@@ -1,9 +1,8 @@
 package at.porscheinformatik.happyrest;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
-
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
@@ -18,8 +17,8 @@ class RestCallTest {
             .variable("variable", "value")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com/data/value/list"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/data/value/list"));
     }
 
     @ParameterizedTest
@@ -30,8 +29,11 @@ class RestCallTest {
             .variable("variable", "variable with spaces")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com/data/variable%20with%20spaces/list"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
+        MatcherAssert.assertThat(
+            response.getRequestUrl(),
+            Matchers.equalTo("https://example.com/data/variable%20with%20spaces/list")
+        );
     }
 
     @ParameterizedTest
@@ -42,8 +44,11 @@ class RestCallTest {
             .variable("variable", "variable/slash")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com/data/variable%2Fslash/list?key=value"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
+        MatcherAssert.assertThat(
+            response.getRequestUrl(),
+            Matchers.equalTo("https://example.com/data/variable%2Fslash/list?key=value")
+        );
     }
 
     @ParameterizedTest
@@ -54,8 +59,8 @@ class RestCallTest {
             .variable("variable", "\"value\"")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com/data/%22value%22"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/data/%22value%22"));
     }
 
     @ParameterizedTest
@@ -67,8 +72,11 @@ class RestCallTest {
             .variable("value", "{anotherValue}")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com/data/%7Bvalue%7D/list"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
+        MatcherAssert.assertThat(
+            response.getRequestUrl(),
+            Matchers.equalTo("https://example.com/data/%7Bvalue%7D/list")
+        );
     }
 
     @ParameterizedTest
@@ -79,17 +87,17 @@ class RestCallTest {
             .variable("variable", "äöüÄÖÜß")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
-        assertThat(
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
+        MatcherAssert.assertThat(
             response.getRequestUrl(),
-            equalTo("https://example.com/data/%C3%A4%C3%B6%C3%BC%C3%84%C3%96%C3%9C%C3%9F/list")
+            Matchers.equalTo("https://example.com/data/%C3%A4%C3%B6%C3%BC%C3%84%C3%96%C3%9C%C3%9F/list")
         );
     }
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
     void testMissingVariable(MockedRestCallFactory factory) throws RestException {
-        assertThrows(RestException.class, () ->
+        Assertions.assertThrows(RestException.class, () ->
             factory.url("https://example.com/data/{variable}").invoke(RestMethod.GET, Void.class)
         );
     }
@@ -102,12 +110,12 @@ class RestCallTest {
             .parameter("key", "value")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/?key=value"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com?key=value"));
         }
     }
 
@@ -120,12 +128,12 @@ class RestCallTest {
             .replaceParameter("key", "otherValue")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=otherValue"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/?key=otherValue"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com?key=otherValue"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com?key=otherValue"));
         }
     }
 
@@ -138,12 +146,12 @@ class RestCallTest {
             .removeParameters("key")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com"));
         }
     }
 
@@ -155,23 +163,18 @@ class RestCallTest {
             .parameter("key with spaces", "value with spaces")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         switch (factory) {
-            case APACHE:
-            case JAVA:
+            case APACHE, JAVA -> MatcherAssert.assertThat(
                 // Apache and Java use Java's URLEncodes, which uses + for spaces
-                assertThat(response.getRequestUrl(), equalTo("https://example.com/?key+with+spaces=value+with+spaces"));
-                break;
-            case APACHE_5:
-            case SPRING:
-                assertThat(
-                    response.getRequestUrl(),
-                    equalTo("https://example.com/?key%20with%20spaces=value%20with%20spaces")
-                );
-                break;
-            default:
-                throw new UnsupportedOperationException("Factory not supported: " + factory.name());
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com/?key+with+spaces=value+with+spaces")
+            );
+            case APACHE_5, REST_TEMPLATE, SPRING -> MatcherAssert.assertThat(
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com/?key%20with%20spaces=value%20with%20spaces")
+            );
         }
     }
 
@@ -183,21 +186,19 @@ class RestCallTest {
             .parameter("key/key", "value/value")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         switch (factory) {
-            case APACHE:
-            case APACHE_5:
-            case JAVA:
-                assertThat(response.getRequestUrl(), equalTo("https://example.com/list?key%2Fkey=value%2Fvalue"));
-                break;
-            case SPRING:
-                // Spring does not encode / for unknown reasons - a quick Google search shows some controversy about
+            case APACHE, APACHE_5, JAVA -> MatcherAssert.assertThat(
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com/list?key%2Fkey=value%2Fvalue")
+            );
+            case REST_TEMPLATE, SPRING -> // Spring does not encode / for unknown reasons - a quick Google search shows some controversy about
                 // this
-                assertThat(response.getRequestUrl(), equalTo("https://example.com/list?key/key=value/value"));
-                break;
-            default:
-                throw new UnsupportedOperationException("Factory not supported: " + factory.name());
+                MatcherAssert.assertThat(
+                    response.getRequestUrl(),
+                    Matchers.equalTo("https://example.com/list?key/key=value/value")
+                );
         }
     }
 
@@ -209,23 +210,21 @@ class RestCallTest {
             .parameter("\"key\"", "'value'")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         switch (factory) {
-            case APACHE:
-            case APACHE_5:
-            case JAVA:
+            case APACHE, APACHE_5, JAVA -> MatcherAssert.assertThat(
                 // Uses Java's URLEncoder
-                assertThat(response.getRequestUrl(), equalTo("https://example.com/list/?%22key%22=%27value%27"));
-                break;
-            case SPRING:
-                // Uses Spring's own encoder
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com/list/?%22key%22=%27value%27")
+            );
+            case REST_TEMPLATE, SPRING -> // Uses Spring's own encoder
                 // Spring does not encode / for unknown reasons - a quick Google search shows some controversy about
                 // this
-                assertThat(response.getRequestUrl(), equalTo("https://example.com/list/?%22key%22='value'"));
-                break;
-            default:
-                throw new UnsupportedOperationException("Factory not supported: " + factory.name());
+                MatcherAssert.assertThat(
+                    response.getRequestUrl(),
+                    Matchers.equalTo("https://example.com/list/?%22key%22='value'")
+                );
         }
     }
 
@@ -239,22 +238,22 @@ class RestCallTest {
             .variable("value", "anotherValue")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         switch (factory) {
-            case APACHE_5:
-                assertThat(response.getRequestUrl(), equalTo("https://example.com/?%7Bkey%7D=%7Bvalue%7D"));
-                break;
-            case APACHE:
-            case JAVA:
-                assertThat(response.getRequestUrl(), equalTo("https://example.com?%7Bkey%7D=%7Bvalue%7D"));
-                break;
-            case SPRING:
+            case APACHE_5 -> MatcherAssert.assertThat(
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com/?%7Bkey%7D=%7Bvalue%7D")
+            );
+            case APACHE, JAVA -> MatcherAssert.assertThat(
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com?%7Bkey%7D=%7Bvalue%7D")
+            );
+            case REST_TEMPLATE, SPRING -> MatcherAssert.assertThat(
                 // Spring does not encode the parameter key and thus replaces the placeholder. Strange behavior :/
-                assertThat(response.getRequestUrl(), equalTo("https://example.com?anotherKey=%7Bvalue%7D"));
-                break;
-            default:
-                throw new UnsupportedOperationException("Factory not supported: " + factory.name());
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com?anotherKey=%7Bvalue%7D")
+            );
         }
     }
 
@@ -266,17 +265,17 @@ class RestCallTest {
             .parameter("äöüß", "ÄÖÜß")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(
+            MatcherAssert.assertThat(
                 response.getRequestUrl(),
-                equalTo("https://example.com/?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F")
+                Matchers.equalTo("https://example.com/?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F")
             );
         } else {
-            assertThat(
+            MatcherAssert.assertThat(
                 response.getRequestUrl(),
-                equalTo("https://example.com?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F")
+                Matchers.equalTo("https://example.com?%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F")
             );
         }
     }
@@ -289,12 +288,18 @@ class RestCallTest {
             .parameter("anotherKey", "anotherValue")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value&anotherKey=anotherValue"));
+            MatcherAssert.assertThat(
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com/?key=value&anotherKey=anotherValue")
+            );
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value&anotherKey=anotherValue"));
+            MatcherAssert.assertThat(
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com?key=value&anotherKey=anotherValue")
+            );
         }
     }
 
@@ -307,15 +312,15 @@ class RestCallTest {
             .parameter("key", "value")
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com"));
         }
 
-        assertThat(response.getRequestBody(), equalTo("key=value"));
+        MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo("key=value"));
     }
 
     @ParameterizedTest
@@ -327,9 +332,9 @@ class RestCallTest {
             .parameter("key with spaces", "value with spaces")
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
-        assertThat(response.getRequestBody(), equalTo("key+with+spaces=value+with+spaces"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/"));
+        MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo("key+with+spaces=value+with+spaces"));
     }
 
     @ParameterizedTest
@@ -341,9 +346,9 @@ class RestCallTest {
             .parameter("key/key", "value/value")
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com/list"));
-        assertThat(response.getRequestBody(), equalTo("key%2Fkey=value%2Fvalue"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/list"));
+        MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo("key%2Fkey=value%2Fvalue"));
     }
 
     @ParameterizedTest
@@ -355,9 +360,9 @@ class RestCallTest {
             .parameter("\"key\"", "'value'")
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestUrl(), equalTo("https://example.com/list/"));
-        assertThat(response.getRequestBody(), equalTo("%22key%22=%27value%27"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/list/"));
+        MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo("%22key%22=%27value%27"));
     }
 
     @ParameterizedTest
@@ -371,15 +376,15 @@ class RestCallTest {
             .variable("value", "anotherValue")
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com"));
         }
 
-        assertThat(response.getRequestBody(), equalTo("%7Bkey%7D=%7Bvalue%7D"));
+        MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo("%7Bkey%7D=%7Bvalue%7D"));
     }
 
     @ParameterizedTest
@@ -391,15 +396,18 @@ class RestCallTest {
             .parameter("äöüß", "ÄÖÜß")
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com"));
         }
 
-        assertThat(response.getRequestBody(), equalTo("%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F"));
+        MatcherAssert.assertThat(
+            response.getRequestBody(),
+            Matchers.equalTo("%C3%A4%C3%B6%C3%BC%C3%9F=%C3%84%C3%96%C3%9C%C3%9F")
+        );
     }
 
     @ParameterizedTest
@@ -411,15 +419,15 @@ class RestCallTest {
             .parameter("anotherKey", "anotherValue")
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/?key=value"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/?key=value"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com?key=value"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com?key=value"));
         }
 
-        assertThat(response.getRequestBody(), equalTo("anotherKey=anotherValue"));
+        MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo("anotherKey=anotherValue"));
     }
 
     @ParameterizedTest
@@ -430,15 +438,15 @@ class RestCallTest {
             .header("key", "value")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com"));
         }
 
-        assertThat(response.getRequestHeader("key"), contains("value"));
+        MatcherAssert.assertThat(response.getRequestHeader("key"), Matchers.contains("value"));
     }
 
     @ParameterizedTest
@@ -449,15 +457,15 @@ class RestCallTest {
             .header("key", "value with spaces")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com"));
         }
 
-        assertThat(response.getRequestHeader("key"), contains("value with spaces"));
+        MatcherAssert.assertThat(response.getRequestHeader("key"), Matchers.contains("value with spaces"));
     }
 
     @ParameterizedTest
@@ -469,15 +477,15 @@ class RestCallTest {
             .header("key", "value2")
             .invoke(RestMethod.GET, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("GET"));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
 
         if (factory == MockedRestCallFactory.APACHE_5) {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com/"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com/"));
         } else {
-            assertThat(response.getRequestUrl(), equalTo("https://example.com"));
+            MatcherAssert.assertThat(response.getRequestUrl(), Matchers.equalTo("https://example.com"));
         }
 
-        assertThat(response.getRequestHeader("key"), contains("value1", "value2"));
+        MatcherAssert.assertThat(response.getRequestHeader("key"), Matchers.contains("value1", "value2"));
     }
 
     @ParameterizedTest
@@ -488,8 +496,8 @@ class RestCallTest {
             .body("Foobar")
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestBody(), equalTo("\"Foobar\""));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo("\"Foobar\""));
     }
 
     @ParameterizedTest
@@ -502,7 +510,7 @@ class RestCallTest {
             .body(object)
             .invoke(RestMethod.POST, Void.class);
 
-        assertThat(response.getRequestMethod(), equalTo("POST"));
-        assertThat(response.getRequestBody(), equalTo(object.toJsonString()));
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("POST"));
+        MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo(object.toJsonString()));
     }
 }

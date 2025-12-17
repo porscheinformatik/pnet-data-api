@@ -8,7 +8,6 @@ import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestResponse;
-import at.porscheinformatik.happyrest.RestResponseException;
 import java.net.URI;
 import java.util.Collection;
 import java.util.List;
@@ -16,6 +15,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.web.client.RestTemplate;
 import pnet.data.api.util.Pair;
 
+/**
+ * @deprecated use MockedRestTemplateRestCall instead
+ */
+@Deprecated(since = "2.13.x")
 public class MockedSpringRestCall extends SpringRestCall {
 
     public MockedSpringRestCall(
@@ -187,7 +190,7 @@ public class MockedSpringRestCall extends SpringRestCall {
         Class<T> responseType,
         URI uri,
         HttpEntity<Object> entity
-    ) throws RestResponseException, RestException {
+    ) throws RestException {
         return new MockedSpringRestResponse<>(method, GenericType.of(responseType), uri, entity);
     }
 
@@ -197,7 +200,7 @@ public class MockedSpringRestCall extends SpringRestCall {
         GenericType<T> responseType,
         URI uri,
         HttpEntity<Object> entity
-    ) throws RestResponseException, RestException {
+    ) throws RestException {
         return new MockedSpringRestResponse<>(method, responseType, uri, entity);
     }
 }

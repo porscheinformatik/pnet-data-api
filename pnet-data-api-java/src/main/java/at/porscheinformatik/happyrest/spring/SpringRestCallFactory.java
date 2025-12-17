@@ -14,9 +14,11 @@ import org.springframework.web.client.RestTemplate;
 /**
  * A factory for REST calls using spring
  *
+ * @deprecated use RestTemplateRestCallFactory instead
  * @author ham
  */
 @Service
+@Deprecated(since = "2.13.x")
 public class SpringRestCallFactory implements RestCallFactory {
 
     private static SpringRestCallFactory defaultFactory = null;

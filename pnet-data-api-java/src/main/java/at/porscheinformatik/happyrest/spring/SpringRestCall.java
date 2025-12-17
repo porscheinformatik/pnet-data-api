@@ -38,8 +38,10 @@ import pnet.data.api.ErrorResult;
 /**
  * A REST call. This implementation is thread-safe!
  *
+ * @deprecated use RestTemplateRestCall instead
  * @author ham
  */
+@Deprecated(since = "2.13.x")
 public class SpringRestCall extends AbstractRestCall {
 
     protected final RestTemplate restTemplate;

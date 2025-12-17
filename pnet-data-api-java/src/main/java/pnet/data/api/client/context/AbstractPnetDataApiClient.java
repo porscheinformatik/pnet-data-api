@@ -28,7 +28,7 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
 
     private final PnetDataApiContext context;
 
-    public AbstractPnetDataApiClient(PnetDataApiContext context) {
+    protected AbstractPnetDataApiClient(PnetDataApiContext context) {
         super();
         this.context = context;
     }
@@ -57,18 +57,6 @@ public abstract class AbstractPnetDataApiClient<SELF extends AbstractPnetDataApi
     @Override
     public SELF withLoginMethod(PnetDataApiLoginMethod loginMethod) {
         return newInstance(context.withLoginMethod(loginMethod));
-    }
-
-    @Override
-    @Deprecated
-    public SELF withUrl(String url) {
-        return newInstance(context.withUrl(url));
-    }
-
-    @Override
-    @Deprecated
-    public SELF withCredentials(String username, String password) {
-        return newInstance(context.withCredentials(username, password));
     }
 
     protected <Any> Any invoke(RestCallFunction<Any> fn) throws PnetDataClientException {

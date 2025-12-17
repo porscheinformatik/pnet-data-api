@@ -15,49 +15,173 @@
             "name": "Launch pnet-data-api-rest-client (Apache)",
             "request": "launch",
             "mainClass": "pnet.data.api.apache.PnetApacheRestClientLauncher",
-            "projectName": "pnet-data-api-java-sample"
-        },
-        {
-            "type": "java",
-            "name": "Launch pnet-data-api-rest-template (Apache)",
-            "request": "launch",
-            "mainClass": "pnet.data.api.apache.PnetApacheRestClientTemplate",
-            "projectName": "pnet-data-api-java-sample"
+            "projectName": "pnet-data-api-java-sample",
+            "presentation": {
+                "group": "Rest Client"
+            }
         },
         {
             "type": "java",
             "name": "Launch pnet-data-api-rest-client (Java)",
             "request": "launch",
             "mainClass": "pnet.data.api.java.PnetJavaRestClientLauncher",
-            "projectName": "pnet-data-api-java-sample"
+            "projectName": "pnet-data-api-java-sample",
+            "presentation": {
+                "group": "Rest Client"
+            }
         },
         {
             "type": "java",
-            "name": "Launch pnet-data-api-rest-template (Java)",
+            "name": "Launch pnet-data-api-rest-client (Spring RestTemplate)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.resttemplate.PnetSpringRestTemplateClientLauncher",
+            "projectName": "pnet-data-api-java-sample",
+            "presentation": {
+                "group": "Rest Client"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-client (Spring WebClient)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.webclient.PnetSpringWebClientLauncher",
+            "projectName": "pnet-data-api-java-sample",
+            "presentation": {
+                "group": "Rest Client"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Apache, U/P)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.apache.PnetApacheRestClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiUsername}", "${input:apiPassword}"],
+            "presentation": {
+                "group": "Client Template"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Apache, Token)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.apache.PnetApacheRestClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiToken}"],
+            "presentation": {
+                "group": "Client Template"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Java, U/P)",
             "request": "launch",
             "mainClass": "pnet.data.api.java.PnetJavaRestClientTemplate",
-            "projectName": "pnet-data-api-java-sample"
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiUsername}", "${input:apiPassword}"],
+            "presentation": {
+                "group": "Client Template"
+            }
         },
         {
             "type": "java",
-            "name": "Launch pnet-data-api-rest-client (Spring)",
+            "name": "Launch pnet-data-api-rest-template (Java, Token)",
             "request": "launch",
-            "mainClass": "pnet.data.api.spring.PnetSpringRestClientLauncher",
-            "projectName": "pnet-data-api-java-sample"
+            "mainClass": "pnet.data.api.java.PnetJavaRestClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiToken}"],
+            "presentation": {
+                "group": "Client Template"
+            }
         },
         {
             "type": "java",
-            "name": "Launch pnet-data-api-rest-template (Spring)",
+            "name": "Launch pnet-data-api-rest-template (Spring RestTemplate, U/P)",
             "request": "launch",
-            "mainClass": "pnet.data.api.spring.PnetSpringRestClientTemplate",
-            "projectName": "pnet-data-api-java-sample"
+            "mainClass": "pnet.data.api.resttemplate.PnetSpringRestTemplateClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiUsername}", "${input:apiPassword}"],
+            "presentation": {
+                "group": "Client Template"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Spring RestTemplate, Token)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.resttemplate.PnetSpringRestTemplateClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiToken}"],
+            "presentation": {
+                "group": "Client Template"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Spring WebClient, U/P)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.webclient.PnetSpringWebClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiUsername}", "${input:apiPassword}"],
+            "presentation": {
+                "group": "Client Template"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Spring WebClient, Token)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.webclient.PnetSpringWebClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiToken}"],
+            "presentation": {
+                "group": "Client Template"
+            }
         },
         {
             "type": "java",
             "name": "Launch CipherHelper",
             "request": "launch",
             "mainClass": "pnet.data.api.util.CipherHelper",
-            "projectName": "pnet-data-api-java-sample"
+            "projectName": "pnet-data-api-java-sample",
+            "presentation": {
+                "group": "Utility"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch Spring Boot Sample Application",
+            "request": "launch",
+            "mainClass": "pnet.data.api.sample.springboot.PnetDataApiSpringBootSampleApplication",
+            "projectName": "pnet-data-api-java-spring-boot-sample",
+            "args": ["--pnet-data-api.url=${input:apiUrl}", "--pnet-data-api.token=${input:apiToken}"],
+            "presentation": {
+                "group": "Spring Boot Sample"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "apiUrl",
+            "type": "promptString",
+            "description": "Enter the pnet-data-api URL",
+            "default": "https://qa-data.auto-partner.net/data"
+        },
+        {
+            "id": "apiToken",
+            "type": "promptString",
+            "description": "Enter the pnet-data-api token"
+        },
+        {
+            "id": "apiUsername",
+            "type": "promptString",
+            "description": "Enter the pnet-data-api username"
+        },
+        {
+            "id": "apiPassword",
+            "type": "promptString",
+            "description": "Enter the pnet-data-api password",
+            "password": true
         }
     ]
 }

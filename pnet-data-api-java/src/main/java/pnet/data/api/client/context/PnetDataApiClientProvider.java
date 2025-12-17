@@ -1,5 +1,6 @@
 package pnet.data.api.client.context;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pnet.data.api.about.AboutDataClient;
@@ -47,6 +48,29 @@ public class PnetDataApiClientProvider implements ClientProvider {
     private final NumberTypeDataClient numberTypeDataClient;
     private final PersonDataClient personDataClient;
 
+    public PnetDataApiClientProvider(PnetDataApiContext context) {
+        this(
+            new AboutDataClient(context),
+            new ActivityDataClient(context),
+            new AdvisorTypeDataClient(context),
+            new ApplicationDataClient(context),
+            new BrandDataClient(context),
+            new CompanyDataClient(context),
+            new CompanyGroupDataClient(context),
+            new CompanyGroupTypeDataClient(context),
+            new CompanyNumberTypeDataClient(context),
+            new CompanyTypeDataClient(context),
+            new ContractStateDataClient(context),
+            new ContractTypeDataClient(context),
+            new ExternalBrandDataClient(context),
+            new FunctionDataClient(context),
+            new LegalFormDataClient(context),
+            new NumberTypeDataClient(context),
+            new PersonDataClient(context)
+        );
+    }
+
+    @Autowired
     public PnetDataApiClientProvider(
         @Lazy AboutDataClient aboutDataClient,
         @Lazy ActivityDataClient activityDataClient,
@@ -66,7 +90,6 @@ public class PnetDataApiClientProvider implements ClientProvider {
         @Lazy NumberTypeDataClient numberTypeDataClient,
         @Lazy PersonDataClient personDataClient
     ) {
-        super();
         this.aboutDataClient = aboutDataClient;
         this.activityDataClient = activityDataClient;
         this.advisorTypeDataClient = advisorTypeDataClient;

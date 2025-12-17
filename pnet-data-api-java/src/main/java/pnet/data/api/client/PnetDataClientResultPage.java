@@ -35,7 +35,7 @@ public interface PnetDataClientResultPage<T> extends ResultPage<T> {
      * @throws PnetDataClientException on occasion
      */
     default PnetDataClientResultPage<T> nextPage() throws PnetDataClientException {
-        String avoidSearchAfterProperty = System.getProperty(AVOID_SEARCH_AFTER_PROPERTY_KEY);
+        String avoidSearchAfterProperty = System.getProperty(PnetDataClientResultPage.AVOID_SEARCH_AFTER_PROPERTY_KEY);
         boolean avoidSearchAfter =
             "".equals(avoidSearchAfterProperty) || "true".equalsIgnoreCase(avoidSearchAfterProperty);
 

@@ -1,28 +1,24 @@
-package pnet.data.api.spring;
+package pnet.data.api.resttemplate;
 
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import pnet.data.api.PnetRestClient;
-import pnet.data.api.resttemplate.EnableRestTemplateBasedPnetDataClient;
 import pnet.data.api.util.MutablePnetDataApiLoginMethod;
 import pnet.data.api.util.Prefs;
 
 /**
- * Configuration for the PnetRestClient.
+ * The main class for the sample.
  *
- * @deprecated use specific WebClient or RestTemplate based configuration instead
  * @author ham
  */
 @Configuration
 @EnableRestTemplateBasedPnetDataClient
 @Import({ PnetRestClient.class })
-@ComponentScan(basePackageClasses = { PnetSpringRestClientConfig.class })
-@Deprecated(forRemoval = true)
-public class PnetSpringRestClientConfig {
+public class PnetSpringRestTemplateClientLauncher {
 
     @Bean
     public MutablePnetDataApiLoginMethod pnetDataClientPrefs() {
@@ -32,5 +28,15 @@ public class PnetSpringRestClientConfig {
     @Bean
     public RestLoggerAdapter restLoggerAdapter() {
         return SystemRestLoggerAdapter.INSTANCE;
+    }
+
+    public static void main(String[] args) {
+        try (
+            AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(
+                PnetSpringRestTemplateClientLauncher.class
+            );
+        ) {
+            context.getBean(PnetRestClient.class).consume();
+        }
     }
 }

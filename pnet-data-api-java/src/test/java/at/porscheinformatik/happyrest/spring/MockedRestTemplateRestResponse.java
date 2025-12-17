@@ -13,8 +13,7 @@ import java.util.Map.Entry;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 
-@Deprecated(since = "2.13.x")
-public class MockedSpringRestResponse<T> extends MockedRestResponse<T> {
+public class MockedRestTemplateRestResponse<T> extends MockedRestResponse<T> {
 
     private final RestMethod requestMethod;
     private final GenericType<T> responseType;
@@ -23,7 +22,7 @@ public class MockedSpringRestResponse<T> extends MockedRestResponse<T> {
     private final String requestContentType;
     private final String requestBody;
 
-    public MockedSpringRestResponse(
+    public MockedRestTemplateRestResponse(
         RestMethod requestMethod,
         GenericType<T> responseType,
         URI uri,

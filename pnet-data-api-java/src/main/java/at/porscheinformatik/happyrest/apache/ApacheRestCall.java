@@ -16,7 +16,6 @@ import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
@@ -65,7 +64,7 @@ public class ApacheRestCall extends AbstractRestCall {
         this.parser = parser;
     }
 
-    protected HttpEntity createEntity(MediaType contentType) throws UnsupportedEncodingException {
+    protected HttpEntity createEntity(MediaType contentType) {
         Object body = getBody();
 
         if (body != null) {
@@ -131,7 +130,7 @@ public class ApacheRestCall extends AbstractRestCall {
     }
 
     protected <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType, HttpRequestBase request)
-        throws RestException, RestRequestException {
+        throws RestException {
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             return ApacheRestResponse.create(parser, response, responseType);
         } catch (IOException e) {
@@ -224,14 +223,8 @@ public class ApacheRestCall extends AbstractRestCall {
         }
     }
 
-    private void computeEntity(RestMethod method, HttpRequestBase request) throws RestRequestException {
-        HttpEntity requestEntity;
-
-        try {
-            requestEntity = createEntity(getContentType());
-        } catch (UnsupportedEncodingException e) {
-            throw new RestRequestException("Failed to encode request", e);
-        }
+    private void computeEntity(RestMethod method, HttpRequestBase request) {
+        HttpEntity requestEntity = createEntity(getContentType());
 
         if (requestEntity != null) {
             if (!(request instanceof HttpEntityEnclosingRequestBase)) {

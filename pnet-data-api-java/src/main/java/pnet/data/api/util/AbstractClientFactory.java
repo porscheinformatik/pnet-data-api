@@ -6,7 +6,6 @@ import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.function.Supplier;
-import pnet.data.api.client.PnetDataClientPrefs;
 import pnet.data.api.client.context.PnetDataApiContext;
 import pnet.data.api.client.context.PnetDataApiLoginMethod;
 import pnet.data.api.client.context.SimplePnetDataApiContext;
@@ -47,43 +46,6 @@ public abstract class AbstractClientFactory<T extends AbstractClientFactory<T>> 
 
     public T withLoginMethod(PnetDataApiLoginMethod loginMethod) {
         return copy(loginMethod, mapper, loggerAdapter);
-    }
-
-    /**
-     * Creates a new instance of this factory using the specified preferences.
-     *
-     * @param prefs the preferences
-     * @return a new instance
-     * @deprecated since {@link PnetDataClientPrefs} are deprecated, use the
-     *             {@link #withLoginMethod(PnetDataApiLoginMethod)} method instead
-     */
-    @Deprecated
-    public T withPrefs(PnetDataClientPrefs prefs) {
-        return copy(
-            new UsernamePasswordPnetDataApiLoginMethod(prefs.getPnetDataApiUrl(), () ->
-                new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword())
-            ),
-            mapper,
-            loggerAdapter
-        );
-    }
-
-    /**
-     * Creates a new instance of this factory using the specified properties.
-     *
-     * @param url the URL to the Data API
-     * @param username the username
-     * @param password the password
-     * @return a new instance
-     * @deprecated use the {@link #withLoginMethod(PnetDataApiLoginMethod)} method instead
-     */
-    @Deprecated
-    public T withPrefs(String url, String username, String password) {
-        return copy(
-            new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(username, password)),
-            mapper,
-            loggerAdapter
-        );
     }
 
     public T withUsernamePassword(String url, Supplier<UsernamePasswordCredentials> usernamePasswordSupplier) {

@@ -6,21 +6,17 @@ import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.util.TextPlainFormatter;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * @deprecated use MockedRestTemplateRestCallFactory instead
- */
-@Deprecated(since = "2.13.x")
-public class MockedSpringRestCallFactory extends SpringRestCallFactory {
+public class MockedRestTemplateRestCallFactory extends RestTemplateRestCallFactory {
 
-    public static MockedSpringRestCallFactory createMock() {
-        return new MockedSpringRestCallFactory(
+    public static MockedRestTemplateRestCallFactory createMock() {
+        return new MockedRestTemplateRestCallFactory(
             new RestTemplate(),
             SystemRestLoggerAdapter.INSTANCE,
             new TextPlainFormatter()
         );
     }
 
-    public MockedSpringRestCallFactory(
+    public MockedRestTemplateRestCallFactory(
         RestTemplate restTemplate,
         RestLoggerAdapter loggerAdapter,
         RestFormatter formatter
@@ -29,7 +25,7 @@ public class MockedSpringRestCallFactory extends SpringRestCallFactory {
     }
 
     @Override
-    public MockedSpringRestCall url(String url) {
-        return new MockedSpringRestCall(restTemplate, loggerAdapter, formatter, url);
+    public MockedRestTemplateRestCall url(String url) {
+        return new MockedRestTemplateRestCall(restTemplate, loggerAdapter, formatter, url);
     }
 }

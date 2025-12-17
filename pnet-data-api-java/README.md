@@ -23,9 +23,10 @@ The Java client has been designed to **reduce its dependencies to a minimum**. A
 - **[Java HTTP Client](#java-http-client)**: Use the Java HTTP Client introduced with Java 9 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
 - **[Apache HTTP Client 5](#apache-http-client-5)**: Use the Apache HTTP Client 5 for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
 - **[(Old) Apache HTTP Client](#old-apache-http-client)**: Use the legacy Apache HTTP Client for the communication and Jackson for the JSON mapping and. You don't need Spring for this.
-- **[Spring](#spring)**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible. For older Spring version, please use the version in the `java-11` branch.
+- **[Spring RestTemplate](#spring)**: It uses Jackson for the JSON mapping and a Spring Web client (RestTemplate) for the communication. You need Spring 6 to be compatible.
+- **[Spring WebClient](#spring)**: It uses Jackson for the JSON mapping and a Spring Web client (WebClient) for the communication. You need Spring 6 to be compatible.
 
-**Recommendation:** If your project uses Spring, the [Spring](#spring) client is the recommended implementation. If you don't use Spring then pick the [Java HTTP Client](#java-http-client).
+**Recommendation:** If your project uses Spring, the [Spring WebClient](#spring) client is the recommended implementation. If you don't use Spring then pick the [Java HTTP Client](#java-http-client).
 
 ## Just use the DTOs
 
@@ -40,7 +41,7 @@ You will need the following dependencies:
 
 That's it. Now, you may implement the client on your own.
 
-The project contains an adapter that utilizes different kinds of HTTP clients. You may wish to use this adapter while adapting to your own preferred HTTP client. This holds the advantage, that you can use the rest of the infrastructure provided by this library. Have a look at the implementations of the `at.porscheinformatik.happyrest.java.JavaRestCall` (using the Java HTTP client), the `at.porscheinformatik.happyrest.apache5.Apache5RestCall` (using the Apache HTTP Client 5), the `at.porscheinformatik.happyrest.apache.ApacheRestCall` (using the legacy Apache HTTP Client) or the `at.porscheinformatik.happyrest.spring.SpringRestCall` (using Spring's REST Template).
+The project contains an adapter that utilizes different kinds of HTTP clients. You may wish to use this adapter while adapting to your own preferred HTTP client. This holds the advantage, that you can use the rest of the infrastructure provided by this library. Have a look at the implementations of the `at.porscheinformatik.happyrest.java.JavaRestCall` (using the Java HTTP client), the `at.porscheinformatik.happyrest.apache5.Apache5RestCall` (using the Apache HTTP Client 5), the `at.porscheinformatik.happyrest.apache.ApacheRestCall` (using the legacy Apache HTTP Client), the `at.porscheinformatik.happyrest.resttemplate.RestTemplateRestCall` (using the Spring RestTemplate) or the `at.porscheinformatik.happyrest.webclient.WebClientRestCall` (using the Spring WebClient) for some inspiration.
 
 ## Java HTTP Client
 
@@ -261,11 +262,6 @@ You will need the following dependencies:
 </dependency>
 
 <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-webmvc</artifactId>
-</dependency>
-
-<dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-autoconfigure</artifactId>
 </dependency>
@@ -281,7 +277,60 @@ You will need the following dependencies:
 </dependency>
 ```
 
-Add the `@EnablePnetDataClient` to your existing configuration and provide a `PnetDataApiLoginMethod`. Use your preferred one.
+### Spring using RestTemplate
+
+```
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+</dependency>
+```
+
+Add the `@EnableRestTemplateBasedPnetDataClient` to your existing configuration and provide a `PnetDataApiLoginMethod`. Use your preferred one.
+
+### Spring using WebClient
+
+```
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webflux</artifactId>
+</dependency>
+```
+
+Add the `@EnableWebClientBasedPnetDataClient` to your existing configuration and provide a `PnetDataApiLoginMethod`. Use your preferred one.
+
+### Spring using Apache HTTP Client
+
+```
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+</dependency>
+```
+
+Add the `@EnableApacheHttpClientBasedPnetDataClient` to your existing configuration and provide a `PnetDataApiLoginMethod`. Use your preferred one.
+
+### Spring using Apache HTTP Client 5
+
+```
+<dependency>
+    <groupId>org.apache.httpcomponents.client5</groupId>
+    <artifactId>httpclient5</artifactId>
+</dependency>
+```
+
+Add the `@EnableApache5HttpClientBasedPnetDataClient` to your existing configuration and provide a `PnetDataApiLoginMethod`. Use your preferred one.
+
+### Spring using Java HTTP Client
+
+```
+<dependency>
+    <groupId>at.porscheinformatik.happyrest</groupId>
+    <artifactId>happyrest-java</artifactId>
+</dependency>
+```
+
+Add the `@EnableJavaClientBasedPnetDataClient` to your existing configuration and provide a `PnetDataApiLoginMethod`. Use your preferred one.
 
 ### Login via Token
 
@@ -471,7 +520,7 @@ mvn install
 
 That's it.
 
-Checkout the [pnet-data-api-java-samle](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java-sample) module for a examples. The `PnetSpringRestClient` is a fully working console tool for accessing the Data API.
+Checkout the [pnet-data-api-java-samle](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java-sample) module for a examples. The `PnetSpringWebClientLauncher` is a fully working console tool for accessing the Data API.
 
 # Troubleshooting
 

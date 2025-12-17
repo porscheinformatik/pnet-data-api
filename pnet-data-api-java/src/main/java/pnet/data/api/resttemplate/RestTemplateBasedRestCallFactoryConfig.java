@@ -1,15 +1,17 @@
-package pnet.data.api.client.context;
+package pnet.data.api.resttemplate;
 
 import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
+import at.porscheinformatik.happyrest.spring.RestTemplateRestCallFactory;
+import at.porscheinformatik.happyrest.spring.SpringRestFormatter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
@@ -17,18 +19,13 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
+import pnet.data.api.client.PnetDataRestCallFactoryConfig;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.PnetDataApiUtils;
 
-/**
- * Abstract base class for context-based PnetDataApiClient configurations using Spring's RestTemplate.
- *
- * @deprecated since 2.13.x use {@link pnet.data.api.resttemplate.RestTemplateBasedRestCallFactoryConfig} instead
- */
 @Configuration
-@ComponentScan(basePackageClasses = { AbstractContextPnetDataApiClientConfig.class })
-@Deprecated(since = "2.13.x")
-public abstract class AbstractContextPnetDataApiClientConfig extends PnetDataApiClientContextConfig {
+@Import({ PnetDataRestCallFactoryConfig.class })
+public class RestTemplateBasedRestCallFactoryConfig {
 
     @Bean
     public RestCallFactory restCallFactory(
@@ -46,7 +43,7 @@ public abstract class AbstractContextPnetDataApiClientConfig extends PnetDataApi
             return SystemRestLoggerAdapter.INSTANCE;
         });
 
-        return createSpringRestCallFactory(restTemplate, loggerAdapter, conversionService);
+        return new RestTemplateRestCallFactory(restTemplate, loggerAdapter, new SpringRestFormatter(conversionService));
     }
 
     protected RestTemplate createRestTemplate() {
@@ -90,10 +87,4 @@ public abstract class AbstractContextPnetDataApiClientConfig extends PnetDataApi
 
         return conversionServiceFactoryBean.getObject();
     }
-
-    protected abstract RestCallFactory createSpringRestCallFactory(
-        RestTemplate restTemplate,
-        RestLoggerAdapter loggerAdapter,
-        ConversionService conversionService
-    );
 }

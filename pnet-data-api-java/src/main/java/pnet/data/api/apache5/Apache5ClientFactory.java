@@ -5,11 +5,7 @@ import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.apache5.Apache5RestCallFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pnet.data.api.client.MutablePnetDataClientPrefs;
-import pnet.data.api.client.PnetDataClientPrefs;
 import pnet.data.api.client.context.PnetDataApiLoginMethod;
-import pnet.data.api.client.context.UsernamePasswordCredentials;
-import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.AbstractClientFactory;
 import pnet.data.api.util.PnetDataApiUtils;
@@ -20,31 +16,6 @@ import pnet.data.api.util.PnetDataApiUtils;
  * @author HAM
  */
 public class Apache5ClientFactory extends AbstractClientFactory<Apache5ClientFactory> {
-
-    @Deprecated
-    public static Apache5ClientFactory of(String url, String username, String password) {
-        return of(new MutablePnetDataClientPrefs(url, username, password));
-    }
-
-    @Deprecated
-    public static Apache5ClientFactory of(PnetDataClientPrefs prefs) {
-        return of(prefs, JacksonPnetDataApiModule.createObjectMapper(), SystemRestLoggerAdapter.INSTANCE);
-    }
-
-    @Deprecated
-    public static Apache5ClientFactory of(
-        PnetDataClientPrefs prefs,
-        ObjectMapper mapper,
-        RestLoggerAdapter loggerAdapter
-    ) {
-        return new Apache5ClientFactory(
-            new UsernamePasswordPnetDataApiLoginMethod(prefs.getPnetDataApiUrl(), () ->
-                new UsernamePasswordCredentials(prefs.getPnetDataApiUsername(), prefs.getPnetDataApiPassword())
-            ),
-            mapper,
-            loggerAdapter
-        );
-    }
 
     public static Apache5ClientFactory of(PnetDataApiLoginMethod loginMethod) {
         return of(loginMethod, JacksonPnetDataApiModule.createObjectMapper(), SystemRestLoggerAdapter.INSTANCE);

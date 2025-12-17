@@ -10,8 +10,12 @@ import pnet.data.api.function.FunctionDataClient;
 @RestController
 public class SampleController {
 
+    private final FunctionDataClient client;
+
     @Autowired
-    private FunctionDataClient client;
+    public SampleController(FunctionDataClient client) {
+        this.client = client;
+    }
 
     @GetMapping("/")
     public String index() throws PnetDataClientException {

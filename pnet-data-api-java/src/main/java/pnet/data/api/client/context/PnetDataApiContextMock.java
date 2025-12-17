@@ -16,18 +16,6 @@ public class PnetDataApiContextMock implements PnetDataApiContext {
     }
 
     @Override
-    @Deprecated
-    public PnetDataApiContext withUrl(String url) {
-        throw new UnsupportedOperationException("Method \"withUrl(..)\" not implemented");
-    }
-
-    @Override
-    @Deprecated
-    public PnetDataApiContext withCredentials(String username, String password) {
-        throw new UnsupportedOperationException("Method \"withCredentials(..)\" not implemented");
-    }
-
-    @Override
     public RestCall restCall() throws PnetDataClientException {
         throw new UnsupportedOperationException("Method \"restCall(..)\" not implemented");
     }

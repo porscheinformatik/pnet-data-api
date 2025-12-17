@@ -30,18 +30,6 @@ public class SimplePnetDataApiContext implements PnetDataApiContext {
     }
 
     @Override
-    @Deprecated
-    public PnetDataApiContext withUrl(String url) {
-        throw new UnsupportedOperationException("Method is deprecated and not supported in this implementation");
-    }
-
-    @Override
-    @Deprecated
-    public PnetDataApiContext withCredentials(String username, String password) {
-        throw new UnsupportedOperationException("Method is deprecated and not supported in this implementation");
-    }
-
-    @Override
     public RestCall restCall() throws PnetDataClientException {
         synchronized (loginMethod) {
             // Since LoginMethod objects may not be final, it may implement the hashCode and equals method in order to
