@@ -11,7 +11,7 @@ public abstract class AbstractSettingsLinkDTO implements WithTenant, Serializabl
 
     protected final String tenant;
 
-    public AbstractSettingsLinkDTO(@JsonProperty("tenant") String tenant) {
+    protected AbstractSettingsLinkDTO(@JsonProperty("tenant") String tenant) {
         super();
         this.tenant = tenant;
     }

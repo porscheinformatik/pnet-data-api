@@ -16,7 +16,7 @@ public abstract class AbstractCountAggregationDTO implements Serializable {
     private final String label;
     private final long count;
 
-    public AbstractCountAggregationDTO(
+    protected AbstractCountAggregationDTO(
         @JsonProperty("matchcode") String matchcode,
         @JsonProperty("label") String label,
         @JsonProperty("count") long count

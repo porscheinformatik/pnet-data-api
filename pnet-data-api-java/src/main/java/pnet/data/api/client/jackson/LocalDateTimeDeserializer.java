@@ -1,6 +1,5 @@
 package pnet.data.api.client.jackson;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -19,7 +18,6 @@ import tools.jackson.databind.deser.std.StdDeserializer;
  * @author Manfred Hantschel
  */
 public class LocalDateTimeDeserializer extends StdDeserializer<LocalDateTime> {
-
 
     private static final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()
         .parseCaseInsensitive()
@@ -50,10 +48,8 @@ public class LocalDateTimeDeserializer extends StdDeserializer<LocalDateTime> {
         this.zoneId = zoneId;
     }
 
-    
     @Override
-    public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException
-    {
+    public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
         String dateTimeAsString = _parseString(p, ctxt, NullsConstantProvider.nuller());
 
         if (dateTimeAsString == null || dateTimeAsString.isEmpty()) {

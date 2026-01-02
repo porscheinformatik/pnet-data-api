@@ -5,11 +5,8 @@ import static org.hamcrest.Matchers.*;
 
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
-import tools.jackson.databind.json.JsonMapper;
 
 class RestUtilsTest {
-
-    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     @Test
     void encodePathSegmentTest() {

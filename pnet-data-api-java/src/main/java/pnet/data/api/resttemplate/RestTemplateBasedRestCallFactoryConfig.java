@@ -15,12 +15,9 @@ import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import pnet.data.api.client.PnetDataRestCallFactoryConfig;
-import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.PnetDataApiUtils;
-import tools.jackson.databind.json.JsonMapper;
 
 @Configuration
 @Import({ PnetDataRestCallFactoryConfig.class })
@@ -46,22 +43,12 @@ public class RestTemplateBasedRestCallFactoryConfig {
     }
 
     protected RestTemplate createRestTemplate() {
-        JsonMapper jsonMapper = createJsonMapper();
-
         RestTemplate restTemplate = new RestTemplate();
         SimpleClientHttpRequestFactory requestFactory =
             (SimpleClientHttpRequestFactory) restTemplate.getRequestFactory();
 
         requestFactory.setReadTimeout(30000);
         requestFactory.setConnectTimeout(2000);
-
-        for (HttpMessageConverter<?> elem : restTemplate.getMessageConverters()) {
-            System.err.println("DEBUG HttpMessageConverter: " + elem.getClass());
-            // if (elem.getClass().equals(MappingJackson2HttpMessageConverter.class)) {
-            //     ((MappingJackson2HttpMessageConverter) elem).setJsonMapper(jsonMapper);
-            //     break;
-            // }
-        }
 
         restTemplate
             .getInterceptors()
@@ -72,10 +59,6 @@ public class RestTemplateBasedRestCallFactoryConfig {
             });
 
         return restTemplate;
-    }
-
-    protected JsonMapper createJsonMapper() {
-        return JacksonPnetDataApiModule.createJsonMapper();
     }
 
     protected ConversionService createConversionService(Optional<Set<? extends Converter<?, ?>>> attributeConverters) {

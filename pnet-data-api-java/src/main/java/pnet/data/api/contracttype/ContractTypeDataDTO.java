@@ -99,7 +99,7 @@ public class ContractTypeDataDTO implements WithMatchcode, WithTenants, WithLabe
     public Collection<ContractTypeBrandLinkDTO> getBrandsOfTenant(String tenant) {
         return getBrands()
             .stream()
-            .filter($ -> Objects.equals(tenant, $.getTenant()))
+            .filter(brand -> Objects.equals(tenant, brand.getTenant()))
             .toList();
     }
 

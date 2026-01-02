@@ -30,7 +30,7 @@ public abstract class AbstractLinkDTO implements WithTenant, WithMatchcode, Seri
     protected final String tenant;
     protected final String matchcode;
 
-    public AbstractLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode) {
+    protected AbstractLinkDTO(@JsonProperty("tenant") String tenant, @JsonProperty("matchcode") String matchcode) {
         super();
         this.tenant = tenant;
         this.matchcode = matchcode;

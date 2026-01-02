@@ -81,14 +81,20 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         return totalNumberOfItems;
     }
 
+    /**
+     * @deprecated since 2.x use {@link #getSearchAfter()} or {@link #getScrollId()} instead
+     */
     @Override
-    @Deprecated
+    @Deprecated(since = "2.x")
     public int getPageIndex() {
         return pageIndex;
     }
 
+    /**
+     * @deprecated since 2.x use {@link #getSearchAfter()} or {@link #getScrollId()} instead
+     */
     @Override
-    @Deprecated
+    @Deprecated(since = "2.x")
     public int getNumberOfPages() {
         return numberOfPages;
     }
@@ -157,8 +163,11 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         return result;
     }
 
+    /**
+     * @deprecated since 2.x use {@link #nextPage(boolean)} instead
+     */
     @Override
-    @Deprecated
+    @Deprecated(since = "2.x")
     public PnetDataClientResultPage<T> getPage(int index) throws PnetDataClientException {
         if (pageSupplier == null) {
             throw new UnsupportedOperationException("Feature not supported");
