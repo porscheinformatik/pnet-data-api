@@ -31,7 +31,7 @@ import pnet.data.api.util.WithValidPeriod;
  */
 @Schema(
     description = "Holds minimal information about an external brand of the company. The matchcode fits the " +
-    "matchcodes of the external brand interface."
+        "matchcodes of the external brand interface."
 )
 public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeriod, Serializable {
 
@@ -43,13 +43,13 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeri
 
     @Schema(
         description = "The date and time from when this external brand is/was valid for the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validFrom;
 
     @Schema(
         description = "The date and time till when this external brand is/was valid for the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validTo;
 
@@ -61,7 +61,7 @@ public class CompanyExternalBrandDataDTO implements WithMatchcode, WithValidPeri
 
     @Schema(
         description = "The local flag. Does local things unknown to most people, especially those writing this " +
-        "documentation."
+            "documentation."
     )
     private final boolean local;
 

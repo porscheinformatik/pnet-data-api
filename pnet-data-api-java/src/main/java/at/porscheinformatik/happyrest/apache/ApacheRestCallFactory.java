@@ -14,7 +14,6 @@ import at.porscheinformatik.happyrest.util.CharArrayParser;
 import at.porscheinformatik.happyrest.util.NumberParser;
 import at.porscheinformatik.happyrest.util.StringParser;
 import at.porscheinformatik.happyrest.util.TextPlainFormatter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.ProxySelector;
 import java.time.Duration;
 import org.apache.http.client.config.RequestConfig;
@@ -22,6 +21,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * A {@link RestCall} using the Apache HTTP Client
@@ -30,7 +30,7 @@ import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
  */
 public class ApacheRestCallFactory implements RestCallFactory {
 
-    public static ApacheRestCallFactory create(RestLoggerAdapter loggerAdapter, ObjectMapper mapper) {
+    public static ApacheRestCallFactory create(RestLoggerAdapter loggerAdapter, JsonMapper mapper) {
         RestFormatter formatter = RestFormatter.of(new JacksonBasedFormatter(mapper), new TextPlainFormatter());
         RestParser parser = RestParser.of(
             StringParser.INSTANCE,

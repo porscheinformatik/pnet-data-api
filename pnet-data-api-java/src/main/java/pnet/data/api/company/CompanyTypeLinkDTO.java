@@ -13,7 +13,7 @@ import pnet.data.api.util.WithMatchcode;
  */
 @Schema(
     description = "Holds minimal information about a type of the company. The matchcode fits the matchcodes of " +
-    "the company types interface."
+        "the company types interface."
 )
 public class CompanyTypeLinkDTO implements WithMatchcode, Serializable {
 

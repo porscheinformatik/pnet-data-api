@@ -117,7 +117,7 @@ public class CompanyAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements 
     public String toString() {
         return String.format(
             "CompanyAdvisorAssignmentLinkDTO [personId=%s, personName=%s, divisionMatchcode=%s, divisionLabel=%s, " +
-            "tenant=%s, matchcode=%s]",
+                "tenant=%s, matchcode=%s]",
             this.personId,
             this.personName,
             this.divisionMatchcode,

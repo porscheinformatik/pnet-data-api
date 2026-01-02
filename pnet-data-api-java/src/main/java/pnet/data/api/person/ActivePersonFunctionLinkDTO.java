@@ -26,7 +26,7 @@ import pnet.data.api.util.WithLabel;
  */
 @Schema(
     description = "The assignment of a function to a person, for a specific company, tenant and brand. " +
-    "Related to the datedBackUnitl parameter."
+        "Related to the datedBackUnitl parameter."
 )
 public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO implements WithLabel {
 
@@ -69,7 +69,7 @@ public class ActivePersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO i
     public String toString() {
         return String.format(
             "ActivePersonFunctionLinkDTO [tenant=%s, matchcode=%s, companyId=%s, companyMatchcode=%s, " +
-            "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, currentlyActive=%s]",
+                "companyNumber=%s, brandMatchcode=%s, mainFunction=%s, currentlyActive=%s]",
             tenant,
             matchcode,
             companyId,

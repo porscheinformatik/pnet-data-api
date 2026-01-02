@@ -3,16 +3,16 @@ package at.porscheinformatik.happyrest;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.json.JsonMapper;
 
-public class RestUtilsTest {
+class RestUtilsTest {
 
-    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     @Test
-    public void encodePathSegmentTest() {
+    void encodePathSegmentTest() {
         assertThat(RestUtils.encodePathSegment(null, StandardCharsets.UTF_8, false, false), nullValue());
         assertThat(RestUtils.encodePathSegment("", StandardCharsets.UTF_8, false, false), is(""));
         assertThat(RestUtils.encodePathSegment("azAZ09", StandardCharsets.UTF_8, false, false), is("azAZ09"));
@@ -34,7 +34,7 @@ public class RestUtilsTest {
     }
 
     @Test
-    public void appendPathTest() {
+    void appendPathTest() {
         assertThat(RestUtils.appendPath("https://example.com", "path/"), is("https://example.com/path/"));
         assertThat(RestUtils.appendPath("https://example.com/", "path/"), is("https://example.com/path/"));
         assertThat(RestUtils.appendPath("https://example.com", "/path/"), is("https://example.com/path/"));

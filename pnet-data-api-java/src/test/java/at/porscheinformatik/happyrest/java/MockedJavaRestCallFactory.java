@@ -4,7 +4,6 @@ import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.RestParser;
-import at.porscheinformatik.happyrest.RestUtilsTest;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedFormatter;
 import at.porscheinformatik.happyrest.jackson.JacksonBasedParser;
@@ -15,20 +14,20 @@ import at.porscheinformatik.happyrest.util.StringParser;
 import at.porscheinformatik.happyrest.util.TextPlainFormatter;
 import java.net.ProxySelector;
 import java.time.Duration;
+import tools.jackson.databind.json.JsonMapper;
 
 public class MockedJavaRestCallFactory extends JavaRestCallFactory {
 
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
+
     public static MockedJavaRestCallFactory createMock() {
-        RestFormatter formatter = RestFormatter.of(
-            new JacksonBasedFormatter(RestUtilsTest.OBJECT_MAPPER),
-            new TextPlainFormatter()
-        );
+        RestFormatter formatter = RestFormatter.of(new JacksonBasedFormatter(JSON_MAPPER), new TextPlainFormatter());
         RestParser parser = RestParser.of(
             StringParser.INSTANCE,
             NumberParser.INSTANCE,
             CharArrayParser.INSTANCE,
             ByteArrayParser.INSTANCE,
-            new JacksonBasedParser(RestUtilsTest.OBJECT_MAPPER)
+            new JacksonBasedParser(JSON_MAPPER)
         );
 
         return new MockedJavaRestCallFactory(SystemRestLoggerAdapter.INSTANCE, formatter, parser);

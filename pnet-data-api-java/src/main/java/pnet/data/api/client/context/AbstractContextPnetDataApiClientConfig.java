@@ -4,7 +4,6 @@ import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +14,10 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.PnetDataApiUtils;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * Abstract base class for context-based PnetDataApiClient configurations using Spring's RestTemplate.
@@ -50,7 +49,7 @@ public abstract class AbstractContextPnetDataApiClientConfig extends PnetDataApi
     }
 
     protected RestTemplate createRestTemplate() {
-        ObjectMapper objectMapper = createObjectMapper();
+        JsonMapper jsonMapper = createJsonMapper();
 
         RestTemplate restTemplate = new RestTemplate();
         SimpleClientHttpRequestFactory requestFactory =
@@ -60,10 +59,11 @@ public abstract class AbstractContextPnetDataApiClientConfig extends PnetDataApi
         requestFactory.setConnectTimeout(2000);
 
         for (HttpMessageConverter<?> elem : restTemplate.getMessageConverters()) {
-            if (elem.getClass().equals(MappingJackson2HttpMessageConverter.class)) {
-                ((MappingJackson2HttpMessageConverter) elem).setObjectMapper(objectMapper);
-                break;
-            }
+            System.err.println("DEBUG HttpMessageConverter: " + elem.getClass());
+            // if (elem.getClass().equals(MappingJackson2HttpMessageConverter.class)) {
+            //     ((MappingJackson2HttpMessageConverter) elem).setJsonMapper(jsonMapper);
+            //     break;
+            // }
         }
 
         restTemplate
@@ -77,8 +77,8 @@ public abstract class AbstractContextPnetDataApiClientConfig extends PnetDataApi
         return restTemplate;
     }
 
-    protected ObjectMapper createObjectMapper() {
-        return JacksonPnetDataApiModule.createObjectMapper();
+    protected JsonMapper createJsonMapper() {
+        return JacksonPnetDataApiModule.createJsonMapper();
     }
 
     protected ConversionService createConversionService(Optional<Set<? extends Converter<?, ?>>> attributeConverters) {

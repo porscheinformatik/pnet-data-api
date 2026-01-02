@@ -1,11 +1,5 @@
 package pnet.data.api.client.jackson;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.impl.NullsConstantProvider;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,6 +7,11 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.TemporalAccessor;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.impl.NullsConstantProvider;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 /**
  * @author cet
@@ -20,7 +19,6 @@ import java.time.temporal.TemporalAccessor;
  */
 public class LocalDateDeserializer extends StdDeserializer<LocalDate> {
 
-    private static final long serialVersionUID = -15196514933619777L;
     private static final DateTimeFormatter FORMATTER = new DateTimeFormatterBuilder()
         .parseCaseInsensitive()
         .append(DateTimeFormatter.ISO_LOCAL_DATE)
@@ -51,11 +49,10 @@ public class LocalDateDeserializer extends StdDeserializer<LocalDate> {
     }
 
     @Override
-    public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
-        String dateTimeAsString = _parseString(jp, ctxt, NullsConstantProvider.nuller());
+    public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
+        String dateTimeAsString = _parseString(p, ctxt, NullsConstantProvider.nuller());
 
-        if (dateTimeAsString == null || dateTimeAsString.length() == 0) {
+        if (dateTimeAsString == null || dateTimeAsString.isEmpty()) {
             return null;
         }
 
@@ -66,12 +63,12 @@ public class LocalDateDeserializer extends StdDeserializer<LocalDate> {
             LocalDate::from
         );
 
-        if (temporalAccessor instanceof ZonedDateTime) {
-            return ((ZonedDateTime) temporalAccessor).withZoneSameInstant(zoneId).toLocalDate();
+        if (temporalAccessor instanceof ZonedDateTime zonedDateTime) {
+            return zonedDateTime.withZoneSameInstant(zoneId).toLocalDate();
         }
 
-        if (temporalAccessor instanceof LocalDateTime) {
-            return ((LocalDateTime) temporalAccessor).toLocalDate();
+        if (temporalAccessor instanceof LocalDateTime localDateTime) {
+            return localDateTime.toLocalDate();
         }
 
         return (LocalDate) temporalAccessor;

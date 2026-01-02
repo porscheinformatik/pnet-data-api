@@ -71,7 +71,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final String username;
 
-    @Schema(description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries")
+    @Schema(
+        description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries"
+    )
     private String taxNumber;
 
     @Schema(description = "The bdoId references the user-id in BDO (needed scope: SC_IDENTIFIER).")
@@ -85,17 +87,17 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Schema(
         description = "True, if the person has been fully approved by authorities, false if the approval process is still " +
-        "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, " +
-        "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The" +
-        " value " +
-        "will always be set to 'true'."
+            "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, " +
+            "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The" +
+            " value " +
+            "will always be set to 'true'."
     )
     @Deprecated(since = "22.01.2024")
     private final boolean approved;
 
     @Schema(
         description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. " +
-        "The value will always be set to 'ApprovalState.DONE'."
+            "The value will always be set to 'ApprovalState.DONE'."
     )
     @Deprecated(since = "22.01.2024")
     private final ApprovalState approvalState;
@@ -146,13 +148,13 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Schema(
         description = "The matchcode of the company the person is mainly busy at (needed scope: " +
-        "SC_PREFERRED_COMPANY)."
+            "SC_PREFERRED_COMPANY)."
     )
     private final String contactCompanyMatchcode;
 
     @Schema(
         description = "The number of the company the person is mainly busy at (needed scope: " +
-        "SC_PREFERRED_COMPANY)."
+            "SC_PREFERRED_COMPANY)."
     )
     private final String contactCompanyNumber;
 
@@ -296,13 +298,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.taxNumber = taxNumber;
     }
 
-    public String getBdoId()
-    {
+    public String getBdoId() {
         return bdoId;
     }
 
-    public void setBdoId(String bdoId)
-    {
+    public void setBdoId(String bdoId) {
         this.bdoId = bdoId;
     }
 
@@ -442,11 +442,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     public String toString() {
         return String.format(
             "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
-            "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, " +
-            "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
-            "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
-            "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
-            "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s, taxNumber=%s, bdoId=%s]",
+                "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, " +
+                "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
+                "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
+                "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
+                "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s, taxNumber=%s, bdoId=%s]",
             personId,
             administrativeTenant,
             tenants,

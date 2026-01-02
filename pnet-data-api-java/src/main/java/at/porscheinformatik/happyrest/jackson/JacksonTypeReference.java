@@ -1,8 +1,8 @@
 package at.porscheinformatik.happyrest.jackson;
 
 import at.porscheinformatik.happyrest.GenericType;
-import com.fasterxml.jackson.core.type.TypeReference;
 import java.lang.reflect.Type;
+import tools.jackson.core.type.TypeReference;
 
 /**
  * A wrapper for the {@link TypeReference} ... least hacky as possible.

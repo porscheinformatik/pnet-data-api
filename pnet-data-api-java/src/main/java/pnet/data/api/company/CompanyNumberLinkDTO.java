@@ -27,7 +27,7 @@ import pnet.data.api.util.WithMatchcode;
  */
 @Schema(
     description = "Holds minimal information about an additional company number of the company. The matchode fits " +
-    "the matchcodes of the company number type interface."
+        "the matchcodes of the company number type interface."
 )
 public class CompanyNumberLinkDTO implements WithMatchcode, Serializable {
 
@@ -35,7 +35,7 @@ public class CompanyNumberLinkDTO implements WithMatchcode, Serializable {
 
     @Schema(
         description = "The matchcode of the additional company number (fits the matchcodes of the company " +
-        "number type interface."
+            "number type interface."
     )
     private final String matchcode;
 

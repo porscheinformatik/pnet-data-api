@@ -1,9 +1,9 @@
 package pnet.data.api;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import pnet.data.api.util.SearchAfterDeserializer;
 import pnet.data.api.util.SearchAfterSerializer;
+import tools.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonSerialize;
 
 @JsonSerialize(using = SearchAfterSerializer.class)
 @JsonDeserialize(using = SearchAfterDeserializer.class)

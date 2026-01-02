@@ -102,7 +102,7 @@ public abstract class AbstractNumberTypeLinkDTO extends AbstractLinkDTO implemen
     public String toString() {
         return String.format(
             "AbstractNumberTypeLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, number=%s, tenant=%s, " +
-            "matchcode=%s]",
+                "matchcode=%s]",
             companyId,
             companyMatchcode,
             companyNumber,

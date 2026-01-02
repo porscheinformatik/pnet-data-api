@@ -6,7 +6,6 @@ import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.java.JavaRestCallFactory;
 import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
 import at.porscheinformatik.happyrest.spring.SpringRestFormatter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +17,7 @@ import org.springframework.core.convert.converter.Converter;
 import pnet.data.api.client.PnetDataRestCallFactoryConfig;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.PnetDataApiUtils;
+import tools.jackson.databind.json.JsonMapper;
 
 @Configuration
 @Import({ PnetDataRestCallFactoryConfig.class })
@@ -38,13 +38,13 @@ public class JavaClientBasedRestCallFactoryConfig {
             return SystemRestLoggerAdapter.INSTANCE;
         });
 
-        return JavaRestCallFactory.create(loggerAdapter, createObjectMapper())
+        return JavaRestCallFactory.create(loggerAdapter, createJsonMapper())
             .withUserAgent(PnetDataApiUtils.getUserAgent("Java's HttpClient"))
             .withFormatter(new SpringRestFormatter(conversionService));
     }
 
-    protected ObjectMapper createObjectMapper() {
-        return JacksonPnetDataApiModule.createObjectMapper();
+    protected JsonMapper createJsonMapper() {
+        return JacksonPnetDataApiModule.createJsonMapper();
     }
 
     protected ConversionService createConversionService(Optional<Set<? extends Converter<?, ?>>> attributeConverters) {

@@ -75,19 +75,19 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 
     @Schema(
         description = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands " +
-        "interface."
+            "interface."
     )
     private Collection<CompanyBrandLinkDTO> brands;
 
     @Schema(
         description = "All contract types assigned to the company. The matchcode of each item fits to the matchcodes of the " +
-        "contract types interface."
+            "contract types interface."
     )
     private Collection<CompanyContractTypeLinkDTO> contractTypes;
 
     @Schema(
         description = "All contract states assigned to the company. The matchcode of each item fits to the matchcodes of the " +
-        "contract states interface."
+            "contract states interface."
     )
     private Collection<CompanyContractStateLinkDTO> contractStates;
 
@@ -117,7 +117,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 
     @Schema(
         description = "All additional numbers of the company. The matchcode of each item fits to the matchcodes of the " +
-        "company number types interface."
+            "company number types interface."
     )
     private Collection<CompanyNumberLinkDTO> additionalNumbers;
 
@@ -147,7 +147,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 
     @Schema(
         description = "All company types assigned to the company. The matchcode of each item fits to the " +
-        "matchcodes of the company types interface."
+            "matchcodes of the company types interface."
     )
     private Collection<CompanyTypeLinkDTO> types;
 
@@ -178,7 +178,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 
     @Schema(
         description = "The postal address of the company. In contrast to the other address fields, this may " +
-        "contain a simplifcation of the address, like a post office box."
+            "contain a simplifcation of the address, like a post office box."
     )
     private String postal;
 
@@ -223,7 +223,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 
     @Schema(
         description = "The provision in a company's constitution stating the purpose and range of activities for which the " +
-        "company is carried on (part of the impressum)."
+            "company is carried on (part of the impressum)."
     )
     private String objectsClause;
 
@@ -262,18 +262,14 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
 
     @Schema(
         description = "The time and date of the last occasion, when the data of the this company has been " +
-        "modified."
+            "modified."
     )
     private LocalDateTime lastUpdate;
 
-    @Schema(
-        description = "The date when the companies employees need to be recertified"
-    )
+    @Schema(description = "The date when the companies employees need to be recertified")
     private LocalDateTime recertValidTo;
 
-    @Schema(
-        description = "The date when the companies re-certifiers where last notified about recertification"
-    )
+    @Schema(description = "The date when the companies re-certifiers where last notified about recertification")
     private LocalDateTime recertNotified;
 
     public CompanyDataDTO(@JsonProperty("companyId") Integer companyId) {
@@ -896,17 +892,17 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     public String toString() {
         return String.format(
             "CompanyDataDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, label=%s, name=%s, nameAffix=%s, " +
-            "additionalNameAffix=%s, marketingName=%s, additionalMarketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, " +
-            "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, " +
-            "companyNumber=%s, bpcmLocationUuid=%s, bpcmManaged=%s, additionalNumbers=%s, street=%s, city=%s, " +
-            "postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, " +
-            "mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, " +
-            "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, telegramLink=%s, tikTokLink=%s, " +
-            "xTwitterLink=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, " +
-            "certificateType=%s, certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, " +
-            "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, " +
-            "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, " +
-            "externalBrands=%s, advisorAssignments=%s, lastUpdate=%s, recertValidTo=%s, recertNotified=%s]",
+                "additionalNameAffix=%s, marketingName=%s, additionalMarketingName=%s, groupMembers=%s, tenants=%s, brands=%s, contractTypes=%s, " +
+                "contractStates=%s, contractDistributionStructure=%s, vatIdNumber=%s, sapNumber=%s, " +
+                "companyNumber=%s, bpcmLocationUuid=%s, bpcmManaged=%s, additionalNumbers=%s, street=%s, city=%s, " +
+                "postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, " +
+                "mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, " +
+                "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, telegramLink=%s, tikTokLink=%s, " +
+                "xTwitterLink=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, " +
+                "certificateType=%s, certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, " +
+                "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, " +
+                "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, " +
+                "externalBrands=%s, advisorAssignments=%s, lastUpdate=%s, recertValidTo=%s, recertNotified=%s]",
             companyId,
             matchcode,
             administrativeTenant,
@@ -976,3 +972,4 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         );
     }
 }
+

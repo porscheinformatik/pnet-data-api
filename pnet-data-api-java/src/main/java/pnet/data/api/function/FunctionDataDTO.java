@@ -224,7 +224,7 @@ public class FunctionDataDTO
     public String toString() {
         return String.format(
             "FunctionDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, " +
-            "contractTypes=%s, numberTypes=%s, activities=%s, settings=%s, lastUpdate=%s]",
+                "contractTypes=%s, numberTypes=%s, activities=%s, settings=%s, lastUpdate=%s]",
             matchcode,
             labels,
             descriptions,

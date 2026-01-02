@@ -100,8 +100,8 @@ public class PersonAutoCompleteDTO extends AbstractAutoCompleteDTO {
     public String toString() {
         return String.format(
             "PersonAutoCompleteDTO [personId=%s, administrativeTenant=%s, type=%s, externalId=%s, " +
-            "guid=%s, preferredUserId=%s, personnelNumber=%s, email=%s, getLabel()=%s, getDescription()=%s, " +
-            "getScore()=%s]",
+                "guid=%s, preferredUserId=%s, personnelNumber=%s, email=%s, getLabel()=%s, getDescription()=%s, " +
+                "getScore()=%s]",
             personId,
             administrativeTenant,
             type,

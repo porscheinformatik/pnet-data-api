@@ -34,7 +34,7 @@ public abstract class AbstractPersonFunctionLinkDTO
 
     @Schema(
         description = "The flag that declares, whether this function is the " +
-        "main function of the person at the specific company or not."
+            "main function of the person at the specific company or not."
     )
     protected final boolean mainFunction;
 
@@ -105,7 +105,7 @@ public abstract class AbstractPersonFunctionLinkDTO
     public String toString() {
         return String.format(
             "AbstractPersonFunctionLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, " +
-            "brandMatchcode=%s, mainFunction=%s, getTenant()=%s, getMatchcode()=%s]",
+                "brandMatchcode=%s, mainFunction=%s, getTenant()=%s, getMatchcode()=%s]",
             companyId,
             companyMatchcode,
             companyNumber,

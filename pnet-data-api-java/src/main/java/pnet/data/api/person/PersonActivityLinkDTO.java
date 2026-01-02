@@ -57,19 +57,19 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompan
 
     @Schema(
         description = "The date and time from when this person has/had an actvitiy. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validFrom;
 
     @Schema(
         description = "The date and time till when this brand has/had an actvitiy. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validTo;
 
     @Schema(
         description = "The flag that declares, whether this activity is assigned to the person due to a function " +
-        "or not."
+            "or not."
     )
     private final boolean dueToFunction;
 
@@ -181,7 +181,7 @@ public class PersonActivityLinkDTO extends AbstractLinkDTO implements WithCompan
     public String toString() {
         return String.format(
             "PersonActivityLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, " +
-            "approved=%s, approvalState=%s, validFrom=%s, validTo=%s, dueToFunction=%s, tenant=%s, matchcode=%s]",
+                "approved=%s, approvalState=%s, validFrom=%s, validTo=%s, dueToFunction=%s, tenant=%s, matchcode=%s]",
             companyId,
             companyMatchcode,
             companyNumber,

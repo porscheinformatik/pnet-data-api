@@ -1,12 +1,11 @@
 package pnet.data.api.client.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 /**
  * @author cet
@@ -14,19 +13,16 @@ import java.time.format.DateTimeFormatter;
  */
 public class LocalDateSerializer extends StdSerializer<LocalDate> {
 
-    private static final long serialVersionUID = -7933082923583193689L;
-
     public LocalDateSerializer() {
         super(LocalDate.class);
     }
 
     @Override
-    public void serialize(LocalDate value, JsonGenerator jgen, SerializerProvider provider)
-        throws IOException, JsonGenerationException {
+    public void serialize(LocalDate value, JsonGenerator gen, SerializationContext provider) throws JacksonException {
         if (value == null) {
-            jgen.writeNull();
+            gen.writeNull();
         } else {
-            jgen.writeString(value.format(DateTimeFormatter.ISO_DATE));
+            gen.writeString(value.format(DateTimeFormatter.ISO_DATE));
         }
     }
 }

@@ -44,9 +44,9 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
 
     @Schema(
         description = "The matchcode of the brand where the person is advisor for. " +
-        "NOTE: Do not use. Value will be any brand matchcode that this division and advisor type " +
-        "matchcode combination can be registered for. Because of that, it may return a brand matchcode " +
-        "that is not even active for the company of this assignment."
+            "NOTE: Do not use. Value will be any brand matchcode that this division and advisor type " +
+            "matchcode combination can be registered for. Because of that, it may return a brand matchcode " +
+            "that is not even active for the company of this assignment."
     )
     @Deprecated(since = "2.5.0")
     private final String brandMatchcode;
@@ -153,7 +153,7 @@ public class PersonAdvisorAssignmentLinkDTO extends AbstractLinkDTO implements W
     public String toString() {
         return String.format(
             "PersonAdvisorAssignmentLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, " +
-            "brandMatchcode=%s, divisionMatchcode=%s, divisionLabel=%s]",
+                "brandMatchcode=%s, divisionMatchcode=%s, divisionLabel=%s]",
             companyId,
             companyMatchcode,
             companyNumber,

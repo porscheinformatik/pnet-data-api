@@ -84,7 +84,7 @@ public class CompanyGroupDataDTO implements Serializable {
     public String toString() {
         return String.format(
             "CompanyGroupDataDTO [leadingCompanyId=%s, leadingCompanyMatchcode=%s, leadingCompanyNumber=%s, " +
-            "members=%s]",
+                "members=%s]",
             leadingCompanyId,
             leadingCompanyMatchcode,
             leadingCompanyNumber,

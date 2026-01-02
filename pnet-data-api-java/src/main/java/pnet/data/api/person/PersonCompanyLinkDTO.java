@@ -35,13 +35,13 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO implements 
 
     @Schema(
         description = "The date and time from when this person has/had an employment at the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validFrom;
 
     @Schema(
         description = "The date and time till when this brand has/had an employment at the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validTo;
 
@@ -100,7 +100,7 @@ public class PersonCompanyLinkDTO extends ActivePersonCompanyLinkDTO implements 
     public String toString() {
         return String.format(
             "PersonCompanyLinkDTO [validFrom=%s, validTo=%s, companyId=%s, companyMatchcode=%s, companyNumber=%s, " +
-            "companyLabel=%s, approved=%s, approvalState=%s, currentlyActive=%s]",
+                "companyLabel=%s, approved=%s, approvalState=%s, currentlyActive=%s]",
             validFrom,
             validTo,
             companyId,

@@ -1,17 +1,15 @@
 package pnet.data.api.util;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
 import pnet.data.api.SearchAfter;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 public class SearchAfterSerializer extends StdSerializer<SearchAfter> {
 
-    private static final long serialVersionUID = 92805130175927527L;
-
     public SearchAfterSerializer() {
-        this(null);
+        this(SearchAfter.class);
     }
 
     public SearchAfterSerializer(Class<SearchAfter> t) {
@@ -19,7 +17,7 @@ public class SearchAfterSerializer extends StdSerializer<SearchAfter> {
     }
 
     @Override
-    public void serialize(SearchAfter value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(SearchAfter value, JsonGenerator gen, SerializationContext provider) throws JacksonException {
         gen.writeString(value.getValue());
     }
 }

@@ -6,7 +6,6 @@ import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.slf4j.Slf4jRestLoggerAdapter;
 import at.porscheinformatik.happyrest.spring.SpringRestFormatter;
 import at.porscheinformatik.happyrest.spring.WebClientRestCallFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import java.util.Set;
 import org.springframework.context.annotation.Bean;
@@ -15,13 +14,14 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.http.codec.json.Jackson2JsonDecoder;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
+import org.springframework.http.codec.json.JacksonJsonDecoder;
+import org.springframework.http.codec.json.JacksonJsonEncoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import pnet.data.api.client.PnetDataRestCallFactoryConfig;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.PnetDataApiUtils;
+import tools.jackson.databind.json.JsonMapper.Builder;
 
 @Configuration
 @Import({ PnetDataRestCallFactoryConfig.class })
@@ -47,12 +47,12 @@ public class WebClientBasedRestCallFactoryConfig {
     }
 
     protected WebClient createWebClient() {
-        ObjectMapper objectMapper = createObjectMapper();
+        Builder jsonMapperBuilder = buildJsonMapper();
 
         ExchangeStrategies strategies = ExchangeStrategies.builder()
             .codecs(configurer -> {
-                configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper));
-                configurer.defaultCodecs().jackson2JsonDecoder(new Jackson2JsonDecoder(objectMapper));
+                configurer.defaultCodecs().jacksonJsonEncoder(new JacksonJsonEncoder(jsonMapperBuilder));
+                configurer.defaultCodecs().jacksonJsonDecoder(new JacksonJsonDecoder(jsonMapperBuilder));
             })
             .build();
 
@@ -62,8 +62,8 @@ public class WebClientBasedRestCallFactoryConfig {
             .build();
     }
 
-    protected ObjectMapper createObjectMapper() {
-        return JacksonPnetDataApiModule.createObjectMapper();
+    protected Builder buildJsonMapper() {
+        return JacksonPnetDataApiModule.buildJsonMapper();
     }
 
     protected ConversionService createConversionService(Optional<Set<? extends Converter<?, ?>>> attributeConverters) {

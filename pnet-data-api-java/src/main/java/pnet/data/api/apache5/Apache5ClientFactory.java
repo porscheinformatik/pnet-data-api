@@ -4,11 +4,11 @@ import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.apache5.Apache5RestCallFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import pnet.data.api.client.context.PnetDataApiLoginMethod;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.AbstractClientFactory;
 import pnet.data.api.util.PnetDataApiUtils;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * A factory for clients using Apache HTTP client 5. This class is intended to be used without Spring.
@@ -18,12 +18,12 @@ import pnet.data.api.util.PnetDataApiUtils;
 public class Apache5ClientFactory extends AbstractClientFactory<Apache5ClientFactory> {
 
     public static Apache5ClientFactory of(PnetDataApiLoginMethod loginMethod) {
-        return of(loginMethod, JacksonPnetDataApiModule.createObjectMapper(), SystemRestLoggerAdapter.INSTANCE);
+        return of(loginMethod, JacksonPnetDataApiModule.createJsonMapper(), SystemRestLoggerAdapter.INSTANCE);
     }
 
     public static Apache5ClientFactory of(
         PnetDataApiLoginMethod loginMethod,
-        ObjectMapper mapper,
+        JsonMapper mapper,
         RestLoggerAdapter loggerAdapter
     ) {
         return new Apache5ClientFactory(loginMethod, mapper, loggerAdapter);
@@ -31,14 +31,14 @@ public class Apache5ClientFactory extends AbstractClientFactory<Apache5ClientFac
 
     protected Apache5ClientFactory(
         PnetDataApiLoginMethod loginMethod,
-        ObjectMapper mapper,
+        JsonMapper mapper,
         RestLoggerAdapter loggerAdapter
     ) {
         super(loginMethod, mapper, loggerAdapter);
     }
 
     @Override
-    protected RestCallFactory createRestCallFactory(ObjectMapper mapper, RestLoggerAdapter loggerAdapter) {
+    protected RestCallFactory createRestCallFactory(JsonMapper mapper, RestLoggerAdapter loggerAdapter) {
         return Apache5RestCallFactory.create(loggerAdapter, mapper).withUserAgent(
             PnetDataApiUtils.getUserAgent("Apache's HttpClient 5")
         );
@@ -47,7 +47,7 @@ public class Apache5ClientFactory extends AbstractClientFactory<Apache5ClientFac
     @Override
     protected Apache5ClientFactory copy(
         PnetDataApiLoginMethod loginMethod,
-        ObjectMapper mapper,
+        JsonMapper mapper,
         RestLoggerAdapter loggerAdapter
     ) {
         return new Apache5ClientFactory(loginMethod, mapper, loggerAdapter);

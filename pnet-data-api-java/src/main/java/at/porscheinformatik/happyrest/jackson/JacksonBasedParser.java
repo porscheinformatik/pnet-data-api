@@ -5,9 +5,9 @@ import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestParserException;
 import at.porscheinformatik.happyrest.RestUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * Parses a JSON response using the Jackson mapper
@@ -16,9 +16,9 @@ import java.io.InputStream;
  */
 public class JacksonBasedParser implements RestParser {
 
-    private final ObjectMapper mapper;
+    private final JsonMapper mapper;
 
-    public JacksonBasedParser(ObjectMapper mapper) {
+    public JacksonBasedParser(JsonMapper mapper) {
         super();
         this.mapper = mapper;
     }

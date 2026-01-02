@@ -14,22 +14,22 @@ import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
-public class GenericTypeTest {
+class GenericTypeTest {
 
-    public interface A<V> {
+    interface A<V> {
         Optional<V> getValue();
     }
 
-    public interface B<K, V> extends A<V> {
+    interface B<K, V> extends A<V> {
         K getKey();
     }
 
-    public static class C<V> implements B<Integer, V> {
+    static class C<V> implements B<Integer, V> {
 
         private final Integer key;
         private final Optional<V> value;
 
-        public C(Integer key, Optional<V> value) {
+        C(Integer key, Optional<V> value) {
             super();
             this.key = key;
             this.value = value;
@@ -46,9 +46,9 @@ public class GenericTypeTest {
         }
     }
 
-    public static class D extends C<String> {
+    static class D extends C<String> {
 
-        public D(Integer key, Optional<String> value) {
+        D(Integer key, Optional<String> value) {
             super(key, value);
         }
 
@@ -57,59 +57,59 @@ public class GenericTypeTest {
         }
     }
 
-    public interface E extends A<List<String>> {
+    interface E extends A<List<String>> {
         // intentionally left blank
     }
 
-    public abstract static class AbstractF<K, V> {
+    abstract static class AbstractF<K, V> {
         // intentionally left blank
     }
 
-    public abstract static class AbstractG<T> extends AbstractF<Integer, A<T>> {
+    abstract static class AbstractG<T> extends AbstractF<Integer, A<T>> {
         // intentionally left blank
     }
 
-    public static class H extends AbstractG<String> {
+    static class H extends AbstractG<String> {
         // intentionally left blank
     }
 
-    public static class I extends D {
+    static class I extends D {
 
-        public I(Integer key, Optional<String> value) {
+        I(Integer key, Optional<String> value) {
             super(key, value);
         }
     }
 
-    public static class AbstractClassWithInnerType<T> {
+    static class AbstractClassWithInnerType<T> {
 
-        public class InnerType {
+        class InnerType {
 
-            public T getT() {
+            T getT() {
                 return null;
             }
         }
     }
 
-    public static class ConcreteClassWithInheritedInnerType extends AbstractClassWithInnerType<Byte> {
+    static class ConcreteClassWithInheritedInnerType extends AbstractClassWithInnerType<Byte> {
         // intentionally left blank
     }
 
     /**
      * For testing
      */
-    public static class ListOfIntegers extends ArrayList<Integer> {
+    static class ListOfIntegers extends ArrayList<Integer> {
 
         private static final long serialVersionUID = 8852725659573380898L;
 
-        public ListOfIntegers() {
+        ListOfIntegers() {
             super();
         }
 
-        public ListOfIntegers(Collection<? extends Integer> c) {
+        ListOfIntegers(Collection<? extends Integer> c) {
             super(c);
         }
 
-        public ListOfIntegers(int initialCapacity) {
+        ListOfIntegers(int initialCapacity) {
             super(initialCapacity);
         }
     }
@@ -117,25 +117,25 @@ public class GenericTypeTest {
     /**
      * For testing
      */
-    public static class ListOfStrings extends ArrayList<String> {
+    static class ListOfStrings extends ArrayList<String> {
 
         private static final long serialVersionUID = 8852725659573380898L;
 
-        public ListOfStrings() {
+        ListOfStrings() {
             super();
         }
 
-        public ListOfStrings(Collection<? extends String> c) {
+        ListOfStrings(Collection<? extends String> c) {
             super(c);
         }
 
-        public ListOfStrings(int initialCapacity) {
+        ListOfStrings(int initialCapacity) {
             super(initialCapacity);
         }
     }
 
     @Test
-    public void testImplementedByNonGeneric() {
+    void testImplementedByNonGeneric() {
         GenericType<CharSequence> genericJavaType = GenericType.build(CharSequence.class).implementedBy(String.class);
 
         assertThat(genericJavaType.getType(), equalTo(CharSequence.class));
@@ -147,7 +147,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testImplementedBy() throws NoSuchFieldException, SecurityException {
+    void testImplementedBy() throws NoSuchFieldException, SecurityException {
         GenericType<A<?>> genericJavaType = GenericType.build(A.class).implementedBy(D.class);
 
         assertThat(genericJavaType.getType(), equalTo(A.class));
@@ -172,7 +172,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testTypes() throws NoSuchFieldException, SecurityException, NoSuchMethodException {
+    void testTypes() throws NoSuchFieldException, SecurityException, NoSuchMethodException {
         GenericType<Object> cClass = GenericType.build(C.class).implementedBy(D.class);
         GenericType<Object> dClass = GenericType.of(D.class);
 
@@ -230,7 +230,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testInstanceBy() {
+    void testInstanceBy() {
         D d = new D(1, Optional.of("value"));
         GenericType<D> genericJavaType = GenericType.build(B.class).instancedBy(d);
 
@@ -258,7 +258,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testMissingType() {
+    void testMissingType() {
         C<Double> c = new C<>(1, Optional.of(Math.PI));
         GenericType<A<?>> genericJavaType = GenericType.build(A.class).instancedBy(c);
 
@@ -277,7 +277,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testDoppeltGemoppelt() {
+    void testDoppeltGemoppelt() {
         GenericType<A<?>> genericJavaType = GenericType.build(A.class).implementedBy(E.class);
 
         assertThat(genericJavaType.getType(), equalTo(A.class));
@@ -311,7 +311,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testOfString() {
+    void testOfString() {
         Of<String> type = new Of<>() {
             // intentionally left blank
         };
@@ -336,7 +336,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testOfObject() {
+    void testOfObject() {
         Of<Object> type = new Of<>() {
             // intentionally left blank
         };
@@ -361,7 +361,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testDoppeltGemoppeltOf() {
+    void testDoppeltGemoppeltOf() {
         Of<List<String>> genericJavaType = new Of<>() {
             // intentionally left blank
         };
@@ -386,7 +386,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testSimpleInstanceOf() {
+    void testSimpleInstanceOf() {
         assertThat(GenericType.INTEGER.isInstance(1), is(true));
         assertThat(GenericType.NUMBER.isInstance(1), is(true));
         assertThat(GenericType.STRING.isInstance(1), is(false));
@@ -406,7 +406,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testInstanceOfKnownType() {
+    void testInstanceOfKnownType() {
         ListOfIntegers nullListOfIntegers = null;
         ListOfStrings nullListOfStrings = null;
         ListOfIntegers emptyListOfIntegers = new ListOfIntegers();
@@ -425,14 +425,14 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testInstanceOf() {
+    void testInstanceOf() {
         assertThat(GenericType.STRING.isInstance(null), is(true));
         assertThat(GenericType.STRING.isInstance("string"), is(true));
         assertThat(GenericType.STRING.isInstance(1), is(false));
     }
 
     @Test
-    public void testInstanceOfList() {
+    void testInstanceOfList() {
         GenericType<Object> type = GenericType.build(Collection.class).with(Integer.class);
         List<Object> nullList = null;
         List<Integer> emptyIntegerList = new ArrayList<>();
@@ -452,7 +452,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testDoubleInstancedBy() {
+    void testDoubleInstancedBy() {
         GenericType<Object> type = GenericType.build(AbstractF.class).instancedBy(new H());
 
         assertThat(type.getArgument(0), is(GenericType.INTEGER));
@@ -460,7 +460,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testDoubleImplementedBy() {
+    void testDoubleImplementedBy() {
         GenericType<Object> type = GenericType.build(AbstractF.class).implementedBy(H.class);
 
         assertThat(type.getArgument(0), is(GenericType.INTEGER));
@@ -468,14 +468,14 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testImplementedByGenericJavaType() {
+    void testImplementedByGenericJavaType() {
         GenericType<Object> type = GenericType.build(A.class).implementedBy(GenericType.of(E.class));
 
         assertThat(type.getArgument(0), is(GenericType.build(List.class).with(String.class)));
     }
 
     @Test
-    public void testImplementedBySelfGenericJavaType() {
+    void testImplementedBySelfGenericJavaType() {
         GenericType<Object> type = GenericType.build(A.class).implementedBy(
             GenericType.build(A.class).with(String.class)
         );
@@ -484,12 +484,12 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testNonGenericBuild() {
+    void testNonGenericBuild() {
         assertThat(GenericType.build(String.class).with(), is(GenericType.STRING));
     }
 
     @Test
-    public void testInvalidNumberOfParameters() {
+    void testInvalidNumberOfParameters() {
         assertThrows(IllegalArgumentException.class, () -> GenericType.build(B.class).with());
         assertThrows(IllegalArgumentException.class, () -> GenericType.build(B.class).with(String.class));
         assertThrows(IllegalArgumentException.class, () ->
@@ -498,7 +498,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testComponentTypeOfIntArray() {
+    void testComponentTypeOfIntArray() {
         int[] array = new int[0];
         GenericType<int[]> type = GenericType.of(array.getClass());
 
@@ -506,7 +506,7 @@ public class GenericTypeTest {
     }
 
     @Test
-    public void testComponentTypeOfIntegerArray() {
+    void testComponentTypeOfIntegerArray() {
         Integer[] array = new Integer[0];
         GenericType<Integer[]> type = GenericType.of(array.getClass());
 

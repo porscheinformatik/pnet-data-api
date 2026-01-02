@@ -5,7 +5,6 @@ import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestUtils;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map.Entry;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -106,11 +105,13 @@ class SpringRestResponse<T> implements RestResponse<T> {
 
         builder.append(getStatus()).append("\n");
 
-        for (Entry<String, List<String>> entry : response.getHeaders().entrySet()) {
-            for (String value : entry.getValue()) {
-                builder.append(entry.getKey()).append(": ").append(value).append("\n");
-            }
-        }
+        response
+            .getHeaders()
+            .forEach((key, values) -> {
+                for (String value : values) {
+                    builder.append(key).append(": ").append(value).append("\n");
+                }
+            });
 
         return builder.toString();
     }

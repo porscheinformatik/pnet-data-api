@@ -40,14 +40,14 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
 
     @Schema(
         description = "The starting date and time of this function assignment. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validFrom;
 
     @Schema(
         description = "The ending date and time of this function assignment. " +
-        "A missing value indicates an ongoing assignment. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "A missing value indicates an ongoing assignment. " +
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validTo;
 
@@ -115,7 +115,7 @@ public class PersonFunctionLinkDTO extends AbstractPersonFunctionLinkDTO impleme
     public String toString() {
         return String.format(
             "PersonFunctionLinkDTO [approved=%s, approvalState=%s, validFrom=%s, validTo=%s, companyId=%s, " +
-            "companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, mainFunction=%s, tenant=%s, matchcode=%s]",
+                "companyMatchcode=%s, companyNumber=%s, brandMatchcode=%s, mainFunction=%s, tenant=%s, matchcode=%s]",
             approved,
             approvalState,
             validFrom,

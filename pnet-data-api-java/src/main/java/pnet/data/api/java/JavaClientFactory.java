@@ -4,11 +4,11 @@ import at.porscheinformatik.happyrest.RestCallFactory;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
 import at.porscheinformatik.happyrest.SystemRestLoggerAdapter;
 import at.porscheinformatik.happyrest.java.JavaRestCallFactory;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import pnet.data.api.client.context.PnetDataApiLoginMethod;
 import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.AbstractClientFactory;
 import pnet.data.api.util.PnetDataApiUtils;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * A factory for clients using Java 9. This class is intended to be used without Spring.
@@ -18,12 +18,12 @@ import pnet.data.api.util.PnetDataApiUtils;
 public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory> {
 
     public static JavaClientFactory of(PnetDataApiLoginMethod loginMethod) {
-        return of(loginMethod, JacksonPnetDataApiModule.createObjectMapper(), SystemRestLoggerAdapter.INSTANCE);
+        return of(loginMethod, JacksonPnetDataApiModule.createJsonMapper(), SystemRestLoggerAdapter.INSTANCE);
     }
 
     public static JavaClientFactory of(
         PnetDataApiLoginMethod loginMethod,
-        ObjectMapper mapper,
+        JsonMapper mapper,
         RestLoggerAdapter loggerAdapter
     ) {
         return new JavaClientFactory(loginMethod, mapper, loggerAdapter);
@@ -31,14 +31,14 @@ public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory> 
 
     protected JavaClientFactory(
         PnetDataApiLoginMethod loginMethod,
-        ObjectMapper mapper,
+        JsonMapper mapper,
         RestLoggerAdapter loggerAdapter
     ) {
         super(loginMethod, mapper, loggerAdapter);
     }
 
     @Override
-    protected RestCallFactory createRestCallFactory(ObjectMapper mapper, RestLoggerAdapter loggerAdapter) {
+    protected RestCallFactory createRestCallFactory(JsonMapper mapper, RestLoggerAdapter loggerAdapter) {
         return JavaRestCallFactory.create(loggerAdapter, mapper).withUserAgent(
             PnetDataApiUtils.getUserAgent("Java's HttpClient")
         );
@@ -47,7 +47,7 @@ public class JavaClientFactory extends AbstractClientFactory<JavaClientFactory> 
     @Override
     protected JavaClientFactory copy(
         PnetDataApiLoginMethod loginMethod,
-        ObjectMapper mapper,
+        JsonMapper mapper,
         RestLoggerAdapter loggerAdapter
     ) {
         return new JavaClientFactory(loginMethod, mapper, loggerAdapter);

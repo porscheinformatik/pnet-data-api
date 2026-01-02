@@ -1,3 +1,16 @@
+# pnet-data-api 3.0.0
+
+- Upgrade to Spring Boot 4
+- Upgrade to Jackson 3
+
+There are some breaking changes:
+
+- All Jackson imports have changed from `com.fasterxml.jackson.*` to `tools.jackson.*` (except annotations). The ObjectMapper has been renamed to JsonMapper. You may follow the instructions at https://github.com/FasterXML/jackson/blob/main/jackson3/MIGRATING_TO_JACKSON_3.md for more details.
+
+Currently there are no other known breaking changes despite the Jackson package change and, of course, you have to update your project to Spring Boot 4.
+
+Make sure you have previously upgraded to at least pnet-data-api version 2.13.0, as Spring Boot 4 support has been added there.
+
 # pnet-data-api 2.13.0
 
 - Update to Spring Boot 3.5.8

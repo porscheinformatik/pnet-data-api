@@ -79,7 +79,7 @@ public class CompanyAutoCompleteDTO extends AbstractAutoCompleteDTO {
     public String toString() {
         return String.format(
             "CompanyAutoCompleteDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, companyNumber=%s, " +
-            "location=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
+                "location=%s, getLabel()=%s, getDescription()=%s, getScore()=%s]",
             companyId,
             matchcode,
             administrativeTenant,

@@ -74,7 +74,7 @@ public class CompanyItemDTO
 
     @Schema(
         description = "All brands assigned to the company. The matchcode of each item fits to the matchcodes of the brands " +
-        "interface."
+            "interface."
     )
     private final Collection<CompanyBrandLinkDTO> brands;
 
@@ -104,7 +104,7 @@ public class CompanyItemDTO
 
     @Schema(
         description = "All company types assigned to the company. The matchcode of each item fits to the " +
-        "matchcodes of the company types interface."
+            "matchcodes of the company types interface."
     )
     private final Collection<CompanyTypeLinkDTO> types;
 
@@ -212,8 +212,7 @@ public class CompanyItemDTO
         return marketingName;
     }
 
-    public String getAdditionalMarketingName()
-    {
+    public String getAdditionalMarketingName() {
         return additionalMarketingName;
     }
 
@@ -289,9 +288,9 @@ public class CompanyItemDTO
     public String toString() {
         return String.format(
             "CompanyItemDTO [companyId=%s, matchcode=%s, administrativeTenant=%s, name=%s, nameAffix=%s, " +
-            "marketingName=%s, additionalMarketingName=%s, tenants=%s, brands=%s, companyNumber=%s, bpcmLocationUuid=%s, street=%s, city=%s, " +
-            "postalCode=%s, countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, " +
-            "score=%s]",
+                "marketingName=%s, additionalMarketingName=%s, tenants=%s, brands=%s, companyNumber=%s, bpcmLocationUuid=%s, street=%s, city=%s, " +
+                "postalCode=%s, countryCode=%s, country=%s, region=%s, types=%s, location=%s, lastUpdate=%s, " +
+                "score=%s]",
             companyId,
             matchcode,
             administrativeTenant,

@@ -40,13 +40,13 @@ public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implement
 
     @Schema(
         description = "The date and time from when this person has/had an employment at the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validFrom;
 
     @Schema(
         description = "The date and time till when this brand has/had an employment at the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validTo;
 
@@ -92,7 +92,7 @@ public class PersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO implement
     public String toString() {
         return String.format(
             "PersonNumberTypeLinkDTO [approved=%s, approvalState=%s, companyId=%s, companyMatchcode=%s, " +
-            "companyNumber=%s, validFrom=%s, validTo=%s, number=%s]",
+                "companyNumber=%s, validFrom=%s, validTo=%s, number=%s]",
             approved,
             approvalState,
             companyId,

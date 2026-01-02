@@ -59,13 +59,13 @@ public class CompanyContractDistributionStructureLinkDTO
 
     @Schema(
         description = "The date and time from when this contract state is/was valid for the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validFrom;
 
     @Schema(
         description = "The date and time till when this contract state is/was valid for the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validTo;
 
@@ -166,7 +166,7 @@ public class CompanyContractDistributionStructureLinkDTO
     public String toString() {
         return String.format(
             "CompanyContractDistributionStructureLinkDTO [tenant=%s, companyId=%s, companyNumber=%s, " +
-            "companyMatchcode=%s, brandMatchcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]",
+                "companyMatchcode=%s, brandMatchcode=%s, contractTypeMatchcode=%s, validFrom=%s, validTo=%s]",
             tenant,
             companyId,
             companyNumber,

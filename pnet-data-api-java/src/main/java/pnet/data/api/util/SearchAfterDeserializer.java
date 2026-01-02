@@ -1,18 +1,15 @@
 package pnet.data.api.util;
 
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import java.io.IOException;
 import pnet.data.api.SearchAfter;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
 public class SearchAfterDeserializer extends StdDeserializer<SearchAfter> {
 
-    private static final long serialVersionUID = -6794051706816616271L;
-
     public SearchAfterDeserializer() {
-        this(null);
+        this(SearchAfter.class);
     }
 
     public SearchAfterDeserializer(Class<?> vc) {
@@ -20,7 +17,7 @@ public class SearchAfterDeserializer extends StdDeserializer<SearchAfter> {
     }
 
     @Override
-    public SearchAfter deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+    public SearchAfter deserialize(JsonParser p, DeserializationContext ctxt) throws JacksonException {
         String value = p.getValueAsString();
 
         return value != null ? SearchAfter.of(value) : null;

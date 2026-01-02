@@ -4,16 +4,18 @@ import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.MockedRestResponse;
 import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestUtils;
-import at.porscheinformatik.happyrest.RestUtilsTest;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map.Entry;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 public class MockedRestTemplateRestResponse<T> extends MockedRestResponse<T> {
+
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     private final RestMethod requestMethod;
     private final GenericType<T> responseType;
@@ -39,8 +41,8 @@ public class MockedRestTemplateRestResponse<T> extends MockedRestResponse<T> {
         // we have to fake Spring's content building
         if (requestContentType != null && requestContentType.contains("application/json")) {
             try {
-                requestBody = RestUtilsTest.OBJECT_MAPPER.writeValueAsString(entity.getBody());
-            } catch (JsonProcessingException e) {
+                requestBody = JSON_MAPPER.writeValueAsString(entity.getBody());
+            } catch (JacksonException e) {
                 throw new RuntimeException("Failed to format JSON", e);
             }
         } else if (requestContentType != null && requestContentType.contains("application/x-www-form-urlencoded")) {

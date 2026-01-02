@@ -14,12 +14,12 @@ import at.porscheinformatik.happyrest.util.CharArrayParser;
 import at.porscheinformatik.happyrest.util.NumberParser;
 import at.porscheinformatik.happyrest.util.StringParser;
 import at.porscheinformatik.happyrest.util.TextPlainFormatter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.ProxySelector;
 import java.net.http.HttpClient;
 import java.net.http.HttpClient.Builder;
 import java.net.http.HttpClient.Redirect;
 import java.time.Duration;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * A {@link RestCall} using the Java Client
@@ -28,7 +28,7 @@ import java.time.Duration;
  */
 public class JavaRestCallFactory implements RestCallFactory {
 
-    public static JavaRestCallFactory create(RestLoggerAdapter loggerAdapter, ObjectMapper mapper) {
+    public static JavaRestCallFactory create(RestLoggerAdapter loggerAdapter, JsonMapper mapper) {
         RestFormatter formatter = RestFormatter.of(new JacksonBasedFormatter(mapper), new TextPlainFormatter());
         RestParser parser = RestParser.of(
             StringParser.INSTANCE,

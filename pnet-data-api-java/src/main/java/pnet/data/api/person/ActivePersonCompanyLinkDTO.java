@@ -16,7 +16,7 @@ import pnet.data.api.util.WithCompanyId;
  */
 @Schema(
     description = "Holds minimal information about a employment the person has. " +
-    "Related to the datedBackUnitl parameter."
+        "Related to the datedBackUnitl parameter."
 )
 public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable {
 
@@ -121,7 +121,7 @@ public class ActivePersonCompanyLinkDTO implements WithCompanyId, Serializable {
     public String toString() {
         return String.format(
             "ActivePersonCompanyLinkDTO [companyId=%s, companyMatchcode=%s, companyNumber=%s, companyLabel=%s, " +
-            "approved=%s, approvalState=%s,currentlyActive=%s]",
+                "approved=%s, approvalState=%s,currentlyActive=%s]",
             companyId,
             companyMatchcode,
             companyNumber,

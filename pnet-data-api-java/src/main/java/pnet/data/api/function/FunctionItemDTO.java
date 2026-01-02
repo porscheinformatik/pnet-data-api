@@ -139,7 +139,7 @@ public class FunctionItemDTO
     public String toString() {
         return String.format(
             "FunctionItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, " +
-            "score=%s]",
+                "score=%s]",
             matchcode,
             label,
             description,

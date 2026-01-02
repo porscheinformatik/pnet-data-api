@@ -53,7 +53,7 @@ public class ActivePersonNumberTypeLinkDTO extends AbstractNumberTypeLinkDTO {
     public String toString() {
         return String.format(
             "ActivePersonNumberTypeLinkDTO [currentlyActive=%s, companyId=%s, companyMatchcode=%s, " +
-            "companyNumber=%s, number=%s, tenant=%s, matchcode=%s]",
+                "companyNumber=%s, number=%s, tenant=%s, matchcode=%s]",
             currentlyActive,
             companyId,
             companyMatchcode,

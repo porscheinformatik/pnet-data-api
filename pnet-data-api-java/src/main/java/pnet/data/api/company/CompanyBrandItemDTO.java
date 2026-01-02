@@ -25,7 +25,7 @@ import pnet.data.api.util.AbstractLinkDTO;
  */
 @Schema(
     description = "Holds the refrence to a brand of a company. The matchcode fits the matchcodes of the brands " +
-    "interface."
+        "interface."
 )
 public class CompanyBrandItemDTO extends AbstractLinkDTO {
 

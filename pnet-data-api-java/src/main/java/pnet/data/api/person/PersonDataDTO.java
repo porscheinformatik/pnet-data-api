@@ -76,7 +76,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private String username;
 
-    @Schema(description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries")
+    @Schema(
+        description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries"
+    )
     private String taxNumber;
 
     @Schema(description = "The bdoId references the user-id in BDO (needed scope: SC_IDENTIFIER).")
@@ -90,16 +92,16 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     @Schema(
         description = "True, if the person has been fully approved by authorities, false if the approval process is still " +
-        "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, " +
-        "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. " +
-        "The value will always be set to 'true'."
+            "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, " +
+            "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. " +
+            "The value will always be set to 'true'."
     )
     @Deprecated(since = "22.01.2024")
     private boolean approved;
 
     @Schema(
         description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. " +
-        "The value will always be set to 'ApprovalState.DONE'."
+            "The value will always be set to 'ApprovalState.DONE'."
     )
     @Deprecated(since = "22.01.2024")
     private ApprovalState approvalState;
@@ -136,13 +138,13 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     @Schema(
         description = "The matchcode of the company the person is mainly busy at (needed scope: " +
-        "SC_PREFERRED_COMPANY)."
+            "SC_PREFERRED_COMPANY)."
     )
     private String contactCompanyMatchcode;
 
     @Schema(
         description = "The number of the company the person is mainly busy at (needed scope: " +
-        "SC_PREFERRED_COMPANY)."
+            "SC_PREFERRED_COMPANY)."
     )
     private String contactCompanyNumber;
 
@@ -173,7 +175,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The explicit login locks of the person (needed scope: SC_PERSON_LOCKS).")
     private Collection<PersonLockLinkDTO> personLocks;
 
-    @Schema(description = "Indicates whether the user account is locked, preventing the user from logging in via Partner.Net. Additional details about the lock reason can be found in the `personLocks` field. (needed scope: SC_IDENTIFIER).")
+    @Schema(
+        description = "Indicates whether the user account is locked, preventing the user from logging in via Partner.Net. Additional details about the lock reason can be found in the `personLocks` field. (needed scope: SC_IDENTIFIER)."
+    )
     private Boolean locked;
 
     @Schema(description = "The tenant specific settings of the user (needed scope: SC_PREFERRED_COMPANY).")
@@ -196,7 +200,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     @Schema(
         description = "The advisor assignments of the person for specific companies (needed scope: " +
-        "SC_ADVISOR_ASSIGNMENT)."
+            "SC_ADVISOR_ASSIGNMENT)."
     )
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
@@ -210,7 +214,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     @Schema(
         description = "Indicates, whether the person will get deleted automatically in the near future (no scope " +
-        "needed)."
+            "needed)."
     )
     private boolean automaticDeletion;
 
@@ -327,13 +331,11 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.taxNumber = taxNumber;
     }
 
-        public String getBdoId()
-    {
+    public String getBdoId() {
         return bdoId;
     }
 
-    public void setBdoId(String bdoId)
-    {
+    public void setBdoId(String bdoId) {
         this.bdoId = bdoId;
     }
 
@@ -545,7 +547,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.locked = locked;
     }
 
-        /**
+    /**
      * @deprecated since 2.11.7, use {@link #getLocked()} instead.
      */
     @Deprecated(since = "2.11.7", forRemoval = false)
@@ -705,15 +707,15 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     public String toString() {
         return String.format(
             "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
-            "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, " +
-            "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, " +
-            "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, " +
-            "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, " +
-            "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, " +
-            "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, " +
-            "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, " +
-            "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s," +
-            "bdoId=%s, recertValidTo=%s]",
+                "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, " +
+                "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, " +
+                "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, " +
+                "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, " +
+                "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, " +
+                "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, " +
+                "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, " +
+                "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s," +
+                "bdoId=%s, recertValidTo=%s]",
             personId,
             administrativeTenant,
             tenants,

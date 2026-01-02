@@ -3,9 +3,12 @@ package at.porscheinformatik.happyrest;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 public class TestObject {
+
+    private static final JsonMapper JSON_MAPPER = new JsonMapper();
 
     public static TestObject of(String key, String value) {
         TestObject result = new TestObject(key);
@@ -40,8 +43,8 @@ public class TestObject {
     @JsonIgnore
     public String toJsonString() {
         try {
-            return RestUtilsTest.OBJECT_MAPPER.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
+            return JSON_MAPPER.writeValueAsString(this);
+        } catch (JacksonException e) {
             throw new RuntimeException("Failed to write JSON", e);
         }
     }

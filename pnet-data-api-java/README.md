@@ -54,7 +54,7 @@ You will need the following dependencies:
 </dependency>
 
 <dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
+    <groupId>tools.jackson.core</groupId>
     <artifactId>jackson-databind</artifactId>
 </dependency>
 ```
@@ -120,7 +120,7 @@ You will need the following dependencies:
 </dependency>
 
 <dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
+    <groupId>tools.jackson.core</groupId>
     <artifactId>jackson-databind</artifactId>
 </dependency>
 
@@ -191,7 +191,7 @@ You will need the following dependencies:
 </dependency>
 
 <dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
+    <groupId>tools.jackson.core</groupId>
     <artifactId>jackson-databind</artifactId>
 </dependency>
 
@@ -267,7 +267,7 @@ You will need the following dependencies:
 </dependency>
 
 <dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
+    <groupId>tools.jackson.core</groupId>
     <artifactId>jackson-databind</artifactId>
 </dependency>
 
@@ -526,4 +526,4 @@ Checkout the [pnet-data-api-java-samle](https://github.com/porscheinformatik/pne
 
 ## TimeZone
 
-The date/time values, sent by the server, contain time zone information. Since the Java client uses LocalDateTime objects, this information is not available anymore. By default, the client correctly converts the zoned timestamps by using the systems default zone (ZoneId.systemDefault). This behavior may be modified by using the JacksonPnetDataApiModule.createObjectMapper(ZoneId) method.
+The date/time values, sent by the server, contain time zone information. Since the Java client uses LocalDateTime objects, this information is not available anymore. By default, the client correctly converts the zoned timestamps by using the systems default zone (ZoneId.systemDefault). This behavior may be modified by using the JacksonPnetDataApiModule.createJsonMapper(ZoneId) method.

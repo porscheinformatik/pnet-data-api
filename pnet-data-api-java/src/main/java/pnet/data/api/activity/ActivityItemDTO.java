@@ -141,7 +141,7 @@ public class ActivityItemDTO
     public String toString() {
         return String.format(
             "ActivityItemDTO [matchcode=%s, label=%s, description=%s, tenants=%s, brands=%s, lastUpdate=%s, " +
-            "score=%s]",
+                "score=%s]",
             matchcode,
             label,
             description,

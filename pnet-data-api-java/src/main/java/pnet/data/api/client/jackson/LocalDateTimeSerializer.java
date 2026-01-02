@@ -1,21 +1,18 @@
 package pnet.data.api.client.jackson;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ser.std.StdSerializer;
 
 /**
  * @author Daniel Furtlehner
  * @author Manfred Hantschel
  */
 public class LocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
-
-    private static final long serialVersionUID = -7933082923583193689L;
 
     private final ZoneId zoneId;
 
@@ -29,12 +26,12 @@ public class LocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
     }
 
     @Override
-    public void serialize(LocalDateTime value, JsonGenerator jgen, SerializerProvider provider)
-        throws IOException, JsonGenerationException {
+    public void serialize(LocalDateTime value, JsonGenerator gen, SerializationContext provider)
+        throws JacksonException {
         if (value == null) {
-            jgen.writeNull();
+            gen.writeNull();
         } else {
-            jgen.writeString(value.atZone(zoneId).format(DateTimeFormatter.ISO_INSTANT));
+            gen.writeString(value.atZone(zoneId).format(DateTimeFormatter.ISO_INSTANT));
         }
     }
 }

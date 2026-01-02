@@ -189,7 +189,7 @@ public class ActivityDataDTO
     public String toString() {
         return String.format(
             "ActivityDataDTO [matchcode=%s, labels=%s, descriptions=%s, tenants=%s, brands=%s, companyTypes=%s, " +
-            "contractTypes=%s, settings=%s, lastUpdate=%s]",
+                "contractTypes=%s, settings=%s, lastUpdate=%s]",
             matchcode,
             labels,
             descriptions,

@@ -3,8 +3,8 @@ package at.porscheinformatik.happyrest.jackson;
 import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestFormatterException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * Formats JSON using Jackson
@@ -13,9 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class JacksonBasedFormatter implements RestFormatter {
 
-    private final ObjectMapper mapper;
+    private final JsonMapper mapper;
 
-    public JacksonBasedFormatter(ObjectMapper mapper) {
+    public JacksonBasedFormatter(JsonMapper mapper) {
         super();
         this.mapper = mapper;
     }
@@ -36,7 +36,7 @@ public class JacksonBasedFormatter implements RestFormatter {
 
         try {
             return mapper.writeValueAsString(value);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new RestFormatterException("Conversion failed", e);
         }
     }

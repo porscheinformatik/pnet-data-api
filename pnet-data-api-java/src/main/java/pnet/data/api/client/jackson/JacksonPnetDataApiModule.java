@@ -1,14 +1,15 @@
 package pnet.data.api.client.jackson;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
+import tools.jackson.core.Version;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.json.JsonMapper.Builder;
+import tools.jackson.databind.module.SimpleModule;
 
 /**
  * Converter module for Jackson.
@@ -32,16 +33,21 @@ public class JacksonPnetDataApiModule extends SimpleModule {
         addDeserializer(Locale.class, new LocaleDeserializer());
     }
 
-    public static ObjectMapper createObjectMapper() {
-        return createObjectMapper(ZoneId.systemDefault());
+    public static JsonMapper createJsonMapper() {
+        return createJsonMapper(ZoneId.systemDefault());
     }
 
-    public static ObjectMapper createObjectMapper(ZoneId zoneId) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public static JsonMapper createJsonMapper(ZoneId zoneId) {
+        return buildJsonMapper(zoneId).build();
+    }
 
-        objectMapper.registerModules(new JacksonPnetDataApiModule(zoneId));
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public static Builder buildJsonMapper() {
+        return buildJsonMapper(ZoneId.systemDefault());
+    }
 
-        return objectMapper;
+    public static Builder buildJsonMapper(ZoneId zoneId) {
+        return JsonMapper.builder()
+            .addModule(new JacksonPnetDataApiModule(zoneId))
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 }

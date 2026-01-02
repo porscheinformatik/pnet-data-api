@@ -28,7 +28,7 @@ import pnet.data.api.util.WithValidPeriod;
  */
 @Schema(
     description = "Holds minimal information about the brand of a company. The matchcode fits the matchcodes of " +
-    "the brands interface."
+        "the brands interface."
 )
 public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPeriod {
 
@@ -36,13 +36,13 @@ public class CompanyBrandLinkDTO extends AbstractLinkDTO implements WithValidPer
 
     @Schema(
         description = "The date and time from when this brand is/was valid for the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validFrom;
 
     @Schema(
         description = "The date and time till when this brand is/was valid for the company. " +
-        "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
+            "See https://github.com/porscheinformatik/pnet-data-api#validfromvalidto for additional information."
     )
     private final LocalDateTime validTo;
 
