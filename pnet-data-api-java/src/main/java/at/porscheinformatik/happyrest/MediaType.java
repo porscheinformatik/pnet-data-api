@@ -9,32 +9,32 @@ public class MediaType {
 
     private static final String WILDCARD = "*";
 
-    public static MediaType ANY = parse("*");
+    public static final MediaType ANY = parse("*");
 
-    public static MediaType APPLICATION = parse("application/*");
-    public static MediaType APPLICATION_ATOM_XML = parse("application/atom+xml");
-    public static MediaType APPLICATION_FORM = parse("application/x-www-form-urlencoded");
-    public static MediaType APPLICATION_JSON = parse("application/json");
-    public static MediaType APPLICATION_JSON_UTF8 = parse("application/json;charset=UTF-8");
-    public static MediaType APPLICATION_ANY_JSON = parse("application/*+json");
-    public static MediaType APPLICATION_OCTET_STREAM = parse("application/octet-stream");
-    public static MediaType APPLICATION_PDF = parse("application/pdf");
-    public static MediaType APPLICATION_RSS_XML = parse("application/rss+xml");
-    public static MediaType APPLICATION_XHTML_XML = parse("application/xhtml+xml");
-    public static MediaType APPLICATION_ANY_XML = parse("application/*+json");
-    public static MediaType APPLICATION_XML = parse("application/xml");
+    public static final MediaType APPLICATION = parse("application/*");
+    public static final MediaType APPLICATION_ATOM_XML = parse("application/atom+xml");
+    public static final MediaType APPLICATION_FORM = parse("application/x-www-form-urlencoded");
+    public static final MediaType APPLICATION_JSON = parse("application/json");
+    public static final MediaType APPLICATION_JSON_UTF8 = parse("application/json;charset=UTF-8");
+    public static final MediaType APPLICATION_ANY_JSON = parse("application/*+json");
+    public static final MediaType APPLICATION_OCTET_STREAM = parse("application/octet-stream");
+    public static final MediaType APPLICATION_PDF = parse("application/pdf");
+    public static final MediaType APPLICATION_RSS_XML = parse("application/rss+xml");
+    public static final MediaType APPLICATION_XHTML_XML = parse("application/xhtml+xml");
+    public static final MediaType APPLICATION_ANY_XML = parse("application/*+json");
+    public static final MediaType APPLICATION_XML = parse("application/xml");
 
-    public static MediaType IMAGE = parse("image/*");
-    public static MediaType IMAGE_GIF = parse("image/gif");
-    public static MediaType IMAGE_JPEG = parse("image/jpeg");
-    public static MediaType IMAGE_PNG = parse("image/png");
+    public static final MediaType IMAGE = parse("image/*");
+    public static final MediaType IMAGE_GIF = parse("image/gif");
+    public static final MediaType IMAGE_JPEG = parse("image/jpeg");
+    public static final MediaType IMAGE_PNG = parse("image/png");
 
-    public static MediaType TEXT = parse("text/*");
-    public static MediaType TEXT_HTML = parse("text/html");
-    public static MediaType TEXT_MARKDOWN = parse("text/markdown");
-    public static MediaType TEXT_PLAIN = parse("text/plain");
-    public static MediaType TEXT_PLAIN_UTF8 = parse("text/plain;charset=UTF-8");
-    public static MediaType TEXT_XML = parse("text/xml");
+    public static final MediaType TEXT = parse("text/*");
+    public static final MediaType TEXT_HTML = parse("text/html");
+    public static final MediaType TEXT_MARKDOWN = parse("text/markdown");
+    public static final MediaType TEXT_PLAIN = parse("text/plain");
+    public static final MediaType TEXT_PLAIN_UTF8 = parse("text/plain;charset=UTF-8");
+    public static final MediaType TEXT_XML = parse("text/xml");
 
     public static MediaType parse(String mediaType) {
         if (mediaType == null) {

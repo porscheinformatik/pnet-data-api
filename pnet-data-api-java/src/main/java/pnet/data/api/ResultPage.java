@@ -208,7 +208,7 @@ public interface ResultPage<T> extends Iterable<T> {
      * used anymore. Depending on how the results were loaded, this method may report the wrong result (see
      * {@link #getPageIndex()} and {@link #getNumberOfPages()}).
      */
-    @Deprecated
+    @Deprecated(since = "2.x")
     default boolean hasNextPage() {
         return !isEmpty() && getPageIndex() + 1 < getNumberOfPages();
     }

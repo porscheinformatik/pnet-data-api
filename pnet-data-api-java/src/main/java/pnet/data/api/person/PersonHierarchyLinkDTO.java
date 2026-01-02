@@ -28,6 +28,8 @@ import pnet.data.api.util.WithPersonId;
 @Schema(description = "Holds person-person references, e.g. responsible persons for bots and test users.")
 public class PersonHierarchyLinkDTO implements WithPersonId, Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Schema(description = "The unique id of the referenced person.")
     private final Integer referencedPersonId;
 
