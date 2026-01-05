@@ -22,6 +22,16 @@
         },
         {
             "type": "java",
+            "name": "Launch pnet-data-api-rest-client (Apache5)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.apache5.PnetApache5RestClientLauncher",
+            "projectName": "pnet-data-api-java-sample",
+            "presentation": {
+                "group": "Rest Client"
+            }
+        },
+        {
+            "type": "java",
             "name": "Launch pnet-data-api-rest-client (Java)",
             "request": "launch",
             "mainClass": "pnet.data.api.java.PnetJavaRestClientLauncher",

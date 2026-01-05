@@ -8,19 +8,16 @@ import at.porscheinformatik.happyrest.spring.SpringRestFormatter;
 import at.porscheinformatik.happyrest.spring.WebClientRestCallFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
-import java.util.Set;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import pnet.data.api.client.PnetDataRestCallFactoryConfig;
-import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 import pnet.data.api.util.PnetDataApiUtils;
 
 @Configuration
@@ -28,13 +25,11 @@ import pnet.data.api.util.PnetDataApiUtils;
 public class WebClientBasedRestCallFactoryConfig {
 
     @Bean
-    public RestCallFactory restCallFactory(
-        Optional<Set<? extends Converter<?, ?>>> attributeConverters,
-        Optional<RestLoggerAdapter> optionalLoggerAdapter
+    public RestCallFactory webClientBasedRestCallFactory(
+        @Qualifier("pnetDataApiWebClient") WebClient webClient,
+        @Qualifier("pnetDataApiConversionService") ConversionService conversionService,
+        @Qualifier("pnetDataApiRestLoggerAdapter") Optional<RestLoggerAdapter> optionalLoggerAdapter
     ) {
-        WebClient webClient = createWebClient();
-        ConversionService conversionService = createConversionService(attributeConverters);
-
         RestLoggerAdapter loggerAdapter = optionalLoggerAdapter.orElseGet(() -> {
             if (Slf4jRestLoggerAdapter.isSlf4jAvailable()) {
                 return Slf4jRestLoggerAdapter.getDefault();
@@ -46,9 +41,8 @@ public class WebClientBasedRestCallFactoryConfig {
         return new WebClientRestCallFactory(webClient, loggerAdapter, new SpringRestFormatter(conversionService));
     }
 
-    protected WebClient createWebClient() {
-        ObjectMapper objectMapper = createObjectMapper();
-
+    @Bean
+    public WebClient pnetDataApiWebClient(@Qualifier("pnetDataApiObjectMapper") ObjectMapper objectMapper) {
         ExchangeStrategies strategies = ExchangeStrategies.builder()
             .codecs(configurer -> {
                 configurer.defaultCodecs().jackson2JsonEncoder(new Jackson2JsonEncoder(objectMapper));
@@ -60,19 +54,5 @@ public class WebClientBasedRestCallFactoryConfig {
             .exchangeStrategies(strategies)
             .defaultHeader("user-agent", PnetDataApiUtils.getUserAgent("Spring's WebClient"))
             .build();
-    }
-
-    protected ObjectMapper createObjectMapper() {
-        return JacksonPnetDataApiModule.createObjectMapper();
-    }
-
-    protected ConversionService createConversionService(Optional<Set<? extends Converter<?, ?>>> attributeConverters) {
-        ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
-
-        attributeConverters.ifPresent(conversionServiceFactoryBean::setConverters);
-
-        conversionServiceFactoryBean.afterPropertiesSet();
-
-        return conversionServiceFactoryBean.getObject();
     }
 }

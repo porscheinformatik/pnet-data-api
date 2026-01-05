@@ -1,17 +1,41 @@
 package pnet.data.api.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.Set;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ConversionServiceFactoryBean;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 import pnet.data.api.GeoDistance;
+import pnet.data.api.client.jackson.JacksonPnetDataApiModule;
 
 @Configuration
 public class PnetDataRestCallFactoryConfig {
+
+    @Bean
+    public ObjectMapper pnetDataApiObjectMapper() {
+        return JacksonPnetDataApiModule.createObjectMapper();
+    }
+
+    @Bean
+    public ConversionService pnetDataApiConversionService(
+        Optional<Set<? extends Converter<?, ?>>> attributeConverters
+    ) {
+        ConversionServiceFactoryBean conversionServiceFactoryBean = new ConversionServiceFactoryBean();
+
+        attributeConverters.ifPresent(conversionServiceFactoryBean::setConverters);
+
+        conversionServiceFactoryBean.afterPropertiesSet();
+
+        return conversionServiceFactoryBean.getObject();
+    }
 
     @Bean
     public Converter<LocalDateTime, String> localDateTimeToStringConverter() {
