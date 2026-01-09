@@ -262,11 +262,6 @@ You will need the following dependencies:
 </dependency>
 
 <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-autoconfigure</artifactId>
-</dependency>
-
-<dependency>
     <groupId>tools.jackson.core</groupId>
     <artifactId>jackson-databind</artifactId>
 </dependency>
@@ -281,8 +276,8 @@ You will need the following dependencies:
 
 ```
 <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-webmvc</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-restclient</artifactId>
 </dependency>
 ```
 
@@ -292,8 +287,8 @@ Add the `@EnableRestTemplateBasedPnetDataClient` to your existing configuration 
 
 ```
 <dependency>
-    <groupId>org.springframework</groupId>
-    <artifactId>spring-webflux</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-webclient</artifactId>
 </dependency>
 ```
 

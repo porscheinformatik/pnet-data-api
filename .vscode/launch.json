@@ -12,7 +12,7 @@
         },
         {
             "type": "java",
-            "name": "Launch pnet-data-api-rest-client (Apache)",
+            "name": "Launch pnet-data-api-rest-client (Apache 4)",
             "request": "launch",
             "mainClass": "pnet.data.api.apache.PnetApacheRestClientLauncher",
             "projectName": "pnet-data-api-java-sample",
@@ -22,7 +22,7 @@
         },
         {
             "type": "java",
-            "name": "Launch pnet-data-api-rest-client (Apache5)",
+            "name": "Launch pnet-data-api-rest-client (Apache 5)",
             "request": "launch",
             "mainClass": "pnet.data.api.apache5.PnetApache5RestClientLauncher",
             "projectName": "pnet-data-api-java-sample",
@@ -62,7 +62,7 @@
         },
         {
             "type": "java",
-            "name": "Launch pnet-data-api-rest-template (Apache, U/P)",
+            "name": "Launch pnet-data-api-rest-template (Apache 4, U/P)",
             "request": "launch",
             "mainClass": "pnet.data.api.apache.PnetApacheRestClientTemplate",
             "projectName": "pnet-data-api-java-sample",
@@ -73,9 +73,31 @@
         },
         {
             "type": "java",
-            "name": "Launch pnet-data-api-rest-template (Apache, Token)",
+            "name": "Launch pnet-data-api-rest-template (Apache 4, Token)",
             "request": "launch",
             "mainClass": "pnet.data.api.apache.PnetApacheRestClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiToken}"],
+            "presentation": {
+                "group": "Client Template"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Apache 5, U/P)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.apache5.PnetApache5RestClientTemplate",
+            "projectName": "pnet-data-api-java-sample",
+            "args": ["${input:apiUsername}", "${input:apiPassword}"],
+            "presentation": {
+                "group": "Client Template"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Launch pnet-data-api-rest-template (Apache 5, Token)",
+            "request": "launch",
+            "mainClass": "pnet.data.api.apache5.PnetApache5RestClientTemplate",
             "projectName": "pnet-data-api-java-sample",
             "args": ["${input:apiToken}"],
             "presentation": {

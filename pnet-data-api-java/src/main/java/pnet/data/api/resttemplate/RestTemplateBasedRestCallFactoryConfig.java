@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.HttpMessageConverters;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import pnet.data.api.client.PnetDataRestCallFactoryConfig;
 import pnet.data.api.util.PnetDataApiUtils;
@@ -43,7 +45,13 @@ public class RestTemplateBasedRestCallFactoryConfig {
     public RestTemplate pnetDataApiRestTemplate(
         @Qualifier("pnetDataApiJsonMapperBuilder") JsonMapper.Builder jsonMapperBuilder
     ) {
-        RestTemplate restTemplate = new RestTemplate();
+        HttpMessageConverters messageConverters = HttpMessageConverters.forClient()
+            .registerDefaults()
+            .withJsonConverter(new JacksonJsonHttpMessageConverter(jsonMapperBuilder.build()))
+            .build();
+
+        RestTemplate restTemplate = new RestTemplate(messageConverters);
+
         SimpleClientHttpRequestFactory requestFactory =
             (SimpleClientHttpRequestFactory) restTemplate.getRequestFactory();
 

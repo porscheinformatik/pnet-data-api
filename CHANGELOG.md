@@ -9,6 +9,8 @@ There are some breaking changes:
 
 Currently there are no other known breaking changes despite the Jackson package change and, of course, you have to update your project to Spring Boot 4.
 
+The list of needed dependencies has been updated in the documentation.
+
 Make sure you have previously upgraded to at least pnet-data-api version 2.13.0, as Spring Boot 4 support has been added there.
 
 # pnet-data-api 2.13.0

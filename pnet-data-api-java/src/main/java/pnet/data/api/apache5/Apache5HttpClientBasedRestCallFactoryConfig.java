@@ -22,7 +22,7 @@ public class Apache5HttpClientBasedRestCallFactoryConfig {
 
     @Bean
     public RestCallFactory restCallFactory(
-        @Qualifier("pnetDataApiJsonMapper") JsonMapper jsonMapper,
+        @Qualifier("pnetDataApiJsonMapperBuilder") JsonMapper.Builder jsonMapperBuilder,
         @Qualifier("pnetDataApiConversionService") ConversionService conversionService,
         @Qualifier("pnetDataApiRestLoggerAdapter") Optional<RestLoggerAdapter> optionalLoggerAdapter
     ) {
@@ -34,7 +34,7 @@ public class Apache5HttpClientBasedRestCallFactoryConfig {
             return SystemRestLoggerAdapter.INSTANCE;
         });
 
-        return Apache5RestCallFactory.create(loggerAdapter, jsonMapper)
+        return Apache5RestCallFactory.create(loggerAdapter, jsonMapperBuilder.build())
             .withUserAgent(PnetDataApiUtils.getUserAgent("Apache's HttpClient"))
             .withFormatter(new SpringRestFormatter(conversionService));
     }
