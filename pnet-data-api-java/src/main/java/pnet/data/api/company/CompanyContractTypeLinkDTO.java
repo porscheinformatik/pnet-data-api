@@ -62,7 +62,7 @@ public class CompanyContractTypeLinkDTO extends AbstractLinkDTO implements WithB
     public CompanyContractTypeLinkDTO(
         @JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("brand") String brandMatchcode,
+        @JsonProperty("brandMatchcode") String brandMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom,
         @JsonProperty("validTo") LocalDateTime validTo,
         @JsonProperty("limitedExtentFrom") LocalDateTime limitedExtentFrom,

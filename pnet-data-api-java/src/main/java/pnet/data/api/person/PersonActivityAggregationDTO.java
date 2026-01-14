@@ -13,7 +13,7 @@ public class PersonActivityAggregationDTO extends AbstractCountAggregationDTO {
     private static final long serialVersionUID = -423997707872307217L;
 
     public PersonActivityAggregationDTO(
-        @JsonProperty("activity") String matchcode,
+        @JsonProperty("matchcode") String matchcode,
         @JsonProperty("label") String label,
         @JsonProperty("count") long count
     ) {

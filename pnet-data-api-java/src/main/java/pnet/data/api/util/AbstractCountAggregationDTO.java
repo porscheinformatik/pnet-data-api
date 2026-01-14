@@ -41,6 +41,6 @@ public abstract class AbstractCountAggregationDTO implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("%s: %s", label, count);
+        return String.format("%s (%s): %s", label, matchcode, count);
     }
 }

@@ -75,8 +75,8 @@ public class CompanyContractDistributionStructureLinkDTO
         @JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyNumber") String companyNumber,
         @JsonProperty("companyMatchcode") String companyMatchcode,
-        @JsonProperty("brand") String brandMatchcode,
-        @JsonProperty("contractType") String contractTypeMatchcode,
+        @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("contractTypeMatchcode") String contractTypeMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom,
         @JsonProperty("validTo") LocalDateTime validTo
     ) {

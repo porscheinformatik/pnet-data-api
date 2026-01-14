@@ -28,18 +28,9 @@ public class DefaultPnetDataClientResultPageWithAggregations<T, AggregationsT>
         @JsonProperty("numberOfPages") int numberOfPages,
         @JsonProperty("searchAfter") SearchAfter searchAfter,
         @JsonProperty("scrollId") String scrollId,
-        @JsonProperty("mayProvideMoreResults") boolean mayProvideMoreResults
+        @JsonProperty("complete") boolean complete
     ) {
-        super(
-            items,
-            itemsPerPage,
-            totalNumberOfItems,
-            pageIndex,
-            numberOfPages,
-            searchAfter,
-            scrollId,
-            mayProvideMoreResults
-        );
+        super(items, itemsPerPage, totalNumberOfItems, pageIndex, numberOfPages, searchAfter, scrollId, complete);
         this.aggregations = aggregations;
     }
 

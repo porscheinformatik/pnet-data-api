@@ -31,7 +31,7 @@ public class PersonHierarchyLinkDTO implements WithPersonId, Serializable {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "The unique id of the referenced person.")
-    private final Integer referencedPersonId;
+    private final Integer personId;
 
     @Schema(description = "The type of hierarchy.")
     private final PersonHierarchyType type;
@@ -42,16 +42,16 @@ public class PersonHierarchyLinkDTO implements WithPersonId, Serializable {
     public PersonHierarchyLinkDTO(
         @JsonProperty("personId") Integer personId,
         @JsonProperty("type") PersonHierarchyType type,
-        @JsonProperty("personName") String personName
+        @JsonProperty("referencedPersonName") String referencedPersonName
     ) {
-        this.referencedPersonId = personId;
+        this.personId = personId;
         this.type = type;
-        this.referencedPersonName = personName;
+        this.referencedPersonName = referencedPersonName;
     }
 
     @Override
     public Integer getPersonId() {
-        return referencedPersonId;
+        return personId;
     }
 
     public PersonHierarchyType getType() {
@@ -72,7 +72,7 @@ public class PersonHierarchyLinkDTO implements WithPersonId, Serializable {
         }
         PersonHierarchyLinkDTO that = (PersonHierarchyLinkDTO) o;
         return (
-            Objects.equals(referencedPersonId, that.referencedPersonId) &&
+            Objects.equals(personId, that.personId) &&
             type == that.type &&
             Objects.equals(referencedPersonName, that.referencedPersonName)
         );
@@ -80,14 +80,14 @@ public class PersonHierarchyLinkDTO implements WithPersonId, Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(referencedPersonId, type, referencedPersonName);
+        return Objects.hash(personId, type, referencedPersonName);
     }
 
     @Override
     public String toString() {
         return String.format(
             "PersonHierarchyLinkDTO [referencedPersonId=%s, type=%s, referencedPersonName=%s]",
-            referencedPersonId,
+            personId,
             type,
             referencedPersonName
         );

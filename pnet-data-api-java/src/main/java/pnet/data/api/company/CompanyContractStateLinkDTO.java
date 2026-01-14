@@ -62,8 +62,8 @@ public class CompanyContractStateLinkDTO
     public CompanyContractStateLinkDTO(
         @JsonProperty("tenant") String tenant,
         @JsonProperty("matchcode") String matchcode,
-        @JsonProperty("brand") String brandMatchcode,
-        @JsonProperty("contractType") String contractTypeMatchcode,
+        @JsonProperty("brandMatchcode") String brandMatchcode,
+        @JsonProperty("contractTypeMatchcode") String contractTypeMatchcode,
         @JsonProperty("validFrom") LocalDateTime validFrom,
         @JsonProperty("validTo") LocalDateTime validTo
     ) {
