@@ -3,6 +3,8 @@ package pnet.data.api.client.context;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+
+
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.activity.ActivityDataClient;
 import pnet.data.api.advisortype.AdvisorTypeDataClient;
@@ -20,6 +22,7 @@ import pnet.data.api.function.FunctionDataClient;
 import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
+import pnet.data.api.resource.ResourceDataClient;
 import pnet.data.api.util.ClientProvider;
 
 /**
@@ -47,6 +50,7 @@ public class PnetDataApiClientProvider implements ClientProvider {
     private final LegalFormDataClient legalFormDataClient;
     private final NumberTypeDataClient numberTypeDataClient;
     private final PersonDataClient personDataClient;
+    private final ResourceDataClient resourceDataClient;
 
     public PnetDataApiClientProvider(PnetDataApiContext context) {
         this(
@@ -66,7 +70,8 @@ public class PnetDataApiClientProvider implements ClientProvider {
             new FunctionDataClient(context),
             new LegalFormDataClient(context),
             new NumberTypeDataClient(context),
-            new PersonDataClient(context)
+            new PersonDataClient(context),
+            new ResourceDataClient(context)
         );
     }
 
@@ -88,7 +93,8 @@ public class PnetDataApiClientProvider implements ClientProvider {
         @Lazy FunctionDataClient functionDataClient,
         @Lazy LegalFormDataClient legalFormDataClient,
         @Lazy NumberTypeDataClient numberTypeDataClient,
-        @Lazy PersonDataClient personDataClient
+        @Lazy PersonDataClient personDataClient,
+        @Lazy ResourceDataClient resourceDataClient
     ) {
         this.aboutDataClient = aboutDataClient;
         this.activityDataClient = activityDataClient;
@@ -107,6 +113,7 @@ public class PnetDataApiClientProvider implements ClientProvider {
         this.legalFormDataClient = legalFormDataClient;
         this.numberTypeDataClient = numberTypeDataClient;
         this.personDataClient = personDataClient;
+        this.resourceDataClient = resourceDataClient;
     }
 
     @Override
@@ -193,4 +200,10 @@ public class PnetDataApiClientProvider implements ClientProvider {
     public PersonDataClient getPersonDataClient() {
         return personDataClient;
     }
+
+    @Override
+    public ResourceDataClient getResourceDataClient() {
+        return resourceDataClient;
+    }
 }
+

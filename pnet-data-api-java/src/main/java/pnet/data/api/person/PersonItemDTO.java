@@ -162,7 +162,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The UUID of the portrait of the person (needed scope: SC_IMAGE).")
     private final String portraitUuid;
 
-    @Schema(description = "The UUID of the portrait thumbnail of the person(needed scope: SC_IMAGE).")
+    @Schema(description = "The UUID of the portrait thumbnail of the person (needed scope: SC_IMAGE).")
     private final String portraitThumbnailUuid;
 
     @Schema(description = "The time and date when this item has been changed recently (no scope needed).")

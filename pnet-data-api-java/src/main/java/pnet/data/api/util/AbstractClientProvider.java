@@ -18,6 +18,7 @@ import pnet.data.api.function.FunctionDataClient;
 import pnet.data.api.legalform.LegalFormDataClient;
 import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
+import pnet.data.api.resource.ResourceDataClient;
 
 public abstract class AbstractClientProvider implements ClientProvider {
 
@@ -38,6 +39,7 @@ public abstract class AbstractClientProvider implements ClientProvider {
     private LegalFormDataClient legalFormDataClient = null;
     private NumberTypeDataClient numberTypeDataClient = null;
     private PersonDataClient personDataClient = null;
+    private ResourceDataClient resourceDataClient = null;
 
     protected abstract PnetDataApiContext getContext();
 
@@ -192,5 +194,14 @@ public abstract class AbstractClientProvider implements ClientProvider {
         }
 
         return personDataClient;
+    }
+
+    @Override
+    public synchronized ResourceDataClient getResourceDataClient() {
+        if(resourceDataClient == null) {
+            resourceDataClient = new ResourceDataClient(getContext());
+        }
+
+        return resourceDataClient;
     }
 }
