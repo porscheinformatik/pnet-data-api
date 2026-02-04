@@ -212,6 +212,12 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
     private Boolean portraitAvailable;
 
+    @Schema(description = "The UUID of the portrait of the person (needed scope: SC_IMAGE).")
+    private String portraitUuid;
+
+    @Schema(description = "The UUID of the portrait thumbnail of the person (needed scope: SC_IMAGE).")
+    private String portraitThumbnailUuid;
+
     @Schema(
         description = "Indicates, whether the person will get deleted automatically in the near future (no scope " +
             "needed)."
@@ -675,6 +681,22 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         this.portraitAvailable = portraitAvailable;
     }
 
+    public String getPortraitUuid() {
+        return portraitUuid;
+    }
+
+    public void setPortraitUuid(String portraitUuid) {
+        this.portraitUuid = portraitUuid;
+    }
+
+    public String getPortraitThumbnailUuid() {
+        return portraitThumbnailUuid;
+    }
+
+    public void setPortraitThumbnailUuid(String portraitThumbnailUuid) {
+        this.portraitThumbnailUuid = portraitThumbnailUuid;
+    }
+
     public String getChecksum() {
         return checksum;
     }
@@ -714,7 +736,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
                 "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, " +
                 "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, " +
                 "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, " +
-                "portraitAvailable=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s," +
+                "portraitAvailable=%s, portraitUuid=%s, portraitThumbnailUuid=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s," +
                 "bdoId=%s, recertValidTo=%s]",
             personId,
             administrativeTenant,
@@ -760,6 +782,8 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
             advisorAssignments,
             hierarchies,
             portraitAvailable,
+            portraitUuid,
+            portraitThumbnailUuid,
             automaticDeletion,
             checksum,
             lastUpdate,

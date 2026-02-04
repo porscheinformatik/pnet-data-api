@@ -161,6 +161,12 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
     private final Boolean portraitAvailable;
 
+    @Schema(description = "The UUID of the portrait of the person (needed scope: SC_IMAGE).")
+    private final String portraitUuid;
+
+    @Schema(description = "The UUID of the portrait thumbnail of the person (needed scope: SC_IMAGE).")
+    private final String portraitThumbnailUuid;
+
     @Schema(description = "The time and date when this item has been changed recently (no scope needed).")
     private final LocalDateTime lastUpdate;
 
@@ -203,6 +209,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("contactCompanyMatchcode") String contactCompanyMatchcode,
         @JsonProperty("contactCompanyNumber") String contactCompanyNumber,
         @JsonProperty("portraitAvailable") Boolean portraitAvailable,
+        @JsonProperty("portraitUuid") String portraitUuid,
+        @JsonProperty("portraitThumbnailUuid") String portraitThumbnailUuid,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate,
         @JsonProperty("score") double score,
         @JsonProperty("taxNumber") String taxNumber,
@@ -241,6 +249,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.contactCompanyMatchcode = contactCompanyMatchcode;
         this.contactCompanyNumber = contactCompanyNumber;
         this.portraitAvailable = portraitAvailable;
+        this.portraitUuid = portraitUuid;
+        this.portraitThumbnailUuid = portraitThumbnailUuid;
         this.lastUpdate = lastUpdate;
         this.score = score;
         this.taxNumber = taxNumber;
@@ -420,6 +430,14 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return portraitAvailable;
     }
 
+    public String getPortraitUuid() {
+        return portraitUuid;
+    }
+
+    public String getPortraitThumbnailUuid() {
+        return portraitThumbnailUuid;
+    }
+
     @Override
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
@@ -446,7 +464,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
                 "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
                 "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
                 "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
-                "contactCompanyNumber=%s, portraitAvailable=%s, lastUpdate=%s, score=%s, taxNumber=%s, bdoId=%s]",
+                "contactCompanyNumber=%s, portraitAvailable=%s, portraitUuid=%s, portraitThumbnailUuid=%s, lastUpdate=%s, score=%s, taxNumber=%s, bdoId=%s]",
             personId,
             administrativeTenant,
             tenants,
@@ -477,6 +495,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             contactCompanyMatchcode,
             contactCompanyNumber,
             portraitAvailable,
+            portraitUuid,
+            portraitThumbnailUuid,
             lastUpdate,
             score,
             taxNumber,

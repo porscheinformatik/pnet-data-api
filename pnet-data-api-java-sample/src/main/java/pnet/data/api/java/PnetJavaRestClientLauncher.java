@@ -12,7 +12,6 @@ import pnet.data.api.util.Prefs;
 public final class PnetJavaRestClientLauncher {
 
     private PnetJavaRestClientLauncher() {
-        super();
     }
 
     public static void main(String[] args) {
@@ -38,6 +37,7 @@ public final class PnetJavaRestClientLauncher {
             clientFactory.getLegalFormDataClient(),
             clientFactory.getNumberTypeDataClient(),
             clientFactory.getPersonDataClient(),
+            clientFactory.getResourceDataClient(),
             clientFactory.getContext()
         );
 
