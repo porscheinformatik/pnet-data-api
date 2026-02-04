@@ -1,14 +1,10 @@
-
-# pnet-data-api 2.13.1
-
-- Add to person the UUID of the persons portrait and portraitThumbnail.
-- Add ResourceDataClient to retrieve binary resources like portraits
-
 # pnet-data-api 2.13.0
 
 - Update to Spring Boot 3.5.8
 - Add support for WebClient-based RestCallFactory
 - Removed deprecated code before upgrading to Spring Boot 4
+- Add to person the UUID of the persons portrait and portraitThumbnail.
+- Add ResourceDataClient to retrieve binary resources like portraits
 
 There are some breaking changes:
 
