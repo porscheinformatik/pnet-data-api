@@ -139,6 +139,7 @@ import pnet.data.api.person.PersonDataGet;
 import pnet.data.api.person.PersonDataSearch;
 import pnet.data.api.person.PersonItemDTO;
 import pnet.data.api.person.PersonTypeFilter;
+import pnet.data.api.resource.ResourceDataClient;
 import pnet.data.api.settings.Visibility;
 import pnet.data.api.util.AbstractAutoCompleteDTO;
 import pnet.data.api.util.AggregateNumberPerActivity;
@@ -283,6 +284,8 @@ public final class PnetRestClient {
 
     private final PersonDataClient personDataClient;
 
+    private final ResourceDataClient resourceDataClient;
+
     private final PnetDataApiContext context;
 
     private final List<String> restrictedTenants = new ArrayList<>();
@@ -337,6 +340,7 @@ public final class PnetRestClient {
         LegalFormDataClient legalFormDataClient,
         NumberTypeDataClient numberTypeDataClient,
         PersonDataClient personDataClient,
+        ResourceDataClient resourceDataClient,
         PnetDataApiContext context
     ) {
         this.loginMethod = loginMethod;
@@ -357,6 +361,7 @@ public final class PnetRestClient {
         this.legalFormDataClient = legalFormDataClient;
         this.numberTypeDataClient = numberTypeDataClient;
         this.personDataClient = personDataClient;
+        this.resourceDataClient = resourceDataClient;
         this.context = context;
 
         cli = new CLI();
@@ -2180,6 +2185,26 @@ public final class PnetRestClient {
         }
 
         PnetRestClient.showImage("Portrait of Person " + id, portrait.get().toImage());
+    }
+
+    @CLI.Command(
+        name = "get resource by uuid",
+        format = "<UUID>",
+        description = "Shows resource with uuid"
+    )
+    public void getResourceByUuid(String uuid) throws PnetDataClientException {
+        Optional<Resource> resource = resourceDataClient.resource(uuid);
+
+        if (resource.isEmpty()) {
+            cli.error("Resource not found.");
+            return;
+        }
+        
+        if(resource.get().getType().startsWith("image")) {
+            PnetRestClient.showImage("Resource " + uuid, resource.get().toImage());
+        } else {
+            cli.info("Resource %s data: %s", uuid, resource.get().getData());
+        }
     }
 
     @CLI.Command(
