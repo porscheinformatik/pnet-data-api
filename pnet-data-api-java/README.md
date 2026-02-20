@@ -8,12 +8,12 @@ The Java client supports all requests to the Partner.&#78;et Data API. We use it
 
 An up-to-date version is available in the corporate Maven repository. If you do not have access to this repository, you have to build our own version (see [Building](#building))
 
-# Main / Java 11 branch
+# main / spring-boot-3 branch
 
 Currently we are maintaining two branches:
 
-- `master`: Contains the version 2 of the Java client, that needs at least Java 17 and, if you are using Spring, it needs Spring 6.
-- `java-11`: Contains the version 1 of the Java client, that's suited for Java 11 and, if you are using Spring, it's only compatible with Spring 5.
+- `main`: Contains the version compatible with Spring Boot 4 (and the Spring Framework 7).
+- `spring-boot-3`: Contains the version compatible with Spring Boot 3 (and the Spring Framework 6).
 
 # Using the Java client
 
@@ -107,7 +107,7 @@ All classes are unmodifyalbe and thread-safe. You can and you should reuse them 
 
 Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
 
-Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/java/PnetJavaRestClientTemplate.java for some super simple sample code.
+Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/main/pnet-data-api-java-sample/src/main/java/pnet/data/api/java/PnetJavaRestClientTemplate.java for some super simple sample code.
 
 ## Apache HTTP Client 5
 
@@ -178,7 +178,7 @@ All classes are unmodifyalbe and thread-safe. You can and you should reuse them 
 
 Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
 
-Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache5/PnetApache5RestClientTemplate.java for some super simple sample code.
+Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/main/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache5/PnetApache5RestClientTemplate.java for some super simple sample code.
 
 ## (Old) Apache HTTP Client
 
@@ -249,7 +249,7 @@ All classes are unmodifyalbe and thread-safe. You can and you should reuse them 
 
 Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
 
-Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache/PnetApacheRestClientTemplate.java for some super simple sample code.
+Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/main/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache/PnetApacheRestClientTemplate.java for some super simple sample code.
 
 ## Spring
 
@@ -423,7 +423,7 @@ public void test() {
 }
 ```
 
-Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/master/pnet-data-api-java-sample/src/main/java/pnet/data/api/spring/PnetSpringRestClientTemplate.java for some super simple sample code.
+Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/main/pnet-data-api-java-sample/src/main/java/pnet/data/api/spring/PnetSpringRestClientTemplate.java for some super simple sample code.
 
 # Common information about the client
 
@@ -515,7 +515,7 @@ mvn install
 
 That's it.
 
-Checkout the [pnet-data-api-java-samle](https://github.com/porscheinformatik/pnet-data-api/tree/master/pnet-data-api-java-sample) module for a examples. The `PnetSpringWebClientLauncher` is a fully working console tool for accessing the Data API.
+Checkout the [pnet-data-api-java-samle](https://github.com/porscheinformatik/pnet-data-api/tree/main/pnet-data-api-java-sample) module for a examples. The `PnetSpringWebClientLauncher` is a fully working console tool for accessing the Data API.
 
 # Troubleshooting
 
