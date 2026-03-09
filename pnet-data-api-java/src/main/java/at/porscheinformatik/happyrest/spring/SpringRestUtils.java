@@ -1,9 +1,10 @@
 package at.porscheinformatik.happyrest.spring;
 
+import at.porscheinformatik.happyrest.MediaType;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
-
-import at.porscheinformatik.happyrest.MediaType;
 
 public class SpringRestUtils {
 
@@ -32,5 +33,24 @@ public class SpringRestUtils {
         return contentType != null ? MediaType.parse(contentType.toString()) : defaultType;
     }
 
+    /**
+     * Encodes all + characters in the query string as %2B, because Spring's UriComponentsBuilder decodes them as space characters,
+     * which led to a problem for example for email-addresses containing a + character.
+     * There ist a Spring Issue for this: https://github.com/spring-projects/spring-framework/issues/20750 but this is a workaround.
+     */
+    public static URI encodePlusInQuery(URI uri) throws URISyntaxException {
+        String query = uri.getRawQuery();
+
+        if (query == null || !query.contains("+")) {
+            return uri;
+        }
+
+        String raw = uri.toASCIIString();
+        int queryStart = raw.indexOf('?');
+
+        return new URI(raw.substring(0, queryStart) + "?" + query.replace("+", "%2B"));
+    }
+
     private SpringRestUtils() {}
 }
+

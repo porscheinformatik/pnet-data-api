@@ -282,6 +282,34 @@ class RestCallTest {
 
     @ParameterizedTest
     @EnumSource(MockedRestCallFactory.class)
+    void testParameterWithPlus(MockedRestCallFactory factory) throws RestException {
+        MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
+            .url("https://example.com")
+            .parameter("email", "user+tag@example.com")
+            .invoke(RestMethod.GET, Void.class);
+
+        MatcherAssert.assertThat(response.getRequestMethod(), Matchers.equalTo("GET"));
+
+        switch (factory) {
+            case APACHE, JAVA -> MatcherAssert.assertThat(
+                // URLEncoder encodes both + and @
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com?email=user%2Btag%40example.com")
+            );
+            case APACHE_5 -> MatcherAssert.assertThat(
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com/?email=user%2Btag%40example.com")
+            );
+            case REST_TEMPLATE, SPRING -> MatcherAssert.assertThat(
+                // URI_COMPONENT leaves @ unencoded (valid per RFC 3986); + is encoded via post-processing
+                response.getRequestUrl(),
+                Matchers.equalTo("https://example.com?email=user%2Btag@example.com")
+            );
+        }
+    }
+
+    @ParameterizedTest
+    @EnumSource(MockedRestCallFactory.class)
     void testParameterWithParametersInUrl(MockedRestCallFactory factory) throws RestException {
         MockedRestResponse<Void> response = (MockedRestResponse<Void>) factory
             .url("https://example.com?key=value")
@@ -514,3 +542,4 @@ class RestCallTest {
         MatcherAssert.assertThat(response.getRequestBody(), Matchers.equalTo(object.toJsonString()));
     }
 }
+
