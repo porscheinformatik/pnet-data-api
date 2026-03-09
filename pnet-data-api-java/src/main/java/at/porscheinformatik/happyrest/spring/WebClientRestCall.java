@@ -219,7 +219,7 @@ public class WebClientRestCall extends AbstractRestCall {
         Map<String, Object> variables = buildVariables(builder, form);
 
         try {
-            return builder.build(variables).toURL().toURI();
+            return SpringRestUtils.encodePlusInQuery(builder.build(variables).toURL().toURI());
         } catch (Exception e) {
             throw new RestRequestException("Failed to build URL", e);
         }
@@ -359,3 +359,4 @@ public class WebClientRestCall extends AbstractRestCall {
         );
     }
 }
+
