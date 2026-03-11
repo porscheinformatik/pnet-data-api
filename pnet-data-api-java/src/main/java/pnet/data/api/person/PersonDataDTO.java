@@ -115,6 +115,9 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     @Schema(description = "The global user id of the person (needed scope: SC_IDENTIFIER).")
     private String guid;
 
+    @Schema(description = "The Group Retail Portal global user id of the person (needed scope: SC_IDENTIFIER).")
+    private String grpGuid;
+
     @Schema(description = "The preferred user id of the person (needed scope: SC_IDENTIFIER).")
     private String preferredUserId;
 
@@ -403,6 +406,14 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
 
     public void setGuid(String guid) {
         this.guid = guid;
+    }
+
+    public String getGrpGuid() {
+        return grpGuid;
+    }
+
+    public void setGrpGuid(String grpGuid) {
+        this.grpGuid = grpGuid;
     }
 
     public String getPreferredUserId() {
@@ -730,7 +741,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
         return String.format(
             "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
                 "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, " +
-                "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, " +
+                "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, grpGuid=%s, " +
                 "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, " +
                 "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, " +
                 "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, " +
@@ -754,6 +765,7 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
             birthdate,
             externalId,
             guid,
+            grpGuid,
             preferredUserId,
             phoneNumber,
             extensionNumber,

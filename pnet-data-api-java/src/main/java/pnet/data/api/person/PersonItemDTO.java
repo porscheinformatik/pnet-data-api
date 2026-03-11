@@ -74,10 +74,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(
         description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries"
     )
-    private String taxNumber;
+    private final String taxNumber;
 
     @Schema(description = "The bdoId references the user-id in BDO (needed scope: SC_IDENTIFIER).")
-    private String bdoId;
+    private final String bdoId;
 
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final Boolean credentialsAvailable;
@@ -107,6 +107,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Schema(description = "The global user id of the person (needed scope: SC_IDENTIFIER).")
     private final String guid;
+
+    @Schema(description = "The Group Retail Portal global user id of the person (needed scope: SC_IDENTIFIER).")
+    private final String grpGuid;
 
     @Schema(description = "The preferred user id of the person (needed scope: SC_IDENTIFIER).")
     private final String preferredUserId;
@@ -194,6 +197,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("approvalState") @Deprecated(since = "22.01.2024") ApprovalState approvalState,
         @JsonProperty("externalId") String externalId,
         @JsonProperty("guid") String guid,
+        @JsonProperty("grpGuid") String grpGuid,
         @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber,
         @JsonProperty("birthdate") LocalDate birthdate,
@@ -234,6 +238,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.approvalState = approvalState;
         this.externalId = externalId;
         this.guid = guid;
+        this.grpGuid = grpGuid;
         this.preferredUserId = preferredUserId;
         this.personnelNumber = personnelNumber;
         this.birthdate = birthdate;
@@ -304,16 +309,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return taxNumber;
     }
 
-    public void setTaxNumber(String taxNumber) {
-        this.taxNumber = taxNumber;
-    }
-
     public String getBdoId() {
         return bdoId;
-    }
-
-    public void setBdoId(String bdoId) {
-        this.bdoId = bdoId;
     }
 
     public Boolean getCredentialsAvailable() {
@@ -340,6 +337,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     public String getGuid() {
         return guid;
+    }
+
+    public String getGrpGuid() {
+        return grpGuid;
     }
 
     public String getPreferredUserId() {
@@ -461,7 +462,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return String.format(
             "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
                 "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, " +
-                "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
+                "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, grpGuid=%s, preferredUserId=%s, " +
                 "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
                 "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
                 "contactCompanyNumber=%s, portraitAvailable=%s, portraitUuid=%s, portraitThumbnailUuid=%s, lastUpdate=%s, score=%s, taxNumber=%s, bdoId=%s]",
@@ -480,6 +481,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             approvalState,
             externalId,
             guid,
+            grpGuid,
             preferredUserId,
             personnelNumber,
             birthdate,
