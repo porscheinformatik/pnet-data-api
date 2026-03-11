@@ -24,11 +24,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Predicate;
-import pnet.data.api.util.ApprovalState;
-import pnet.data.api.util.WithLastUpdate;
-import pnet.data.api.util.WithPersonId;
-import pnet.data.api.util.WithScore;
-import pnet.data.api.util.WithTenants;
+import pnet.data.api.util.*;
 
 /**
  * An result item for a search for persons.
@@ -71,11 +67,13 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final String username;
 
-    @Schema(description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries")
-    private String taxNumber;
+    @Schema(
+        description = "The tax number of the person (needed scope: SC_IDENTIFIER). Only availible in some countries"
+    )
+    private final String taxNumber;
 
     @Schema(description = "The bdoId references the user-id in BDO (needed scope: SC_IDENTIFIER).")
-    private String bdoId;
+    private final String bdoId;
 
     @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
     private final Boolean credentialsAvailable;
@@ -85,17 +83,17 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Schema(
         description = "True, if the person has been fully approved by authorities, false if the approval process is still " +
-        "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, " +
-        "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The" +
-        " value " +
-        "will always be set to 'true'."
+            "ongoing (needed scope: SC_APPROVAL_PROCESS). This property is never null. If the scope is missing, " +
+            "only approved persons will be available. NOTE: Person approvals are deprecated as of PNETREQ-1574. The" +
+            " value " +
+            "will always be set to 'true'."
     )
     @Deprecated(since = "22.01.2024")
     private final boolean approved;
 
     @Schema(
         description = "The current state of the audit process. NOTE: Person approvals are deprecated as of PNETREQ-1574. " +
-        "The value will always be set to 'ApprovalState.DONE'."
+            "The value will always be set to 'ApprovalState.DONE'."
     )
     @Deprecated(since = "22.01.2024")
     private final ApprovalState approvalState;
@@ -105,6 +103,9 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Schema(description = "The global user id of the person (needed scope: SC_IDENTIFIER).")
     private final String guid;
+
+    @Schema(description = "The Group Retail Portal global user id of the person (needed scope: SC_IDENTIFIER).")
+    private final String grpGuid;
 
     @Schema(description = "The preferred user id of the person (needed scope: SC_IDENTIFIER).")
     private final String preferredUserId;
@@ -146,13 +147,13 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Schema(
         description = "The matchcode of the company the person is mainly busy at (needed scope: " +
-        "SC_PREFERRED_COMPANY)."
+            "SC_PREFERRED_COMPANY)."
     )
     private final String contactCompanyMatchcode;
 
     @Schema(
         description = "The number of the company the person is mainly busy at (needed scope: " +
-        "SC_PREFERRED_COMPANY)."
+            "SC_PREFERRED_COMPANY)."
     )
     private final String contactCompanyNumber;
 
@@ -192,6 +193,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         @JsonProperty("approvalState") @Deprecated(since = "22.01.2024") ApprovalState approvalState,
         @JsonProperty("externalId") String externalId,
         @JsonProperty("guid") String guid,
+        @JsonProperty("grpGuid") String grpGuid,
         @JsonProperty("preferredUserId") String preferredUserId,
         @JsonProperty("personnelNumber") String personnelNumber,
         @JsonProperty("birthdate") LocalDate birthdate,
@@ -232,6 +234,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.approvalState = approvalState;
         this.externalId = externalId;
         this.guid = guid;
+        this.grpGuid = grpGuid;
         this.preferredUserId = preferredUserId;
         this.personnelNumber = personnelNumber;
         this.birthdate = birthdate;
@@ -302,18 +305,8 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         return taxNumber;
     }
 
-    public void setTaxNumber(String taxNumber) {
-        this.taxNumber = taxNumber;
-    }
-
-    public String getBdoId()
-    {
+    public String getBdoId() {
         return bdoId;
-    }
-
-    public void setBdoId(String bdoId)
-    {
-        this.bdoId = bdoId;
     }
 
     public Boolean getCredentialsAvailable() {
@@ -340,6 +333,10 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     public String getGuid() {
         return guid;
+    }
+
+    public String getGrpGuid() {
+        return grpGuid;
     }
 
     public String getPreferredUserId() {
@@ -433,7 +430,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     public String getPortraitUuid() {
         return portraitUuid;
     }
-    
+
     public String getPortraitThumbnailUuid() {
         return portraitThumbnailUuid;
     }
@@ -460,11 +457,11 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     public String toString() {
         return String.format(
             "PersonItemDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
-            "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, " +
-            "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, preferredUserId=%s, " +
-            "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
-            "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
-            "contactCompanyNumber=%s, portraitAvailable=%s, portraitUuid=%s, portraitThumbnailUuid=%s, lastUpdate=%s, score=%s, taxNumber=%s, bdoId=%s]",
+                "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, username=%s, " +
+                "credentialsAvailable=%s, approved=%s, approvalState=%s, externalId=%s, guid=%s, grpGuid=%s, preferredUserId=%s, " +
+                "personnelNumber=%s, birthdate=%s, email=%s, phoneNumber=%s, mobileNumber=%s, locked=%s, languages=%s, " +
+                "companies=%s, functions=%s, numbers=%s, contactCompanyId=%s, contactCompanyMatchcode=%s, " +
+                "contactCompanyNumber=%s, portraitAvailable=%s, portraitUuid=%s, portraitThumbnailUuid=%s, lastUpdate=%s, score=%s, taxNumber=%s, bdoId=%s]",
             personId,
             administrativeTenant,
             tenants,
@@ -480,6 +477,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
             approvalState,
             externalId,
             guid,
+            grpGuid,
             preferredUserId,
             personnelNumber,
             birthdate,
