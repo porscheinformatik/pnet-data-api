@@ -1,3 +1,12 @@
+# pnet-data-api 2.14.0
+
+The various client configs avoid creating an objectMapper
+and a conversionService bean, now, to prevent side effects
+in applications using the Data API Client.
+
+If you need to modify the beans used in the Data API then
+provide a PnetDataRestCallFactoryConfigurer bean.
+
 # pnet-data-api 2.13.0
 
 - Update to Spring Boot 3.5.8
