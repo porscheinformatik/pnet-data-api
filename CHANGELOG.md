@@ -1,3 +1,18 @@
+# pnet-data-api 3.1.0
+
+The various client configs avoid creating an objectMapper
+and a conversionService bean, now, to prevent side effects
+in applications using the Data API Client.
+
+If you need to modify the beans used in the Data API then
+provide a PnetDataRestCallFactoryConfigurer bean.
+
+# pnet-data-api 3.0.1
+
+- Add grpGuid to PersonDataDTO and PersonItemDTO
+- Workaround Spring query params + handling
+- Update documentation
+
 # pnet-data-api 3.0.0
 
 - Upgrade to Spring Boot 4
@@ -12,6 +27,15 @@ Currently there are no other known breaking changes despite the Jackson package 
 The list of needed dependencies has been updated in the documentation.
 
 Make sure you have previously upgraded to at least pnet-data-api version 2.13.0, as Spring Boot 4 support has been added there.
+
+# pnet-data-api 2.14.0
+
+The various client configs avoid creating an objectMapper
+and a conversionService bean, now, to prevent side effects
+in applications using the Data API Client.
+
+If you need to modify the beans used in the Data API then
+provide a PnetDataRestCallFactoryConfigurer bean.
 
 # pnet-data-api 2.13.0
 
