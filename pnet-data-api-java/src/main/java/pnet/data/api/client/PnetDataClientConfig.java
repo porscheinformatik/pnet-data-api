@@ -20,6 +20,7 @@ import pnet.data.api.function.FunctionPnetDataApiClientConfig;
 import pnet.data.api.legalform.LegalFormPnetDataApiClientConfig;
 import pnet.data.api.numbertype.NumberTypePnetDataApiClientConfig;
 import pnet.data.api.person.PersonPnetDataApiClientConfig;
+import pnet.data.api.resource.ResourcePnetDataApiClientConfig;
 
 /**
  * Spring configuration for the PnetDataApiClient module.
@@ -27,24 +28,25 @@ import pnet.data.api.person.PersonPnetDataApiClientConfig;
 @Configuration
 @Import(
     {
-        PnetDataApiClientContextConfig.class,
         AboutPnetDataApiClientConfig.class,
         ActivityPnetDataApiClientConfig.class,
         AdvisorTypePnetDataApiClientConfig.class,
         ApplicationPnetDataApiClientConfig.class,
         BrandPnetDataApiClientConfig.class,
-        CompanyPnetDataApiClientConfig.class,
         CompanyGroupPnetDataApiClientConfig.class,
         CompanyGroupTypePnetDataApiClientConfig.class,
         CompanyNumberTypePnetDataApiClientConfig.class,
+        CompanyPnetDataApiClientConfig.class,
         CompanyTypePnetDataApiClientConfig.class,
         ContractStatePnetDataApiClientConfig.class,
         ContractTypePnetDataApiClientConfig.class,
         ExternalBrandPnetDataApiClientConfig.class,
-        LegalFormPnetDataApiClientConfig.class,
         FunctionPnetDataApiClientConfig.class,
+        LegalFormPnetDataApiClientConfig.class,
         NumberTypePnetDataApiClientConfig.class,
         PersonPnetDataApiClientConfig.class,
+        ResourcePnetDataApiClientConfig.class,
+        PnetDataApiClientContextConfig.class,
     }
 )
 public class PnetDataClientConfig {
