@@ -15,6 +15,11 @@ import pnet.data.api.util.Pair;
 /**
  * A REST call. Objects of this type must be final and thread-safe!
  *
+ * <p>
+ * Note: A URL must be set before invoking a request. Attempting to invoke without setting a URL will result in a
+ * NullPointerException with the message "URL must be set before invoking a request".
+ * </p>
+ *
  * @author ham
  */
 public abstract class AbstractRestCall implements RestCall {
@@ -489,7 +494,7 @@ public abstract class AbstractRestCall implements RestCall {
     }
 
     protected String buildUrl(boolean form) {
-        String currentUrl = getUrl();
+        String currentUrl = Objects.requireNonNull(getUrl(), "URL must be set before invoking a request");
         Charset charset = getCharset();
 
         for (RestVariable variable : getVariables()) {

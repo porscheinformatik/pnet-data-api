@@ -21,10 +21,13 @@ public interface RestCall {
 
     /**
      * Returns a new instance of a {@link RestCall}, that points to the specified URL. The URL will be left unchanged
-     * (no encoding will take place)
+     * (no encoding will take place). Note: A URL must be set before invoking the request, otherwise a
+     * NullPointerException will be thrown at invocation time.
      *
-     * @param url the url
+     * @param url the url (must be set to a non-null value before invoking)
      * @return a new instance
+     * @throws NullPointerException if url is null when {@link #invoke(RestMethod, Class)} or
+     *         {@link #invoke(RestMethod, GenericType)} is called
      */
     RestCall url(String url);
 
