@@ -5,6 +5,7 @@ import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestAttribute;
 import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.RestConnectionException;
 import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestHeader;
@@ -13,6 +14,7 @@ import at.porscheinformatik.happyrest.RestMethod;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestRequestException;
 import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestTimeoutException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -95,8 +97,7 @@ public class JavaRestCall extends AbstractRestCall {
         return invoke(request, responseType);
     }
 
-    protected <T> RestResponse<T> invoke(HttpRequest request, GenericType<T> responseType)
-        throws RestRequestException, RestException {
+    protected <T> RestResponse<T> invoke(HttpRequest request, GenericType<T> responseType) throws RestException {
         HttpResponse<InputStream> response;
 
         try {
@@ -106,10 +107,28 @@ public class JavaRestCall extends AbstractRestCall {
 
             throw new RestRequestException("Request got interrupted: " + String.valueOf(request.uri()), e);
         } catch (IOException e) {
-            throw new RestRequestException("Request failed: " + String.valueOf(request.uri()), e);
+            // Detect specific connection and timeout errors
+            String message = "Request failed: " + String.valueOf(request.uri());
+            if (e instanceof java.net.SocketTimeoutException) {
+                throw new RestTimeoutException(message, e);
+            } else if (isConnectionException(e)) {
+                throw new RestConnectionException(message, e);
+            }
+            throw new RestRequestException(message, e);
         }
 
         return JavaRestResponse.create(parser, response, responseType, getLoggerAdapter());
+    }
+
+    private boolean isConnectionException(IOException e) {
+        return (
+            e instanceof java.net.ConnectException ||
+            e instanceof java.net.NoRouteToHostException ||
+            e instanceof java.net.UnknownHostException ||
+            (e instanceof java.net.SocketException &&
+                e.getMessage() != null &&
+                e.getMessage().toLowerCase().contains("connection"))
+        );
     }
 
     private HttpRequest buildRequest(RestMethod method, String url, boolean form) throws RestRequestException {
