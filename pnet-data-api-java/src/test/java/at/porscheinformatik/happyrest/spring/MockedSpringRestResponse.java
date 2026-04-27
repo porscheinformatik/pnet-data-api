@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 import org.springframework.http.HttpEntity;
 import org.springframework.util.LinkedMultiValueMap;
 
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class MockedSpringRestResponse<T> extends MockedRestResponse<T> {
 
     private final RestMethod requestMethod;

@@ -19,6 +19,13 @@ import pnet.data.api.util.Pair;
  */
 public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultPage<T> {
 
+    private static final String AVOID_SEARCH_AFTER_PROPERTY = System.getProperty(
+        PnetDataClientResultPage.AVOID_SEARCH_AFTER_PROPERTY_KEY
+    );
+
+    private static final boolean AVOID_SEARCH_AFTER =
+        "".equals(AVOID_SEARCH_AFTER_PROPERTY) || "true".equalsIgnoreCase(AVOID_SEARCH_AFTER_PROPERTY);
+
     @SuppressWarnings("deprecation")
     public static <T> DefaultPnetDataClientResultPage<T> of(ResultPage<T> resultPage) {
         return new DefaultPnetDataClientResultPage<>(
@@ -133,7 +140,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
     }
 
     @Override
-    public PnetDataClientResultPage<T> nextPage(boolean avoidSearchAfter) throws PnetDataClientException {
+    public PnetDataClientResultPage<T> nextPage() throws PnetDataClientException {
         if (isEmpty()) {
             return null;
         }
@@ -142,7 +149,7 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
 
         if (scrollId != null && scrollSupplier != null) {
             result = scrollSupplier.get(scrollId);
-        } else if (!avoidSearchAfter && searchAfter != null) {
+        } else if (!AVOID_SEARCH_AFTER && searchAfter != null) {
             List<Pair<String, Object>> restricts = new ArrayList<>(this.restricts);
 
             restricts.removeIf(restrict -> PAGE_INDEX_KEY.equals(restrict.getLeft()));
@@ -162,24 +169,5 @@ public class DefaultPnetDataClientResultPage<T> implements PnetDataClientResultP
         }
 
         return result;
-    }
-
-    /**
-     * @deprecated since 2.x use {@link #nextPage(boolean)} instead
-     */
-    @Override
-    @Deprecated(since = "2.x")
-    public PnetDataClientResultPage<T> getPage(int index) throws PnetDataClientException {
-        if (pageSupplier == null) {
-            throw new UnsupportedOperationException("Feature not supported");
-        }
-
-        List<Pair<String, Object>> restricts = new ArrayList<>(this.restricts);
-
-        restricts.removeIf(restrict -> PAGE_INDEX_KEY.equals(restrict.getLeft()));
-        restricts.removeIf(restrict -> SEARCH_AFTER_KEY.equals(restrict.getLeft()));
-        restricts.add(Pair.of(PAGE_INDEX_KEY, pageIndex + 1));
-
-        return pageSupplier.get(restricts);
     }
 }

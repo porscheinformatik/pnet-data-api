@@ -25,28 +25,6 @@ public abstract class CipherHelper {
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     /**
-     * Creates a CipherHelper using the key for a Blowfish algorithm
-     *
-     * @param base64EncodedKey the key
-     * @return the CipherHelper
-     * @deprecated Non-compliant as criticized by Sonar
-     */
-    @Deprecated
-    public static CipherHelper ofBlowfishKey(String base64EncodedKey) {
-        return new CipherHelper(new SecretKeySpec(Base64.getDecoder().decode(base64EncodedKey), "Blowfish"), 0) {
-            @Override
-            protected Cipher buildCipher(SecretKey secretKey, int mode, byte[] iv)
-                throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
-                Cipher cipher = Cipher.getInstance("Blowfish");
-
-                cipher.init(mode, secretKey);
-
-                return cipher;
-            }
-        };
-    }
-
-    /**
      * Creates a CipherHelper using the key for a AES/GCM/NoPadding algorithm
      *
      * @param base64EncodedKey the key, 256 bits
@@ -72,7 +50,6 @@ public abstract class CipherHelper {
     private final int ivLength;
 
     protected CipherHelper(SecretKey secretKey, int ivLength) {
-        super();
         this.secretKey = secretKey;
         this.ivLength = ivLength;
     }
@@ -81,11 +58,11 @@ public abstract class CipherHelper {
         throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException;
 
     public String encode(String s) {
-        if (s == null || s.length() == 0) {
+        if (s == null || s.isEmpty()) {
             return null;
         }
 
-        return Base64.getEncoder().encodeToString(encode(s.getBytes(CHARSET)));
+        return Base64.getEncoder().encodeToString(encode(s.getBytes(CipherHelper.CHARSET)));
     }
 
     public byte[] encode(byte[] bytes) {
@@ -131,7 +108,7 @@ public abstract class CipherHelper {
     }
 
     public String decode(String base64EncodedBytes) {
-        if (base64EncodedBytes == null || base64EncodedBytes.length() == 0) {
+        if (base64EncodedBytes == null || base64EncodedBytes.isEmpty()) {
             return null;
         }
 
@@ -185,7 +162,7 @@ public abstract class CipherHelper {
 
             String algorithm = reader.readLine();
 
-            if (algorithm == null || algorithm.length() == 0) {
+            if (algorithm == null || algorithm.isEmpty()) {
                 return;
             }
 

@@ -18,7 +18,7 @@ import pnet.data.api.resttemplate.RestTemplateBasedRestCallFactoryConfig;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import({ RestTemplateBasedRestCallFactoryConfig.class, PnetDataClientConfig.class })
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public @interface EnablePnetDataClient {
     // intentionally left blank
 }

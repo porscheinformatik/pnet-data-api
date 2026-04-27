@@ -22,12 +22,7 @@ public final class Prefs {
         "Y3p80YhT50y+QidV3ghpe0EWgal4XUKeNkWBwl3weII="
     );
 
-    @Deprecated
-    private static final CipherHelper BLOWFISH_CIPHER = CipherHelper.ofBlowfishKey("wGo8e16IdulAQw8x+z5EAA==");
-
-    private Prefs() {
-        super();
-    }
+    private Prefs() {}
 
     public static String getUrl(String key) {
         return Prefs.get(key + ".url");
@@ -62,17 +57,17 @@ public final class Prefs {
     }
 
     public static void remove(String key) {
-        PREFERENCES.remove(key + ".url");
-        PREFERENCES.remove(key + ".username");
-        PREFERENCES.remove(key + ".password");
-        PREFERENCES.remove(key + ".token");
+        Prefs.PREFERENCES.remove(key + ".url");
+        Prefs.PREFERENCES.remove(key + ".username");
+        Prefs.PREFERENCES.remove(key + ".password");
+        Prefs.PREFERENCES.remove(key + ".token");
     }
 
     public static List<String> keys() {
         ArrayList<String> result = new ArrayList<>();
 
         try {
-            result.addAll(Arrays.asList(PREFERENCES.keys()));
+            result.addAll(Arrays.asList(Prefs.PREFERENCES.keys()));
         } catch (BackingStoreException e) {
             e.printStackTrace(System.err);
         }
@@ -83,40 +78,32 @@ public final class Prefs {
     }
 
     protected static String get(String key) {
-        return PREFERENCES.get(key, null);
+        return Prefs.PREFERENCES.get(key, null);
     }
 
     protected static String decodeAndGet(String key) {
-        String value = PREFERENCES.get(key, null);
+        String value = Prefs.PREFERENCES.get(key, null);
 
         if (value == null) {
             return null;
         }
 
-        try {
-            return AES_CIPHER.decode(value);
-        } catch (IllegalArgumentException e) {
-            value = BLOWFISH_CIPHER.decode(value);
-
-            encodeAndSet(key, value);
-
-            return value;
-        }
+        return Prefs.AES_CIPHER.decode(value);
     }
 
     protected static void set(String key, String value) {
         if (value == null || value.trim().isEmpty()) {
-            PREFERENCES.remove(key);
+            Prefs.PREFERENCES.remove(key);
         } else {
-            PREFERENCES.put(key, value);
+            Prefs.PREFERENCES.put(key, value);
         }
     }
 
     protected static void encodeAndSet(String key, String value) {
         if (value == null || value.trim().isEmpty()) {
-            PREFERENCES.remove(key);
+            Prefs.PREFERENCES.remove(key);
         } else {
-            PREFERENCES.put(key, AES_CIPHER.encode(value));
+            Prefs.PREFERENCES.put(key, Prefs.AES_CIPHER.encode(value));
         }
     }
 }

@@ -8,8 +8,5 @@ package pnet.data.api.company;
 public enum CompanyMerge {
     NONE,
 
-    @Deprecated
-    INTERET_GROUP,
-
     INTERNET_GROUP,
 }

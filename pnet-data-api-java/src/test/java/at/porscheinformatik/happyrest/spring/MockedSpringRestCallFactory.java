@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @deprecated use MockedRestTemplateRestCallFactory instead
  */
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class MockedSpringRestCallFactory extends SpringRestCallFactory {
 
     public static MockedSpringRestCallFactory createMock() {

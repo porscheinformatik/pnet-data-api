@@ -8,8 +8,7 @@ import java.util.Collection;
  * @param <SELF> the type of the filter for chaining
  * @author ham
  */
-@SuppressWarnings("deprecation")
-public interface RestrictNumberType<SELF extends Restrict<SELF>> extends RestrictNumbersType<SELF> {
+public interface RestrictNumberType<SELF extends Restrict<SELF>> extends Restrict<SELF> {
     default SELF numberType(String... numberTypeMatchcodes) {
         return restrict("numberType", (Object[]) numberTypeMatchcodes);
     }

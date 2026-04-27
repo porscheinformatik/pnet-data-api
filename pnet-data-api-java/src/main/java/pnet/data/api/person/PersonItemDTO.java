@@ -367,14 +367,6 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.locked = locked;
     }
 
-    /**
-     * @deprecated since 2.11.7, use {@link #getLocked()} instead.
-     */
-    @Deprecated(since = "2.11.7", forRemoval = false)
-    public Boolean isLocked() {
-        return locked;
-    }
-
     public Boolean getLocked() {
         return locked;
     }

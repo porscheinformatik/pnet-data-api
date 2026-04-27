@@ -64,20 +64,6 @@ public class PersonDataGet
         return guids(guids).execute(pageIndex, itemsPerPage);
     }
 
-    @Deprecated
-    public PersonDataDTO byPrefferedUserId(String preferredUserIds) throws PnetDataClientException {
-        return byPreferredUserId(preferredUserIds);
-    }
-
-    @Deprecated
-    public PnetDataClientResultPage<PersonDataDTO> allByPrefferedUserIds(
-        List<String> preferredUserIds,
-        int pageIndex,
-        int itemsPerPage
-    ) throws PnetDataClientException {
-        return preferredUserIds(preferredUserIds).execute(pageIndex, itemsPerPage);
-    }
-
     public PersonDataDTO byPreferredUserId(String preferredUserIds) throws PnetDataClientException {
         return allByPreferredUserIds(Arrays.asList(preferredUserIds), 0, 1).first();
     }

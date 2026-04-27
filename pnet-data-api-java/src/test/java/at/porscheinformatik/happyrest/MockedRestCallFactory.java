@@ -12,7 +12,7 @@ public enum MockedRestCallFactory implements RestCallFactory {
     JAVA(MockedJavaRestCallFactory.createMock()),
     REST_TEMPLATE(MockedRestTemplateRestCallFactory.createMock()),
 
-    @Deprecated(since = "2.13.x")
+    @Deprecated(since = "2.13.x", forRemoval = true)
     SPRING(MockedSpringRestCallFactory.createMock());
 
     private final RestCallFactory factory;
