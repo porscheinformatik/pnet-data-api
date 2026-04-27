@@ -17,7 +17,7 @@ import pnet.data.api.resttemplate.RestTemplateBasedRestCallFactoryConfig;
 @Configuration
 @ComponentScan(basePackageClasses = { AbstractContextPnetDataApiClientConfig.class })
 @Import(RestTemplateBasedRestCallFactoryConfig.class)
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public abstract class AbstractContextPnetDataApiClientConfig extends PnetDataApiClientContextConfig {
 
     protected abstract RestCallFactory createSpringRestCallFactory(

@@ -18,7 +18,7 @@ import pnet.data.api.util.Pair;
 /**
  * @deprecated use MockedRestTemplateRestCall instead
  */
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class MockedSpringRestCall extends SpringRestCall {
 
     public MockedSpringRestCall(

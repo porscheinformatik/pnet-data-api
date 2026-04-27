@@ -1,6 +1,11 @@
 # pnet-data-api 3.2.0
 
 - Remove deprecated methods from the HappyRest wrapper.
+- Remove deprecated legacy types and methods, including `PnetDataApiTokenKey`, `RestrictNumbersType`, `RestrictSapNumber`, `Scrollable`, `WithId`, `ResultPage.hasNextPage()`, `PnetDataClientResultPage.nextPage(boolean)`, and `PnetDataClientResultPage.getPage(int)`.
+- Remove deprecated aliases and typo compatibility methods, including `CompanyMerge.INTERET_GROUP`, `PersonDataGet.byPrefferedUserId(..)`, `PersonDataGet.allByPrefferedUserIds(..)`, and `PersonItemDTO.isLocked()`.
+- Remove deprecated SAP number restrictions from company get/find APIs and helper methods (`bySapNumber`, `allBySapNumbers`).
+- Mark remaining deprecated Spring-based wrapper/config classes and related test mocks as `forRemoval = true`.
+- Sample client security cleanup: remove deprecated Blowfish encryption support and fallback decoding, keep AES-based preference encryption only.
 
 # pnet-data-api 3.1.0
 

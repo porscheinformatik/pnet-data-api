@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import pnet.data.api.util.ApprovalState;
-import pnet.data.api.util.WithId;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithPersonId;
 import pnet.data.api.util.WithTenants;
@@ -35,15 +34,14 @@ import pnet.data.api.util.WithTenants;
  *
  * @author ham
  */
-@SuppressWarnings("deprecation")
 @Schema(description = "Holds all information about a person")
-public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLastUpdate, Serializable {
+public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate, Serializable {
 
     @Serial
     private static final long serialVersionUID = -2096202204327773391L;
 
     @Schema(description = "The unique id of the person (needed scope: SC_IDENTIFIER).")
-    @Deprecated
+    @Deprecated(forRemoval = true)
     private final Integer id;
 
     @Schema(description = "The unique id of the person (needed scope: SC_IDENTIFIER).")
@@ -237,7 +235,6 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
     private LocalDateTime recertValidTo;
 
     public PersonDataDTO(@JsonProperty("id") Integer id, @JsonProperty("personId") Integer personId) {
-        super();
         this.id = id != null ? id : personId;
         this.personId = personId != null ? personId : id;
     }
@@ -248,7 +245,6 @@ public class PersonDataDTO implements WithId, WithPersonId, WithTenants, WithLas
      * @return person id
      * @deprecated use {@link #getPersonId()} instead
      */
-    @Override
     @Deprecated
     public Integer getId() {
         return id;

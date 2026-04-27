@@ -16,14 +16,4 @@ public interface RestrictAdvisorAssignmentType<SELF extends Restrict<SELF>> exte
     default SELF advisorAssignmentTypes(Collection<String> advisorAssignmentTypeMatchcodes) {
         return advisorAssignmentType(advisorAssignmentTypeMatchcodes.toArray(new String[0]));
     }
-
-    @Deprecated
-    default SELF advisorType(String... advisorAssignmentTypeMatchcodes) {
-        return restrict("advisorAssignmentType", (Object[]) advisorAssignmentTypeMatchcodes);
-    }
-
-    @Deprecated
-    default SELF advisorTypes(Collection<String> advisorAssignmentTypeMatchcodes) {
-        return advisorType(advisorAssignmentTypeMatchcodes.toArray(new String[0]));
-    }
 }

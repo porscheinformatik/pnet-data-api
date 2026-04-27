@@ -9,7 +9,7 @@ import pnet.data.api.PnetRestClient;
  * @deprecated use specific WebClient or RestTemplate based launcher instead
  * @author ham
  */
-@Deprecated(forRemoval = true)
+@Deprecated(since = "2.13.x", forRemoval = true)
 public final class PnetSpringRestClientLauncher {
 
     private PnetSpringRestClientLauncher() {}
