@@ -38,7 +38,6 @@ public abstract class AbstractRestCall implements RestCall {
         RestFormatter formatter,
         Object body
     ) {
-        super();
         this.loggerAdapter = loggerAdapter;
         this.url = url;
         this.acceptableMediaTypes = acceptableMediaTypes;
@@ -218,8 +217,8 @@ public abstract class AbstractRestCall implements RestCall {
     }
 
     @Override
-    public RestCall variable(String name, Object... values) {
-        return replaceAttribute(RestAttribute.variable(name, values[0]));
+    public RestCall variable(String name, Object value) {
+        return replaceAttribute(RestAttribute.variable(name, value));
     }
 
     @Override
@@ -439,20 +438,8 @@ public abstract class AbstractRestCall implements RestCall {
         return form;
     }
 
-    @Override
-    public final <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType)
-        throws RestException {
-        return path(path).invoke(method, responseType);
-    }
-
-    @Override
-    public final <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
-        throws RestException {
-        return path(path).invoke(method, responseType);
-    }
-
     protected Charset getCharset() {
-        return DEFAULT_CHARSET;
+        return AbstractRestCall.DEFAULT_CHARSET;
     }
 
     @SuppressWarnings("java:S135")
@@ -471,8 +458,8 @@ public abstract class AbstractRestCall implements RestCall {
                 for (int i = 0; i < Array.getLength(value); i++) {
                     parameters.add(
                         RestUtils.encodeString(parameter.getName(), charset) +
-                        "=" +
-                        RestUtils.encodeString(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset)
+                            "=" +
+                            RestUtils.encodeString(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset)
                     );
                 }
 
@@ -483,8 +470,8 @@ public abstract class AbstractRestCall implements RestCall {
                 for (Object element : ((Iterable<?>) value)) {
                     parameters.add(
                         RestUtils.encodeString(parameter.getName(), charset) +
-                        "=" +
-                        RestUtils.encodeString(format(MediaType.TEXT_PLAIN, element), charset)
+                            "=" +
+                            RestUtils.encodeString(format(MediaType.TEXT_PLAIN, element), charset)
                     );
                 }
 
@@ -493,8 +480,8 @@ public abstract class AbstractRestCall implements RestCall {
 
             parameters.add(
                 RestUtils.encodeString(parameter.getName(), charset) +
-                "=" +
-                RestUtils.encodeString(format(MediaType.TEXT_PLAIN, value), charset)
+                    "=" +
+                    RestUtils.encodeString(format(MediaType.TEXT_PLAIN, value), charset)
             );
         }
 

@@ -126,8 +126,8 @@ public class MockedApache5RestCall extends Apache5RestCall {
     }
 
     @Override
-    public MockedApache5RestCall variable(String name, Object... values) {
-        return (MockedApache5RestCall) super.variable(name, values);
+    public MockedApache5RestCall variable(String name, Object value) {
+        return (MockedApache5RestCall) super.variable(name, value);
     }
 
     @Override

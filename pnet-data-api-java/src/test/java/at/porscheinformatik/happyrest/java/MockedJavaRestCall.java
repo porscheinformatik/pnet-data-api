@@ -138,8 +138,8 @@ public class MockedJavaRestCall extends JavaRestCall {
     }
 
     @Override
-    public MockedJavaRestCall variable(String name, Object... values) {
-        return (MockedJavaRestCall) super.variable(name, values);
+    public MockedJavaRestCall variable(String name, Object value) {
+        return (MockedJavaRestCall) super.variable(name, value);
     }
 
     @Override

@@ -1,3 +1,7 @@
+# pnet-data-api 2.15.0
+
+- Remove deprecated methods from the HappyRest wrapper.
+
 # pnet-data-api 2.14.0
 
 The various client configs avoid creating an objectMapper

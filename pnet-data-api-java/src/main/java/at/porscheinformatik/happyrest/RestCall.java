@@ -71,15 +71,15 @@ public interface RestCall {
         Charset charset = StandardCharsets.UTF_8;
         String credentials = Base64.getEncoder().encodeToString((username + ":" + password).getBytes(charset));
 
-        return header(AUTHORIZATION_HEADER_NAME, "Basic " + credentials);
+        return header(RestCall.AUTHORIZATION_HEADER_NAME, "Basic " + credentials);
     }
 
     default RestCall bearerAuthorization(String token) {
-        return header(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
+        return header(RestCall.AUTHORIZATION_HEADER_NAME, "Bearer " + token);
     }
 
     default String getAuthorization() {
-        return getHeader(AUTHORIZATION_HEADER_NAME);
+        return getHeader(RestCall.AUTHORIZATION_HEADER_NAME);
     }
 
     List<RestAttribute> getAttributes();
@@ -153,21 +153,7 @@ public interface RestCall {
         return getAttributes(RestHeader.class);
     }
 
-    default RestCall variable(String name, Object value) {
-        return variable(name, new Object[] { value });
-    }
-
-    /**
-     * Add a variable.
-     *
-     * @param name the name
-     * @param values the values (only the first will be used)
-     * @return a new RestCall instance
-     * @deprecated there is no use for multiple variable values with the same name. Use the
-     * {@link #variable(String, Object)} method.
-     */
-    @Deprecated
-    RestCall variable(String name, Object... values);
+    RestCall variable(String name, Object value);
 
     default boolean containsVariables() {
         return containsAttributes(RestVariable.class);
@@ -215,117 +201,51 @@ public interface RestCall {
         return invoke(RestMethod.GET, responseType).getBody();
     }
 
-    @Deprecated
-    default <T> T get(String path, Class<T> responseType) throws RestException {
-        return invoke(RestMethod.GET, path, responseType).getBody();
-    }
-
     default <T> T get(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.GET, responseType).getBody();
-    }
-
-    @Deprecated
-    default <T> T get(String path, GenericType<T> responseType) throws RestException {
-        return invoke(RestMethod.GET, path, responseType).getBody();
     }
 
     default <T> T put(Class<T> responseType) throws RestException {
         return invoke(RestMethod.PUT, responseType).getBody();
     }
 
-    @Deprecated
-    default <T> T put(String path, Class<T> responseType) throws RestException {
-        return invoke(RestMethod.PUT, path, responseType).getBody();
-    }
-
     default <T> T put(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.PUT, responseType).getBody();
-    }
-
-    @Deprecated
-    default <T> T put(String path, GenericType<T> responseType) throws RestException {
-        return invoke(RestMethod.PUT, path, responseType).getBody();
     }
 
     default <T> T post(Class<T> responseType) throws RestException {
         return invoke(RestMethod.POST, responseType).getBody();
     }
 
-    @Deprecated
-    default <T> T post(String path, Class<T> responseType) throws RestException {
-        return invoke(RestMethod.POST, path, responseType).getBody();
-    }
-
     default <T> T post(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.POST, responseType).getBody();
-    }
-
-    @Deprecated
-    default <T> T post(String path, GenericType<T> responseType) throws RestException {
-        return invoke(RestMethod.POST, path, responseType).getBody();
     }
 
     default <T> T delete(Class<T> responseType) throws RestException {
         return invoke(RestMethod.DELETE, responseType).getBody();
     }
 
-    @Deprecated
-    default <T> T delete(String path, Class<T> responseType) throws RestException {
-        return invoke(RestMethod.DELETE, path, responseType).getBody();
-    }
-
     default <T> T delete(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.DELETE, responseType).getBody();
-    }
-
-    @Deprecated
-    default <T> T delete(String path, GenericType<T> responseType) throws RestException {
-        return invoke(RestMethod.DELETE, path, responseType).getBody();
     }
 
     default <T> T options(Class<T> responseType) throws RestException {
         return invoke(RestMethod.OPTIONS, responseType).getBody();
     }
 
-    @Deprecated
-    default <T> T options(String path, Class<T> responseType) throws RestException {
-        return invoke(RestMethod.OPTIONS, path, responseType).getBody();
-    }
-
     default <T> T options(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.OPTIONS, responseType).getBody();
-    }
-
-    @Deprecated
-    default <T> T options(String path, GenericType<T> responseType) throws RestException {
-        return invoke(RestMethod.OPTIONS, path, responseType).getBody();
     }
 
     default <T> T patch(Class<T> responseType) throws RestException {
         return invoke(RestMethod.PATCH, responseType).getBody();
     }
 
-    @Deprecated
-    default <T> T patch(String path, Class<T> responseType) throws RestException {
-        return invoke(RestMethod.PATCH, path, responseType).getBody();
-    }
-
     default <T> T patch(GenericType<T> responseType) throws RestException {
         return invoke(RestMethod.PATCH, responseType).getBody();
-    }
-
-    @Deprecated
-    default <T> T patch(String path, GenericType<T> responseType) throws RestException {
-        return invoke(RestMethod.PATCH, path, responseType).getBody();
     }
 
     <T> RestResponse<T> invoke(RestMethod method, Class<T> responseType) throws RestException;
 
     <T> RestResponse<T> invoke(RestMethod method, GenericType<T> responseType) throws RestException;
-
-    @Deprecated
-    <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType) throws RestException;
-
-    @Deprecated
-    <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType) throws RestException;
 }
