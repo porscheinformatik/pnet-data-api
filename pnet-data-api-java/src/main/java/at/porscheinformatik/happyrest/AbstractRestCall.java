@@ -66,6 +66,11 @@ public abstract class AbstractRestCall implements RestCall {
         return loggerAdapter;
     }
 
+    /**
+     * Gets the current request URL.
+     *
+     * @return the URL set via {@link #url(String)}, or null if not yet set
+     */
     @Override
     public String getUrl() {
         return url;
@@ -397,10 +402,25 @@ public abstract class AbstractRestCall implements RestCall {
         }
     }
 
+    /**
+     * Sets a custom formatter for request body serialization.
+     *
+     * <p>
+     * The formatter is used to serialize request bodies and parameters according to the specified content type.
+     * </p>
+     *
+     * @param formatter the request formatter (non-null)
+     * @return a new RestCall instance with the formatter set
+     */
     public RestCall formatter(RestFormatter formatter) {
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
+    /**
+     * Gets the current request body content type.
+     *
+     * @return the content type (may be null)
+     */
     public MediaType getContentType() {
         return contentType;
     }
@@ -410,6 +430,11 @@ public abstract class AbstractRestCall implements RestCall {
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
+    /**
+     * Gets the current request body.
+     *
+     * @return the request body, or null if not set
+     */
     public Object getBody() {
         return body;
     }
