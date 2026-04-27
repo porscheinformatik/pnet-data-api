@@ -5,6 +5,7 @@ import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestAttribute;
 import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.RestConnectionException;
 import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestLoggerAdapter;
@@ -13,6 +14,7 @@ import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestParser;
 import at.porscheinformatik.happyrest.RestRequestException;
 import at.porscheinformatik.happyrest.RestResponse;
+import at.porscheinformatik.happyrest.RestTimeoutException;
 import at.porscheinformatik.happyrest.RestUtils;
 import at.porscheinformatik.happyrest.RestVariable;
 import at.porscheinformatik.happyrest.RuntimeRestExceptionWrapper;
@@ -142,8 +144,26 @@ public class Apache5RestCall extends AbstractRestCall {
         } catch (RuntimeRestExceptionWrapper e) {
             throw e.getCause();
         } catch (IOException e) {
-            throw new RestRequestException("Request failed", e);
+            // Detect specific connection and timeout errors
+            String message = "Request failed: " + method + " " + request.getRequestUri();
+            if (e instanceof java.net.SocketTimeoutException) {
+                throw new RestTimeoutException(message, e);
+            } else if (isConnectionException(e)) {
+                throw new RestConnectionException(message, e);
+            }
+            throw new RestRequestException(message, e);
         }
+    }
+
+    private boolean isConnectionException(IOException e) {
+        return (
+            e instanceof java.net.ConnectException ||
+            e instanceof java.net.NoRouteToHostException ||
+            e instanceof java.net.UnknownHostException ||
+            (e instanceof java.net.SocketException &&
+                e.getMessage() != null &&
+                e.getMessage().toLowerCase().contains("connection"))
+        );
     }
 
     private String buildUrl() {

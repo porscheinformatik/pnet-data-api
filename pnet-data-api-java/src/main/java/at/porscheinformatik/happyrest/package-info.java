@@ -200,6 +200,66 @@
  * }
  * </pre>
  *
+ * <h2>Error Handling & Exception Types</h2>
+ *
+ * <p>
+ * The Happy REST library provides a comprehensive exception hierarchy for fine-grained error handling:
+ * </p>
+ *
+ * <pre>
+ * {@code
+ * try {
+ *     response = factory
+ *         .url("https://api.example.com/data")
+ *         .bearerAuthorization(token)
+ *         .invoke(RestMethod.GET, String.class);
+ * } catch (RestTimeoutException e) {
+ *     // Handle timeout - implement retry logic with exponential backoff
+ *     logger.warn("Request timed out after " + e.getTimeoutMillis() + "ms, retrying...");
+ *     // retry logic here
+ * } catch (RestConnectionException e) {
+ *     // Handle connection failure - check network/server availability
+ *     logger.error("Cannot connect to server: " + e.getMessage());
+ *     // alert operations
+ * } catch (RestResponseException e) {
+ *     // Handle HTTP error responses (4xx, 5xx)
+ *     if (e.getStatusCode() == 401) {
+ *         logger.error("Authentication failed - check credentials");
+ *     } else {
+ *         logger.error("Server returned " + e.getStatusCode() + ": " + e.getDescription());
+ *     }
+ * } catch (RestException e) {
+ *     // Handle other REST errors (request building, parsing, etc.)
+ *     logger.error("Request failed: " + e.getMessage());
+ * }
+ * }
+ * </pre>
+ *
+ * <p>
+ * <strong>Exception Hierarchy:</strong>
+ * </p>
+ * <ul>
+ * <li>{@link at.porscheinformatik.happyrest.RestException} - Base exception for all REST errors
+ * <ul>
+ * <li>{@link at.porscheinformatik.happyrest.RestRequestException} - Request building/execution errors
+ * <ul>
+ * <li>{@link at.porscheinformatik.happyrest.RestConnectionException} - Connection failures (connection refused, DNS
+ * failure, network unreachable, etc.)</li>
+ * <li>{@link at.porscheinformatik.happyrest.RestTimeoutException} - Request timeout (connection timeout, read timeout,
+ * socket timeout)</li>
+ * </ul>
+ * </li>
+ * <li>{@link at.porscheinformatik.happyrest.RestResponseException} - HTTP error responses (4xx, 5xx status codes)
+ * </li>
+ * <li>{@link at.porscheinformatik.happyrest.RestFormatterException} - Request body formatting errors</li>
+ * <li>{@link at.porscheinformatik.happyrest.RestParserException} - Response body parsing errors</li>
+ * </ul>
+ *
+ * <p>
+ * <strong>Backward Compatibility:</strong> Code catching the superclass {@link at.porscheinformatik.happyrest.RestException}
+ * will also catch all subclass exceptions, ensuring existing error handling continues to work with new exception types.
+ * </p>
+ *
  * <h2>Thread Safety</h2>
  *
  * <p>
