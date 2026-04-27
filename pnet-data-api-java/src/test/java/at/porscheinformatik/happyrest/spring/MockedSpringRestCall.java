@@ -140,8 +140,8 @@ public class MockedSpringRestCall extends SpringRestCall {
     }
 
     @Override
-    public MockedSpringRestCall variable(String name, Object... values) {
-        return (MockedSpringRestCall) super.variable(name, values);
+    public MockedSpringRestCall variable(String name, Object value) {
+        return (MockedSpringRestCall) super.variable(name, value);
     }
 
     @Override

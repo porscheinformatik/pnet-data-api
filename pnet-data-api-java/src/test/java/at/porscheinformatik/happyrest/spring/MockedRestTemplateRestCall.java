@@ -140,8 +140,8 @@ public class MockedRestTemplateRestCall extends RestTemplateRestCall {
     }
 
     @Override
-    public MockedRestTemplateRestCall variable(String name, Object... values) {
-        return (MockedRestTemplateRestCall) super.variable(name, values);
+    public MockedRestTemplateRestCall variable(String name, Object value) {
+        return (MockedRestTemplateRestCall) super.variable(name, value);
     }
 
     @Override
