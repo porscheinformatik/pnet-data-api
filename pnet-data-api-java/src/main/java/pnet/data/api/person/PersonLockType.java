@@ -17,11 +17,4 @@ public enum PersonLockType {
     SAP_INACTIVE_STATE,
 
     MANUAL,
-
-    AWAITING_APPROVAL,
-
-    /**
-     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
-     */
-    UNKNOWN,
 }
