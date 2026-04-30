@@ -1,3 +1,7 @@
+# pnet-data-api 3.2.1
+
+- Add AWAITING_APPROVAL to person lock types.
+
 # pnet-data-api 3.2.0
 
 - Remove deprecated methods from the HappyRest wrapper.
