@@ -1,3 +1,8 @@
+# pnet-data-api 2.16.0
+
+- Add (translated) description to ContractStateDataDTO and ContractStateItemDTO.
+- Add AWAITING_APPROVAL to person lock types.
+
 # pnet-data-api 2.15.0
 
 - Remove deprecated methods from the HappyRest wrapper.
