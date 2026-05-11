@@ -15,6 +15,11 @@ import pnet.data.api.util.Pair;
 /**
  * A REST call. Objects of this type must be final and thread-safe!
  *
+ * <p>
+ * Note: A URL must be set before invoking a request. Attempting to invoke without setting a URL will result in a
+ * NullPointerException with the message "URL must be set before invoking a request".
+ * </p>
+ *
  * @author ham
  */
 public abstract class AbstractRestCall implements RestCall {
@@ -38,7 +43,6 @@ public abstract class AbstractRestCall implements RestCall {
         RestFormatter formatter,
         Object body
     ) {
-        super();
         this.loggerAdapter = loggerAdapter;
         this.url = url;
         this.acceptableMediaTypes = acceptableMediaTypes;
@@ -62,6 +66,11 @@ public abstract class AbstractRestCall implements RestCall {
         return loggerAdapter;
     }
 
+    /**
+     * Gets the current request URL.
+     *
+     * @return the URL set via {@link #url(String)}, or null if not yet set
+     */
     @Override
     public String getUrl() {
         return url;
@@ -218,8 +227,8 @@ public abstract class AbstractRestCall implements RestCall {
     }
 
     @Override
-    public RestCall variable(String name, Object... values) {
-        return replaceAttribute(RestAttribute.variable(name, values[0]));
+    public RestCall variable(String name, Object value) {
+        return replaceAttribute(RestAttribute.variable(name, value));
     }
 
     @Override
@@ -393,10 +402,25 @@ public abstract class AbstractRestCall implements RestCall {
         }
     }
 
+    /**
+     * Sets a custom formatter for request body serialization.
+     *
+     * <p>
+     * The formatter is used to serialize request bodies and parameters according to the specified content type.
+     * </p>
+     *
+     * @param formatter the request formatter (non-null)
+     * @return a new RestCall instance with the formatter set
+     */
     public RestCall formatter(RestFormatter formatter) {
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
+    /**
+     * Gets the current request body content type.
+     *
+     * @return the content type (may be null)
+     */
     public MediaType getContentType() {
         return contentType;
     }
@@ -406,6 +430,11 @@ public abstract class AbstractRestCall implements RestCall {
         return copy(loggerAdapter, url, acceptableMediaTypes, contentType, attributes, formatter, body);
     }
 
+    /**
+     * Gets the current request body.
+     *
+     * @return the request body, or null if not set
+     */
     public Object getBody() {
         return body;
     }
@@ -439,20 +468,8 @@ public abstract class AbstractRestCall implements RestCall {
         return form;
     }
 
-    @Override
-    public final <T> RestResponse<T> invoke(RestMethod method, String path, Class<T> responseType)
-        throws RestException {
-        return path(path).invoke(method, responseType);
-    }
-
-    @Override
-    public final <T> RestResponse<T> invoke(RestMethod method, String path, GenericType<T> responseType)
-        throws RestException {
-        return path(path).invoke(method, responseType);
-    }
-
     protected Charset getCharset() {
-        return DEFAULT_CHARSET;
+        return AbstractRestCall.DEFAULT_CHARSET;
     }
 
     @SuppressWarnings("java:S135")
@@ -471,8 +488,8 @@ public abstract class AbstractRestCall implements RestCall {
                 for (int i = 0; i < Array.getLength(value); i++) {
                     parameters.add(
                         RestUtils.encodeString(parameter.getName(), charset) +
-                        "=" +
-                        RestUtils.encodeString(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset)
+                            "=" +
+                            RestUtils.encodeString(format(MediaType.TEXT_PLAIN, Array.get(value, i)), charset)
                     );
                 }
 
@@ -483,8 +500,8 @@ public abstract class AbstractRestCall implements RestCall {
                 for (Object element : ((Iterable<?>) value)) {
                     parameters.add(
                         RestUtils.encodeString(parameter.getName(), charset) +
-                        "=" +
-                        RestUtils.encodeString(format(MediaType.TEXT_PLAIN, element), charset)
+                            "=" +
+                            RestUtils.encodeString(format(MediaType.TEXT_PLAIN, element), charset)
                     );
                 }
 
@@ -493,8 +510,8 @@ public abstract class AbstractRestCall implements RestCall {
 
             parameters.add(
                 RestUtils.encodeString(parameter.getName(), charset) +
-                "=" +
-                RestUtils.encodeString(format(MediaType.TEXT_PLAIN, value), charset)
+                    "=" +
+                    RestUtils.encodeString(format(MediaType.TEXT_PLAIN, value), charset)
             );
         }
 
@@ -502,7 +519,7 @@ public abstract class AbstractRestCall implements RestCall {
     }
 
     protected String buildUrl(boolean form) {
-        String currentUrl = getUrl();
+        String currentUrl = Objects.requireNonNull(getUrl(), "URL must be set before invoking a request");
         Charset charset = getCharset();
 
         for (RestVariable variable : getVariables()) {

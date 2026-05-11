@@ -7,7 +7,8 @@ package pnet.data.api.person;
  * expired.</li>
  * <li>{@link #SAP_INACTIVE_STATE}: The person's data was locked due to their status being inactive in the SAP
  * system.</li>
- * <li>{@link #MANUAL}: The person's data was locked manually</li>
+ * <li>{@link #MANUAL}: The person's data was locked manually.</li>
+ * <li>{@link #AWAITING_APPROVAL}: A newly created person who is awaiting approval.</li>
  * </ul>
  */
 public enum PersonLockType {
@@ -16,4 +17,6 @@ public enum PersonLockType {
     SAP_INACTIVE_STATE,
 
     MANUAL,
+
+    AWAITING_APPROVAL,
 }

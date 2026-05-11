@@ -1,8 +1,9 @@
 {
     "search.exclude": {
-        "**/node_modules": true,
+        "**/.idea": true,
         "**/bower_components": true,
-        "**/dist": true
+        "**/dist": true,
+        "**/node_modules": true
     },
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.format.settings.url": ".vscode/eclipse-formatter.xml",

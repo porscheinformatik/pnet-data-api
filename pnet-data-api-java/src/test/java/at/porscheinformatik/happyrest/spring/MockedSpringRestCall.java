@@ -18,7 +18,7 @@ import pnet.data.api.util.Pair;
 /**
  * @deprecated use MockedRestTemplateRestCall instead
  */
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class MockedSpringRestCall extends SpringRestCall {
 
     public MockedSpringRestCall(
@@ -140,8 +140,8 @@ public class MockedSpringRestCall extends SpringRestCall {
     }
 
     @Override
-    public MockedSpringRestCall variable(String name, Object... values) {
-        return (MockedSpringRestCall) super.variable(name, values);
+    public MockedSpringRestCall variable(String name, Object value) {
+        return (MockedSpringRestCall) super.variable(name, value);
     }
 
     @Override

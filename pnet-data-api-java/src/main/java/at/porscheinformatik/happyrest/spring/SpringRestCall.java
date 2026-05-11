@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
  * @deprecated use RestTemplateRestCall instead
  * @author ham
  */
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class SpringRestCall extends RestTemplateRestCall {
 
     protected SpringRestCall(RestTemplate restTemplate, RestLoggerAdapter loggerAdapter, RestFormatter formatter) {

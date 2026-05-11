@@ -18,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
  * @author ham
  */
 @Service
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class SpringRestCallFactory implements RestCallFactory {
 
     private static SpringRestCallFactory defaultFactory = null;

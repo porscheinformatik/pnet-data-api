@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Configuration
 @ComponentScan(basePackageClasses = { ContextPnetDataApiClientConfig.class })
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class ContextPnetDataApiClientConfig extends AbstractContextPnetDataApiClientConfig {
 
     @Override

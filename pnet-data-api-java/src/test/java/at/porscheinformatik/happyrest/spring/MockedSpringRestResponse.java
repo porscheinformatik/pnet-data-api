@@ -13,7 +13,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.json.JsonMapper;
 
-@Deprecated(since = "2.13.x")
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class MockedSpringRestResponse<T> extends MockedRestResponse<T> {
 
     private static final JsonMapper JSON_MAPPER = new JsonMapper();

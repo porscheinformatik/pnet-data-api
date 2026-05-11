@@ -14,8 +14,7 @@ public abstract class AbstractRestricable<SELF extends AbstractRestricable<SELF>
 
     private final List<Pair<String, Object>> restricts;
 
-    public AbstractRestricable(List<Pair<String, Object>> restricts) {
-        super();
+    protected AbstractRestricable(List<Pair<String, Object>> restricts) {
         this.restricts = Collections.unmodifiableList(restricts);
     }
 

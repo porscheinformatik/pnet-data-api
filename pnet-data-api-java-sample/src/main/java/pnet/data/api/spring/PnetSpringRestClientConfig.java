@@ -21,7 +21,7 @@ import pnet.data.api.util.Prefs;
 @EnableRestTemplateBasedPnetDataClient
 @Import({ PnetRestClient.class })
 @ComponentScan(basePackageClasses = { PnetSpringRestClientConfig.class })
-@Deprecated(forRemoval = true)
+@Deprecated(since = "2.13.x", forRemoval = true)
 public class PnetSpringRestClientConfig {
 
     @Bean

@@ -18,7 +18,6 @@ import pnet.data.api.util.RestrictDataProcessingRegisterNumber;
 import pnet.data.api.util.RestrictDatedBackUntil;
 import pnet.data.api.util.RestrictEmail;
 import pnet.data.api.util.RestrictIban;
-import pnet.data.api.util.RestrictSapNumber;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictVatIdNumber;
 
@@ -32,7 +31,6 @@ public class CompanyDataGet
         ById<Integer, CompanyDataDTO, CompanyDataGet>,
         ByMatchcode<CompanyDataDTO, CompanyDataGet>,
         RestrictVatIdNumber<CompanyDataGet>,
-        RestrictSapNumber<CompanyDataGet>,
         RestrictCompanyNumber<CompanyDataGet>,
         RestrictBpcmLocationUuid<CompanyDataGet>,
         RestrictIban<CompanyDataGet>,
@@ -57,19 +55,6 @@ public class CompanyDataGet
         int itemsPerPage
     ) throws PnetDataClientException {
         return vatIdNumbers(vatIdNumbers).execute(pageIndex, itemsPerPage);
-    }
-
-    public CompanyDataDTO bySapNumber(String sapNumber) throws PnetDataClientException {
-        return allBySapNumbers(Collections.singletonList(sapNumber), 0, 1).first();
-    }
-
-    @SuppressWarnings("deprecation")
-    public PnetDataClientResultPage<CompanyDataDTO> allBySapNumbers(
-        List<String> sapNumbers,
-        int pageIndex,
-        int itemsPerPage
-    ) throws PnetDataClientException {
-        return sapNumbers(sapNumbers).execute(pageIndex, itemsPerPage);
     }
 
     public CompanyDataDTO byCompanyNumber(String companyNumber) throws PnetDataClientException {

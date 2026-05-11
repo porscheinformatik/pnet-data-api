@@ -7,6 +7,7 @@ import at.porscheinformatik.happyrest.GenericType;
 import at.porscheinformatik.happyrest.MediaType;
 import at.porscheinformatik.happyrest.RestAttribute;
 import at.porscheinformatik.happyrest.RestCall;
+import at.porscheinformatik.happyrest.RestConnectionException;
 import at.porscheinformatik.happyrest.RestException;
 import at.porscheinformatik.happyrest.RestFormatter;
 import at.porscheinformatik.happyrest.RestHeader;
@@ -16,6 +17,7 @@ import at.porscheinformatik.happyrest.RestParameter;
 import at.porscheinformatik.happyrest.RestRequestException;
 import at.porscheinformatik.happyrest.RestResponse;
 import at.porscheinformatik.happyrest.RestResponseException;
+import at.porscheinformatik.happyrest.RestTimeoutException;
 import at.porscheinformatik.happyrest.RestVariable;
 import java.lang.reflect.Array;
 import java.net.URI;
@@ -144,8 +146,44 @@ public class RestTemplateRestCall extends AbstractRestCall {
                 e
             );
         } catch (Exception e) {
-            throw new RestException(method + " " + uri, e);
+            String message = method + " " + uri;
+            // Detect timeout and connection errors from root cause chain
+            if (containsTimeoutException(e)) {
+                throw new RestTimeoutException(message, e);
+            } else if (containsConnectionException(e)) {
+                throw new RestConnectionException(message, e);
+            }
+            throw new RestException(message, e);
         }
+    }
+
+    private boolean containsTimeoutException(Exception e) {
+        Throwable cause = e;
+        while (cause != null) {
+            if (cause instanceof java.net.SocketTimeoutException) {
+                return true;
+            }
+            cause = cause.getCause();
+        }
+        return false;
+    }
+
+    private boolean containsConnectionException(Exception e) {
+        Throwable cause = e;
+        while (cause != null) {
+            if (
+                cause instanceof java.net.ConnectException ||
+                cause instanceof java.net.NoRouteToHostException ||
+                cause instanceof java.net.UnknownHostException ||
+                (cause instanceof java.net.SocketException &&
+                    cause.getMessage() != null &&
+                    cause.getMessage().toLowerCase().contains("connection"))
+            ) {
+                return true;
+            }
+            cause = cause.getCause();
+        }
+        return false;
     }
 
     @Override

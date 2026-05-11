@@ -23,7 +23,6 @@ import pnet.data.api.util.RestrictId;
 import pnet.data.api.util.RestrictLocation;
 import pnet.data.api.util.RestrictMatchcode;
 import pnet.data.api.util.RestrictPostalCode;
-import pnet.data.api.util.RestrictSapNumber;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictType;
 import pnet.data.api.util.RestrictUpdatedAfter;
@@ -42,7 +41,6 @@ public class CompanyDataFind
         RestrictTenant<CompanyDataFind>,
         RestrictBrand<CompanyDataFind>,
         RestrictVatIdNumber<CompanyDataFind>,
-        RestrictSapNumber<CompanyDataFind>,
         RestrictCompanyNumber<CompanyDataFind>,
         RestrictBpcmLocationUuid<CompanyDataFind>,
         RestrictBpcmManaged<CompanyDataFind>,

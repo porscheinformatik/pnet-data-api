@@ -22,6 +22,7 @@ import pnet.data.api.resttemplate.EnableRestTemplateBasedPnetDataClient;
  * @author HAM
  */
 @EnableRestTemplateBasedPnetDataClient
+@Deprecated(since = "2.13.x", forRemoval = true)
 public final class PnetSpringRestClientTemplate {
 
     private static PnetDataApiLoginMethod loginMethod = null;

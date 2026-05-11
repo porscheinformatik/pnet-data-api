@@ -175,7 +175,7 @@ public interface ResultPage<T> extends Iterable<T> {
      * does not provide this value anymore and you should be encourage to use other forms of iterating over results.
      */
     @Schema(description = "The index of the current page if paging was used (the index is 0-based).")
-    @Deprecated
+    @Deprecated(forRemoval = true)
     int getPageIndex();
 
     /**
@@ -184,7 +184,7 @@ public interface ResultPage<T> extends Iterable<T> {
      * store, that does not provide this value anymore. By removing this property, you should be encourage to use other
      * forms of iterating over results.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     @Schema(description = "The total amount of pages, that the search/find operation found.")
     int getNumberOfPages();
 
@@ -201,17 +201,6 @@ public interface ResultPage<T> extends Iterable<T> {
      */
     @Schema(description = "The id for scrolling results (scroll=true). Can be used together with /next requests.")
     String getScrollId();
-
-    /**
-     * @return true if there is another page
-     * @deprecated The result of this method depends on two values, that are not available anymore and should not be
-     * used anymore. Depending on how the results were loaded, this method may report the wrong result (see
-     * {@link #getPageIndex()} and {@link #getNumberOfPages()}).
-     */
-    @Deprecated(since = "2.x")
-    default boolean hasNextPage() {
-        return !isEmpty() && getPageIndex() + 1 < getNumberOfPages();
-    }
 
     /**
      * @return false if there may be more results on a subsequent page. If this properity retrurns true, it has been
