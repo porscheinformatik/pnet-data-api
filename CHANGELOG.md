@@ -1,3 +1,7 @@
+# pnet-data-api 3.2.2
+
+- Add (translated) description to ContractStateDataDTO and ContractStateItemDTO.
+
 # pnet-data-api 3.2.1
 
 - Add AWAITING_APPROVAL to person lock types.

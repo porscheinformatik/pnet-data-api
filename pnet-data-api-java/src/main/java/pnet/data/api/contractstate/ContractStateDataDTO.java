@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.Map;
+import pnet.data.api.util.WithDescriptions;
 import pnet.data.api.util.WithLabels;
 import pnet.data.api.util.WithLastUpdate;
 import pnet.data.api.util.WithMatchcode;
@@ -31,7 +32,7 @@ import pnet.data.api.util.WithMatchcode;
  * @author ham
  */
 @Schema(description = "Holds all information about a contract state")
-public class ContractStateDataDTO implements WithMatchcode, WithLabels, WithLastUpdate, Serializable {
+public class ContractStateDataDTO implements WithMatchcode, WithLabels, WithDescriptions, WithLastUpdate, Serializable {
 
     @Serial
     private static final long serialVersionUID = -2459240786345993039L;
@@ -41,6 +42,9 @@ public class ContractStateDataDTO implements WithMatchcode, WithLabels, WithLast
 
     @Schema(description = "The label of the contract state with all existing translations")
     private Map<Locale, String> labels;
+
+    @Schema(description = "The description of the contract state with all existing translations")
+    private Map<Locale, String> descriptions;
 
     @Schema(description = "The time and date when the contract state was last changed")
     private LocalDateTime lastUpdate;
@@ -65,6 +69,15 @@ public class ContractStateDataDTO implements WithMatchcode, WithLabels, WithLast
     }
 
     @Override
+    public Map<Locale, String> getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(Map<Locale, String> descriptions) {
+        this.descriptions = descriptions;
+    }
+
+    @Override
     public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
@@ -76,10 +89,12 @@ public class ContractStateDataDTO implements WithMatchcode, WithLabels, WithLast
     @Override
     public String toString() {
         return String.format(
-            "ContractStateDataDTO [matchcode=%s, labels=%s, lastUpdate=%s]",
+            "ContractStateDataDTO [matchcode=%s, labels=%s, descriptions=%s, lastUpdate=%s]",
             matchcode,
             labels,
+            descriptions,
             lastUpdate
         );
     }
 }
+
