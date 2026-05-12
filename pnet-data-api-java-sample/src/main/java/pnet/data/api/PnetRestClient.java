@@ -2263,6 +2263,7 @@ public final class PnetRestClient {
             dto.getAdministrativeTenant(),
             dto.getTaxNumber(),
             dto.getBdoId(),
+            dto.getTapId(),
             dto.getCompanies() != null
                 ? dto
                       .getCompanies()

@@ -82,6 +82,9 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The bdoId references the user-id in BDO (needed scope: SC_IDENTIFIER).")
     private String bdoId;
 
+    @Schema(description = "The tapId references the user-id in the application Sum Total (needed scope: SC_IDENTIFIER).")
+    private String tapId;
+
     @Schema(description = "The person is able to access the Partner.Net (needed scope: SC_PNET_ACCOUNT).")
     private Boolean credentialsAvailable;
 
@@ -342,6 +345,14 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     public void setBdoId(String bdoId) {
         this.bdoId = bdoId;
+    }
+
+    public String getTapId() {
+        return tapId;
+    }
+
+    public void setTapId(String tapId) {
+        this.tapId = tapId;
     }
 
     public Boolean getCredentialsAvailable() {
@@ -744,7 +755,7 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
                 "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, " +
                 "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, " +
                 "portraitAvailable=%s, portraitUuid=%s, portraitThumbnailUuid=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s," +
-                "bdoId=%s, recertValidTo=%s]",
+                "bdoId=%s, tapId=%s, recertValidTo=%s]",
             personId,
             administrativeTenant,
             tenants,
@@ -797,6 +808,7 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
             lastUpdate,
             taxNumber,
             bdoId,
+            tapId,
             recertValidTo
         );
     }

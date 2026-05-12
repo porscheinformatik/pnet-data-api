@@ -1,5 +1,6 @@
 # pnet-data-api 2.16.0
 
+- Add tap_id to person
 - Add (translated) description to ContractStateDataDTO and ContractStateItemDTO.
 - Add AWAITING_APPROVAL to person lock types.
 
