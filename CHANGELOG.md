@@ -1,3 +1,7 @@
+# pnet-data-api 3.2.3
+
+- Add tap_id to person
+
 # pnet-data-api 3.2.2
 
 - Add (translated) description to ContractStateDataDTO and ContractStateItemDTO.
