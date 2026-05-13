@@ -23,4 +23,8 @@ public enum FormOfAddress {
     UNIVERSAL,
     FEMININE,
     MASCULINE,
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }

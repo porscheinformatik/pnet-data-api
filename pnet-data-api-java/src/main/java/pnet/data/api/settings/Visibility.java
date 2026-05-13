@@ -6,4 +6,9 @@ public enum Visibility {
     PARTIALLY,
 
     VISIBLE,
+
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }

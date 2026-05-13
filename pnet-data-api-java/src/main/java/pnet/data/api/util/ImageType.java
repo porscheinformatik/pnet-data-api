@@ -8,4 +8,8 @@ package pnet.data.api.util;
 public enum ImageType {
     THUMBNAIL,
     ORIGINAL,
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }
