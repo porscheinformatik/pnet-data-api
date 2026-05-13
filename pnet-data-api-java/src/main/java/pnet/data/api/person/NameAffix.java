@@ -22,4 +22,8 @@ package pnet.data.api.person;
 public enum NameAffix {
     JUNIOR,
     SENIOR,
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }

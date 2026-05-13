@@ -25,4 +25,9 @@ public enum PersonType {
      * A user for manual tests with privileged rights.
      */
     PRIVILEGED_TEST_USER,
+
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }

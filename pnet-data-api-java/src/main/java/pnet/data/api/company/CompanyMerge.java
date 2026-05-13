@@ -9,4 +9,9 @@ public enum CompanyMerge {
     NONE,
 
     INTERNET_GROUP,
+
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }

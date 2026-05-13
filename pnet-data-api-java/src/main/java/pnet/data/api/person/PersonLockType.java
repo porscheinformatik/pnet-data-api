@@ -19,4 +19,9 @@ public enum PersonLockType {
     MANUAL,
 
     AWAITING_APPROVAL,
+
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }
