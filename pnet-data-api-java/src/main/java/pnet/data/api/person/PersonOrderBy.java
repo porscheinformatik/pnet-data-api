@@ -13,4 +13,9 @@ public enum PersonOrderBy {
     FIRST_NAME,
 
     LAST_NAME,
+
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }

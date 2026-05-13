@@ -16,4 +16,9 @@ public enum LanguageLevel {
 
     C1,
     C2,
+
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }

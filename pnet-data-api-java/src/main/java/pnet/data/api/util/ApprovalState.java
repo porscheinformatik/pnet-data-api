@@ -45,7 +45,12 @@ public enum ApprovalState {
      * The approval process has been finished, the authority is available, the user is valid. It's the responsibility of
      * the interpreter (or Mr. Brain) to set this state at the appropriate time.
      */
-    DONE(false, false);
+    DONE(false, false),
+
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN(false, false);
 
     private final boolean open;
     private final boolean inWork;

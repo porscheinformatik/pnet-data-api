@@ -1,5 +1,6 @@
 package pnet.data.api.client.jackson;
 
+import at.porscheinformatik.happyrest.jackson.UnknownEnumDeserializationHandler;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -7,6 +8,7 @@ import java.time.ZonedDateTime;
 import java.util.Locale;
 import tools.jackson.core.Version;
 import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.JacksonModule;
 import tools.jackson.databind.json.JsonMapper;
 import tools.jackson.databind.json.JsonMapper.Builder;
 import tools.jackson.databind.module.SimpleModule;
@@ -31,6 +33,12 @@ public class JacksonPnetDataApiModule extends SimpleModule {
 
         addSerializer(new LocaleSerializer());
         addDeserializer(Locale.class, new LocaleDeserializer());
+    }
+
+    @Override
+    public void setupModule(JacksonModule.SetupContext context) {
+        super.setupModule(context);
+        context.addHandler(new UnknownEnumDeserializationHandler());
     }
 
     public static JsonMapper createJsonMapper() {

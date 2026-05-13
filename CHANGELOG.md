@@ -1,3 +1,8 @@
+# pnet-data-api 3.2.4
+
+- Unknown enum values from JSON are now deserialized to a special UNKNOWN value. This prevents exceptions when
+deserializing newer enums from the API with an old client.
+
 # pnet-data-api 3.2.3
 
 - Add tap_id to person

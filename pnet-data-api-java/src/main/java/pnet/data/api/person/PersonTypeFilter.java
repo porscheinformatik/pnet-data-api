@@ -18,7 +18,12 @@ public enum PersonTypeFilter {
         PersonType.BOT,
         PersonType.TEST_USER,
         PersonType.PRIVILEGED_TEST_USER
-    );
+    ),
+
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN();
 
     private final Set<PersonType> personTypes;
 

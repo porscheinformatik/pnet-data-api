@@ -12,4 +12,8 @@ public enum RestMethod {
     PATCH,
     DELETE,
     OPTIONS,
+    /**
+     * Used for deserialization of unknown enum values from JSON (see UnknownEnumDeserializationHandler).
+     */
+    UNKNOWN,
 }
