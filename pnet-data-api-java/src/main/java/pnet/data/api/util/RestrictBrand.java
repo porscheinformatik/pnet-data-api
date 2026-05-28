@@ -1,8 +1,9 @@
 package pnet.data.api.util;
 
-import static pnet.data.api.PnetDataConstants.*;
-
+import java.util.Arrays;
 import java.util.Collection;
+
+import pnet.data.api.PnetDataConstants;
 
 /**
  * Restricts brands
@@ -12,7 +13,24 @@ import java.util.Collection;
  */
 public interface RestrictBrand<SELF extends Restrict<SELF>> extends Restrict<SELF> {
     default SELF brand(String... brandMatchcodes) {
-        return restrict(BRAND_KEY, (Object[]) brandMatchcodes);
+
+        String[] normalizedBrandMatchcodes = Arrays.stream(brandMatchcodes)
+            .map(RestrictBrand::normalizeBrandMatchcode)
+            .toArray(String[]::new);
+
+        return restrict(PnetDataConstants.BRAND_KEY, (Object[]) normalizedBrandMatchcodes);
+    }
+
+    private static String normalizeBrandMatchcode(String matchcode) {
+        if (matchcode == null) {
+            return PnetDataApiUtils.BRANDFREE;
+        }
+
+        if ("null".equals(matchcode)) {
+            return PnetDataApiUtils.BRANDFREE;
+        }
+
+        return matchcode;
     }
 
     default SELF brands(Collection<String> brandMatchcodes) {

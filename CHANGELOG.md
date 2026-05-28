@@ -1,5 +1,6 @@
 # pnet-data-api 2.16.0
 
+- Match restricting brands to null to the new partner.net "-" encoding for brandfree
 - Unknown enum values from JSON are now deserialized to a special UNKNOWN value. This prevents exceptions when
 deserializing newer enums from the API with an old client.
 - Add tap_id to person
