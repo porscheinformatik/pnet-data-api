@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+
+
 import pnet.data.api.PnetDataClientTechnicalException;
 
 /**
@@ -47,6 +49,8 @@ public final class PnetDataApiUtils {
     public static final Comparator<String> DICTIONARY_COMPARATOR = PnetDataApiUtils::dictionaryCompare;
 
     public static final String WILDCARD = "*";
+
+    public static final String BRANDFREE = "-";
 
     static {
         DICTIONARY_COLLATOR = Collator.getInstance();
