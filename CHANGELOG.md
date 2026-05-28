@@ -1,3 +1,7 @@
+# pnet-data-api 3.2.5
+
+- Match restricting brands to null to the new partner.net "-" encoding for brandfree 
+
 # pnet-data-api 3.2.4
 
 - Unknown enum values from JSON are now deserialized to a special UNKNOWN value. This prevents exceptions when
