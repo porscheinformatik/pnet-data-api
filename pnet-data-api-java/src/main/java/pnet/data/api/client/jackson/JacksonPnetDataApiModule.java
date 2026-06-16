@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import at.porscheinformatik.happyrest.jackson.UnknownEnumDeserializationHandler;
+
 /**
  * Converter module for Jackson.
  *
@@ -33,8 +35,14 @@ public class JacksonPnetDataApiModule extends SimpleModule {
         addDeserializer(Locale.class, new LocaleDeserializer());
     }
 
+    @Override
+    public void setupModule(SetupContext context) {
+        super.setupModule(context);
+        context.addDeserializationProblemHandler(new UnknownEnumDeserializationHandler());
+    }
+
     public static ObjectMapper createObjectMapper() {
-        return createObjectMapper(ZoneId.systemDefault());
+        return JacksonPnetDataApiModule.createObjectMapper(ZoneId.systemDefault());
     }
 
     public static ObjectMapper createObjectMapper(ZoneId zoneId) {

@@ -1,7 +1,7 @@
 package at.porscheinformatik.happyrest.jackson;
 
-import tools.jackson.databind.DeserializationContext;
-import tools.jackson.databind.deser.DeserializationProblemHandler;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.deser.DeserializationProblemHandler;
 
 /**
  * A {@link DeserializationProblemHandler} that maps unknown enum values to an {@code UNKNOWN} constant if one exists

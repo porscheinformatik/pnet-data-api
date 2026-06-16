@@ -5,8 +5,8 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-
-import tools.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class UnknownEnumDeserializationHandlerTest {
 
@@ -24,17 +24,17 @@ class UnknownEnumDeserializationHandlerTest {
         WEST,
     }
 
-    private final JsonMapper mapper = JacksonPnetDataApiModule.createJsonMapper();
+    private final ObjectMapper mapper = JacksonPnetDataApiModule.createObjectMapper();
 
     @Test
-    void testKnownValueParsedNormally() {
+    void testKnownValueParsedNormally() throws  JsonProcessingException {
         Color result = mapper.readValue("\"RED\"", Color.class);
 
         MatcherAssert.assertThat(result, Matchers.is(Color.RED));
     }
 
     @Test
-    void testUnknownValueMappedToUnknown() {
+    void testUnknownValueMappedToUnknown() throws  JsonProcessingException {
         Color result = mapper.readValue("\"PURPLE\"", Color.class);
 
         MatcherAssert.assertThat(result, Matchers.is(Color.UNKNOWN));
