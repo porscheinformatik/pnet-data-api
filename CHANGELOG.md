@@ -1,3 +1,12 @@
+# pnet-data-api 3.2.7
+
+- `CompanyDataClient#find()` operations are now orderable according to `RELEVANCE`, `ID`, `COMPANY_NUMBER` and
+`COMPANY_LABEL`.
+
+# pnet-data-api 3.2.6
+
+?
+
 # pnet-data-api 3.2.5
 
 - Match restricting brands to null to the new partner.net "-" encoding for brandfree 
@@ -426,7 +435,7 @@ Needs Partner.Net 6.44.
 
 # pnet-data-api 1.15.1
 
-- Adds the "credentialsAvailable" flag to persons and apicable searches (needs Partner.Net 6.28)
+- Adds the "credentialsAvailable" flag to persons and applicable searches (needs Partner.Net 6.28)
 
 # pnet-data-api 1.15.0
 
