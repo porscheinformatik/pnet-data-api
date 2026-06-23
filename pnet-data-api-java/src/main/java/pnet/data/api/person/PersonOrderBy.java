@@ -1,9 +1,7 @@
 package pnet.data.api.person;
 
 /**
- * Used for sorting persons on request. <br> Extend with further options as needed.
- *
- * @author scar
+ * Used for sorting {@link PersonItemDTO}s on request. <br> Extend with further options as needed.
  */
 public enum PersonOrderBy {
     RELEVANCE,

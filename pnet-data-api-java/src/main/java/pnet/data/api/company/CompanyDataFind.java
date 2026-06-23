@@ -1,10 +1,12 @@
 package pnet.data.api.company;
 
 import java.util.List;
+
 import pnet.data.api.util.AbstractScrollableFind;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.IncludeInactive;
+import pnet.data.api.util.Orderable;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictBpcmLocationUuid;
 import pnet.data.api.util.RestrictBpcmManaged;
@@ -58,6 +60,7 @@ public class CompanyDataFind
         RestrictUpdatedAfter<CompanyDataFind>,
         RestrictDatedBackUntil<CompanyDataFind>,
         IncludeInactive<CompanyDataFind>,
+        Orderable<CompanyDataFind, CompanyOrderBy>,
         CompanyMergable<CompanyDataFind> {
 
     public CompanyDataFind(FindFunction<CompanyItemDTO> findFunction, List<Pair<String, Object>> restricts) {
