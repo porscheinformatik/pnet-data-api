@@ -1096,18 +1096,18 @@ public final class PnetRestClient {
         cli.info("The rejected state of items will be ignored.");
     }
 
-    @CLI.Command(name = "credentials available only", description = "Show only persons with login credentials")
+    @CLI.Command(name = "credentials available only", description = "Show only persons who are qualified to access the Partner.Net")
     public void credentialsAvailableOnly() {
         restrictCredentialsAvailable = Boolean.TRUE;
 
-        cli.info("Only persons with login credentials will be searched and shown.");
+        cli.info("Only persons with login credentials, any account or any active function (active now or in future) will be searched and shown.");
     }
 
-    @CLI.Command(name = "no credentials available only", description = "Show only persons without login credentials")
+    @CLI.Command(name = "no credentials available only", description = "Show only persons who are not qualified to access the Partner.Net")
     public void noCredentialsAvailableOnly() {
         restrictCredentialsAvailable = Boolean.FALSE;
 
-        cli.info("Only persons without login credentials will be searched and shown.");
+        cli.info("Only persons without login credentials, any account or any active function (active now or in future) will be searched and shown.");
     }
 
     @CLI.Command(name = "ignore credentials available", description = "Ignore the crdentials available flag.")
