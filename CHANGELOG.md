@@ -2,6 +2,8 @@
 
 - `CompanyDataClient#find()` operations are now orderable according to `RELEVANCE`, `ID`, `COMPANY_NUMBER` and
 `COMPANY_LABEL`.
+- Update the description of the `PersonItemDTO.credentialsAvailable` property. It no longer only flags whether a user
+has credentials assigned, but whether the user is qualified to access the Partner.Net.
 
 # pnet-data-api 3.2.6
 

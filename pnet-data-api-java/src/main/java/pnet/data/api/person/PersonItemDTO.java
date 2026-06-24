@@ -82,7 +82,7 @@ public class PersonItemDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The tapId references the user-id in the application Sum Total (needed scope: SC_IDENTIFIER).")
     private final String tapId;
 
-    @Schema(description = "The username of the person (needed scope: SC_PNET_ACCOUNT).")
+    @Schema(description = "True, if the user is qualified to access the Partner.Net (needed scope: SC_PNET_ACCOUNT).")
     private final Boolean credentialsAvailable;
 
     @Schema(description = "True, if the user has (or had) additional authentication factors enabled.")
