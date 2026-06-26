@@ -37,8 +37,8 @@ public class CLI {
     static {
         DICTIONARY_COLLATOR = Collator.getInstance();
 
-        DICTIONARY_COLLATOR.setStrength(Collator.PRIMARY);
-        DICTIONARY_COLLATOR.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
+        CLI.DICTIONARY_COLLATOR.setStrength(Collator.PRIMARY);
+        CLI.DICTIONARY_COLLATOR.setDecomposition(Collator.CANONICAL_DECOMPOSITION);
     }
 
     /**
@@ -71,7 +71,6 @@ public class CLI {
         private boolean lookedAhead = false;
 
         public Scanner(Reader reader) {
-            super();
             this.reader = reader;
         }
 
@@ -158,7 +157,6 @@ public class CLI {
         private final String value;
 
         public Token(Type type, int line, int column, String value) {
-            super();
             this.type = type;
             this.line = line;
             this.column = column;
@@ -190,7 +188,6 @@ public class CLI {
         private final Scanner scanner;
 
         public Tokenizer(Scanner scanner) {
-            super();
             this.scanner = scanner;
         }
 
@@ -264,7 +261,6 @@ public class CLI {
         private final Tokenizer tokenizer;
 
         public Parser(Tokenizer tokenizer) {
-            super();
             this.tokenizer = tokenizer;
         }
 
@@ -300,7 +296,6 @@ public class CLI {
         }
 
         public Arguments(List<String> args) {
-            super();
             this.args = args;
         }
 
@@ -584,7 +579,6 @@ public class CLI {
         private Consumer<Arguments> consumer;
 
         public Handler(String name) {
-            super();
             this.name = name;
         }
 
@@ -604,7 +598,7 @@ public class CLI {
             StringBuilder builder = new StringBuilder(getConsumerHelp(prefix, qs));
             List<Handler> handlers = new ArrayList<>(subHandlers);
 
-            handlers.sort((a, b) -> DICTIONARY_COLLATOR.compare(a.getName(), b.getName()));
+            handlers.sort((a, b) -> CLI.DICTIONARY_COLLATOR.compare(a.getName(), b.getName()));
 
             for (Handler handler : handlers) {
                 String help = handler.getHelp(
@@ -623,7 +617,7 @@ public class CLI {
 
             String result = builder.toString();
 
-            return containsEach(result, qs) ? result : null;
+            return CLI.containsEach(result, qs) ? result : null;
         }
 
         protected String getConsumerHelp(String prefix, String... qs) {
@@ -643,7 +637,7 @@ public class CLI {
 
             String result = builder.toString();
 
-            return containsEach(result, qs) ? result : "";
+            return CLI.containsEach(result, qs) ? result : "";
         }
 
         public void register(Object instance) {
@@ -749,11 +743,11 @@ public class CLI {
         }
 
         protected Optional<Handler> find(String name) {
-            String simplifiedName = simplify(name);
+            String simplifiedName = CLI.simplify(name);
 
             return subHandlers
                 .stream()
-                .filter(h -> Objects.equals(simplifiedName, simplify(h.getName())))
+                .filter(h -> Objects.equals(simplifiedName, CLI.simplify(h.getName())))
                 .findFirst();
         }
 
@@ -784,7 +778,7 @@ public class CLI {
 
         @Override
         public String toString() {
-            return simplify(name);
+            return CLI.simplify(name);
         }
     }
 
@@ -801,7 +795,6 @@ public class CLI {
     }
 
     public CLI(InputStream in, PrintStream out, PrintStream err) {
-        super();
         this.in = in;
         this.out = out;
         this.err = err;
@@ -815,8 +808,10 @@ public class CLI {
         register(this);
     }
 
-    public void register(Object instance) {
+    public <T> T register(T instance) {
         handler.register(instance);
+
+        return instance;
     }
 
     public Arguments consume(String prompt) {
@@ -935,3 +930,4 @@ public class CLI {
         return true;
     }
 }
+

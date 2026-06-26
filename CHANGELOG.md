@@ -1,22 +1,23 @@
 # pnet-data-api 3.2.7
 
+- Splitting up the ~3000 line PnetRestClient for better understanding and maintenance.
 - `CompanyDataClient#find()` operations are now orderable according to `RELEVANCE`, `ID`, `COMPANY_NUMBER` and
-`COMPANY_LABEL`.
+  `COMPANY_LABEL`.
 - Update the description of the `PersonItemDTO.credentialsAvailable` property. It no longer only flags whether a user
-has credentials assigned, but whether the user is qualified to access the Partner.Net.
+  has credentials assigned, but whether the user is qualified to access the Partner.Net.
 
 # pnet-data-api 3.2.6
 
-?
+- Introduce optional recertifier
 
 # pnet-data-api 3.2.5
 
-- Match restricting brands to null to the new partner.net "-" encoding for brandfree 
+- Match restricting brands to null to the new partner.net "-" encoding for brandfree
 
 # pnet-data-api 3.2.4
 
 - Unknown enum values from JSON are now deserialized to a special UNKNOWN value. This prevents exceptions when
-deserializing newer enums from the API with an old client.
+  deserializing newer enums from the API with an old client.
 
 # pnet-data-api 3.2.3
 
