@@ -213,6 +213,9 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
     )
     private List<PersonHierarchyLinkDTO> hierarchies;
 
+    @Schema(description = "The persons that have been merged into this person (needed scope: SC_IDENTIFIER).")
+    private Collection<PersonMergeLinkDTO> merges;
+
     @Schema(description = "Indicates, whether the person has a portrait available or not (needed scope: SC_IMAGE).")
     private Boolean portraitAvailable;
 
@@ -681,6 +684,18 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     public void setHierarchies(List<PersonHierarchyLinkDTO> hierarchies) {
         this.hierarchies = hierarchies;
+    }
+
+    public Collection<PersonMergeLinkDTO> getMerges() {
+        return merges;
+    }
+
+    public Optional<PersonMergeLinkDTO> findMerge(Predicate<? super PersonMergeLinkDTO> predicate) {
+        return merges == null ? Optional.empty() : merges.stream().filter(predicate).findFirst();
+    }
+
+    public void setMerges(Collection<PersonMergeLinkDTO> merges) {
+        this.merges = merges;
     }
 
     public boolean isAutomaticDeletion() {
