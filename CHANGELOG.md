@@ -1,3 +1,7 @@
+# pnet-data-api 3.2.8
+
+- Add tenant to `CompanyGroupDataDTO` and `CompanyGroupMemberLinkDTO`.
+
 # pnet-data-api 3.2.7
 
 - Splitting up the ~3000 line PnetRestClient for better understanding and maintenance.

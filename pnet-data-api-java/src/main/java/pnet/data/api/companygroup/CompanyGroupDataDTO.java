@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Predicate;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds a group of companies.
@@ -28,7 +29,7 @@ import java.util.function.Predicate;
  * @author ham
  */
 @Schema(description = "Holds all information about a company group.")
-public class CompanyGroupDataDTO implements Serializable {
+public class CompanyGroupDataDTO implements WithTenant, Serializable {
 
     @Serial
     private static final long serialVersionUID = 9149727074935636956L;
@@ -45,15 +46,20 @@ public class CompanyGroupDataDTO implements Serializable {
     @Schema(description = "The members of the company group")
     private Collection<CompanyGroupMemberLinkDTO> members;
 
+    @Schema(description = "The tenant (Portal-ID) of the company that is leading the company group.")
+    private final String tenant;
+
     public CompanyGroupDataDTO(
         @JsonProperty("leadingCompanyId") Integer leadingCompanyId,
         @JsonProperty("leadingCompanyMatchcode") String leadingCompanyMatchcode,
-        @JsonProperty("leadingCompanyNumber") String leadingCompanyNumber
+        @JsonProperty("leadingCompanyNumber") String leadingCompanyNumber,
+        @JsonProperty("tenant") String tenant
     ) {
         super();
         this.leadingCompanyId = leadingCompanyId;
         this.leadingCompanyMatchcode = leadingCompanyMatchcode;
         this.leadingCompanyNumber = leadingCompanyNumber;
+        this.tenant = tenant;
     }
 
     public Integer getLeadingCompanyId() {
@@ -68,6 +74,11 @@ public class CompanyGroupDataDTO implements Serializable {
         return leadingCompanyNumber;
     }
 
+    @Override
+    public String getTenant() {
+        return tenant;
+    }
+
     public Collection<CompanyGroupMemberLinkDTO> getMembers() {
         return members;
     }
@@ -79,16 +90,18 @@ public class CompanyGroupDataDTO implements Serializable {
     public void setMembers(Collection<CompanyGroupMemberLinkDTO> members) {
         this.members = members;
     }
+    
 
     @Override
     public String toString() {
         return String.format(
-            "CompanyGroupDataDTO [leadingCompanyId=%s, leadingCompanyMatchcode=%s, leadingCompanyNumber=%s, " +
-                "members=%s]",
+            "CompanyGroupDataDTO [leadingCompanyId=%s, leadingCompanyMatchcode=%s, " +
+                "leadingCompanyNumber=%s, members=%s, tenant=%s]",
             leadingCompanyId,
             leadingCompanyMatchcode,
             leadingCompanyNumber,
-            members
+            members,
+            tenant
         );
     }
 }
