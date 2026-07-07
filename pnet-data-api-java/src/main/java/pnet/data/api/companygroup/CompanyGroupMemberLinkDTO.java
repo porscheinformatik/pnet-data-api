@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.util.Objects;
 import pnet.data.api.util.WithCompanyId;
+import pnet.data.api.util.WithTenant;
 
 /**
  * Holds minimal information about a company group member.
@@ -12,7 +13,7 @@ import pnet.data.api.util.WithCompanyId;
  * @author cet
  */
 @Schema(description = "Holds minimal information about a company group member")
-public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable {
+public class CompanyGroupMemberLinkDTO implements WithCompanyId, WithTenant, Serializable {
 
     private static final long serialVersionUID = 1202524288584163184L;
 
@@ -28,17 +29,22 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable {
     @Schema(description = "The unique matchcode of the company group type of the company group")
     private final String groupType;
 
+    @Schema(description = "The tenant (Portal-ID) of the company that is in the company group.")
+    private final String tenant;
+
     public CompanyGroupMemberLinkDTO(
         @JsonProperty("companyId") Integer companyId,
         @JsonProperty("companyMatchcode") String companyMatchcode,
         @JsonProperty("companyNumber") String companyNumber,
-        @JsonProperty("groupType") String groupType
+        @JsonProperty("groupType") String groupType,
+        @JsonProperty("tenant") String tenant
     ) {
         super();
         this.companyId = companyId;
         this.companyMatchcode = companyMatchcode;
         this.companyNumber = companyNumber;
         this.groupType = groupType;
+        this.tenant = tenant;
     }
 
     @Override
@@ -61,12 +67,18 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable {
     }
 
     @Override
+    public String getTenant() {
+        return tenant;
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
 
         result = prime * result + ((groupType == null) ? 0 : groupType.hashCode());
         result = prime * result + ((companyId == null) ? 0 : companyId.hashCode());
+        result = prime * result + ((tenant == null) ? 0 : tenant.hashCode());
 
         return result;
     }
@@ -89,12 +101,15 @@ public class CompanyGroupMemberLinkDTO implements WithCompanyId, Serializable {
         if (!Objects.equals(companyId, other.companyId)) {
             return false;
         }
+        if (!Objects.equals(tenant, other.tenant)) {
+            return false;
+        }
 
         return true;
     }
 
     @Override
     public String toString() {
-        return String.format("%s:%s", groupType, companyId);
+        return String.format("%s:%s:%s", groupType, companyId, tenant);
     }
 }

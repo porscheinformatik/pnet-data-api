@@ -2,6 +2,8 @@ package pnet.data.api.companygroup;
 
 import java.util.Arrays;
 import java.util.List;
+
+
 import pnet.data.api.PnetDataClientException;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.util.AbstractScrollableGet;
@@ -13,6 +15,7 @@ import pnet.data.api.util.RestrictCompanyNumber;
 import pnet.data.api.util.RestrictLeadingCompany;
 import pnet.data.api.util.RestrictLeadingCompanyId;
 import pnet.data.api.util.RestrictLeadingCompanyNumber;
+import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictType;
 
 /**
@@ -27,6 +30,7 @@ public class CompanyGroupDataGet
         RestrictCompanyId<CompanyGroupDataGet>,
         RestrictCompanyNumber<CompanyGroupDataGet>,
         RestrictCompany<CompanyGroupDataGet>,
+        RestrictTenant<CompanyGroupDataGet>,
         RestrictType<CompanyGroupDataGet> {
 
     public CompanyGroupDataGet(GetFunction<CompanyGroupDataDTO> getFunction, List<Pair<String, Object>> restricts) {

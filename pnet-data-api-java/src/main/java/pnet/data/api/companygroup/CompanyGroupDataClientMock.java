@@ -1,12 +1,14 @@
 package pnet.data.api.companygroup;
 
-import static pnet.data.api.util.MockFilters.*;
-
 import java.util.List;
+
 import pnet.data.api.PnetDataClientException;
+
+import pnet.data.api.PnetDataConstants;
 import pnet.data.api.client.PnetDataClientResultPage;
 import pnet.data.api.client.context.PnetDataApiContextMock;
 import pnet.data.api.util.DataClientMock;
+import pnet.data.api.util.MockFilters;
 import pnet.data.api.util.MockStore;
 import pnet.data.api.util.MockUtils;
 import pnet.data.api.util.Pair;
@@ -24,23 +26,24 @@ public class CompanyGroupDataClientMock
         super(new PnetDataApiContextMock());
         MockStore<CompanyGroupDataDTO> dataStore = getDataStore();
 
-        dataStore.addFilter("leadingCompanyId", whenEquals(CompanyGroupDataDTO::getLeadingCompanyId));
-        dataStore.addFilter("leadingCompanyNumber", whenEquals(CompanyGroupDataDTO::getLeadingCompanyNumber));
-        dataStore.addFilter("leadingCompany", whenEquals(CompanyGroupDataDTO::getLeadingCompanyMatchcode));
+        dataStore.addFilter("leadingCompanyId", MockFilters.whenEquals(CompanyGroupDataDTO::getLeadingCompanyId));
+        dataStore.addFilter("leadingCompanyNumber", MockFilters.whenEquals(CompanyGroupDataDTO::getLeadingCompanyNumber));
+        dataStore.addFilter("leadingCompany", MockFilters.whenEquals(CompanyGroupDataDTO::getLeadingCompanyMatchcode));
+        dataStore.addFilter(PnetDataConstants.TENANT_KEY, MockFilters.whenEquals(CompanyGroupDataDTO::getTenant));
         dataStore.addFilter(
             "companyId",
-            withCollection(CompanyGroupDataDTO::getMembers, whenEquals(CompanyGroupMemberLinkDTO::getCompanyId))
+            MockFilters.withCollection(CompanyGroupDataDTO::getMembers, MockFilters.whenEquals(CompanyGroupMemberLinkDTO::getCompanyId))
         );
         dataStore.addFilter(
             "companyNumber",
-            withCollection(CompanyGroupDataDTO::getMembers, whenEquals(CompanyGroupMemberLinkDTO::getCompanyNumber))
+            MockFilters.withCollection(CompanyGroupDataDTO::getMembers, MockFilters.whenEquals(CompanyGroupMemberLinkDTO::getCompanyNumber))
         );
         dataStore.addFilter(
             "company",
-            withCollection(CompanyGroupDataDTO::getMembers, whenEquals(CompanyGroupMemberLinkDTO::getCompanyMatchcode))
+            MockFilters.withCollection(CompanyGroupDataDTO::getMembers, MockFilters.whenEquals(CompanyGroupMemberLinkDTO::getCompanyMatchcode))
         );
 
-        addDefaultScrollDummy(dataStore);
+        MockFilters.addDefaultScrollDummy(dataStore);
     }
 
     @Override
