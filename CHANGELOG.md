@@ -1,6 +1,11 @@
-# pnet-data-api 3.2.8
+# pnet-data-api 3.3.0
+
+- Add external id to merge information of persons.
+
+# pnet-data-api 3.3.0
 
 - Add tenant to `CompanyGroupDataDTO` and `CompanyGroupMemberLinkDTO`.
+- Add merge information to persons if two persons have been merged into one.
 
 # pnet-data-api 3.2.7
 
