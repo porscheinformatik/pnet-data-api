@@ -15,19 +15,28 @@ public class PersonMergeLinkDTO implements Serializable {
     @Schema(description = "The GP-ID of the person that was deleted by the merge.")
     private final Integer deletedPersonId;
 
+    @Schema(description = "The external ID of the person that was deleted by the merge.")
+    private final String deletedPersonExternalId;
+
     @Schema(description = "The time and date when the merge was last changed.")
     private final LocalDateTime lastUpdate;
 
     public PersonMergeLinkDTO(
         @JsonProperty("deletedPersonId") Integer deletedPersonId,
+        @JsonProperty("deletedPersonExternalId") String deletedPersonExternalId,
         @JsonProperty("lastUpdate") LocalDateTime lastUpdate
     ) {
         this.deletedPersonId = deletedPersonId;
+        this.deletedPersonExternalId = deletedPersonExternalId;
         this.lastUpdate = lastUpdate;
     }
 
     public Integer getDeletedPersonId() {
         return deletedPersonId;
+    }
+
+    public String getDeletedPersonExternalId() {
+        return deletedPersonExternalId;
     }
 
     public LocalDateTime getLastUpdate() {
