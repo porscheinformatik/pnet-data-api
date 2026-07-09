@@ -8,6 +8,7 @@ import pnet.data.api.util.FindFunction;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Orderable;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictAdministrativeTenant;
 import pnet.data.api.util.RestrictBpcmLocationUuid;
 import pnet.data.api.util.RestrictBpcmManaged;
 import pnet.data.api.util.RestrictBrand;
@@ -41,6 +42,7 @@ public class CompanyDataFind
         RestrictId<Integer, CompanyDataFind>,
         RestrictMatchcode<CompanyDataFind>,
         RestrictTenant<CompanyDataFind>,
+        RestrictAdministrativeTenant<CompanyDataFind>,
         RestrictBrand<CompanyDataFind>,
         RestrictVatIdNumber<CompanyDataFind>,
         RestrictCompanyNumber<CompanyDataFind>,
