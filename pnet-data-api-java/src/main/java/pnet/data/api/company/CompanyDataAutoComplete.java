@@ -1,11 +1,13 @@
 package pnet.data.api.company;
 
 import java.util.List;
+
 import pnet.data.api.util.AbstractAutoComplete;
 import pnet.data.api.util.AutoCompleteFunction;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Pair;
+import pnet.data.api.util.RestrictAdministrativeTenant;
 import pnet.data.api.util.RestrictBpcmManaged;
 import pnet.data.api.util.RestrictBrand;
 import pnet.data.api.util.RestrictContractState;
@@ -25,6 +27,7 @@ public class CompanyDataAutoComplete
     extends AbstractAutoComplete<CompanyAutoCompleteDTO, CompanyDataAutoComplete>
     implements
         RestrictTenant<CompanyDataAutoComplete>,
+        RestrictAdministrativeTenant<CompanyDataAutoComplete>,
         RestrictBrand<CompanyDataAutoComplete>,
         RestrictBpcmManaged<CompanyDataAutoComplete>,
         RestrictCountryCode<CompanyDataAutoComplete>,

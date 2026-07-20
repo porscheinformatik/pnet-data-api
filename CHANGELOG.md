@@ -1,4 +1,9 @@
-# pnet-data-api 3.3.0
+# pnet-data-api 3.4.0
+
+- Add restriction to administrative tenants for `PersonDataFind`, `PersonDataAutoComplete`, `CompanyDataSearch`, 
+`CompanyDataFind` and `CompanyDataAutoComplete`.
+
+# pnet-data-api 3.3.1
 
 - Add external id to merge information of persons.
 

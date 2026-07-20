@@ -1,6 +1,7 @@
 package pnet.data.api.person;
 
 import java.util.List;
+
 import pnet.data.api.util.AbstractScrollableFind;
 import pnet.data.api.util.CompanyMergable;
 import pnet.data.api.util.FindFunction;
@@ -9,6 +10,7 @@ import pnet.data.api.util.IncludeInactive;
 import pnet.data.api.util.Orderable;
 import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictActivity;
+import pnet.data.api.util.RestrictAdministrativeTenant;
 import pnet.data.api.util.RestrictAdvisorAssignmentCompany;
 import pnet.data.api.util.RestrictAdvisorAssignmentCompanyId;
 import pnet.data.api.util.RestrictAdvisorAssignmentCompanyNumber;
@@ -36,11 +38,11 @@ import pnet.data.api.util.RestrictPersonType;
 import pnet.data.api.util.RestrictPersonnelDepartment;
 import pnet.data.api.util.RestrictPersonnelNumber;
 import pnet.data.api.util.RestrictPreferredUserId;
+import pnet.data.api.util.RestrictRecertValidTo;
 import pnet.data.api.util.RestrictRole;
 import pnet.data.api.util.RestrictSupervisorPersonnelNumber;
 import pnet.data.api.util.RestrictTenant;
 import pnet.data.api.util.RestrictUpdatedAfter;
-import pnet.data.api.util.RestrictRecertValidTo;
 
 /**
  * Find interface for persons.
@@ -53,6 +55,7 @@ public class PersonDataFind
         RestrictId<Integer, PersonDataFind>,
         RestrictExternalId<PersonDataFind>,
         RestrictTenant<PersonDataFind>,
+        RestrictAdministrativeTenant<PersonDataFind>,
         RestrictPersonType<PersonDataFind>,
         RestrictGuid<PersonDataFind>,
         RestrictPreferredUserId<PersonDataFind>,

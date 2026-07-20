@@ -1,6 +1,5 @@
 package pnet.data.api;
 
-import at.porscheinformatik.happyrest.RestException;
 import java.awt.Canvas;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -21,8 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
+
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
+import at.porscheinformatik.happyrest.RestException;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
 import pnet.data.api.activity.ActivityDataClient;
@@ -65,6 +67,7 @@ import pnet.data.api.util.MutablePnetDataApiLoginMethod;
 import pnet.data.api.util.Prefs;
 import pnet.data.api.util.PrettyPrint;
 import pnet.data.api.util.Restrict;
+import pnet.data.api.util.RestrictAdministrativeTenant;
 import pnet.data.api.util.RestrictApprovalNeeded;
 import pnet.data.api.util.RestrictApproved;
 import pnet.data.api.util.RestrictArchived;
@@ -162,6 +165,7 @@ public final class PnetRestClient {
     private final List<PnetRestClientModule> modules;
 
     private final List<String> restrictedTenants = new ArrayList<>();
+    private final List<String> restrictedAdministrativeTenants = new ArrayList<>();
     private final List<Visibility> restrictedVisibilities = new ArrayList<>();
     private final List<String> restrictedQueryFields = new ArrayList<>();
 
@@ -494,6 +498,30 @@ public final class PnetRestClient {
     }
 
     @CLI.Command(
+        name = {"restrict administrative tenants", "restrict administrative tenant"},
+        format = "[<TENANT>...]",
+        description = "Places a restriction with administrative tenants for subsequent operations."
+    )
+    public void restrictAdministrativeTenants(String... tenants) {
+        if (tenants != null && tenants.length > 0) {
+            restrictedAdministrativeTenants.addAll(Arrays.asList(tenants));
+        }
+
+        cli.info("Requests are restricted to administrative tenants: %s", restrictedAdministrativeTenants);
+    }
+
+    @CLI.Command(
+        name = { "clear administrative tenant restrictions", "clear administrative tenant restriction" },
+        description = "Removes all restrictions for administrative tenants."
+    )
+    public void clearAdministrativeTenantRestrictions() {
+        cli.info("Removed %s administrative tenant restrictions.", restrictedAdministrativeTenants.size());
+
+        restrictedAdministrativeTenants.clear();
+    }
+
+
+    @CLI.Command(
         name = { "restrict query fields", "restrict query field" },
         format = "[<FIELDS>...]",
         description = "Places a restriction for query fields."
@@ -611,6 +639,12 @@ public final class PnetRestClient {
             cli.info("A restriction for tenants is in place: %s", restrictedTenants);
 
             request = ((RestrictTenant<T>) request).tenants(restrictedTenants);
+        }
+
+        if(request instanceof RestrictAdministrativeTenant && !restrictedAdministrativeTenants.isEmpty()) {
+            cli.info("A restriction for administrative tenants is in place: %s", restrictedAdministrativeTenants);
+
+            request = ((RestrictAdministrativeTenant<T>) request).administrativeTenants(restrictedAdministrativeTenants);
         }
 
         if (request instanceof RestrictQueryField && !restrictedQueryFields.isEmpty()) {
@@ -740,6 +774,7 @@ public final class PnetRestClient {
         cli.info("Removed all restrictions.");
 
         restrictedTenants.clear();
+        restrictedAdministrativeTenants.clear();
         modules.forEach(PnetRestClientModule::clearRestrictions);
         restrictedVisibilities.clear();
         restrictedQueryFields.clear();
