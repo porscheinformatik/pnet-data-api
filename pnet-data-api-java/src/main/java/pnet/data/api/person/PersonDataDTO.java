@@ -16,6 +16,11 @@ package pnet.data.api.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import pnet.data.api.util.ApprovalState;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithPersonId;
+import pnet.data.api.util.WithTenants;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -24,10 +29,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
-import pnet.data.api.util.ApprovalState;
-import pnet.data.api.util.WithLastUpdate;
-import pnet.data.api.util.WithPersonId;
-import pnet.data.api.util.WithTenants;
 
 /**
  * Holds one person.
@@ -115,6 +116,9 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Schema(description = "The global user id of the person (needed scope: SC_IDENTIFIER).")
     private String guid;
+
+    @Schema(description = "The employee global identifier (needed scope: SC_IDENTIFIER).")
+    private String egid;
 
     @Schema(description = "The Group Retail Portal global user id of the person (needed scope: SC_IDENTIFIER).")
     private String grpGuid;
@@ -412,6 +416,14 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     public String getGuid() {
         return guid;
+    }
+
+    public String getEgid() {
+        return egid;
+    }
+
+    public void setEgid(String egid) {
+        this.egid = egid;
     }
 
     public void setGuid(String guid) {
