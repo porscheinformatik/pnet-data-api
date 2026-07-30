@@ -191,12 +191,14 @@ Finally you can exit the application with `exit`.
 | `find number types by mc <MC...>`                                  | Find number types by matchcodes.                                                            |
 | `find person by company <COMPANY-MC...>`                           | Find persons at a specific company.                                                         |
 | `find person by email <EMAIL...>`                                  | Find persons by email.                                                                      |
+| `find person by egid <EGID...>`                                    | Find persons by EGID.                                                                       |
 | `find person by id <ID...>`                                        | Find a person by id.                                                                        |
 | `find person by personnel number <NUMBER...>`                      | Find persons by personnel number.                                                           |
 | `find person by role <ROLE-MC...>`                                 | Find persons by functions and activities.                                                   |
 | `find person by salesman number <NUMBER...>`                       | Find persons by salesman number.                                                            |
 | `find persons by company <COMPANY-MC...>`                          | Find persons at a specific company.                                                         |
 | `find persons by email <EMAIL...>`                                 | Find persons by email.                                                                      |
+| `find persons by egid <EGID...>`                                   | Find persons by EGID.                                                                       |
 | `find persons by id <ID...>`                                       | Find a person by id.                                                                        |
 | `find persons by personnel number <NUMBER...>`                     | Find persons by personnel number.                                                           |
 | `find persons by role <ROLE-MC...>`                                | Find persons by functions and activities.                                                   |
@@ -257,12 +259,14 @@ Finally you can exit the application with `exit`.
 | `get number type by mc <MC...>`                                    | Returns the number types with the specified matchcodes.                                     |
 | `get number types by mc <MC...>`                                   | Returns the number types with the specified matchcodes.                                     |
 | `get person by email <EMAIL...>`                                   | Returns all details of persons with the specified emails.                                   |
+| `get person by egid <EGID...>`                                     | Returns all details of persons with the specified EGIDs.                                   |
 | `get person by external id <EXTERNALID...>`                        | Returns all details of persons with the specified external ids.                             |
 | `get person by guid <GUID...>`                                     | Returns all details of persons with the specified guids.                                    |
 | `get person by id <ID...>`                                         | Returns all details of persons with the specified ids.                                      |
 | `get person by personnel number <PERSNUMBER...>`                   | Returns all details of persons with the specified personnelNumbers.                         |
 | `get person by preferredUserId <PREFID...>`                        | Returns all details of persons with the specified preferredUserIds.                         |
 | `get persons by email <EMAIL...>`                                  | Returns all details of persons with the specified emails.                                   |
+| `get persons by egid <EGID...>`                                    | Returns all details of persons with the specified EGIDs.                                   |
 | `get persons by external id <EXTERNALID...>`                       | Returns all details of persons with the specified external ids.                             |
 | `get persons by guid <GUID...>`                                    | Returns all details of persons with the specified guids.                                    |
 | `get persons by id <ID...>`                                        | Returns all details of persons with the specified ids.                                      |
