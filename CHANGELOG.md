@@ -1,7 +1,11 @@
+# pnet-data-api 3.4.1
+
+- Add Employee Global ID to persons.
+
 # pnet-data-api 3.4.0
 
-- Add restriction to administrative tenants for `PersonDataFind`, `PersonDataAutoComplete`, `CompanyDataSearch`, 
-`CompanyDataFind` and `CompanyDataAutoComplete`.
+- Add restriction to administrative tenants for `PersonDataFind`, `PersonDataAutoComplete`, `CompanyDataSearch`,
+  `CompanyDataFind` and `CompanyDataAutoComplete`.
 
 # pnet-data-api 3.3.1
 
