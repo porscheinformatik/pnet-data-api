@@ -72,6 +72,7 @@ public class PersonDataClientMock
         dataStore.addFilter("guid", whenEquals(PersonDataDTO::getGuid));
         dataStore.addFilter("preferredUserId", whenEquals(PersonDataDTO::getPreferredUserId));
         dataStore.addFilter("email", whenEquals(PersonDataDTO::getEmail));
+        dataStore.addFilter("egid", whenEquals(PersonDataDTO::getEgid));
         dataStore.addFilter("personnelNumber", whenEquals(PersonDataDTO::getPersonnelNumber));
 
         addDefaultTenantsFilter(dataStore);

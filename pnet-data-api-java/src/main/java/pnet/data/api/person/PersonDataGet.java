@@ -12,6 +12,7 @@ import pnet.data.api.util.Pair;
 import pnet.data.api.util.RestrictApproved;
 import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
+import pnet.data.api.util.RestrictEgid;
 import pnet.data.api.util.RestrictEmail;
 import pnet.data.api.util.RestrictExternalId;
 import pnet.data.api.util.RestrictGuid;
@@ -32,6 +33,7 @@ public class PersonDataGet
         RestrictPreferredUserId<PersonDataGet>,
         RestrictEmail<PersonDataGet>,
         RestrictDatedBackUntil<PersonDataGet>,
+        RestrictEgid<PersonDataGet>,
         RestrictPersonnelNumber<PersonDataGet>,
         RestrictCredentialsAvailable<PersonDataGet>,
         RestrictInternal<PersonDataGet>,
@@ -87,6 +89,18 @@ public class PersonDataGet
 
     public PersonDataDTO byPersonnelNumber(String personnelNumber) throws PnetDataClientException {
         return allByPersonnelNumbers(Arrays.asList(personnelNumber), 0, 1).first();
+    }
+
+    public PersonDataDTO byEgid(String egid) throws PnetDataClientException {
+        return allByEgids(Arrays.asList(egid), 0, 1).first();
+    }
+
+    public PnetDataClientResultPage<PersonDataDTO> allByEgids(
+        List<String> egids,
+        int pageIndex,
+        int itemsPerPage
+    ) throws PnetDataClientException {
+        return egids(egids).execute(pageIndex, itemsPerPage);
     }
 
     public PnetDataClientResultPage<PersonDataDTO> allByPersonnelNumbers(

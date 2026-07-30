@@ -25,6 +25,7 @@ import pnet.data.api.util.RestrictControllingArea;
 import pnet.data.api.util.RestrictCostCenter;
 import pnet.data.api.util.RestrictCredentialsAvailable;
 import pnet.data.api.util.RestrictDatedBackUntil;
+import pnet.data.api.util.RestrictEgid;
 import pnet.data.api.util.RestrictEmail;
 import pnet.data.api.util.RestrictExternalId;
 import pnet.data.api.util.RestrictFunction;
@@ -61,6 +62,7 @@ public class PersonDataFind
         RestrictPreferredUserId<PersonDataFind>,
         RestrictEmail<PersonDataFind>,
         RestrictCostCenter<PersonDataFind>,
+        RestrictEgid<PersonDataFind>,
         RestrictPersonnelNumber<PersonDataFind>,
         RestrictSupervisorPersonnelNumber<PersonDataFind>,
         RestrictControllingArea<PersonDataFind>,

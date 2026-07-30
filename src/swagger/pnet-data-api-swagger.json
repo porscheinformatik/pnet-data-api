@@ -3703,6 +3703,16 @@
                         "allowEmptyValue": false
                     },
                     {
+                        "name": "egid",
+                        "in": "query",
+                        "description": "the EGIDs",
+                        "required": false,
+                        "type": "array",
+                        "items": { "type": "string" },
+                        "collectionFormat": "multi",
+                        "allowEmptyValue": false
+                    },
+                    {
                         "name": "guid",
                         "in": "query",
                         "description": "the global user ids",
@@ -3943,6 +3953,16 @@
                         "name": "externalId",
                         "in": "query",
                         "description": "One or more external ids of the person for filtering the result.",
+                        "required": false,
+                        "type": "array",
+                        "items": { "type": "string" },
+                        "collectionFormat": "multi",
+                        "allowEmptyValue": false
+                    },
+                    {
+                        "name": "egid",
+                        "in": "query",
+                        "description": "One or more EGIDs for filtering the result.",
                         "required": false,
                         "type": "array",
                         "items": { "type": "string" },

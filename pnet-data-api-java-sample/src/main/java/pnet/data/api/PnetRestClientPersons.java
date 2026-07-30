@@ -137,6 +137,22 @@ public final class PnetRestClientPersons implements PnetRestClientModule {
         pnetRestClient.printResults(result, null);
     }
 
+    @CLI.Command(
+        name = { "get person by egid", "get persons by egid" },
+        format = "<EGID...>",
+        description = "Returns all details of persons with the specified EGIDs."
+    )
+    public void getPersonByEgid(String... egids) throws PnetDataClientException {
+        PersonDataGet query = pnetRestClient.restrict(client.get());
+        PnetDataClientResultPage<PersonDataDTO> result = query.allByEgids(
+            Arrays.asList(egids),
+            pnetRestClient.getPage(),
+            pnetRestClient.getPageSize()
+        );
+
+        pnetRestClient.printResults(result, null);
+    }
+
     @CLI.Command(name = "export all persons", description = "Exports all persons available for the current user.")
     public void exportAllPersons() throws PnetDataClientException {
         PersonDataFind query = pnetRestClient.restrict(client.find());
@@ -182,6 +198,18 @@ public final class PnetRestClientPersons implements PnetRestClientModule {
     )
     public void findPersonsByPersonnelNumber(String... numbers) throws PnetDataClientException {
         PersonDataFind query = pnetRestClient.restrict(client.find().personnelNumber(numbers));
+        PnetDataClientResultPage<PersonItemDTO> result = query.execute(pnetRestClient.getLanguage());
+
+        pnetRestClient.printResults(result, this::populateTable);
+    }
+
+    @CLI.Command(
+        name = { "find persons by egid", "find person by egid" },
+        format = "<EGID...>",
+        description = "Find persons by EGID."
+    )
+    public void findPersonsByEgid(String... egids) throws PnetDataClientException {
+        PersonDataFind query = pnetRestClient.restrict(client.find().egid(egids));
         PnetDataClientResultPage<PersonItemDTO> result = query.execute(pnetRestClient.getLanguage());
 
         pnetRestClient.printResults(result, this::populateTable);
