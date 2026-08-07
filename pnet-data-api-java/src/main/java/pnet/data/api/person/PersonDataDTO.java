@@ -16,11 +16,6 @@ package pnet.data.api.person;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import pnet.data.api.util.ApprovalState;
-import pnet.data.api.util.WithLastUpdate;
-import pnet.data.api.util.WithPersonId;
-import pnet.data.api.util.WithTenants;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -29,6 +24,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
+import pnet.data.api.util.ApprovalState;
+import pnet.data.api.util.WithLastUpdate;
+import pnet.data.api.util.WithPersonId;
+import pnet.data.api.util.WithTenants;
 
 /**
  * Holds one person.
@@ -83,7 +82,9 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The bdoId references the user-id in BDO (needed scope: SC_IDENTIFIER).")
     private String bdoId;
 
-    @Schema(description = "The tapId references the user-id in the application Sum Total (needed scope: SC_IDENTIFIER).")
+    @Schema(
+        description = "The tapId references the user-id in the application Sum Total (needed scope: SC_IDENTIFIER)."
+    )
     private String tapId;
 
     @Schema(description = "The person is able to access the Partner.Net (needed scope: SC_PNET_ACCOUNT).")
@@ -145,14 +146,12 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
     private Integer contactCompanyId;
 
     @Schema(
-        description = "The matchcode of the company the person is mainly busy at (needed scope: " +
-            "SC_PREFERRED_COMPANY)."
+        description = "The matchcode of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY)."
     )
     private String contactCompanyMatchcode;
 
     @Schema(
-        description = "The number of the company the person is mainly busy at (needed scope: " +
-            "SC_PREFERRED_COMPANY)."
+        description = "The number of the company the person is mainly busy at (needed scope: SC_PREFERRED_COMPANY)."
     )
     private String contactCompanyNumber;
 
@@ -200,6 +199,9 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
     @Schema(description = "The number types the person has at specific companies (needed scope: SC_IDENTIFIER).")
     private Collection<PersonNumberTypeLinkDTO> numbers;
 
+    @Schema(description = "The commission sharings the person has at specific companies (needed scope: SC_EMPLOYMENT).")
+    private Collection<PersonCommissionSharingLinkDTO> commissionSharings;
+
     @Schema(description = "The functions the person has at specific companies (needed scope: SC_ROLE).")
     private Collection<PersonFunctionLinkDTO> functions;
 
@@ -207,8 +209,7 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
     private Collection<PersonActivityLinkDTO> activities;
 
     @Schema(
-        description = "The advisor assignments of the person for specific companies (needed scope: " +
-            "SC_ADVISOR_ASSIGNMENT)."
+        description = "The advisor assignments of the person for specific companies (needed scope: SC_ADVISOR_ASSIGNMENT)."
     )
     private Collection<PersonAdvisorAssignmentLinkDTO> advisorAssignments;
 
@@ -230,8 +231,7 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
     private String portraitThumbnailUuid;
 
     @Schema(
-        description = "Indicates, whether the person will get deleted automatically in the near future (no scope " +
-            "needed)."
+        description = "Indicates, whether the person will get deleted automatically in the near future (no scope needed)."
     )
     private boolean automaticDeletion;
 
@@ -646,6 +646,22 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
         this.numbers = numbers;
     }
 
+    public Collection<PersonCommissionSharingLinkDTO> getCommissionSharings() {
+        return commissionSharings;
+    }
+
+    public Optional<PersonCommissionSharingLinkDTO> findCommissionSharing(
+        Predicate<? super PersonCommissionSharingLinkDTO> predicate
+    ) {
+        return commissionSharings == null
+            ? Optional.empty()
+            : commissionSharings.stream().filter(predicate).findFirst();
+    }
+
+    public void setCommissionSharings(Collection<PersonCommissionSharingLinkDTO> commissionSharings) {
+        this.commissionSharings = commissionSharings;
+    }
+
     public Collection<PersonFunctionLinkDTO> getFunctions() {
         return functions;
     }
@@ -772,71 +788,124 @@ public class PersonDataDTO implements WithPersonId, WithTenants, WithLastUpdate,
 
     @Override
     public String toString() {
-        return String.format(
-            "PersonDataDTO [personId=%s, administrativeTenant=%s, tenants=%s, type=%s, formOfAddress=%s, " +
-                "academicTitle=%s, academicTitlePostNominal=%s, firstName=%s, lastName=%s, credentialsAvailable=%s, " +
-                "multifactorEnabled=%s, approved=%s, approvalState=%s, birthdate=%s, externalId=%s, guid=%s, grpGuid=%s, " +
-                "preferredUserId=%s, phoneNumber=%s, extensionNumber=%s, mobileNumber=%s, faxNumber=%s, email=%s, " +
-                "contactCompanyId=%s, contactCompanyMatchcode=%s, contactCompanyNumber=%s, costCenter=%s, " +
-                "personnelNumber=%s, supervisorPersonnelNumber=%s, controllingArea=%s, personnelDepartment=%s, " +
-                "jobDescription=%s, teamMatchcode=%s, teamLabel=%s, personLocks=%s, isLocked=%s, settings=%s, languages=%s, companies=%s, " +
-                "numbers=%s, functions=%s, activities=%s, advisorAssignments=%s, hierarchies=%s, " +
-                "portraitAvailable=%s, portraitUuid=%s, portraitThumbnailUuid=%s, automaticDeletion=%s, checksum=%s, lastUpdate=%s, taxNumber=%s," +
-                "bdoId=%s, tapId=%s, recertValidTo=%s]",
-            personId,
-            administrativeTenant,
-            tenants,
-            type,
-            formOfAddress,
-            academicTitle,
-            academicTitlePostNominal,
-            firstName,
-            lastName,
-            credentialsAvailable,
-            multifactorEnabled,
-            approved,
-            approvalState,
-            birthdate,
-            externalId,
-            guid,
-            grpGuid,
-            preferredUserId,
-            phoneNumber,
-            extensionNumber,
-            mobileNumber,
-            faxNumber,
-            email,
-            contactCompanyId,
-            contactCompanyMatchcode,
-            contactCompanyNumber,
-            costCenter,
-            personnelNumber,
-            supervisorPersonnelNumber,
-            controllingArea,
-            personnelDepartment,
-            jobDescription,
-            teamMatchcode,
-            teamLabel,
-            personLocks,
-            locked,
-            settings,
-            languages,
-            companies,
-            numbers,
-            functions,
-            activities,
-            advisorAssignments,
-            hierarchies,
-            portraitAvailable,
-            portraitUuid,
-            portraitThumbnailUuid,
-            automaticDeletion,
-            checksum,
-            lastUpdate,
-            taxNumber,
-            bdoId,
-            tapId,
-            recertValidTo
+        return (
+            "PersonDataDTO [personId=" +
+            personId +
+            ", administrativeTenant=" +
+            administrativeTenant +
+            ", tenants=" +
+            tenants +
+            ", type=" +
+            type +
+            ", formOfAddress=" +
+            formOfAddress +
+            ", academicTitle=" +
+            academicTitle +
+            ", academicTitlePostNominal=" +
+            academicTitlePostNominal +
+            ", firstName=" +
+            firstName +
+            ", lastName=" +
+            lastName +
+            ", username=" +
+            username +
+            ", taxNumber=" +
+            taxNumber +
+            ", bdoId=" +
+            bdoId +
+            ", tapId=" +
+            tapId +
+            ", credentialsAvailable=" +
+            credentialsAvailable +
+            ", multifactorEnabled=" +
+            multifactorEnabled +
+            ", approved=" +
+            approved +
+            ", approvalState=" +
+            approvalState +
+            ", birthdate=" +
+            birthdate +
+            ", externalId=" +
+            externalId +
+            ", guid=" +
+            guid +
+            ", egid=" +
+            egid +
+            ", grpGuid=" +
+            grpGuid +
+            ", preferredUserId=" +
+            preferredUserId +
+            ", phoneNumber=" +
+            phoneNumber +
+            ", extensionNumber=" +
+            extensionNumber +
+            ", mobileNumber=" +
+            mobileNumber +
+            ", faxNumber=" +
+            faxNumber +
+            ", email=" +
+            email +
+            ", contactCompanyId=" +
+            contactCompanyId +
+            ", contactCompanyMatchcode=" +
+            contactCompanyMatchcode +
+            ", contactCompanyNumber=" +
+            contactCompanyNumber +
+            ", costCenter=" +
+            costCenter +
+            ", personnelNumber=" +
+            personnelNumber +
+            ", supervisorPersonnelNumber=" +
+            supervisorPersonnelNumber +
+            ", controllingArea=" +
+            controllingArea +
+            ", personnelDepartment=" +
+            personnelDepartment +
+            ", jobDescription=" +
+            jobDescription +
+            ", teamMatchcode=" +
+            teamMatchcode +
+            ", teamLabel=" +
+            teamLabel +
+            ", personLocks=" +
+            personLocks +
+            ", locked=" +
+            locked +
+            ", settings=" +
+            settings +
+            ", languages=" +
+            languages +
+            ", companies=" +
+            companies +
+            ", numbers=" +
+            numbers +
+            ", commissionSharings=" +
+            commissionSharings +
+            ", functions=" +
+            functions +
+            ", activities=" +
+            activities +
+            ", advisorAssignments=" +
+            advisorAssignments +
+            ", hierarchies=" +
+            hierarchies +
+            ", merges=" +
+            merges +
+            ", portraitAvailable=" +
+            portraitAvailable +
+            ", portraitUuid=" +
+            portraitUuid +
+            ", portraitThumbnailUuid=" +
+            portraitThumbnailUuid +
+            ", automaticDeletion=" +
+            automaticDeletion +
+            ", checksum=" +
+            checksum +
+            ", lastUpdate=" +
+            lastUpdate +
+            ", recertValidTo=" +
+            recertValidTo +
+            "]"
         );
     }
 }
