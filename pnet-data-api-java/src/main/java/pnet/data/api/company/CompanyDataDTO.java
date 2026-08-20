@@ -203,6 +203,9 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
     @Schema(description = "A link to the X(Twitter) page of the company.")
     private String xTwitterLink;
 
+    @Schema(description = "A link to the WhatsApp page of the company.")
+    private String whatsAppLink;
+
     @Schema(description = "The matchcode of the legal form.")
     private String legalFormMatchcode;
 
@@ -706,6 +709,16 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         this.xTwitterLink = xTwitterLink;
     }
 
+    @JsonProperty("whatsAppLink")
+    public String getWhatsAppLink() {
+        return whatsAppLink;
+    }
+
+    @JsonProperty("whatsAppLink")
+    public void setWhatsAppLink(String whatsAppLink) {
+        this.whatsAppLink = whatsAppLink;
+    }
+
     public String getLegalFormMatchcode() {
         return legalFormMatchcode;
     }
@@ -898,7 +911,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
                 "postalCode=%s, countryCode=%s, country=%s, region=%s, iban=%s, bic=%s, types=%s, phoneNumber=%s, " +
                 "mobileNumber=%s, speedDial=%s, faxNumber=%s, email=%s, leadEmail=%s, homepage=%s, postal=%s, " +
                 "facebookLink=%s, youTubeLink=%s, instagramLink=%s, viberLink=%s, telegramLink=%s, tikTokLink=%s, " +
-                "xTwitterLink=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, " +
+                "xTwitterLink=%s, whatsAppLink=%s, legalFormMatchcode=%s, dataProcessingRegisterNumber=%s, commercialRegisterNumber=%s, " +
                 "certificateType=%s, certificateNumber=%s, jurisdiction=%s, objectsClause=%s, generalPartner=%s, " +
                 "registeredOffice=%s, chamberAffiliation=%s, commercialRegulations=%s, regulatoryAuthority=%s, " +
                 "arbitrationBoard=%s, additionalImprintInfo=%s, businessInformationNumber=%s, location=%s, " +
@@ -948,6 +961,7 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
             telegramLink,
             tikTokLink,
             xTwitterLink,
+            whatsAppLink,
             legalFormMatchcode,
             dataProcessingRegisterNumber,
             commercialRegisterNumber,
@@ -972,4 +986,3 @@ public class CompanyDataDTO implements WithCompanyId, WithMatchcode, WithTenants
         );
     }
 }
-
