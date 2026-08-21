@@ -1,3 +1,7 @@
+# pnet-data-api 3.4.3
+
+- Add WhatsApp contact to companies.
+
 # pnet-data-api 3.4.2
 
 - Add commission sharings to persons. Only available via the `PersonDataDTO` returned by `PersonDataClient#get()`.
