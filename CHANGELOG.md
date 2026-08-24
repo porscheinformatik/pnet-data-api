@@ -1,6 +1,7 @@
 # pnet-data-api 3.4.3
 
 - Add WhatsApp contact to companies.
+- Add login method OAuth2 client credentials flow.
 
 # pnet-data-api 3.4.2
 
@@ -30,7 +31,7 @@
 - `CompanyDataClient#find()` operations are now orderable according to `RELEVANCE`, `ID`, `COMPANY_NUMBER` and
   `COMPANY_LABEL`.
 - Update the description of the `PersonItemDTO.credentialsAvailable` property. It no longer only flags whether a user
-  has credentials assigned, but whether the user is qualified to access the Partner.Net.
+  has credentials assigned, but whether the user is qualified to access the Partner.&#78;et.
 
 # pnet-data-api 3.2.6
 
@@ -38,7 +39,7 @@
 
 # pnet-data-api 3.2.5
 
-- Match restricting brands to null to the new partner.net "-" encoding for brandfree
+- Match restricting brands to null to the new Partner.&#78;et "-" encoding for brandfree
 
 # pnet-data-api 3.2.4
 
@@ -195,13 +196,13 @@ There are some breaking changes:
 
 # pnet-data-api 2.9.0
 
-Needs Partner.Net 6.47.
+Needs Partner.&#78;et 6.47.
 
 - Add BPCM relevant fields to companies.
 
 # pnet-data-api 2.8.0
 
-Needs Partner.Net 6.46.
+Needs Partner.&#78;et 6.46.
 
 - Add person type and person hierarchy.
 - Add autocomplete to company types.
@@ -209,7 +210,7 @@ Needs Partner.Net 6.46.
 
 # pnet-data-api 2.7.0
 
-Needs Partner.Net 6.44.
+Needs Partner.&#78;et 6.44.
 
 - Add advisors to companies.
 - Add the division label to advisor assignments.
@@ -217,7 +218,7 @@ Needs Partner.Net 6.44.
 
 # pnet-data-api 2.6.0
 
-- Add a "complete" flag to page results. Needs Partner.Net 6.43.
+- Add a "complete" flag to page results. Needs Partner.&#78;et 6.43.
 - Improve the sample client
 - Add a (basic) bash client
 - Make approval properties in person deprecated
@@ -460,15 +461,15 @@ Needs Partner.Net 6.44.
 
 # pnet-data-api 1.15.2
 
-- Allow filtering for contract states with companies (needs Partner.Net 6.28)
+- Allow filtering for contract states with companies (needs Partner.&#78;et 6.28)
 
 # pnet-data-api 1.15.1
 
-- Adds the "credentialsAvailable" flag to persons and applicable searches (needs Partner.Net 6.28)
+- Adds the "credentialsAvailable" flag to persons and applicable searches (needs Partner.&#78;et 6.28)
 
 # pnet-data-api 1.15.0
 
-- Adds "includeInactive" for Company/Person "get" calls (needs Partner.Net 6.27)
+- Adds "includeInactive" for Company/Person "get" calls (needs Partner.&#78;et 6.27)
 - Fixes some references, to ensure, that the Java and Apache clients can be executed without Spring.
 - Adds various assemblies for the sample client.
 

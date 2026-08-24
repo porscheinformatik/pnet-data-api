@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Client Template (Java - U/P)" type="Application" factoryName="Application" folderName="Client Template">
+    <option name="MAIN_CLASS_NAME" value="pnet.data.api.java.PnetJavaRestClientTemplate" />
+    <module name="pnet-data-api-java-sample" />
+    <option name="PROGRAM_PARAMETERS" value="$Prompt:Username$ $Prompt:Password$" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="pnet.data.api.java.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

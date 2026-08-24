@@ -61,17 +61,44 @@ You will need the following dependencies:
 
 Use your preferred login method.
 
+### Login via OAuth2 Client Credentials Flow (Preferred)
+
+To obtain and use an access token from the Partner.&#78;et IDP via OAuth2 Client Credentials Flow, use `IdpClientCredentialsPnetDataApiLoginMethod`.
+
+```
+PnetDataApiLoginMethod loginMethod = new IdpClientCredentialsPnetDataApiLoginMethod(
+    <RESOURCE_SERVER_URL>,
+    <IDP_URL>,
+    () -> new IdpClientCredentials(<CLIENT_ID>, <CLIENT_SECRET>)
+);
+```
+
+The client credentials can be obtained from the Partner.&#78;et Systemuser Self-Service.
+
+**Prerequisites:**
+- Your system user must be configured to use the OAuth2 Client Credentials Flow.
+- The Data API resource server must be whitelisted for your system user.
+- Please contact Partner.&#78;et team, if the configuration is missing for your system user.
+
+**RESOURCE_SERVER_URL per environment:**
+- QA: [https://qa-data.auto-partner.net/data](https://qa-data.auto-partner.net/data)
+- PROD: [https://data.auto-partner.net/data](https://data.auto-partner.net/data)
+
+**IDP_URL per environment:**
+- QA: [https://qa-identity.auto-partner.net/identity](https://qa-identity.auto-partner.net/identity)
+- PROD: [https://identity.auto-partner.net/identity](https://identity.auto-partner.net/identity)
+
 ### Login via Token
 
-The preferred way for authenticating your client is by using the `AuthenticationTokenPnetDataApiLoginMethod`.
+To use a JWT acquired from the Partner.&#78;et Systemuser Self-Service, use the `AuthenticationTokenPnetDataApiLoginMethod`.
 
 ```
 PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
 ```
 
-Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
-area of your application. The method will be called around once per hour thus aquiring
-the token must not be very performant.
+Use the Partner.&#78;et Self-Service to acquire a token and provide it with the `<TOKEN>` call.
+It lies in your responsibility that this token is stored in a secure and secret area of your application.
+The method will be called around once per hour thus acquiring the token must not be very performant.
 
 ### Login via Username/Password
 
@@ -81,7 +108,7 @@ Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`, but be 
 PnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(<USERNAME>, <PASSWORD>));
 ```
 
-Use the Partner.Net Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
+Use the Partner.&#78;et Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
 the username/password must not be very performant.
 
 ### Create the Client Factory
@@ -105,7 +132,7 @@ clientFactory
 
 All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
 
-Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
+Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.&#78;et "Systemuser Selfservice" to fix this issue.
 
 Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/main/pnet-data-api-java-sample/src/main/java/pnet/data/api/java/PnetJavaRestClientTemplate.java for some super simple sample code.
 
@@ -140,7 +167,7 @@ The preferred way for authenticating your client is by using the `Authentication
 PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
 ```
 
-Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
+Use the Partner.&#78;et Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
 area of your application. The method will be called around once per hour thus aquiring
 the token must not be very performant.
 
@@ -152,7 +179,7 @@ Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`, but be 
 PnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(<USERNAME>, <PASSWORD>));
 ```
 
-Use the Partner.Net Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
+Use the Partner.&#78;et Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
 the username/password must not be very performant.
 
 ### Create the Client Factory
@@ -176,7 +203,7 @@ clientFactory
 
 All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
 
-Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
+Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.&#78;et "Systemuser Selfservice" to fix this issue.
 
 Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/main/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache5/PnetApache5RestClientTemplate.java for some super simple sample code.
 
@@ -211,7 +238,7 @@ The preferred way for authenticating your client is by using the `Authentication
 PnetDataApiLoginMethod loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> <TOKEN>);
 ```
 
-Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
+Use the Partner.&#78;et Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
 area of your application. The method will be called around once per hour thus aquiring
 the token must not be very performant.
 
@@ -223,7 +250,7 @@ Alternatively, you may use the `UsernamePasswordPnetDataApiLoginMethod`, but be 
 PnetDataApiLoginMethod loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () -> new UsernamePasswordCredentials(<USERNAME>, <PASSWORD>));
 ```
 
-Use the Partner.Net Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
+Use the Partner.&#78;et Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
 the username/password must not be very performant.
 
 ### Create the Client Factory
@@ -245,9 +272,9 @@ clientFactory
     .forEach(company -> System.out.println(company));
 ```
 
-All classes are unmodifyalbe and thread-safe. You can and you should reuse them as long as possible.
+All classes are unmodifiable and thread-safe. You can and you should reuse them as long as possible.
 
-Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.Net "Systemuser Selfservice" to fix this issue.
+Be warned that the first login will usually fail, because of IP restrictions defined for your systemuser. Have a look at the Partner.&#78;et "Systemuser Selfservice" to fix this issue.
 
 Have a look at https://github.com/porscheinformatik/pnet-data-api/blob/main/pnet-data-api-java-sample/src/main/java/pnet/data/api/apache/PnetApacheRestClientTemplate.java for some super simple sample code.
 
@@ -339,7 +366,7 @@ public PnetDataApiLoginMethod pnetDataApiLoginMethod()
 }
 ```
 
-Use the Partner.Net Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
+Use the Partner.&#78;et Self-Service to aquire a token and provide it with the `<TOKEN>` call. It lies in your responsibility that this token is stored in a secure and secret
 area of your application. The method will be called around once per hour thus aquiring
 the token must not be very performant.
 
@@ -355,7 +382,7 @@ public PnetDataApiLoginMethod pnetDataApiLoginMethod()
 }
 ```
 
-Use the Partner.Net Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
+Use the Partner.&#78;et Self-Service to aquire a the username and password. Provide the credentials with the lambda call. It lies in your responsibility that the credentials are stored in a secure and secret area of your application. The method will be called around once per hour thus aquiring
 the username/password must not be very performant.
 
 ### Create the Client Factory

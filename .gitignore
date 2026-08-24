@@ -6,7 +6,8 @@ target/
 node_modules/
 
 # IntelliJ
-.idea
+.idea/*
 *.iml
 *.ipr
 *.iws
+!.idea/runConfigurations

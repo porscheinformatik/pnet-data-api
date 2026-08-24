@@ -26,13 +26,19 @@ The build will create various executables in the target directory. The sample is
 
 The sample application will present you a console interface. Type `help` and press enter. It will show you all available commands.
 
-First, set the URL and the user creditals. Use the `url` command for this:
+First, set the URL and the user credentials. Use the `url` command for this:
 
 ```
 > url https://qa-data.auto-partner.net/data
 ```
 
-Next, set the token or the username/password:
+Next, set the IDP client credentials, or authentication token, or the username/password:
+
+```
+> idp-client <IDP_URL> <CLIENT_ID> <CLIENT_SECRET>
+```
+
+or
 
 ```
 > token <TOKEN>
@@ -44,7 +50,11 @@ or
 > user <USERNAME> <PASSWORD>
 ```
 
-You can aquire the <TOKEN> or the <USERNAME>/<PASSWORD> with the Partner.Net "Systemuser Selfservice" interface.
+You can acquire `CLIENT_ID`, `CLIENT_SECRET`, `<TOKEN>` or `<USERNAME>/<PASSWORD>` with the Partner.&#78;et "Systemuser Selfservice" interface.
+
+Supported values for `<IDP_URL>` are:
+- QA: [https://qa-identity.auto-partner.net/identity](https://qa-identity.auto-partner.net/identity)
+- PROD: [https://identity.auto-partner.net/identity](https://identity.auto-partner.net/identity)
 
 Use the `about` command to test the connection. It will perform a login on the first request and use the JSON-Web Token for all later ones.
 
@@ -52,7 +62,7 @@ Use the `about` command to test the connection. It will perform a login on the f
 > about
 ```
 
-If the call fails, check the logs in the Partner.Net "Systemuser Selfservice". Maybe you IP is not permitted. If this is the case, add it to the list.
+If the call fails, check the logs in the Partner.&#78;et "Systemuser Selfservice". Maybe you IP is not permitted. If this is the case, add it to the list.
 
 The `about`command will return some information about your user:
 
@@ -97,7 +107,7 @@ Finally you can exit the application with `exit`.
 | Command                                                            | Description                                                                                 |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
 | `? [q]`                                                            | Prints this help.                                                                           |
-| `about`                                                            | Info about the Partner.Net Data API and the user.                                           |
+| `about`                                                            | Info about the Partner.&#78;et Data API and the user.                                           |
 | `aggs`                                                             | Enables aggregations or prints them, if available.                                          |
 | `approval needed`                                                  | Include only items, that need approval.                                                     |
 | `approval pending only`                                            | Show only persons, that have not been approved, yet.                                        |
@@ -359,6 +369,7 @@ Finally you can exit the application with `exit`.
 | `store [<KEY>]`                                                    | Stores the URL and username/password to your prefernces.                                    |
 | `swagger`                                                          | Opens the Swagger Documentation.                                                            |
 | `token <TOKEN>`                                                    | Sets the authentication token.                                                              |
+| `idp-client <IDP_URL> <CLIENT_ID> <CLIENT_SECRET>`                 | Sets Partner.&#78;et IDP OAuth2 client credentials.                                             |
 | `url [<URL>]`                                                      | Prints or overrides the predefined URL.                                                     |
 | `user [<USERNAME>] [<PASSWORD>]`                                   | Prints or overrides the username and password.                                              |
 | `visible items`                                                    | Restrict to visible items.                                                                  |

@@ -154,6 +154,40 @@ PROD: https://data.auto-partner.net/data
 
 QA: https://qa-data.auto-partner.net/data
 
+## Login with OAuth2 Client Credentials Flow
+
+The preferred authentication mechanism for new integrations is the OAuth2 Client Credentials flow.
+The Partner.&#78;et IDP issues an access token for the Data API resource server.
+Send this token as a Bearer token with subsequent API requests.
+
+Your system user must be configured for OAuth2 Client Credentials Flow and must have the Data API resource whitelisted.
+Obtain the client ID and client secret through Partner.&#78;et Systemuser Self-Service.
+Contact the Partner.&#78;et team if this configuration is missing.
+
+| Environment | Data API resource | IDP token endpoint |
+| --- | --- | --- |
+| QA | `https://qa-data.auto-partner.net/data` | `https://qa-identity.auto-partner.net/identity/oauth/token` |
+| PROD | `https://data.auto-partner.net/data` | `https://identity.auto-partner.net/identity/oauth/token` |
+
+Request an access token with HTTP Basic client authentication and a form-encoded request body:
+
+```bash
+curl --user '$CLIENT_ID:$CLIENT_SECRET' \
+  --data-urlencode "grant_type=client_credentials" \
+  --data-urlencode "resource=https://qa-data.auto-partner.net/data" \
+  https://qa-identity.auto-partner.net/identity/oauth/token
+```
+
+Use the response's `access_token` value:
+
+```bash
+curl --header "Authorization: Bearer $ACCESS_TOKEN" \
+  https://qa-data.auto-partner.net/data/api/v1/about
+```
+
+The Java client provides `IdpClientCredentialsPnetDataApiLoginMethod` to obtain tokens automatically.
+See the [Java client documentation](pnet-data-api-java/README.md) and the [Spring Boot sample](pnet-data-api-java-spring-boot-sample/README.md) for configuration examples.
+
 ## Login with Auth Token (JSON Web Token)
 
 The preferred way to log in is by using a [JSON Web Token](https://jwt.io/) generated in the [System User Self-Service](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF) (respectively the the [System User Self-Service for QA](https://qa.auto-partner.net/portal/at/thirdparty?directlink=MN_SYSTEMU_SELF)).
@@ -398,7 +432,7 @@ All queries to personal data are checked against these consents. Especially when
 
 ## When querying persons, why is some data missing?
 
-When requesting the consent for using personal data, the Partner.Net lists the fields, that will be accessible by your application. Only those fields are, in fact, transferred to your application.
+When requesting the consent for using personal data, the Partner.&#78;et lists the fields, that will be accessible by your application. Only those fields are, in fact, transferred to your application.
 
 If some fields are missing, please create a [Partner.&#78;et Wartungsantrag](https://www.auto-partner.net/portal/at/thirdparty?directlink=MN_MAINT_PROP) and describe the missing fields. After changing those fields, all uses will be asked for their consent once more.
 
@@ -430,4 +464,4 @@ For security reasons, the access to scrolling requests has been limited to 16 pa
 
 # I Still Need Help
 
-Feel free to contact us via the inhouse "POI-Partner.Net / Data API" Teams channel or via your contact person at the Porsche Informatik. Please to not contact our development staff directly - they are very jumpy and it takes hours to calm them down.
+Feel free to contact us via the inhouse "POI-Partner.&#78;et / Data API" Teams channel or via your contact person at the Porsche Informatik. Please to not contact our development staff directly - they are very jumpy and it takes hours to calm them down.

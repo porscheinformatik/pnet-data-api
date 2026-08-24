@@ -6,15 +6,13 @@ import java.util.Locale;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import pnet.data.api.PnetDataClientException;
-import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
-import pnet.data.api.client.context.PnetDataApiLoginMethod;
-import pnet.data.api.client.context.UsernamePasswordCredentials;
-import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
+import pnet.data.api.client.context.*;
 import pnet.data.api.company.CompanyDataClient;
 
 /**
  * A template for a simple query using Spring. You can start it by either providing one argument containing your
- * authentication token or use two arguments containing username and password.
+ * authentication token, two arguments containing username and password, or three arguments containing IDP URL,
+ * client ID, and client secret.
  *
  * @author KRC
  * @author HAM
@@ -29,7 +27,7 @@ public final class PnetSpringRestTemplateClientTemplate {
     }
 
     /**
-     * @param args API user name and password.
+     * @param args token, username/password, or IDP client credentials.
      * @throws PnetDataClientException in case of errors.
      */
     public static void main(String[] args) throws PnetDataClientException {
@@ -46,11 +44,19 @@ public final class PnetSpringRestTemplateClientTemplate {
             loginMethod = new UsernamePasswordPnetDataApiLoginMethod(url, () ->
                 new UsernamePasswordCredentials(username, password)
             );
+        } else if (args.length == 3) {
+            String idpUrl = args[0];
+            String clientId = args[1];
+            String clientSecret = args[2];
+
+            loginMethod = new IdpClientCredentialsPnetDataApiLoginMethod(url, idpUrl, () ->
+                new IdpClientCredentials(clientId, clientSecret)
+            );
         } else {
             System.out.println(
                 "Usage: java " +
                     PnetSpringRestTemplateClientTemplate.class.getName() +
-                    " <TOKEN> | (<USERNAME> <PASSWORD>)"
+                    " <TOKEN> | (<USERNAME> <PASSWORD>) | (<IDP_URL> <CLIENT_ID> <CLIENT_SECRET>)"
             );
             System.exit(-1);
             return;
