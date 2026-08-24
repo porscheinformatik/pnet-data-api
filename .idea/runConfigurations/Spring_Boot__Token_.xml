@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Spring Boot (Token)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="Spring Boot">
+    <option name="SPRING_BOOT_MAIN_CLASS" value="pnet.data.api.sample.springboot.PnetDataApiSpringBootSampleApplication" />
+    <module name="pnet-data-api-java-spring-boot-sample" />
+    <option name="PROGRAM_PARAMETERS" value="--pnet-data-api.login-method=token --pnet-data-api.token=$Prompt:Token$" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

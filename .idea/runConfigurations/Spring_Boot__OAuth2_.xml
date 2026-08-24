@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Spring Boot (OAuth2)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" folderName="Spring Boot">
+    <option name="SPRING_BOOT_MAIN_CLASS" value="pnet.data.api.sample.springboot.PnetDataApiSpringBootSampleApplication" />
+    <module name="pnet-data-api-java-spring-boot-sample" />
+    <option name="PROGRAM_PARAMETERS" value="--pnet-data-api.login-method=idp-client --pnet-data-api.idp-url=$Prompt:IDP-Url$ --pnet-data-api.client-id=$Prompt:ClientID$ --pnet-data-api.client-secret=$Prompt:ClientSecret$" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

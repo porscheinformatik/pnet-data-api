@@ -2,13 +2,12 @@ package pnet.data.api.java;
 
 import java.util.Locale;
 import pnet.data.api.PnetDataClientException;
-import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
-import pnet.data.api.client.context.UsernamePasswordCredentials;
-import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
+import pnet.data.api.client.context.*;
 
 /**
  * A template for a simple query using the {@link JavaClientFactory}. You can start it by either providing one argument
- * containing your authentication token or use two arguments containing username and password.
+ * containing your authentication token, two arguments containing username and password, or three arguments
+ * containing IDP URL, client ID, and client secret.
  *
  * @author KRC
  * @author HAM
@@ -20,7 +19,7 @@ public final class PnetJavaRestClientTemplate {
     }
 
     /**
-     * @param args API user name and password.
+     * @param args token, username/password, or IDP client credentials.
      * @throws PnetDataClientException in case of errors.
      */
     public static void main(String[] args) throws PnetDataClientException {
@@ -43,9 +42,22 @@ public final class PnetJavaRestClientTemplate {
             );
 
             clientFactory = JavaClientFactory.of(loginMethod);
+        } else if (args.length == 3) {
+            String idpUrl = args[0];
+            String clientId = args[1];
+            String clientSecret = args[2];
+            IdpClientCredentialsPnetDataApiLoginMethod loginMethod = new IdpClientCredentialsPnetDataApiLoginMethod(
+                url,
+                idpUrl,
+                () -> new IdpClientCredentials(clientId, clientSecret)
+            );
+
+            clientFactory = JavaClientFactory.of(loginMethod);
         } else {
             System.out.println(
-                "Usage: java " + PnetJavaRestClientTemplate.class.getName() + " <TOKEN> | (<USERNAME> <PASSWORD>)"
+                "Usage: java " +
+                    PnetJavaRestClientTemplate.class.getName() +
+                    " <TOKEN> | (<USERNAME> <PASSWORD>) | (<IDP_URL> <CLIENT_ID> <CLIENT_SECRET>)"
             );
             System.exit(-1);
             return;

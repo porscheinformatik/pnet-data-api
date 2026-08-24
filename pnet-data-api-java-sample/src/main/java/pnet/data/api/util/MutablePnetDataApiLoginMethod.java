@@ -4,10 +4,7 @@ import at.porscheinformatik.happyrest.RestCall;
 import at.porscheinformatik.happyrest.RestCallFactory;
 import java.util.Objects;
 import pnet.data.api.PnetDataClientException;
-import pnet.data.api.client.context.AuthenticationTokenPnetDataApiLoginMethod;
-import pnet.data.api.client.context.PnetDataApiLoginMethod;
-import pnet.data.api.client.context.UsernamePasswordCredentials;
-import pnet.data.api.client.context.UsernamePasswordPnetDataApiLoginMethod;
+import pnet.data.api.client.context.*;
 
 public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod {
 
@@ -21,8 +18,13 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod {
             String username = Prefs.getUsername(key);
             String password = Prefs.getPassword(key);
             String token = Prefs.getToken(key);
+            String idpUrl = Prefs.getIdpUrl(key);
+            String idpClientId = Prefs.getIdpClientId(key);
+            String idpClientSecret = Prefs.getIdpClientSecret(key);
 
-            if (token != null) {
+            if (idpUrl != null && idpClientId != null && idpClientSecret != null) {
+                loginMethod.setIdpClientCredentials(idpUrl, idpClientId, idpClientSecret);
+            } else if (token != null) {
                 loginMethod.setToken(token);
             } else if (username != null && password != null) {
                 loginMethod.setUsernamePassword(username, password);
@@ -35,6 +37,7 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod {
     public enum Type {
         USERNAME_PASSWORD,
         AUTHENTICATION_TOKEN,
+        IDP_CLIENT_CREDENTIALS,
     }
 
     private String url;
@@ -42,6 +45,9 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod {
     private String username;
     private String password;
     private String token;
+    private String idpUrl;
+    private String idpClientId;
+    private String idpClientSecret;
 
     private PnetDataApiLoginMethod loginMethod;
 
@@ -99,6 +105,31 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod {
         loginMethod = new AuthenticationTokenPnetDataApiLoginMethod(url, () -> token);
     }
 
+    public String getIdpUrl() {
+        return idpUrl;
+    }
+
+    public String getIdpClientId() {
+        return idpClientId;
+    }
+
+    public String getIdpClientSecret() {
+        return idpClientSecret;
+    }
+
+    public void setIdpClientCredentials(String idpUrl, String clientId, String clientSecret) {
+        type = Type.IDP_CLIENT_CREDENTIALS;
+        username = null;
+        password = null;
+        token = null;
+        this.idpUrl = idpUrl;
+        idpClientId = clientId;
+        idpClientSecret = clientSecret;
+        loginMethod = new IdpClientCredentialsPnetDataApiLoginMethod(url, idpUrl, () ->
+            new IdpClientCredentials(clientId, clientSecret)
+        );
+    }
+
     @Override
     public RestCall performLogin(RestCallFactory factory) throws PnetDataClientException {
         if (loginMethod == null) {
@@ -110,7 +141,7 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod {
 
     @Override
     public int hashCode() {
-        return Objects.hash(password, token, type, url, username);
+        return Objects.hash(idpClientId, idpClientSecret, idpUrl, password, token, type, url, username);
     }
 
     @Override
@@ -127,6 +158,9 @@ public class MutablePnetDataApiLoginMethod implements PnetDataApiLoginMethod {
         MutablePnetDataApiLoginMethod other = (MutablePnetDataApiLoginMethod) obj;
         return (
             Objects.equals(password, other.password) &&
+            Objects.equals(idpClientId, other.idpClientId) &&
+            Objects.equals(idpClientSecret, other.idpClientSecret) &&
+            Objects.equals(idpUrl, other.idpUrl) &&
             Objects.equals(token, other.token) &&
             type == other.type &&
             Objects.equals(url, other.url) &&

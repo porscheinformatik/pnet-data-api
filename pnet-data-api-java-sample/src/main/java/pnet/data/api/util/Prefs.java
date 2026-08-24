@@ -56,11 +56,38 @@ public final class Prefs {
         Prefs.encodeAndSet(key + ".token", token);
     }
 
+    public static String getIdpUrl(String key) {
+        return Prefs.get(key + ".idpUrl");
+    }
+
+    public static void setIdpUrl(String key, String idpUrl) {
+        Prefs.set(key + ".idpUrl", idpUrl);
+    }
+
+    public static String getIdpClientId(String key) {
+        return Prefs.get(key + ".idpClientId");
+    }
+
+    public static void setIdpClientId(String key, String clientId) {
+        Prefs.set(key + ".idpClientId", clientId);
+    }
+
+    public static String getIdpClientSecret(String key) {
+        return Prefs.decodeAndGet(key + ".idpClientSecret");
+    }
+
+    public static void setIdpClientSecret(String key, String clientSecret) {
+        Prefs.encodeAndSet(key + ".idpClientSecret", clientSecret);
+    }
+
     public static void remove(String key) {
         Prefs.PREFERENCES.remove(key + ".url");
         Prefs.PREFERENCES.remove(key + ".username");
         Prefs.PREFERENCES.remove(key + ".password");
         Prefs.PREFERENCES.remove(key + ".token");
+        Prefs.PREFERENCES.remove(key + ".idpUrl");
+        Prefs.PREFERENCES.remove(key + ".idpClientId");
+        Prefs.PREFERENCES.remove(key + ".idpClientSecret");
     }
 
     public static List<String> keys() {

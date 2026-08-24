@@ -1,10 +1,7 @@
 package pnet.data.api;
 
-import java.awt.Canvas;
-import java.awt.Desktop;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
+import at.porscheinformatik.happyrest.RestException;
+import java.awt.*;
 import java.io.IOException;
 import java.io.Serial;
 import java.net.URI;
@@ -14,17 +11,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.BiConsumer;
-
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
-import at.porscheinformatik.happyrest.RestException;
+import javax.swing.*;
 import pnet.data.api.about.AboutDataClient;
 import pnet.data.api.about.AboutDataDTO;
 import pnet.data.api.activity.ActivityDataClient;
@@ -51,33 +41,7 @@ import pnet.data.api.numbertype.NumberTypeDataClient;
 import pnet.data.api.person.PersonDataClient;
 import pnet.data.api.resource.ResourceDataClient;
 import pnet.data.api.settings.Visibility;
-import pnet.data.api.util.AggregateNumberPerActivity;
-import pnet.data.api.util.AggregateNumberPerBrand;
-import pnet.data.api.util.AggregateNumberPerCategory;
-import pnet.data.api.util.AggregateNumberPerCompany;
-import pnet.data.api.util.AggregateNumberPerContractType;
-import pnet.data.api.util.AggregateNumberPerFunction;
-import pnet.data.api.util.AggregateNumberPerState;
-import pnet.data.api.util.AggregateNumberPerTenant;
-import pnet.data.api.util.AggregateNumberPerType;
-import pnet.data.api.util.CLI;
-import pnet.data.api.util.CompanyMergable;
-import pnet.data.api.util.IncludeInactive;
-import pnet.data.api.util.MutablePnetDataApiLoginMethod;
-import pnet.data.api.util.Prefs;
-import pnet.data.api.util.PrettyPrint;
-import pnet.data.api.util.Restrict;
-import pnet.data.api.util.RestrictAdministrativeTenant;
-import pnet.data.api.util.RestrictApprovalNeeded;
-import pnet.data.api.util.RestrictApproved;
-import pnet.data.api.util.RestrictArchived;
-import pnet.data.api.util.RestrictCredentialsAvailable;
-import pnet.data.api.util.RestrictDatedBackUntil;
-import pnet.data.api.util.RestrictQueryField;
-import pnet.data.api.util.RestrictRejected;
-import pnet.data.api.util.RestrictTenant;
-import pnet.data.api.util.RestrictVisibility;
-import pnet.data.api.util.Table;
+import pnet.data.api.util.*;
 import pnet.data.api.webclient.PnetSpringWebClientLauncher;
 
 /**
@@ -498,7 +462,7 @@ public final class PnetRestClient {
     }
 
     @CLI.Command(
-        name = {"restrict administrative tenants", "restrict administrative tenant"},
+        name = { "restrict administrative tenants", "restrict administrative tenant" },
         format = "[<TENANT>...]",
         description = "Places a restriction with administrative tenants for subsequent operations."
     )
@@ -519,7 +483,6 @@ public final class PnetRestClient {
 
         restrictedAdministrativeTenants.clear();
     }
-
 
     @CLI.Command(
         name = { "restrict query fields", "restrict query field" },
@@ -641,10 +604,12 @@ public final class PnetRestClient {
             request = ((RestrictTenant<T>) request).tenants(restrictedTenants);
         }
 
-        if(request instanceof RestrictAdministrativeTenant && !restrictedAdministrativeTenants.isEmpty()) {
+        if (request instanceof RestrictAdministrativeTenant && !restrictedAdministrativeTenants.isEmpty()) {
             cli.info("A restriction for administrative tenants is in place: %s", restrictedAdministrativeTenants);
 
-            request = ((RestrictAdministrativeTenant<T>) request).administrativeTenants(restrictedAdministrativeTenants);
+            request = ((RestrictAdministrativeTenant<T>) request).administrativeTenants(
+                restrictedAdministrativeTenants
+            );
         }
 
         if (request instanceof RestrictQueryField && !restrictedQueryFields.isEmpty()) {
@@ -812,6 +777,9 @@ public final class PnetRestClient {
         Prefs.setUsername(key, loginMethod.getUsername());
         Prefs.setPassword(key, loginMethod.getPassword());
         Prefs.setToken(key, loginMethod.getToken());
+        Prefs.setIdpUrl(key, loginMethod.getIdpUrl());
+        Prefs.setIdpClientId(key, loginMethod.getIdpClientId());
+        Prefs.setIdpClientSecret(key, loginMethod.getIdpClientSecret());
 
         cli.info("URL and (encoded) credentials have been stored locally with key: %s", key);
     }
@@ -834,8 +802,13 @@ public final class PnetRestClient {
         String username = Prefs.getUsername(key);
         String password = Prefs.getPassword(key);
         String token = Prefs.getToken(key);
+        String idpUrl = Prefs.getIdpUrl(key);
+        String idpClientId = Prefs.getIdpClientId(key);
+        String idpClientSecret = Prefs.getIdpClientSecret(key);
 
-        if (token != null) {
+        if (idpUrl != null && idpClientId != null && idpClientSecret != null) {
+            loginMethod.setIdpClientCredentials(idpUrl, idpClientId, idpClientSecret);
+        } else if (token != null) {
             loginMethod.setToken(token);
         } else {
             loginMethod.setUsernamePassword(username, password);
@@ -917,6 +890,27 @@ public final class PnetRestClient {
         } else {
             cli.warn(PnetRestClient.ABORTED_TEXT);
         }
+    }
+
+    @CLI.Command(
+        name = "idp-client",
+        format = "<IDP_URL> <CLIENT_ID> <CLIENT_SECRET>",
+        description = "Sets Partner.Net IDP OAuth2 client credentials."
+    )
+    public void idpClient(String idpUrl, String clientId, String clientSecret) {
+        if (idpUrl == null || clientId == null || clientSecret == null) {
+            cli.error("IDP URL, client ID and client secret are required.");
+            return;
+        }
+
+        try {
+            logout();
+        } catch (Exception e) {
+            // ignore
+        }
+
+        loginMethod.setIdpClientCredentials(idpUrl, clientId, clientSecret);
+        cli.info("IDP client credentials set.");
     }
 
     @CLI.Command(name = "get", format = "URI", description = "Performs an GET request.")
