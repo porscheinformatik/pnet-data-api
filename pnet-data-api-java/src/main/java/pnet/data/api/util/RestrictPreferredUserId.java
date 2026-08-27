@@ -14,6 +14,6 @@ public interface RestrictPreferredUserId<SELF extends Restrict<SELF>> extends Re
     }
 
     default SELF preferredUserIds(Collection<String> preferredUserIds) {
-        return preferredUserId(preferredUserIds.toArray(new String[0]));
+        return preferredUserId(Restrict.toArray(preferredUserIds, new String[0]));
     }
 }

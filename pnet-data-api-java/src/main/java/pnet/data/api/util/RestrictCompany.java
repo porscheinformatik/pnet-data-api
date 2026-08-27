@@ -14,6 +14,6 @@ public interface RestrictCompany<SELF extends Restrict<SELF>> extends Restrict<S
     }
 
     default SELF companies(Collection<String> companies) {
-        return company(companies.toArray(new String[0]));
+        return company(Restrict.toArray(companies, new String[0]));
     }
 }

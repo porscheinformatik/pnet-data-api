@@ -14,6 +14,6 @@ public interface RestrictControllingArea<SELF extends Restrict<SELF>> extends Re
     }
 
     default SELF controllingAreas(Collection<String> controllingAreas) {
-        return controllingArea(controllingAreas.toArray(new String[0]));
+        return controllingArea(Restrict.toArray(controllingAreas, new String[0]));
     }
 }

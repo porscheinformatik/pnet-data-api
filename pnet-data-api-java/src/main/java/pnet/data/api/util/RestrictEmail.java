@@ -14,6 +14,6 @@ public interface RestrictEmail<SELF extends Restrict<SELF>> extends Restrict<SEL
     }
 
     default SELF emails(Collection<String> emails) {
-        return email(emails.toArray(new String[0]));
+        return email(Restrict.toArray(emails, new String[0]));
     }
 }

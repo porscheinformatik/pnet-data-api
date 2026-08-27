@@ -14,6 +14,6 @@ public interface RestrictIban<SELF extends Restrict<SELF>> extends Restrict<SELF
     }
 
     default SELF ibans(Collection<String> numbers) {
-        return iban(numbers.toArray(new String[0]));
+        return iban(Restrict.toArray(numbers, new String[0]));
     }
 }

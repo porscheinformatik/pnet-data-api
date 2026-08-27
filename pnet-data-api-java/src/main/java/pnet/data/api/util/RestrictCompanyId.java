@@ -14,6 +14,6 @@ public interface RestrictCompanyId<SELF extends Restrict<SELF>> extends Restrict
     }
 
     default SELF companyIds(Collection<Integer> companyIds) {
-        return companyId(companyIds.toArray(new Integer[0]));
+        return companyId(Restrict.toArray(companyIds, new Integer[0]));
     }
 }

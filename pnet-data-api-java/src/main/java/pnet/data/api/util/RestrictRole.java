@@ -32,6 +32,6 @@ public interface RestrictRole<SELF extends Restrict<SELF>> extends Restrict<SELF
      * @return the request itself
      */
     default SELF roles(Collection<String> roleMatchcodes) {
-        return role(roleMatchcodes.toArray(new String[0]));
+        return role(Restrict.toArray(roleMatchcodes, new String[0]));
     }
 }

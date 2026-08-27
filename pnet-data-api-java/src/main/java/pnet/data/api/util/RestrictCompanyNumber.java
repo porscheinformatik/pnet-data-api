@@ -14,6 +14,6 @@ public interface RestrictCompanyNumber<SELF extends Restrict<SELF>> extends Rest
     }
 
     default SELF companyNumbers(Collection<String> companyNumbers) {
-        return companyNumber(companyNumbers.toArray(new String[0]));
+        return companyNumber(Restrict.toArray(companyNumbers, new String[0]));
     }
 }

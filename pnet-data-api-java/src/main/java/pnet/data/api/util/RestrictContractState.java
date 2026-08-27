@@ -14,6 +14,6 @@ public interface RestrictContractState<SELF extends Restrict<SELF>> extends Rest
     }
 
     default SELF contractStates(Collection<String> contractStateMatchcodes) {
-        return contractState(contractStateMatchcodes.toArray(new String[0]));
+        return contractState(Restrict.toArray(contractStateMatchcodes, new String[0]));
     }
 }

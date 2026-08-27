@@ -14,6 +14,6 @@ public interface RestrictAdvisorAssignmentCompanyNumber<SELF extends Restrict<SE
     }
 
     default SELF advisorAssignmentCompanyNumbers(Collection<String> advisorAssignmentCompanyNumberMatchcodes) {
-        return advisorAssignmentCompanyNumber(advisorAssignmentCompanyNumberMatchcodes.toArray(new String[0]));
+        return advisorAssignmentCompanyNumber(Restrict.toArray(advisorAssignmentCompanyNumberMatchcodes, new String[0]));
     }
 }

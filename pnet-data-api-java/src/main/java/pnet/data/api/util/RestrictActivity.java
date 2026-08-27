@@ -14,7 +14,7 @@ public interface RestrictActivity<SELF extends Restrict<SELF>> extends Restrict<
     }
 
     default SELF activities(Collection<String> activityMatchcodes) {
-        return activity(activityMatchcodes.toArray(new String[0]));
+        return activity(Restrict.toArray(activityMatchcodes, new String[0]));
     }
 
     /**

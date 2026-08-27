@@ -15,6 +15,6 @@ public interface RestrictVisibility<SELF extends Restrict<SELF>> extends Restric
     }
 
     default SELF visibilities(Collection<Visibility> visibilities) {
-        return visibility(visibilities.toArray(new Visibility[0]));
+        return visibility(Restrict.toArray(visibilities, new Visibility[0]));
     }
 }

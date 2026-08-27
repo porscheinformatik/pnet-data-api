@@ -14,6 +14,6 @@ public interface RestrictVatIdNumber<SELF extends Restrict<SELF>> extends Restri
     }
 
     default SELF vatIdNumbers(Collection<String> numbers) {
-        return vatIdNumber(numbers.toArray(new String[0]));
+        return vatIdNumber(Restrict.toArray(numbers, new String[0]));
     }
 }

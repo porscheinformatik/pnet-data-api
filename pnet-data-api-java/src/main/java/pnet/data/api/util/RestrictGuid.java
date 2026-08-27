@@ -14,6 +14,6 @@ public interface RestrictGuid<SELF extends Restrict<SELF>> extends Restrict<SELF
     }
 
     default SELF guids(Collection<String> guids) {
-        return guid(guids.toArray(new String[0]));
+        return guid(Restrict.toArray(guids, new String[0]));
     }
 }

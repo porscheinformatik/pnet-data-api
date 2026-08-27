@@ -16,6 +16,6 @@ public interface RestrictTenant<SELF extends Restrict<SELF>> extends Restrict<SE
     }
 
     default SELF tenants(Collection<String> tenants) {
-        return tenant(tenants.toArray(new String[0]));
+        return tenant(Restrict.toArray(tenants, new String[0]));
     }
 }

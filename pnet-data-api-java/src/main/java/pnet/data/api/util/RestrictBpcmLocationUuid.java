@@ -14,6 +14,6 @@ public interface RestrictBpcmLocationUuid<SELF extends Restrict<SELF>> extends R
     }
 
     default SELF bpcmLocationUuids(Collection<String> bpcmLocationUuids) {
-        return bpcmLocationUuid(bpcmLocationUuids.toArray(new String[0]));
+        return bpcmLocationUuid(Restrict.toArray(bpcmLocationUuids, new String[0]));
     }
 }

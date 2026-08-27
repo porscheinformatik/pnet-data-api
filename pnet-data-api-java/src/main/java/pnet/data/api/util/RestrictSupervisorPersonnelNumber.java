@@ -14,6 +14,6 @@ public interface RestrictSupervisorPersonnelNumber<SELF extends Restrict<SELF>> 
     }
 
     default SELF supervisorPersonnelNumbers(Collection<String> supervisorPersonnelNumbers) {
-        return supervisorPersonnelNumber(supervisorPersonnelNumbers.toArray(new String[0]));
+        return supervisorPersonnelNumber(Restrict.toArray(supervisorPersonnelNumbers, new String[0]));
     }
 }

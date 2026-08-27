@@ -14,6 +14,6 @@ public interface RestrictExternalBrand<SELF extends Restrict<SELF>> extends Rest
     }
 
     default SELF externalBrands(Collection<String> externalBrandMatchcodes) {
-        return externalBrand(externalBrandMatchcodes.toArray(new String[0]));
+        return externalBrand(Restrict.toArray(externalBrandMatchcodes, new String[0]));
     }
 }

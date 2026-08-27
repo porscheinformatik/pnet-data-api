@@ -14,6 +14,6 @@ public interface RestrictCommercialRegisterNumber<SELF extends Restrict<SELF>> e
     }
 
     default SELF commercialRegisterNumbers(Collection<String> numbers) {
-        return commercialRegisterNumber(numbers.toArray(new String[0]));
+        return commercialRegisterNumber(Restrict.toArray(numbers, new String[0]));
     }
 }

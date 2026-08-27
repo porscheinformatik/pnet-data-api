@@ -14,6 +14,6 @@ public interface RestrictType<SELF extends Restrict<SELF>> extends Restrict<SELF
     }
 
     default SELF types(Collection<String> typeMatchcodes) {
-        return type(typeMatchcodes.toArray(new String[0]));
+        return type(Restrict.toArray(typeMatchcodes, new String[0]));
     }
 }

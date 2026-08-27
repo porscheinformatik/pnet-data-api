@@ -14,6 +14,6 @@ public interface RestrictContractType<SELF extends Restrict<SELF>> extends Restr
     }
 
     default SELF contractTypes(Collection<String> contractTypeMatchcodes) {
-        return contractType(contractTypeMatchcodes.toArray(new String[0]));
+        return contractType(Restrict.toArray(contractTypeMatchcodes, new String[0]));
     }
 }

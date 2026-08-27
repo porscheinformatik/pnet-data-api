@@ -1,3 +1,8 @@
+# pnet-data-api 3.5.0
+
+- Add IDP client credentials flow login method
+- Make all "restrict" methods with collection parameters null-safe.
+
 # pnet-data-api 3.4.3
 
 - Add WhatsApp contact to companies.

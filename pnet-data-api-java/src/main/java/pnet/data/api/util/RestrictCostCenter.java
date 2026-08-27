@@ -14,6 +14,6 @@ public interface RestrictCostCenter<SELF extends Restrict<SELF>> extends Restric
     }
 
     default SELF costCenters(Collection<String> costCenters) {
-        return costCenter(costCenters.toArray(new String[0]));
+        return costCenter(Restrict.toArray(costCenters, new String[0]));
     }
 }

@@ -14,6 +14,6 @@ public interface RestrictDataProcessingRegisterNumber<SELF extends Restrict<SELF
     }
 
     default SELF dataProcessingRegisterNumbers(Collection<String> numbers) {
-        return dataProcessingRegisterNumber(numbers.toArray(new String[0]));
+        return dataProcessingRegisterNumber(Restrict.toArray(numbers, new String[0]));
     }
 }

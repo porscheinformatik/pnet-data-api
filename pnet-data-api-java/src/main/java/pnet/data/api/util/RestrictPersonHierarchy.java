@@ -15,7 +15,7 @@ public interface RestrictPersonHierarchy<SELF extends Restrict<SELF>> extends Re
     }
 
     default SELF referencedPersons(Collection<Integer> referencedPersonIds) {
-        return referencedPerson(referencedPersonIds.toArray(new Integer[0]));
+        return referencedPerson(Restrict.toArray(referencedPersonIds, new Integer[0]));
     }
 
     default SELF hierarchyType(PersonHierarchyType... hierarchyTypes) {
@@ -23,6 +23,6 @@ public interface RestrictPersonHierarchy<SELF extends Restrict<SELF>> extends Re
     }
 
     default SELF hierarchyTypes(Collection<PersonHierarchyType> hierarchyTypes) {
-        return hierarchyType(hierarchyTypes.toArray(new PersonHierarchyType[0]));
+        return hierarchyType(Restrict.toArray(hierarchyTypes, new PersonHierarchyType[0]));
     }
 }

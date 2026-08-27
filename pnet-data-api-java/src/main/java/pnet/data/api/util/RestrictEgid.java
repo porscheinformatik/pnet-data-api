@@ -13,6 +13,6 @@ public interface RestrictEgid<SELF extends Restrict<SELF>> extends Restrict<SELF
     }
 
     default SELF egids(Collection<String> egids) {
-        return egid(egids.toArray(new String[0]));
+        return egid(Restrict.toArray(egids, new String[0]));
     }
 }

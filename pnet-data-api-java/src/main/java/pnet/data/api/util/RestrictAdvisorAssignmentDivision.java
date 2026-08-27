@@ -14,6 +14,6 @@ public interface RestrictAdvisorAssignmentDivision<SELF extends Restrict<SELF>> 
     }
 
     default SELF advisorAssignmentDivisions(Collection<String> advisorAssignmentDivisionMatchcodes) {
-        return advisorAssignmentDivision(advisorAssignmentDivisionMatchcodes.toArray(new String[0]));
+        return advisorAssignmentDivision(Restrict.toArray(advisorAssignmentDivisionMatchcodes, new String[0]));
     }
 }

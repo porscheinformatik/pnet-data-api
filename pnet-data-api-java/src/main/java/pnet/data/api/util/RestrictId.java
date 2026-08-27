@@ -15,6 +15,7 @@ public interface RestrictId<IdT, SELF extends Restrict<SELF>> extends Restrict<S
     }
 
     default SELF ids(Collection<IdT> ids) {
-        return restrict("id", ids.toArray(new Object[0]));
+        return restrict("id", Restrict.toArray(ids));
     }
 }
+

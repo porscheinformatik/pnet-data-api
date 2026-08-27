@@ -14,6 +14,6 @@ public interface RestrictExternalId<SELF extends Restrict<SELF>> extends Restric
     }
 
     default SELF externalIds(Collection<String> numbers) {
-        return externalId(numbers.toArray(new String[0]));
+        return externalId(Restrict.toArray(numbers, new String[0]));
     }
 }

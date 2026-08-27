@@ -14,6 +14,6 @@ public interface RestrictReferenceId<SELF extends Restrict<SELF>> extends Restri
     }
 
     default SELF referenceIds(Collection<Integer> referenceIds) {
-        return referenceId(referenceIds.toArray(new Integer[0]));
+        return referenceId(Restrict.toArray(referenceIds, new Integer[0]));
     }
 }

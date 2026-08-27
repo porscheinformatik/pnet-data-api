@@ -14,6 +14,6 @@ public interface RestrictAssignedToPersonId<SELF extends Restrict<SELF>> extends
     }
 
     default SELF assignedToPersonIds(Collection<Integer> assignedToPersonIds) {
-        return assignedToPersonId(assignedToPersonIds.toArray(new Integer[0]));
+        return assignedToPersonId(Restrict.toArray(assignedToPersonIds, new Integer[0]));
     }
 }

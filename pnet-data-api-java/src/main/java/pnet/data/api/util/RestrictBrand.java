@@ -34,7 +34,7 @@ public interface RestrictBrand<SELF extends Restrict<SELF>> extends Restrict<SEL
     }
 
     default SELF brands(Collection<String> brandMatchcodes) {
-        return brand(brandMatchcodes.toArray(new String[0]));
+        return brand(Restrict.toArray(brandMatchcodes, new String[0]));
     }
 
     /**

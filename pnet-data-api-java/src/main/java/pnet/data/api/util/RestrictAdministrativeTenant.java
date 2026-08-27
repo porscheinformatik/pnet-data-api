@@ -14,6 +14,6 @@ public interface RestrictAdministrativeTenant<SELF extends Restrict<SELF>> exten
     }
 
     default SELF administrativeTenants(Collection<String> tenants) {
-        return administrativeTenant(tenants.toArray(new String[0]));
+        return administrativeTenant(Restrict.toArray(tenants, new String[0]));
     }
 }

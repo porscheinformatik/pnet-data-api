@@ -14,6 +14,6 @@ public interface RestrictCountryCode<SELF extends Restrict<SELF>> extends Restri
     }
 
     default SELF countryCodes(Collection<String> countryCodes) {
-        return countryCode(countryCodes.toArray(new String[0]));
+        return countryCode(Restrict.toArray(countryCodes, new String[0]));
     }
 }

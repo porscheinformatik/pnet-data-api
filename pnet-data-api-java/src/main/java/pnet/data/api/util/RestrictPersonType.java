@@ -15,6 +15,6 @@ public interface RestrictPersonType<SELF extends Restrict<SELF>> extends Restric
     }
 
     default SELF types(Collection<PersonTypeFilter> types) {
-        return type(types.toArray(new PersonTypeFilter[0]));
+        return type(Restrict.toArray(types, new PersonTypeFilter[0]));
     }
 }

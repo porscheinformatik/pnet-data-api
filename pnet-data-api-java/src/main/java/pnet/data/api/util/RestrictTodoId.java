@@ -14,6 +14,6 @@ public interface RestrictTodoId<SELF extends Restrict<SELF>> extends Restrict<SE
     }
 
     default SELF todoIds(Collection<Integer> todoIds) {
-        return todoId(todoIds.toArray(new Integer[0]));
+        return todoId(Restrict.toArray(todoIds, new Integer[0]));
     }
 }

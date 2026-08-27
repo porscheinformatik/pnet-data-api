@@ -14,7 +14,7 @@ public interface RestrictFunction<SELF extends Restrict<SELF>> extends Restrict<
     }
 
     default SELF functions(Collection<String> functionMatchcodes) {
-        return function(functionMatchcodes.toArray(new String[0]));
+        return function(Restrict.toArray(functionMatchcodes, new String[0]));
     }
 
     /**

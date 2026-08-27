@@ -14,6 +14,6 @@ public interface RestrictNumber<SELF extends Restrict<SELF>> extends Restrict<SE
     }
 
     default SELF numbers(Collection<String> numbers) {
-        return number(numbers.toArray(new String[0]));
+        return number(Restrict.toArray(numbers, new String[0]));
     }
 }

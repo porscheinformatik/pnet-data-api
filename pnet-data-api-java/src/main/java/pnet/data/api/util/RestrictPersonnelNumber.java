@@ -14,6 +14,6 @@ public interface RestrictPersonnelNumber<SELF extends Restrict<SELF>> extends Re
     }
 
     default SELF personnelNumbers(Collection<String> personnelNumbers) {
-        return personnelNumber(personnelNumbers.toArray(new String[0]));
+        return personnelNumber(Restrict.toArray(personnelNumbers, new String[0]));
     }
 }

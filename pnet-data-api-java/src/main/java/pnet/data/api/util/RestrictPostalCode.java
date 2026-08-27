@@ -14,6 +14,6 @@ public interface RestrictPostalCode<SELF extends Restrict<SELF>> extends Restric
     }
 
     default SELF postalCodes(Collection<String> postalCodes) {
-        return postalCode(postalCodes.toArray(new String[0]));
+        return postalCode(Restrict.toArray(postalCodes, new String[0]));
     }
 }

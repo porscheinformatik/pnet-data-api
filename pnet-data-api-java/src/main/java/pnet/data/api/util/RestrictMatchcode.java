@@ -16,6 +16,6 @@ public interface RestrictMatchcode<SELF extends Restrict<SELF>> extends Restrict
     }
 
     default SELF matchcodes(Collection<String> matchcodes) {
-        return matchcode(matchcodes.toArray(new String[0]));
+        return matchcode(Restrict.toArray(matchcodes, new String[0]));
     }
 }

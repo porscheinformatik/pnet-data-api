@@ -14,6 +14,6 @@ public interface RestrictLeadingCompanyNumber<SELF extends Restrict<SELF>> exten
     }
 
     default SELF leadingCompanyNumbers(Collection<String> companyNumbers) {
-        return leadingCompanyNumber(companyNumbers.toArray(new String[0]));
+        return leadingCompanyNumber(Restrict.toArray(companyNumbers, new String[0]));
     }
 }

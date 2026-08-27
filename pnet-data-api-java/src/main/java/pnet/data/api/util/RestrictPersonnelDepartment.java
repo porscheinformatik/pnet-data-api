@@ -14,6 +14,6 @@ public interface RestrictPersonnelDepartment<SELF extends Restrict<SELF>> extend
     }
 
     default SELF personnelDepartments(Collection<String> personnelDepartments) {
-        return personnelDepartment(personnelDepartments.toArray(new String[0]));
+        return personnelDepartment(Restrict.toArray(personnelDepartments, new String[0]));
     }
 }

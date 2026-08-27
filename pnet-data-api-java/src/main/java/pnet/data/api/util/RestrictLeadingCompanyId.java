@@ -14,6 +14,6 @@ public interface RestrictLeadingCompanyId<SELF extends Restrict<SELF>> extends R
     }
 
     default SELF leadingCompanyIds(Collection<Integer> companyIds) {
-        return leadingCompanyId(companyIds.toArray(new Integer[0]));
+        return leadingCompanyId(Restrict.toArray(companyIds, new Integer[0]));
     }
 }

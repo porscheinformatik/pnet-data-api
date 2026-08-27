@@ -14,6 +14,6 @@ public interface RestrictCompanyType<SELF extends Restrict<SELF>> extends Restri
     }
 
     default SELF companyTypes(Collection<String> companyTypeMatchcodes) {
-        return companyType(companyTypeMatchcodes.toArray(new String[0]));
+        return companyType(Restrict.toArray(companyTypeMatchcodes, new String[0]));
     }
 }

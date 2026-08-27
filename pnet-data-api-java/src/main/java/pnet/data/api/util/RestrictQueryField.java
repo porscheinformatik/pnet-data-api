@@ -14,6 +14,6 @@ public interface RestrictQueryField<SELF extends Restrict<SELF>> extends Restric
     }
 
     default SELF queryFields(Collection<String> queryFields) {
-        return queryField(queryFields.toArray(new String[0]));
+        return queryField(Restrict.toArray(queryFields, new String[0]));
     }
 }

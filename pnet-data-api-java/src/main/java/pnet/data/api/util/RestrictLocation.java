@@ -15,6 +15,6 @@ public interface RestrictLocation<SELF extends Restrict<SELF>> extends Restrict<
     }
 
     default SELF locations(Collection<GeoDistance> location) {
-        return location(location.toArray(new GeoDistance[0]));
+        return location(Restrict.toArray(location, new GeoDistance[0]));
     }
 }

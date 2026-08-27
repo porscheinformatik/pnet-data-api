@@ -14,6 +14,6 @@ public interface RestrictAdvisorAssignmentCompanyId<SELF extends Restrict<SELF>>
     }
 
     default SELF advisorAssignmentCompanys(Collection<Integer> advisorAssignmentCompanyMatchcodes) {
-        return advisorAssignmentCompany(advisorAssignmentCompanyMatchcodes.toArray(new Integer[0]));
+        return advisorAssignmentCompany(Restrict.toArray(advisorAssignmentCompanyMatchcodes, new Integer[0]));
     }
 }

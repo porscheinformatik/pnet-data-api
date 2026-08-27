@@ -14,6 +14,6 @@ public interface RestrictNumberType<SELF extends Restrict<SELF>> extends Restric
     }
 
     default SELF numberTypes(Collection<String> numberTypeMatchcodes) {
-        return numberType(numberTypeMatchcodes.toArray(new String[0]));
+        return numberType(Restrict.toArray(numberTypeMatchcodes, new String[0]));
     }
 }

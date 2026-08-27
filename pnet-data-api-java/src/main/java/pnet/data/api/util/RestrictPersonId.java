@@ -14,6 +14,6 @@ public interface RestrictPersonId<SELF extends Restrict<SELF>> extends Restrict<
     }
 
     default SELF personIds(Collection<Integer> personIds) {
-        return personId(personIds.toArray(new Integer[0]));
+        return personId(Restrict.toArray(personIds, new Integer[0]));
     }
 }

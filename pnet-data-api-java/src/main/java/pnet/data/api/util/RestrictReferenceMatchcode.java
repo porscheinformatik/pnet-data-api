@@ -14,6 +14,6 @@ public interface RestrictReferenceMatchcode<SELF extends Restrict<SELF>> extends
     }
 
     default SELF referenceMatchcodes(Collection<String> referenceMatchcodes) {
-        return referenceMatchcode(referenceMatchcodes.toArray(new String[0]));
+        return referenceMatchcode(Restrict.toArray(referenceMatchcodes, new String[0]));
     }
 }
