@@ -162,6 +162,9 @@ Send this token as a Bearer token with subsequent API requests.
 
 Your system user must be configured for OAuth2 Client Credentials Flow and must have the Data API resource whitelisted.
 Obtain the client ID and client secret through Partner.&#78;et Systemuser Self-Service.
+
+⚠️ If you can't find the *Client-ID* below the *Username* in the Systemuser Self-Service, your system user is not configured for OAuth2 Client Credentials Flow yet.
+
 Contact the Partner.&#78;et team if this configuration is missing.
 
 | Environment | Data API resource | IDP token endpoint |
